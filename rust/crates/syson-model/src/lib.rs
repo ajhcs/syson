@@ -121,6 +121,18 @@ impl Document {
         );
         out
     }
+    /// Source-class check for API capability decisions. Unknown classes and
+    /// prefixes are preserved on import but never become positive type matches.
+    pub fn is_instance_of(&self, stable_id: &str, expected: syson_metamodel::ClassifierId) -> bool {
+        self.element(stable_id)
+            .and_then(|node| scalar::node_classifier(node).ok())
+            .is_some_and(|actual| syson_metamodel::is_subtype(actual, expected))
+    }
+    /// addChildInParent accepts any Element, selecting membership by Type/Feature.
+    /// This reports command support, not cross-feature semantic validity.
+    pub fn can_create_in(&self, stable_id: &str) -> bool {
+        self.is_instance_of(stable_id, syson_metamodel::ClassifierId::Element)
+    }
     pub fn projection(&self) -> Result<Projection> {
         let mut model = Model::default();
         let mut stable_ids = Vec::new();
@@ -444,8 +456,16 @@ impl Transaction {
                 let membership=membership.ok_or(ModelError::MissingMembership)?;
                 NodeIds::new(&membership.resource,&membership.element)?;
                 let parent=find_node_mut(content,parent).ok_or_else(||ModelError::MissingElement(parent.into()))?;
-                let membership_kind=match class(parent) { "Package"=>"OwningMembership", "PartDefinition"|"PartUsage"=>if kind=="PartUsage" {"FeatureMembership"} else {"OwningMembership"},
-                    other=>return Err(ModelError::UnsupportedClass(other.into())) };
+                let parent_class=scalar::node_classifier(parent)?;
+                if !syson_metamodel::is_subtype(parent_class,syson_metamodel::ClassifierId::Element) {
+                    return Err(ModelError::UnsupportedClass(class(parent).into()));
+                }
+                // Exact addChildInParent rule: Feature child in Type parent,
+                // otherwise OwningMembership. These are still only three
+                // supported constructors, not a complete classifier factory.
+                let membership_kind=if kind=="PartUsage" && syson_metamodel::is_subtype(parent_class,syson_metamodel::ClassifierId::Type) {
+                    "FeatureMembership"
+                } else { "OwningMembership" };
                 let relation=json!({"id":membership.resource,"eClass":format!("sysml:{membership_kind}"),
                     "data":{"elementId":membership.element,"ownedRelatedElement":[node]}});
                 let data=parent["data"].as_object_mut().unwrap();
@@ -482,7 +502,9 @@ impl Transaction {
             let target = doc
                 .element(definition)
                 .ok_or_else(|| ModelError::MissingElement(definition.into()))?;
-            if class(target) != "PartDefinition" {
+            if !scalar::node_classifier(target).is_ok_and(|id| {
+                syson_metamodel::is_subtype(id, syson_metamodel::ClassifierId::PartDefinition)
+            }) {
                 return Err(ModelError::WrongType {
                     element: definition.into(),
                     expected: "PartDefinition",
@@ -490,7 +512,9 @@ impl Transaction {
             }
             let node = find_node_mut(doc.value["content"].as_array_mut().unwrap(), usage)
                 .ok_or_else(|| ModelError::MissingElement(usage.into()))?;
-            if class(node) != "PartUsage" {
+            if !scalar::node_classifier(node).is_ok_and(|id| {
+                syson_metamodel::is_subtype(id, syson_metamodel::ClassifierId::PartUsage)
+            }) {
                 return Err(ModelError::WrongType {
                     element: usage.into(),
                     expected: "PartUsage",
