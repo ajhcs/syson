@@ -35,3 +35,23 @@ Five native adapter tests, strict clippy and a wasm32 build passed after integra
 ## Rotated label containment
 
 The local SVG preview clips kind/name labels to each node's padded interior. After a 180-by-70 node is rotated to 70-by-180, its label clip is 46-by-164. Full escaped labels remain in SVG titles and the model list. A renderer regression test checks the narrow PartUsage/frontWheel case. Browser verification of this correction belongs to the integration owner's existing preview session; this lane does not launch a competing display.
+
+## Registry-driven scalar property inspector
+
+The Properties section calls `Document::inspect_node` from the shared model adapter and renders controls from each writable descriptor's actual scalar type. Parent and definition choices use the real pinned registry subtype predicate; they are not inferred from similar class names. All imported elements are selectable, including literal and relationship objects. The bounded SVG preview still draws only the previously supported package/part kinds.
+
+| Stored type | Browser control | Rust conversion before shared-model validation |
+| --- | --- | --- |
+| String | Text input | Exact input string, including empty string |
+| Boolean | Required true/false choice | JSON boolean; no string/numeric aliases |
+| Signed 32-bit integer | Number input with integral step and bounds | Parse to i32, then JSON integer; overflow/fractions rejected |
+| Finite double | Number input, any step | Parse finite f64, then JSON number; NaN/infinity/overflow rejected |
+| Enum | Exact declared literal choices | Exact JSON string; unlisted/case-alias values rejected |
+
+None/absent storage is labeled “Not set”; explicit JSON null is labeled separately. Metadata defaults are never placed into controls as saved values. An absent boolean/enum gets an unselected placeholder requiring an explicit choice. Optional strings offer a separate “Clear value (null)” mode. Removing a saved field, ESet/unset flags and enum reset are unsupported and have no successful action. A scalar change uses the shared transaction and appears in the staged preview; commit/cancel and undo/redo use the same model history. The committed JSON export excludes staged changes.
+
+Calculated, nonchangeable, collection and identifier attributes are read only. Reference/containment and unresolved/ambiguous properties have explanatory entries under “Read-only and unavailable properties”; they have no edit forms. Unknown imported classes remain visible/selectable with unavailable-property text and no rename/property controls. The displayed metadata does not imply execution of upstream calculated values or all semantic constraints. Arbitrary form strings, property labels, stored values, enum literals and imported names pass through HTML escaping. The browser bridge remains unchanged: typed conversion and edit decisions happen in Rust.
+
+Field forms carry `data-action="attribute"`, `data-attribute="<source attribute name>"`; controls have stable IDs `scalar-<name>` and `scalar-mode-<name>`. The integration owner's browser session can exercise actual controls through these selectors. Imported LiteralInteger/LiteralRational nodes expose their typed value controls; importing a supported document does not grant construction support for those classes.
+
+Native verification now covers 13 UI tests including boolean staging/cancel/history; absent/null/empty/default distinctions; actual integer/double JSON writes and rejection; exact enum/null rejection; blocked/reference/collection/identifier/calculated edit rejection; unknown-class boundaries; escaping; previous model workflows and label containment. Strict offline Clippy and the wasm32 build are checked separately. New scalar inspector browser interaction and screen-reader verification remain unrun by this lane. Dependency addition is the existing dependency-free `syson-metamodel` path crate; its manifest has no build script or external dependency. No new external package, service, display or network change is introduced.
