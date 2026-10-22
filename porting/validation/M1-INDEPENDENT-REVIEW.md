@@ -2,7 +2,7 @@
 
 Status: incomplete parity; source-derived native regression checks only. No upstream runtime oracle, browser, database, graphical editor, parser/typechecker, authorization, collaboration, cancellation/retry, undo/redo or end-to-end acceptance was executed by this lane.
 
-Validator identity: `/root/validation`, isolated branch `rust/validation`, worktree `/workspace/worktrees/builderbob/syson/validation`. No implementation edits by validator. Pinned upstream: `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`. Host-context `bob-admin workspace-status` confirmed Samsung SSD 990 PRO `/dev/nvme0n1p1` mounted read-write on `/workspace`; sandbox missing alias did not trigger repair.
+Independent validation lane: isolated branch `rust/validation`. No implementation edits by validator. Pinned upstream: `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`.
 
 ## Reviewed scope and evidence
 
@@ -19,25 +19,25 @@ These are scoped algorithm defects. They do not establish UI reachability or pro
 
 ## Initial execution
 
-All Cargo manifests and library source files inspected; no dependencies or build scripts in reviewed libraries. Copied exact reviewed source to `/workspace/build/builderbob/syson/validation/review-01`, leaving implementation worktrees unchanged. Ran:
+All Cargo manifests and library source files inspected; no dependencies or build scripts in reviewed libraries. Copied exact reviewed source to `${SYSON_BUILD_DIR}/validation/review-01`, leaving implementation worktrees unchanged. Ran:
 
-`CARGO_TARGET_DIR=/workspace/build/builderbob/syson/validation/target cargo test --offline --jobs 1 --manifest-path /workspace/build/builderbob/syson/validation/review-01/rust/validation/Cargo.toml`
+`CARGO_TARGET_DIR=${SYSON_BUILD_DIR}/validation/target cargo test --offline --jobs 1 --manifest-path ${SYSON_BUILD_DIR}/validation/review-01/rust/validation/Cargo.toml`
 
-Result: 7 tests, 4 passed, 3 failed, exit 101. Compiler slot released after run. Regression source committed in `rust/validation/tests/source_regressions.rs`; Cargo dependencies resolve against sibling `rust/crates` after integration. Independent expectations were read from pinned upstream source; Java and TypeScript software were not executed. This is not a runtime differential oracle.
+Result: 7 tests, 4 passed, 3 failed, exit 101. Regression source committed in `rust/validation/tests/source_regressions.rs`; Cargo dependencies resolve against sibling `rust/crates` after integration. Independent expectations were read from pinned upstream source; Java and TypeScript software were not executed. This is not a runtime differential oracle.
 
 ## Corrected editor recheck
 
 Editor owner independently authored fix commit `429afb9242fd72fdc1f4e0591dcd7fd79cbc1da4` after the above findings. Validator read the diff: first-match selection truthiness retained for nodes and edges; previous-size branch restored exactly. Fixed editor source SHA256 `7b003258448bacc1bcfff3319139ddac8dc2595c9e3a3530c345d61f7de19c01`. Initial source was commit `4992b03c5`.
 
-Rebuilt the harness in `review-02` with the domain and persistence snapshots unchanged, changing only the reviewed editor source and formatting validator test code. Same offline one-job command with `review-02` path: **7 tests passed, 0 failed**, exit 0. Both P2 findings are resolved for the tested inputs. This is the final bounded independent review result; it does not promote the overall port to parity complete. Compiler slot released.
+Rebuilt the harness in `review-02` with the domain and persistence snapshots unchanged, changing only the reviewed editor source and formatting validator test code. Same offline one-job command with `review-02` path: **7 tests passed, 0 failed**, exit 0. Both P2 findings are resolved for the tested inputs. This is the final bounded independent review result; it does not promote the overall port to parity complete.
 
 Formatting: `cargo fmt` in isolated validator checkout could not resolve not-yet-integrated sibling crates; direct `rustfmt --edition 2024 rust/validation/tests/source_regressions.rs` completed. No implementation files changed.
 
 ## Reproduction after integration
 
-`CARGO_TARGET_DIR=/workspace/build/builderbob/syson/validation/target cargo test --offline --jobs 1 --manifest-path rust/validation/Cargo.toml`
+`CARGO_TARGET_DIR=${SYSON_BUILD_DIR}/validation/target cargo test --offline --jobs 1 --manifest-path rust/validation/Cargo.toml`
 
-The validator manifest deliberately resolves sibling `rust/crates` from the integrated repository. In the isolated validation worktree those crates are absent; use inspected copies of the exact revisions listed above in a fresh Samsung-backed build tree. `Cargo.lock` pins only the three local crates; there are no registry dependencies.
+The validator manifest deliberately resolves sibling `rust/crates` from the integrated repository. In the isolated validation worktree those crates are absent; use inspected copies of the exact revisions listed above in a fresh build tree. `Cargo.lock` pins only the three local crates; there are no registry dependencies.
 
 ## Remaining gates
 
