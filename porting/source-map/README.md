@@ -27,3 +27,7 @@ Regenerate with `python3 porting/source-map/inventory.py` from a checkout contai
 ## Completion conditions
 
 Every feature entry needs a responsible lane, linked Rust code, positive/negative test cases, upstream oracle evidence or a precise reason no oracle is available, compatibility disposition, and independent review. Inherited Sirius behavior requires additional source pinning/inventory; this repository alone is not the whole product implementation. Accessibility, collaboration/concurrency, retry/cancellation, undo/redo, recovery and graphical layout need runtime and interaction evidence. An empty Rust-test list means missing evidence, never implicit support. No behavior, license clearance, or full port completion is asserted by this source inventory.
+
+## Extended source audit
+
+`source_audit.py` adds exact `ecore-documents.jsonl` (both full XML sources and parsed package roots), `graphql-client-documents.jsonl` (whole local client sources plus tagged-template candidates), `inherited-maven-inputs.jsonl`, `npm-locked-inputs.jsonl`, and Syside bundle provenance/module indexes. See `dependency-source-audit.md` for remaining source-closure gaps. Run `python3 porting/source-map/source_audit.py` after the main generator and `PYTHONDONTWRITEBYTECODE=1 python3 porting/source-map/test_source_audit.py` to check preservation against pinned Git blobs. These are source extraction tests, not product runtime tests or upstream differential evidence.
