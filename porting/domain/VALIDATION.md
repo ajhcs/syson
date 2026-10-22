@@ -1,10 +1,10 @@
 # Domain lane validation checkpoint
 
 Baseline `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`; branch `rust/domain`.
-Host BuilderBob; cwd `/workspace/worktrees/builderbob/syson/domain`.
+Host BuilderBob; cwd `<worktrees>/domain`.
 Rust `1.99.1 (58cf8f9c3 2026-10-13)`; Cargo `1.99.1`.
 No fetched crate dependencies and no build scripts.
-All build outputs: `/workspace/build/builderbob/syson/domain`.
+All build outputs: `${SYSON_BUILD_DIR}/domain`.
 `CARGO_BUILD_JOBS=1` used for each Cargo invocation.
 
 * `cargo fmt --manifest-path rust/crates/syson-domain/Cargo.toml`: passed.

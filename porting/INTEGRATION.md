@@ -2,12 +2,11 @@
 
 Baseline: eclipse-syson/syson 6ba2ac64e6b16ee2b05752ad55395eebb87d4910 (main, package 2026.9.3); latest release observed v2026.9.0, not selected as baseline.
 Fork: https://github.com/ajhcs/syson (ajhcs is a GitHub User, not an Organization).
-Integration owner: Linux chat 01a16553-a3de-7010-8c4c-4edbc613c333 on builderbob, /workspace/repos/builderbob/syson, rust/integration.
-Coordinator: 01a16552-abb7-70ef-afb9-c39a73433020. No merges authorized.
+Integration is performed on branch `rust/integration`; no merges are authorized.
 
 ## Ownership
 
-Five isolated worktrees under /workspace/worktrees/builderbob/syson:
+Five isolated worktrees under a separate worktree root:
 - source-map: porting/source-map, branch rust/source-map.
 - domain: rust/crates/syson-domain and porting/domain, branch rust/domain.
 - frontend: rust/crates/syson-editor and porting/frontend, branch rust/frontend.
@@ -16,9 +15,9 @@ Five isolated worktrees under /workspace/worktrees/builderbob/syson:
 
 Integrator alone owns rust/Cargo.toml, rust/Cargo.lock and porting root files. Crates start independently buildable, with no external dependencies in the initial slices. Shared wire/storage schemas must be agreed before coupling crates. Source preservation is not a retained Java/TS implementation of the proposed Rust product: it is the pinned reference. No runnable Rust product or full parity exists yet.
 
-## Resource and authority boundaries
+## Resource boundaries
 
-Host bob-admin workspace-status confirmed Samsung SSD 990 PRO 2TB, UUID dcb87552-b22f-411c-bd86-4e2da80f1c6f, ext4 rw at /workspace. Sandbox visibility alone was missing its device alias. Initial host compiler process inventory showed no active cargo/rustc/mvn/java compilers. Cap total compilation at two jobs: domain and frontend get one each; other lanes must request a slot. Native HOME/CODEX_HOME unchanged. Builds/caches remain under /workspace/build/builderbob/syson and /workspace/cache/builderbob. No displays claimed. No bob-migration, Kernspan, MBSE-Craft or benchmark writes. SAS/SnapRAID hold and all protected services remain untouched.
+Independent lane worktrees share reviewed contracts. Initial compilation is capped at two jobs total. Set build/cache outputs to an approved development volume using `SYSON_BUILD_DIR`; keep environment-specific operational constraints in a local coordination record outside this public repository. Do not run upstream reference scripts or services until their dependency, isolation and execution gates are satisfied.
 
 ## Entirely Rust dependency policy
 

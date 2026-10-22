@@ -81,7 +81,7 @@ are flattened here. Other Relationship kinds are not currently projected.
 Run with Samsung build outputs and one job:
 
 ```
-CARGO_TARGET_DIR=/workspace/build/builderbob/syson/domain CARGO_BUILD_JOBS=1 cargo test --offline --manifest-path rust/crates/syson-domain/Cargo.toml
+CARGO_TARGET_DIR=${SYSON_BUILD_DIR}/domain CARGO_BUILD_JOBS=1 cargo test --offline --manifest-path rust/crates/syson-domain/Cargo.toml
 ```
 
 No upstream Java runtime oracle has been run by this lane. Golden assertions

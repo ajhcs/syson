@@ -1,6 +1,6 @@
 # Persistence compatibility lane
 
-Baseline `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`; branch `rust/persistence`; isolated worktree `/workspace/worktrees/builderbob/syson/persistence`. Owns `rust/crates/syson-persistence` and this documentation only.
+Baseline `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`; branch `rust/persistence`; isolated worktree `<worktrees>/persistence`. Owns `rust/crates/syson-persistence` and this documentation only.
 
 This independently buildable std-only Rust crate ports library-ID migration algorithms. It does not provide full SysON persistence. It neither writes files nor opens databases and introduces no replacement storage format.
 
@@ -33,4 +33,4 @@ Unported: Sirius Web/Postgres storage layer and schema; EMF JSON identity/refere
 
 ## Observed checks
 
-`CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=/workspace/build/builderbob/syson/persistence cargo test --offline --manifest-path rust/crates/syson-persistence/Cargo.toml`: 10 passed, zero failed. No third-party dependencies, network, database, Java process, external runtime, service change or production state was used. Cargo formatting checked in the isolated lane. One compile job only.
+`CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=${SYSON_BUILD_DIR}/persistence cargo test --offline --manifest-path rust/crates/syson-persistence/Cargo.toml`: 10 passed, zero failed. No third-party dependencies, network, database, Java process, external runtime, service change or production state was used. Cargo formatting checked in the isolated lane. One compile job only.

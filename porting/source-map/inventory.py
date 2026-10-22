@@ -71,20 +71,56 @@ for p in paths:
         for m in re.finditer(r'(?m)^(={1,4})\s+(.+)$',text(p)):
             features.append({'id':p+':'+str(line_at(text(p),m.start())),'title':m.group(2),'heading_level':len(m.group(1)),'evidence':{'path':p,'line':line_at(text(p),m.start())},'meaning':'documentation_heading; may describe absence or future work','upstream_implementation':'requires source and oracle reconciliation',**status()})
 write('documented-features.jsonl',features)
+def xml_declaration(node, location):
+    """Lossless parsed declaration tree, including annotations and enum literals."""
+    counts=collections.defaultdict(int)
+    children=[]
+    for child in node:
+        ordinal=counts[child.tag]; counts[child.tag]+=1
+        children.append(xml_declaration(child, location+'/'+child.tag+'.'+str(ordinal)))
+    return {'tag':node.tag, 'attributes':dict(node.attrib), 'text':node.text,
+            'tail':node.tail, 'source_location':location, 'children':children}
 metamodel=[]
 for p in paths:
     if p.endswith('.ecore'):
         root=ET.fromstring(raw(p))
-        for cls in root.findall('eClassifiers'):
-            metamodel.append({'path':p,'name':cls.get('name'),'kind':cls.get('{http://www.w3.org/2001/XMLSchema-instance}type'),'abstract':cls.get('abstract'),'super_types':cls.get('eSuperTypes'),'features':[dict(f.attrib) for f in cls.findall('eStructuralFeatures')],'operations':[dict(o.attrib) for o in cls.findall('eOperations')],**status()})
+        for ordinal,cls in enumerate(root.findall('eClassifiers')):
+            metamodel.append({'path':p,'name':cls.get('name'),'kind':cls.get('{http://www.w3.org/2001/XMLSchema-instance}type'),'abstract':cls.get('abstract'),'super_types':cls.get('eSuperTypes'),'features':[dict(f.attrib) for f in cls.findall('eStructuralFeatures')],'operations':[dict(o.attrib) for o in cls.findall('eOperations')], 'source_sha256':hashlib.sha256(raw(p)).hexdigest(), 'declaration':xml_declaration(cls, p+'#//@eClassifiers.'+str(ordinal)), 'inherited_external_resolution':'unresolved', **status()})
 write('metamodel.jsonl',metamodel)
 api_path='doc/content/modules/developer-guide/assets/attachments/sirius-web-openapi.json'
 api=json.loads(raw(api_path)); endpoints=[]
+def referenced_contracts(value):
+    found={}
+    def visit(node):
+        if isinstance(node,dict):
+            ref=node.get('$ref')
+            if ref and ref not in found:
+                if ref.startswith('#/'):
+                    target=api
+                    try:
+                        for segment in ref[2:].split('/'):
+                            target=target[segment.replace('~1','/').replace('~0','~')]
+                    except (KeyError,TypeError):
+                        found[ref]={'resolution':'missing_local_reference'}
+                    else:
+                        found[ref]={'resolution':'local_declaration_only', 'value':target}
+                        visit(target)
+                else: found[ref]={'resolution':'external_unresolved'}
+            for child in node.values(): visit(child)
+        elif isinstance(node,list):
+            for child in node: visit(child)
+    visit(value)
+    return found
+
 for path,item in api.get('paths',{}).items():
     for method,op in item.items():
         if method in ['get','post','put','patch','delete','options','head','trace']:
-            endpoints.append({'evidence':api_path,'path':path,'method':method.upper(),'operation_id':op.get('operationId'),'summary':op.get('summary'),'parameters':op.get('parameters',[]),'request_body':op.get('requestBody'),'responses':op.get('responses',{}),'warning':'bundled Sirius OpenAPI; deployment support must be verified',**status()})
+            endpoints.append({'evidence':api_path,'path':path,'method':method.upper(),'operation_id':op.get('operationId'),'summary':op.get('summary'),'parameters':op.get('parameters',[]),'path_item_parameters':item.get('parameters',[]),'raw_operation':op,'referenced_contracts':referenced_contracts([op,item.get('parameters',[])]),'handler_routing':'unresolved','request_body':op.get('requestBody'),'responses':op.get('responses',{}),'warning':'bundled Sirius OpenAPI; deployment support must be verified',**status()})
 write('rest-endpoints.jsonl',endpoints)
+write('graphql-documents.jsonl',[
+    {'path':p,'sha256':hashlib.sha256(raw(p)).hexdigest(),'sdl':text(p),
+     'resolution':'exact local SDL preserved; inherited schema and semantic parsing unresolved',**status()}
+    for p in paths if p.endswith('.graphqls')])
 summary={'upstream_sha':PIN,'tracked_files':len(paths),'maven_modules':sum(m['kind']=='maven' for m in modules),'npm_packages':sum(m['kind']=='npm' for m in modules),'documentation_headings':len(features),'code_surface_candidates':len(symbols),'metamodel_classifiers':len(metamodel),'rest_endpoints':len(endpoints),'graphql_types':len(schemas),'graphql_operations':len(operations),'test_files_and_resources':len(tests),'dependency_declarations':len(deps),'license_evidence_files':len(licenses),'all_runtime_checks':'NOT RUN','inventory_limit':'Finite pinned tracked-tree inventory; no claim of complete inherited behavior or resolved transitive dependencies.'}
 (OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
 print(json.dumps(summary,indent=2))

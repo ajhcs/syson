@@ -1,7 +1,7 @@
 # Rust editor lane checkpoint
 
 Pinned source: `6ba2ac64e6b16ee2b05752ad55395eebb87d4910` from Eclipse SysON.
-Owner branch: `rust/frontend`; isolated worktree `/workspace/worktrees/builderbob/syson/frontend`.
+Owner branch: `rust/frontend`; isolated worktree `<worktrees>/frontend`.
 Crate: `rust/crates/syson-editor`, dependency-free Rust, native and wasm32 compatible.
 This checkpoint implements bounded algorithms, not a working user interface or full frontend parity.
 
@@ -36,7 +36,7 @@ Still unported: application shell/routing, auth UI and permissions, projects/exp
 
 ## Local checks observed
 
-- `CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=/workspace/build/builderbob/syson/frontend cargo test --offline --manifest-path rust/crates/syson-editor/Cargo.toml`: 11 passed.
+- `CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR=${SYSON_BUILD_DIR}/frontend cargo test --offline --manifest-path rust/crates/syson-editor/Cargo.toml`: 11 passed.
 - Same environment, `cargo check --offline --target wasm32-unknown-unknown --manifest-path rust/crates/syson-editor/Cargo.toml`: passed.
 - No upstream scripts, displays, browsers, paid calls, runtime oracle or screenshot comparisons executed.
 
