@@ -24,7 +24,8 @@ class LedgerTests(unittest.TestCase):
         cls.root = Path(cls.temp.name)
         cls.git('init', '-q')
         (cls.root / 'source.txt').write_text('upstream source\nimplementation projection\n')
-        cls.git('add', 'source.txt')
+        (cls.root / 'fixture.json').write_text(json.dumps({'synthetic': True}))
+        cls.git('add', 'source.txt', 'fixture.json')
         cls.git('-c', 'user.name=Synthetic Test', '-c', 'user.email=test@example.invalid',
                 '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgsign=false', 'commit', '-qm', 'synthetic fixture')
         cls.revision = cls.git('rev-parse', 'HEAD').decode().strip()
@@ -54,7 +55,9 @@ class LedgerTests(unittest.TestCase):
                       'executed': True, 'command': ['synthetic-format-fixture'],
                       'started_at': '2026-10-22T00:00:00Z', 'finished_at': '2026-10-22T00:00:01Z',
                       'exit_code': 0, 'result': 'passed', 'case_ids': self.cases,
-                      'fixture_hashes': [fixture['sha256']], 'transcript': transcript}
+                      'fixture_hashes': [fixture['sha256']], 'transcript': transcript,
+                      'harness_revision': self.revision,
+                      'harness_files': [{'path': 'source.txt', 'sha256': self.source_hash}, fixture]}
             self.run_reports[side] = report
             self.run_refs[side] = [self.artifact(f'{side}.json', report)]
         review_report = {'behavior_id': 'SYSON-BEH-000001', 'reviewer': 'independent-test-reviewer',
@@ -265,6 +268,33 @@ class LedgerTests(unittest.TestCase):
         report = json.loads((self.root / 'review.json').read_text())
         report['case_ids'] = self.cases[:-1]
         self.row['review']['artifact'] = self.artifact('review.json', report)
+        self.reject()
+
+    def test_wrong_harness_hash(self):
+        self.change_run('harness_files', [{'path': 'source.txt', 'sha256': '0' * 64}])
+        self.reject()
+
+    def test_fixture_not_pinned_in_harness(self):
+        self.change_run('harness_files', [{'path': 'source.txt', 'sha256': self.source_hash}])
+        self.reject()
+
+    def test_unrun_row_still_validates_native_report(self):
+        self.row['status'] = 'unrun'
+        self.row['runs']['upstream'] = []
+        self.change_run('revision', '0' * 40, side='rust')
+        self.reject()
+
+    def test_unrun_row_can_retain_honest_failed_native_report(self):
+        self.row['status'] = 'unrun'
+        self.row['runs']['upstream'] = []
+        self.change_run('result', 'failed', side='rust')
+        self.change_run('exit_code', 1, side='rust')
+        self.assertEqual(self.check()['verified'], 0)
+
+    def test_unrun_row_rejects_inconsistent_native_result(self):
+        self.row['status'] = 'unrun'
+        self.row['runs']['upstream'] = []
+        self.change_run('exit_code', 1, side='rust')
         self.reject()
 
     def closed(self):

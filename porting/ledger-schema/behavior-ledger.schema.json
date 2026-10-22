@@ -481,6 +481,18 @@
         },
         "transcript": {
           "$ref": "#/$defs/artifact"
+        },
+        "harness_revision": {
+          "type": "string",
+          "pattern": "[0-9a-f]{40}"
+        },
+        "harness_files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          },
+          "minItems": 1,
+          "uniqueItems": true
         }
       },
       "required": [
@@ -495,7 +507,9 @@
         "result",
         "case_ids",
         "fixture_hashes",
-        "transcript"
+        "transcript",
+        "harness_revision",
+        "harness_files"
       ],
       "additionalProperties": false
     },
