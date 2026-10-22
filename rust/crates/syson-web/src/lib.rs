@@ -367,16 +367,27 @@ impl App {
 /// submitted value is otherwise unchanged, rather than silently rewriting it.
 fn preserve_unchanged_text(original: Option<&str>, input: &str) -> String {
     if let Some(original) = original
-        && original.replace("\r\n", "\n").replace('\r', "\n") == input
+        && original
+            .replace("\r\n", "\n")
+            .replace('\r', "\n")
+            .replace('\0', "\u{fffd}")
+            == input
     {
         return original.into();
     }
     input.into()
 }
 /// HTML discards the first LF in textarea markup. Add a sentinel LF so an
-/// original leading LF survives. Encode CR to avoid parser preprocessing.
+/// original leading LF survives. Encode CR to avoid parser preprocessing;
+/// display HTML's NUL replacement explicitly, retaining original saved bytes
+/// when the unchanged displayed value is submitted.
 fn escape_textarea(input: &str) -> String {
-    format!("\n{}", escape(input).replace('\r', "&#13;"))
+    format!(
+        "\n{}",
+        escape(input)
+            .replace('\r', "&#13;")
+            .replace('\0', "\u{fffd}")
+    )
 }
 fn can_rename(document: &Document, element: &str) -> bool {
     document
@@ -1259,6 +1270,42 @@ mod tests {
         assert_eq!(
             named.editor.document().element("element").unwrap()["data"]["declaredName"],
             "\nfirst\r\nsecond"
+        );
+    }
+    #[test]
+    fn unchanged_textarea_submission_preserves_saved_nul_and_line_endings() {
+        let original = "first\0second\r\nlast";
+        let mut app = scalar_app(
+            "LiteralString",
+            json!({"elementId":"element","value":original}),
+        );
+        let html = app.render();
+        assert!(!html.contains('\0'));
+        assert!(html.contains("first\u{fffd}second&#13;\nlast</textarea>"));
+        app.handle(&attribute_request(
+            "value",
+            "value",
+            "first\u{fffd}second\nlast",
+        ))
+        .unwrap();
+        assert_eq!(
+            app.pending
+                .as_ref()
+                .unwrap()
+                .document()
+                .element("element")
+                .unwrap()["data"]["value"],
+            original
+        );
+        app.handle(&json!({"action":"commit"})).unwrap();
+        assert_eq!(
+            app.editor.document().element("element").unwrap()["data"]["value"],
+            original
+        );
+        let exported = app.editor.document().to_json().unwrap();
+        assert_eq!(
+            Document::from_json(&exported).unwrap(),
+            *app.editor.document()
         );
     }
     #[test]
