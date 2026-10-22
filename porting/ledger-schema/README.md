@@ -1,6 +1,6 @@
 # Behavior-ledger validation contract
 
-`porting/behavior-ledger.json` starts with three bounded behaviors and nine planned, hashed fixtures. All three statuses are `unrun`; zero behaviors are verified. The existing `PARITY-LEDGER.json` remains a separate incomplete milestone overlay. This file does not enumerate the whole application or close inherited dependencies.
+`porting/behavior-ledger.json` starts with three bounded behaviors and nine hashed executable fixture inputs. All three statuses are `unrun`; zero behaviors are verified. The existing `PARITY-LEDGER.json` remains a separate incomplete milestone overlay. This file does not enumerate the whole application or close inherited dependencies.
 
 IDs `SYSON-BEH-NNNNNN` and `SYSON-CASE-NNNNNN` are permanent. Keep an ID when evidence or implementation evolves; never reuse deleted IDs for different behavior. Each behavior declares its owner, dependency IDs, pinned source locations/hashes, expected state/result, implementation revision/files/authors, positive/negative/failure cases, hashed fixtures, upstream/Rust run records and independent review disposition. Empty run arrays and null review mean missing evidence. A planned fixture is not an executed test.
 
@@ -22,3 +22,15 @@ Independent review requires an accepted disposition, an identity outside the dec
 These checks establish internal consistency, pinned-byte integrity and recorded coverage. They cannot authenticate a fabricated transcript, prove that a declared reviewer is a separate person, infer an omitted feature, establish semantic completeness from a closure flag, or independently prove real execution. Reviewers must assess that provenance and source/dependency closure. The gate is an auditable rejection condition, not independent certification of the supplied records.
 
 The separate metamodel check recursively compares every classifier's complete parsed XML subtree with the pinned source, including node order, attributes, text, tail and source location. It protects nested `eParameters`, `eAnnotations` and `eLiterals` against inventory truncation. Passing it does not establish typechecking, parser semantics, inherited operations or product behavior parity.
+
+## Native fixture execution
+
+`rust/validation/tests/ledger_fixtures.rs` reads the actual nine JSON fixtures with `include_str!`; each test function is named for its stable case number. Fixtures contain inputs and expected outputs read by the tests. The upstream execution marker remains `unrun` until a real upstream run exists. Native passing cases do not promote the overall behavior to verified.
+
+The explicit `run_ledger_fixtures.py` runner requires full implementation and harness commits and an existing approved `SYSON_BUILD_DIR`. It snapshots product libraries and the executable harness/fixture bytes from those Git commits, runs only the nine Rust cases offline with one job, and records a portable hashed transcript plus three structured native reports under a new evidence directory. It never runs the upstream application or overwrites an evidence directory.
+
+```
+SYSON_BUILD_DIR="${SYSON_BUILD_DIR}" PYTHONDONTWRITEBYTECODE=1 python3 rust/validation/scripts/run_ledger_fixtures.py --implementation-revision FULL_IMPLEMENTATION_SHA --harness-revision FULL_HARNESS_SHA --output-dir porting/runs/native-fixtures-UNIQUE_RUN_ID
+```
+
+Inspect all relevant manifests/library and dependency build scripts before running a newly changed implementation. The snapshot runner copies local library source/manifests only; it is not an installer or approval mechanism. Native reports pin the separate `harness_revision` and hashes of the executable test, manifest/lock, runner and fixtures. The gate checks these Git blobs and fixture correspondence on **every recorded run**, including rows with upstream status unrun. It permits honest failed native records in an unverified row and rejects inconsistent outcome fields. Verified rows still require passing executed runs on both sides and accepted independent review.

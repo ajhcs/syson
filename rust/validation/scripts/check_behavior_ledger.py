@@ -140,10 +140,36 @@ def validate(root, ledger, schema, dependency_roots=None, complete=False):
         if implementation:
             for ref in implementation['files']:
                 pinned(root, implementation['revision'], ref)
-        # Even pending rows cannot carry missing/corrupted recorded artifacts.
         for side in ('upstream', 'rust'):
+            if row['status'] == 'verified':
+                require(row['runs'][side], f'{name}: verified without {side} runs')
+            covered = set()
             for ref in row['runs'][side]:
-                local_bytes(root, ref)
+                run = strict_json(local_bytes(root, ref))
+                shape(run, schema['$defs']['run_report'], schema)
+                require(run['side'] == side and run['behavior_id'] == name, f'{name}: run identity differs')
+                require(side != 'rust' or implementation is not None, f'{name}: Rust run without implementation')
+                for harness in run['harness_files']:
+                    pinned(root, run['harness_revision'], harness)
+                require(fixture_hashes <= {item['sha256'] for item in run['harness_files']}, f'{name}: executed fixtures not pinned in harness')
+                expected_revision = ledger['upstream_revision'] if side == 'upstream' else implementation['revision']
+                require(run['revision'] == expected_revision, f'{name}: run revision differs')
+                if row['status'] == 'verified':
+                    require(run['executed'] and run['exit_code'] == 0 and run['result'] == 'passed', f'{name}: run not passing/executed')
+                else:
+                    require((run['executed'] and ((run['exit_code'] == 0 and run['result'] == 'passed') or (run['exit_code'] != 0 and run['result'] == 'failed'))) or (not run['executed'] and run['result'] == 'unrun'), f'{name}: inconsistent run outcome')
+                try:
+                    started = datetime.strptime(run['started_at'], '%Y-%m-%dT%H:%M:%SZ')
+                    finished = datetime.strptime(run['finished_at'], '%Y-%m-%dT%H:%M:%SZ')
+                except ValueError as error:
+                    raise Invalid(f'{name}: invalid run date') from error
+                require(finished >= started, f'{name}: run dates reversed')
+                require(set(run['case_ids']) <= row_cases, f'{name}: unexpected case ID in run')
+                require(set(run['fixture_hashes']) >= fixture_hashes, f'{name}: run fixture coverage incomplete')
+                require(local_bytes(root, run['transcript']).strip(), f'{name}: empty run transcript')
+                covered.update(run['case_ids'])
+            if row['runs'][side] and all(strict_json(local_bytes(root, ref))['result'] == 'passed' for ref in row['runs'][side]):
+                require(covered == row_cases, f'{name}: {side} case coverage incomplete')
         review = row['review']
         if review:
             local_bytes(root, review['artifact'])
@@ -157,27 +183,6 @@ def validate(root, ledger, schema, dependency_roots=None, complete=False):
         require(all(dependencies[item]['status'] == 'pinned' for item in row['dependency_ids']), f'{name}: unresolved dependency')
         require(row['source_evidence'], f'{name}: verified without source evidence')
         require({ref['dependency_id'] for ref in row['source_evidence']} <= set(row['dependency_ids']), f'{name}: evidence dependency not declared')
-        for side in ('upstream', 'rust'):
-            require(row['runs'][side], f'{name}: verified without {side} runs')
-            covered = set()
-            for ref in row['runs'][side]:
-                run = strict_json(local_bytes(root, ref))
-                shape(run, schema['$defs']['run_report'], schema)
-                require(run['side'] == side and run['behavior_id'] == name, f'{name}: run identity differs')
-                expected_revision = ledger['upstream_revision'] if side == 'upstream' else implementation['revision']
-                require(run['revision'] == expected_revision, f'{name}: run revision differs')
-                require(run['executed'] and run['exit_code'] == 0 and run['result'] == 'passed', f'{name}: run not passing/executed')
-                try:
-                    started = datetime.strptime(run['started_at'], '%Y-%m-%dT%H:%M:%SZ')
-                    finished = datetime.strptime(run['finished_at'], '%Y-%m-%dT%H:%M:%SZ')
-                except ValueError as error:
-                    raise Invalid(f'{name}: invalid run date') from error
-                require(finished >= started, f'{name}: run dates reversed')
-                require(set(run['case_ids']) <= row_cases, f'{name}: unexpected case ID in run')
-                require(set(run['fixture_hashes']) >= fixture_hashes, f'{name}: run fixture coverage incomplete')
-                require(local_bytes(root, run['transcript']).strip(), f'{name}: empty run transcript')
-                covered.update(run['case_ids'])
-            require(covered == row_cases, f'{name}: {side} case coverage incomplete')
         require(review is not None, f'{name}: verified without independent review')
         require(review['disposition'] == 'accepted' and review['independent'], f'{name}: review not independent/accepted')
         require(review['reviewer'] not in implementation['authors'], f'{name}: reviewer authored implementation')
