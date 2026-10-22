@@ -11,3 +11,9 @@ No Rust compilation, upstream build/script, package installation, browser or pro
 ## EMF containment-fragment correction recheck
 
 Source-map correction `7993d9b5c` uses valid `/@feature.index` nested EMF containment fragments. Independent expected-location construction was updated to require that syntax. Full recursive comparison still passes all 186 classifiers, 57 parameters, 309 annotations and 19 literals. Six added unit tests pass and reject missing nested nodes, attribute changes and old non-EMF fragment spelling. Rechecked inventory SHA256: `91f43916d274cd7016e6289aa329a4e6da9acd985b43becf8dcaac4d5275692b`. The initial inventory hash above remains historical evidence for the earlier parsed-tree check.
+
+## Executed fixture evidence
+
+Checker suite now has **53 passing tests**, including pending-row outcome validation and pinned harness/fixture integrity. The nine checked-in JSON fixtures were consumed by nine native Rust tests: **9 passed, 0 failed**. Implementation revision `6830df280ecf81542b51c76832d367b60e97ad4e` and harness revision `e3d5b050fe5b49998982abc974f52be738e3c0a4` were independently snapshotted from Git objects. The portable transcript and three per-behavior Rust run records are under `porting/runs/native-fixtures-01`; the behavior ledger links their SHA256 hashes. Recorded executable harness/fixture paths and hashes are pinned separately from product implementation.
+
+Ordinary strict ledger validation passes with **3 behaviors, 0 verified**; completion still rejects open inventory/dependency closure. All upstream run arrays remain empty and all three behavior statuses remain `unrun`. These are real native fixture results with source-derived expectations, not paired upstream parity runs or independent complete-product acceptance.
