@@ -331,6 +331,8 @@ pub struct FeatureLookup {
     pub unresolved_supertypes: Vec<TypeReference>,
 }
 impl FeatureLookup {
+    /// Returns one local candidate, not proof of uniqueness across unresolved
+    /// external ancestor branches. Inspect unresolved_supertypes separately.
     pub fn unique(&self) -> Option<Feature> {
         if self.candidates.len() == 1 {
             Some(self.candidates[0])

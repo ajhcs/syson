@@ -11,9 +11,12 @@
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 use syson_domain::model::{Element, ElementId, Model};
+mod scalar;
+pub use scalar::*;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ModelError {
+    Attribute(AttributeError),
     Json(String),
     Shape(String),
     InvalidId(String),
@@ -280,14 +283,18 @@ fn project_node(
     stable: &mut Vec<String>,
     handles: &mut BTreeMap<String, ElementId>,
 ) -> Result<()> {
-    let mut e = Element::new(class(node), node["data"]["declaredName"].as_str());
+    let actual_classifier = scalar::node_classifier(node).ok();
+    let projected_class = actual_classifier.map_or_else(
+        || format!("<unresolved:{}>", node["eClass"].as_str().unwrap()),
+        |id| id.metadata().name().to_owned(),
+    );
+    let mut e = Element::new(projected_class, node["data"]["declaredName"].as_str());
     e.declared_short_name = node["data"]["declaredShortName"]
         .as_str()
         .map(str::to_owned);
-    e.is_namespace = matches!(
-        class(node),
-        "Namespace" | "Package" | "PartDefinition" | "PartUsage"
-    );
+    e.is_namespace = actual_classifier.is_some_and(|id| {
+        syson_metamodel::is_subtype(id, syson_metamodel::ClassifierId::Namespace)
+    });
     let handle = model
         .insert(e, owner)
         .map_err(|e| ModelError::Shape(format!("projection: {e:?}")))?;

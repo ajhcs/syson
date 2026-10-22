@@ -102,3 +102,10 @@ secure random IDs, server API, database durability/recovery and collaborative
 transactions remain unported or unrun. A successful adapter JSON roundtrip is
 not evidence of successful upstream EMF import. Independent review and real
 cross-crate workflow/UI tests are separate required milestones.
+
+
+## Registry-backed scalar follow-up
+
+See MODEL-SCALARS.md for actual inherited scalar descriptors, typed atomic scalar
+writes and known-local subtype query integration. This adds metadata-backed
+introspection; complete semantic behavior and reference editing remain unported.

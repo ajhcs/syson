@@ -63,7 +63,8 @@ external ancestry. The registry does not invent inheritance for external types.
 `inherited_feature` performs structural name lookup across local supertype branches.
 A directly declared same-name feature stops that branch; shared diamond ancestors
 are deduplicated. Independent candidates are retained rather than silently choosing
-one. `FeatureLookup::unique` returns a feature only for one candidate; unresolved
+one. `FeatureLookup::unique` returns a feature only for one LOCAL candidate; this is
+not globally proven uniqueness across unresolved external ancestor branches. Unresolved
 external ancestors remain visible. This lookup does not execute annotations or
 model redefinition/subsetting semantics and is not proof of EMF feature-ID ordering.
 
