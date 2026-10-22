@@ -26,6 +26,8 @@ def compare(node, record, location):
 
 
 def check(root, inventory):
+    if not __debug__:
+        raise RuntimeError("Run evidence checks without Python optimization")
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
     paths = [p for p in git('ls-tree', '-r', '--name-only', PIN).decode().splitlines() if p.endswith('.ecore')]
