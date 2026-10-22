@@ -1,14 +1,17 @@
-# Pinned upstream reference oracle: decision and unrun plan
+# Pinned upstream reference oracle: partial parser run and application plan
 
 ## Current observed state
 
-The selected baseline is source SHA 6ba2ac64e6b16ee2b05752ad55395eebb87d4910, not the published v2026.9.0 image. Root package.json/pom.xml are 2026.9.3. Using the default docker-compose.yml would silently compare another release, so it has not been launched. No Docker service, port binding, browser session, database, upstream script, npm lifecycle, Java application or upstream Maven plugin was executed by this port team.
+A bounded secondary CLI parser reference ran on 2026-10-22 at actual UTC 21:35:48.458113 through 21:35:48.665293, using verified existing Node v24.21.0, the exact baseline embedded bundle, one synthetic fixture, `dump --validate --stdlib none`, closed stdin, cleared Node preload/cache settings and a 60-second timeout in the default network-restricted environment. Exit 0, no stderr, statistics followed by AST JSON. Exact hashes and limitations: [parser-oracle-01](runs/parser-oracle-01/README.md). This does not execute the primary Java import path, qualify Rust AST semantics or establish a full-application oracle.
+
+
+The selected baseline is source SHA 6ba2ac64e6b16ee2b05752ad55395eebb87d4910, not the published v2026.9.0 image. Root package.json/pom.xml are 2026.9.3. Using the default docker-compose.yml would silently compare another release, so it has not been launched. No upstream application service, database, npm lifecycle, Java application or Maven plugin was executed. The bounded CLI run and the Rust preview browser checks are separate evidence.
 
 Read-only command evidence on 2026-10-22:
 - `command -v java mvn node npm docker`: java, node, npm, docker exist; mvn absent.
 - `java -version`: Temurin 26.0.2.1; upstream workflow requests Java 21.
 - `node --version` / `npm --version`: system v18.19.1 / 9.2.0; root package.json requests 24.20.0 / 11.19.0.
-- Existing specialized Node 24.21.0 is documented at <existing-node24>/bin (local operator inventory); it is not the exact engine pin and has not been selected for this port. No global tools changed.
+- Existing specialized Node 24.21.0 is documented at <existing-node24>/bin (local operator inventory); it is not the exact engine pin. Its verified absolute binary was subsequently selected for the bounded parser reference only. No global tools changed.
 - `settings.xml` references existing environment USERNAME/PASSWORD for GitHub Maven packages; access with established authentication is unverified, not denied. No credentials have been requested, copied, printed or created.
 - `.github/workflows/build.yml` builds frontend first, copies artifacts, then Maven clean verify; later Docker integration tests start containers and browsers and some branches publish. This workflow has NOT been run. Fork workflows API currently returns zero entries; this is a snapshot, not blanket permission to execute future workflows.
 - `application.properties` and `syson-sysml-import` source embed syside-cli.js and invoke Node for parsing. This is a required semantic dependency, not generated loader glue. Rust parity requires replacing it.

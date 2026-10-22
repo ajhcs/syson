@@ -13,7 +13,7 @@ Five isolated worktrees under a separate worktree root:
 - persistence: rust/crates/syson-persistence and porting/persistence, branch rust/persistence.
 - validation: porting/validation and rust/validation, branch rust/validation; independently reviews implementation.
 
-Integrator alone owns rust/Cargo.toml, rust/Cargo.lock and porting root files. Crates start independently buildable, with no external dependencies in the initial slices. Shared wire/storage schemas must be agreed before coupling crates. Source preservation is not a retained Java/TS implementation of the proposed Rust product: it is the pinned reference. No runnable Rust product or full parity exists yet.
+Integrator alone owns rust/Cargo.toml, rust/Cargo.lock and porting root files. Crates start independently buildable, with no external dependencies in the initial slices. Shared wire/storage schemas must be agreed before coupling crates. Source preservation is not a retained Java/TS implementation of the proposed Rust product: it is the pinned reference. A bounded Rust/WASM authoring preview now runs; see M7-CHECKPOINT.md. Full product parity remains unachieved.
 
 ## Resource boundaries
 

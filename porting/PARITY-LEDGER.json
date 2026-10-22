@@ -106,17 +106,18 @@
         "porting/source-map/README.md",
         "porting/source-map/behavior-boundaries.md"
       ],
-      "rust_implementation": null,
+      "rust_implementation": "rust/crates/syson-model/src/lib.rs",
       "tests": [],
-      "status": "unported_or_unresolved",
+      "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "pending",
-      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping.",
+      "independent_review": "See M4/M5/M6 independent reports; syntax review in progress.",
+      "limits": "Three constructors, polymorphic typing, local transactions and metadata-backed scalar edits; full operations/constraints/derived/reference semantics unported.",
       "bounded_subset": {
         "implementation": "rust/crates/syson-model",
         "review": "porting/validation/M2-INDEPENDENT-REVIEW.md",
         "full_semantics": "unported"
-      }
+      },
+      "evidence": "porting/M7-CHECKPOINT.md"
     },
     {
       "id": "PARSER",
@@ -126,12 +127,13 @@
         "porting/source-map/README.md",
         "porting/source-map/behavior-boundaries.md"
       ],
-      "rust_implementation": null,
+      "rust_implementation": "rust/crates/syson-syntax/src/lib.rs",
       "tests": [],
-      "status": "unported_or_unresolved",
-      "oracle": "unrun",
-      "independent_review": "pending",
-      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+      "status": "syntax_only_pending_review",
+      "oracle": "one unrelated fixture executed through baseline CLI; no Rust AST equivalence",
+      "independent_review": "See M4/M5/M6 independent reports; syntax review in progress.",
+      "limits": "Full grammar-driven generalized syntax/CST, not upstream AST, linking, validation, recovery or import semantics.735 source-rule statuses remain UNPORTED.",
+      "evidence": "porting/M7-CHECKPOINT.md"
     },
     {
       "id": "UI",
@@ -141,17 +143,18 @@
         "porting/source-map/README.md",
         "porting/source-map/behavior-boundaries.md"
       ],
-      "rust_implementation": null,
+      "rust_implementation": "rust/crates/syson-web/src/lib.rs",
       "tests": [],
-      "status": "unported_or_unresolved",
+      "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "pending",
-      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping.",
+      "independent_review": "See M4/M5/M6 independent reports; syntax review in progress.",
+      "limits": "Actual Rust/WASM authoring and typed scalar controls tested in an isolated browser; full SysON UI/layout/accessibility unported.",
       "bounded_subset": {
         "implementation": "rust/crates/syson-web",
         "browser_smoke": "porting/runs/M2-browser.json",
         "upstream_equivalence": "unrun"
-      }
+      },
+      "evidence": "porting/M7-CHECKPOINT.md"
     },
     {
       "id": "LAYOUT",

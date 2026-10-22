@@ -2,4 +2,9 @@
 * text=auto eol=lf
 # Preserve exact generated test transcript bytes, including terminal blank lines.
 porting/runs/*.log whitespace=-blank-at-eof
+porting/runs/**/*.log whitespace=-blank-at-eof
 porting/runs/**/cargo-test.txt whitespace=-blank-at-eof
+
+# Preserve verbatim third-party notice and captured parser stdout bytes.
+rust/crates/syson-syntax/data/LICENSE-SYSIDE -whitespace
+porting/runs/parser-oracle-01/stdout.txt whitespace=-blank-at-eof

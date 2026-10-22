@@ -1,0 +1,55 @@
+{
+  "kind": "observed integration control checks",
+  "runtime_utc": "not captured; not inferred",
+  "transcript": "tool output observed in integration chat; no separate full transcript retained",
+  "checks": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "rust/validation/tests",
+        "-p",
+        "test_behavior_ledger.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests_passed": 47
+    },
+    {
+      "command": [
+        "python3",
+        "rust/validation/scripts/check_behavior_ledger.py"
+      ],
+      "exit_code": 0,
+      "result": {
+        "behaviors": 3,
+        "complete": false,
+        "verified": 0
+      }
+    },
+    {
+      "command": [
+        "python3",
+        "rust/validation/scripts/check_metamodel_inventory.py"
+      ],
+      "exit_code": 0,
+      "result": {
+        "classifiers": 186,
+        "ecore_files": 2,
+        "nested_nodes": {
+          "eAnnotations": 309,
+          "eLiterals": 19,
+          "eParameters": 57
+        }
+      }
+    }
+  ],
+  "environment": {
+    "SYSON_BUILD_DIR": "existing approved build directory",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "source_hashes": "M7-integration-01/receipt.json source_sha256 includes these unchanged validation scripts/tests"
+}

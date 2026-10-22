@@ -56,14 +56,35 @@
       "id": "M4",
       "state": "pending",
       "description": "All inventoried features implemented and independently reviewed; full parity NOT achieved."
+    },
+    {
+      "id": "META-01",
+      "state": "complete_bounded",
+      "description": "Complete pinned domain/custom-node declaration metadata and local inheritance/feature introspection; independently compared to Ecore. Operations/constraints/external ancestry remain unimplemented."
+    },
+    {
+      "id": "SCALAR-01",
+      "state": "complete_bounded",
+      "description": "Typed metadata-backed scalar mutation and inspector; independent M4/M5/M6 reviews and actual browser checks. References, derived/many features and full semantics remain unsupported."
+    },
+    {
+      "id": "SYNTAX-01",
+      "state": "independent_review_in_progress",
+      "description": "Complete grammar-data lexer and Earley/CST recognizer, 15 native tests; every success explicitly SemanticStatus::NotPerformed. All 735 declaration parity rows remain UNPORTED."
+    },
+    {
+      "id": "PARSER-REFERENCE-01",
+      "state": "complete_bounded",
+      "description": "Exact baseline embedded CLI accepted one 37-byte package/part-definition fixture in secondary diagnostic mode. No full AST/Java/application comparison.",
+      "evidence": [
+        "porting/runs/parser-oracle-01/receipt.json"
+      ]
     }
   ],
   "next_owned_milestone": {
-    "id": "M2C",
-    "state": "in_progress",
-    "owner": "domain lane",
-    "scope": "Complete pinned metamodel declaration registry with inherited feature/type introspection; generated metadata does not implement constraints or derived operations.",
-    "parallel_owner": "source-map lane",
-    "parallel_scope": "Pinned Sirius inherited APIs/Liquibase/source candidates and unresolved artifact provenance."
+    "id": "SYNTAX-02",
+    "state": "preparation",
+    "owner": "source-map/syntax lane",
+    "scope": "Source-grounded AST/value-conversion design and subsequent implementation after independent syntax review; pinned parser reference remains separate from the Rust product."
   }
 }
