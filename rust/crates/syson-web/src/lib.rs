@@ -179,8 +179,15 @@ impl App {
                 if name.is_empty() {
                     return Err("Enter a name.".into());
                 }
+                let value = preserve_unchanged_text(
+                    self.editor
+                        .document()
+                        .element(&self.selected)
+                        .and_then(|node| node["data"]["declaredName"].as_str()),
+                    name,
+                );
                 let mut tx = self.editor.begin();
-                tx.set_attribute(&self.selected, "declaredName", Value::String(name.into()))
+                tx.set_attribute(&self.selected, "declaredName", Value::String(value))
                     .map_err(|_| {
                         "The model rejected this name. No change was staged.".to_string()
                     })?;
@@ -314,7 +321,7 @@ impl App {
             tree.push_str("<li><p>No model elements yet.</p></li>");
         }
         let selected = elements.iter().find(|e| e.element_id == self.selected);
-        let selected_name = escape(selected.and_then(|e| e.name.as_deref()).unwrap_or(""));
+        let selected_name = escape_textarea(selected.and_then(|e| e.name.as_deref()).unwrap_or(""));
         let scalar_inspector = if selected.is_some() {
             render_scalar_inspector(doc, &self.selected)
         } else {
@@ -323,7 +330,7 @@ impl App {
         let inspector = if let Some(element) = selected {
             let rename_form = if can_rename(doc, &self.selected) {
                 format!(
-                    "<form data-action=\"rename\"><label for=\"rename\">Element name</label><input id=\"rename\" name=\"name\" value=\"{selected_name}\" required><div class=\"form-actions\"><button type=\"submit\">Stage rename</button></div></form>"
+                    "<form data-action=\"rename\"><label for=\"rename\">Element name</label><textarea id=\"rename\" name=\"name\" rows=\"2\" required>{selected_name}</textarea><div class=\"form-actions\"><button type=\"submit\">Stage rename</button></div></form>"
                 )
             } else {
                 String::new()
@@ -373,6 +380,21 @@ fn supported_creation_parent(classifier: ClassifierId) -> bool {
         ClassifierId::Package | ClassifierId::PartDefinition | ClassifierId::PartUsage
     ) && is_subtype(classifier, ClassifierId::Namespace)
 }
+/// Textarea APIs normalize line endings. Preserve the saved spelling when the
+/// submitted value is otherwise unchanged, rather than silently rewriting it.
+fn preserve_unchanged_text(original: Option<&str>, input: &str) -> String {
+    if let Some(original) = original
+        && original.replace("\r\n", "\n").replace('\r', "\n") == input
+    {
+        return original.into();
+    }
+    input.into()
+}
+/// HTML discards the first LF in textarea markup. Add a sentinel LF so an
+/// original leading LF survives. Encode CR to avoid parser preprocessing.
+fn escape_textarea(input: &str) -> String {
+    format!("\n{}", escape(input).replace('\r', "&#13;"))
+}
 fn can_rename(document: &Document, element: &str) -> bool {
     document
         .inspect_node(element)
@@ -394,7 +416,10 @@ fn parse_scalar(attribute: &AttributeDescriptor, mode: &str, input: &str) -> Res
         return Err("Choose whether to set or clear this value.".into());
     }
     match attribute.value_type.as_ref() {
-        Some(ScalarType::String) => Ok(Value::String(input.into())),
+        Some(ScalarType::String) => Ok(Value::String(preserve_unchanged_text(
+            attribute.value.as_ref().and_then(Value::as_str),
+            input,
+        ))),
         Some(ScalarType::Boolean) => match input {
             "true" => Ok(Value::Bool(true)),
             "false" => Ok(Value::Bool(false)),
@@ -449,7 +474,7 @@ fn render_scalar_field(attribute: &AttributeDescriptor) -> String {
     let label = escape(&property_label(attribute.name));
     let input_id = format!("scalar-{name}");
     let description = format!("scalar-state-{name}");
-    let text = escape(
+    let text = escape_textarea(
         attribute
             .value
             .as_ref()
@@ -458,7 +483,7 @@ fn render_scalar_field(attribute: &AttributeDescriptor) -> String {
     );
     let control = match attribute.value_type.as_ref() {
         Some(ScalarType::String) => format!(
-            "<input id=\"{input_id}\" name=\"value\" value=\"{text}\" aria-describedby=\"{description}\">"
+            "<textarea id=\"{input_id}\" name=\"value\" rows=\"3\" aria-describedby=\"{description}\">{text}</textarea>"
         ),
         Some(ScalarType::Boolean) => {
             let current = attribute.value.as_ref().and_then(Value::as_bool);
@@ -1146,6 +1171,69 @@ mod tests {
                 .elements()
                 .iter()
                 .any(|e| e.class == "FeatureTyping")
+        );
+    }
+    #[test]
+    fn multiline_string_controls_preserve_leading_newline_edits_and_unchanged_crlf() {
+        let mut comment = scalar_app(
+            "Comment",
+            json!({"elementId":"element","body":"\nfirst\nsecond\n"}),
+        );
+        let html = comment.render();
+        assert!(html.contains("<textarea id=\"scalar-body\" name=\"value\" rows=\"3\" aria-describedby=\"scalar-state-body\">\n\nfirst\nsecond\n</textarea>"));
+        comment
+            .handle(&attribute_request("body", "value", "\nfirst\nchanged\n"))
+            .unwrap();
+        assert_eq!(
+            comment
+                .pending
+                .as_ref()
+                .unwrap()
+                .document()
+                .element("element")
+                .unwrap()["data"]["body"],
+            "\nfirst\nchanged\n"
+        );
+        comment.handle(&json!({"action":"cancel"})).unwrap();
+        assert_eq!(
+            comment.editor.document().element("element").unwrap()["data"]["body"],
+            "\nfirst\nsecond\n"
+        );
+        let original = "\r\nfirst\r\nsecond\r";
+        let mut literal = scalar_app(
+            "LiteralString",
+            json!({"elementId":"element","value":original}),
+        );
+        assert!(
+            literal
+                .render()
+                .contains("&#13;\nfirst&#13;\nsecond&#13;</textarea>")
+        );
+        literal
+            .handle(&attribute_request("value", "value", "\nfirst\nsecond\n"))
+            .unwrap();
+        literal.handle(&json!({"action":"commit"})).unwrap();
+        assert_eq!(
+            literal.editor.document().element("element").unwrap()["data"]["value"],
+            original
+        );
+        let json = literal.editor.document().to_json().unwrap();
+        assert_eq!(
+            Document::from_json(&json).unwrap(),
+            *literal.editor.document()
+        );
+        let mut named = scalar_app(
+            "ActionUsage",
+            json!({"elementId":"element","declaredName":"\nfirst\r\nsecond"}),
+        );
+        assert!(named.render().contains("<textarea id=\"rename\" name=\"name\" rows=\"2\" required>\n\nfirst&#13;\nsecond</textarea>"));
+        named
+            .handle(&json!({"action":"rename","fields":{"name":"\nfirst\nsecond"}}))
+            .unwrap();
+        named.handle(&json!({"action":"commit"})).unwrap();
+        assert_eq!(
+            named.editor.document().element("element").unwrap()["data"]["declaredName"],
+            "\nfirst\r\nsecond"
         );
     }
     #[test]

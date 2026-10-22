@@ -42,7 +42,7 @@ The Properties section calls `Document::inspect_node` from the shared model adap
 
 | Stored type | Browser control | Rust conversion before shared-model validation |
 | --- | --- | --- |
-| String | Text input | Exact input string, including empty string |
+| String | Multiline textarea | Input string, including empty string; unchanged browser-normalized line endings retain the saved spelling |
 | Boolean | Required true/false choice | JSON boolean; no string/numeric aliases |
 | Signed 32-bit integer | Number input with integral step and bounds | Parse to i32, then JSON integer; overflow/fractions rejected |
 | Finite double | Number input, any step | Parse finite f64, then JSON number; NaN/infinity/overflow rejected |
@@ -61,3 +61,9 @@ Native verification now covers 13 UI tests including boolean staging/cancel/hist
 The rename form now writes `declaredName` through the same generic scalar transaction as the property inspector. It retains the form's existing nonempty-name rule without silently trimming or normalizing text. This makes advertised renaming work for imported LiteralInteger and ActionUsage as well as the original creation classes; unknown/unresolved classes remain unavailable. The legacy three-class `Transaction::rename` is unchanged and is not used by this generic form.
 
 Creation-parent and usage-definition choices are bounded to the actual adapter operations, even when additional imported classes share namespace/definition ancestry. ActionUsage, AttributeDefinition and ConnectionDefinition remain available for scalar inspection without advertising unsupported membership construction or usage typing. Native regressions cover their excluded options, model preservation on rejected construction, supported PartDefinition creation/typing, and imported LiteralInteger/ActionUsage staged rename, cancellation, commit and history. The UI native suite now has 15 tests. Browser verification of this correction remains with the integration owner.
+
+## Multiline string preservation
+
+Generic string properties and the rename form use textareas, so imported Comment.body, LiteralString.value and names do not pass through single-line input sanitization. Rust inserts an extra initial LF in textarea markup because HTML consumes the first LF; actual leading line breaks therefore remain present. Carriage returns are encoded during HTML generation. When a submitted textarea string differs from its saved value only because browsers normalize CRLF/CR to LF, the Rust adapter preserves the saved spelling. Intentional conversion of line endings alone is not exposed as a separate operation. New/edited content still passes through the shared typed scalar transaction and normal HTML escaping.
+
+A native regression checks leading/trailing LF markup and edited content, cancellation, unchanged CRLF/CR preservation, JSON export/import and multiline rename. The native UI suite now has 16 tests; browser-level verification of textarea values remains pending with the integration owner.
