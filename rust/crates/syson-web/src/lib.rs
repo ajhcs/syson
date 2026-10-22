@@ -92,6 +92,26 @@ impl App {
                 let typing = allocated.next().unwrap();
                 let parent = field(request, "parent");
                 let name = field(request, "name");
+                if !parent.is_empty()
+                    && !self
+                        .editor
+                        .document()
+                        .inspect_node(parent)
+                        .is_ok_and(|info| supported_creation_parent(info.classifier))
+                {
+                    return Err("New elements can be added only to a package, part definition, or part usage.".into());
+                }
+                let definition = field(request, "definition");
+                if field(request, "kind") == "part_usage"
+                    && !definition.is_empty()
+                    && !self
+                        .editor
+                        .document()
+                        .inspect_node(definition)
+                        .is_ok_and(|info| info.classifier == ClassifierId::PartDefinition)
+                {
+                    return Err("Choose a supported part definition.".into());
+                }
                 let mut tx = self.editor.begin();
                 let created = element.element.clone();
                 match field(request, "kind") {
@@ -155,9 +175,15 @@ impl App {
                 if !can_rename(self.editor.document(), &self.selected) {
                     return Err("Renaming is unavailable for this element type.".into());
                 }
+                let name = field(request, "name");
+                if name.is_empty() {
+                    return Err("Enter a name.".into());
+                }
                 let mut tx = self.editor.begin();
-                tx.rename(&self.selected, field(request, "name"))
-                    .map_err(|e| e.to_string())?;
+                tx.set_attribute(&self.selected, "declaredName", Value::String(name.into()))
+                    .map_err(|_| {
+                        "The model rejected this name. No change was staged.".to_string()
+                    })?;
                 self.pending = Some(tx);
                 Ok("Rename staged. Commit or cancel.".into())
             }
@@ -253,11 +279,11 @@ impl App {
             let class = escape(&element.class);
             tree.push_str(&format!("<li><button type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button></li>",self.selected==element.element_id));
             if let Ok(info) = doc.inspect_node(&element.element_id) {
-                if is_subtype(info.classifier, ClassifierId::Namespace) {
+                if supported_creation_parent(info.classifier) {
                     parent_options
                         .push_str(&format!("<option value=\"{id}\">{name} · {class}</option>"));
                 }
-                if is_subtype(info.classifier, ClassifierId::PartDefinition) {
+                if info.classifier == ClassifierId::PartDefinition {
                     definitions.push_str(&format!("<option value=\"{id}\">{name}</option>"));
                 }
             }
@@ -338,6 +364,14 @@ impl App {
             y.max(250.)
         )
     }
+}
+/// Metadata ancestry alone does not implement membership construction. Keep
+/// offered contexts within the shared adapter's inspected creation contract.
+fn supported_creation_parent(classifier: ClassifierId) -> bool {
+    matches!(
+        classifier,
+        ClassifierId::Package | ClassifierId::PartDefinition | ClassifierId::PartUsage
+    ) && is_subtype(classifier, ClassifierId::Namespace)
 }
 fn can_rename(document: &Document, element: &str) -> bool {
     document
@@ -1009,6 +1043,110 @@ mod tests {
                 .is_err()
         );
         assert!(app.pending.is_none());
+    }
+    #[test]
+    fn generic_rename_form_stages_and_commits_imported_literal_and_action_names() {
+        for class in ["LiteralInteger", "ActionUsage"] {
+            let mut app = scalar_app(
+                class,
+                json!({"elementId":"element","declaredName":"original"}),
+            );
+            let original = app.editor.document().clone();
+            assert!(app.render().contains("data-action=\"rename\""));
+            assert!(
+                app.handle(&json!({"action":"rename","fields":{"name":""}}))
+                    .is_err()
+            );
+            assert!(app.pending.is_none());
+            let request = json!({"action":"rename","fields":{"name":"imported <renamed>"}});
+            app.handle(&request).unwrap();
+            assert_eq!(*app.editor.document(), original);
+            assert_eq!(
+                app.pending
+                    .as_ref()
+                    .unwrap()
+                    .document()
+                    .element("element")
+                    .unwrap()["data"]["declaredName"],
+                "imported <renamed>"
+            );
+            app.handle(&json!({"action":"cancel"})).unwrap();
+            assert_eq!(*app.editor.document(), original);
+            app.handle(&request).unwrap();
+            app.handle(&json!({"action":"commit"})).unwrap();
+            assert_eq!(
+                app.editor.document().element("element").unwrap()["data"]["declaredName"],
+                "imported <renamed>"
+            );
+            app.handle(&json!({"action":"undo"})).unwrap();
+            assert_eq!(*app.editor.document(), original);
+            app.handle(&json!({"action":"redo"})).unwrap();
+            assert_eq!(
+                app.editor.document().element("element").unwrap()["data"]["declaredName"],
+                "imported <renamed>"
+            );
+        }
+    }
+    #[test]
+    fn creation_choices_do_not_advertise_unsupported_namespace_or_definition_subtypes() {
+        for class in ["ActionUsage", "AttributeDefinition", "ConnectionDefinition"] {
+            let mut app = scalar_app(
+                class,
+                json!({"elementId":"element","declaredName":"imported"}),
+            );
+            let html = app.render();
+            let parents = html
+                .split("<select id=\"parent\"")
+                .nth(1)
+                .unwrap()
+                .split("</select>")
+                .next()
+                .unwrap();
+            let definitions = html
+                .split("<select id=\"definition\"")
+                .nth(1)
+                .unwrap()
+                .split("</select>")
+                .next()
+                .unwrap();
+            assert!(!parents.contains("value=\"element\""));
+            assert!(!definitions.contains("value=\"element\""));
+            let before = app.editor.document().clone();
+            let mut request = create(0, "child");
+            request["fields"]["parent"] = json!("element");
+            assert!(app.handle(&request).is_err());
+            assert!(app.pending.is_none());
+            assert_eq!(*app.editor.document(), before);
+        }
+        let mut app = scalar_app(
+            "PartDefinition",
+            json!({"elementId":"element","declaredName":"supported"}),
+        );
+        let html = app.render();
+        for selector in ["parent", "definition"] {
+            assert!(
+                html.split(&format!("<select id=\"{selector}\""))
+                    .nth(1)
+                    .unwrap()
+                    .split("</select>")
+                    .next()
+                    .unwrap()
+                    .contains("value=\"element\"")
+            );
+        }
+        let mut request = create(0, "child");
+        request["fields"]["parent"] = json!("element");
+        request["fields"]["kind"] = json!("part_usage");
+        request["fields"]["definition"] = json!("element");
+        app.handle(&request).unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        assert!(
+            app.editor
+                .document()
+                .elements()
+                .iter()
+                .any(|e| e.class == "FeatureTyping")
+        );
     }
     #[test]
     fn byte_abi_reports_invalid_json_and_bounds_input_without_pointer_allocation() {
