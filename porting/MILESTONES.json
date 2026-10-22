@@ -18,13 +18,22 @@
     },
     {
       "id": "M2",
-      "state": "in_progress",
-      "description": "Compatibility migration slice and independent regression review."
+      "state": "complete_bounded",
+      "description": "Initial migration slice and distinct independent regression review complete for documented bounded inputs; full persistence remains unported."
     },
     {
       "id": "M2B",
-      "state": "in_progress",
-      "description": "Source-traced model creation/edit transaction, EMF JSON roundtrip, Rust/WASM UI and cross-crate workflow; bounded adapter contract, not full product parity."
+      "state": "complete_bounded",
+      "description": "Source-traced selected model creation/edit, local snapshot roundtrip and Rust/WASM authoring path implemented and independently reviewed. Actual browser smoke passed; full product parity NOT achieved.",
+      "evidence": [
+        "porting/validation/M2-INDEPENDENT-REVIEW.md",
+        "porting/runs/M2-final-runs.json",
+        "porting/runs/M2-browser.json"
+      ],
+      "limits": [
+        "Selected classes only; no upstream server/database/parser oracle.",
+        "Local transaction/storage proposal, not Sirius/Postgres compatibility."
+      ]
     },
     {
       "id": "M3",
@@ -48,5 +57,13 @@
       "state": "pending",
       "description": "All inventoried features implemented and independently reviewed; full parity NOT achieved."
     }
-  ]
+  ],
+  "next_owned_milestone": {
+    "id": "M2C",
+    "state": "in_progress",
+    "owner": "domain lane",
+    "scope": "Complete pinned metamodel declaration registry with inherited feature/type introspection; generated metadata does not implement constraints or derived operations.",
+    "parallel_owner": "source-map lane",
+    "parallel_scope": "Pinned Sirius inherited APIs/Liquibase/source candidates and unresolved artifact provenance."
+  }
 }

@@ -15,7 +15,7 @@
       ],
       "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "pending",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
       "limits": "Literal source behavior; adapter identity and Java string rules matter."
     },
     {
@@ -31,7 +31,7 @@
       ],
       "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "pending",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
       "limits": "Library branch only; no random-ID or entire resource adapter."
     },
     {
@@ -47,7 +47,7 @@
       ],
       "status": "implemented_projection",
       "oracle": "unrun",
-      "independent_review": "pending",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
       "limits": "Requires explicit relationship/class adapters; not EMF implementation."
     },
     {
@@ -63,7 +63,7 @@
       ],
       "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "pending",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
       "limits": "Transport, asynchronous layout, history and renderer absent."
     },
     {
@@ -79,7 +79,7 @@
       ],
       "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "pending",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
       "limits": "Ordinary finite numeric inputs; number formatting incompatibilities remain."
     },
     {
@@ -95,7 +95,7 @@
       ],
       "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "pending",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
       "limits": "EMF resolution, JSON traversal, scheduling and database unported."
     },
     {
@@ -111,7 +111,12 @@
       "status": "unported_or_unresolved",
       "oracle": "unrun",
       "independent_review": "pending",
-      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping.",
+      "bounded_subset": {
+        "implementation": "rust/crates/syson-model",
+        "review": "porting/validation/M2-INDEPENDENT-REVIEW.md",
+        "full_semantics": "unported"
+      }
     },
     {
       "id": "PARSER",
@@ -141,7 +146,12 @@
       "status": "unported_or_unresolved",
       "oracle": "unrun",
       "independent_review": "pending",
-      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping.",
+      "bounded_subset": {
+        "implementation": "rust/crates/syson-web",
+        "browser_smoke": "porting/runs/M2-browser.json",
+        "upstream_equivalence": "unrun"
+      }
     },
     {
       "id": "LAYOUT",
@@ -186,7 +196,12 @@
       "status": "unported_or_unresolved",
       "oracle": "unrun",
       "independent_review": "pending",
-      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping.",
+      "bounded_subset": {
+        "implementation": "rust/crates/syson-workflow",
+        "kind": "local immutable EMF JSON snapshot adapter",
+        "database_compatibility": "unported"
+      }
     },
     {
       "id": "RECOVERY",
