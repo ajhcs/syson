@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "upstream_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "scope": {
+    "description": "Initial three bounded behaviors only. Not a complete inventory. Existing PARITY-LEDGER.json remains a separate incomplete milestone overlay. IDs are permanent and never reused.",
+    "inventory_closed": false,
+    "dependency_closure_closed": false,
+    "closure_evidence": []
+  },
+  "dependencies": [
+    {
+      "id": "syson",
+      "repository": "https://github.com/eclipse-syson/syson",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "owner": "source-license",
+      "status": "pinned",
+      "disposition": "Local source blob pin; inherited and transitive behavior closure remains open."
+    },
+    {
+      "id": "sirius-web",
+      "repository": "https://github.com/eclipse-sirius/sirius-web",
+      "revision": null,
+      "owner": "architecture",
+      "status": "unresolved",
+      "disposition": "Exact inherited source/dependency closure not yet independently pinned and reconciled."
+    }
+  ],
+  "behaviors": [
+    {
+      "id": "SYSON-BEH-000001",
+      "title": "Optional-quote and Java strip name matching",
+      "required": true,
+      "status": "unrun",
+      "owner": "domain",
+      "dependency_ids": [
+        "syson"
+      ],
+      "source_evidence": [
+        {
+          "dependency_id": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/util/ElementUtil.java",
+          "sha256": "c0ac6ba7ebe80ea14380cb839c9e901727fdca725494d575ad49a0f7c99f0364",
+          "line_start": 375,
+          "line_end": 399
+        }
+      ],
+      "expected": {
+        "state": "Candidate and query strings or null; preserve Java Character.isWhitespace boundary.",
+        "result": "Return exact upstream match boolean, including optional quotes."
+      },
+      "implementation": {
+        "revision": "253d010da8f2121f343b471c2e44b6ed78f843b4",
+        "authors": [
+          "domain"
+        ],
+        "files": [
+          {
+            "path": "rust/crates/syson-domain/src/names.rs",
+            "sha256": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f"
+          }
+        ]
+      },
+      "cases": {
+        "positive": [
+          {
+            "id": "SYSON-CASE-000001",
+            "description": "Optional query quotes match an unquoted candidate.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000001.json",
+                "sha256": "68cef61abd980af10a723a949a557ecaf239d6ef50028e5eb2b9e736f4259762"
+              }
+            ]
+          }
+        ],
+        "negative": [
+          {
+            "id": "SYSON-CASE-000002",
+            "description": "Nonbreaking space is retained by Java strip.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000002.json",
+                "sha256": "5133fc5afd0cd8dbaf678a8b787d2003d05c896ffb981826df4065596b8f3d9e"
+              }
+            ]
+          }
+        ],
+        "failure": [
+          {
+            "id": "SYSON-CASE-000003",
+            "description": "Null candidate safely returns no match.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000003.json",
+                "sha256": "e0eb5657b9fcc43decf6d934f0a3211ee4a303aca0c0df37ddc0879eacc01842"
+              }
+            ]
+          }
+        ]
+      },
+      "runs": {
+        "upstream": [],
+        "rust": []
+      },
+      "review": null,
+      "disposition": "Bounded Rust source-derived checks exist in M1 review, but paired upstream/Rust run artifacts, hashed fixtures and complete independent behavior disposition are not recorded in this ledger. No verified claim."
+    },
+    {
+      "id": "SYSON-BEH-000002",
+      "title": "Selected rotation layout merge first-match truthiness",
+      "required": true,
+      "status": "unrun",
+      "owner": "editor",
+      "dependency_ids": [
+        "syson"
+      ],
+      "source_evidence": [
+        {
+          "dependency_id": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/extensions/rotateNodeTool/useRotateNode.ts",
+          "sha256": "0fa1f5b58d7984dbcca8df8e7da78d02650997646fe161a012de9b336b3f85f1",
+          "line_start": 68,
+          "line_end": 85
+        }
+      ],
+      "expected": {
+        "state": "Prepared diagram, supplied real layout result and ordered selected IDs.",
+        "result": "Adopt layout only when upstream Array.find first matching ID is truthy."
+      },
+      "implementation": {
+        "revision": "429afb9242fd72fdc1f4e0591dcd7fd79cbc1da4",
+        "authors": [
+          "editor"
+        ],
+        "files": [
+          {
+            "path": "rust/crates/syson-editor/src/lib.rs",
+            "sha256": "7b003258448bacc1bcfff3319139ddac8dc2595c9e3a3530c345d61f7de19c01"
+          }
+        ]
+      },
+      "cases": {
+        "positive": [
+          {
+            "id": "SYSON-CASE-000004",
+            "description": "Truthy selected ID adopts actual supplied layout.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000004.json",
+                "sha256": "4cb19836bad1212723689189ffb981cae10ca84589001dbe64ca72dd3f11de89"
+              }
+            ]
+          }
+        ],
+        "negative": [
+          {
+            "id": "SYSON-CASE-000005",
+            "description": "Empty first matched ID retains prepared node.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000005.json",
+                "sha256": "3a7841990236fd95cdcd3725e4388c2cf0ebe952f73c32774f7f7e5c1a76d4ab"
+              }
+            ]
+          }
+        ],
+        "failure": [
+          {
+            "id": "SYSON-CASE-000006",
+            "description": "Missing matching layout output retains prepared node.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000006.json",
+                "sha256": "08418ac6a4452fdb9b1297c69a3d297e9f7c2743c1f4b9097af552c7d64004b2"
+              }
+            ]
+          }
+        ]
+      },
+      "runs": {
+        "upstream": [],
+        "rust": []
+      },
+      "review": null,
+      "disposition": "Bounded Rust source-derived checks exist in M1 review, but paired upstream/Rust run artifacts, hashed fixtures and complete independent behavior disposition are not recorded in this ledger. No verified claim."
+    },
+    {
+      "id": "SYSON-BEH-000003",
+      "title": "Standard library reference URI migration",
+      "required": true,
+      "status": "unrun",
+      "owner": "persistence",
+      "dependency_ids": [
+        "syson"
+      ],
+      "source_evidence": [
+        {
+          "dependency_id": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesElementsReferencesMigrationParticipant.java",
+          "sha256": "f95dcc035a65532bde00fd93a53991326a02ee10f1006dfda21f4a779c2b90a2",
+          "line_start": 69,
+          "line_end": 89
+        }
+      ],
+      "expected": {
+        "state": "Noncontainment URI, ID map and caller-provided no-load Element resolver.",
+        "result": "Resolve current ID first, fallback old map, preserve prefix; containment unchanged."
+      },
+      "implementation": {
+        "revision": "6110a516c67f0d7da8331d45a3325cb363f3aa7e",
+        "authors": [
+          "persistence"
+        ],
+        "files": [
+          {
+            "path": "rust/crates/syson-persistence/src/lib.rs",
+            "sha256": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476"
+          }
+        ]
+      },
+      "cases": {
+        "positive": [
+          {
+            "id": "SYSON-CASE-000007",
+            "description": "Unresolved standard-library URI falls back to known ID map.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000007.json",
+                "sha256": "e4222a318c8d31348bf3e12bd609298801fb6570a0c1f5470cecc0d4e617f97e"
+              }
+            ]
+          }
+        ],
+        "negative": [
+          {
+            "id": "SYSON-CASE-000008",
+            "description": "Containment references bypass resolution.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000008.json",
+                "sha256": "8164d04845bcac2ac39e9ffc34a40ff348830defedb556c45eb351d0633be2fc"
+              }
+            ]
+          }
+        ],
+        "failure": [
+          {
+            "id": "SYSON-CASE-000009",
+            "description": "Missing resource and mapping preserve original URI without loading.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000009.json",
+                "sha256": "3a93a5560d8940f9ef2bacc5cf064de2260551e98141571a2125c7606977392a"
+              }
+            ]
+          }
+        ]
+      },
+      "runs": {
+        "upstream": [],
+        "rust": []
+      },
+      "review": null,
+      "disposition": "Bounded Rust source-derived checks exist in M1 review, but paired upstream/Rust run artifacts, hashed fixtures and complete independent behavior disposition are not recorded in this ledger. No verified claim."
+    }
+  ]
+}
