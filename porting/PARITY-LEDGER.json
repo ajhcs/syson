@@ -110,7 +110,7 @@
       "tests": [],
       "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "See M4/M5/M6 independent reports; syntax review in progress.",
+      "independent_review": "Bounded source-derived M4/M6 review accepted; see porting/validation.",
       "limits": "Three constructors, polymorphic typing, local transactions and metadata-backed scalar edits; full operations/constraints/derived/reference semantics unported.",
       "bounded_subset": {
         "implementation": "rust/crates/syson-model",
@@ -124,14 +124,19 @@
       "feature": "Textual SysML/KerML parsing and semantic import",
       "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
       "source_evidence": [
-        "porting/source-map/README.md",
-        "porting/source-map/behavior-boundaries.md"
+        "porting/syntax/README.md",
+        "porting/validation/M7-INDEPENDENT-REVIEW.md",
+        "porting/runs/parser-oracle-01/receipt.json",
+        "porting/runs/syntax-review-01/receipt.json"
       ],
       "rust_implementation": "rust/crates/syson-syntax/src/lib.rs",
-      "tests": [],
-      "status": "syntax_only_pending_review",
-      "oracle": "one unrelated fixture executed through baseline CLI; no Rust AST equivalence",
-      "independent_review": "See M4/M5/M6 independent reports; syntax review in progress.",
+      "tests": [
+        "rust/crates/syson-syntax/tests/syntax_contracts.rs",
+        "rust/validation/syntax/tests/recognizer_regressions.rs"
+      ],
+      "status": "implemented_syntax_only",
+      "oracle": "one byte-identical fixture accepted by upstream secondary CLI and Rust syntax recognizer; AST comparison unsupported",
+      "independent_review": "M7 bounded syntax review accepted; AST, semantics and all735 per-rule parity dispositions remain unported.",
       "limits": "Full grammar-driven generalized syntax/CST, not upstream AST, linking, validation, recovery or import semantics.735 source-rule statuses remain UNPORTED.",
       "evidence": "porting/M7-CHECKPOINT.md"
     },
@@ -147,7 +152,7 @@
       "tests": [],
       "status": "implemented_bounded",
       "oracle": "unrun",
-      "independent_review": "See M4/M5/M6 independent reports; syntax review in progress.",
+      "independent_review": "Bounded M5/M6 review and actual browser checks accepted; comprehensive UI parity remains unported.",
       "limits": "Actual Rust/WASM authoring and typed scalar controls tested in an isolated browser; full SysON UI/layout/accessibility unported.",
       "bounded_subset": {
         "implementation": "rust/crates/syson-web",
