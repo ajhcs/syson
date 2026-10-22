@@ -22,6 +22,7 @@ fn builder() -> Builder {
         Limits::default(),
         Arc::new(AtomicBool::new(false)),
     )
+    .unwrap()
 }
 fn string(s: &str) -> Datum {
     Datum::new(Value::String(s.into()))
@@ -235,7 +236,7 @@ fn cycles_and_shared_containment_rejected_independently() {
 #[test]
 fn cancellation_and_work_budget_are_explicit_and_not_rolled_back() {
     let cancel = Arc::new(AtomicBool::new(false));
-    let mut b = Builder::new(reflection(), Limits::default(), cancel.clone());
+    let mut b = Builder::new(reflection(), Limits::default(), cancel.clone()).unwrap();
     cancel.store(true, Ordering::Relaxed);
     assert_eq!(b.allocate(Some("Element"), None), Err(Error::Cancelled));
     let mut b = Builder::new(
@@ -245,7 +246,8 @@ fn cancellation_and_work_budget_are_explicit_and_not_rolled_back() {
             ..Limits::default()
         },
         Arc::new(AtomicBool::new(false)),
-    );
+    )
+    .unwrap();
     let _: Result<(), Error> = b.transaction(|b| {
         b.allocate(Some("Element"), None)?;
         b.unsupported("branch")
@@ -262,7 +264,8 @@ fn node_and_frame_limits_do_not_leak_failed_begin() {
             ..Limits::default()
         },
         Arc::new(AtomicBool::new(false)),
-    );
+    )
+    .unwrap();
     assert_eq!(b.begin_node(Some("Element"), None), Err(Error::Budget));
     let r = b.allocate(Some("Element"), None).unwrap();
     assert_eq!(r.value(), 1);
@@ -327,7 +330,7 @@ fn reflection_defaults_keep_first_declared_property_kind() {
         ],
     )
     .unwrap();
-    let mut b = Builder::new(r, Limits::default(), Arc::new(AtomicBool::new(false)));
+    let mut b = Builder::new(r, Limits::default(), Arc::new(AtomicBool::new(false))).unwrap();
     let root = b.allocate(Some("T"), None).unwrap();
     assert_eq!(
         val(b.finish(root).unwrap().node(root).unwrap(), "x"),
