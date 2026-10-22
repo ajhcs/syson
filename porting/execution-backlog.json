@@ -859,7 +859,8 @@
         "MODEL-RAW-FACTORY-PREP-01",
         "MODEL-RAW-FACTORY-01",
         "PLAN-VALIDATE-01",
-        "PLAN-INTEGRATE-01"
+        "PLAN-INTEGRATE-01",
+        "MODEL-FACTORY-REVIEW-01"
       ],
       "rust_tests": [
         "All concrete factories/defaults/ESet, initializer dispatch, ownership, refs, derived operations and constraints"
@@ -2854,7 +2855,7 @@
       ],
       "description": "Inventory MIGRATION-ID pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "READY",
+      "state": "ACTIVE",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/MIGRATION-ID"
@@ -2873,7 +2874,16 @@
       ],
       "completion_evidence": [],
       "blockers": [],
-      "lease": null
+      "lease": {
+        "holder": "root",
+        "writable_boundary": [
+          "porting/area-inventories/MIGRATION-ID"
+        ],
+        "status": "ACTIVE",
+        "release_mode": "EXPLICIT_ONLY",
+        "recorded_at_utc": "2026-10-22T23:29:08.312057+00:00",
+        "acknowledgement": "Same root integrator explicitly ACKs scoped source-only inventory lease after current live Git inspection. Boundary porting/area-inventories/MIGRATION-ID only; no compiler/upstream/GUI/network authority."
+      }
     },
     "MIGRATION-ID-IMPLEMENT-01": {
       "area_ids": [
@@ -4807,7 +4817,7 @@
       ],
       "description": "Commit/freeze the active plan, reconcile test pointers, validate evidence and update the existing draft PR; keep implementation running.",
       "kind": "SOURCE_PREPARATION",
-      "state": "ACTIVE",
+      "state": "DONE",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/EXECUTION-PLAN.md",
@@ -4831,7 +4841,15 @@
       "acceptance": [
         "Bounded item output and exclusions explicit; source hashes and independent review required before integration."
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        {
+          "path": "porting/EXECUTION-PLAN.md",
+          "kind": "source",
+          "status": "RECORDED",
+          "scope": "Validated ACTIVE eighteen-area plan committed and published in draft PR1 at exact freeze b4d0179380df8f1864835b59a215d3979c900ab3. Provider publication receipt is retained separately.",
+          "revision": "b4d0179380df8f1864835b59a215d3979c900ab3"
+        }
+      ],
       "blockers": [],
       "lease": {
         "holder": "root",
@@ -4843,10 +4861,48 @@
           "porting/PARITY-LEDGER.json",
           "porting/MILESTONES.json"
         ],
+        "status": "RELEASED",
+        "release_mode": "EXPLICIT_ONLY",
+        "recorded_at_utc": "2026-10-22T23:29:08.312057+00:00",
+        "acknowledgement": "Root explicitly releases this completed plan-freeze/publication item after push exit0 and provider-confirmed draft PR head b4d0179380df8f1864835b59a215d3979c900ab3. Backlog maintenance remains serialized by the same integrator; no competing writer."
+      }
+    },
+    "MODEL-FACTORY-REVIEW-01": {
+      "area_ids": [
+        "MODEL"
+      ],
+      "description": "Independent static review and prepared unrun regression harness for exact raw-factory candidate e075dd949ac49f2cb8751624f039d870de1a2e6b; no runtime qualification.",
+      "kind": "QUALIFICATION",
+      "state": "ACTIVE",
+      "owner_lane": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "depends_on": [],
+      "authorization_scope": "Renewed source/Python clearance only. Existing validator own ordinary checkpoint passed at1e09e567a clean. No Cargo/compiler/upstream/GUI/network/admin execution.",
+      "next_action": "Read exact candidate source and pinned Java/metamodel contracts, prepare independent regressions without running them; report confirmed defects and source limits.",
+      "rust_tests": [
+        "Prepared independent factory regressions; NOT_RUN until explicit parent compiler allocation and exact reviewed command."
+      ],
+      "upstream_tests": [
+        "Pinned source comparison only; no upstream execution authorized by this item."
+      ],
+      "acceptance": [
+        "Independent static findings identify exact candidate/source paths and distinguish confirmed source defects from unrun regression hypotheses. Static acceptance cannot establish runtime parity."
+      ],
+      "completion_evidence": [],
+      "blockers": [],
+      "lease": {
+        "holder": "validation",
+        "writable_boundary": [
+          "porting/validation/factory-review-01",
+          "rust/validation/factory"
+        ],
         "status": "ACTIVE",
         "release_mode": "EXPLICIT_ONLY",
-        "recorded_at_utc": "2026-10-22T23:17:52.934223+00:00",
-        "acknowledgement": "Same integrator own default checkpoint passed; root plan/integration write lease renewed under staged source/Python clearance; no Cargo/network grant inferred."
+        "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+        "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
       }
     }
   },
@@ -4865,6 +4921,16 @@
       "event": "PLAN_VALIDATOR_INTEGRATED",
       "recorded_at_utc": "2026-10-22T23:27:19.668710+00:00",
       "detail": "Released independent checker/tests/evidence integrated at 70381f751079363d944fb95478c00636000bf51e from original1e09e567a. Initial schema failure and partial adaptation preserved. Area statuses unchanged; no compilation/GUI allocation."
+    },
+    {
+      "event": "PLAN_PUBLISHED_NEXT_SOURCE_ITEM_PULLED",
+      "recorded_at_utc": "2026-10-22T23:29:08.312057+00:00",
+      "detail": "Validated plan freeze b4d0179380df8f1864835b59a215d3979c900ab3 published; provider confirms existing PR1 draft/open/unmerged. Root explicitly releases PLAN-INTEGRATE-01 and ACKs MIGRATION-ID-INVENTORY-01 source-only lease. No compiler/GUI allocation."
+    },
+    {
+      "event": "NEXT_INDEPENDENT_SOURCE_REVIEW_LEASED",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "detail": "Same clean validator checkpoint/ACK received; MODEL-FACTORY-REVIEW-01 exact two-path source-only lease granted. Existing MODEL-RAW-FACTORY-01 remains BLOCKED pending independent/runtime qualification; no compiler slots inferred."
     }
   ]
 }

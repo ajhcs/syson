@@ -1,0 +1,4 @@
+Command: PYTHONDONTWRITEBYTECODE=1 python3 rust/validation/scripts/check_execution_backlog.py
+Exit: 1
+EXECUTION BACKLOG INVALID: MIGRATION-ID: available work lacks next_ready_item
+Cause: root set next_ready_item null while inventory became ACTIVE; schema permits/needs a pointer to READY or ACTIVE work. Exact command start/end UTC was not captured.
