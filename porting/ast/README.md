@@ -2,7 +2,9 @@
 
 `rust/crates/syson-ast` implements generic construction operations as a standalone, std-only Rust crate. This is a bounded Stage 1 implementation of the source plan in `porting/source-map/syside-source/AST-VALUE-CONVERSION.md`. It does not consume a grammar or CST and does not change an existing recognition result's `SemanticStatus`.
 
-The completed `Arena` is immutable through its public API. Node IDs remain stable, including after rollback: failed branches consume IDs and work budget, and cannot alias a later node. Nodes expose scalar, node, flat array and unresolved-reference fields. A missing field is `Slot::Absent`; explicit `Value::Null` remains a present field. Optional raw lexemes retain both UTF-8 byte and UTF-16 code-unit ranges. An absent lexeme permits genuinely synthetic values; it does not assert a source token existed. `Number(f64)` is an input value slot, not an implementation of JavaScript Number parsing or formatting.
+The completed `Arena` is immutable through its public API. Node IDs are owner-qualified and remain stable, including after rollback: failed branches consume IDs and work budget, and cannot alias a later node. Nodes expose scalar, node, flat array and unresolved-reference fields. A missing field is `Slot::Absent`; explicit `Value::Null` remains a present field. Optional raw lexemes retain both UTF-8 byte and UTF-16 code-unit ranges. An absent lexeme permits genuinely synthetic values; it does not assert a source token existed. `Number(f64)` is an input value slot, not an implementation of JavaScript Number parsing or formatting.
+
+Builder::new returns Result so owner-namespace exhaustion fails explicitly. Numeric NodeId::value() is arena-local; only the private owner-qualified handle can access nodes. See OWNERSHIP-FIX.md for the independent-review regressions and fixed-version evidence.
 
 A builder supports nested transactions, node/datatype frames, `=`, `?=`, `+=`, action frame replacement, non-datatype subrule adoption, zero-length composite-CST assignment suppression, source-first array merge and caller-declared reflection defaults. Arrays default when their prior slot is not an array; booleans default only when absent, preserving explicit null. Default metadata is deduplicated by first property name, but inheritance calculation/type-index semantics remain the caller's obligation. Unknown types are rejected rather than invented.
 
@@ -46,4 +48,6 @@ CARGO_TARGET_DIR="${SYSON_BUILD_DIR}/ast" CARGO_BUILD_JOBS=1 cargo clippy --offl
 cargo fmt --manifest-path rust/crates/syson-ast/Cargo.toml -- --check
 ```
 
-`native-run.json` records actual UTC intervals, exact code/input SHA256 values, tool versions, commands, exit codes and output hashes for the final 19-test run and checks. Committed outputs trim trailing empty lines and replace checkout/build path prefixes with `${SYSON_CHECKOUT}` and `${SYSON_BUILD_DIR}`; raw capture hashes remain separately recorded. The initial 14-test passing run is retained separately and is not the final source snapshot. No historical timing is inferred from Git commit time.
+The original `native-run.json` records actual UTC intervals, exact code/input SHA256 values, tool versions, commands, exit codes and output hashes for the final 19-test run and checks. Committed outputs trim trailing empty lines and replace checkout/build path prefixes with `${SYSON_CHECKOUT}` and `${SYSON_BUILD_DIR}`; raw capture hashes remain separately recorded. The initial 14-test passing run is retained separately and is not the final source snapshot. No historical timing is inferred from Git commit time.
+
+The fixed-version execution is recorded separately in `ownership-fix-run.json`; earlier 19-test evidence remains historical and unchanged.

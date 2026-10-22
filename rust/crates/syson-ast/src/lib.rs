@@ -5,15 +5,33 @@
 //! Behavioral references and limits are recorded in porting/ast/README.md.
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::{
-    atomic::{AtomicBool, Ordering},
+    atomic::{AtomicBool, AtomicU64, Ordering},
     Arc,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct NodeId(u64);
+pub struct NodeId {
+    owner: u64,
+    index: u64,
+}
+// Process-local identities never recycle, including after builder/arena destruction.
+// Exhaustion fails closed; no allocation address is used as an ownership identity.
+static NEXT_OWNER: AtomicU64 = AtomicU64::new(0);
+fn reserve_owner(counter: &AtomicU64) -> Result<u64, Error> {
+    let mut current = counter.load(Ordering::Relaxed);
+    loop {
+        let next = current
+            .checked_add(1)
+            .ok_or(Error::OwnerNamespaceExhausted)?;
+        match counter.compare_exchange_weak(current, next, Ordering::Relaxed, Ordering::Relaxed) {
+            Ok(_) => return Ok(current),
+            Err(actual) => current = actual,
+        }
+    }
+}
 impl NodeId {
     pub fn value(self) -> u64 {
-        self.0
+        self.index
     }
 }
 
@@ -164,6 +182,8 @@ pub enum Error {
     Budget,
     InvalidSpan,
     UnknownNode(NodeId),
+    ForeignOwner(NodeId),
+    OwnerNamespaceExhausted,
     UnknownType(String),
     DuplicateType(String),
     NoFrame,
@@ -201,6 +221,7 @@ struct State {
 
 /// Only this builder mutates objects. Complete arenas expose no mutable references.
 pub struct Builder {
+    owner: u64,
     reflection: Reflection,
     limits: Limits,
     cancel: Arc<AtomicBool>,
@@ -209,15 +230,20 @@ pub struct Builder {
     state: State,
 }
 impl Builder {
-    pub fn new(reflection: Reflection, limits: Limits, cancel: Arc<AtomicBool>) -> Self {
-        Self {
+    pub fn new(
+        reflection: Reflection,
+        limits: Limits,
+        cancel: Arc<AtomicBool>,
+    ) -> Result<Self, Error> {
+        Ok(Self {
+            owner: reserve_owner(&NEXT_OWNER)?,
             reflection,
             limits,
             cancel,
             work: 0,
             next_id: 0,
             state: State::default(),
-        }
+        })
     }
     fn charge(&mut self, n: usize) -> Result<(), Error> {
         if self.cancel.load(Ordering::Relaxed) {
@@ -246,9 +272,15 @@ impl Builder {
         }
     }
     pub fn node(&self, id: NodeId) -> Result<&Node, Error> {
+        if id.owner != self.owner {
+            return Err(Error::ForeignOwner(id));
+        }
         self.state.nodes.get(&id).ok_or(Error::UnknownNode(id))
     }
     fn node_mut(&mut self, id: NodeId) -> Result<&mut Node, Error> {
+        if id.owner != self.owner {
+            return Err(Error::ForeignOwner(id));
+        }
         self.state.nodes.get_mut(&id).ok_or(Error::UnknownNode(id))
     }
     pub fn allocate(
@@ -265,7 +297,10 @@ impl Builder {
         if self.state.nodes.len() >= self.limits.max_nodes {
             return Err(Error::Budget);
         }
-        let id = NodeId(self.next_id);
+        let id = NodeId {
+            owner: self.owner,
+            index: self.next_id,
+        };
         self.next_id = self.next_id.checked_add(1).ok_or(Error::Budget)?;
         self.state.nodes.insert(
             id,
@@ -378,6 +413,9 @@ impl Builder {
     ) -> Result<(), Error> {
         self.charge(1 + feature.len())?;
         self.node(id)?;
+        if op == Assignment::Append && matches!(value.value, Value::Array(_)) {
+            return Err(Error::NestedContainmentArray);
+        }
         self.validate_datum(&value)?;
         let fields = &mut self.node_mut(id)?.fields;
         match op {
@@ -606,6 +644,7 @@ impl Builder {
         self.state.nodes.retain(|id, _| seen.contains(id));
         self.state.cst.retain(|_, id| seen.contains(id));
         Ok(Arena {
+            owner: self.owner,
             root,
             nodes: self.state.nodes,
             cst: self.state.cst,
@@ -614,6 +653,7 @@ impl Builder {
 }
 #[derive(Clone, Debug)]
 pub struct Arena {
+    owner: u64,
     root: NodeId,
     nodes: BTreeMap<NodeId, Node>,
     cst: BTreeMap<u64, NodeId>,
@@ -623,6 +663,9 @@ impl Arena {
         self.root
     }
     pub fn node(&self, id: NodeId) -> Option<&Node> {
+        if id.owner != self.owner {
+            return None;
+        }
         self.nodes.get(&id)
     }
     pub fn nodes(&self) -> &BTreeMap<NodeId, Node> {
@@ -630,5 +673,18 @@ impl Arena {
     }
     pub fn cst_element(&self, cst_id: u64) -> Option<NodeId> {
         self.cst.get(&cst_id).copied()
+    }
+}
+
+#[cfg(test)]
+mod owner_namespace_tests {
+    use super::*;
+    #[test]
+    fn namespace_exhaustion_never_wraps_or_reuses() {
+        let counter = AtomicU64::new(u64::MAX - 1);
+        assert_eq!(reserve_owner(&counter), Ok(u64::MAX - 1));
+        assert_eq!(reserve_owner(&counter), Err(Error::OwnerNamespaceExhausted));
+        assert_eq!(reserve_owner(&counter), Err(Error::OwnerNamespaceExhausted));
+        assert_eq!(counter.load(Ordering::Relaxed), u64::MAX);
     }
 }

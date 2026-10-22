@@ -1,0 +1,44 @@
+   Compiling syson-ast v0.1.0 (${SYSON_CHECKOUT}/rust/crates/syson-ast)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/ownership.rs (${SYSON_BUILD_DIR}/ast/debug/deps/ownership-e8f1e43a165f804b)
+
+running 4 tests
+test arena_lookup_rejects_foreign_and_dropped_builder_handles ... FAILED
+test foreign_merge_and_cst_association_are_rejected ... FAILED
+test foreign_assignment_cannot_mutate_same_index_node ... FAILED
+test foreign_root_cannot_finish_an_unrelated_builder ... FAILED
+
+failures:
+
+---- arena_lookup_rejects_foreign_and_dropped_builder_handles stdout ----
+
+thread 'arena_lookup_rejects_foreign_and_dropped_builder_handles' (694384) panicked at tests/ownership.rs:34:5:
+assertion failed: arena.node(foreign).is_none()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- foreign_merge_and_cst_association_are_rejected stdout ----
+
+thread 'foreign_merge_and_cst_association_are_rejected' (694386) panicked at tests/ownership.rs:21:5:
+assertion failed: b.associate_cst(1, foreign).is_err()
+
+---- foreign_assignment_cannot_mutate_same_index_node stdout ----
+
+thread 'foreign_assignment_cannot_mutate_same_index_node' (694385) panicked at tests/ownership.rs:13:5:
+assertion failed: b.assign(foreign, "injected", Assignment::Set,
+        Datum::new(Value::Null)).is_err()
+
+---- foreign_root_cannot_finish_an_unrelated_builder stdout ----
+
+thread 'foreign_root_cannot_finish_an_unrelated_builder' (694387) panicked at tests/ownership.rs:27:5:
+assertion failed: b.finish(foreign).is_err()
+
+
+failures:
+    arena_lookup_rejects_foreign_and_dropped_builder_handles
+    foreign_assignment_cannot_mutate_same_index_node
+    foreign_merge_and_cst_association_are_rejected
+    foreign_root_cannot_finish_an_unrelated_builder
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--test ownership`
