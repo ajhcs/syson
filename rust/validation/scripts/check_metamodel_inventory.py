@@ -22,7 +22,7 @@ def compare(node, record, location):
     for child, saved in zip(node, record['children']):
         position = ordinals[child.tag]
         ordinals[child.tag] += 1
-        compare(child, saved, f'{location}/{child.tag}.{position}')
+        compare(child, saved, f'{location}/@{child.tag}.{position}')
 
 
 def check(root, inventory):
