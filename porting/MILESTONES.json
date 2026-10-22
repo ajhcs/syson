@@ -83,12 +83,38 @@
       "evidence": [
         "porting/runs/parser-oracle-01/receipt.json"
       ]
+    },
+    {
+      "id": "AST-KERNEL-01",
+      "state": "complete_bounded",
+      "description": "Generic AST construction-operation kernel with independent regression review; grammar adapter, reflection integration, linking and semantic AST parity remain unimplemented.",
+      "evidence": [
+        "porting/validation/M8-INDEPENDENT-REVIEW.md",
+        "porting/validation/ast-review-01/receipt.json"
+      ]
+    },
+    {
+      "id": "PARSER-CORPUS-REFERENCE-01",
+      "state": "complete_bounded",
+      "description": "Twelve exact synthetic reference-only diagnostic-route observations captured once; native corpus comparison has not run.",
+      "evidence": [
+        "porting/runs/parser-corpus-01/index.json"
+      ]
+    },
+    {
+      "id": "EXECUTION-PLAN-01",
+      "state": "active",
+      "description": "Validate and publish the permanent eighteen-area plan/backlog, then continue scoped READY work; no full-area completion claimed.",
+      "evidence": [
+        "porting/EXECUTION-PLAN.md",
+        "porting/execution-backlog.json"
+      ]
     }
   ],
   "next_owned_milestone": {
-    "id": "SYNTAX-02",
-    "state": "preparation",
-    "owner": "source-map/syntax lane",
-    "scope": "Source-grounded AST/value-conversion design and subsequent implementation after independent syntax review; pinned parser reference remains separate from the Rust product."
+    "id": "EXECUTION-PLAN-01",
+    "state": "active",
+    "owner": "root integrator with existing independent validation lane",
+    "scope": "Finish independent backlog validation, commit/freeze the active eighteen-area plan and update existing draft PR. Then pull an explicit READY source item. SysON has zero allocated compiler slots."
   }
 }

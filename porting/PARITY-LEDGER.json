@@ -107,17 +107,25 @@
         "porting/source-map/behavior-boundaries.md"
       ],
       "rust_implementation": "rust/crates/syson-model/src/lib.rs",
-      "tests": [],
+      "tests": [
+        "rust/crates/syson-model/tests/model.rs",
+        "rust/crates/syson-model/tests/scalars.rs",
+        "rust/crates/syson-model/tests/creation_capabilities.rs"
+      ],
       "status": "implemented_bounded",
       "oracle": "unrun",
       "independent_review": "Bounded source-derived M4/M6 review accepted; see porting/validation.",
-      "limits": "Three constructors, polymorphic typing, local transactions and metadata-backed scalar edits; full operations/constraints/derived/reference semantics unported.",
+      "limits": "Three constructors, polymorphic typing, local transactions and metadata-backed scalar edits; full operations/constraints/derived/reference semantics unported. The newer raw factory candidate is separately pending independent review and is not promoted by these historical M7 results.",
       "bounded_subset": {
         "implementation": "rust/crates/syson-model",
         "review": "porting/validation/M2-INDEPENDENT-REVIEW.md",
         "full_semantics": "unported"
       },
-      "evidence": "porting/M7-CHECKPOINT.md"
+      "evidence": "porting/M7-CHECKPOINT.md",
+      "test_run_evidence": [
+        "porting/runs/M7/M7-integration-01/receipt.json",
+        "porting/runs/M7/M7-integration-01/syson-model.log"
+      ]
     },
     {
       "id": "PARSER",
@@ -138,7 +146,8 @@
       "oracle": "one byte-identical fixture accepted by upstream secondary CLI and Rust syntax recognizer; AST comparison unsupported",
       "independent_review": "M7 bounded syntax review accepted; AST, semantics and all735 per-rule parity dispositions remain unported.",
       "limits": "Full grammar-driven generalized syntax/CST, not upstream AST, linking, validation, recovery or import semantics.735 source-rule statuses remain UNPORTED.",
-      "evidence": "porting/M7-CHECKPOINT.md"
+      "evidence": "porting/M7-CHECKPOINT.md",
+      "additional_reference_observations": "porting/runs/parser-corpus-01/index.json: twelve additional reference-only observations; native corpus comparison has not run."
     },
     {
       "id": "UI",
@@ -149,7 +158,11 @@
         "porting/source-map/behavior-boundaries.md"
       ],
       "rust_implementation": "rust/crates/syson-web/src/lib.rs",
-      "tests": [],
+      "tests": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/browser-tests/authoring.cjs",
+        "rust/browser-tests/scalars.cjs"
+      ],
       "status": "implemented_bounded",
       "oracle": "unrun",
       "independent_review": "Bounded M5/M6 review and actual browser checks accepted; comprehensive UI parity remains unported.",
@@ -159,7 +172,11 @@
         "browser_smoke": "porting/runs/M2-browser.json",
         "upstream_equivalence": "unrun"
       },
-      "evidence": "porting/M7-CHECKPOINT.md"
+      "evidence": "porting/M7-CHECKPOINT.md",
+      "test_run_evidence": [
+        "porting/runs/M7/M7-integration-01/syson-web.log",
+        "porting/runs/M7/M7-browser-01/receipt.json"
+      ]
     },
     {
       "id": "LAYOUT",
