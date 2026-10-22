@@ -4,7 +4,7 @@
 use serde_json::Value;
 use std::{cell::RefCell, collections::BTreeMap};
 use syson_editor::{Diagram, Node, Point, prepare_rotation};
-use syson_metamodel::{ClassifierId, is_subtype};
+use syson_metamodel::ClassifierId;
 use syson_model::{
     AttributeBlock, AttributeDescriptor, AttributeError, Document, Editor, NodeIds, ScalarType,
     Transaction,
@@ -92,14 +92,8 @@ impl App {
                 let typing = allocated.next().unwrap();
                 let parent = field(request, "parent");
                 let name = field(request, "name");
-                if !parent.is_empty()
-                    && !self
-                        .editor
-                        .document()
-                        .inspect_node(parent)
-                        .is_ok_and(|info| supported_creation_parent(info.classifier))
-                {
-                    return Err("New elements can be added only to a package, part definition, or part usage.".into());
+                if !parent.is_empty() && !self.editor.document().can_create_in(parent) {
+                    return Err("This element cannot contain new elements in this editor.".into());
                 }
                 let definition = field(request, "definition");
                 if field(request, "kind") == "part_usage"
@@ -107,8 +101,7 @@ impl App {
                     && !self
                         .editor
                         .document()
-                        .inspect_node(definition)
-                        .is_ok_and(|info| info.classifier == ClassifierId::PartDefinition)
+                        .is_instance_of(definition, ClassifierId::PartDefinition)
                 {
                     return Err("Choose a supported part definition.".into());
                 }
@@ -285,14 +278,12 @@ impl App {
             let name = escape(element.name.as_deref().unwrap_or("(unnamed)"));
             let class = escape(&element.class);
             tree.push_str(&format!("<li><button type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button></li>",self.selected==element.element_id));
-            if let Ok(info) = doc.inspect_node(&element.element_id) {
-                if supported_creation_parent(info.classifier) {
-                    parent_options
-                        .push_str(&format!("<option value=\"{id}\">{name} · {class}</option>"));
-                }
-                if info.classifier == ClassifierId::PartDefinition {
-                    definitions.push_str(&format!("<option value=\"{id}\">{name}</option>"));
-                }
+            if doc.can_create_in(&element.element_id) {
+                parent_options
+                    .push_str(&format!("<option value=\"{id}\">{name} · {class}</option>"));
+            }
+            if doc.is_instance_of(&element.element_id, ClassifierId::PartDefinition) {
+                definitions.push_str(&format!("<option value=\"{id}\">{name}</option>"));
             }
             if !matches!(
                 element.class.as_str(),
@@ -371,14 +362,6 @@ impl App {
             y.max(250.)
         )
     }
-}
-/// Metadata ancestry alone does not implement membership construction. Keep
-/// offered contexts within the shared adapter's inspected creation contract.
-fn supported_creation_parent(classifier: ClassifierId) -> bool {
-    matches!(
-        classifier,
-        ClassifierId::Package | ClassifierId::PartDefinition | ClassifierId::PartUsage
-    ) && is_subtype(classifier, ClassifierId::Namespace)
 }
 /// Textarea APIs normalize line endings. Preserve the saved spelling when the
 /// submitted value is otherwise unchanged, rather than silently rewriting it.
@@ -1113,12 +1096,13 @@ mod tests {
         }
     }
     #[test]
-    fn creation_choices_do_not_advertise_unsupported_namespace_or_definition_subtypes() {
+    fn shared_capabilities_offer_imported_parents_and_commit_created_typed_children() {
         for class in ["ActionUsage", "AttributeDefinition", "ConnectionDefinition"] {
             let mut app = scalar_app(
                 class,
                 json!({"elementId":"element","declaredName":"imported"}),
             );
+            let original = app.editor.document().clone();
             let html = app.render();
             let parents = html
                 .split("<select id=\"parent\"")
@@ -1134,44 +1118,85 @@ mod tests {
                 .split("</select>")
                 .next()
                 .unwrap();
-            assert!(!parents.contains("value=\"element\""));
-            assert!(!definitions.contains("value=\"element\""));
-            let before = app.editor.document().clone();
+            assert!(parents.contains("value=\"element\""));
+            assert_eq!(
+                definitions.contains("value=\"element\""),
+                class == "ConnectionDefinition"
+            );
+            let mut request = create(0, "child");
+            request["fields"]["parent"] = json!("element");
+            request["fields"]["kind"] = json!("part_usage");
+            if class == "ConnectionDefinition" {
+                request["fields"]["definition"] = json!("element");
+            }
+            app.handle(&request).unwrap();
+            assert_eq!(*app.editor.document(), original);
+            app.handle(&json!({"action":"commit"})).unwrap();
+            let children = app.editor.document().elements();
+            assert!(
+                children
+                    .iter()
+                    .any(|e| e.class == "PartUsage" && e.name.as_deref() == Some("child"))
+            );
+            if class == "ActionUsage" {
+                assert_eq!(
+                    app.editor.document().element("element").unwrap()["data"]["ownedRelationship"]
+                        [0]["eClass"],
+                    "sysml:FeatureMembership"
+                );
+            }
+            if class == "ConnectionDefinition" {
+                let typing = children
+                    .iter()
+                    .find(|e| e.class == "FeatureTyping")
+                    .unwrap();
+                assert_eq!(
+                    app.editor.document().element(&typing.element_id).unwrap()["data"]["type"],
+                    "element"
+                );
+            }
+        }
+    }
+    #[test]
+    fn shared_capabilities_exclude_unknown_foreign_and_enum_imports_from_creation_and_typing() {
+        for class in [
+            "sysml:UnknownClass",
+            "foreign:ActionUsage",
+            "sysml:VisibilityKind",
+        ] {
+            let mut app = scalar_app(
+                "PartUsage",
+                json!({"elementId":"element","declaredName":"unsupported"}),
+            );
+            let mut value = app.editor.document().value().clone();
+            value["content"][0]["eClass"] = json!(class);
+            app.editor = Editor::new(Document::from_json(&value.to_string()).unwrap());
+            let original = app.editor.document().clone();
+            let html = app.render();
+            for selector in ["parent", "definition"] {
+                assert!(
+                    !html
+                        .split(&format!("<select id=\"{selector}\""))
+                        .nth(1)
+                        .unwrap()
+                        .split("</select>")
+                        .next()
+                        .unwrap()
+                        .contains("value=\"element\"")
+                );
+            }
             let mut request = create(0, "child");
             request["fields"]["parent"] = json!("element");
             assert!(app.handle(&request).is_err());
             assert!(app.pending.is_none());
-            assert_eq!(*app.editor.document(), before);
+            assert_eq!(*app.editor.document(), original);
+            request["fields"]["parent"] = json!("");
+            request["fields"]["kind"] = json!("part_usage");
+            request["fields"]["definition"] = json!("element");
+            assert!(app.handle(&request).is_err());
+            assert!(app.pending.is_none());
+            assert_eq!(*app.editor.document(), original);
         }
-        let mut app = scalar_app(
-            "PartDefinition",
-            json!({"elementId":"element","declaredName":"supported"}),
-        );
-        let html = app.render();
-        for selector in ["parent", "definition"] {
-            assert!(
-                html.split(&format!("<select id=\"{selector}\""))
-                    .nth(1)
-                    .unwrap()
-                    .split("</select>")
-                    .next()
-                    .unwrap()
-                    .contains("value=\"element\"")
-            );
-        }
-        let mut request = create(0, "child");
-        request["fields"]["parent"] = json!("element");
-        request["fields"]["kind"] = json!("part_usage");
-        request["fields"]["definition"] = json!("element");
-        app.handle(&request).unwrap();
-        app.handle(&json!({"action":"commit"})).unwrap();
-        assert!(
-            app.editor
-                .document()
-                .elements()
-                .iter()
-                .any(|e| e.class == "FeatureTyping")
-        );
     }
     #[test]
     fn multiline_string_controls_preserve_leading_newline_edits_and_unchanged_crlf() {
