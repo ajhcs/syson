@@ -77,7 +77,7 @@ def xml_declaration(node, location):
     children=[]
     for child in node:
         ordinal=counts[child.tag]; counts[child.tag]+=1
-        children.append(xml_declaration(child, location+'/'+child.tag+'.'+str(ordinal)))
+        children.append(xml_declaration(child, location+'/@'+child.tag+'.'+str(ordinal)))
     return {'tag':node.tag, 'attributes':dict(node.attrib), 'text':node.text,
             'tail':node.tail, 'source_location':location, 'children':children}
 metamodel=[]
