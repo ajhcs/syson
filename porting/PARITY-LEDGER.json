@@ -1,0 +1,282 @@
+{
+  "scope": "Milestone status overlay; source-map artifacts enumerate larger unassessed baseline surface. This is not a complete feature closure.",
+  "baseline": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "features": [
+    {
+      "id": "DOMAIN-NAME",
+      "feature": "Name matching, escaping and conflict filter",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/domain/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-domain/src/names.rs",
+      "tests": [
+        "rust/crates/syson-domain/tests/compatibility.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "Literal source behavior; adapter identity and Java string rules matter."
+    },
+    {
+      "id": "DOMAIN-ID",
+      "feature": "Stable standard-library UUIDv5",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/domain/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-domain/src/uuid.rs",
+      "tests": [
+        "rust/crates/syson-domain/tests/compatibility.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "Library branch only; no random-ID or entire resource adapter."
+    },
+    {
+      "id": "DOMAIN-QUERY",
+      "feature": "Qualified and unqualified name traversal",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/domain/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-domain/src/model.rs",
+      "tests": [
+        "rust/crates/syson-domain/tests/compatibility.rs"
+      ],
+      "status": "implemented_projection",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "Requires explicit relationship/class adapters; not EMF implementation."
+    },
+    {
+      "id": "EDITOR-ROTATE",
+      "feature": "Selected-node rotation and layout merge",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/frontend/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-editor/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-editor/tests/editor_contracts.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "Transport, asynchronous layout, history and renderer absent."
+    },
+    {
+      "id": "EDITOR-GEOMETRY",
+      "feature": "Leaf sizes and note appearance",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/frontend/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-editor/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-editor/tests/editor_contracts.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "Ordinary finite numeric inputs; number formatting incompatibilities remain."
+    },
+    {
+      "id": "MIGRATION-ID",
+      "feature": "Standard library semantic/diagram ID migrations",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/persistence/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-persistence/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-persistence/tests/migration_contracts.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "EMF resolution, JSON traversal, scheduling and database unported."
+    },
+    {
+      "id": "MODEL",
+      "feature": "Complete metamodel and semantic invariants",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "PARSER",
+      "feature": "Textual SysML/KerML parsing and semantic import",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "UI",
+      "feature": "Application shell and all editors",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "LAYOUT",
+      "feature": "Full diagram layout and routing",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "API",
+      "feature": "REST/GraphQL and subscriptions",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "DB",
+      "feature": "Database schema and persistence",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "RECOVERY",
+      "feature": "Crash recovery and integrity",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "HISTORY",
+      "feature": "Undo/redo and collaborative transaction history",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "ACCESSIBILITY",
+      "feature": "Keyboard/screen-reader application equivalence",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "EXPORT",
+      "feature": "All project/textual/archive interchange",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "EXTENSIONS",
+      "feature": "Inherited Sirius extensions and query expression semantics",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "DEPS",
+      "feature": "Resolved transitive dependency and license closure",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    }
+  ]
+}
