@@ -209,3 +209,58 @@ fn note_paths_and_faded_selection() {
     assert_eq!(style.container_opacity, Some(0.4));
     assert_eq!(style.outline, Some("selection"));
 }
+
+#[test]
+fn layout_merge_preserves_upstream_first_match_string_truthiness() {
+    let mut before = fixture();
+    before.nodes[0].id = "".into();
+    before.edges[0].source = "".into();
+    let mut laid = before.clone();
+    laid.nodes[0].position.x = 900.;
+    laid.edges[0].data = None;
+    let after = finish_rotation(&before, &laid, &selected(&["", "b"]));
+    assert_eq!(after.nodes[0], before.nodes[0]);
+    assert_eq!(after.edges[0], before.edges[0]);
+    let reversed = finish_rotation(&before, &laid, &selected(&["b", ""]));
+    assert_eq!(reversed.edges[0].data, None);
+}
+#[test]
+fn leaf_retention_comparison_preserves_nan_and_infinity_behavior() {
+    let base = LeafLayout {
+        resized_by_user: true,
+        measured_label_height: Some(f64::NAN),
+        previous_size: Size {
+            width: 100.,
+            height: 60.,
+        },
+        ..Default::default()
+    };
+    assert_eq!(layout_package_leaf(base).height, 60.);
+    assert!(
+        layout_package_leaf(LeafLayout {
+            forced_height: Some(1.),
+            ..base
+        })
+        .height
+        .is_nan()
+    );
+    assert!(
+        layout_package_leaf(LeafLayout {
+            previous_size: Size {
+                width: f64::NAN,
+                height: f64::NAN
+            },
+            ..base
+        })
+        .width
+        .is_nan()
+    );
+    assert_eq!(
+        layout_package_leaf(LeafLayout {
+            measured_label_height: Some(f64::INFINITY),
+            ..base
+        })
+        .height,
+        f64::INFINITY
+    );
+}

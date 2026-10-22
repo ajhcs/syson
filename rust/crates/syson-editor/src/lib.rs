@@ -88,14 +88,20 @@ pub fn finish_rotation<N: Clone, E: Clone>(
 ) -> Diagram<N, E> {
     let mut result = prepared.clone();
     for node in &mut result.nodes {
-        if selected.contains(&node.id)
+        if selected
+            .iter()
+            .find(|id| **id == node.id)
+            .is_some_and(|id| !id.is_empty())
             && let Some(updated) = laid_out.nodes.iter().find(|n| n.id == node.id)
         {
             *node = updated.clone();
         }
     }
     for edge in &mut result.edges {
-        if (selected.contains(&edge.source) || selected.contains(&edge.target))
+        if selected
+            .iter()
+            .find(|id| **id == edge.source || **id == edge.target)
+            .is_some_and(|id| !id.is_empty())
             && let Some(updated) = laid_out.edges.iter().find(|e| e.id == edge.id)
         {
             *edge = updated.clone();
@@ -144,12 +150,20 @@ pub fn layout_package_leaf(input: LeafLayout) -> Size {
     );
     Size {
         width: if input.resized_by_user && !js_truthy(input.forced_width) {
-            js_max(min_width, input.previous_size.width)
+            if min_width > input.previous_size.width {
+                min_width
+            } else {
+                input.previous_size.width
+            }
         } else {
             min_width
         },
         height: if input.resized_by_user && !js_truthy(input.forced_height) {
-            js_max(min_height, input.previous_size.height)
+            if min_height > input.previous_size.height {
+                min_height
+            } else {
+                input.previous_size.height
+            }
         } else {
             min_height
         },
