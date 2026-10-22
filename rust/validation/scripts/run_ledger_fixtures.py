@@ -21,6 +21,8 @@ def timestamp():
 
 
 def run(root, build_dir, implementation_revision, harness_revision, output_dir):
+    if not __debug__:
+        raise RuntimeError("Run evidence checks without Python optimization")
     def git(*args):
         return subprocess.check_output(['git', '-C', str(root), *args])
     def full_revision(value):
