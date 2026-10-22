@@ -72,8 +72,8 @@ resolved or globally validated. No random-ID source is selected by this crate.
 validates it, and replaces staged state only after success. An error poisons the
 whole transaction; commit then rejects it. Cancellation consumes staged state.
 Successful commit changes the document once and records one undo snapshot.
-No-op commit returns false and does not disturb history. Commit rejects stale
-revision/base documents. Undo/redo advance revision; a new successful edit clears
+No-op commit returns false and does not disturb history. Commit rejects transactions from another editor using a private instance token,
+and rejects stale revision/base documents. Undo/redo advance revision; a new successful edit clears
 redo. These are local in-memory snapshot rules, NOT proven Sirius transaction,
 remote concurrency, cancellation or persistence semantics. Memory use grows with
 full snapshots/history; no bound or production performance guarantee is claimed.

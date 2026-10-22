@@ -27,6 +27,7 @@ pub enum ModelError {
     },
     StaleTransaction,
     FailedTransaction,
+    ForeignTransaction,
     MissingMembership,
     UnexpectedMembership,
 }
@@ -312,6 +313,7 @@ pub struct Editor {
     undo: Vec<Document>,
     redo: Vec<Document>,
     revision: u64,
+    identity: std::sync::Arc<()>,
 }
 impl Editor {
     pub fn new(document: Document) -> Self {
@@ -320,6 +322,7 @@ impl Editor {
             undo: Vec::new(),
             redo: Vec::new(),
             revision: 0,
+            identity: std::sync::Arc::new(()),
         }
     }
     pub fn document(&self) -> &Document {
@@ -330,11 +333,15 @@ impl Editor {
             base: self.document.clone(),
             staged: self.document.clone(),
             revision: self.revision,
+            identity: self.identity.clone(),
             failed: false,
         }
     }
     /// Failed transactions are poisoned; no partial edits or history changes.
     pub fn commit(&mut self, transaction: Transaction) -> Result<bool> {
+        if !std::sync::Arc::ptr_eq(&self.identity, &transaction.identity) {
+            return Err(ModelError::ForeignTransaction);
+        }
         if transaction.failed {
             return Err(ModelError::FailedTransaction);
         }
@@ -375,6 +382,7 @@ pub struct Transaction {
     base: Document,
     staged: Document,
     revision: u64,
+    identity: std::sync::Arc<()>,
     failed: bool,
 }
 impl Transaction {

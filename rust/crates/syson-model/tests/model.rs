@@ -265,3 +265,14 @@ fn stable_ids_never_use_process_local_indices() {
     assert_eq!(summary.owner, Some(eid(1)));
     assert_ne!(summary.resource_id, summary.element_id);
 }
+
+#[test]
+fn transaction_cannot_commit_to_equivalent_other_editor() {
+    let source = Editor::new(Document::empty());
+    let mut destination = Editor::new(Document::empty());
+    let mut tx = source.begin();
+    tx.create_package(None, ids(1), None, "foreign").unwrap();
+    assert_eq!(destination.commit(tx), Err(ModelError::ForeignTransaction));
+    assert!(destination.document().elements().is_empty());
+    assert!(!destination.undo());
+}
