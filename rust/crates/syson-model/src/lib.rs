@@ -1,0 +1,511 @@
+// Copyright (c) 2024, 2026 Obeo.
+// This program and accompanying materials are made available under the terms
+// of the Eclipse Public License v2.0, https://www.eclipse.org/legal/epl-2.0/.
+// SPDX-License-Identifier: EPL-2.0
+// Contributors: Obeo - initial API and implementation
+// Rust adapter design and translation: SysON Rust port contributors.
+
+//! EMF JSON value-preserving adapter and proposed local edit transactions.
+//! Not a complete EMF implementation, database, REST API, or SysML semantic engine.
+#![forbid(unsafe_code)]
+use serde_json::{Value, json};
+use std::collections::{BTreeMap, BTreeSet};
+use syson_domain::model::{Element, ElementId, Model};
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ModelError {
+    Json(String),
+    Shape(String),
+    InvalidId(String),
+    DuplicateId(String),
+    MissingElement(String),
+    UnsupportedClass(String),
+    InvalidName,
+    WrongType {
+        element: String,
+        expected: &'static str,
+    },
+    StaleTransaction,
+    FailedTransaction,
+    MissingMembership,
+    UnexpectedMembership,
+}
+impl std::fmt::Display for ModelError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{self:?}")
+    }
+}
+impl std::error::Error for ModelError {}
+type Result<T> = std::result::Result<T, ModelError>;
+
+/// Separate UUIDs: EMF resource identity must not overwrite SysML elementId.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct NodeIds {
+    pub resource: String,
+    pub element: String,
+}
+impl NodeIds {
+    pub fn new(resource: &str, element: &str) -> Result<Self> {
+        for id in [resource, element] {
+            if id.len() != 36
+                || !id.bytes().enumerate().all(|(i, b)| {
+                    if [8, 13, 18, 23].contains(&i) {
+                        b == b'-'
+                    } else {
+                        b.is_ascii_hexdigit()
+                    }
+                })
+            {
+                return Err(ModelError::InvalidId(id.to_owned()));
+            }
+        }
+        Ok(Self {
+            resource: resource.to_owned(),
+            element: element.to_owned(),
+        })
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Document {
+    value: Value,
+}
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ElementSummary {
+    pub resource_id: String,
+    pub element_id: String,
+    pub class: String,
+    pub name: Option<String>,
+    pub owner: Option<String>,
+}
+impl Default for Document {
+    fn default() -> Self {
+        Self::empty()
+    }
+}
+impl Document {
+    pub fn empty() -> Self {
+        Self {
+            value: json!({"json":{"version":"1.0","encoding":"utf-8"},
+            "ns":{"sysml":"http://www.eclipse.org/syson/sysml"},"content":[]}),
+        }
+    }
+    pub fn from_json(input: &str) -> Result<Self> {
+        let value = serde_json::from_str(input).map_err(|e| ModelError::Json(e.to_string()))?;
+        let document = Self { value };
+        document.validate()?;
+        Ok(document)
+    }
+    pub fn to_json(&self) -> Result<String> {
+        serde_json::to_string_pretty(&self.value).map_err(|e| ModelError::Json(e.to_string()))
+    }
+    pub fn value(&self) -> &Value {
+        &self.value
+    }
+    pub fn element(&self, id: &str) -> Option<&Value> {
+        find_node(self.value.get("content")?.as_array()?, id)
+    }
+    /// Only containment, stable names and semantic owners; relationships included
+    /// in this listing carry no semantic owner just as base ElementImpl.getOwner.
+    pub fn elements(&self) -> Vec<ElementSummary> {
+        let mut out = Vec::new();
+        collect_summaries(
+            self.value["content"].as_array().unwrap(),
+            None,
+            false,
+            &mut out,
+        );
+        out
+    }
+    pub fn projection(&self) -> Result<Projection> {
+        let mut model = Model::default();
+        let mut stable_ids = Vec::new();
+        let mut handles = BTreeMap::new();
+        for root in self.value["content"].as_array().unwrap() {
+            project_node(root, None, &mut model, &mut stable_ids, &mut handles)?;
+        }
+        Ok(Projection {
+            model,
+            stable_ids,
+            handles,
+        })
+    }
+    fn validate(&self) -> Result<()> {
+        if !self.value.is_object()
+            || !self.value["json"].is_object()
+            || self.value["json"]["version"] != "1.0"
+            || self.value["ns"]["sysml"] != "http://www.eclipse.org/syson/sysml"
+        {
+            return Err(ModelError::Shape(
+                "expected SysON EMF JSON 1.0 envelope".into(),
+            ));
+        }
+        let content = self.value["content"]
+            .as_array()
+            .ok_or_else(|| ModelError::Shape("content must be array".into()))?;
+        let mut resources = BTreeSet::new();
+        let mut elements = BTreeSet::new();
+        validate_nodes(content, &mut resources, &mut elements)
+    }
+}
+/// Explicit mapping from process-local query handles to stable elementId strings.
+pub struct Projection {
+    pub model: Model,
+    stable_ids: Vec<String>,
+    handles: BTreeMap<String, ElementId>,
+}
+impl Projection {
+    pub fn stable_id(&self, id: ElementId) -> Option<&str> {
+        self.stable_ids.get(id.0).map(String::as_str)
+    }
+    pub fn handle(&self, stable_id: &str) -> Option<ElementId> {
+        self.handles.get(stable_id).copied()
+    }
+}
+fn validate_nodes(
+    nodes: &[Value],
+    resources: &mut BTreeSet<String>,
+    elements: &mut BTreeSet<String>,
+) -> Result<()> {
+    for node in nodes {
+        for key in ["id", "eClass"] {
+            if !node[key].is_string() || node[key].as_str() == Some("") {
+                return Err(ModelError::Shape(format!(
+                    "node.{key} must be nonempty string"
+                )));
+            }
+        }
+        if !node["data"].is_object()
+            || !node["data"]["elementId"].is_string()
+            || node["data"]["elementId"].as_str() == Some("")
+        {
+            return Err(ModelError::Shape(
+                "node.data.elementId must be nonempty string".into(),
+            ));
+        }
+        for (id, seen) in [
+            (node["id"].as_str().unwrap(), &mut *resources),
+            (node["data"]["elementId"].as_str().unwrap(), &mut *elements),
+        ] {
+            if !seen.insert(id.to_ascii_lowercase()) {
+                return Err(ModelError::DuplicateId(id.to_owned()));
+            }
+        }
+        for key in ["ownedRelationship", "ownedRelatedElement"] {
+            if let Some(value) = node["data"].get(key) {
+                let children = value
+                    .as_array()
+                    .ok_or_else(|| ModelError::Shape(format!("data.{key} must be array")))?;
+                validate_nodes(children, resources, elements)?;
+            }
+        }
+    }
+    Ok(())
+}
+fn find_node<'a>(nodes: &'a [Value], id: &str) -> Option<&'a Value> {
+    for node in nodes {
+        if node["data"]["elementId"].as_str() == Some(id) {
+            return Some(node);
+        }
+        for key in ["ownedRelationship", "ownedRelatedElement"] {
+            if let Some(children) = node["data"][key].as_array()
+                && let Some(found) = find_node(children, id)
+            {
+                return Some(found);
+            }
+        }
+    }
+    None
+}
+fn find_node_mut<'a>(nodes: &'a mut [Value], id: &str) -> Option<&'a mut Value> {
+    for node in nodes {
+        if node["data"]["elementId"].as_str() == Some(id) {
+            return Some(node);
+        }
+        // Search only the containment branch holding the ID to keep borrows disjoint.
+        let branch = ["ownedRelationship", "ownedRelatedElement"]
+            .into_iter()
+            .find(|key| {
+                node["data"][*key]
+                    .as_array()
+                    .is_some_and(|a| find_node(a, id).is_some())
+            });
+        if let Some(key) = branch {
+            return find_node_mut(node["data"][key].as_array_mut().unwrap(), id);
+        }
+    }
+    None
+}
+fn class(node: &Value) -> &str {
+    node["eClass"]
+        .as_str()
+        .unwrap()
+        .strip_prefix("sysml:")
+        .unwrap_or(node["eClass"].as_str().unwrap())
+}
+fn id(node: &Value) -> &str {
+    node["data"]["elementId"].as_str().unwrap()
+}
+fn collect_summaries(
+    nodes: &[Value],
+    owner: Option<&str>,
+    relationships: bool,
+    out: &mut Vec<ElementSummary>,
+) {
+    for node in nodes {
+        out.push(ElementSummary {
+            resource_id: node["id"].as_str().unwrap().into(),
+            element_id: id(node).into(),
+            class: class(node).into(),
+            name: node["data"]["declaredName"].as_str().map(str::to_owned),
+            owner: if relationships {
+                None
+            } else {
+                owner.map(str::to_owned)
+            },
+        });
+        if let Some(related) = node["data"]["ownedRelatedElement"].as_array() {
+            collect_summaries(related, owner, false, out);
+        }
+        if let Some(relations) = node["data"]["ownedRelationship"].as_array() {
+            collect_summaries(relations, Some(id(node)), true, out);
+        }
+    }
+}
+fn project_node(
+    node: &Value,
+    owner: Option<ElementId>,
+    model: &mut Model,
+    stable: &mut Vec<String>,
+    handles: &mut BTreeMap<String, ElementId>,
+) -> Result<()> {
+    let mut e = Element::new(class(node), node["data"]["declaredName"].as_str());
+    e.declared_short_name = node["data"]["declaredShortName"]
+        .as_str()
+        .map(str::to_owned);
+    e.is_namespace = matches!(
+        class(node),
+        "Namespace" | "Package" | "PartDefinition" | "PartUsage"
+    );
+    let handle = model
+        .insert(e, owner)
+        .map_err(|e| ModelError::Shape(format!("projection: {e:?}")))?;
+    stable.push(id(node).to_owned());
+    handles.insert(id(node).to_owned(), handle);
+    // Flatten every owned Relationship, not only Membership, as getOwnedElement.
+    if let Some(relationships) = node["data"]["ownedRelationship"].as_array() {
+        for relationship in relationships {
+            if let Some(related) = relationship["data"]["ownedRelatedElement"].as_array() {
+                for child in related {
+                    project_node(child, Some(handle), model, stable, handles)?;
+                }
+            }
+        }
+    }
+    Ok(())
+}
+
+/// Proposed local snapshot editor. No persistence/network/concurrency claim.
+#[derive(Debug)]
+pub struct Editor {
+    document: Document,
+    undo: Vec<Document>,
+    redo: Vec<Document>,
+    revision: u64,
+}
+impl Editor {
+    pub fn new(document: Document) -> Self {
+        Self {
+            document,
+            undo: Vec::new(),
+            redo: Vec::new(),
+            revision: 0,
+        }
+    }
+    pub fn document(&self) -> &Document {
+        &self.document
+    }
+    pub fn begin(&self) -> Transaction {
+        Transaction {
+            base: self.document.clone(),
+            staged: self.document.clone(),
+            revision: self.revision,
+            failed: false,
+        }
+    }
+    /// Failed transactions are poisoned; no partial edits or history changes.
+    pub fn commit(&mut self, transaction: Transaction) -> Result<bool> {
+        if transaction.failed {
+            return Err(ModelError::FailedTransaction);
+        }
+        if transaction.revision != self.revision || transaction.base != self.document {
+            return Err(ModelError::StaleTransaction);
+        }
+        transaction.staged.validate()?;
+        if transaction.staged == self.document {
+            return Ok(false);
+        }
+        self.undo
+            .push(std::mem::replace(&mut self.document, transaction.staged));
+        self.redo.clear();
+        self.revision += 1;
+        Ok(true)
+    }
+    pub fn undo(&mut self) -> bool {
+        if let Some(doc) = self.undo.pop() {
+            self.redo.push(std::mem::replace(&mut self.document, doc));
+            self.revision += 1;
+            true
+        } else {
+            false
+        }
+    }
+    pub fn redo(&mut self) -> bool {
+        if let Some(doc) = self.redo.pop() {
+            self.undo.push(std::mem::replace(&mut self.document, doc));
+            self.revision += 1;
+            true
+        } else {
+            false
+        }
+    }
+}
+#[derive(Debug)]
+pub struct Transaction {
+    base: Document,
+    staged: Document,
+    revision: u64,
+    failed: bool,
+}
+impl Transaction {
+    pub fn document(&self) -> &Document {
+        &self.staged
+    }
+    pub fn cancel(self) {}
+    pub fn create_package(
+        &mut self,
+        parent: Option<&str>,
+        ids: NodeIds,
+        membership: Option<NodeIds>,
+        name: &str,
+    ) -> Result<()> {
+        self.create(parent, ids, membership, "Package", name)
+    }
+    pub fn create_part_definition(
+        &mut self,
+        parent: &str,
+        ids: NodeIds,
+        membership: NodeIds,
+        name: &str,
+    ) -> Result<()> {
+        self.create(Some(parent), ids, Some(membership), "PartDefinition", name)
+    }
+    pub fn create_part_usage(
+        &mut self,
+        parent: &str,
+        ids: NodeIds,
+        membership: NodeIds,
+        name: &str,
+    ) -> Result<()> {
+        self.create(Some(parent), ids, Some(membership), "PartUsage", name)
+    }
+    fn create(
+        &mut self,
+        parent: Option<&str>,
+        ids: NodeIds,
+        membership: Option<NodeIds>,
+        kind: &str,
+        name: &str,
+    ) -> Result<()> {
+        self.apply(|doc| {
+            if name.is_empty() { return Err(ModelError::InvalidName); }
+            // NodeIds fields are public for ergonomic use, so validate again here.
+            NodeIds::new(&ids.resource,&ids.element)?;
+            let mut node=json!({"id":ids.resource,"eClass":format!("sysml:{kind}"),
+                "data":{"elementId":ids.element,"declaredName":name}});
+            if kind=="PartUsage" { node["data"]["isComposite"]=json!(true); }
+            let content=doc.value["content"].as_array_mut().unwrap();
+            if let Some(parent)=parent {
+                let membership=membership.ok_or(ModelError::MissingMembership)?;
+                NodeIds::new(&membership.resource,&membership.element)?;
+                let parent=find_node_mut(content,parent).ok_or_else(||ModelError::MissingElement(parent.into()))?;
+                let membership_kind=match class(parent) { "Package"=>"OwningMembership", "PartDefinition"|"PartUsage"=>if kind=="PartUsage" {"FeatureMembership"} else {"OwningMembership"},
+                    other=>return Err(ModelError::UnsupportedClass(other.into())) };
+                let relation=json!({"id":membership.resource,"eClass":format!("sysml:{membership_kind}"),
+                    "data":{"elementId":membership.element,"ownedRelatedElement":[node]}});
+                let data=parent["data"].as_object_mut().unwrap();
+                data.entry("ownedRelationship").or_insert_with(||json!([])).as_array_mut().unwrap().push(relation);
+            } else {
+                if membership.is_some() { return Err(ModelError::UnexpectedMembership); }
+                content.push(node);
+            }
+            doc.validate()
+        })
+    }
+    pub fn rename(&mut self, element: &str, name: &str) -> Result<()> {
+        self.apply(|doc| {
+            if name.is_empty() {
+                return Err(ModelError::InvalidName);
+            }
+            let node = find_node_mut(doc.value["content"].as_array_mut().unwrap(), element)
+                .ok_or_else(|| ModelError::MissingElement(element.into()))?;
+            if !matches!(class(node), "Package" | "PartDefinition" | "PartUsage") {
+                return Err(ModelError::UnsupportedClass(class(node).into()));
+            }
+            node["data"]["declaredName"] = json!(name);
+            Ok(())
+        })
+    }
+    pub fn type_part_usage(
+        &mut self,
+        usage: &str,
+        definition: &str,
+        typing: NodeIds,
+    ) -> Result<()> {
+        self.apply(|doc| {
+            NodeIds::new(&typing.resource, &typing.element)?;
+            let target = doc
+                .element(definition)
+                .ok_or_else(|| ModelError::MissingElement(definition.into()))?;
+            if class(target) != "PartDefinition" {
+                return Err(ModelError::WrongType {
+                    element: definition.into(),
+                    expected: "PartDefinition",
+                });
+            }
+            let node = find_node_mut(doc.value["content"].as_array_mut().unwrap(), usage)
+                .ok_or_else(|| ModelError::MissingElement(usage.into()))?;
+            if class(node) != "PartUsage" {
+                return Err(ModelError::WrongType {
+                    element: usage.into(),
+                    expected: "PartUsage",
+                });
+            }
+            let data = node["data"].as_object_mut().unwrap();
+            let relations = data
+                .entry("ownedRelationship")
+                .or_insert_with(|| json!([]))
+                .as_array_mut()
+                .unwrap();
+            relations.push(json!({"id":typing.resource,"eClass":"sysml:FeatureTyping",
+                "data":{"elementId":typing.element,"type":definition,"typedFeature":usage}}));
+            doc.validate()
+        })
+    }
+    fn apply(&mut self, operation: impl FnOnce(&mut Document) -> Result<()>) -> Result<()> {
+        if self.failed {
+            return Err(ModelError::FailedTransaction);
+        }
+        let mut next = self.staged.clone();
+        match operation(&mut next) {
+            Ok(()) => {
+                self.staged = next;
+                Ok(())
+            }
+            Err(e) => {
+                self.failed = true;
+                Err(e)
+            }
+        }
+    }
+}
