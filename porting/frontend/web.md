@@ -31,3 +31,7 @@ CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR="${SYSON_BUILD_DIR}/web" cargo build --offli
 Copy the resulting `wasm32-unknown-unknown/debug/syson_web.wasm` alongside `web/index.html`, `web/loader.js` and `web/style.css` in an isolated preview output directory under `${SYSON_BUILD_DIR}`. Preview requires an HTTP origin serving these static files; fetch of WASM from `file://` is not supported by this loader. Do not start a server or browser until the single integration owner releases the display/server lane. No server, browser, network/security changes or installation was performed by this lane during preparation.
 
 Five native adapter tests, strict clippy and a wasm32 build passed after integration with the shared model crate. Browser acceptance remains unrun; no server or display was launched. Source presence and compilation alone are not acceptance.
+
+## Rotated label containment
+
+The local SVG preview clips kind/name labels to each node's padded interior. After a 180-by-70 node is rotated to 70-by-180, its label clip is 46-by-164. Full escaped labels remain in SVG titles and the model list. A renderer regression test checks the narrow PartUsage/frontWheel case. Browser verification of this correction belongs to the integration owner's existing preview session; this lane does not launch a competing display.

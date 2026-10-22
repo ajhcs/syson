@@ -224,7 +224,7 @@ impl App {
         let mut definitions = String::from("<option value=\"\">No explicit definition</option>");
         let mut diagram = String::new();
         let mut y = 24.;
-        for element in &elements {
+        for (index, element) in elements.iter().enumerate() {
             let id = escape(&element.element_id);
             let name = escape(element.name.as_deref().unwrap_or("(unnamed)"));
             let class = escape(&element.class);
@@ -243,7 +243,11 @@ impl App {
             } else {
                 "#8193a4"
             };
-            diagram.push_str(&format!("<g><rect x=\"24\" y=\"{y}\" width=\"{width}\" height=\"{height}\" fill=\"white\" stroke=\"{stroke}\" stroke-width=\"2\"/><text x=\"36\" y=\"{}\" font-size=\"12\" fill=\"#465b6d\">{class}</text><text x=\"36\" y=\"{}\" font-size=\"14\">{name}</text></g>",y+22.,y+45.));
+            // Clip labels to the padded node interior, including after rotation.
+            // Preserve full strings in the title and the separate model list.
+            let clip_width = (width - 24.).max(0.);
+            let clip_height = (height - 16.).max(0.);
+            diagram.push_str(&format!("<g><title>{class}: {name}</title><rect x=\"24\" y=\"{y}\" width=\"{width}\" height=\"{height}\" fill=\"white\" stroke=\"{stroke}\" stroke-width=\"2\"/><defs><clipPath id=\"preview-label-{index}\"><rect x=\"36\" y=\"{}\" width=\"{clip_width}\" height=\"{clip_height}\"/></clipPath></defs><g clip-path=\"url(#preview-label-{index})\"><text x=\"36\" y=\"{}\" font-size=\"12\" fill=\"#465b6d\">{class}</text><text x=\"36\" y=\"{}\" font-size=\"14\">{name}</text></g></g>",y+8.,y+22.,y+45.));
             y += height + 24.;
         }
         if tree.is_empty() {
@@ -453,6 +457,35 @@ mod tests {
         assert_eq!(
             Document::from_json(&export).unwrap(),
             *app.editor.document()
+        );
+    }
+    #[test]
+    fn rotated_narrow_usage_labels_are_clipped_with_full_text_preserved() {
+        let mut app = App::default();
+        app.handle(&create(0, "Vehicle")).unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        let package = app.editor.document().elements()[0].element_id.clone();
+        let mut usage = create(1, "frontWheel");
+        usage["fields"]["kind"] = json!("part_usage");
+        usage["fields"]["parent"] = json!(package);
+        app.handle(&usage).unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        app.selected = app
+            .editor
+            .document()
+            .elements()
+            .into_iter()
+            .find(|e| e.class == "PartUsage")
+            .unwrap()
+            .element_id;
+        app.handle(&json!({"action":"rotate"})).unwrap();
+        let html = app.render();
+        assert!(html.contains("width=\"70\" height=\"180\""));
+        assert!(html.contains("<clipPath id=\"preview-label-1\"><rect x=\"36\" y=\"126\" width=\"46\" height=\"164\"/>"));
+        assert!(html.contains("<g clip-path=\"url(#preview-label-1)\">"));
+        assert!(html.contains("<title>PartUsage: frontWheel</title>"));
+        assert!(
+            html.contains("aria-pressed=\"true\">frontWheel<span class=\"kind\">PartUsage</span>")
         );
     }
     #[test]
