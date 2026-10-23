@@ -120,7 +120,7 @@
       "automation_created": false,
       "workaround_created": false
     },
-    "resume_entrypoint": "Read porting/EXECUTION-PLAN.md and execution-backlog.json; inspect live Git/worktree/lease state; resume same integrator and explicitly owned READY item. Never infer ownership release from inactivity."
+    "resume_entrypoint": "Read EXECUTION-PLAN.md/backlog and source-candidate-queue.json; inspect actual state, preserve held validation lease, obtain parent context clearance before resuming SAME validator, finish/release factory source review then grant exact review item after ACK. No root-owned READY item remains;12 READY inventories belong to existing other lanes and may not be awakened under root-only clearance. Compiler/GUI0; no automated wakeup guaranteed."
   },
   "areas": {
     "DOMAIN-NAME": {
@@ -736,7 +736,8 @@
         "MIGRATION-ID-QUALIFY-01",
         "PLAN-INVENTORY-01",
         "PLAN-VALIDATE-01",
-        "PLAN-INTEGRATE-01"
+        "PLAN-INTEGRATE-01",
+        "ROOT-SOURCE-INVENTORIES-REVIEW-01"
       ],
       "rust_tests": [
         "Complete map/URI/diagram traversal, corrupt input, no-load resolution and version boundaries"
@@ -1346,7 +1347,8 @@
         "API-QUALIFY-01",
         "PLAN-INVENTORY-01",
         "PLAN-VALIDATE-01",
-        "PLAN-INTEGRATE-01"
+        "PLAN-INTEGRATE-01",
+        "ROOT-SOURCE-INVENTORIES-REVIEW-01"
       ],
       "rust_tests": [
         "REST/GraphQL/subscriptions/serialization/errors, auth/authz/session/collaboration, cancel/retry"
@@ -1435,7 +1437,8 @@
         "DB-QUALIFY-01",
         "PLAN-INVENTORY-01",
         "PLAN-VALIDATE-01",
-        "PLAN-INTEGRATE-01"
+        "PLAN-INTEGRATE-01",
+        "ROOT-SOURCE-INVENTORIES-REVIEW-01"
       ],
       "rust_tests": [
         "Schema/migrations, atomic persistence, identity/proxy codecs, failures and concurrent isolation"
@@ -1525,7 +1528,8 @@
         "RECOVERY-QUALIFY-01",
         "PLAN-INVENTORY-01",
         "PLAN-VALIDATE-01",
-        "PLAN-INTEGRATE-01"
+        "PLAN-INTEGRATE-01",
+        "ROOT-SOURCE-INVENTORIES-REVIEW-01"
       ],
       "rust_tests": [
         "Crash boundaries, partial writes, integrity, retry/idempotency and bounded recovery outcomes"
@@ -1557,7 +1561,7 @@
           "status": "PENDING"
         }
       ],
-      "next_ready_item": "RECOVERY-INVENTORY-01"
+      "next_ready_item": null
     },
     "HISTORY": {
       "title": "Undo/redo and collaborative transaction history",
@@ -1624,7 +1628,8 @@
         "HISTORY-QUALIFY-01",
         "PLAN-INVENTORY-01",
         "PLAN-VALIDATE-01",
-        "PLAN-INTEGRATE-01"
+        "PLAN-INTEGRATE-01",
+        "ROOT-SOURCE-INVENTORIES-REVIEW-01"
       ],
       "rust_tests": [
         "Undo/redo, recording/commit boundaries, collaborative conflicts, cancellation and retry"
@@ -1656,7 +1661,7 @@
           "status": "PENDING"
         }
       ],
-      "next_ready_item": "HISTORY-INVENTORY-01"
+      "next_ready_item": null
     },
     "ACCESSIBILITY": {
       "title": "Keyboard/screen-reader application equivalence",
@@ -1831,7 +1836,8 @@
         "EXPORT-QUALIFY-01",
         "PLAN-INVENTORY-01",
         "PLAN-VALIDATE-01",
-        "PLAN-INTEGRATE-01"
+        "PLAN-INTEGRATE-01",
+        "ROOT-SOURCE-INVENTORIES-REVIEW-01"
       ],
       "rust_tests": [
         "All textual/EMF/project/archive/diagram formats, escaping, libraries, errors and interrupted transfers"
@@ -1863,7 +1869,7 @@
           "status": "PENDING"
         }
       ],
-      "next_ready_item": "EXPORT-INVENTORY-01"
+      "next_ready_item": null
     },
     "EXTENSIONS": {
       "title": "Inherited Sirius extensions and query expression semantics",
@@ -3855,14 +3861,14 @@
       ],
       "description": "Inventory RECOVERY pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "READY",
+      "state": "BLOCKED",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/RECOVERY"
       ],
       "depends_on": [],
       "authorization_scope": "Existing task source preparation and scoped repository writes only; no new runtime/package/credential/service authority.",
-      "next_action": "Inventory RECOVERY pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
+      "next_action": "Review source/failure boundaries, then prepare an exact separately authorized isolated runtime design.",
       "rust_tests": [
         "Static source/hash/schema checks; do not claim product runtime behavior."
       ],
@@ -3872,9 +3878,33 @@
       "acceptance": [
         "Bounded item output and exclusions explicit; source hashes and independent review required before integration."
       ],
-      "completion_evidence": [],
-      "blockers": [],
-      "lease": null
+      "completion_evidence": [
+        {
+          "path": "porting/area-inventories/RECOVERY/inventory.json",
+          "kind": "source",
+          "status": "RECORDED",
+          "scope": "Candidate15 pinned source refs/9 groups; commit/ack/reload/disposal guarantees unresolved,5 proposed failure cases NOT_RUN and not authorized.",
+          "revision": "67eff0d9d172c24d44d552655dd9e50e69f642a0"
+        }
+      ],
+      "blockers": [
+        {
+          "target": "porting/area-inventories/RECOVERY",
+          "action": "Distinct source review and approved exact durability/failure qualification design",
+          "reason": "Source candidate preserved; actual durable commit/ack/rollback/reload/retry behavior remains unqualified and no worker resume/fault execution granted.",
+          "status": "PENDING"
+        }
+      ],
+      "lease": {
+        "holder": "root",
+        "writable_boundary": [
+          "porting/area-inventories/RECOVERY"
+        ],
+        "status": "RELEASED",
+        "release_mode": "EXPLICIT_ONLY",
+        "recorded_at_utc": "2026-10-23T01:26:21.258977+00:00",
+        "acknowledgement": "Root explicitly releases preserved RECOVERY source candidate 67eff0d9d172c24d44d552655dd9e50e69f642a0 pending distinct acceptance, with no fault-injection or service authority."
+      }
     },
     "RECOVERY-IMPLEMENT-01": {
       "area_ids": [
@@ -3954,14 +3984,14 @@
       ],
       "description": "Inventory HISTORY pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "ACTIVE",
+      "state": "BLOCKED",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/HISTORY"
       ],
       "depends_on": [],
       "authorization_scope": "Existing task source preparation and scoped repository writes only; no new runtime/package/credential/service authority.",
-      "next_action": "Inventory HISTORY pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
+      "next_action": "Obtain distinct source review before accepting inventory or leasing native history implementation.",
       "rust_tests": [
         "Static source/hash/schema checks; do not claim product runtime behavior."
       ],
@@ -3971,17 +4001,32 @@
       "acceptance": [
         "Bounded item output and exclusions explicit; source hashes and independent review required before integration."
       ],
-      "completion_evidence": [],
-      "blockers": [],
+      "completion_evidence": [
+        {
+          "path": "porting/area-inventories/HISTORY/inventory.json",
+          "kind": "source",
+          "status": "RECORDED",
+          "scope": "Candidate66 pinned source refs and9 source contract groups; backend input-ID/client-stack distinctions explicit; no runtime/native full-area acceptance.",
+          "revision": "fff389bb50cb0a06c5d185e429d2f157959c5f17"
+        }
+      ],
+      "blockers": [
+        {
+          "target": "porting/area-inventories/HISTORY",
+          "action": "Distinct source review and exact semantic/representation/client lifecycle refinement",
+          "reason": "Source candidate preserved; independent review remains unavailable under worker context hold. Retention/restart/concurrency/native/runtime parity open.",
+          "status": "PENDING"
+        }
+      ],
       "lease": {
         "holder": "root",
         "writable_boundary": [
           "porting/area-inventories/HISTORY"
         ],
-        "status": "ACTIVE",
+        "status": "RELEASED",
         "release_mode": "EXPLICIT_ONLY",
-        "recorded_at_utc": "2026-10-23T01:20:42.945216+00:00",
-        "acknowledgement": "Same root integrator explicitly ACKs nonconflicting source-only HISTORY inventory after preserving and releasing DB candidate; no compiler/upstream/DB/GUI/worker execution."
+        "recorded_at_utc": "2026-10-23T01:23:51.335680+00:00",
+        "acknowledgement": "Root explicitly releases preserved HISTORY candidate fff389bb50cb0a06c5d185e429d2f157959c5f17 pending independent source acceptance; no runtime or implementation ownership transferred."
       }
     },
     "HISTORY-IMPLEMENT-01": {
@@ -4161,14 +4206,14 @@
       ],
       "description": "Inventory EXPORT pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "READY",
+      "state": "BLOCKED",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/EXPORT"
       ],
       "depends_on": [],
       "authorization_scope": "Existing task source preparation and scoped repository writes only; no new runtime/package/credential/service authority.",
-      "next_action": "Inventory EXPORT pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
+      "next_action": "Review source candidate, then close exact textual/archive/import wire and construct APIs before native implementation lease.",
       "rust_tests": [
         "Static source/hash/schema checks; do not claim product runtime behavior."
       ],
@@ -4178,9 +4223,33 @@
       "acceptance": [
         "Bounded item output and exclusions explicit; source hashes and independent review required before integration."
       ],
-      "completion_evidence": [],
-      "blockers": [],
-      "lease": null
+      "completion_evidence": [
+        {
+          "path": "porting/area-inventories/EXPORT/inventory.json",
+          "kind": "source",
+          "status": "RECORDED",
+          "scope": "Candidate53 source refs/9 contract groups/82 textual case declarations all UNPORTED; no export/import runtime, full inventory or parity acceptance.",
+          "revision": "c4d111fc055edf4f96e6ff8456a9f23f589214b5"
+        }
+      ],
+      "blockers": [
+        {
+          "target": "porting/area-inventories/EXPORT",
+          "action": "Distinct source review and exact serializer/archive/import fixture/API refinement",
+          "reason": "Source candidate preserved; original/native whole-format behavior and review remain pending under existing context/compiler limits.",
+          "status": "PENDING"
+        }
+      ],
+      "lease": {
+        "holder": "root",
+        "writable_boundary": [
+          "porting/area-inventories/EXPORT"
+        ],
+        "status": "RELEASED",
+        "release_mode": "EXPLICIT_ONLY",
+        "recorded_at_utc": "2026-10-23T01:30:09.900553+00:00",
+        "acknowledgement": "Root explicitly releases preserved EXPORT source candidate c4d111fc055edf4f96e6ff8456a9f23f589214b5 pending independent source acceptance; no serializer/archive/runtime ownership transferred."
+      }
     },
     "EXPORT-IMPLEMENT-01": {
       "area_ids": [
@@ -4991,6 +5060,45 @@
         "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
         "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
       }
+    },
+    "ROOT-SOURCE-INVENTORIES-REVIEW-01": {
+      "area_ids": [
+        "MIGRATION-ID",
+        "API",
+        "DB",
+        "HISTORY",
+        "RECOVERY",
+        "EXPORT"
+      ],
+      "description": "Distinct source-only review of six preserved root inventory candidates and their exact source/unsupported boundaries; not runtime or full-area acceptance.",
+      "kind": "QUALIFICATION",
+      "state": "BLOCKED",
+      "owner_lane": "validation",
+      "writable_boundary": [
+        "porting/validation/root-inventories-review-01"
+      ],
+      "depends_on": [],
+      "authorization_scope": "Source-only qualification after parent permits resuming same existing validator and current held item is explicitly released; no compiler/upstream/application/DB/GUI/network or new context.",
+      "next_action": "After existing context clearance/release, review exact six pinned candidate blobs from porting/runs/execution-plan-01/source-candidate-queue.json; request exact one-directory lease/ACK first. Candidate source items await this review, so no dependency on their DONE state.",
+      "rust_tests": [
+        "No Rust execution required by this source review; do not replay unchanged runs."
+      ],
+      "upstream_tests": [
+        "Compare cached exact source declarations/selected contracts; no upstream runtime or artifact resolution."
+      ],
+      "acceptance": [
+        "Report source/hash/contract mistakes and unresolved surfaces per candidate; distinguish bounded source acceptance from full inventory/runtime/parity acceptance."
+      ],
+      "completion_evidence": [],
+      "blockers": [
+        {
+          "target": "existing validation context",
+          "action": "Parent clearance to resume same existing context after current factory source-review scope checkpoint/release",
+          "reason": "Root-only allocation prohibited waking workers. Existing validator lease is heldBLOCKED and cannot expire or be replaced.",
+          "status": "PENDING"
+        }
+      ],
+      "lease": null
     }
   },
   "history": [
@@ -5033,6 +5141,21 @@
       "event": "DB_CANDIDATE_PRESERVED_HISTORY_SOURCE_PULLED",
       "recorded_at_utc": "2026-10-23T01:20:42.945216+00:00",
       "detail": "DB source candidate 9d7a14dc2376d42537009688dbf3ac66f9d0dbc9 static-check52 refs/schema include graph passed; no DB ran. Root releases DB inventory scope pending distinct review and pulls HISTORY source-only scope. Earlier API-to-DB tested grant snapshot retained exactly; compiler allocation remains0 and validator heldBLOCKED."
+    },
+    {
+      "event": "HISTORY_CANDIDATE_PRESERVED_RECOVERY_SOURCE_PULLED",
+      "recorded_at_utc": "2026-10-23T01:23:51.335680+00:00",
+      "detail": "HISTORY source candidate fff389bb50cb0a06c5d185e429d2f157959c5f17 preserved; source refs matched pinned blobs/read bytes. Root explicitly releases its inventory boundary and pulls RECOVERY source-only scope. Independent acceptance still pending, validator heldBLOCKED, compiler allocation0."
+    },
+    {
+      "event": "RECOVERY_CANDIDATE_PRESERVED_EXPORT_SOURCE_PULLED",
+      "recorded_at_utc": "2026-10-23T01:26:21.258977+00:00",
+      "detail": "Root preserved/released RECOVERY source candidate 67eff0d9d172c24d44d552655dd9e50e69f642a0 and pulled its last assigned READY inventory, EXPORT, source-only. Independent acceptance and all runtime/fault cases remain pending. Validator heldBLOCKED; compiler/GUI allocation0."
+    },
+    {
+      "event": "ROOT_SOURCE_CANDIDATES_SEALED_REVIEW_QUEUE_BLOCKED",
+      "recorded_at_utc": "2026-10-23T01:30:09.900553+00:00",
+      "detail": "Six root-assigned inventories preserved as unaccepted source candidates; all root inventory source leases explicitly released. New exact source-only review item is BLOCKED under existing worker context hold, with no cyclic DONE prerequisite and no replacement/wakeup. No root-owned READY item remains. Global goal remains incomplete;18 original anchors and all parity statuses unchanged."
     }
   ]
 }
