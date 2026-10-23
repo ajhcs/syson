@@ -110,3 +110,43 @@ pub fn initialize_connection_definition_sufficient(&mut self,element:&str)
     })
 }
 }
+
+/// Source-bound document effect for pinned caseInterfaceDefinition only.
+/// Java's actual superclass chain inherits TypeImpl.setIsSufficient unchanged.
+/// This does NOT resolve EModelElement or relax generic attribute lookup.
+/// Notifications, eIsSet and cached native state remain unrepresented.
+impl Transaction {
+pub fn initialize_interface_definition_sufficient(&mut self,element:&str)
+ ->std::result::Result<(),ModelError> {
+    self.apply(|doc| {
+        use syson_metamodel::{self as registry,ClassifierId as C,FeatureKind,TypeReference};
+        let node=doc.element(element).ok_or_else(||ModelError::MissingElement(element.into()))?;
+        let class=super::scalar::node_classifier(node)?;
+        if class!=C::InterfaceDefinition {
+            return Err(ModelError::WrongType {element:element.into(),expected:"InterfaceDefinition"});
+        }
+        let found=registry::inherited_feature(class,"isSufficient");
+        let feature=found.unique();
+        let expected_external="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EModelElement";
+        let proven=feature.is_some_and(|f|
+            f.owner==C::Type && f.name()=="isSufficient" && f.kind()==FeatureKind::Attribute
+            && f.typed().lower_bound()==1 && f.typed().upper_bound()==1
+            && matches!(f.typed().type_reference(),Some(TypeReference::External {
+                raw:"ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"}))
+            && f.changeable() && !f.derived() && !f.is_id()
+            && !f.unsettable() && !f.volatile() && !f.transient()
+            && f.explicit_default_literal()==Some("false"))
+            && found.unresolved_supertypes.len()==1
+            && found.unresolved_supertypes[0].raw()==expected_external;
+        if !proven {
+            return Err(ModelError::Attribute(super::AttributeError::UnresolvedAttributeSemantics {
+                feature:"isSufficient".into(),
+                external_supertypes:found.unresolved_supertypes.iter().map(|r|r.raw().into()).collect(),
+            }));
+        }
+        let node=super::find_node_mut(doc.value["content"].as_array_mut().unwrap(),element).unwrap();
+        node["data"]["isSufficient"]=Value::Bool(true);
+        doc.validate()
+    })
+}
+}

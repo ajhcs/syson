@@ -194,3 +194,8 @@ impl Context for NativeContext {
 mod connection_definition;
 #[cfg(feature = "raw-factory-candidate")]
 pub use connection_definition::{initialize_connection_definition,ConnectionHelperReport,ConnectionHelperError,ConnectionHelperCause};
+
+#[cfg(feature="raw-factory-candidate")]
+mod interface_definition;
+#[cfg(feature="raw-factory-candidate")]
+pub use interface_definition::{initialize_interface_definition,InterfaceHelperCause,InterfaceHelperReport,InterfaceHelperError};
