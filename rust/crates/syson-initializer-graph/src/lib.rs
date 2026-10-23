@@ -204,3 +204,8 @@ pub use interface_definition::{initialize_interface_definition,InterfaceHelperCa
 mod accept_action;
 #[cfg(feature="raw-factory-candidate")]
 pub use accept_action::{initialize_accept_action,AcceptActionHelperCause,AcceptActionHelperReport,AcceptActionHelperError};
+
+#[cfg(feature="raw-factory-candidate")]
+mod port_definition;
+#[cfg(feature="raw-factory-candidate")]
+pub use port_definition::{initialize_port_definition,PortDefinitionHelperCause,PortDefinitionHelperReport,PortDefinitionHelperError};

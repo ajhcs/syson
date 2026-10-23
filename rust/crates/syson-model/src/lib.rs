@@ -557,3 +557,8 @@ pub mod factory;
 mod raw_admission;
 #[cfg(feature = "raw-factory-candidate")]
 pub use raw_admission::{attach_raw_selected, RawAdmissionReport, RawAdmissionError};
+
+#[cfg(feature="raw-factory-candidate")]
+mod port_definition_refs;
+#[cfg(feature="raw-factory-candidate")]
+pub use port_definition_refs::PortDefinitionReference;
