@@ -862,7 +862,8 @@
         "PLAN-VALIDATE-01",
         "PLAN-INTEGRATE-01",
         "MODEL-FACTORY-REVIEW-01",
-        "MODEL-INITIALIZER-PLANNER-01"
+        "MODEL-INITIALIZER-PLANNER-01",
+        "MODEL-INITIALIZER-GRAPH-01"
       ],
       "rust_tests": [
         "All concrete factories/defaults/ESet, initializer dispatch, ownership, refs, derived operations and constraints"
@@ -916,7 +917,7 @@
           "status": "PENDING"
         }
       ],
-      "next_ready_item": "MODEL-INITIALIZER-PLANNER-01"
+      "next_ready_item": "MODEL-INITIALIZER-GRAPH-01"
     },
     "PARSER": {
       "title": "Textual SysML/KerML parsing and semantic import",
@@ -5145,6 +5146,50 @@
         "recorded_at_utc": "2026-10-23T03:58:55.041545+00:00",
         "acknowledgement": "Same clean integration checkout at e763257aa; root explicitly ACKs new three-path source-only scope under parent initializer direction. Existing factory candidate/validator lease remain unchanged; compiler/GUI0."
       }
+    },
+    "MODEL-INITIALIZER-GRAPH-01": {
+      "area_ids": [
+        "MODEL"
+      ],
+      "description": "Bounded native raw containment queries and snapshot-bound allocation-free scalar initializer staging.",
+      "kind": "IMPLEMENTATION",
+      "state": "ACTIVE",
+      "owner_lane": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph",
+        "porting/domain/initializer-graph",
+        "porting/runs/initializer-graph-01"
+      ],
+      "depends_on": [
+        "PLAN-INVENTORY-01"
+      ],
+      "authorization_scope": "Existing full Rust port; parent root-only source authorization and released frontend implementation ownership. No F1 or held validator writes. Compiler gate separately allocated, no GUI/workers.",
+      "next_action": "Seal/publish exact graph candidate and portable gate evidence; independently qualify before expanding factory/reference application. No compiler retained.",
+      "rust_tests": [
+        "ACTUAL9 native graph/staged editor owner regressions PASS in attempt01; no timeout/source changes. Independent/upstream acceptance pending."
+      ],
+      "upstream_tests": [
+        "Pinned source inspection only; Java/upstream execution not performed."
+      ],
+      "acceptance": [
+        "Exact raw containment-derived query paths and Membership versus OwningMembership distinction; no flattened owner guesses.",
+        "Typed scalar prefix replay and snapshot-bound staged application; atomic failure/cancel/stale/undo boundaries.",
+        "Allocation/reference/inverse/library/nonlocal/serialization and independent acceptance remain explicitly open."
+      ],
+      "completion_evidence": [],
+      "blockers": [],
+      "lease": {
+        "holder": "root",
+        "writable_boundary": [
+          "rust/crates/syson-initializer-graph",
+          "porting/domain/initializer-graph",
+          "porting/runs/initializer-graph-01"
+        ],
+        "status": "ACTIVE",
+        "release_mode": "EXPLICIT_ONLY",
+        "recorded_at_utc": "2026-10-23T05:13:26.787513+00:00",
+        "acknowledgement": "Root explicitly ACKs exact three-path new source scope after public API inspection and serialized non-overlap check. No existing model hook or factory/held review path edits."
+      }
     }
   },
   "history": [
@@ -5217,6 +5262,16 @@
       "event": "INITIALIZER_BOUNDED_TEST_GATE_RELEASED",
       "recorded_at_utc": "2026-10-23T04:50:23.298051+00:00",
       "detail": "Attempt01 compiled but abstract Expose fixture failed; fixture-only correction/source/freeze/streams retained. Attempt02 actual26pass04:37:08.920866..04:37:09.083653Z; allocation released promptly. Frozen inputs unchanged. F1/query/graph/application/independent/license/parity gates open."
+    },
+    {
+      "event": "MODEL_NATIVE_GRAPH_SOURCE_LEASED",
+      "recorded_at_utc": "2026-10-23T05:13:26.787513+00:00",
+      "detail": "Same integrator opens new raw graph/context/staging candidate using public model APIs; nine regressions NOT_RUN. Planner test freeze7c0 unchanged; no F1 or held validator mutation."
+    },
+    {
+      "event": "NATIVE_GRAPH_GATE_PASSED_COMPILER_RELEASED",
+      "recorded_at_utc": "2026-10-23T05:18:28.049433+00:00",
+      "detail": "Actual9pass05:17:14.254275..05:17:17.033925Z, one offline/locked job/thread, no timeout/input change. Allocation released promptly. Original graph and planner freezes preserved; NOTICE expanded only with separately recorded documentation delta. No parity/independent/F1 promotion."
     }
   ]
 }
