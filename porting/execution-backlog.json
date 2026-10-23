@@ -790,7 +790,7 @@
           "status": "PENDING"
         }
       ],
-      "next_ready_item": "MIGRATION-ID-INVENTORY-01"
+      "next_ready_item": null
     },
     "MODEL": {
       "title": "Complete metamodel and semantic invariants",
@@ -2855,14 +2855,14 @@
       ],
       "description": "Inventory MIGRATION-ID pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "ACTIVE",
+      "state": "BLOCKED",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/MIGRATION-ID"
       ],
       "depends_on": [],
       "authorization_scope": "Existing task source preparation and scoped repository writes only; no new runtime/package/credential/service authority.",
-      "next_action": "Inventory MIGRATION-ID pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
+      "next_action": "Review candidate source inventory and proposed pure control-node callback; preserve incomplete full-area inventory status.",
       "rust_tests": [
         "Static source/hash/schema checks; do not claim product runtime behavior."
       ],
@@ -2872,17 +2872,32 @@
       "acceptance": [
         "Bounded item output and exclusions explicit; source hashes and independent review required before integration."
       ],
-      "completion_evidence": [],
-      "blockers": [],
+      "completion_evidence": [
+        {
+          "path": "porting/area-inventories/MIGRATION-ID/inventory.json",
+          "kind": "source",
+          "status": "RECORDED",
+          "scope": "Candidate bounded direct-package inventory only;22 source refs/11 behavior groups, runtime and independent review pending.",
+          "revision": "66d2a04a246b7f010e50a29a829d67ecf6a79119"
+        }
+      ],
+      "blockers": [
+        {
+          "target": "porting/area-inventories/MIGRATION-ID",
+          "action": "Distinct independent source review before inventory acceptance/implementation lease",
+          "reason": "Candidate22 exact source refs/11 behavior groups committed, all full-runtime/inherited gaps explicit; not yet independently accepted.",
+          "status": "PENDING"
+        }
+      ],
       "lease": {
         "holder": "root",
         "writable_boundary": [
           "porting/area-inventories/MIGRATION-ID"
         ],
-        "status": "ACTIVE",
+        "status": "RELEASED",
         "release_mode": "EXPLICIT_ONLY",
-        "recorded_at_utc": "2026-10-22T23:29:08.312057+00:00",
-        "acknowledgement": "Same root integrator explicitly ACKs scoped source-only inventory lease after current live Git inspection. Boundary porting/area-inventories/MIGRATION-ID only; no compiler/upstream/GUI/network authority."
+        "recorded_at_utc": "2026-10-23T01:10:56.511534+00:00",
+        "acknowledgement": "Root explicitly releases candidate inventory boundary after preserving 66d2a04a246b7f010e50a29a829d67ecf6a79119; acceptance remains pending, no scope transferred."
       }
     },
     "MIGRATION-ID-IMPLEMENT-01": {
@@ -3594,7 +3609,7 @@
       ],
       "description": "Inventory API pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "READY",
+      "state": "ACTIVE",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/API"
@@ -3613,7 +3628,16 @@
       ],
       "completion_evidence": [],
       "blockers": [],
-      "lease": null
+      "lease": {
+        "holder": "root",
+        "writable_boundary": [
+          "porting/area-inventories/API"
+        ],
+        "status": "ACTIVE",
+        "release_mode": "EXPLICIT_ONLY",
+        "recorded_at_utc": "2026-10-23T01:10:56.511534+00:00",
+        "acknowledgement": "Same integrator inspected clean current Git state after scoped candidate commits and explicitly ACKs source-only API inventory boundary. No compiler/GUI/worker/network authority inferred."
+      }
     },
     "API-IMPLEMENT-01": {
       "area_ids": [
@@ -4554,7 +4578,7 @@
         "PARSER-CORPUS-REFERENCE-01"
       ],
       "authorization_scope": "Existing authorized Rust port scope, inspected cached dependencies, scoped writes and offline one-job builds; each upstream/external action retains its separate exact review gate.",
-      "next_action": "Compile the prepared Rust syntax observer, capture the same12 immutable fixtures and independently reconcile syntax versus semantic diagnostic outcomes.",
+      "next_action": "Obtain distinct independent review of committed capture without replaying unchanged runs; no new build authorized.",
       "rust_tests": [
         "Run the scoped source-derived native matrix; preserve failures, exact inputs, UTC and streams."
       ],
@@ -4564,12 +4588,20 @@
       "acceptance": [
         "Bounded item output and exclusions explicit; source hashes and independent review required before integration."
       ],
-      "completion_evidence": [],
+      "completion_evidence": [
+        {
+          "path": "porting/runs/parser-corpus-rust-01/fixtures/receipt.json",
+          "kind": "integration_run",
+          "status": "RECORDED",
+          "scope": "Twelve native observation processes exit0,9syntaxrecognized/3rejected; not twelve semantic tests. Source/binary/inputs/actualUTC/raw streams captured; independent review pending.",
+          "revision": "7f68681b0fc824bd64cc9a067e59dd159a924b35"
+        }
+      ],
       "blockers": [
         {
-          "target": "rust/tools/syntax-observe",
-          "action": "Request one global Cargo allocation through parent before compiling the preserved observer",
-          "reason": "Observer source prepared but never compiled; SysON allocated zero compilation slots. No old result may be replayed.",
+          "target": "porting/runs/parser-corpus-rust-01",
+          "action": "Distinct independent review of captured native/reference layering and source/binary/input evidence",
+          "reason": "One bounded build and12 native observations completed; allocation released. No independent acceptance yet; AST/semantics NotPerformed and no parity promotion.",
           "status": "PENDING"
         }
       ],
@@ -4579,10 +4611,10 @@
           "rust/tools/syntax-observe",
           "porting/runs/parser-corpus-rust-01"
         ],
-        "status": "ACTIVE",
+        "status": "RELEASED",
         "release_mode": "EXPLICIT_ONLY",
-        "recorded_at_utc": "2026-10-22T23:17:52.934223+00:00",
-        "acknowledgement": "Same integrator retains held blocked source lease; no compiler slot held."
+        "recorded_at_utc": "2026-10-23T01:10:56.511534+00:00",
+        "acknowledgement": "Root explicitly releases source/evidence boundary after preserving candidate 7f68681b0fc824bd64cc9a067e59dd159a924b35. Parent compiler/test allocation explicitly released immediately after fixture phase01:07:17.942676Z; no new compiler entitlement."
       }
     },
     "PARSER-REFLECTION-PREP-01": {
@@ -4873,7 +4905,7 @@
       ],
       "description": "Independent static review and prepared unrun regression harness for exact raw-factory candidate e075dd949ac49f2cb8751624f039d870de1a2e6b; no runtime qualification.",
       "kind": "QUALIFICATION",
-      "state": "ACTIVE",
+      "state": "BLOCKED",
       "owner_lane": "validation",
       "writable_boundary": [
         "porting/validation/factory-review-01",
@@ -4881,7 +4913,7 @@
       ],
       "depends_on": [],
       "authorization_scope": "Renewed source/Python clearance only. Existing validator own ordinary checkpoint passed at1e09e567a clean. No Cargo/compiler/upstream/GUI/network/admin execution.",
-      "next_action": "Read exact candidate source and pinned Java/metamodel contracts, prepare independent regressions without running them; report confirmed defects and source limits.",
+      "next_action": "Retain held ownership and source observations; do not wake or replace the validator under root-only clearance.",
       "rust_tests": [
         "Prepared independent factory regressions; NOT_RUN until explicit parent compiler allocation and exact reviewed command."
       ],
@@ -4892,7 +4924,14 @@
         "Independent static findings identify exact candidate/source paths and distinguish confirmed source defects from unrun regression hypotheses. Static acceptance cannot establish runtime parity."
       ],
       "completion_evidence": [],
-      "blockers": [],
+      "blockers": [
+        {
+          "target": "existing validation context",
+          "action": "Resume same held source-review context only after parent clearance permits it",
+          "reason": "Worker acknowledged earlier resource hold; source reads completed, no artifacts/harness writes or new defect confirmed. Latest allocation was root-only and explicitly forbids waking workers.",
+          "status": "PENDING"
+        }
+      ],
       "lease": {
         "holder": "validation",
         "writable_boundary": [
@@ -4931,6 +4970,11 @@
       "event": "NEXT_INDEPENDENT_SOURCE_REVIEW_LEASED",
       "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
       "detail": "Same clean validator checkpoint/ACK received; MODEL-FACTORY-REVIEW-01 exact two-path source-only lease granted. Existing MODEL-RAW-FACTORY-01 remains BLOCKED pending independent/runtime qualification; no compiler slots inferred."
+    },
+    {
+      "event": "BOUNDED_NATIVE_GATE_RELEASED_SOURCE_WORK_CONTINUES",
+      "recorded_at_utc": "2026-10-23T01:10:56.511534+00:00",
+      "detail": "Initial stale receipt refused before Cargo. Same parent allocation later built once01:05:46.094504..01:05:48.558695Z; refreshed fixture phase12 serial observations01:07:17.708038..01:07:17.942676Z; slot released promptly. Native evidence 7f68681b0fc824bd64cc9a067e59dd159a924b35 and migration candidate 66d2a04a246b7f010e50a29a829d67ecf6a79119 await distinct review. Explicit root source leases released; same root pulls API source inventory. Existing validator remains heldBLOCKED; no worker wake/fanout or new compilation."
     }
   ]
 }
