@@ -7,9 +7,11 @@ use serde_json::Value;
 use syson_initializer::*;
 use syson_metamodel::{self as mm, ClassifierId as C};
 use syson_model::{Document, Editor, ModelError};
+mod local_names;
+pub use local_names::{ReferenceEncoding, NameKind};
 
 #[derive(Debug)]
-pub enum Error { Gap(ContextGap), Model(ModelError), Cancelled, ClassMismatch, StalePlan }
+pub enum Error { Gap(ContextGap), Model(ModelError), Unresolved(ContextGap), Cancelled, ClassMismatch, StalePlan }
 impl From<ModelError> for Error { fn from(e:ModelError)->Self { Self::Model(e) } }
 fn gap(contract:&'static str, reason:impl Into<String>)->Error {
     Error::Gap(ContextGap { contract, reason:reason.into() })
@@ -93,21 +95,7 @@ impl Index {
         }
         Ok(count)
     }
-    fn effective_name(&self,id:&str)->Result<Option<String>,Error> {
-        let node=self.node(id)?;
-        // FeatureImpl.effectiveName, direct declaration branch only. Inherited
-        // implementation dispatch for non-Feature classes remains unresolved.
-        if !mm::is_subtype(node.classifier,C::Feature) { return Err(gap("effectiveName","non-Feature implementation dispatch unsupported")); }
-        let name=node.data.get("declaredName").filter(|v|!v.is_null());
-        let short=node.data.get("declaredShortName").filter(|v|!v.is_null());
-        if name.is_some() || short.is_some() {
-            return name.map(|v|v.as_str().map(str::to_owned).ok_or_else(||gap("effectiveName","declaredName is not a string"))).transpose();
-        }
-        if self.nodes.values().any(|n|n.container.as_ref().is_some_and(|(parent,f)|parent==id && *f=="ownedRelationship") && mm::is_subtype(n.classifier,C::Redefinition)) {
-            return Err(gap("effectiveName","owned Redefinition namingFeature resolution unsupported"));
-        }
-        Ok(None)
-    }
+
 }
 fn scalar(feature:ScalarFeature,value:&Scalar)->(&'static str,Value) {
     let name=match feature {
@@ -163,11 +151,11 @@ pub fn apply(editor:&mut Editor,prepared:&PreparedPlan,cancelled:bool)->Result<b
     if editor.document()!=&prepared.base { return Err(Error::StalePlan) }
     stage(editor,&prepared.root,&prepared.plan.steps)
 }
-pub struct NativeContext { document:Document, root:String, pub cancelled:bool }
+pub struct NativeContext { document:Document, root:String, pub cancelled:bool, pub reference_encoding:ReferenceEncoding }
 impl NativeContext {
     pub fn new(document:&Document,root:&str)->Result<Self,Error> {
         Index::new(document)?.node(root)?;
-        Ok(Self { document:document.clone(),root:root.into(),cancelled:false })
+        Ok(Self { document:document.clone(),root:root.into(),cancelled:false,reference_encoding:ReferenceEncoding::Disabled })
     }
     fn query<T>(&self,prefix:&[Step],f:impl FnOnce(&Index)->Result<T,Error>)->Resolution<T> {
         if self.cancelled { return Resolution::Unresolved(ContextGap {contract:"cancellation",reason:"cancelled".into()}) }
@@ -176,6 +164,7 @@ impl NativeContext {
         match result {
             Ok(value)=>Resolution::Known(value),
             Err(Error::Gap(g))=>Resolution::Unsupported(g),
+            Err(Error::Unresolved(g))=>Resolution::Unresolved(g),
             Err(other)=>Resolution::Unsupported(ContextGap {contract:"scalar prefix replay",reason:format!("{other:?}")}),
         }
     }
@@ -188,7 +177,7 @@ impl Context for NativeContext {
     fn owning_namespace(&mut self,p:&[Step])->Resolution<Option<ExternalObject>> { self.query(p,|i|Ok(external(i.owning_namespace(&self.root)?))) }
     fn exact_class_owned_member_count(&mut self,n:&ExternalObject,c:C,p:&[Step])->Resolution<u64> { self.query(p,|i|i.exact_class_owned_member_count(&n.0,c)) }
     fn is_instance_of(&mut self,o:&ExternalObject,c:C,p:&[Step])->Resolution<bool> { self.query(p,|i|Ok(mm::is_subtype(i.node(&o.0)?.classifier,c))) }
-    fn effective_name(&mut self,o:&ExternalObject,p:&[Step])->Resolution<Option<String>> { self.query(p,|i|i.effective_name(&o.0)) }
+    fn effective_name(&mut self,o:&ExternalObject,p:&[Step])->Resolution<Option<String>> { self.query(p,|i|i.effective_name_with_references(&o.0,NameKind::Name,self.reference_encoding)) }
     fn general_view_definition(&mut self,_:&[Step])->Resolution<Option<ExternalObject>> {
         Resolution::Unresolved(ContextGap {contract:"GeneralView lookup",reason:"no library/resource provider bound".into()})
     }
