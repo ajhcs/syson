@@ -199,3 +199,8 @@ pub use connection_definition::{initialize_connection_definition,ConnectionHelpe
 mod interface_definition;
 #[cfg(feature="raw-factory-candidate")]
 pub use interface_definition::{initialize_interface_definition,InterfaceHelperCause,InterfaceHelperReport,InterfaceHelperError};
+
+#[cfg(feature="raw-factory-candidate")]
+mod accept_action;
+#[cfg(feature="raw-factory-candidate")]
+pub use accept_action::{initialize_accept_action,AcceptActionHelperCause,AcceptActionHelperReport,AcceptActionHelperError};
