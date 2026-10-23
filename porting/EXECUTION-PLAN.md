@@ -122,7 +122,9 @@ The integrator serializes backlog changes and validates them before publication.
 - `MIGRATION-ID-INVENTORY-01`: source candidate is committed; root explicitly released its scope. Independent review is pending and full-area inventory remains incomplete.
 - `MODEL-FACTORY-REVIEW-01`: the same validator passed its clean checkpoint and ACKed the exact source-only review/harness paths. Static source reads completed, but the validator remains held BLOCKED by the resource/context hold. It has not been awakened under the root-only allocation; no review artifact or independent regression run is claimed.
 
-- `API-INVENTORY-01`: the same root integrator pulled source-only API contract inventory under its exact directory; implementation and inherited runtime closure remain separate.
+- `API-INVENTORY-01`: source candidate `20373462a` is committed with50 matching pinned source hashes; root lease explicitly released. Independent source review and auth/wire/runtime closure remain pending.
+- `DB-INVENTORY-01`: source candidate `9d7a14dc2` is committed with52 matching pinned source hashes and the captured29-document schema graph. Root lease explicitly released; no DB/runtime execution or compatibility claim.
+- `HISTORY-INVENTORY-01`: the same root integrator pulled source-only history/event contract inventory under its exact directory.
 
 The compilation cap is GLOBAL across projects: at most two one-job compiler processes, allocated by the parent coordinator. SysON currently has ZERO allocated Cargo/compiler slots and no compiler leases. Request one slot through the parent before any build; do not infer a grant from this plan or an earlier session. Source/Python validation continues without Cargo. Release capacity explicitly; parent owns monitoring and changes to allocation. Builds/caches/artifacts stay on the approved development volume; native HOME/CODEX state stays in place. Use one owned preview and isolated closed headless browser launches; no competing/shared GUI takeover.
 

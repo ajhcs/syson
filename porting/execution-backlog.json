@@ -1378,7 +1378,7 @@
           "status": "PENDING"
         }
       ],
-      "next_ready_item": "API-INVENTORY-01"
+      "next_ready_item": null
     },
     "DB": {
       "title": "Database schema and persistence",
@@ -1467,7 +1467,7 @@
           "status": "PENDING"
         }
       ],
-      "next_ready_item": "DB-INVENTORY-01"
+      "next_ready_item": null
     },
     "RECOVERY": {
       "title": "Crash recovery and integrity",
@@ -3609,14 +3609,14 @@
       ],
       "description": "Inventory API pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "ACTIVE",
+      "state": "BLOCKED",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/API"
       ],
       "depends_on": [],
       "authorization_scope": "Existing task source preparation and scoped repository writes only; no new runtime/package/credential/service authority.",
-      "next_action": "Inventory API pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
+      "next_action": "Obtain distinct source review, then close exact DTO/dispatcher and transport lifecycle subitems; no broad rewrite authority.",
       "rust_tests": [
         "Static source/hash/schema checks; do not claim product runtime behavior."
       ],
@@ -3626,17 +3626,32 @@
       "acceptance": [
         "Bounded item output and exclusions explicit; source hashes and independent review required before integration."
       ],
-      "completion_evidence": [],
-      "blockers": [],
+      "completion_evidence": [
+        {
+          "path": "porting/area-inventories/API/inventory.json",
+          "kind": "source",
+          "status": "RECORDED",
+          "scope": "Candidate50 exact source references/15fetcher declarations/4SDL/18documentedRESToperations; unlike units, not feature denominator; unresolved auth/wire/runtime closure explicit.",
+          "revision": "20373462a1bfea2f74fc500de22fd10083c4fcff"
+        }
+      ],
+      "blockers": [
+        {
+          "target": "porting/area-inventories/API",
+          "action": "Distinct independent source review and exact DTO/transport refinement",
+          "reason": "Source-only candidate50 pinned references/10 stable groups captured; no independent acceptance, auth/runtime/artifact closure or API implementation. Existing validator remains held under context hold.",
+          "status": "PENDING"
+        }
+      ],
       "lease": {
         "holder": "root",
         "writable_boundary": [
           "porting/area-inventories/API"
         ],
-        "status": "ACTIVE",
+        "status": "RELEASED",
         "release_mode": "EXPLICIT_ONLY",
-        "recorded_at_utc": "2026-10-23T01:10:56.511534+00:00",
-        "acknowledgement": "Same integrator inspected clean current Git state after scoped candidate commits and explicitly ACKs source-only API inventory boundary. No compiler/GUI/worker/network authority inferred."
+        "recorded_at_utc": "2026-10-23T01:16:40.043803+00:00",
+        "acknowledgement": "Root explicitly releases preserved API source candidate 20373462a1bfea2f74fc500de22fd10083c4fcff pending distinct review, without transferring implementation ownership."
       }
     },
     "API-IMPLEMENT-01": {
@@ -3717,14 +3732,14 @@
       ],
       "description": "Inventory DB pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "READY",
+      "state": "BLOCKED",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/DB"
       ],
       "depends_on": [],
       "authorization_scope": "Existing task source preparation and scoped repository writes only; no new runtime/package/credential/service authority.",
-      "next_action": "Inventory DB pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
+      "next_action": "Review source candidate then close exact duplicate/null/order/serializer/repository contracts before code lease.",
       "rust_tests": [
         "Static source/hash/schema checks; do not claim product runtime behavior."
       ],
@@ -3734,9 +3749,33 @@
       "acceptance": [
         "Bounded item output and exclusions explicit; source hashes and independent review required before integration."
       ],
-      "completion_evidence": [],
-      "blockers": [],
-      "lease": null
+      "completion_evidence": [
+        {
+          "path": "porting/area-inventories/DB/inventory.json",
+          "kind": "source",
+          "status": "RECORDED",
+          "scope": "Candidate schema/persistence source only;52 refs/29documents/28includes/20changeSets/9contractgroups, unlike units. No applied schema/runtime proof.",
+          "revision": "9d7a14dc2376d42537009688dbf3ac66f9d0dbc9"
+        }
+      ],
+      "blockers": [
+        {
+          "target": "porting/area-inventories/DB",
+          "action": "Distinct source review and exact aggregate/repository contract refinement",
+          "reason": "Candidate52 pinned source refs/schema graph and9 contract groups committed; no independent acceptance, DB execution or database implementation.",
+          "status": "PENDING"
+        }
+      ],
+      "lease": {
+        "holder": "root",
+        "writable_boundary": [
+          "porting/area-inventories/DB"
+        ],
+        "status": "RELEASED",
+        "release_mode": "EXPLICIT_ONLY",
+        "recorded_at_utc": "2026-10-23T01:20:42.945216+00:00",
+        "acknowledgement": "Root explicitly releases preserved DB source candidate 9d7a14dc2376d42537009688dbf3ac66f9d0dbc9; independent source acceptance remains pending, no database/runtime ownership transferred."
+      }
     },
     "DB-IMPLEMENT-01": {
       "area_ids": [
@@ -3915,7 +3954,7 @@
       ],
       "description": "Inventory HISTORY pinned behavior contracts, inherited surfaces, errors/cancel/retry and unresolved boundaries; split executable implementation items with exact APIs before code lease.",
       "kind": "SOURCE_PREPARATION",
-      "state": "READY",
+      "state": "ACTIVE",
       "owner_lane": "root",
       "writable_boundary": [
         "porting/area-inventories/HISTORY"
@@ -3934,7 +3973,16 @@
       ],
       "completion_evidence": [],
       "blockers": [],
-      "lease": null
+      "lease": {
+        "holder": "root",
+        "writable_boundary": [
+          "porting/area-inventories/HISTORY"
+        ],
+        "status": "ACTIVE",
+        "release_mode": "EXPLICIT_ONLY",
+        "recorded_at_utc": "2026-10-23T01:20:42.945216+00:00",
+        "acknowledgement": "Same root integrator explicitly ACKs nonconflicting source-only HISTORY inventory after preserving and releasing DB candidate; no compiler/upstream/DB/GUI/worker execution."
+      }
     },
     "HISTORY-IMPLEMENT-01": {
       "area_ids": [
@@ -4975,6 +5023,16 @@
       "event": "BOUNDED_NATIVE_GATE_RELEASED_SOURCE_WORK_CONTINUES",
       "recorded_at_utc": "2026-10-23T01:10:56.511534+00:00",
       "detail": "Initial stale receipt refused before Cargo. Same parent allocation later built once01:05:46.094504..01:05:48.558695Z; refreshed fixture phase12 serial observations01:07:17.708038..01:07:17.942676Z; slot released promptly. Native evidence 7f68681b0fc824bd64cc9a067e59dd159a924b35 and migration candidate 66d2a04a246b7f010e50a29a829d67ecf6a79119 await distinct review. Explicit root source leases released; same root pulls API source inventory. Existing validator remains heldBLOCKED; no worker wake/fanout or new compilation."
+    },
+    {
+      "event": "API_CANDIDATE_PRESERVED_DB_SOURCE_PULLED",
+      "recorded_at_utc": "2026-10-23T01:16:40.043803+00:00",
+      "detail": "API candidate 20373462a1bfea2f74fc500de22fd10083c4fcff source checks matched50 hashes; remains unaccepted pending distinct review. Root explicitly releases that source boundary and ACKs independent DB source inventory only. Existing validator remains heldBLOCKED; no new compiler/worker/database process."
+    },
+    {
+      "event": "DB_CANDIDATE_PRESERVED_HISTORY_SOURCE_PULLED",
+      "recorded_at_utc": "2026-10-23T01:20:42.945216+00:00",
+      "detail": "DB source candidate 9d7a14dc2376d42537009688dbf3ac66f9d0dbc9 static-check52 refs/schema include graph passed; no DB ran. Root releases DB inventory scope pending distinct review and pulls HISTORY source-only scope. Earlier API-to-DB tested grant snapshot retained exactly; compiler allocation remains0 and validator heldBLOCKED."
     }
   ]
 }
