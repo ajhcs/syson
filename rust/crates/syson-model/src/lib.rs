@@ -550,3 +550,10 @@ impl Transaction {
         }
     }
 }
+
+#[cfg(feature = "raw-factory-candidate")]
+pub mod factory;
+#[cfg(feature = "raw-factory-candidate")]
+mod raw_admission;
+#[cfg(feature = "raw-factory-candidate")]
+pub use raw_admission::{attach_raw_selected, RawAdmissionReport, RawAdmissionError};

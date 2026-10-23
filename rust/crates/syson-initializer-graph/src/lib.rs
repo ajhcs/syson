@@ -189,3 +189,8 @@ impl Context for NativeContext {
         Resolution::Unresolved(ContextGap {contract:"GeneralView lookup",reason:"no library/resource provider bound".into()})
     }
 }
+
+#[cfg(feature = "raw-factory-candidate")]
+mod connection_definition;
+#[cfg(feature = "raw-factory-candidate")]
+pub use connection_definition::{initialize_connection_definition,ConnectionHelperReport,ConnectionHelperError,ConnectionHelperCause};
