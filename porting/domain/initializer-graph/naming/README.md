@@ -11,3 +11,5 @@ Document admission validates envelope/identities/two containment features, not e
 Nine new regressions are prepared alongside the nine original graph regressions: raw list order vs lexical identity, chained naming with scalar prefix visibility, first-null/no-later-fallback, missing/self reference, paired long/short/empty name rules, unresolved foreign/resource IDs, unsupported non-Feature/proxy shapes, naming cycles, and malformed name attributes. No Cargo, upstream, GUI or independent qualification has run for this candidate.
 
 Factory allocation/reference mutation/inverse notifications, library/GeneralView lookup, non-Feature effective-name implementation dispatch, generic serializer/proxy/UTF16 behavior, independent factory acceptance and full MODEL parity remain open. Existing model and held review paths are unchanged.
+
+The naming implementation is covered by the separate repaired combined31-test candidate. The original33-file standalone freeze at7effa0c71 remains NOT_RUN. See porting/domain/containment-adapter/QUALIFICATION.json. Owner evidence does not establish independent or upstream acceptance.

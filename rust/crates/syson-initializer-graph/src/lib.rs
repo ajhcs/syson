@@ -9,9 +9,11 @@ use syson_metamodel::{self as mm, ClassifierId as C};
 use syson_model::{Document, Editor, ModelError};
 mod local_names;
 pub use local_names::{ReferenceEncoding, NameKind};
+mod staged;
+pub use staged::{initialize_staged, apply_staged_plan};
 
 #[derive(Debug)]
-pub enum Error { Gap(ContextGap), Model(ModelError), Unresolved(ContextGap), Cancelled, ClassMismatch, StalePlan }
+pub enum Error { Gap(ContextGap), Model(ModelError), Unresolved(ContextGap), Planning(Problem), Cancelled, ClassMismatch, StalePlan }
 impl From<ModelError> for Error { fn from(e:ModelError)->Self { Self::Model(e) } }
 fn gap(contract:&'static str, reason:impl Into<String>)->Error {
     Error::Gap(ContextGap { contract, reason:reason.into() })
@@ -113,8 +115,7 @@ fn scalar(feature:ScalarFeature,value:&Scalar)->(&'static str,Value) {
     };
     (name,value)
 }
-fn stage(editor:&mut Editor,root:&str,steps:&[Step])->Result<bool,Error> {
-    let mut transaction=editor.begin();
+fn apply_scalar_steps(transaction:&mut syson_model::Transaction,root:&str,steps:&[Step])->Result<(),Error> {
     for step in steps {
         match &step.effect {
             Effect::SetScalar { target,feature,value }=>{
@@ -131,8 +132,14 @@ fn stage(editor:&mut Editor,root:&str,steps:&[Step])->Result<bool,Error> {
             Effect::SetReference { .. }=>return Err(gap("staging","reference/inverse application unsupported")),
         }
     }
+    Ok(())
+}
+fn stage(editor:&mut Editor,root:&str,steps:&[Step])->Result<bool,Error> {
+    let mut transaction=editor.begin();
+    apply_scalar_steps(&mut transaction,root,steps)?;
     Ok(editor.commit(transaction)?)
 }
+
 /// Existing attached root only. Successful allocation-free plans use one native
 /// Editor transaction/history entry. Errors discard that transaction. This is a
 /// typed JSON scalar boundary, not Java setter/notification parity.

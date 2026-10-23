@@ -12,6 +12,8 @@ use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 use syson_domain::model::{Element, ElementId, Model};
 mod scalar;
+mod containment;
+pub use containment::ContainmentFeature;
 pub use scalar::*;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
