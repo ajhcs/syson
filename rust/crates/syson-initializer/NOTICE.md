@@ -1,0 +1,1 @@
+Source provenance: Eclipse SysON6ba2ac64e6b16ee2b05752ad55395eebb87d4910, ElementInitializerSwitch.java and generated SysmlSwitch.java. Original source copyright2023,2026 Obeo; EPL-2.0. Rust planner contributors implement a source-derived declarative planner; no full runtime equivalence or release/license closure is established. Preserve repository license and original notices.
