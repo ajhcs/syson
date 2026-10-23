@@ -1,0 +1,22 @@
+use std::sync::{atomic::AtomicBool, Arc};
+use syson_ast::*;
+fn builder() -> Builder {
+    let mut reflection = Reflection::default();
+    reflection.declare("Element".into(), vec![]).unwrap();
+    Builder::new(reflection, Limits::default(), Arc::new(AtomicBool::new(false)))
+}
+#[test]
+fn appending_an_array_is_rejected_before_mutating_existing_field() {
+    let mut b=builder(); let id=b.allocate(Some("Element"),None).unwrap();
+    b.assign(id,"items",Assignment::Append,Datum::new(Value::String("keep".into()))).unwrap();
+    let before=b.node(id).unwrap().fields().clone();
+    assert_eq!(b.assign(id,"items",Assignment::Append,Datum::new(Value::Array(vec![Datum::new(Value::Null)]))),Err(Error::NestedContainmentArray));
+    assert_eq!(b.node(id).unwrap().fields(),&before);
+    assert!(b.finish(id).is_ok());
+}
+#[test]
+fn setting_a_flat_array_remains_supported() {
+    let mut b=builder(); let id=b.allocate(Some("Element"),None).unwrap();
+    b.assign(id,"items",Assignment::Set,Datum::new(Value::Array(vec![Datum::new(Value::Null)]))).unwrap();
+    assert!(b.finish(id).is_ok());
+}

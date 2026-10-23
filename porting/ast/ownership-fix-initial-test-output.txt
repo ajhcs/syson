@@ -1,0 +1,74 @@
+   Compiling syson-ast v0.1.0 (${SYSON_CHECKOUT}/rust/crates/syson-ast)
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+  --> src/lib.rs:22:10
+   |
+22 |         .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+   |          ^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+   |
+22 -         .fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+22 +         .try_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+   |
+
+warning: `syson-ast` (lib) generated 1 warning (run `cargo fix --lib -p syson-ast` to apply 1 suggestion)
+warning: `syson-ast` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.97s
+     Running unittests src/lib.rs (${SYSON_BUILD_DIR}/ast/debug/deps/syson_ast-8acde352d75ada51)
+
+running 1 test
+test owner_namespace_tests::namespace_exhaustion_never_wraps_or_reuses ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/construction.rs (${SYSON_BUILD_DIR}/ast/debug/deps/construction-a00a67e9abd97951)
+
+running 19 tests
+test action_without_feature_replaces_untyped_frame_without_constructing_it ... ok
+test arrays_produce_property_indexes_and_cst_retarget_is_explicit ... ok
+test action_wraps_previous_frame_and_sets_final_container ... ok
+test boolean_default_does_not_overwrite_explicit_null ... ok
+test cancellation_and_work_budget_are_explicit_and_not_rolled_back ... ok
+test cycles_and_shared_containment_rejected_independently ... ok
+test fragment_datatype_concatenation_inserts_no_spaces ... ok
+test empty_subrule_cst_suppresses_assignment_and_unreachable_node_is_pruned ... ok
+test missing_null_false_and_array_defaults_remain_distinct ... ok
+test merge_source_arrays_precede_target_and_target_scalars_win ... ok
+test node_and_frame_limits_do_not_leak_failed_begin ... ok
+test presence_uses_match_presence_and_retains_raw_lexeme ... ok
+test failed_branch_rolls_back_nodes_fields_frames_and_cst_without_reusing_ids ... ok
+test quote_and_astral_text_retain_bytes_and_utf16_offsets ... ok
+test references_are_not_containment_or_resolved_targets ... ok
+test reflection_defaults_keep_first_declared_property_kind ... ok
+test set_replaces_and_append_resets_non_array ... ok
+test unknown_types_nested_arrays_and_open_frames_are_errors ... ok
+test unassigned_subrule_adoption_replaces_frame_after_source_first_merge ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/flat_array.rs (${SYSON_BUILD_DIR}/ast/debug/deps/flat_array-ff5c0424c9fb04bb)
+
+running 2 tests
+test setting_a_flat_array_remains_supported ... ok
+test appending_an_array_is_rejected_before_mutating_existing_field ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/ownership.rs (${SYSON_BUILD_DIR}/ast/debug/deps/ownership-e8f1e43a165f804b)
+
+running 6 tests
+test foreign_merge_and_cst_association_are_rejected ... ok
+test foreign_assignment_cannot_mutate_same_index_node ... ok
+test arena_lookup_rejects_foreign_and_dropped_builder_handles ... ok
+test foreign_root_cannot_finish_an_unrelated_builder ... ok
+test foreign_values_and_subrule_adoption_cannot_enter_local_state ... ok
+test concurrent_builders_have_distinct_handles_with_matching_local_indexes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests syson_ast
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

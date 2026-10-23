@@ -1,0 +1,212 @@
+{
+  "$type": "Grammar",
+  "definesHiddenTokens": false,
+  "hiddenTokens": [],
+  "imports": [],
+  "interfaces": [],
+  "name": "KerML",
+  "rules": [
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "[0-9]+"
+      },
+      "fragment": true,
+      "hidden": false,
+      "name": "DECIMAL"
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "TerminalGroup",
+        "elements": [
+          {
+            "$type": "CharacterRange",
+            "left": {
+              "$type": "Keyword",
+              "value": "."
+            }
+          },
+          {
+            "$type": "TerminalRuleCall",
+            "rule": {
+              "$ref": "#/rules@0"
+            }
+          }
+        ]
+      },
+      "fragment": true,
+      "hidden": false,
+      "name": "FRACTION"
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "TerminalAlternatives",
+        "elements": [
+          {
+            "$type": "TerminalGroup",
+            "elements": [
+              {
+                "$type": "TerminalRuleCall",
+                "rule": {
+                  "$ref": "#/rules@0"
+                }
+              },
+              {
+                "$type": "TerminalRuleCall",
+                "cardinality": "?",
+                "rule": {
+                  "$ref": "#/rules@1"
+                }
+              }
+            ]
+          },
+          {
+            "$type": "TerminalRuleCall",
+            "rule": {
+              "$ref": "#/rules@1"
+            }
+          }
+        ]
+      },
+      "fragment": true,
+      "hidden": false,
+      "name": "FLOAT"
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "TerminalGroup",
+        "elements": [
+          {
+            "$type": "RegexToken",
+            "regex": "[eE][\\-\\+]*"
+          },
+          {
+            "$type": "TerminalRuleCall",
+            "rule": {
+              "$ref": "#/rules@0"
+            }
+          }
+        ]
+      },
+      "fragment": true,
+      "hidden": false,
+      "name": "EXPONENT"
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "TerminalGroup",
+        "elements": [
+          {
+            "$type": "TerminalRuleCall",
+            "rule": {
+              "$ref": "#/rules@2"
+            }
+          },
+          {
+            "$type": "TerminalRuleCall",
+            "cardinality": "?",
+            "rule": {
+              "$ref": "#/rules@3"
+            }
+          }
+        ]
+      },
+      "fragment": false,
+      "hidden": false,
+      "name": "NUMBER",
+      "type": {
+        "$type": "ReturnType",
+        "name": "number"
+      }
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "[_a-zA-Z][\\w_\\d]*"
+      },
+      "fragment": false,
+      "hidden": false,
+      "name": "ID",
+      "type": {
+        "$type": "ReturnType",
+        "name": "string"
+      }
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "'(\\\\['\"bftnr\\\\]|[^'\\\\])*'"
+      },
+      "fragment": false,
+      "hidden": false,
+      "name": "UNRESTRICTED_NAME",
+      "type": {
+        "$type": "ReturnType",
+        "name": "string"
+      }
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\"[^\"]*\""
+      },
+      "fragment": false,
+      "hidden": false,
+      "name": "STRING_VALUE",
+      "type": {
+        "$type": "ReturnType",
+        "name": "string"
+      }
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\/\\*[\\s\\S]*?\\*\\/"
+      },
+      "fragment": false,
+      "hidden": false,
+      "name": "REGULAR_COMMENT"
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\/\\/\\*[\\s\\S]*?\\*\\/"
+      },
+      "fragment": false,
+      "hidden": true,
+      "name": "ML_NOTE"
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\/\\/[^\\n\\r]*"
+      },
+      "fragment": false,
+      "hidden": true,
+      "name": "SL_NOTE"
+    },
+    {
+      "$type": "TerminalRule",
+      "definition": {
+        "$type": "RegexToken",
+        "regex": "\\s+"
+      },
+      "fragment": false,
+      "hidden": true,
+      "name": "WS"
+    }
+  ],
+  "types": [],
+  "usedGrammars": []
+}

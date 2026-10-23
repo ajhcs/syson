@@ -1,0 +1,68 @@
+{
+  "case": {
+    "id": "pc11",
+    "path": "fixtures/invalid-suffix.sysml",
+    "sha256": "f7599c3e662f79f79c490c54be5d4252eef345e08004db4880098295ec9d2662"
+  },
+  "report": {
+    "command": [
+      "<verified-node24>/bin/node",
+      "<repository>/backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+      "dump",
+      "--validate",
+      "--stdlib",
+      "none",
+      "<repository>/porting/validation/parser-corpus/fixtures/invalid-suffix.sysml"
+    ],
+    "inputs": {
+      "node": {
+        "path": "<verified-node24>/bin/node",
+        "sha256": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+        "bytes": 126595440
+      },
+      "bundle": {
+        "path": "<repository>/backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+        "sha256": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+        "bytes": 4125171
+      },
+      "fixture": {
+        "path": "<repository>/porting/validation/parser-corpus/fixtures/invalid-suffix.sysml",
+        "sha256": "f7599c3e662f79f79c490c54be5d4252eef345e08004db4880098295ec9d2662",
+        "bytes": 31
+      }
+    },
+    "runner_sha256": "074425971218521895f8dc2d8468c9791d99c30de903b4fd1d52d62914e320c7",
+    "start_utc": "2026-10-22T21:58:24.849393+00:00",
+    "mode": "secondary diagnostic CLI path",
+    "timeout_seconds": 60,
+    "stdin": "closed",
+    "environment": "all NODE_* removed; FORCE_COLOR=0; other environment retained",
+    "boundary": "caller must retain the default network-restricted boundary; this report does not attest it",
+    "exit_code": 1,
+    "timed_out": false,
+    "end_utc": "2026-10-22T21:58:25.060944+00:00",
+    "stdout": {
+      "bytes": 1057,
+      "sha256": "c6506f19ec0d8ffe8b512910f6285a9cecb27298e673b6d18ba74da85de54291",
+      "encoding": "raw byte capture; public path-only transform",
+      "portable_sha256": "7aa75bc9006597648ffebd78227856695d08d291c31ae873091421b37992ca26",
+      "portable_bytes": 1015,
+      "file": "stdout.txt"
+    },
+    "stderr": {
+      "bytes": 78,
+      "sha256": "3a64a1b5989f969d0f0e5585ec6bf67c58cc773575679961987bad246d9415ce",
+      "encoding": "raw byte capture; public path-only transform",
+      "portable_sha256": "3a64a1b5989f969d0f0e5585ec6bf67c58cc773575679961987bad246d9415ce",
+      "portable_bytes": 78,
+      "file": "stderr.txt"
+    },
+    "execution_boundary": "default managed restricted environment; no Node escalation",
+    "source_revision": "eac7479b1edb7ac74d9fe23736fcc98bca4f8084",
+    "manifest_sha256": "23fa87e20b1d5bca9eef4a71a066175c89fc4486ef028fc362a8597a100ebe44",
+    "portable_transform": "replace repository absolute prefix only; raw streams retained locally",
+    "ast_observation": "not emitted through this diagnostic route",
+    "rust_comparison": "PENDING",
+    "semantic_parity": "NOT ESTABLISHED"
+  }
+}

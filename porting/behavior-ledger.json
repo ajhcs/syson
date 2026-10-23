@@ -1,0 +1,285 @@
+{
+  "schema_version": 1,
+  "upstream_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "scope": {
+    "description": "Initial three bounded behaviors only. Not a complete inventory. Existing PARITY-LEDGER.json remains a separate incomplete milestone overlay. IDs are permanent and never reused.",
+    "inventory_closed": false,
+    "dependency_closure_closed": false,
+    "closure_evidence": []
+  },
+  "dependencies": [
+    {
+      "id": "syson",
+      "repository": "https://github.com/eclipse-syson/syson",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "owner": "source-license",
+      "status": "pinned",
+      "disposition": "Local source blob pin; inherited and transitive behavior closure remains open."
+    },
+    {
+      "id": "sirius-web",
+      "repository": "https://github.com/eclipse-sirius/sirius-web",
+      "revision": null,
+      "owner": "architecture",
+      "status": "unresolved",
+      "disposition": "Exact inherited source/dependency closure not yet independently pinned and reconciled."
+    }
+  ],
+  "behaviors": [
+    {
+      "id": "SYSON-BEH-000001",
+      "title": "Optional-quote and Java strip name matching",
+      "required": true,
+      "status": "unrun",
+      "owner": "domain",
+      "dependency_ids": [
+        "syson"
+      ],
+      "source_evidence": [
+        {
+          "dependency_id": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/util/ElementUtil.java",
+          "sha256": "c0ac6ba7ebe80ea14380cb839c9e901727fdca725494d575ad49a0f7c99f0364",
+          "line_start": 375,
+          "line_end": 399
+        }
+      ],
+      "expected": {
+        "state": "Candidate and query strings or null; preserve Java Character.isWhitespace boundary.",
+        "result": "Return exact upstream match boolean, including optional quotes."
+      },
+      "implementation": {
+        "revision": "6830df280ecf81542b51c76832d367b60e97ad4e",
+        "authors": [
+          "domain"
+        ],
+        "files": [
+          {
+            "path": "rust/crates/syson-domain/src/names.rs",
+            "sha256": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f"
+          }
+        ]
+      },
+      "cases": {
+        "positive": [
+          {
+            "id": "SYSON-CASE-000001",
+            "description": "Optional query quotes match an unquoted candidate.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000001.json",
+                "sha256": "862a69a030b56cc44ff3756cbaaf3c39096d9a13f879234fafa052ebec682dcc"
+              }
+            ]
+          }
+        ],
+        "negative": [
+          {
+            "id": "SYSON-CASE-000002",
+            "description": "Nonbreaking space is retained by Java strip.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000002.json",
+                "sha256": "be937c5a4aa12ad49baab54f65a7851dfade97a9f742780a9d72fb1e8cf31c22"
+              }
+            ]
+          }
+        ],
+        "failure": [
+          {
+            "id": "SYSON-CASE-000003",
+            "description": "Null candidate safely returns no match.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000003.json",
+                "sha256": "8cb1cc1a957a8bf778bf1a0107c545cab33d87d5c58dca82a4867adfa1019fb3"
+              }
+            ]
+          }
+        ]
+      },
+      "runs": {
+        "upstream": [],
+        "rust": [
+          {
+            "path": "porting/runs/native-fixtures-01/SYSON-BEH-000001-rust.json",
+            "sha256": "5484f069fc8be2d2b0b4f64a8fdd2daced9003ac3f4a6547c271358fcdeb7a19"
+          }
+        ]
+      },
+      "review": null,
+      "disposition": "Nine hashed fixtures consumed by the pinned Rust native harness, with passing native records. Upstream runtime remains unrun; independent paired parity review is pending. Zero verified claim."
+    },
+    {
+      "id": "SYSON-BEH-000002",
+      "title": "Selected rotation layout merge first-match truthiness",
+      "required": true,
+      "status": "unrun",
+      "owner": "editor",
+      "dependency_ids": [
+        "syson"
+      ],
+      "source_evidence": [
+        {
+          "dependency_id": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/extensions/rotateNodeTool/useRotateNode.ts",
+          "sha256": "0fa1f5b58d7984dbcca8df8e7da78d02650997646fe161a012de9b336b3f85f1",
+          "line_start": 68,
+          "line_end": 85
+        }
+      ],
+      "expected": {
+        "state": "Prepared diagram, supplied real layout result and ordered selected IDs.",
+        "result": "Adopt layout only when upstream Array.find first matching ID is truthy."
+      },
+      "implementation": {
+        "revision": "6830df280ecf81542b51c76832d367b60e97ad4e",
+        "authors": [
+          "editor"
+        ],
+        "files": [
+          {
+            "path": "rust/crates/syson-editor/src/lib.rs",
+            "sha256": "7b003258448bacc1bcfff3319139ddac8dc2595c9e3a3530c345d61f7de19c01"
+          }
+        ]
+      },
+      "cases": {
+        "positive": [
+          {
+            "id": "SYSON-CASE-000004",
+            "description": "Truthy selected ID adopts actual supplied layout.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000004.json",
+                "sha256": "b0b8053247bf7dc33a9a26c745f4aaf6bdc85474dd9e631699438b841560b468"
+              }
+            ]
+          }
+        ],
+        "negative": [
+          {
+            "id": "SYSON-CASE-000005",
+            "description": "Empty first matched ID retains prepared node.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000005.json",
+                "sha256": "1cb168318d00d38800aaf8080675b142dcc2cef04a1099fad29ecddb48e01c62"
+              }
+            ]
+          }
+        ],
+        "failure": [
+          {
+            "id": "SYSON-CASE-000006",
+            "description": "Missing matching layout output retains prepared node.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000006.json",
+                "sha256": "b2efd84e9223ae96485d40cdedf54eb36e8a49cb4c3cf755c04774c32cae89d6"
+              }
+            ]
+          }
+        ]
+      },
+      "runs": {
+        "upstream": [],
+        "rust": [
+          {
+            "path": "porting/runs/native-fixtures-01/SYSON-BEH-000002-rust.json",
+            "sha256": "458e31f97bcc929bda38f208e4739449706c4385d7e2d1ce967281e74fe0dd60"
+          }
+        ]
+      },
+      "review": null,
+      "disposition": "Nine hashed fixtures consumed by the pinned Rust native harness, with passing native records. Upstream runtime remains unrun; independent paired parity review is pending. Zero verified claim."
+    },
+    {
+      "id": "SYSON-BEH-000003",
+      "title": "Standard library reference URI migration",
+      "required": true,
+      "status": "unrun",
+      "owner": "persistence",
+      "dependency_ids": [
+        "syson"
+      ],
+      "source_evidence": [
+        {
+          "dependency_id": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesElementsReferencesMigrationParticipant.java",
+          "sha256": "f95dcc035a65532bde00fd93a53991326a02ee10f1006dfda21f4a779c2b90a2",
+          "line_start": 69,
+          "line_end": 89
+        }
+      ],
+      "expected": {
+        "state": "Noncontainment URI, ID map and caller-provided no-load Element resolver.",
+        "result": "Resolve current ID first, fallback old map, preserve prefix; containment unchanged."
+      },
+      "implementation": {
+        "revision": "6830df280ecf81542b51c76832d367b60e97ad4e",
+        "authors": [
+          "persistence"
+        ],
+        "files": [
+          {
+            "path": "rust/crates/syson-persistence/src/lib.rs",
+            "sha256": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476"
+          }
+        ]
+      },
+      "cases": {
+        "positive": [
+          {
+            "id": "SYSON-CASE-000007",
+            "description": "Unresolved standard-library URI falls back to known ID map.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000007.json",
+                "sha256": "a06a4a45a30fb2fc37d747dae3e64a06d68efd14c8bc4fe26a9ea2c72c4db974"
+              }
+            ]
+          }
+        ],
+        "negative": [
+          {
+            "id": "SYSON-CASE-000008",
+            "description": "Containment references bypass resolution.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000008.json",
+                "sha256": "ebddb0ff5a5dc974f501a9774a8140968c8495f8395bd59a0b32a03674e9e313"
+              }
+            ]
+          }
+        ],
+        "failure": [
+          {
+            "id": "SYSON-CASE-000009",
+            "description": "Missing resource and mapping preserve original URI without loading.",
+            "fixtures": [
+              {
+                "path": "porting/ledger-schema/fixtures/SYSON-CASE-000009.json",
+                "sha256": "17779cdcd8a8d9f257207f1dee6fa15f1c391969c3401a8adb3f13a59cb06064"
+              }
+            ]
+          }
+        ]
+      },
+      "runs": {
+        "upstream": [],
+        "rust": [
+          {
+            "path": "porting/runs/native-fixtures-01/SYSON-BEH-000003-rust.json",
+            "sha256": "477bdf8bf0577eb04b818928115fa72f87a1a24555b75aa99e16335d346811cf"
+          }
+        ]
+      },
+      "review": null,
+      "disposition": "Nine hashed fixtures consumed by the pinned Rust native harness, with passing native records. Upstream runtime remains unrun; independent paired parity review is pending. Zero verified claim."
+    }
+  ]
+}
