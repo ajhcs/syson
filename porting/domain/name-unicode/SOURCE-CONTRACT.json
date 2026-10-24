@@ -1,0 +1,149 @@
+{
+  "id": "F44",
+  "state": "SOURCE_DERIVED_REGRESSIONS_LOCALLY_TESTED",
+  "source_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "implementation_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "implementation": {
+    "path": "rust/crates/syson-domain/src/names.rs",
+    "sha256": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+    "executable_behavior_changed": false,
+    "reason": "No divergence was established for the documented valid-Unicode-scalar input domain; do not manufacture a behavior change."
+  },
+  "upstream_sources": [
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/helper/NameHelper.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "3063853eec018d689ec9b50f17c32da8e8056a97bcf5fd30ebf71e3e4317b4b6",
+      "method_line_ranges": {
+        "parseQualifiedName": [
+          38,
+          40
+        ],
+        "escapeString": [
+          49,
+          51
+        ],
+        "unescapeString": [
+          60,
+          65
+        ],
+        "toPrintableName": [
+          87,
+          101
+        ]
+      }
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/helper/NameConflictingFilter.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "b56a42af5966a0b20eb9dec4847b79e08504cd9f18adb7883fd95fa2b320d79b",
+      "method_line_ranges": {
+        "test": [
+          40,
+          56
+        ],
+        "checkConflictingElement": [
+          58,
+          60
+        ],
+        "checkConflictingNames": [
+          62,
+          77
+        ],
+        "fillUsedNames": [
+          79,
+          93
+        ]
+      }
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/util/ElementUtil.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "e230e59c6d53a918e0db0813d35dc536d49f21e7b3984a0e659226c5ee3058e2",
+      "method_line_ranges": {
+        "nameMatches": [
+          372,
+          382
+        ],
+        "equalsConsideringOptionalQuotes": [
+          384,
+          395
+        ]
+      }
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/services/textual/SysMLv2Keywords.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "2cb2246057487ad461ebf8b4d278cfa4e86c24ac6a84a14637686d31371ffbbc",
+      "method_line_ranges": {}
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/test/java/org/eclipse/syson/sysml/metamodel/helper/NameHelperTest.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "469d3b938a69feda3d60c5ab9e45b3d073c63d283247a461f7f0c24a52c10c9e",
+      "method_line_ranges": {}
+    },
+    {
+      "path": "backend/metamodel/syson-sysml-metamodel/pom.xml",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "2a03b2e89e4e727afe564aa8f1adf6b07e70c7dade4ad904032c625a920dee1a",
+      "method_line_ranges": {
+        "declared_commons_text_version": [
+          58,
+          62
+        ]
+      }
+    }
+  ],
+  "primary_reference_documents": [
+    {
+      "url": "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Character.html#isWhitespace(int)",
+      "review": "Java 21 Character.isWhitespace criteria; Unicode 15.0 and UTF-16 representation documented. Static reference only, not a Java runtime output."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/apache/commons-text/rel/commons-text-1.10.0/src/main/java/org/apache/commons/text/StringEscapeUtils.java",
+      "review": "Tagged Commons Text 1.10.0 source ESCAPE_JAVA aggregate at lines 159-168 uses quote/backslash lookup, Java control map, and Unicode escaping outside inclusive 32..127. Subordinate JavaUnicodeEscaper/EntityArrays source pages were unavailable in this review; resolved runtime correspondence remains open."
+    }
+  ],
+  "supported_domain": "Valid Rust UTF-8 strings, preserving exact scalar sequences with no Unicode normalization. Escape output encodes supplementary scalars as Java UTF-16 escape pairs. Null is represented only where the API takes Option.",
+  "not_supported": [
+    "Isolated Java UTF-16 surrogate input values: the existing &str APIs cannot represent them.",
+    "Automatic reconstruction of Java reference identity from String value equality: adapter must provide alias_is_distinct.",
+    "Full effective-name/subclass/native import behavior.",
+    "Upstream Java/application runtime differential: NOT_RUN."
+  ],
+  "strip_positive_codepoints": [
+    "U+0009",
+    "U+000A",
+    "U+000B",
+    "U+000C",
+    "U+000D",
+    "U+001C",
+    "U+001D",
+    "U+001E",
+    "U+001F",
+    "U+0020",
+    "U+1680",
+    "U+2000",
+    "U+2001",
+    "U+2002",
+    "U+2003",
+    "U+2004",
+    "U+2005",
+    "U+2006",
+    "U+2008",
+    "U+2009",
+    "U+200A",
+    "U+2028",
+    "U+2029",
+    "U+205F",
+    "U+3000"
+  ],
+  "strip_positive_count": 25,
+  "prepared_native_test_functions": 16,
+  "test_origin": "New source-derived cross-boundary fixtures; no captured Java outputs. Existing four NameHelperTest quote examples remain in compatibility.rs and are not relabeled.",
+  "native_execution": "COORDINATOR_F44_01_PASS_44_TESTS; worker did not execute Cargo",
+  "upstream_parity_verified": false,
+  "local_validation": "../../follow-ons/F44/VALIDATION.json",
+  "source_review": "../../follow-ons/F44/REVIEW.md"
+}

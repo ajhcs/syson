@@ -1,0 +1,5 @@
+# F44 name-boundary qualification
+
+Implementation source is unchanged: the inspected Java contracts established no divergence in the supported scalar-string domain. The new `rust/crates/syson-domain/tests/name_unicode.rs` contains 16 source-derived cross-boundary regression functions. [The source contract and input boundaries](../../domain/name-unicode/README.md) identify exact pinned inputs, primary reference documents, unsupported isolated-surrogate inputs and the alias-identity adapter obligation.
+
+The coordinator executed the focused `f44-01` capture: all 16 new tests and 28 existing domain/query regressions passed (44 total), together with changed-file formatting and Clippy with warnings denied. [VALIDATION.json](VALIDATION.json) links the original [receipt and streams](validation/f44-01/receipt.json); [REVIEW.md](REVIEW.md) records source and receipt review by the coordinator, who is distinct from the test author and also executed the checks. Every captured crate file hash remained unchanged. The worker did not execute Cargo. No Java, upstream application, browser or oracle comparison was run, and no whole-area or upstream parity claim follows.
