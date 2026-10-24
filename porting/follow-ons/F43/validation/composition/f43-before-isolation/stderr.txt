@@ -1,0 +1,21 @@
+setUpClass (test_check.BundleChecks) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_check.BundleChecks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/repos/builderbob/syson/target/follow-on-composition-20261024/source/porting/distribution-check/test_check.py", line 34, in setUpClass
+    make_fixture.make(ROOT, cls.tmp / profile, CAPTURE, POLICY, profile, CACHE)
+  File "/workspace/repos/builderbob/syson/target/follow-on-composition-20261024/source/porting/distribution-check/make_fixture.py", line 33, in make
+    put('source/' + path, check.checked_bytes(source, path, h))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/repos/builderbob/syson/target/follow-on-composition-20261024/source/porting/distribution-check/check.py", line 41, in checked_bytes
+    require(digest(raw) == expected, 'altered or mismatched file: ' + path)
+  File "/workspace/repos/builderbob/syson/target/follow-on-composition-20261024/source/porting/distribution-check/check.py", line 21, in require
+    raise VerificationError(message)
+check.VerificationError: altered or mismatched file: rust/crates/syson-domain/src/lib.rs
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.003s
+
+FAILED (errors=1)

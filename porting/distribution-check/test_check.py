@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -30,8 +31,24 @@ class BundleChecks(unittest.TestCase):
         cls.scratch = tempfile.TemporaryDirectory(prefix='f43-', dir=base)
         cls.tmp = Path(cls.scratch.name)
         cls.policy = json.loads(POLICY.read_bytes())
+        # Test inputs are the policy's Git snapshot, never the live checkout's
+        # evolving Rust sources. Production verification remains strict.
+        cls.source = cls.tmp / 'pinned-source'
+        for path, expected in cls.policy['source_sha256'].items():
+            relative = Path(path)
+            if relative.is_absolute() or '..' in relative.parts:
+                raise ValueError('unsafe pinned fixture path: ' + path)
+            raw = subprocess.check_output([
+                'git', '-C', str(ROOT), 'show',
+                cls.policy['source_revision'] + ':' + path,
+            ])
+            if check.digest(raw) != expected:
+                raise ValueError('pinned fixture source hash mismatch: ' + path)
+            destination = cls.source / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(raw)
         for profile in ['default', 'candidate']:
-            make_fixture.make(ROOT, cls.tmp / profile, CAPTURE, POLICY, profile, CACHE)
+            make_fixture.make(cls.source, cls.tmp / profile, CAPTURE, POLICY, profile, CACHE)
 
     @classmethod
     def tearDownClass(cls):
@@ -41,8 +58,8 @@ class BundleChecks(unittest.TestCase):
         self.package = self.tmp / self.id().split('.')[-1]
         shutil.copytree(self.tmp / 'default', self.package)
 
-    def verify(self, profile='default', source=ROOT, package=None, capture=CAPTURE):
-        return check.verify(source, package or self.package, capture, profile, POLICY)
+    def verify(self, profile='default', source=None, package=None, capture=CAPTURE):
+        return check.verify(source or self.source, package or self.package, capture, profile, POLICY)
 
     def rejected(self, operation, message):
         with self.assertRaisesRegex(check.VerificationError, message):
@@ -87,7 +104,7 @@ class BundleChecks(unittest.TestCase):
         for path, h in self.policy['source_sha256'].items():
             dest = source / path
             dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_bytes(check.checked_bytes(ROOT, path, h))
+            dest.write_bytes(check.checked_bytes(self.source, path, h))
         return source
 
     def test_current_source_lock_change_rejects_old_capture(self):
@@ -147,7 +164,7 @@ class BundleChecks(unittest.TestCase):
     def test_symlink_to_source_license_does_not_satisfy_package_inclusion(self):
         p = self.package / 'LICENSE'
         p.unlink()
-        p.symlink_to(ROOT / 'LICENSE')
+        p.symlink_to(self.source / 'LICENSE')
         self.rejected(self.verify, 'symlink is not admitted')
 
     def test_wrong_source_revision_is_rejected(self):
@@ -164,7 +181,7 @@ class BundleChecks(unittest.TestCase):
 
     def test_fixture_builder_refuses_existing_output(self):
         with self.assertRaises(FileExistsError):
-            make_fixture.make(ROOT, self.package, CAPTURE, POLICY, 'default', CACHE)
+            make_fixture.make(self.source, self.package, CAPTURE, POLICY, 'default', CACHE)
 
 
 if __name__ == '__main__':
