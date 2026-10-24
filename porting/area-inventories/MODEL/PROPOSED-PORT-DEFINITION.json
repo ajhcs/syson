@@ -1,0 +1,94 @@
+{
+  "schema": "syson.proposed-bounded-contract/1",
+  "contract_id": "MODEL-PORT-DEFINITION-LOCAL-REFERENCES-01",
+  "status": "PROPOSED; independent review and explicit code lease PENDING",
+  "area_inventory_complete": false,
+  "problem": "PortDefinition source construction needs two local object-reference effects after three ordered raw allocations. Existing generic scalar and graph application correctly refuse reference effects.",
+  "source_contract": "Pinned ElementInitializerSwitch.java:247-260; nonnull PortDefinition stops generated dispatch. Root exact-class naming/count occurs before first effect.",
+  "effect_order": [
+    "Set root declaredName using concrete-class exact namespace count",
+    "Allocate OwningMembership",
+    "Attach membership under root ownedRelationship",
+    "Allocate raw ConjugatedPortDefinition without its initializer",
+    "Attach conjugated child under membership ownedRelatedElement",
+    "Allocate raw PortConjugation without its initializer",
+    "Attach conjugation under conjugated child's ownedRelationship",
+    "Set inherited conjugatedType to the conjugated child",
+    "Set originalPortDefinition to root"
+  ],
+  "expected_effects": 9,
+  "expected_helper_allocations": 3,
+  "proposed_apis": [
+    {
+      "path": "rust/crates/syson-model/src/port_definition_refs.rs",
+      "declaration": "pub enum PortDefinitionReference { ConjugatedType, OriginalPortDefinition }"
+    },
+    {
+      "path": "rust/crates/syson-model/src/port_definition_refs.rs",
+      "declaration": "Transaction::initialize_port_definition_reference(&mut self, root: &str, conjugation: &str, reference: PortDefinitionReference, target: &str) -> Result<()>",
+      "scope": "Default-off raw-factory-candidate only; each operation uses existing Transaction::apply/poison/validation. No arbitrary feature string, null clearing, subtype-wide setter or generic attribute relaxation."
+    },
+    {
+      "path": "rust/crates/syson-initializer-graph/src/port_definition.rs",
+      "declaration": "initialize_port_definition(owned Transaction, staged root, RawFactory, resource callback, cancellation) -> owned transaction and ordered report",
+      "scope": "Exact PortDefinition root only. Planning root queries only on empty effect prefix. One caller commit; no child initializer or separate live Editor/history commits."
+    }
+  ],
+  "reference_admission": {
+    "source_class": "exact PortConjugation",
+    "root_class": "exact PortDefinition",
+    "topology": "PortConjugation is ownedRelationship child of exact ConjugatedPortDefinition, which is ownedRelatedElement child of exact OwningMembership, which is ownedRelationship child of the supplied root. Other existing root children remain allowed and preserved.",
+    "bindings": [
+      {
+        "kind": "ConjugatedType",
+        "feature": "conjugatedType",
+        "declaring_owner": "Conjugation",
+        "declared_target": "#//Type",
+        "target_policy": "Exactly the containing ConjugatedPortDefinition identified by the verified topology"
+      },
+      {
+        "kind": "OriginalPortDefinition",
+        "feature": "originalPortDefinition",
+        "declaring_owner": "PortConjugation",
+        "declared_target": "#//PortDefinition",
+        "target_policy": "Exactly the supplied root"
+      }
+    ],
+    "metadata_guards": "Require a unique selected inherited reference binding with exact declaring owner/name/target descriptor; found.unresolved_supertypes MUST BE EMPTY for BOTH selected features because lookup stops at the local Conjugation or PortConjugation declaration. Require required/single, ordered=false, unique=true, changeable, noncontainment, nonderived, nonvolatile, nontransient, nonunsettable, no opposite/default. Do not copy the earlier isSufficient len==1/EModelElement selected-lookup guard: it would reject valid writes. Generic scalar/unknown/external/ambiguous guards remain unchanged.",
+    "identity_policy": "Targets must exist in the same staged Document and satisfy exact role/type/topology. Store semantic-ID strings under only the two explicitly written feature keys, consistent with existing specialized FeatureTyping encoding. Semantic and resource identities remain separate; collision/type/provider failures poison/drop the owned transaction. No raw-object cache mutation or identity changes.",
+    "projection_policy": "Materialize conjugatedType and originalPortDefinition effects only. Do not synthesize originalType, conjugatedPortDefinition, owningType, inverses, cache observations, eIsSet or notifications. Omitted aliases are a projection policy, not a claim that native getters return absent/null.",
+    "global_ancestor_boundary": "Global external EModelElement ancestry remains unresolved and unaccepted. It is separate from the selected-feature lookup and must not be inserted into that lookup's empty unresolved list. This source-bound local operation grants no generic semantics for that ancestor.",
+    "planner_refusal_policy": "Effect::SetReference has target:Target, feature:ReferenceFeature, value:Option<Target>. Accept ONLY target Planned(the allocated PortConjugation), feature ConjugatedType with Some(Planned(the containing allocated ConjugatedPortDefinition)), or OriginalPortDefinition with Some(Root). Explicitly reject None, External, foreign/unknown PlannedObject ownership, root/external reference owners, Type/TypedFeature and all other features/roles. Every planned object must belong to this plan and resolve to the verified physical topology."
+  },
+  "required_test_vectors": [
+    "Exact nine effects/three allocation order; membership is attached before raw child allocation/attachment; source naming count and nonnull dispatch stop",
+    "Semantic/resource identities distinct; two references are semantic-ID strings to the exact staged child/root; raw child name/composite/sufficient defaults and aliases not synthesized",
+    "Existing relationships preserved; new owning membership appended; unrelated existing conjugated children do not change role binding",
+    "Cancellation after first attachment and late factory/resource-provider refusal drop all constructor changes without refunding identities; undo/redo preserved",
+    "Late semantic/resource collision rolls back; wrong exact root refused before helper identity consumption",
+    "Typed reference API refuses missing/wrong-type/foreign-role/incorrect-topology targets and cannot commit poisoned transaction; generic set_attribute still refuses reference/identity/unknown edits",
+    "One owner commit plus undo/redo; no intermediate live commits; stale-base commit handling remains existing Editor behavior",
+    "After a successful first ConjugatedType reference write, make the second OriginalPortDefinition write fail on a wrong target: verify the owned transaction is poisoned/cannot commit and the live Document plus undo/redo history stay unchanged. Also cancel the constructor after effect8 and before effect9 with first-reference effect recorded, preserving the same history boundary.",
+    "Valid selected feature lookup succeeds with an empty unresolved-supertype list; do not assert the global external-ancestor list is empty or reuse the previous scalar binding's len==1 predicate."
+  ],
+  "proposed_writable_boundary": [
+    "rust/crates/syson-model/src/port_definition_refs.rs",
+    "rust/crates/syson-model/src/lib.rs",
+    "rust/crates/syson-model/tests/port_definition_refs.rs",
+    "rust/crates/syson-initializer-graph/src/port_definition.rs",
+    "rust/crates/syson-initializer-graph/src/lib.rs",
+    "rust/crates/syson-initializer-graph/tests/port_definition.rs",
+    "porting/domain/port-definition-native",
+    "porting/runs/port-definition-native-01",
+    "porting/execution-backlog.json"
+  ],
+  "review_questions": [
+    "Confirm nine-effect source order, direct raw children and exact inherited setter source proof without treating derived null getter as stored-reference equivalence",
+    "Confirm metadata and topology guard contract is sufficient for this narrow local projection while generic refusals remain unchanged",
+    "Confirm existing specialized typing and generic graph rejection are reconciled; no duplicate generic reference API, unsupported aliases, native notifications or ResourceSet claims",
+    "Confirm planned vectors test atomicity/role/refusal/history meaningfully and a separate exact code lease is still required"
+  ],
+  "excluded": "ViewUsage/ResourceSet/library execution remains BLOCKED; no general native reference engine, serializer equivalence, inverse/proxy/notification/eIsSet parity, UI acceptance or complete MODEL inventory. No compiler or implementation is authorized by this proposal.",
+  "revision": "proposal-02",
+  "previous_review": "PORT-DEFINITION-PROPOSAL-REVIEW-01.json records held proposal-01 review; proposal-02 corrects the selected-feature guard and makes refusal/intermediate-reference vectors explicit. Follow-up independent review PENDING."
+}
