@@ -1,0 +1,51 @@
+{
+  "kind": "bounded_rust_wasm_browser_smoke",
+  "source_revision": "f89ebe80b1e17108e942840a9d91a5ca00b290e9",
+  "browser": "existing Playwright1.64.1 Chromium headless shell1248",
+  "browser_plugin": "absent; regular isolated Playwright used",
+  "viewports": [
+    [
+      1365,
+      1000
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "result": "pass",
+  "console_errors": [],
+  "script": "rust/browser-tests/authoring.cjs",
+  "script_sha256": "de2b1775a49f29d02cf19b41e919f3b47887f16e7042322f35df99265485ddec",
+  "wasm_sha256": "49d4033c2b9c411ef9452f2a449075ab0065b0db945cbd41ef25ed8420a36325",
+  "checks": [
+    "page identity and meaningful content",
+    "no framework overlay",
+    "package/definition/typed usage creation",
+    "staging export isolation",
+    "cancel",
+    "rename",
+    "undo/redo",
+    "preview rotation",
+    "malformed import preserves committed document",
+    "valid EMF JSON import/export equality",
+    "history reset",
+    "mobile horizontal overflow",
+    "keyboard tab order"
+  ],
+  "upstream_comparison": "unrun",
+  "screenshots": [
+    {
+      "file_name": "created-desktop.png",
+      "retained_locally": true,
+      "included_in_pr": false,
+      "sha256": "ed9b97daa659af9b604c7dd6633fa79c03d0a2aa328b265b4a3738840c86d866"
+    },
+    {
+      "file_name": "created-mobile.png",
+      "retained_locally": true,
+      "included_in_pr": false,
+      "sha256": "8386d703c04dd18d8ac8d646d9ac414bba7a9fd0be2935e32c05b8d902922b6a"
+    }
+  ]
+}
