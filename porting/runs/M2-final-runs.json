@@ -1,0 +1,34 @@
+[
+  {
+    "suite": "model",
+    "source_revision": "d7bab53298bc75057b983527c7791ed6dc285ca7",
+    "command": "cargo test --offline --jobs 1 --manifest-path rust/crates/syson-model/Cargo.toml",
+    "exit_code": 0,
+    "artifact": "porting/runs/M2-final-model.log",
+    "sha256": "9d159e8921b90acf97fe00f43ec589c26500b6bdeb9cf3001f56d4e45850145b"
+  },
+  {
+    "suite": "web",
+    "source_revision": "d7bab53298bc75057b983527c7791ed6dc285ca7",
+    "command": "cargo test --offline --jobs 1 --manifest-path rust/crates/syson-web/Cargo.toml",
+    "exit_code": 0,
+    "artifact": "porting/runs/M2-final-web.log",
+    "sha256": "f770e79d060b075ac171f5093a8dc87e9239143c26591c0b24075155872c059a"
+  },
+  {
+    "suite": "workflow",
+    "source_revision": "d7bab53298bc75057b983527c7791ed6dc285ca7",
+    "command": "cargo test --offline --jobs 1 --manifest-path rust/crates/syson-workflow/Cargo.toml",
+    "exit_code": 0,
+    "artifact": "porting/runs/M2-final-workflow.log",
+    "sha256": "a35f89ffee93981631de30aa0528f6e94894a344d208bc786b363e328ac942ff"
+  },
+  {
+    "suite": "wasm",
+    "source_revision": "d7bab53298bc75057b983527c7791ed6dc285ca7",
+    "command": "cargo build --offline --jobs 1 --target wasm32-unknown-unknown --manifest-path rust/crates/syson-web/Cargo.toml",
+    "exit_code": 0,
+    "artifact": "porting/runs/M2-final-wasm.log",
+    "sha256": "4e0bd1af8453a92b5934870ff653884396935a840a10819e6562d6735d3c56b9"
+  }
+]

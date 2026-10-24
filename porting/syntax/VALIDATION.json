@@ -1,0 +1,115 @@
+{
+  "started_at_utc": "2026-10-22T21:32:27.202208Z",
+  "source_hashes": {
+    "porting/syntax/generate_data.py": "f09100588f44a453b49b5529393bde338a951d5003a61d9b92fed06c1389dc9d",
+    "porting/syntax/run_checks.py": "907613e3cad63d2b0762aba8379cf4d12e8953322ee5635286f12c979e7f8c79",
+    "rust/crates/syson-syntax/Cargo.lock": "3c502e5b101871a47182b7318f3cead8f47c608edff308c63fc5c262b17d192c",
+    "rust/crates/syson-syntax/Cargo.toml": "2c78bec4ac2cc446eacdde0cfe14c3fb45554cbafd445deedff2027e6500adc6",
+    "rust/crates/syson-syntax/data/LICENSE-SYSIDE": "a45f8d69f0cc2aa98b879a8aaea133d220e737ccc43e62c2f8662546657cc70f",
+    "rust/crates/syson-syntax/data/PROVENANCE.json": "a0c4d62dac6c9d91df317c34bd91cac27861f9b46802d0020d7932515512400e",
+    "rust/crates/syson-syntax/data/kerml.json": "ddbc07f673e2be095931c3f5a059ecdd75ec51be474184a80577ebdcbd14a0c6",
+    "rust/crates/syson-syntax/data/sysml.json": "d00a3a2afe891974ead47e3a36d9540d461cac015c66d7977d0d1eecd6301620",
+    "rust/crates/syson-syntax/data/terminals.json": "a8a5ef42b7bcb05b29851d874fccd2c9c150a2eaf190ec2d0964cfeca821a87e",
+    "rust/crates/syson-syntax/src/grammar.rs": "246f7c7b91780bf5d4a7eb9d8154bb5a840d3b81735c08c5e1782bbb46435233",
+    "rust/crates/syson-syntax/src/lexer.rs": "8f41bd9f64380e67986aea9047ca4d2653f1549017bccebbd90d95c24c31485c",
+    "rust/crates/syson-syntax/src/lib.rs": "5bedf0a6c347453a61187e34a329ac9c107b07ec16cef58995b4a34d276ba5c5",
+    "rust/crates/syson-syntax/src/recognizer.rs": "bd04b781148e45e37a1c6c6428e456d36abddad34967e44ec38efa18e8c0f103",
+    "rust/crates/syson-syntax/tests/fixtures/camera.sysml": "4836a0416b9f07ee8f7595daad3db9ec1f308f1721b7e187087832f5867c6444",
+    "rust/crates/syson-syntax/tests/fixtures/incomplete.sysml": "4be0e59c68c0032838116a84f617fa09b2e69b7e0ae7327f3df30dd124b94c33",
+    "rust/crates/syson-syntax/tests/fixtures/namespace.kerml": "991d8710d85080009593a0911ff02ae6a385ca061ce94a728b91c4d231a2169e",
+    "rust/crates/syson-syntax/tests/syntax_contracts.rs": "9ba901f2dd8e0ae2c89e3da9a683b300b3c1dc3f36e707b0b4c5984ca167cf41"
+  },
+  "upstream_runtime_execution": "NOT RUN",
+  "build_jobs": 1,
+  "target_directory": "${SYSON_BUILD_DIR}/syntax",
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "porting/syntax/generate_data.py",
+        "--check"
+      ],
+      "started_at_utc": "2026-10-22T21:32:27.202216Z",
+      "ended_at_utc": "2026-10-22T21:32:27.241217Z",
+      "exit_code": 0,
+      "output_file": "01-python3-generate_data.py.log",
+      "output_sha256": "d82ca41efdd21b1aaa04a3bd04743e5d13671a4cdeab7c19706e9b6f41e7fae4",
+      "test_result_lines": []
+    },
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--check",
+        "--manifest-path",
+        "rust/crates/syson-syntax/Cargo.toml"
+      ],
+      "started_at_utc": "2026-10-22T21:32:27.241399Z",
+      "ended_at_utc": "2026-10-22T21:32:27.266475Z",
+      "exit_code": 0,
+      "output_file": "02-cargo-fmt.log",
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_result_lines": []
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "rust/crates/syson-syntax/Cargo.toml"
+      ],
+      "started_at_utc": "2026-10-22T21:32:27.266540Z",
+      "ended_at_utc": "2026-10-22T21:32:27.654790Z",
+      "exit_code": 0,
+      "output_file": "03-cargo-test.log",
+      "output_sha256": "f80672419feb729c4d94dd87cf02d87491250ff82f7cf9585d4346b7f87c6c9e",
+      "test_result_lines": [
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "rust/crates/syson-syntax/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_at_utc": "2026-10-22T21:32:27.654986Z",
+      "ended_at_utc": "2026-10-22T21:32:27.829273Z",
+      "exit_code": 0,
+      "output_file": "04-cargo-clippy.log",
+      "output_sha256": "d07bf3fe78ed389d0282a50c1de243c3752e65bd8ba1f59e72c00c3f5a0c6f9c",
+      "test_result_lines": []
+    },
+    {
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--target",
+        "wasm32-unknown-unknown",
+        "--manifest-path",
+        "rust/crates/syson-syntax/Cargo.toml"
+      ],
+      "started_at_utc": "2026-10-22T21:32:27.829442Z",
+      "ended_at_utc": "2026-10-22T21:32:27.900059Z",
+      "exit_code": 0,
+      "output_file": "05-cargo-check.log",
+      "output_sha256": "3f2fb343a0ee383a36b6f6d34722219ea7cf332fd68276636ebbf9edd225181e",
+      "test_result_lines": []
+    }
+  ],
+  "ended_at_utc": "2026-10-22T21:32:27.900253Z",
+  "status": "PASS"
+}

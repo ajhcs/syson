@@ -1,0 +1,76 @@
+   Compiling syson-workflow v0.1.0 (<repository>/rust/crates/syson-workflow)
+   Compiling syson-web v0.1.0 (<repository>/rust/crates/syson-web)
+   Compiling syson-independent-validation v0.1.0 (<repository>/rust/validation)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.62s
+     Running tests/creation_regressions.rs (${SYSON_BUILD_DIR}/integration/debug/deps/creation_regressions-c69f342e0c84ee37)
+
+running 3 tests
+test unresolved_parent_or_endpoint_never_acquires_capability_and_errors_are_atomic ... ok
+test source_part_usage_and_definition_subtypes_support_typing_pairs ... ok
+test all_source_element_contexts_apply_exact_membership_rule_for_three_constructors ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/ledger_fixtures.rs (${SYSON_BUILD_DIR}/integration/debug/deps/ledger_fixtures-10a4cd0556b04aad)
+
+running 9 tests
+test case_000002 ... ok
+test case_000001 ... ok
+test case_000003 ... ok
+test case_000004 ... ok
+test case_000008 ... ok
+test case_000005 ... ok
+test case_000009 ... ok
+test case_000006 ... ok
+test case_000007 ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/model_workflow_regressions.rs (${SYSON_BUILD_DIR}/integration/debug/deps/model_workflow_regressions-ca77c74d63edb332)
+
+running 7 tests
+test aba_undo_cannot_revive_an_old_transaction ... ok
+test malformed_envelopes_and_containment_return_errors_without_panicking ... ok
+test failed_operation_preserves_last_staged_value_and_committed_history ... ok
+test transaction_cannot_commit_to_another_identical_editor ... ok
+test no_op_transaction_preserves_redo_branch ... ok
+test interrupted_staging_remains_unpublished_and_other_keys_still_work ... ok
+test duplicate_snapshot_save_preserves_committed_bytes ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/scalar_regressions.rs (${SYSON_BUILD_DIR}/integration/debug/deps/scalar_regressions-7b549c74bdaa6c21)
+
+running 6 tests
+test inherited_namespace_and_type_queries_use_registry_without_relabeling_imports ... ok
+test integer_lexical_and_range_boundaries_are_strict ... ok
+test double_normalization_preserves_finite_extremes_and_signed_underflow ... ok
+test enum_reset_and_external_branch_failures_poison_the_whole_transaction ... ok
+test optional_and_required_strings_keep_explicit_null_separate_from_absence ... ok
+test every_advertised_writable_descriptor_is_accepted_without_touching_unrelated_data ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.81s
+
+     Running tests/source_regressions.rs (${SYSON_BUILD_DIR}/integration/debug/deps/source_regressions-29e4f032f30690ba)
+
+running 7 tests
+test diagram_found_nonlibrary_blocks_old_id_fallback ... ok
+test empty_id_find_result_is_false_even_when_matched ... ok
+test first_empty_edge_match_prevents_later_truthy_match ... ok
+test nan_computed_minimum_retains_previous_height ... ok
+test java_strip_unicode_boundary ... ok
+test reference_priority_is_sysml_substring_even_when_kerml_comes_first ... ok
+test parser_preserves_java_trim_nonbreaking_space_and_trailing_split_rules ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/web_contract_regressions.rs (${SYSON_BUILD_DIR}/integration/debug/deps/web_contract_regressions-5f4d67ffa598d6c3)
+
+running 4 tests
+test advertised_rename_succeeds_for_known_imported_literal_or_is_unavailable ... ok
+test unchanged_normalized_textarea_submission_preserves_saved_crlf_cr_and_nul ... ok
+test advertised_action_usage_parent_now_accepts_source_supported_creation ... ok
+test multiline_edits_and_unchanged_name_line_endings_survive_native_abi_roundtrip ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+

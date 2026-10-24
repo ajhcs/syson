@@ -1,0 +1,74 @@
+{
+  "base_commit": "5c3755b13",
+  "target_dir": "${SYSON_BUILD_DIR}/ast",
+  "jobs": 1,
+  "tools": {
+    "cargo": "cargo 1.99.1 (5f94df478 2026-08-27)",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)"
+  },
+  "source_inputs_sha256": {
+    "rust/crates/syson-ast/Cargo.lock": "d46c666810d41402e3cb870f349c31903ed3854348edb68a6e933fdcb333ce4d",
+    "rust/crates/syson-ast/Cargo.toml": "c4792a4316239c991a7d87fa3b8cce2c6bbe4fdc156dc234add1ded10d88ccf4",
+    "rust/crates/syson-ast/LICENSE": "8c349f80764d0648e645f41ef23772a70c995a0924b5235f735f4a3d09df127c",
+    "rust/crates/syson-ast/NOTICE.md": "605ae8eab56df4833fce504ea8a90dbb9b4d7820e3356812f153c2436d1bdca9",
+    "rust/crates/syson-ast/UPSTREAM-NOTICES.json": "57e6bfe46fbd6548979a19b6d3ed23f36c7c812e7e516b60daf3db6e1b130427",
+    "rust/crates/syson-ast/src/lib.rs": "3317db9c1042d4d5c49aefa1b660ab1eef2e8409861345ed476d7f50f11d74c1",
+    "rust/crates/syson-ast/tests/construction.rs": "6adc41c6e7a448b641613e52612e49e1c0241175d9d0fe509c49bc4ea0a43338",
+    "rust/crates/syson-ast/tests/flat_array.rs": "bb0ffbd67aa88308b3c56f50a6efbce6aa9986ae2cd73c95d418e0c02b2914d8",
+    "rust/crates/syson-ast/tests/ownership.rs": "cde010bead493297788ce342a210fadddfd5c9f3a6ccbd8df23c4a5290017da4"
+  },
+  "upstream_execution": "NOT RUN",
+  "checks": [
+    {
+      "check": "test",
+      "start_utc": "2026-10-22T21:58:41.116211+00:00",
+      "end_utc": "2026-10-22T21:58:41.538824+00:00",
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "--manifest-path",
+        "rust/crates/syson-ast/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "raw_output_sha256": "4e53126af61e66a2915213ddeca5f825cb47b0131e674b10dce4505467ac383c",
+      "normalized_output_sha256": "02256de09cbd40672742f3ed70ddf16aedf3a543657c0127b6c826ad8714da1f"
+    },
+    {
+      "check": "clippy",
+      "start_utc": "2026-10-22T21:58:41.538979+00:00",
+      "end_utc": "2026-10-22T21:58:41.780153+00:00",
+      "command": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--manifest-path",
+        "rust/crates/syson-ast/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "raw_output_sha256": "5ba0822992d8f059b6637247497bc575efdc8be7e4819b5b4f30465274a12234",
+      "normalized_output_sha256": "eaa9f1e729e423ad27844b3c7162031e763fe801beac72883c34083cfd139289"
+    },
+    {
+      "check": "fmt",
+      "start_utc": "2026-10-22T21:58:41.780300+00:00",
+      "end_utc": "2026-10-22T21:58:41.802600+00:00",
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "rust/crates/syson-ast/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalized_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "output_note": "Committed output paths/trailing empty lines normalized; raw hashes describe exact original captured bytes retained in build directory."
+}

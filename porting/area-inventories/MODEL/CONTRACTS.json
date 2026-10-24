@@ -1,0 +1,120 @@
+{
+  "schema": "syson.area-contract-inventory/1",
+  "area": "MODEL",
+  "status": "ACTIVE_PARTIAL_DRAFT",
+  "inventory_complete": false,
+  "independent_review": "INITIAL_PARTIAL_DRAFT_STATIC_REVIEW_PASSED; new reference proposal review PENDING",
+  "source_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "contract_rows": [
+    {
+      "id": "MODEL-DOCUMENT",
+      "surface": "Document/Editor/Transaction",
+      "rust": "Document::{from_json,to_json,element,elements,projection}; Editor::{begin,commit,undo,redo}; Transaction::{cancel,rename,type_part_usage}",
+      "status": "BOUNDED_API_PRESENT",
+      "open": "API declarations are an inventory index. Full native/resource/EMF behavior equivalence and all error contracts remain open."
+    },
+    {
+      "id": "MODEL-SCALAR",
+      "surface": "Typed scalar attribute writes",
+      "rust": "Document::inspect_node; Transaction::set_attribute",
+      "status": "BOUNDED_QUALIFIED_SUBSET",
+      "open": "Retain enum/type/identity/unknown/ambiguous/external refusals. Native cache/eIsSet/notifications are not established by JSON writes."
+    },
+    {
+      "id": "MODEL-CONTAINMENT",
+      "surface": "Preallocated subtree attachment",
+      "rust": "Transaction::attach_preallocated_subtree; ContainmentFeature::{OwnedRelationship,OwnedRelatedElement}",
+      "status": "TWO_FEATURE_BOUNDARY",
+      "open": "No generic move/delete/inverse/proxy/reference semantics admitted by these two typed containments."
+    },
+    {
+      "id": "MODEL-RAW",
+      "surface": "Raw allocation and cached scalar state",
+      "rust": "RawFactory::allocate; RawObject::{inspect_scalar,assign_cached_scalar,unset_cached_scalar}",
+      "status": "CANDIDATE_SEPARATE_FROM_DOCUMENT",
+      "open": "Cached fields, semantic identity, resource identity, getter observation, storage observation and set state remain distinct. Historical raw-factory whole-item blocker is retained."
+    },
+    {
+      "id": "MODEL-INITIALIZER",
+      "surface": "Source initializer and generated dispatch",
+      "rust": "syson-initializer planner and default-off graph candidates",
+      "status": "SELECTED_CONSTRUCTION_QUALIFIED",
+      "open": "ConnectionDefinition, InterfaceDefinition and AcceptActionUsage have separate bounded evidence. Other source cases, inherited dispatch, contextual queries, direct helper calls and raw-child initialization require separate mapping."
+    },
+    {
+      "id": "MODEL-REFERENCE",
+      "surface": "Native object references and inverse relations",
+      "rust": "Specialized type_part_usage exists; no generic reference setter appears in inspected declarations",
+      "status": "NATIVE_CONTRACT_OPEN",
+      "open": "PortDefinition and ViewUsage explicitly set object references. Inspect actual setters, inherited implementations, inverse updates and null behavior before proposing an API."
+    },
+    {
+      "id": "MODEL-QUERY",
+      "surface": "Owning namespace/member/owner/effective name and library lookup",
+      "rust": "NativeContext/Index adapters are separate from complete native query support",
+      "status": "CONTEXTUAL_COVERAGE_OPEN",
+      "open": "Exact-class member counting is not subtype counting. Source PartUsage actor/stakeholder predicates test the new object's membership in each filter iteration. Preserve source behavior; do not silently correct it."
+    },
+    {
+      "id": "MODEL-MUTATION",
+      "surface": "Metamodel mutation/import/query services",
+      "rust": "Source method index only in this tranche",
+      "status": "INVENTORY_INCOMPLETE",
+      "open": "Public method declarations do not prove complete behavior, errors, retry, cancellation, derived results, or Rust equivalence."
+    },
+    {
+      "id": "MODEL-NATIVE-STATE",
+      "surface": "Caches/eIsSet/proxies/inverses/notifications/resource graph",
+      "rust": "Explicit partial projections and unrepresented-state reporting",
+      "status": "UNACCEPTED",
+      "open": "No complete native model, upstream runtime, UI, serializer closure or area parity acceptance follows from this inventory."
+    }
+  ],
+  "blocked_candidate_contracts": [
+    {
+      "id": "MODEL-PORT-DEFINITION-CONTRACT",
+      "source": "ElementInitializerSwitch.java:247-260",
+      "source_order": [
+        "Count exact-class namespace members; set concrete-class declaredName",
+        "Allocate OwningMembership and attach to root before allocating its child",
+        "Allocate raw ConjugatedPortDefinition and attach under membership",
+        "Allocate raw PortConjugation and attach under conjugated definition",
+        "Set conjugatedType to conjugated definition, then originalPortDefinition to root",
+        "Return nonnull root"
+      ],
+      "code_lease": "BLOCKED",
+      "needs": [
+        "Actual PortConjugation setters and inverse behavior",
+        "Identity/resource/null/reference admission policy",
+        "Generated dispatch and inherited behavior",
+        "Reconcile any existing applier support before creating duplicate work"
+      ]
+    },
+    {
+      "id": "MODEL-VIEW-USAGE-CONTRACT",
+      "source": "ElementInitializerSwitch.java:340-347",
+      "source_order": [
+        "Run direct Usage first",
+        "Allocate raw FeatureTyping and attach under root",
+        "Resolve StandardViewDefinitions::GeneralView as ViewDefinition",
+        "Set type to resolved object (possibly null), then typedFeature to root",
+        "Return nonnull root"
+      ],
+      "code_lease": "BLOCKED",
+      "needs": [
+        "ElementUtil lookup exact contract and ambiguity/cycles/not-found behavior",
+        "Actual FeatureTyping setters and inverse/derived behavior",
+        "Library/query boundary and atomic reference admission",
+        "Reconcile existing applier support"
+      ]
+    }
+  ],
+  "qualified_local_checkpoints": {
+    "InterfaceDefinition": "0b516bfb63b84e19a73aa600cc41a0a5bb15e51b",
+    "AcceptActionUsage": "a852cb2280b4172557e570498cf82ae57f223eb9"
+  },
+  "qualification_boundary": "Selected owner tests and independent static review are separate evidence; no full native/runtime/UI or whole-area acceptance.",
+  "next_action": "Review exact reference setter/inverse and ElementUtil lookup bodies; reconcile existing applier coverage; split only source-closed implementation APIs after independent inventory review.",
+  "reference_audit": "REFERENCE-AUDIT.json records later bounded source observations; native/runtime acceptance remains open.",
+  "proposed_port_contract": "PROPOSED-PORT-DEFINITION.json; PROPOSED only, no code lease or accepted implementation contract"
+}
