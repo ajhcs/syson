@@ -11,6 +11,7 @@ mod local_names;
 pub use local_names::{ReferenceEncoding, NameKind};
 mod staged;
 pub use staged::{initialize_staged, apply_staged_plan};
+pub mod native_query;
 
 #[derive(Debug)]
 pub enum Error { Gap(ContextGap), Model(ModelError), Unresolved(ContextGap), Planning(Problem), Cancelled, ClassMismatch, StalePlan }
