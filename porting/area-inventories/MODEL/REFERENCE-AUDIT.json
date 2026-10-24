@@ -1,0 +1,192 @@
+{
+  "schema": "syson.reference-source-audit/1",
+  "status": "LOCAL_SOURCE_AUDIT; independent contract review PENDING",
+  "source_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "source_hashes": {
+    "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/ConjugationImpl.java": "4bb692fbd63a6522e7e0d1614e747fe9139cdd6a00309eb5030981b114c79952",
+    "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/PortConjugationImpl.java": "a30ccdde5bdc1a5d540b68960fef3e6aba076d8ecdc695f5231c7df1c587f926",
+    "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/FeatureTypingImpl.java": "68dcee25dd646be7b2240906e42209b5ccc03ffe68cf931c4f1d49a23d6ca097",
+    "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/util/ElementUtil.java": "e230e59c6d53a918e0db0813d35dc536d49f21e7b3984a0e659226c5ee3058e2",
+    "backend/metamodel/syson-sysml-metamodel/src/main/resources/model/sysml.ecore": "82463c8f21d1a688603866ec02c6d4880b4e9224e34e9833a464aed0bd8f5440"
+  },
+  "observations": [
+    {
+      "source": "ConjugationImpl.java:116-122",
+      "fact": "setConjugatedType directly assigns conjugatedType and conditionally notifies; no inverse update is called in this setter.",
+      "limit": "Notification delivery, proxies and native runtime were not executed."
+    },
+    {
+      "source": "PortConjugationImpl.java:40,76-91,128-134,210-233",
+      "fact": "PortConjugation inherits setConjugatedType. Its basicGetConjugatedPortDefinition remains TODO and returns null. getOwningType delegates to that derived getter. originalPortDefinition has its own cached field/direct setter; getOriginalType aliases getOriginalPortDefinition; setOriginalType delegates only for instanceof PortDefinition, including no action on null.",
+      "limit": "Do not equate inherited stored conjugatedType with derived conjugatedPortDefinition, or cached originalType with virtual getOriginalType."
+    },
+    {
+      "source": "ConjugationImpl.java:258-267; PortConjugationImpl.java:derived getter/owning override",
+      "fact": "Inherited eIsSet for originalType inspects its separate cached originalType field. A fresh PortConjugation initialized through setOriginalPortDefinition can have a nonnull virtual getOriginalType while that inherited cached-field isSet test stays false.",
+      "limit": "Source-derived fresh-object prediction, not measured Java execution. JSON member presence does not prove native isSet."
+    },
+    {
+      "source": "FeatureTypingImpl.java:94-99,136-142,178-184,273-316",
+      "fact": "type and typedFeature setters directly assign separate cached references and conditionally notify. General aliases type; specific aliases typedFeature, and setSpecific delegates only for Feature values. owningFeature is derived from owningRelatedElement.",
+      "limit": "Separate generic alias/null behavior; no full specialization/resource/inverse acceptance."
+    },
+    {
+      "source": "ElementUtil.java:207-237,265-309,324-359,372-394",
+      "fact": "Lookup uses ResourceSet resource/content order and returns first nonnull root result. Qualified traversal selects first owned-name match, then public imported membership matches when no owned match; name/shortName and optional quote comparison are used. No resource set yields no roots and null.",
+      "limit": "Do not substitute an ambiguity-rejecting local lookup or infer a ResourceSet provider from the current NativeContext; it reports GeneralView unresolved."
+    },
+    {
+      "source": "rust/crates/syson-model/src/lib.rs:496-534; scalar.rs:154-213; syson-initializer-graph/src/lib.rs:130-132,188-189",
+      "fact": "Existing type_part_usage writes semantic-ID strings for FeatureTyping type/typedFeature. Generic scalar edits reject references and preserve unresolved-supertype refusal. Generic initializer application rejects SetReference; GeneralView lookup is unresolved.",
+      "limit": "Existing specialized typing does not admit a generic reference setter or complete ViewUsage behavior."
+    }
+  ],
+  "ecore_references": [
+    {
+      "class": {
+        "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EClass",
+        "name": "Conjugation",
+        "eSuperTypes": "#//Relationship"
+      },
+      "features": [
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "conjugatedType",
+          "ordered": "false",
+          "lowerBound": "1",
+          "eType": "#//Type"
+        },
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "originalType",
+          "ordered": "false",
+          "lowerBound": "1",
+          "eType": "#//Type"
+        },
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "owningType",
+          "ordered": "false",
+          "eType": "#//Type",
+          "changeable": "false",
+          "volatile": "true",
+          "transient": "true",
+          "derived": "true",
+          "eOpposite": "#//Type/ownedConjugator"
+        }
+      ]
+    },
+    {
+      "class": {
+        "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EClass",
+        "name": "FeatureTyping",
+        "eSuperTypes": "#//Specialization"
+      },
+      "features": [
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "owningFeature",
+          "ordered": "false",
+          "eType": "#//Feature",
+          "changeable": "false",
+          "volatile": "true",
+          "transient": "true",
+          "derived": "true",
+          "eOpposite": "#//Feature/ownedTyping"
+        },
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "type",
+          "ordered": "false",
+          "lowerBound": "1",
+          "eType": "#//Type"
+        },
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "typedFeature",
+          "ordered": "false",
+          "lowerBound": "1",
+          "eType": "#//Feature"
+        }
+      ]
+    },
+    {
+      "class": {
+        "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EClass",
+        "name": "PortConjugation",
+        "eSuperTypes": "#//Conjugation"
+      },
+      "features": [
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "conjugatedPortDefinition",
+          "ordered": "false",
+          "lowerBound": "1",
+          "eType": "#//ConjugatedPortDefinition",
+          "changeable": "false",
+          "volatile": "true",
+          "transient": "true",
+          "derived": "true",
+          "eOpposite": "#//ConjugatedPortDefinition/ownedPortConjugator"
+        },
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "originalPortDefinition",
+          "ordered": "false",
+          "lowerBound": "1",
+          "eType": "#//PortDefinition"
+        }
+      ]
+    },
+    {
+      "class": {
+        "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EClass",
+        "name": "Specialization",
+        "eSuperTypes": "#//Relationship"
+      },
+      "features": [
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "general",
+          "ordered": "false",
+          "lowerBound": "1",
+          "eType": "#//Type"
+        },
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "owningType",
+          "ordered": "false",
+          "eType": "#//Type",
+          "changeable": "false",
+          "volatile": "true",
+          "transient": "true",
+          "derived": "true",
+          "eOpposite": "#//Type/ownedSpecialization"
+        },
+        {
+          "{http://www.w3.org/2001/XMLSchema-instance}type": "ecore:EReference",
+          "name": "specific",
+          "ordered": "false",
+          "lowerBound": "1",
+          "eType": "#//Type"
+        }
+      ]
+    }
+  ],
+  "upstream_runtime": "NOT_RUN",
+  "rust_tests": "NOT_RUN in this audit",
+  "fully_parity_verified_areas": 0,
+  "selected_feature_lookup": {
+    "source": "Independent proposal-01 review of current registry inherited_feature and pinned Ecore declarations",
+    "conjugatedType": {
+      "declaring_owner": "Conjugation",
+      "selected_unresolved_supertypes": []
+    },
+    "originalPortDefinition": {
+      "declaring_owner": "PortConjugation",
+      "selected_unresolved_supertypes": []
+    },
+    "reason": "Feature lookup stops at each local declaration. Global external EModelElement ancestry is a separate unresolved boundary, not a selected lookup branch.",
+    "implementation_status": "NOT_WRITTEN"
+  }
+}
