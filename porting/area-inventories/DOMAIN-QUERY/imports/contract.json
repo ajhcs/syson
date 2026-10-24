@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "upstream_commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "port_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "evidence": "SOURCE_DERIVED_NOT_EXECUTED",
+  "sources": {
+    "namespace": {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/NamespaceImpl.java",
+      "blob": "764bac2fa3f254168e14a5315e7f589bcca8d61a",
+      "sha256": "8ca1248f2eb6481b6d43d802f696a99e9b8f95978dadcf79dead4b32d249e42b",
+      "anchors": [
+        {
+          "first": 84,
+          "last": 92,
+          "sha256": "e2e223ade1bab24e7066581b46c75fc1e79dd737687cdcc8a4b3d48b82eb1905"
+        },
+        {
+          "first": 129,
+          "last": 135,
+          "sha256": "214be8c859160483c3338707d070a0170ff4937b9c6cfcfdd90cd6abd764b20f"
+        },
+        {
+          "first": 146,
+          "last": 153,
+          "sha256": "7977e1560640b828ccd38971637cbcdd0451813bc0bc253caa3252ca5b102025"
+        },
+        {
+          "first": 175,
+          "last": 182,
+          "sha256": "897c6322cb5771cbfa7366d3d438bf3702efa5b717e38ee98791acd6ad3bbc2d"
+        },
+        {
+          "first": 188,
+          "last": 213,
+          "sha256": "05019a9ade8c80535bc30b200806b50a0c99211a92efa960c09f90ba4a1f0a66"
+        },
+        {
+          "first": 411,
+          "last": 413,
+          "sha256": "6e77439b34128b2c34cb6fd271acbc586cd222c962fe94ce377e2902fdcc8f74"
+        }
+      ]
+    },
+    "computer": {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/helper/MembershipComputer.java",
+      "blob": "056667ccc9161037a4d09404181616bcfd2f90fe",
+      "sha256": "295b6a38925f2a21bf21e748d13d93ff9312e3da332a7dfa07cfc42f64fce2b3",
+      "anchors": [
+        {
+          "first": 60,
+          "last": 116,
+          "sha256": "a809f4404b09fa6e3c09066cc6ffc79674c2e348b9e7c3f6b837396f92692b70"
+        },
+        {
+          "first": 158,
+          "last": 202,
+          "sha256": "4f1cb4ef51cc2e352ad99625ec61579695350768e1ac67e15c8b0a782fe9cf96"
+        }
+      ]
+    },
+    "filter": {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/helper/NameConflictingFilter.java",
+      "blob": "39f1f32598f714a606f6bb46666cc38aafe0d8c1",
+      "sha256": "4d4f8d3c16be28a1871b84ba9b4893cfde33017716770437fc5c2720b8d16595",
+      "anchors": [
+        {
+          "first": 44,
+          "last": 97,
+          "sha256": "9d5bf498d949500e6e4738426a6437ad7f11212f67076e8195eddc3e12ce58ae"
+        }
+      ]
+    },
+    "namespace_import": {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/NamespaceImportImpl.java",
+      "blob": "31d814053f55c2b609711e70af017bfeca9c3dfb",
+      "sha256": "93ff9f7a44d6c737b2543320e94da73d4a6dfb76aea503f641b4513ffda6d74c",
+      "anchors": [
+        {
+          "first": 176,
+          "last": 182,
+          "sha256": "0f0faad1a72a54d6ac9c3ff57cd5f3f79a3436f74006b3fd83787b7ad43d8f9e"
+        }
+      ]
+    },
+    "membership_import": {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/MembershipImportImpl.java",
+      "blob": "307067561d40029b603c70fc98ac7a8c1fa9b8eb",
+      "sha256": "6247435c125bfe21beddc99aa04fe34001d40ae337f9c652740eec1baf1bf780",
+      "anchors": [
+        {
+          "first": 176,
+          "last": 183,
+          "sha256": "29e50a72e5f6fe9deff899b9f9994d906a3ef71deca3bdc51af179e85e523b74"
+        }
+      ]
+    },
+    "import": {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/ImportImpl.java",
+      "blob": "03b9f9b5babed0013cf2599cdeeeda0637cd1c15",
+      "sha256": "2582b6d61ae20df3ef64bb1d55c09018e3c000bdd0deeeceb109d9868b7e2158",
+      "anchors": [
+        {
+          "first": 243,
+          "last": 253,
+          "sha256": "b17a0328559b3d4f9a404abb8ac8017156ce4e068131394aeee7bba67f74d290"
+        }
+      ]
+    }
+  },
+  "obligations": {
+    "ordered_imports": [
+      "namespace",
+      "computer"
+    ],
+    "owned_conflict_seed": [
+      "namespace",
+      "filter"
+    ],
+    "filter_side_effects": [
+      "filter"
+    ],
+    "alias_identity": [
+      "filter"
+    ],
+    "exclusion_append": [
+      "namespace"
+    ],
+    "cycles": [
+      "computer"
+    ],
+    "visibility": [
+      "namespace",
+      "computer"
+    ],
+    "unresolved": [
+      "namespace_import",
+      "membership_import"
+    ],
+    "null_base_import": [
+      "namespace",
+      "import"
+    ]
+  },
+  "unsupported": [
+    "proxy_resolution",
+    "native_cache_lifecycle",
+    "inherited_type_memberships",
+    "cross_resource_identity_equivalence"
+  ],
+  "required_statuses": [
+    "MEMBERSHIPS",
+    "NULL_UNIMPLEMENTED",
+    "UNRESOLVED_NOT_ADMITTED",
+    "SOURCE_NULL_FLATTEN_ERROR"
+  ],
+  "fixtures_sha256": "9105f54c8e560dd8b31f5a020d58c6eea3b54a51a387439f3bc1fc89c44636c1"
+}
