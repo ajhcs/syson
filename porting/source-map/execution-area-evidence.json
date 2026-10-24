@@ -1,0 +1,942 @@
+{
+  "schema_version": 1,
+  "item_id": "PLAN-INVENTORY-01",
+  "captured_at_utc": "2026-10-22T22:09:34.031366+00:00",
+  "scope": "Selected source-grounded planning anchors for exactly 18 permanent parity areas; not complete source closure, implementation claim, runtime result or acceptance gate.",
+  "reference_ledger": {
+    "path": "porting/PARITY-LEDGER.json",
+    "integration_commit": "37bcdadabd171609e5d944d9d0f078ebdfb87383",
+    "sha256": "ca56cad41fa2463bae6251b7f5125396caefae267d5b8857d05d893f36acbc00",
+    "permanent_area_ids": [
+      "DOMAIN-NAME",
+      "DOMAIN-ID",
+      "DOMAIN-QUERY",
+      "EDITOR-ROTATE",
+      "EDITOR-GEOMETRY",
+      "MIGRATION-ID",
+      "MODEL",
+      "PARSER",
+      "UI",
+      "LAYOUT",
+      "API",
+      "DB",
+      "RECOVERY",
+      "HISTORY",
+      "ACCESSIBILITY",
+      "EXPORT",
+      "EXTENSIONS",
+      "DEPS"
+    ]
+  },
+  "source_baseline": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "verification": "Every selected source reference was re-read using git show at its pinned commit and matched against retained source-index SHA256. Runtime code was not executed.",
+  "dependency_edge_semantics": "Sequencing/integration recommendations, not a mandatory acyclic build graph. Independently testable slices may precede full parent-area closure.",
+  "areas": {
+    "DOMAIN-NAME": {
+      "area_label": "Name matching, escaping and conflict filter",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/helper/NameHelper.java",
+          "sha256": "3063853eec018d689ec9b50f17c32da8e8056a97bcf5fd30ebf71e3e4317b4b6",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/helper/NameConflictingFilter.java",
+          "sha256": "b56a42af5966a0b20eb9dec4847b79e08504cd9f18adb7883fd95fa2b320d79b",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        }
+      ],
+      "known_behaviors": [
+        "Qualified splitting, Java escaping, printable keywords and incremental conflict filtering are distinct operations; alias reference identity affects reservations."
+      ],
+      "exclusions": [
+        "Name helper tests do not establish parser or name-scope equivalence."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Qualify UTF16/Java whitespace and alias-identity adapters, effective subclass names and scope behavior."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "DOMAIN-ID": {
+      "area_label": "Stable standard-library UUIDv5",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/util/ElementUtil.java",
+          "sha256": "e230e59c6d53a918e0db0813d35dc536d49f21e7b3984a0e659226c5ee3058e2",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        }
+      ],
+      "known_behaviors": [
+        "UUIDv5 and standard-library resource classification coexist with resource-dependent and random identity branches."
+      ],
+      "exclusions": [
+        "Deterministic UUID primitive tests do not close random fallback, resource loading or persisted identity."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Trace all resource/name/library identity branches and preservation through import/export/database."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "DOMAIN-QUERY": {
+      "area_label": "Qualified and unqualified name traversal",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/util/ElementUtil.java",
+          "sha256": "e230e59c6d53a918e0db0813d35dc536d49f21e7b3984a0e659226c5ee3058e2",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/ElementImpl.java",
+          "sha256": "094e31ec652f2df9eb7c424721a2f83501dfd0a771eeebfdfeab18fe8bceef30",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        }
+      ],
+      "known_behaviors": [
+        "Lookup and qualified naming depend on ownership, owned/imported membership traversal and type predicates."
+      ],
+      "exclusions": [
+        "A query projection with preflattened relationships is not complete EMF containment or Java isInstance behavior."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "DOMAIN-NAME",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Disposition relationship ownership, lookup precedence, imports and polymorphic class predicates using real fixtures."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "EDITOR-ROTATE": {
+      "area_label": "Selected-node rotation and layout merge",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/extensions/rotateNodeTool/useRotateNode.ts",
+          "sha256": "0fa1f5b58d7984dbcca8df8e7da78d02650997646fe161a012de9b336b3f85f1",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "integration-tests-playwright/playwright/e2e/rotate-node.spec.ts",
+          "sha256": "2a41cc0b73c19df24de6facc97d13507c3174e4ffe76ba8fc8d05ec3aaf1423e",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        }
+      ],
+      "known_behaviors": [
+        "Rotation updates first selected geometry before async layout, then merges selected nodes/incident edges and synchronizes layout data."
+      ],
+      "exclusions": [
+        "Geometry snapshots do not implement asynchronous transport, history, layout or renderer."
+      ],
+      "recommended_area_dependencies": [
+        "EDITOR-GEOMETRY",
+        "LAYOUT",
+        "HISTORY",
+        "API"
+      ],
+      "unclosed_surface": [
+        "Qualify complete callback/error/concurrency paths and actual layout synchronization."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "EDITOR-GEOMETRY": {
+      "area_label": "Leaf sizes and note appearance",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/nodes/package/SysMLPackageNodeLayoutHandler.ts",
+          "sha256": "2bf5aa585c3910b02097b1ab1ebf13ac544d27d6ce2e34ed4b49549b454917b8",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/nodes/note/SysMLNoteNode.tsx",
+          "sha256": "67da89b93408065f4d54445665ba51218165b7dee0546f50e4ce41f010c6350f",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        }
+      ],
+      "known_behaviors": [
+        "Leaf sizing and note SVG appearance have local formulas with DOM measurement/theme/parent-layout dependencies."
+      ],
+      "exclusions": [
+        "Finite formulas do not close JavaScript number formatting, parent/border layout or DOM rendering."
+      ],
+      "recommended_area_dependencies": [
+        "LAYOUT",
+        "UI",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Map every custom node/edge/decorator and qualify sizing/stroke/theme including nonfinite/scientific/-zero cases."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "MIGRATION-ID": {
+      "area_label": "Standard library semantic/diagram ID migrations",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesElementsReferencesMigrationParticipant.java",
+          "sha256": "f95dcc035a65532bde00fd93a53991326a02ee10f1006dfda21f4a779c2b90a2",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesElementsDiagramMigrationParticipant.java",
+          "sha256": "96310b9b53b4b04c2bbc4bf7a43989e35b22c201163d19e31fb3148dd8b91645",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/MigrationParticipantService.java",
+          "sha256": "b67a9002a581a7b3ec00508c180274fa89b3357f3fb513fd43cc4decc08cde61",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        }
+      ],
+      "known_behaviors": [
+        "Semantic reference and diagram target-ID remapping require resource lookup and versioned participant ordering."
+      ],
+      "exclusions": [
+        "String predicates/table lookup do not implement EMF URI resolution, JSON traversal, scheduling or database transactions."
+      ],
+      "recommended_area_dependencies": [
+        "DOMAIN-ID",
+        "MODEL",
+        "DB",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Map remaining participants/version registry and complete fixture transformations, including unknown/nonlibrary/reference cases."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "MODEL": {
+      "area_label": "Complete metamodel and semantic invariants",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/metamodel/syson-sysml-metamodel/src/main/resources/model/sysml.ecore",
+          "sha256": "82463c8f21d1a688603866ec02c6d4880b4e9224e34e9833a464aed0bd8f5440",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/metamodel/syson-siriusweb-customnodes-metamodel/src/main/resources/model/sysml-customnodes.ecore",
+          "sha256": "80006ba6cf30c146c1a8050ab7218adf52bdca92e04cbb45dd839b727790b266",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/ElementImpl.java",
+          "sha256": "094e31ec652f2df9eb7c424721a2f83501dfd0a771eeebfdfeab18fe8bceef30",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        }
+      ],
+      "known_behaviors": [
+        "Ecore retains declarations and nested metadata; executable Java supplies additional ownership, derived and operation behavior."
+      ],
+      "exclusions": [
+        "Registry metadata, a few constructors and scalar edits do not execute every operation, reference, derived feature or constraint."
+      ],
+      "recommended_area_dependencies": [
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Disposition every classifier/feature/operation/constraint and EMF resource/notification/identity behavior."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/ecore-documents.jsonl",
+        "porting/source-map/metamodel.jsonl",
+        "porting/source-map/external-java-imports.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "PARSER": {
+      "area_label": "Textual SysML/KerML parsing and semantic import",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+          "sha256": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-sysml-import/src/main/java/org/eclipse/syson/sysml/SysmlToAst.java",
+          "sha256": "3b47b8306b85cf4d56e0548348fc63fa4978aa5cebd62c425244cda170f33862",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syside",
+          "repository": "https://github.com/sensmetry/sysml-2ls",
+          "commit": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+          "path": "packages/syside-languageserver/src/services/parser/parser.ts",
+          "sha256": "4cba11ff49975d47bcd6c5aba6d9cb55c5a06d84993dc6ac2effffa902a67d61",
+          "source_index": "porting/source-map/syside-source/semantic-source-documents.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "syside",
+          "repository": "https://github.com/sensmetry/sysml-2ls",
+          "commit": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+          "path": "packages/syside-languageserver/src/services/sysml-ast-reflection.ts",
+          "sha256": "9f43aba6051f1ef68b36730212e5ebdbb906816fac746a644be7cd6e89c9607b",
+          "source_index": "porting/source-map/syside-source/semantic-source-documents.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Complete serialized KerML/SysML grammar declarations match embedded baseline objects; construction, values, reflection, linking, validation and import remain distinct layers."
+      ],
+      "exclusions": [
+        "CST recognition/one synthetic oracle acceptance are not AST/recovery/semantic/import correspondence; all 735 rule statuses and 848 construction obligations remain UNPORTED."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "DOMAIN-NAME",
+        "EXPORT",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Qualify service-to-bundle correspondence; implement complete reflection/AST adapter with explicit ambiguity/recovery/unsupported outcomes before semantic claims."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/syside-source/generated-grammar-documents.jsonl",
+        "porting/source-map/syside-source/ast-construction-obligations.jsonl",
+        "porting/source-map/syside-source/AST-VALUE-CONVERSION.md",
+        "porting/source-map/syside-source/syson-import-adapter-source.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "UI": {
+      "area_label": "Application shell and all editors",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/extensions/SysONExtensionRegistryMergeStrategy.ts",
+          "sha256": "8025264b9ea0790cb80896889e60455dfbdad24f2057d2955a56b65db214d18b",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/extensions/InsertTextualSysMLv2MenuContribution.tsx",
+          "sha256": "a7080351790ab69697a1d4c705f69b59f367ae34cc8d89d261d53ad11dc08878",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/frontend/sirius-components-core/src/workbench/WorkbenchExtensionPoints.tsx",
+          "sha256": "1ff7472f5373887bd2ff9a6f71b847e087014f887471f668b3f87825343f4d5e",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "SysON contributes editors/tools through inherited application extension points, including textual insertion."
+      ],
+      "exclusions": [
+        "A Rust WASM shell and scalar-control browser checks do not close complete project/editor/auth/collaboration workflows."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "API",
+        "LAYOUT",
+        "HISTORY",
+        "ACCESSIBILITY",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Inventory routes/editors/tools/forms/palettes/theme/error surfaces and extension precedence; qualify complete real user workflows."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "LAYOUT": {
+      "area_label": "Full diagram layout and routing",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/nodes/view_frame/SysMLViewFrameNodeLayoutHandler.ts",
+          "sha256": "4f9964eaa5052484e8695dc740380e408b6c4a3f7b4b7aee2fcc177d914fe406",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/elk/useElkLayout.ts",
+          "sha256": "04c47ba362e5bd31a0c42d9658a398a1325d3a71ecddb8ca76bf0936738450fa",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "integration-tests-playwright/playwright/e2e/diagrams/auto-layout.spec.ts",
+          "sha256": "bd76efb10fe1ed72b6b3fa06243a48daa97a4c320f2d6305024a11587487a3dd",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Local custom-node handlers participate in inherited rendering/ELK layout; useElkLayout asynchronously calls elk.layout."
+      ],
+      "exclusions": [
+        "Leaf formulas and identity-layout substitutes do not implement full routing, ports, labels, parents or incremental layout."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Pin actual ELK/layout dependency artifacts and qualify every node/edge/port/label/coordinate and incremental case."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "API": {
+      "area_label": "REST/GraphQL and subscriptions",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application-configuration/src/main/resources/schema/sysmlcustomnodes.graphqls",
+          "sha256": "863660cb081ce5abf852f8ec54257ead1b2285ab6635d6956392eb04de078027",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/project/controllers/ProjectRestController.java",
+          "sha256": "b4feb1709736b23c69b88a3ef10e6893eb621d55252e1138a0961844a6110a72",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/backend/sirius-components-collaborative/src/main/java/org/eclipse/sirius/components/collaborative/editingcontext/EditingContextEventProcessor.java",
+          "sha256": "c801086c47e44c436cabf341721a646c053e9123685edbe09801ddaa82e04982",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Local SDL augments inherited REST/GraphQL/event-processing surfaces; mutations/subscriptions depend on editing-context lifecycles."
+      ],
+      "exclusions": [
+        "Schema/route declaration counts do not prove registration, authorization, wire/error semantics or subscription behavior."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "DB",
+        "HISTORY",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Resolve route/schema composition, injection, auth/isolation, cancellation, payloads/errors and event lifetimes."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/rest-endpoints.jsonl",
+        "porting/source-map/graphql-documents.jsonl",
+        "porting/source-map/graphql-client-documents.jsonl",
+        "porting/source-map/inherited/sirius-graphql-documents.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "DB": {
+      "area_label": "Database schema and persistence",
+      "source_refs": [
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/db.changelog-master.xml",
+          "sha256": "379983d39abfdb80ee22087d1d50c15017ccaf388ae23c8e8c4d8d0ed226b210",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/editingcontext/services/EditingContextPersistenceService.java",
+          "sha256": "a841d1620c922ea530bc087ef374d8a13a8759a2872684a3197d41bd1e4a4981",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Inherited Liquibase master includes version roots; transactional persistence applies resource filters and document conversion."
+      ],
+      "exclusions": [
+        "Recursive schema inventory and local immutable EMF JSON snapshots do not establish database compatibility."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "MIGRATION-ID",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Resolve every include/changeset, repositories, constraints and serializers; qualify complete fixture round trips under isolated execution."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/inherited/sirius-liquibase-documents.jsonl",
+        "porting/source-map/inherited/sirius-liquibase-includes.jsonl",
+        "porting/source-map/inherited/sirius-liquibase-changesets.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "RECOVERY": {
+      "area_label": "Crash recovery and integrity",
+      "source_refs": [
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/editingcontext/services/EditingContextPersistenceService.java",
+          "sha256": "a841d1620c922ea530bc087ef374d8a13a8759a2872684a3197d41bd1e4a4981",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/backend/sirius-components-collaborative/src/main/java/org/eclipse/sirius/components/collaborative/editingcontext/EditingContextEventProcessor.java",
+          "sha256": "c801086c47e44c436cabf341721a646c053e9123685edbe09801ddaa82e04982",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Persistence transactions and editing-context event processing are concrete starting points for durability/cancellation analysis."
+      ],
+      "exclusions": [
+        "Crash/restart/backup/integrity recovery contracts have not been fully identified or exercised; transaction annotations do not prove recovery."
+      ],
+      "recommended_area_dependencies": [
+        "DB",
+        "MODEL",
+        "HISTORY",
+        "API",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Identify durable commit/ack boundaries, failure states, retries, reload and concurrency guarantees; document absent source guarantees before fault-injection design."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "HISTORY": {
+      "area_label": "Undo/redo and collaborative transaction history",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application/src/test/java/org/eclipse/syson/application/controllers/diagrams/general/view/GVUndoTests.java",
+          "sha256": "277018fd4a35365badc40735ea183a27c27be9c770f00ac7865f466429ad27ad",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/undo/services/UndoRedoRecorder.java",
+          "sha256": "e1005eaf7af55dbe3a3ba031cc8c24aaa502430ce3b027fa477a06c761e63d84",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/undo/controller/MutationUndoDataFetcher.java",
+          "sha256": "e901b04257bc629699881132a00e38931a9a6f650f3c8b1481bcc876e095acdd",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Inherited recorder hooks pre/postprocess editing inputs; SysON integration test source exercises diagram undo."
+      ],
+      "exclusions": [
+        "Local Rust construction/edit transactions do not implement persisted/collaborative undo history."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "DB",
+        "API",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Trace semantic/representation changes, ignored inputs, redo invalidation, replay/conflicts and subscription ordering."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "ACCESSIBILITY": {
+      "area_label": "Keyboard/screen-reader application equivalence",
+      "source_refs": [
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/key-binding/useDiagramKeyBinding.ts",
+          "sha256": "7c64679802ddae342e3f702f0794909ee661fa4ad6e77f87a1b22349e7ec549f",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/trees/frontend/sirius-components-trees/src/trees/useTreeKeyBinding.ts",
+          "sha256": "95dde8f56e47f12d20a03ac8a839916152a2358dc63cfe64a8d64d7e9757d653",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/frontend/sirius-components-core/src/key-binding/KeyBinding.tsx",
+          "sha256": "535f95483e385612477bf8310a312f049c2c35f2d62cc82af9b6dc71cdae9cb7",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Inherited diagram/tree keyboard hooks and rendered key-binding hints are concrete accessibility entry points."
+      ],
+      "exclusions": [
+        "Hook presence, DOM structure and browser smoke checks are not screen-reader/focus/application equivalence."
+      ],
+      "recommended_area_dependencies": [
+        "UI",
+        "LAYOUT",
+        "API",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Map keyboard/focus/ARIA/live-region/modal/error interactions for every workflow; qualify actual browser and screen-reader behavior separately."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "EXPORT": {
+      "area_label": "All project/textual/archive interchange",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-sysml-export/src/main/java/org/eclipse/syson/sysml/export/SysMLv2DocumentExporter.java",
+          "sha256": "cd44b25333b9ebdc4aaa131cdd548dcc192414d96b53bab6772c7933e068ad94",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-sysml-export/src/main/java/org/eclipse/syson/sysml/export/SysMLv2EditingContextPersistenceFilter.java",
+          "sha256": "241d5cd0593bef09f9ab79963deefa4ce02d65ade4fb7bb5ea23583188142006",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/project/services/ProjectExportService.java",
+          "sha256": "0fad201dad46fec6133261f55584bfe7e19056a3bd3daffaaa2b145e329671ce",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/document/controllers/DocumentDownloadController.java",
+          "sha256": "fc45454c90cb49ebe2934e6caca0282f1b51be06cd7568d2829e8837fb4f27e0",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Textual export delegates to SysMLElementSerializer; project export composes inherited participants and resource filters."
+      ],
+      "exclusions": [
+        "A standard-library filtering predicate does not implement complete textual serialization or archive/project interchange."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "DOMAIN-ID",
+        "DB",
+        "API",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Map all formats/participants/content types/archive metadata and serializer constructs; qualify semantic round trips and retained identifiers."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "EXTENSIONS": {
+      "area_label": "Inherited Sirius extensions and query expression semantics",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson-components/src/extensions/SysONExtensionRegistryMergeStrategy.ts",
+          "sha256": "8025264b9ea0790cb80896889e60455dfbdad24f2057d2955a56b65db214d18b",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/frontend/sirius-components-core/src/extension/ExtensionRegistry.ts",
+          "sha256": "bc9f27179c729d2a2d006e5167c8ac1d949f571ac7f0c8ec8d2aba0cbd877580",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/emf/backend/sirius-components-interpreter/src/main/java/org/eclipse/sirius/components/interpreter/AQLInterpreter.java",
+          "sha256": "9a3e0c4c3f792db27a07039d8d578154547488d19ecc571472a2c5a51f4225f4",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Frontend extension merging and backend AQL interpretation are distinct inherited extension mechanisms."
+      ],
+      "exclusions": [
+        "A typed registry or ad-hoc expression substitute does not close AQL/Acceleo services, injection or override precedence."
+      ],
+      "recommended_area_dependencies": [
+        "MODEL",
+        "UI",
+        "API",
+        "DEPS"
+      ],
+      "unclosed_surface": [
+        "Pin/disposition all interpreter/provider/service hooks and expression semantics, including null/error/collection and custom services."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/code-surface.jsonl",
+        "porting/source-map/upstream-tests.jsonl",
+        "porting/source-map/inherited/sirius-source-surfaces.jsonl",
+        "porting/source-map/inherited/sirius-tests.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    },
+    "DEPS": {
+      "area_label": "Resolved transitive dependency and license closure",
+      "source_refs": [
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "pom.xml",
+          "sha256": "f49d6760fd6ea2d3c079e9607c472eb27c23bfab64560d9166e362c85c58e656",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "syson",
+          "repository": "https://github.com/eclipse-syson/syson",
+          "commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "frontend/syson/package.json",
+          "sha256": "5da3d21d67cf91b5c58a39f590ec169a20cae6785b2ba4e85574c6acb59d2c6d",
+          "source_index": "porting/source-map/source-files.jsonl",
+          "qualification": "pinned SysON source"
+        },
+        {
+          "component": "sirius",
+          "repository": "https://github.com/eclipse-sirius/sirius-web",
+          "commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/emf/backend/sirius-components-interpreter/pom.xml",
+          "sha256": "02ea46c7083f06525fe10749c4bfbf7181d47e71ed3e0c080b55faaa3ab61d04",
+          "source_index": "porting/source-map/inherited/sirius-source-files.jsonl",
+          "qualification": "pinned dependency source candidate; exact deployed artifact correspondence UNPROVEN"
+        }
+      ],
+      "known_behaviors": [
+        "Manifests/locks, embedded labels, licenses and verified public source candidates are distinct evidence; EMFJSON candidate POM still declares SNAPSHOT."
+      ],
+      "exclusions": [
+        "No resolved transitive runtime/build/license closure or whole Syside bundle reproduction; this preparation authorizes no installs/upstream execution/credentials/services."
+      ],
+      "recommended_area_dependencies": [],
+      "unclosed_surface": [
+        "Resolve timestamped artifact/source hashes and Sirius/EMFJSON/AQL/Syside/ELK/framework closures; preserve exact notices and candidate-versus-artifact distinctions."
+      ],
+      "additional_source_evidence": [
+        "porting/source-map/declared-dependencies.jsonl",
+        "porting/source-map/npm-locked-inputs.jsonl",
+        "porting/source-map/inherited-maven-inputs.jsonl",
+        "porting/source-map/inherited/verified-source-candidates.jsonl",
+        "porting/source-map/license-evidence.jsonl",
+        "porting/source-map/syside-source/release-notice-documents.jsonl"
+      ],
+      "assessment": "Selected source anchors and planning recommendations only; not feature closure or runtime evidence."
+    }
+  }
+}
