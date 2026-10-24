@@ -9,6 +9,14 @@ use std::{
 };
 use syson_model::Document;
 
+#[cfg(feature = "raw-factory-candidate")]
+mod initialized_creation;
+#[cfg(feature = "raw-factory-candidate")]
+pub use initialized_creation::{
+    CreationInitialization, InitializedCreationError, InitializedCreationReport,
+    stage_initialized_creation,
+};
+
 #[derive(Debug)]
 pub enum StoreError {
     Io(io::Error),

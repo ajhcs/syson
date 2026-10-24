@@ -94,6 +94,23 @@ name = "syson-editor"
 version = "0.1.0"
 
 [[package]]
+name = "syson-initializer"
+version = "0.1.0"
+dependencies = [
+ "syson-metamodel",
+]
+
+[[package]]
+name = "syson-initializer-graph"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "syson-initializer",
+ "syson-metamodel",
+ "syson-model",
+]
+
+[[package]]
 name = "syson-metamodel"
 version = "0.1.0"
 
@@ -115,6 +132,8 @@ name = "syson-workflow"
 version = "0.1.0"
 dependencies = [
  "syson-editor",
+ "syson-initializer-graph",
+ "syson-metamodel",
  "syson-model",
  "syson-persistence",
 ]

@@ -9,5 +9,10 @@ publish = false
 syson-model = { path = "../syson-model" }
 syson-editor = { path = "../syson-editor" }
 syson-persistence = { path = "../syson-persistence" }
+syson-initializer-graph = { path = "../syson-initializer-graph", optional = true }
+syson-metamodel = { path = "../syson-metamodel", optional = true }
+
+[features]
+raw-factory-candidate = ["dep:syson-initializer-graph", "dep:syson-metamodel", "syson-model/raw-factory-candidate", "syson-initializer-graph/raw-factory-candidate"]
 
 [workspace]
