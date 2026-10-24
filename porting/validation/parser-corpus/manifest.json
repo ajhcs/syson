@@ -1,0 +1,1224 @@
+{
+  "bounds": {
+    "encoding": "UTF-8",
+    "fixtures": 12,
+    "imports_included": false,
+    "invocations": "one reviewed fixture per serial process; no batch auto-discovery",
+    "max_fixture_bytes": 1024,
+    "max_serial_timeout_seconds": 720,
+    "raw_stream_byte_cap": "NOT_ENFORCED_BY_REVIEWED_RUNNER",
+    "timeout_seconds_per_fixture": 60,
+    "total_fixture_bytes": 790
+  },
+  "fixtures": [
+    {
+      "bytes": 63,
+      "expected_wire_golden": null,
+      "id": "pc01",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc01.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Observe raw quoted terminal spelling before later name sanitation; do not JSON-decode lexemes.",
+          "id": "pc01.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Keep declared name, sanitized semantic name and CLI projection as separate observations.",
+          "id": "pc01.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc01.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/raw-names-strings.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@104",
+            "language": "SysML",
+            "rule": "AttributeUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@390",
+            "language": "SysML",
+            "rule": "Name",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@392",
+            "language": "SysML",
+            "rule": "LiteralString",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@384",
+            "language": "SysML",
+            "rule": "UNRESTRICTED_NAME",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@385",
+            "language": "SysML",
+            "rule": "STRING_VALUE",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "303b81eae8d120244fa9c32e7765bb81b1b72c7e6f59d887693e821d5bffd22d"
+    },
+    {
+      "bytes": 49,
+      "expected_wire_golden": null,
+      "id": "pc02",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc02.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "The terminal regex permits a literal LF inside double quotes.",
+          "id": "pc02.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Observe quote retention and literal LF versus backslash-n independently; terminal conversion is not JSON decoding.",
+          "id": "pc02.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc02.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/multiline-string.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@104",
+            "language": "SysML",
+            "rule": "AttributeUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@392",
+            "language": "SysML",
+            "rule": "LiteralString",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@385",
+            "language": "SysML",
+            "rule": "STRING_VALUE",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "01b6b593942a46c374f6c05862069680bbebd5332cff364f30e24775d5010b2e"
+    },
+    {
+      "bytes": 93,
+      "expected_wire_golden": null,
+      "id": "pc03",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc03.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Retain four distinct raw numeric spellings and CST text even if converted numbers coincide.",
+          "id": "pc03.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Do not infer SysON integer/rational import classifiers from the diagnostic CLI output.",
+          "id": "pc03.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc03.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/number-spelling.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@104",
+            "language": "SysML",
+            "rule": "AttributeUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@393",
+            "language": "SysML",
+            "rule": "LiteralNumber",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@382",
+            "language": "SysML",
+            "rule": "NUMBER",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "a438bec265f3444af33effe760149381f54a743973fb15e18a4b8a1af05ff307"
+    },
+    {
+      "bytes": 124,
+      "expected_wire_golden": null,
+      "id": "pc04",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc04.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Observe binary64 rounding, underflow, overflow and serializer treatment; do not assume arbitrary precision or finite values.",
+          "id": "pc04.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Minus is a unary expression here; -0 is not a signed NUMBER terminal. Do not infer primitive signed zero from spelling alone.",
+          "id": "pc04.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc04.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/number-boundaries.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@104",
+            "language": "SysML",
+            "rule": "AttributeUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@393",
+            "language": "SysML",
+            "rule": "LiteralNumber",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@382",
+            "language": "SysML",
+            "rule": "NUMBER",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@361",
+            "language": "SysML",
+            "rule": "UnaryExpression",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "135ce3bdc210368a71560f7f6a91e9575c459c956db644bae1513847fe39009a"
+    },
+    {
+      "bytes": 44,
+      "expected_wire_golden": null,
+      "id": "pc05",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc05.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "EXPONENT permits repeated signs, so lexical acceptance is separate from successful number conversion.",
+          "id": "pc05.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Record conversion diagnostics/exit and any serialized value independently; no expected wire value is supplied.",
+          "id": "pc05.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc05.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/malformed-number-value.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "lexically_accepted_number_conversion_unassessed",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@104",
+            "language": "SysML",
+            "rule": "AttributeUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@393",
+            "language": "SysML",
+            "rule": "LiteralNumber",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@382",
+            "language": "SysML",
+            "rule": "NUMBER",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@381",
+            "language": "SysML",
+            "rule": "EXPONENT",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "f3bfda13b4febff7c0d8ddb40801ee83c6fbe88adf70f504f446f4a8b9758949"
+    },
+    {
+      "bytes": 62,
+      "expected_wire_golden": null,
+      "id": "pc06",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc06.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Inspect matched ?= presence versus mandatory-boolean default construction.",
+          "id": "pc06.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Do not equate LiteralBoolean assignment/default behavior with a boolean terminal converter.",
+          "id": "pc06.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc06.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/boolean-defaults.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@104",
+            "language": "SysML",
+            "rule": "AttributeUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@391",
+            "language": "SysML",
+            "rule": "LiteralBoolean",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "948a79ade4fbfd774e289f4dfa093f112b756fb2ac1cf5678f2c1199c0267989"
+    },
+    {
+      "bytes": 111,
+      "expected_wire_golden": null,
+      "id": "pc07",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc07.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Hidden ML_NOTE/SL_NOTE/WS differ from visible REGULAR_COMMENT.",
+          "id": "pc07.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Observe comment/documentation body projection separately; retain CRLF/U+2028 bytes and coordinate conventions.",
+          "id": "pc07.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc07.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/comments.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@419",
+            "language": "SysML",
+            "rule": "Comment",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@420",
+            "language": "SysML",
+            "rule": "Documentation",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@386",
+            "language": "SysML",
+            "rule": "REGULAR_COMMENT",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "automatic_hidden_terminal",
+            "fragment": "#/rules@387",
+            "language": "SysML",
+            "rule": "ML_NOTE",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "automatic_hidden_terminal",
+            "fragment": "#/rules@388",
+            "language": "SysML",
+            "rule": "SL_NOTE",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "automatic_hidden_terminal",
+            "fragment": "#/rules@389",
+            "language": "SysML",
+            "rule": "WS",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "98ee1a448b447aa446c09574c794e2ca2605a9da89aed160a40d9410bd91c601"
+    },
+    {
+      "bytes": 65,
+      "expected_wire_golden": null,
+      "id": "pc08",
+      "language": "KerML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc08.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Exercise the reachable TypedByToken datatype fragment and source no-hidden-space accumulation contract.",
+          "id": "pc08.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Record reference text, parts, resolution and projection separately; matching names alone are not proof of resolution.",
+          "id": "pc08.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc08.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/datatype-reference.kerml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@9",
+            "language": "KerML",
+            "rule": "Namespace",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@110",
+            "language": "KerML",
+            "rule": "Class",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@66",
+            "language": "KerML",
+            "rule": "Feature",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@1",
+            "language": "KerML",
+            "rule": "TypedByToken",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@264",
+            "language": "KerML",
+            "rule": "OwnedFeatureTyping",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@254",
+            "language": "KerML",
+            "rule": "TypeReference",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "9c513dc026484e77faf1b01fb65e59bb9afe331db9281bed0862b63dd502f230"
+    },
+    {
+      "bytes": 36,
+      "expected_wire_golden": null,
+      "id": "pc09",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc09.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Syntax completeness and missing-target semantic diagnostics are separate outcomes.",
+          "id": "pc09.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Reference construction retains text and unresolved state; no resolved model or wire AST is assumed.",
+          "id": "pc09.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc09.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/unresolved-reference.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate_semantic_diagnostics_unassessed",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@127",
+            "language": "SysML",
+            "rule": "PartUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@436",
+            "language": "SysML",
+            "rule": "FeatureType",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@425",
+            "language": "SysML",
+            "rule": "TypeReference",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "23fe8136ee8b64c25300522440d7678bdf7172724586b44dba279dc063a6031f"
+    },
+    {
+      "bytes": 67,
+      "expected_wire_golden": null,
+      "id": "pc10",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc10.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Observe action-created operand nesting, += source order and = operator assignment independently.",
+          "id": "pc10.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "An empty/null-expression construct is separate from absent AST or semantic null policy. No expected tree is supplied.",
+          "id": "pc10.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc10.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/actions-precedence.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "complete_syntax_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@104",
+            "language": "SysML",
+            "rule": "AttributeUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@337",
+            "language": "SysML",
+            "rule": "OwnedExpression",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@358",
+            "language": "SysML",
+            "rule": "AdditiveExpression",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@359",
+            "language": "SysML",
+            "rule": "MultiplicativeExpression",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@396",
+            "language": "SysML",
+            "rule": "NullExpression",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "c455c49a51f3303f725ddf8dd737297a5632a44f02d21e2b82c44be71caf2a90"
+    },
+    {
+      "bytes": 31,
+      "expected_wire_golden": null,
+      "id": "pc11",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc11.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record full-input syntax error separately from any recovered prefix object.",
+          "id": "pc11.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Diagnostic CLI can exit before stringify; missing stdout AST does not prove that no recovered AST exists.",
+          "id": "pc11.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc11.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/invalid-suffix.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "strict_full_input_syntax_rejection_candidate",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@126",
+            "language": "SysML",
+            "rule": "PartDefinition",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "f7599c3e662f79f79c490c54be5d4252eef345e08004db4880098295ec9d2662"
+    },
+    {
+      "bytes": 45,
+      "expected_wire_golden": null,
+      "id": "pc12",
+      "language": "SysML",
+      "layer_assertions": [
+        {
+          "assertion": "Capture exact argv/input hashes/UTC/exit/timeout and raw streams. Outer runner exit is not the reference exit.",
+          "id": "pc12.capture",
+          "layer": "process",
+          "source_refs": [
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record lexer diagnostics, parser diagnostics, exit and any emitted AST separately.",
+          "id": "pc12.lexical-syntax",
+          "layer": "lexical_and_syntax",
+          "source_refs": [
+            "generated_grammar"
+          ]
+        },
+        {
+          "assertion": "Do not substitute strict Rust fail-fast rejection for upstream recovery or assume a diagnostic CLI AST is available.",
+          "id": "pc12.construction",
+          "layer": "construction_and_projection",
+          "source_refs": [
+            "ast_plan",
+            "bundle"
+          ]
+        },
+        {
+          "assertion": "Record diagnostics independently from syntax and AST. Standard library is none; semantic validity is not asserted.",
+          "id": "pc12.semantic",
+          "layer": "semantic_diagnostics",
+          "source_refs": [
+            "document_builder",
+            "bundle"
+          ]
+        }
+      ],
+      "observation": {
+        "lexer_diagnostics": null,
+        "parser_diagnostics": null,
+        "recovered_ast_availability": "UNASSESSED; diagnostic route exits before stringify on severity-one diagnostics",
+        "reference_exit_code": null,
+        "run_artifacts": [],
+        "rust_comparison": "NOT_RUN",
+        "semantic_diagnostics": null,
+        "serialized_ast": null,
+        "status": "PENDING_NOT_RUN"
+      },
+      "path": "fixtures/unterminated-string.sysml",
+      "provenance": {
+        "copied_upstream_fixture": false,
+        "kind": "new_public_synthetic",
+        "source_only_hypothesis": "lexical_error_and_recovery_unassessed",
+        "source_refs": [
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@24",
+            "language": "SysML",
+            "rule": "Package",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@104",
+            "language": "SysML",
+            "rule": "AttributeUsage",
+            "source": "generated_grammar"
+          },
+          {
+            "activation": "entry_reachable",
+            "fragment": "#/rules@385",
+            "language": "SysML",
+            "rule": "STRING_VALUE",
+            "source": "generated_grammar"
+          }
+        ]
+      },
+      "sha256": "deb7603600bab0c23bdc4fe2282e4b1ebda4f9038b46620635804d33088580d4"
+    }
+  ],
+  "proposed_command": {
+    "argv": [
+      "${PINNED_BUNDLE}",
+      "dump",
+      "--validate",
+      "--stdlib",
+      "none",
+      "${CORPUS_ROOT}/${case.path}"
+    ],
+    "authorization": "this preparation does not authorize execution",
+    "boundary": "default managed network-restricted execution; not unsandboxed escalation",
+    "expected_node_version": "v24.21.0",
+    "mode": "secondary diagnostic path; distinct from primary Java import dump defaults",
+    "node_binary_sha256": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+    "program": "${VERIFIED_NODE24}"
+  },
+  "schema_version": 1,
+  "source_rule_dispositions": "UNPORTED",
+  "sources": {
+    "ast_plan": {
+      "path": "porting/source-map/syside-source/AST-VALUE-CONVERSION.md",
+      "revision": "0e7a1815eb5c4c1ee6760d34715f5e5961f3eecd",
+      "sha256": "e41a87616bb0b7cf71d4aae00226e5b8fc93ea87c787a058e1d8dacc1b520b50"
+    },
+    "bundle": {
+      "path": "backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+      "regions": {
+        "construction": "41020-41185",
+        "conversion": "41808-41920",
+        "file_provider": "113748-113778",
+        "secondary_diagnostic": "114568-114629",
+        "stdlib_none_guards": "107724,107890,108109,108124,108651"
+      },
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd"
+    },
+    "construction_hooks": {
+      "path": "packages/syside-languageserver/src/services/parser/parser.ts",
+      "retained_in": "porting/source-map/syside-source/semantic-source-documents.jsonl",
+      "revision": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+      "sha256": "4cba11ff49975d47bcd6c5aba6d9cb55c5a06d84993dc6ac2effffa902a67d61"
+    },
+    "document_builder": {
+      "path": "packages/syside-languageserver/src/services/shared/workspace/document-builder.ts",
+      "retained_in": "porting/source-map/syside-source/semantic-source-documents.jsonl",
+      "revision": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+      "sha256": "ab5c17352ef217106686ba877a565d9f072df2860f012b0acd8f7ad5e91d87eb"
+    },
+    "generated_grammar": {
+      "path": "packages/syside-languageserver/src/generated/grammar.ts",
+      "revision": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+      "sha256": "fca1a64377f64c1aefb5476e89227cbc24f064ca40b7a58d6608646cae66149d"
+    },
+    "literal_number_model": {
+      "path": "packages/syside-languageserver/src/model/KerML/expressions/literal-number.ts",
+      "retained_in": "porting/source-map/syside-source/semantic-source-documents.jsonl",
+      "revision": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+      "sha256": "768aabcd2842ee708d8a50be07e58dc9be842b781e1aea28c42ae1a73418a799"
+    },
+    "naming": {
+      "path": "packages/syside-languageserver/src/model/naming.ts",
+      "retained_in": "porting/source-map/syside-source/semantic-source-documents.jsonl",
+      "revision": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+      "sha256": "6eb7e99dca2d6f00b7a7b577be6ab63d569fc18cf05c2ad171c203d56a037dd0"
+    },
+    "runner": {
+      "path": "porting/parser-oracle/run_reference.py",
+      "sha256": "074425971218521895f8dc2d8468c9791d99c30de903b4fd1d52d62914e320c7",
+      "status": "read-only reviewed; execution not performed"
+    },
+    "serialization": {
+      "path": "packages/syside-languageserver/src/utils/common.ts",
+      "retained_in": "porting/source-map/syside-source/semantic-source-documents.jsonl",
+      "revision": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+      "sha256": "84b4f94d20d69be9fc1a29488810b55481d77bc08914f31f48ab4037c9c7dc4f"
+    }
+  },
+  "status": "PREPARATION_ONLY_REQUIRES_REVIEW",
+  "strict_verified_rows_added": 0,
+  "upstream_execution": "NOT_RUN"
+}
