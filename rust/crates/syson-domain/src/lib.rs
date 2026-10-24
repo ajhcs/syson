@@ -9,6 +9,7 @@
 //! See porting/domain/README.md for supported methods and deliberate boundaries.
 //! This is not a SysML parser, complete metamodel, server, or persistence adapter.
 #![forbid(unsafe_code)]
+pub mod identity_context;
 pub mod model;
 pub mod names;
 pub mod query;
