@@ -1,0 +1,148 @@
+{
+  "schema": "syson.portable-evidence-derivations/1",
+  "artifacts": {
+    "runtime-source-manifest.json": {
+      "raw_sha256": "9ce88f1810996cb19e9c619139495e97c98113c32fdd29849fca4ea96d240f3f",
+      "portable_sha256": "a242ed007f1d723f3a6e7ad8e972c5b217390f681ffc1b48ce62884578a27a03",
+      "transforms": [
+        "retain exact43 Rust source/dependency/test/notice entries",
+        "omit local coordinator path and owner/control metadata; retain its hash and input count"
+      ]
+    },
+    "failed_attempt01/receipt.json": {
+      "raw_sha256": "22655badcea2a222ef300c2549876f9b6f05ecf01b83b58c8bb49dab566de287",
+      "portable_sha256": "2526476bd1d1269d1ca42a4bafbc4fc194a4274b63b65d3d75758822ff818dd4",
+      "transforms": [
+        "explicit root field whitelist",
+        "known repository/build/cargo path substitution",
+        "omit original health/admission/control/environment fields"
+      ]
+    },
+    "failed_attempt01/stdout.txt": {
+      "raw_sha256": "6fabd4ff1df7fb3e8ce7da6a6094d8062aaac633af3e6c8751f5019b7f9b691b",
+      "portable_sha256": "459f8c50c695e3880563921e85e690671f4c2730a0c81d3a2b03386ae7873624",
+      "transforms": [
+        "known repository/build/cargo path substitution",
+        "remove numeric host thread identity from panic prefix; semantic/model IDs unchanged"
+      ]
+    },
+    "failed_attempt01/stderr.txt": {
+      "raw_sha256": "bc274b548013f71591d8de78b2205cfffce93e854ab5a9f6ccd97a19486a9d5f",
+      "portable_sha256": "c7157875dc5d2f861cf2fcd1fb5126a0a46bf170dddc59461697f134ad129a3d",
+      "transforms": [
+        "known repository/build/cargo path substitution",
+        "remove numeric host thread identity from panic prefix; semantic/model IDs unchanged"
+      ]
+    },
+    "connection_attempt02/receipt.json": {
+      "raw_sha256": "d03ffb6cb93235c1c0061720b3d806f1aba378afb56326f62a0246e664563bbd",
+      "portable_sha256": "f9dc723488cb30557297c5e72190dbc60cce210b412c3df83c2e42bac40b8b1a",
+      "transforms": [
+        "explicit root field whitelist",
+        "known repository/build/cargo path substitution",
+        "omit original health/admission/control/environment fields"
+      ]
+    },
+    "connection_attempt02/stdout.txt": {
+      "raw_sha256": "eb49c5d64aad47b26567a4136ab929739547204d338405ce09259ac014ec8151",
+      "portable_sha256": "eb49c5d64aad47b26567a4136ab929739547204d338405ce09259ac014ec8151",
+      "transforms": [
+        "known repository/build/cargo path substitution",
+        "remove numeric host thread identity from panic prefix; semantic/model IDs unchanged"
+      ]
+    },
+    "connection_attempt02/stderr.txt": {
+      "raw_sha256": "4a05aee57fce8c958dea649b74b539df8b92b1ab76723e7d7241e04041afedf9",
+      "portable_sha256": "047b7078d6502b6b36cfe0925036f1c24ce2831c577113613dc8909f24b8d89d",
+      "transforms": [
+        "known repository/build/cargo path substitution",
+        "remove numeric host thread identity from panic prefix; semantic/model IDs unchanged"
+      ]
+    },
+    "affected_raw_admission/receipt.json": {
+      "raw_sha256": "33704fae8257d075d179692d58c092141ae97b316bff3082d6e752f2633137e9",
+      "portable_sha256": "2870565a29d3e8c37926ccbbc7c3caec7a5b2f9dcc870ba89d340e96ad91bd3f",
+      "transforms": [
+        "explicit root field whitelist",
+        "known repository/build/cargo path substitution",
+        "omit original health/admission/control/environment fields"
+      ]
+    },
+    "affected_raw_admission/stdout.txt": {
+      "raw_sha256": "2f74c652eccc8193f70d143b4b247279ab5c3e698177c1b55b002e765eece823",
+      "portable_sha256": "2f74c652eccc8193f70d143b4b247279ab5c3e698177c1b55b002e765eece823",
+      "transforms": [
+        "known repository/build/cargo path substitution",
+        "remove numeric host thread identity from panic prefix; semantic/model IDs unchanged"
+      ]
+    },
+    "affected_raw_admission/stderr.txt": {
+      "raw_sha256": "659a4217108a010908699a326728229673980f831bd3a5772f700b0d3bef89fd",
+      "portable_sha256": "d28be10bb1053bb59175e6edbbc12420e0eddbfc9f3edf6908d98b489d906834",
+      "transforms": [
+        "known repository/build/cargo path substitution",
+        "remove numeric host thread identity from panic prefix; semantic/model IDs unchanged"
+      ]
+    },
+    "failed-source/rust/crates/syson-model/src/raw_admission.rs": {
+      "raw_sha256": "3868ed167ca442ac38735def587f9490ac5d6db7245b0b2e030cedd28e25082c",
+      "portable_sha256": "3868ed167ca442ac38735def587f9490ac5d6db7245b0b2e030cedd28e25082c",
+      "transforms": [
+        "exact failed preimage bytes; other41 execution inputs are shared with the retained closure"
+      ]
+    },
+    "failed-source/rust/crates/syson-initializer-graph/src/connection_definition.rs": {
+      "raw_sha256": "362ec6469620e57ef6ae05994d3765fd1f91c06d3a3f658127566341b8ec95fa",
+      "portable_sha256": "362ec6469620e57ef6ae05994d3765fd1f91c06d3a3f658127566341b8ec95fa",
+      "transforms": [
+        "exact failed preimage bytes; other41 execution inputs are shared with the retained closure"
+      ]
+    },
+    "failed-source/rust/crates/syson-initializer-graph/tests/connection_definition.rs": {
+      "raw_sha256": "c71f39c05ee6c6aeed98e4ad74102d3473a89c5a3459814101e848c50e51c2ab",
+      "portable_sha256": "c71f39c05ee6c6aeed98e4ad74102d3473a89c5a3459814101e848c50e51c2ab",
+      "transforms": [
+        "exact failed preimage bytes; other41 execution inputs are shared with the retained closure"
+      ]
+    },
+    "notices/factory-admission-NOTICE.md": {
+      "raw_sha256": "7cee574fbc3aad371268fd2d72ea87878c22c027f55617958bbe669b8483baed",
+      "portable_sha256": "7cee574fbc3aad371268fd2d72ea87878c22c027f55617958bbe669b8483baed",
+      "transforms": [
+        "verbatim upstream comment headers or exact existing notice text; public boundary checked"
+      ]
+    },
+    "notices/connection-definition-factory-helper-NOTICE.md": {
+      "raw_sha256": "4de856c5a4454095ccb5c6db275c012ebdaa6169d771ae74b77a45e494844023",
+      "portable_sha256": "d3a022473f95bf2e5d1e23102568a51c172d9c41ed4ca4e0c0ae2757ccbc9ed0",
+      "transforms": [
+        "verbatim upstream comment headers or exact existing notice text; public boundary checked"
+      ]
+    },
+    "notices/connection-definition-factory-helper-NOTICE-SUFFICIENT-REPAIR.md": {
+      "raw_sha256": "d12a54528a74323834bcfb85fb72bab12d1646326489899289073818a98ea253",
+      "portable_sha256": "3088fa9eb910cd4184aa01653b53a7c08eeca65be9f0814520332e6b01c10295",
+      "transforms": [
+        "verbatim upstream comment headers or exact existing notice text; public boundary checked"
+      ]
+    },
+    "independent-repair-review.json": {
+      "raw_sha256": "9321d4bb77eb4b7eb422aa90a99b2b44a36cf413f87284938b48b4845df0f909",
+      "portable_sha256": "f3e98a0933ac0b6b15f48f46eeab27a2d09179329e43c9e5ab9ddb781305531a",
+      "transforms": [
+        "explicit reviewer role/scope/disposition/source-hash whitelist",
+        "omit private reviewer identifier and local execution control details"
+      ]
+    },
+    "coverage-status.json": {
+      "raw_sha256": "9d1337112e5800001f9be5402794a84054d3b6f687a1b05c5389fac78bf32dee",
+      "portable_sha256": "9c2a8e0081519685b66acf0c9ec7fc03d73dd5a8189a9de8cd3e088463750c5e",
+      "transforms": [
+        "explicit18area parity snapshot and item count only",
+        "omit all coordination/resource/lease/history and private host fields"
+      ]
+    }
+  },
+  "original_package_manifest_sha256": "9c9a780be3f898842330ad21bc4db93031a0b66fb9a145dba460ce27231ef2c1",
+  "original_package_retained_unchanged": true
+}
