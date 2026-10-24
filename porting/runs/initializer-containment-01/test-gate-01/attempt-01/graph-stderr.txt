@@ -1,0 +1,37 @@
+   Compiling serde_core v1.0.229
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.151
+   Compiling syson-metamodel v0.1.0 (<REPOSITORY>/rust/crates/syson-metamodel)
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling syson-domain v0.1.0 (<REPOSITORY>/rust/crates/syson-domain)
+   Compiling syson-model v0.1.0 (<REPOSITORY>/rust/crates/syson-model)
+error[E0753]: expected outer doc comment
+  --> <REPOSITORY>/rust/crates/syson-model/src/containment.rs:26:1
+   |
+26 | //! Typed raw JSON containment for preallocated detached subtrees.
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: inner doc comments like this (starting with `//!` or `/*!`) can only appear before items
+help: you might have meant to write a regular comment
+   |
+26 - //! Typed raw JSON containment for preallocated detached subtrees.
+26 + // Typed raw JSON containment for preallocated detached subtrees.
+   |
+
+error[E0753]: expected outer doc comment
+  --> <REPOSITORY>/rust/crates/syson-model/src/containment.rs:27:1
+   |
+27 | //! No identity allocation, EObject notifications or generic EMF serialization.
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+28 | use super::*;
+   | ------------- the inner doc comment doesn't annotate this `use` import
+   |
+help: to annotate the `use` import, change the doc comment from inner to outer style
+   |
+27 - //! No identity allocation, EObject notifications or generic EMF serialization.
+27 + /// No identity allocation, EObject notifications or generic EMF serialization.
+   |
+
+For more information about this error, try `rustc --explain E0753`.
+error: could not compile `syson-model` (lib) due to 2 previous errors

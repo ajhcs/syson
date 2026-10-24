@@ -1,0 +1,77 @@
+{
+  "schema": "syson.local-pending-publication/1",
+  "state": "LOCAL_PREPARATION_ONLY",
+  "restriction_verbatim": "Do not publish or update remote artifacts in this continuation: the prior handoff was denied for publication authorization, and that action is stopped.",
+  "prohibited": [
+    "push",
+    "PR update",
+    "remote artifact write",
+    "alternate publication route",
+    "retry of denied publication"
+  ],
+  "last_known_lineage": {
+    "published_graph_commit": "bad9b9ea9af590e4ebdb488a47058d3d87b56ec2",
+    "local_naming_commit": "7effa0c711607f164dc244f8bfaf09fda47df118",
+    "combined_commit": "NOT_CREATED_OR_VERIFIED",
+    "current_host_state": "UNKNOWN_OR_STALE; verify under fresh source-only receipt"
+  },
+  "freezes": {
+    "naming_standalone_not_run": "daa7fb01c07523a8564ca34b28f259b2cd172e230ee145949b86034d515acbb2",
+    "combined_failed_attempt01": "294dd04e87da49d8424c31b104ee8367ec26aeb1c0c08eb9894708401181ea92",
+    "combined_repaired_attempt02": "d72be6b91c9956c117feacdd1e7008b4437660db5963f161fe70366a32fb0781"
+  },
+  "scope_paths": [
+    "rust/crates/syson-model/src/lib.rs",
+    "rust/crates/syson-model/src/containment.rs",
+    "rust/crates/syson-model/tests/containment.rs",
+    "rust/crates/syson-initializer-graph/src/lib.rs",
+    "rust/crates/syson-initializer-graph/src/staged.rs",
+    "rust/crates/syson-initializer-graph/tests/staged.rs",
+    "porting/domain/containment-adapter",
+    "porting/domain/initializer-graph/naming/README.md",
+    "porting/runs/initializer-containment-01",
+    "porting/execution-backlog.json"
+  ],
+  "proposed_title": "Draft: continue bounded SysON Rust port with atomic initializer containment",
+  "proposed_body": "Preallocated subtrees can be attached before native initializer queries and scalar defaults are applied, using one existing transaction and one history entry. Local Feature naming follows the first owned Redefinition in containment order under an explicitly selected semantic-ID reference encoding.\n\nThe combined owner gate passed 31 tests: 23 graph/naming/bridge and 8 model containment tests, in serial phases from 2026-10-23T05:56:58.351476Z through 05:56:59.921516Z. No timeout or input changes were reported. Attempt-01 failed before tests with E0753; its source, freeze and streams are retained. Only two //! comment markers were changed to //, preserving executable code, assertions and verbatim notices. The naming-only 33-file freeze remains NOT_RUN; this combined gate does not relabel it.\n\nF1 independent acceptance, allocation and RawObject-to-document projection, reference/inverse/proxy/notification execution, nonlocal/library resolution, generic EMF serialization, complete semantic constraints, full product/user acceptance and artifact/license closure remain open. These are owner tests, not upstream or independent parity.\n\nKeep draft. No merge is authorized. This text is a local proposal only; remote publication is stopped.",
+  "checks_before_any_future_local_checkpoint": [
+    "fresh parent-approved source-only receipt and established observation route",
+    "verify actual builderbob host/cwd/branch/HEAD/dirty paths and Samsung workspace through default route",
+    "check unchanged held reviewer ownership; do not alter its paths",
+    "verify 39 repaired input hashes and both immutable attempt freezes/streams",
+    "verify exact 23+8 counts and phase UTC without replay",
+    "verify 33-file naming freeze against local source commit 7effa0c711607f164dc244f8bfaf09fda47df118",
+    "verify full notices and comment-only repair",
+    "run stdlib backlog checker only",
+    "record local changes and gaps; execute no remote operation"
+  ],
+  "compiler": "ZERO; passed gate must not be replayed",
+  "gui": "ZERO",
+  "reviewer": {
+    "context": "SAME /root/validation",
+    "paths": [
+      "porting/validation/factory-review-01",
+      "rust/validation/factory"
+    ],
+    "status": "source inspection only; no written harness or independent acceptance"
+  },
+  "local_writable_paths": [
+    "porting/runs/initializer-containment-01/test-gate-01",
+    "porting/domain/containment-adapter",
+    "porting/domain/initializer-graph/naming/README.md",
+    "porting/execution-backlog.json",
+    "porting/pending-publication/initializer-containment-01"
+  ],
+  "frozen_inputs_read_only": true,
+  "last_checkpoint_attempt": {
+    "manifest_sha256_verified": "4912aa69cb02a5f9ee61fa4ee48edafd89a7b27086d224f45c33d82ac80e2c9b",
+    "route": "use_default",
+    "workspace_status_exit": 10,
+    "freeze_verification": "NOT_REACHED",
+    "files_written": 0,
+    "automatic_approval_rejection": "NOT_REPORTED",
+    "cause": "UNRESOLVED; stopped without retry or alternate route"
+  },
+  "prepared_at_utc": "2026-10-23T12:25:15.111955+00:00",
+  "local_head_at_preparation": "7effa0c711607f164dc244f8bfaf09fda47df118"
+}
