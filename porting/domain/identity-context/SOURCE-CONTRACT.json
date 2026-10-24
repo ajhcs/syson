@@ -1,0 +1,168 @@
+{
+  "id": "F45",
+  "state": "IMPLEMENTED_SOURCE_DERIVED_LOCALLY_TESTED",
+  "sources": [
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/util/ElementUtil.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "e230e59c6d53a918e0db0813d35dc536d49f21e7b3984a0e659226c5ee3058e2",
+      "method_line_ranges": {
+        "isStandardLibraryResource": [
+          87,
+          93
+        ],
+        "isFromStandardLibrary": [
+          103,
+          106
+        ],
+        "generateUUID": [
+          113,
+          135
+        ],
+        "noNeedForUUID": [
+          138,
+          140
+        ],
+        "generateUUIDv5": [
+          151,
+          153
+        ]
+      }
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/test/java/org/eclipse/syson/sysml/metamodel/util/ElementUtilTest.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "8a9af7ce1b3ce0606134ac4207b604c3c9c7b3ceb6ed4989012035f577720d65",
+      "method_line_ranges": {
+        "testGenerateUUIDv5": [
+          39,
+          53
+        ],
+        "testGenerateUUID": [
+          56,
+          75
+        ]
+      }
+    },
+    {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/ElementImpl.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "094e31ec652f2df9eb7c424721a2f83501dfd0a771eeebfdfeab18fe8bceef30",
+      "method_line_ranges": {
+        "libraryNamespace": [
+          674,
+          680
+        ]
+      }
+    },
+    {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/LibraryPackageImpl.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "9103340eb814396cb02705d14b9062fa660b0577879c31538eae5534a552e99f",
+      "method_line_ranges": {
+        "libraryNamespace": [
+          104,
+          106
+        ]
+      }
+    },
+    {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/RelationshipImpl.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "fbd56ac8a6e5792869844e2a91c8b55fa7aecd6cc2e04b3e5315382a457bbe3d",
+      "method_line_ranges": {
+        "libraryNamespace": [
+          255,
+          263
+        ]
+      }
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/services/SysONIdentityService.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "e02481d8edf47b335e903a410e97fa5018a8479d27e168f1a9e0067567fbf1ce",
+      "method_line_ranges": {
+        "getId": [
+          47,
+          60
+        ]
+      }
+    },
+    {
+      "path": "rust/crates/syson-domain/src/uuid.rs",
+      "revision": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "sha256": "63f34e679acc05cbec751d93abb62103d211a70a9481ee3bd704a9c481248d5a"
+    },
+    {
+      "path": "rust/crates/syson-model/tests/fixtures/simple-project.emf.json",
+      "revision": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "sha256": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d"
+    },
+    {
+      "path": "rust/crates/syson-workflow/Cargo.lock",
+      "revision": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "sha256": "5547932af9bc06fd4e2817b60c5f3dfe07cbbe61436214e5835c81e770c54436"
+    }
+  ],
+  "upstream_runtime": "NOT_RUN",
+  "upstream_parity_verified": false,
+  "api": "identity_context; integrator-owned lib.rs export only",
+  "resource_and_getter_policy": "Explicit immutable observations. Absent, reached null URI and unresolved inputs are distinct. Unknown observations are errors only when the corresponding source branch reaches them; this is not an EMF resource/getter adapter.",
+  "eager_fresh_policy": "Exactly one caller-supplied v4 provider invocation before any element/null/library test, even for deterministic UUIDv5 results. Invalid provider output or exhaustion is explicit and never retried.",
+  "generation_branches": [
+    "standard LibraryPackage with present resource, nonnull URI and qualified name: URL-namespace v5; exact kermllibrary: prefix selects KerML, other URI strings select SysML",
+    "missing resource or qualified name: injected fresh fallback",
+    "other element in standard library namespace, nonnull declared name (including empty), nonexcluded class and nonnull qualified name: namespace-element-ID UUIDv5",
+    "Import, Membership, Specialization and TypeFeaturing classes (including caller-classified subtypes) stay fresh after declared-name evaluation",
+    "ordinary, absent/other/nonstandard library namespace stays fresh without unrelated resource/name reads"
+  ],
+  "supported_uuid_text": "Exactly 36 ASCII UUID characters with fixed hyphens and either hex case. Additional Java UUID.fromString spellings are explicitly unsupported; original selected field text is preserved.",
+  "identity_reservation": "Proposed document-local atomic separate semantic/resource sets; collision rejection is adapter policy, not an upstream UUID.randomUUID/generateUUID behavior. Equal values across roles are allowed; same-role comparisons are canonical UUID value comparisons.",
+  "not_claimed": [
+    "native effective/getter/namespace computation, proxy loading, side-effectful or changing getter observations",
+    "ordinary/default Sirius resource identity selection or implied-relationship IDAdapter installation",
+    "general EMF JSON/UUID spelling compatibility or global cross-resource registry",
+    "secure entropy provider implementation, new random source or automatic substitution",
+    "upstream application/model/runtime parity"
+  ],
+  "prepared_domain_tests": 18,
+  "prepared_integration_tests": 1,
+  "integration_acceptance": "Existing 11-object selected EMF JSON fixture imported through actual Document; injected semantic generation + explicit resource ID through Editor; cancelled and colliding edits preserve committed model and saved bytes; actual immutable SnapshotStore file save/reload through fresh handle preserves both identity roles. SYSON_TEST_DIR must exist, be absolute, and canonicalize beneath /workspace.",
+  "integration_dependencies": {
+    "syson-domain": "../../../../rust/crates/syson-domain",
+    "syson-model": "../../../../rust/crates/syson-model",
+    "syson-workflow": "../../../../rust/crates/syson-workflow"
+  },
+  "lock_policy": "Coordinator regenerated only the new harness lock offline after the original copied lock was refused before any integration test ran. Every registry package record/version/source/checksum remains identical to the existing workflow lock. Exactly two inactive local packages were pruned, the workflow local dependency row was reduced to its default-feature graph, and the new local harness root was added. Worker did not execute Cargo.",
+  "unicode_namespace_fixture": {
+    "namespace": "cdd5d1e3-fe4b-52bd-8a01-51a53f22ba47",
+    "name": "Base::'\u00e9\ud83d\ude00'",
+    "uuid": "8a23cabb-0bb5-5bd6-8d1b-d86d26765efc",
+    "origin": "independent Python stdlib uuid.uuid5, not upstream Java output"
+  },
+  "lock_resolution": {
+    "removed_inactive_local_packages": [
+      "syson-initializer",
+      "syson-initializer-graph"
+    ],
+    "syson-workflow_dependencies": [
+      "syson-editor",
+      "syson-model",
+      "syson-persistence"
+    ],
+    "new_local_package": "syson-identity-context-integration",
+    "registry_package_record_changes": 0,
+    "integration_test_result": "COORDINATOR_F45_INTEGRATION_02_PASS_1_FILE_BACKED_TEST",
+    "original_manual_lock": "Preserved by coordinator with original integration-01 attempt evidence; not relabeled as accepted."
+  },
+  "local_validation": "../../follow-ons/F45/VALIDATION.json",
+  "source_review": "../../follow-ons/F45/REVIEW.md",
+  "coordinator_results": {
+    "new_domain_tests": 18,
+    "existing_domain_regressions": 28,
+    "actual_file_backed_integration_tests": 1,
+    "format_and_clippy": "PASS",
+    "source_unchanged_in_passing_captures": true,
+    "worker_cargo_execution": "NOT_RUN"
+  }
+}
