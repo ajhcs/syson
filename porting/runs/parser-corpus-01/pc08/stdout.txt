@@ -1,0 +1,177 @@
+Parsed file://<repository>/porting/validation/parser-corpus/fixtures/datatype-reference.kerml in 55.59 ms (1 bytes/ms)
+Building documents:
+	file://<repository>/porting/validation/parser-corpus/fixtures/datatype-reference.kerml [Parsed]
+Completed Parsed in 0.107 ms
+   Average parse speed: 1 bytes/ms
+Completed IndexedContent in 1.272 ms
+Completed ComputedScopes in 0.256 ms
+Completed Linked in 1.672 ms
+Completed IndexedReferences in 0.208 ms
+Completed Validated in 1.105 ms
+Build statistics 1.216 ms:
+	assignMetaclass: 0.039 ms in 8 hits (avg: 0.005 ms),
+	resolveNamespaceImports: 0.094 ms in 4 hits (avg: 0.023 ms),
+	linkNamespaceFeatures: 0.034 ms in 4 hits (avg: 0.009 ms),
+	linkRelationship: 0.657 ms in 4 hits (avg: 0.164 ms),
+	addSemanticMetadata: 0.091 ms in 2 hits (avg: 0.046 ms),
+	linkTypeRelationships: 0.022 ms in 2 hits (avg: 0.011 ms),
+	addClassifierImplicits: 0.022 ms in 1 hits (avg: 0.022 ms),
+	redefineEnds: 0.130 ms in 2 hits (avg: 0.065 ms),
+	setupSpecialization: 0.036 ms in 1 hits (avg: 0.036 ms),
+	collectFeatureClassifiers: 0.047 ms in 1 hits (avg: 0.047 ms),
+	addFeatureValueTypings: 0.016 ms in 1 hits (avg: 0.016 ms),
+	addFeatureImplicits: 0.005 ms in 1 hits (avg: 0.005 ms),
+	addCrossFeatureImplicits: 0.022 ms in 1 hits (avg: 0.022 ms)
+{
+  "$type": "Namespace",
+  "children": [
+    {
+      "$type": "OwningMembership",
+      "target": {
+        "$type": "Namespace",
+        "children": [
+          {
+            "$type": "OwningMembership",
+            "target": {
+              "$type": "Class",
+              "$cstNode": {
+                "text": "class Vehicle;",
+                "stack": [
+                  "NonFeatureElement",
+                  "NonFeatureMember"
+                ]
+              },
+              "declaredName": "Vehicle",
+              "heritage": [],
+              "isSufficient": false,
+              "typeRelationships": [],
+              "children": [],
+              "prefixes": [],
+              "$meta": {
+                "elementId": 4,
+                "qualifiedName": "Types::Vehicle"
+              }
+            },
+            "$cstNode": {
+              "text": "class Vehicle;",
+              "stack": [
+                "NonFeatureMember",
+                "NamespaceBodyElement"
+              ]
+            },
+            "isAlias": false,
+            "elements": [],
+            "$meta": {
+              "elementId": 3,
+              "qualifiedName": ""
+            }
+          },
+          {
+            "$type": "OwningMembership",
+            "target": {
+              "$type": "Feature",
+              "$cstNode": {
+                "text": "feature car typed by Vehicle;",
+                "stack": [
+                  "FeatureElement",
+                  "NamespaceFeatureMember"
+                ]
+              },
+              "heritage": [
+                {
+                  "$type": "FeatureTyping",
+                  "targetRef": {
+                    "$type": "TypeReference",
+                    "$cstNode": {
+                      "text": "Vehicle",
+                      "stack": [
+                        "TypeReference",
+                        "FeatureType"
+                      ]
+                    },
+                    "text": "Vehicle",
+                    "reference": "Types::Vehicle",
+                    "parts": [
+                      "Types::Vehicle"
+                    ]
+                  },
+                  "$cstNode": {
+                    "text": "Vehicle",
+                    "stack": [
+                      "OwnedFeatureTyping",
+                      "TypedBy"
+                    ]
+                  },
+                  "elements": [],
+                  "$meta": {
+                    "elementId": 7,
+                    "qualifiedName": ""
+                  }
+                }
+              ],
+              "declaredName": "car",
+              "isNonunique": false,
+              "isOrdered": false,
+              "isSufficient": false,
+              "typeRelationships": [],
+              "children": [],
+              "prefixes": [],
+              "$meta": {
+                "elementId": 6,
+                "qualifiedName": "Types::car"
+              }
+            },
+            "$cstNode": {
+              "text": "feature car typed by Vehicle;",
+              "stack": [
+                "NamespaceFeatureMember",
+                "NamespaceBodyElement"
+              ]
+            },
+            "isAlias": false,
+            "elements": [],
+            "$meta": {
+              "elementId": 5,
+              "qualifiedName": ""
+            }
+          }
+        ],
+        "$cstNode": {
+          "text": "namespace Types { class Vehicle; feature car typed by Vehicle; }",
+          "stack": [
+            "NonFeatureElement",
+            "NonFeatureMember"
+          ]
+        },
+        "declaredName": "Types",
+        "prefixes": [],
+        "$meta": {
+          "elementId": 2,
+          "qualifiedName": "Types"
+        }
+      },
+      "$cstNode": {
+        "text": "namespace Types { class Vehicle; feature car typed by Vehicle; }",
+        "stack": [
+          "NonFeatureMember",
+          "NamespaceBodyElement"
+        ]
+      },
+      "isAlias": false,
+      "elements": [],
+      "$meta": {
+        "elementId": 1,
+        "qualifiedName": ""
+      }
+    }
+  ],
+  "$cstNode": {
+    "text": "namespace Types { class Vehicle; feature car typed by Vehicle; }",
+    "stack": []
+  },
+  "prefixes": [],
+  "$meta": {
+    "elementId": 0,
+    "qualifiedName": ""
+  }
+}

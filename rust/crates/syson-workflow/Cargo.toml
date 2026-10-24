@@ -1,0 +1,18 @@
+[package]
+name = "syson-workflow"
+version = "0.1.0"
+edition = "2024"
+license = "EPL-2.0"
+publish = false
+
+[dependencies]
+syson-model = { path = "../syson-model" }
+syson-editor = { path = "../syson-editor" }
+syson-persistence = { path = "../syson-persistence" }
+syson-initializer-graph = { path = "../syson-initializer-graph", optional = true }
+syson-metamodel = { path = "../syson-metamodel", optional = true }
+
+[features]
+raw-factory-candidate = ["dep:syson-initializer-graph", "dep:syson-metamodel", "syson-model/raw-factory-candidate", "syson-initializer-graph/raw-factory-candidate"]
+
+[workspace]
