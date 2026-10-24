@@ -1,0 +1,7 @@
+# Registry-backed selected construction capabilities
+
+Pinned MetamodelMutationElementService.addChildInParent at SysON6ba2ac64 accepts an Element parent and selects FeatureMembership iff the child is Feature and parent is Type; otherwise it uses OwningMembership. The earlier three-parent-name adapter restriction was narrower than this source behavior. Selected Package/PartDefinition/PartUsage construction now follows that rule for known local Element parents, preserving full source subtype ancestry. It still does not instantiate arbitrary classifiers or reproduce all initializer side effects/constraints.
+
+`Document.can_create_in(stable_id)` and `is_instance_of(stable_id, ClassifierId)` give UI/API capability decisions from the same classifier resolution as the actual commands. Unknown prefixes, enums and missing IDs are false and do not silently acquire domain types. The PartUsage/PartDefinition typing method now accepts known subclasses, while other endpoint types still fail. Typing remains the documented local FeatureTyping adapter, not a full typechecking service.
+
+Source-derived tests exercise an imported ActionUsage(Type), Namespace and Documentation(Element), non-Feature child membership, unknown/foreign/enum refusal, and actual ConnectionUsage/ConnectionDefinition subtype endpoints. Synthetic imported object shapes isolate this source method; they are not accepted whole SysML models or an upstream runtime oracle. Semantic containment constraints, abstract-class construction, defaults, inverse links and full factory support remain unported.

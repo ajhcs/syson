@@ -1,0 +1,13 @@
+# Bounded pinned parser reference run
+
+The embedded CLI at upstream `6ba2ac64e6b16ee2b05752ad55395eebb87d4910` accepted the 37-byte synthetic package/part-definition fixture. Exit 0; stderr empty. `receipt.json` records actual execution UTC, exact binary/bundle/input hashes, command arguments, timeout and output hashes. No timestamp is inferred from Git or file metadata.
+
+The command reproduces the **secondary diagnostic** path at `SysmlToAst.java` line 163: `node <bundle> dump --validate --stdlib none <fixture>`, with `FORCE_COLOR=0`. The primary Java import path uses different options. Node v24.21.0 was verified by absolute executable and hash in the default network-restricted sandbox before execution; ambient Node was not substituted. This is an existing runtime, not the application's exact Node24.20.0 engine pin. No package installation or application build was performed.
+
+A controlled Python parent read and checked all three input hashes, removed all inherited `NODE_*` settings, preserved HOME/CODEX_HOME, closed stdin, applied a 60-second timeout, and captured separate stdout/stderr bytes in memory. Node ran in the default restricted environment, not the unsandboxed escalation environment. Evidence preparation and later persistence were separate actions. Raw outputs and the exact local command remain in the selected build evidence directory. No token, credential or private model was supplied.
+
+Read-only review traced bundle `dump -> extractDocument -> DocumentBuilder.build -> stringify`. It identified no expected file writes, downloads, child processes or listening service on this path; `stdlib none` is not itself a general filesystem/network guard. Runtime filesystem/network effects were not independently instrumented, so successful execution does not prove an absence of attempted effects.
+
+`stdout.txt` retains statistics followed by JSON; only the local fixture directory is replaced with `${ORACLE_DIR}`. Raw and portable output hashes are separate. `ast.json` is the parsed final JSON value, with its own byte hash, not an untouched stdout capture. The AST includes Package, PartDefinition, membership and computed metadata fields. It is reference data, not evidence that the Rust recognizer creates an equivalent AST.
+
+This one run does not qualify all grammar rules, AST conversion, linking, validation diagnostics, standard libraries, Java import, APIs, persistence or the full application. Source-candidate grammar correspondence is a separate static declaration claim. Complete bundle provenance/notices remain open. Strict behavior-ledger rows are not promoted by this unrelated fixture.

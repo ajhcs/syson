@@ -1,0 +1,74 @@
+{
+  "target_dir": "${SYSON_BUILD_DIR}/ast",
+  "jobs": 1,
+  "tools": {
+    "cargo": "cargo 1.99.1 (5f94df478 2026-08-27)",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)"
+  },
+  "source_inputs_sha256": {
+    "rust/crates/syson-ast/Cargo.lock": "d46c666810d41402e3cb870f349c31903ed3854348edb68a6e933fdcb333ce4d",
+    "rust/crates/syson-ast/Cargo.toml": "c4792a4316239c991a7d87fa3b8cce2c6bbe4fdc156dc234add1ded10d88ccf4",
+    "rust/crates/syson-ast/LICENSE": "8c349f80764d0648e645f41ef23772a70c995a0924b5235f735f4a3d09df127c",
+    "rust/crates/syson-ast/NOTICE.md": "d5fa53082aca80712455b83ddd15805307ebf9c371ea09ca2b9a64badc515011",
+    "rust/crates/syson-ast/src/lib.rs": "5f38adb5723ed89f76dc41c37d9717d8ef5e0116fe9794ea6c09caeded435af8",
+    "rust/crates/syson-ast/tests/construction.rs": "a5feb738455ae860d8a45577bb5ab5679e01f45ce140f24396ff4304ff49328d"
+  },
+  "upstream_execution": "NOT RUN",
+  "checks": [
+    {
+      "check": "test",
+      "start_utc": "2026-10-22T21:53:03.460093+00:00",
+      "end_utc": "2026-10-22T21:53:03.896892+00:00",
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "--manifest-path",
+        "rust/crates/syson-ast/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "raw_output_sha256": "ee044a3d827416318b46cd2acd7c671e610d483f8c0db398a31cdfa7e454dd9d",
+      "normalized_output_sha256": "da9f6fc5724286eec036d5528764a4f9c54ef3e4b6ac1bdb11f3bae81776915d"
+    },
+    {
+      "check": "clippy",
+      "start_utc": "2026-10-22T21:53:03.904416+00:00",
+      "end_utc": "2026-10-22T21:53:04.094795+00:00",
+      "command": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--manifest-path",
+        "rust/crates/syson-ast/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "raw_output_sha256": "bca4390cc831578f6ace5466a24e5f78d3422d8668dcb5546596c7853153f47d",
+      "normalized_output_sha256": "6ae6b19fbc698834bf8881f4f707c296634bcb6c6e7a24ae0ea3321d7b924e62"
+    },
+    {
+      "check": "fmt",
+      "start_utc": "2026-10-22T21:53:04.094997+00:00",
+      "end_utc": "2026-10-22T21:53:04.116061+00:00",
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "rust/crates/syson-ast/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "raw_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalized_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "output_note": "Committed output paths and trailing empty lines normalized; raw capture hashes retain exact original output bytes in build directory.",
+  "postrun_attribution_sha256": {
+    "rust/crates/syson-ast/NOTICE.md": "605ae8eab56df4833fce504ea8a90dbb9b4d7820e3356812f153c2436d1bdca9",
+    "rust/crates/syson-ast/UPSTREAM-NOTICES.json": "57e6bfe46fbd6548979a19b6d3ed23f36c7c812e7e516b60daf3db6e1b130427"
+  }
+}

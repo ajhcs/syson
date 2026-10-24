@@ -1,0 +1,120 @@
+{
+  "schema": "syson.restart-reconciliation/1",
+  "recorded_at_utc": "2026-10-24T18:59:50.923579+00:00",
+  "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "initial_head": "6aa4d2314278ab9472818432838240b9bb79ba87",
+  "initial_pr": {
+    "url": "https://github.com/ajhcs/syson/pull/1",
+    "draft": true,
+    "head": "6aa4d2314278ab9472818432838240b9bb79ba87"
+  },
+  "branch": "rust/integration",
+  "implementation_head": "56790c366f5ea2e9a549126a874cda7dfe3126ba",
+  "preserved_ledgers": [
+    {
+      "branch": "rust/integration",
+      "items": 81,
+      "sha256": "9d1337112e5800001f9be5402794a84054d3b6f687a1b05c5389fac78bf32dee",
+      "status": "unchanged working bytes; stale ConnectionDefinition lease metadata; checker VALID"
+    },
+    {
+      "branch": "rust/interface-definition-01",
+      "items": 85,
+      "sha256": "e84f3a1e7f1e51e1629e53afb4d8dc0c1b874cc46235a46f6d7896c8c6838f58",
+      "status": "unchanged working bytes; constructor closeouts and docs-only query lease; checker VALID"
+    }
+  ],
+  "integrated_commits": [
+    {
+      "original": "0b516bfb63b84e19a73aa600cc41a0a5bb15e51b",
+      "integration": "046b4ce950565f5e5bee1f7ee0f826bfbe20e768"
+    },
+    {
+      "original": "a852cb2280b4172557e570498cf82ae57f223eb9",
+      "integration": "4750bab289b5f1c269bc67a04e8511868b6f1e8a"
+    },
+    {
+      "original": "44524c35fad441bbf306b9aef705d658aa1ab87d",
+      "integration": "b54667dbf05c46ccfb3b7a375e58cd5d2be0967d"
+    },
+    {
+      "original": "e5eeb16037907e9ebd577ca92999443b7e2dbe47",
+      "integration": "0062b3a0e82dd34e0d3678402b2a0cfae5152470"
+    }
+  ],
+  "workers": {
+    "prior_integrator_reported_status": "idle",
+    "host_compiler_inventory": "no Cargo/Java compiler observed before allocation",
+    "held_validator_lease": "unchanged; no transfer or release inferred",
+    "preserved_query_lease": "root docs-only in interface worktree; unchanged",
+    "new_parallel_work": [
+      "shared adapter",
+      "independent workflow tests",
+      "integrated static review"
+    ],
+    "new_compilers": "one root-owned serial Cargo process; now released"
+  },
+  "workflow": {
+    "id": "INITIALIZED-CREATION-WORKFLOW-20261024",
+    "area_ids": [
+      "MODEL",
+      "UI",
+      "DB",
+      "HISTORY",
+      "EXPORT"
+    ],
+    "implemented": "bounded opt-in pipeline for four existing helpers",
+    "local_native_tests": 250,
+    "local_browser_checks": "PASS; see browser-receipt.json",
+    "independent_static_review": "no remaining blocking findings; reviewer inspected actual receipts/current source hashes; no separate reviewer runtime",
+    "upstream_source_comparison": {
+      "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/services/ElementInitializerSwitch.java": {
+        "sha256": "5b6d664a6e90a53efd73cccbb7f7db0443db224bd79e661ef65960773a9731db",
+        "matches_pinned_bytes": true
+      },
+      "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/services/MetamodelMutationElementService.java": {
+        "sha256": "f35919a3a4a737898eba56f81a92ccccaab786aa253c0adfab4e2b1bb964763c",
+        "matches_pinned_bytes": true
+      }
+    },
+    "upstream_runtime_comparison": "NOT_RUN",
+    "upstream_parity_verified": false,
+    "inventory_complete": false,
+    "fully_verified_areas": 0,
+    "area_anchors": 18
+  },
+  "source_revision_during_native_execution": "0062b3a0e82dd34e0d3678402b2a0cfae5152470",
+  "execution_source_identity": "receipts include then-uncommitted implementation byte hashes; current committed runtime/test bytes independently matched both receipts",
+  "historical_gate_replays": 0,
+  "next_step": "Continue existing DOMAIN-QUERY native adapter inventory; reuse core lookup; ResourceSet and ViewUsage unresolved",
+  "upstream_blockers": [
+    "PATH Java26 differs from requested21; Maven absent from PATH",
+    "application Node/npm engine pins differ from system runtime and local Node24.21",
+    "SNAPSHOT artifact correspondence and established package entitlement unverified",
+    "build/lifecycle review and isolated synthetic database/runtime launch gates unresolved; compose image mismatches pin"
+  ],
+  "user_decision_needed_for_bounded_next_work": null,
+  "runtime_launch_attempts": [
+    {
+      "result": "not started",
+      "reason": "Node18 incompatible with installed Playwright"
+    },
+    {
+      "result": "not started",
+      "reason": "staged browser path not set"
+    },
+    {
+      "result": "browser executable exited127",
+      "reason": "installed library sysroot not selected; Playwright cleaned temporary profile"
+    },
+    {
+      "result": "PASS",
+      "run": "browser-03"
+    },
+    {
+      "result": "PASS",
+      "run": "browser-04",
+      "change": "screenshot framing only"
+    }
+  ]
+}
