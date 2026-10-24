@@ -15,7 +15,7 @@ try {
   }
   function send(action, fields) {
     const input = encoder.encode(JSON.stringify({action, fields,
-      entropy: Array.from(crypto.getRandomValues(new Uint8Array(96)))}));
+      entropy: Array.from(crypto.getRandomValues(new Uint8Array(api.creation_entropy_bytes())))}));
     if (input.length > 1048576) throw new Error('Input exceeds the 1 MiB editor limit.');
     api.input_reset();
     for (const byte of input) api.input_byte(byte);

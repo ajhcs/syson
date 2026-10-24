@@ -11,6 +11,51 @@ use syson_model::{
 };
 
 const LIMIT: usize = 1_048_576;
+#[cfg(test)]
+mod initialized_creation_tests;
+const CREATION_ENTROPY_BYTES: usize = if cfg!(feature = "raw-factory-candidate") {
+    320
+} else {
+    96
+};
+
+/// Browser platform glue supplies randomness; allocation and validation stay in Rust.
+#[unsafe(no_mangle)]
+pub extern "C" fn creation_entropy_bytes() -> u32 {
+    CREATION_ENTROPY_BYTES as u32
+}
+
+#[cfg(feature = "raw-factory-candidate")]
+fn initialized_kind(kind: &str) -> Option<ClassifierId> {
+    match kind {
+        "connection_definition" => Some(ClassifierId::ConnectionDefinition),
+        "interface_definition" => Some(ClassifierId::InterfaceDefinition),
+        "accept_action_usage" => Some(ClassifierId::AcceptActionUsage),
+        "port_definition" => Some(ClassifierId::PortDefinition),
+        _ => None,
+    }
+}
+
+fn creation_kinds() -> String {
+    let options = String::from(
+        "<option value=\"package\">Package</option><option value=\"part_definition\">Part definition</option><option value=\"part_usage\">Part usage</option>",
+    );
+    #[cfg(feature = "raw-factory-candidate")]
+    let options = options
+        + "<option value=\"connection_definition\">Connection definition</option><option value=\"interface_definition\">Interface definition</option><option value=\"accept_action_usage\">Accept action usage</option><option value=\"port_definition\">Port definition</option>";
+    options
+}
+
+fn has_diagram_preview(class: &str) -> bool {
+    matches!(
+        class,
+        "Package" | "Namespace" | "PartDefinition" | "PartUsage"
+    ) || (cfg!(feature = "raw-factory-candidate")
+        && matches!(
+            class,
+            "ConnectionDefinition" | "InterfaceDefinition" | "AcceptActionUsage" | "PortDefinition"
+        ))
+}
 struct App {
     editor: Editor,
     pending: Option<Transaction>,
@@ -52,8 +97,10 @@ fn ids(request: &Value) -> Result<Vec<NodeIds>, String> {
     let raw = request["entropy"]
         .as_array()
         .ok_or("Browser random bytes missing")?;
-    if raw.len() != 96 {
-        return Err("Expected 96 browser random bytes".into());
+    if raw.len() != 96 && raw.len() != CREATION_ENTROPY_BYTES {
+        return Err(format!(
+            "Expected {CREATION_ENTROPY_BYTES} browser random bytes"
+        ));
     }
     let bytes: Vec<u8> = raw
         .iter()
@@ -64,7 +111,7 @@ fn ids(request: &Value) -> Result<Vec<NodeIds>, String> {
                 .ok_or("Invalid random byte".to_string())
         })
         .collect::<Result<_, _>>()?;
-    (0..3)
+    (0..bytes.len() / 32)
         .map(|i| {
             NodeIds::new(
                 &uuid(&bytes[i * 32..i * 32 + 16]),
@@ -85,6 +132,17 @@ impl App {
             "stage" => {
                 if self.pending.is_some() {
                     return Err("Commit or cancel the current staged change first.".into());
+                }
+                #[cfg(feature = "raw-factory-candidate")]
+                if let Some(classifier) = initialized_kind(field(request, "kind")) {
+                    let identities = ids(request)?;
+                    let name = field(request, "name");
+                    let (tx, _) = syson_workflow::stage_initialized_creation(
+                        self.editor.begin(), classifier, field(request, "parent"),
+                        Some(name), identities, || false,
+                    ).map_err(|_| "This element could not be created with the supplied parent and identities. No change was staged.".to_string())?;
+                    self.pending = Some(tx);
+                    return Ok("Change staged with its initialized children. Review the preview, then commit or cancel.".into());
                 }
                 let mut allocated = ids(request)?.into_iter();
                 let element = allocated.next().unwrap();
@@ -285,10 +343,7 @@ impl App {
             if doc.is_instance_of(&element.element_id, ClassifierId::PartDefinition) {
                 definitions.push_str(&format!("<option value=\"{id}\">{name}</option>"));
             }
-            if !matches!(
-                element.class.as_str(),
-                "Package" | "Namespace" | "PartDefinition" | "PartUsage"
-            ) {
+            if !has_diagram_preview(&element.class) {
                 continue;
             }
             let (width, height) = self
@@ -326,10 +381,7 @@ impl App {
             } else {
                 String::new()
             };
-            let rotate_control = if matches!(
-                element.class.as_str(),
-                "Package" | "Namespace" | "PartDefinition" | "PartUsage"
-            ) {
+            let rotate_control = if has_diagram_preview(&element.class) {
                 "<p><button type=\"button\" data-action=\"rotate\">Rotate preview</button></p>"
             } else {
                 ""
@@ -354,8 +406,9 @@ impl App {
                 .to_json()
                 .unwrap_or_else(|e| e.to_string()),
         );
+        let kinds = creation_kinds();
         format!(
-            "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button type=\"button\" data-action=\"undo\">Undo</button><button type=\"button\" data-action=\"redo\">Redo</button></nav></header><p class=\"status {}\" role=\"{}\">{}</p><div class=\"layout\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2><ul class=\"tree\">{tree}</ul></section><section class=\"canvas\"><h2>Diagram preview</h2><small>Local preview positions; upstream diagram layout is not implemented.</small><svg viewBox=\"0 0 420 {}\" aria-hidden=\"true\">{diagram}</svg></section><section class=\"panel inspector\"><h2>Create element</h2><form data-action=\"stage\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\"><option value=\"package\">Package</option><option value=\"part_definition\">Part definition</option><option value=\"part_usage\">Part usage</option></select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2>Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details></section>",
+            "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button type=\"button\" data-action=\"undo\">Undo</button><button type=\"button\" data-action=\"redo\">Redo</button></nav></header><p class=\"status {}\" role=\"{}\">{}</p><div class=\"layout\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2><ul class=\"tree\">{tree}</ul></section><section class=\"canvas\"><h2>Diagram preview</h2><small>Local preview positions; upstream diagram layout is not implemented.</small><svg viewBox=\"0 0 420 {}\" aria-hidden=\"true\">{diagram}</svg></section><section class=\"panel inspector\"><h2>Create element</h2><form data-action=\"stage\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2>Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details></section>",
             if self.error { "error" } else { "" },
             if self.error { "alert" } else { "status" },
             escape(&self.message),

@@ -13,5 +13,9 @@ syson-model = { path = "../syson-model" }
 syson-metamodel = { path = "../syson-metamodel" }
 syson-editor = { path = "../syson-editor" }
 serde_json = "=1.0.151"
+syson-workflow = { path = "../syson-workflow", optional = true }
+
+[features]
+raw-factory-candidate = ["dep:syson-workflow", "syson-workflow/raw-factory-candidate"]
 
 [workspace]
