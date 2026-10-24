@@ -3,11 +3,14 @@
 //! not a replacement for the upstream PostgreSQL store or archive interchange.
 #![forbid(unsafe_code)]
 use std::{
-    fs::{self, File, OpenOptions},
-    io::{self, Read, Write},
+    fs::{self, File},
+    io::{self, Read},
     path::{Path, PathBuf},
 };
 use syson_model::Document;
+
+mod snapshot_io;
+pub use snapshot_io::{FsSnapshotIo, SnapshotIo};
 
 #[cfg(feature = "raw-factory-candidate")]
 mod initialized_creation;
@@ -63,25 +66,7 @@ impl SnapshotStore {
         Ok(self.root.join(format!("{key}.emf.json")))
     }
     pub fn save_new(&self, key: &str, document: &Document) -> Result<PathBuf, StoreError> {
-        let path = self.path(key)?;
-        let data = document.to_json()?;
-        if data.len() > 16 * 1024 * 1024 {
-            return Err(StoreError::TooLarge);
-        }
-        let staged = path.with_extension("staged");
-        let mut file = OpenOptions::new()
-            .write(true)
-            .create_new(true)
-            .open(&staged)?;
-        file.write_all(data.as_bytes())?;
-        file.sync_all()?;
-        // link is atomic and fails if the destination exists; unlike rename it
-        // cannot silently overwrite a prior snapshot on Unix.
-        fs::hard_link(&staged, &path)?;
-        #[cfg(unix)]
-        File::open(&self.root)?.sync_all()?;
-        fs::remove_file(&staged)?;
-        Ok(path)
+        self.save_new_with_io(key, document, &mut FsSnapshotIo)
     }
     pub fn load(&self, key: &str) -> Result<Document, StoreError> {
         let mut data = String::new();
