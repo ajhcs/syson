@@ -21,7 +21,7 @@ def sha(data):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path, help="New directory on verified /workspace")
-    parser.add_argument("--phase", choices=["focused", "regression"], required=True)
+    parser.add_argument("--phase", choices=["focused", "regression", "native-query"], required=True)
     args = parser.parse_args()
     root = Path(__file__).resolve().parent.parent
     output = args.output.resolve()
@@ -49,7 +49,11 @@ def main():
             command.extend(["--", "--test-threads=1"])
         commands.append(command)
 
-    if args.phase == "focused":
+    if args.phase == "native-query":
+        cargo("syson-domain")
+        cargo("syson-initializer-graph", "--features", "raw-factory-candidate", "--test", "native_query")
+        cargo("syson-workflow", "--features", "raw-factory-candidate")
+    elif args.phase == "focused":
         for crate in ["syson-workflow", "syson-web"]:
             cargo(crate, "--features", "raw-factory-candidate")
         cargo("syson-web", "--features", "raw-factory-candidate", "--target",

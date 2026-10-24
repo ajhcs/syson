@@ -48,7 +48,18 @@
       "status": "implemented_projection",
       "oracle": "unrun",
       "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
-      "limits": "Requires explicit relationship/class adapters; not EMF implementation."
+      "limits": "Requires explicit relationship/class adapters; not EMF implementation.",
+      "native_query_adapter": {
+        "qualification": "porting/domain/native-query/QUALIFICATION.json",
+        "implementation": "rust/crates/syson-initializer-graph/src/native_query.rs",
+        "shared_engine": "rust/crates/syson-domain/src/query.rs",
+        "implemented": "BOUNDED_SELECTED_JSON_RESOURCE_QUERY",
+        "locally_tested": "26 new query cases;56focused/245regression/31downstream test executions passed; both WASM builds passed",
+        "upstream_source": "pinned6ba2ac64 method contracts; see PROVENANCE.json",
+        "upstream_runtime": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "limits": "Explicit import observations; no native import computation/URI/proxy or NativeContext/ViewUsage application. Full area remains incomplete."
+      }
     },
     {
       "id": "EDITOR-ROTATE",
@@ -144,6 +155,17 @@
         "upstream_runtime_comparison": "NOT_RUN",
         "upstream_parity_verified": false,
         "scope": "Four initialized constructors, local staging/history and selected JSON reload; no whole-area completion"
+      },
+      "native_query_adapter": {
+        "qualification": "porting/domain/native-query/QUALIFICATION.json",
+        "implementation": "rust/crates/syson-initializer-graph/src/native_query.rs",
+        "shared_engine": "rust/crates/syson-domain/src/query.rs",
+        "implemented": "BOUNDED_SELECTED_JSON_RESOURCE_QUERY",
+        "locally_tested": "26 new query cases;56focused/245regression/31downstream test executions passed; both WASM builds passed",
+        "upstream_source": "pinned6ba2ac64 method contracts; see PROVENANCE.json",
+        "upstream_runtime": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "limits": "Explicit import observations; no native import computation/URI/proxy or NativeContext/ViewUsage application. Full area remains incomplete."
       }
     },
     {
