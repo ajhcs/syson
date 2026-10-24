@@ -1,0 +1,180 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "rust/validation/tests",
+        "-p",
+        "test_execution_backlog.py"
+      ],
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-22T23:24:36.117274+00:00",
+      "name": "normal-tests",
+      "started_at_utc": "2026-10-22T23:24:35.700657+00:00",
+      "stderr": {
+        "path": "normal-tests.stderr.txt",
+        "portable_bytes": 189,
+        "portable_sha256": "f6ffd8cbe3dd9e475d0f6d0d3617dc076c67ef77005875ac604049853473aadf",
+        "raw_bytes": 189,
+        "raw_sha256": "f6ffd8cbe3dd9e475d0f6d0d3617dc076c67ef77005875ac604049853473aadf"
+      },
+      "stdout": {
+        "path": "normal-tests.stdout.txt",
+        "portable_bytes": 0,
+        "portable_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "raw_bytes": 0,
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "rust/validation/tests",
+        "-p",
+        "test_execution_backlog.py"
+      ],
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-22T23:24:36.641651+00:00",
+      "name": "optimized-tests",
+      "started_at_utc": "2026-10-22T23:24:36.117400+00:00",
+      "stderr": {
+        "path": "optimized-tests.stderr.txt",
+        "portable_bytes": 189,
+        "portable_sha256": "32fd44f3edd22248c524971dda4bb394f91bcf38d7d9416bbece37ca6928e905",
+        "raw_bytes": 189,
+        "raw_sha256": "32fd44f3edd22248c524971dda4bb394f91bcf38d7d9416bbece37ca6928e905"
+      },
+      "stdout": {
+        "path": "optimized-tests.stdout.txt",
+        "portable_bytes": 0,
+        "portable_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "raw_bytes": 0,
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "${VALIDATION_CHECKOUT}/rust/validation/scripts/check_execution_backlog.py",
+        "--root",
+        "${REPOSITORY}"
+      ],
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-22T23:24:36.716538+00:00",
+      "name": "current-plan",
+      "started_at_utc": "2026-10-22T23:24:36.641770+00:00",
+      "stderr": {
+        "path": "current-plan.stderr.txt",
+        "portable_bytes": 0,
+        "portable_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "raw_bytes": 0,
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "current-plan.stdout.txt",
+        "portable_bytes": 340,
+        "portable_sha256": "a9eab7b36914def8b3df630ebaf04308979866b63c5d25e9ea2643c7b5675a1a",
+        "raw_bytes": 340,
+        "raw_sha256": "a9eab7b36914def8b3df630ebaf04308979866b63c5d25e9ea2643c7b5675a1a"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "${VALIDATION_CHECKOUT}/rust/validation/scripts/check_execution_backlog.py",
+        "--root",
+        "${REPOSITORY}"
+      ],
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-22T23:24:36.852008+00:00",
+      "name": "optimized-current-plan",
+      "started_at_utc": "2026-10-22T23:24:36.716661+00:00",
+      "stderr": {
+        "path": "optimized-current-plan.stderr.txt",
+        "portable_bytes": 0,
+        "portable_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "raw_bytes": 0,
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "optimized-current-plan.stdout.txt",
+        "portable_bytes": 340,
+        "portable_sha256": "a9eab7b36914def8b3df630ebaf04308979866b63c5d25e9ea2643c7b5675a1a",
+        "raw_bytes": 340,
+        "raw_sha256": "a9eab7b36914def8b3df630ebaf04308979866b63c5d25e9ea2643c7b5675a1a"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "${VALIDATION_CHECKOUT}/rust/validation/scripts/check_execution_backlog.py",
+        "--root",
+        "${REPOSITORY}",
+        "--previous-plan",
+        "${PREVIOUS_UNACCEPTED_DRAFT}"
+      ],
+      "exit_code": 0,
+      "finished_at_utc": "2026-10-22T23:24:36.927364+00:00",
+      "name": "explicit-draft-transition",
+      "started_at_utc": "2026-10-22T23:24:36.852123+00:00",
+      "stderr": {
+        "path": "explicit-draft-transition.stderr.txt",
+        "portable_bytes": 0,
+        "portable_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "raw_bytes": 0,
+        "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "path": "explicit-draft-transition.stdout.txt",
+        "portable_bytes": 310,
+        "portable_sha256": "6f05b7fe1839141369dd9d23c48e80b8c0d84608553d5e6578e906147a5cd3d1",
+        "raw_bytes": 310,
+        "raw_sha256": "6f05b7fe1839141369dd9d23c48e80b8c0d84608553d5e6578e906147a5cd3d1"
+      }
+    }
+  ],
+  "earlier_tests": "Initial observed50 and intermediate78/88 runs are separate; final90 normal and90 optimized results are captured here.",
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "SYSON_BUILD_DIR": "${SYSON_BUILD_DIR}"
+  },
+  "execution_exclusions": [
+    "Cargo/compiler",
+    "upstream software",
+    "GUI",
+    "network",
+    "administration",
+    "automation"
+  ],
+  "git_base_revision": "56173014cc5db7013304ed81e8229b1d17aa9ccf",
+  "inputs": {
+    "accepted_plan": {
+      "path": "accepted-plan.json",
+      "sha256": "bf5b82b7d34f968dd0bacbd43527ff8868134899716d38694f3b5afe9eb367c9"
+    },
+    "unaccepted_previous_draft": {
+      "path": "unaccepted-previous-draft.json",
+      "qualification": "Unaccepted interrupted initial draft. Used only for explicit lease-transition comparison; not a committed/accepted predecessor.",
+      "sha256": "fbab11fdcc6c96af960c4b1dd20dbfaf8156a45c8d6cc2b51b382d600b4ea56f"
+    }
+  },
+  "portable_transform": "replace selected local checkout/build/input prefixes only; raw hashes retained separately",
+  "python_version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "root_plan_writes": false,
+  "scope": "Plan format, references, evidence consistency and lease transitions only; not authenticated runtime/source completeness or full differential case equivalence.",
+  "source_kind": "exact working-tree files, later committed unchanged; not relabeled as the Git base revision",
+  "source_sha256": {
+    "rust/validation/scripts/check_execution_backlog.py": "94605e837738ef1ef079026a21167d59104e4f0f9adfa1088497a990feac6418",
+    "rust/validation/tests/test_execution_backlog.py": "da19dadb72d986a51ddad87453bde4b9e2b28f917a34b49b70f7bb733c7998ad"
+  }
+}
