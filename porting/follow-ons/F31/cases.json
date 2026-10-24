@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "scope": "Rust local immutable snapshot adapter",
+  "original_snapshot": "Every case checks original.emf.json exact bytes and a fresh store load of the original Document",
+  "retention": "Every fixture directory is retained; algorithm performs no cleanup after an error, but an operation may complete before returning its error; observed.txt records actual asserted outcome",
+  "cases": [
+    {
+      "test": "successful_sequence_loads_from_fresh_store_and_removes_staging",
+      "fault": "none",
+      "destination": "published",
+      "staging": "absent",
+      "observation": "fresh load equals candidate"
+    },
+    {
+      "test": "create_failure_leaves_no_candidate",
+      "fault": "before create_new",
+      "destination": "absent",
+      "staging": "absent",
+      "observation": "load fails"
+    },
+    {
+      "test": "write_failure_retains_empty_staging",
+      "fault": "before write_all",
+      "destination": "absent",
+      "staging": "empty",
+      "observation": "load fails"
+    },
+    {
+      "test": "file_sync_failure_retains_complete_staging_without_publishing",
+      "fault": "before file sync_all",
+      "destination": "absent",
+      "staging": "complete",
+      "observation": "load fails"
+    },
+    {
+      "test": "publication_failure_retains_complete_staging_without_publishing",
+      "fault": "before hard_link",
+      "destination": "absent",
+      "staging": "complete",
+      "observation": "load fails"
+    },
+    {
+      "test": "partial_write_is_retained_and_never_loaded_as_a_snapshot",
+      "fault": "write 11 bytes then error",
+      "destination": "absent",
+      "staging": "exact 11-byte prefix",
+      "observation": "load fails"
+    },
+    {
+      "test": "publish_side_effect_then_error_makes_failure_ambiguous",
+      "fault": "successful hard_link then error",
+      "destination": "published despite Io",
+      "staging": "complete",
+      "observation": "fresh load equals candidate; retry fails AlreadyExists"
+    },
+    {
+      "test": "directory_sync_error_is_a_published_but_unconfirmed_outcome",
+      "fault": "before directory sync_all; Unix only",
+      "destination": "published despite Io",
+      "staging": "complete",
+      "observation": "fresh load equals candidate; durability not established; retry fails AlreadyExists"
+    },
+    {
+      "test": "staging_removal_error_retains_published_snapshot_and_staging",
+      "fault": "before remove_file",
+      "destination": "published despite Io",
+      "staging": "complete",
+      "observation": "fresh load equals candidate; retry fails AlreadyExists"
+    },
+    {
+      "test": "existing_published_snapshot_is_not_replaced_by_retry",
+      "fault": "real hard_link AlreadyExists",
+      "destination": "original preserved",
+      "staging": "new candidate complete",
+      "observation": "fresh load equals original"
+    },
+    {
+      "test": "existing_staging_is_preserved_and_not_used_as_a_snapshot",
+      "fault": "real create_new AlreadyExists",
+      "destination": "absent",
+      "staging": "unrelated sentinel preserved",
+      "observation": "load fails"
+    },
+    {
+      "test": "invalid_keys_are_rejected_before_any_injected_io",
+      "fault": "invalid key",
+      "destination": "absent",
+      "staging": "absent",
+      "observation": "no SnapshotIo calls"
+    },
+    {
+      "test": "removal_side_effect_then_error_leaves_no_staging_but_a_published_snapshot",
+      "fault": "successful remove_file then error",
+      "destination": "published despite Io",
+      "staging": "absent after error; retry creates new complete staging before no-replace collision",
+      "observation": "fresh load equals candidate; retry preserves destination; durability unproven"
+    }
+  ]
+}
