@@ -1,0 +1,57 @@
+{
+  "id": "F10",
+  "status": "IMPLEMENTED_LOCALLY_TESTED_SOURCE_DERIVED",
+  "sources": [
+    {
+      "path": "packages/syside-languageserver/src/model/KerML/expressions/literal-number.ts",
+      "revision": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+      "sha256": "768aabcd2842ee708d8a50be07e58dc9be842b781e1aea28c42ae1a73418a799",
+      "used": false
+    },
+    {
+      "path": "packages/syside-languageserver/src/model/naming.ts",
+      "revision": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+      "sha256": "6eb7e99dca2d6f00b7a7b577be6ab63d569fc18cf05c2ad171c203d56a037dd0",
+      "used": true
+    },
+    {
+      "path": "backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+      "lines": [
+        41808,
+        41927
+      ]
+    },
+    {
+      "path": "backend/application/syson-sysml-import/src/main/java/org/eclipse/syson/sysml/parser/translation/EClassifierTranslator.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "a3048d99e27894f85819b53652cdf6f28ed95d99af89714544c94f33070aefe1",
+      "lines": [
+        58,
+        79
+      ]
+    }
+  ],
+  "dispatch_order": [
+    "uppercase INT/STRING/ID/REGEXLITERAL rule name",
+    "lowercase declared number/boolean/bigint/date type",
+    "original input string"
+  ],
+  "explicitly_unsupported": [
+    "bigint conversion (no reachable grammar return type)",
+    "Date conversion (no reachable grammar return type)",
+    "non-ASCII dynamic rule/type names outside the pinned grammar domain",
+    "CST rule-call/cross-reference resolution; caller supplies resolved dispatch",
+    "upstream runtime differential; NOT_RUN"
+  ],
+  "string_policy": "Raw lexeme retained as UTF-8; result contains UTF-16 units so source slicing can retain lone surrogates. STRING_VALUE and UNRESTRICTED_NAME stay quoted. Name sanitation is a separate function.",
+  "number_policy": "Validate ECMAScript numeric-string grammar before std binary64 decimal parse; preserve signed zero/NaN/infinities. Unsigned binary/octal/hex integers use explicit guard/sticky ties-to-even rounding. INT uses decimal/hex prefix semantics. Full runtime number equivalence remains unverified.",
+  "presence_policy": "Undefined, Null and Value are separate; converter is invoked only for Value.",
+  "limits": "Explicit UTF-16-unit allocation budget, pre/during-materialization/post cancellation checks. The bounded stdlib decimal parse cannot be preempted.",
+  "new_dependencies": [],
+  "upstream_runtime": "NOT_RUN",
+  "parity_verified": false,
+  "local_validation": "VALIDATION.json",
+  "source_review": "REVIEW.md"
+}
