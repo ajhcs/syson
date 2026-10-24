@@ -1,0 +1,56 @@
+    Checking syson-layout v0.1.0 (/workspace/worktrees/builderbob/syson/f16-layout/rust/crates/syson-layout)
+error: the loop variable `i` is used to index `reach`
+   --> tests/layout.rs:499:18
+    |
+499 |         for i in 0..3 {
+    |                  ^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_range_loop
+    = note: `-D clippy::needless-range-loop` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::needless_range_loop)]`
+help: consider using an iterator and enumerate()
+    |
+499 -         for i in 0..3 {
+499 +         for (i, <item>) in reach.iter_mut().enumerate() {
+    |
+
+error: the loop variable `a` is used to index `reach`
+   --> tests/layout.rs:521:22
+    |
+521 |             for a in 0..3 {
+    |                      ^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_range_loop
+help: consider using an iterator and enumerate()
+    |
+521 -             for a in 0..3 {
+521 +             for (a, <item>) in reach.iter().enumerate() {
+    |
+
+error: the loop variable `b` is used to index `reach`
+   --> tests/layout.rs:522:26
+    |
+522 |                 for b in 0..3 {
+    |                          ^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_range_loop
+help: consider using an iterator and enumerate()
+    |
+522 -                 for b in 0..3 {
+522 +                 for (b, <item>) in reach.iter().enumerate() {
+    |
+
+error: the loop variable `a` is used to index `reach`
+   --> tests/layout.rs:530:22
+    |
+530 |             for a in 0..3 {
+    |                      ^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_range_loop
+help: consider using an iterator and enumerate()
+    |
+530 -             for a in 0..3 {
+530 +             for (a, <item>) in reach.iter().enumerate() {
+    |
+
+error: could not compile `syson-layout` (test "layout") due to 4 previous errors
