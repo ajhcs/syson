@@ -1,0 +1,397 @@
+{
+  "scope": "Milestone status overlay; source-map artifacts enumerate larger unassessed baseline surface. This is not a complete feature closure.",
+  "baseline": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "features": [
+    {
+      "id": "DOMAIN-NAME",
+      "feature": "Name matching, escaping and conflict filter",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/domain/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-domain/src/names.rs",
+      "tests": [
+        "rust/crates/syson-domain/tests/compatibility.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
+      "limits": "Literal source behavior; adapter identity and Java string rules matter."
+    },
+    {
+      "id": "DOMAIN-ID",
+      "feature": "Stable standard-library UUIDv5",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/domain/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-domain/src/uuid.rs",
+      "tests": [
+        "rust/crates/syson-domain/tests/compatibility.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
+      "limits": "Library branch only; no random-ID or entire resource adapter."
+    },
+    {
+      "id": "DOMAIN-QUERY",
+      "feature": "Qualified and unqualified name traversal",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/domain/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-domain/src/model.rs",
+      "tests": [
+        "rust/crates/syson-domain/tests/compatibility.rs"
+      ],
+      "status": "implemented_projection",
+      "oracle": "unrun",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
+      "limits": "Requires explicit relationship/class adapters; not EMF implementation.",
+      "native_query_adapter": {
+        "qualification": "porting/domain/native-query/QUALIFICATION.json",
+        "implementation": "rust/crates/syson-initializer-graph/src/native_query.rs",
+        "shared_engine": "rust/crates/syson-domain/src/query.rs",
+        "implemented": "BOUNDED_SELECTED_JSON_RESOURCE_QUERY",
+        "locally_tested": "26 new query cases;56focused/245regression/31downstream test executions passed; both WASM builds passed",
+        "upstream_source": "pinned6ba2ac64 method contracts; see PROVENANCE.json",
+        "upstream_runtime": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "limits": "Explicit import observations; no native import computation/URI/proxy or NativeContext/ViewUsage application. Full area remains incomplete."
+      }
+    },
+    {
+      "id": "EDITOR-ROTATE",
+      "feature": "Selected-node rotation and layout merge",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/frontend/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-editor/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-editor/tests/editor_contracts.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
+      "limits": "Transport, asynchronous layout, history and renderer absent."
+    },
+    {
+      "id": "EDITOR-GEOMETRY",
+      "feature": "Leaf sizes and note appearance",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/frontend/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-editor/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-editor/tests/editor_contracts.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
+      "limits": "Ordinary finite numeric inputs; number formatting incompatibilities remain."
+    },
+    {
+      "id": "MIGRATION-ID",
+      "feature": "Standard library semantic/diagram ID migrations",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/persistence/README.md"
+      ],
+      "rust_implementation": "rust/crates/syson-persistence/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-persistence/tests/migration_contracts.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "bounded source-derived review completed; see porting/validation/M1-INDEPENDENT-REVIEW.md",
+      "limits": "EMF resolution, JSON traversal, scheduling and database unported."
+    },
+    {
+      "id": "MODEL",
+      "feature": "Complete metamodel and semantic invariants",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": "rust/crates/syson-model/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-model/tests/model.rs",
+        "rust/crates/syson-model/tests/scalars.rs",
+        "rust/crates/syson-model/tests/creation_capabilities.rs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "Bounded source-derived M4/M6 review accepted; see porting/validation.",
+      "limits": "Three constructors, polymorphic typing, local transactions and metadata-backed scalar edits; full operations/constraints/derived/reference semantics unported. The newer raw factory candidate is separately pending independent review and is not promoted by these historical M7 results.",
+      "bounded_subset": {
+        "implementation": "rust/crates/syson-model",
+        "review": "porting/validation/M2-INDEPENDENT-REVIEW.md",
+        "full_semantics": "unported"
+      },
+      "evidence": "porting/M7-CHECKPOINT.md",
+      "test_run_evidence": [
+        "porting/runs/M7/M7-integration-01/receipt.json",
+        "porting/runs/M7/M7-integration-01/syson-model.log"
+      ],
+      "initializer_candidate": {
+        "source": "rust/crates/syson-initializer",
+        "qualification": "porting/domain/initializer-planner/QUALIFICATION.json",
+        "qualification_sha256": "f7ebb497f4a34a2c36f86916069e7b1269e8114b5260142b0ee0dcbf8fc55e0c",
+        "implemented": "BOUNDED_DECLARATIVE_PLANNER",
+        "rust_tested": "26_OWNER_SOURCE_CONTRACT_TESTS_PASSED",
+        "independent_acceptance": "PENDING",
+        "parity_verified": false,
+        "native_query_graph_application": "UNPORTED",
+        "F1_independent_review": "PENDING; unchanged e075dd949"
+      },
+      "initialized_creation_checkpoint": {
+        "evidence": "porting/restarts/2026-10-24/README.md",
+        "implemented": "OPT_IN_BOUNDED_WORKFLOW",
+        "locally_tested": "PASS; see separate native and browser receipts",
+        "upstream_runtime_comparison": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "scope": "Four initialized constructors, local staging/history and selected JSON reload; no whole-area completion"
+      },
+      "native_query_adapter": {
+        "qualification": "porting/domain/native-query/QUALIFICATION.json",
+        "implementation": "rust/crates/syson-initializer-graph/src/native_query.rs",
+        "shared_engine": "rust/crates/syson-domain/src/query.rs",
+        "implemented": "BOUNDED_SELECTED_JSON_RESOURCE_QUERY",
+        "locally_tested": "26 new query cases;56focused/245regression/31downstream test executions passed; both WASM builds passed",
+        "upstream_source": "pinned6ba2ac64 method contracts; see PROVENANCE.json",
+        "upstream_runtime": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "limits": "Explicit import observations; no native import computation/URI/proxy or NativeContext/ViewUsage application. Full area remains incomplete."
+      }
+    },
+    {
+      "id": "PARSER",
+      "feature": "Textual SysML/KerML parsing and semantic import",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/syntax/README.md",
+        "porting/validation/M7-INDEPENDENT-REVIEW.md",
+        "porting/runs/parser-oracle-01/receipt.json",
+        "porting/runs/syntax-review-01/receipt.json"
+      ],
+      "rust_implementation": "rust/crates/syson-syntax/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-syntax/tests/syntax_contracts.rs",
+        "rust/validation/syntax/tests/recognizer_regressions.rs"
+      ],
+      "status": "implemented_syntax_only",
+      "oracle": "one byte-identical fixture accepted by upstream secondary CLI and Rust syntax recognizer; AST comparison unsupported",
+      "independent_review": "M7 bounded syntax review accepted; AST, semantics and all735 per-rule parity dispositions remain unported.",
+      "limits": "Full grammar-driven generalized syntax/CST, not upstream AST, linking, validation, recovery or import semantics.735 source-rule statuses remain UNPORTED.",
+      "evidence": "porting/M7-CHECKPOINT.md",
+      "additional_reference_observations": "porting/runs/parser-corpus-01/index.json: twelve preserved reference observations; upstream calls not replayed.",
+      "additional_native_observations": "porting/runs/parser-corpus-rust-01/comparison.json:12 native processes exit0,9syntaxrecognized/3rejected, AST/semantics NotPerformed; independent review pending, no strict parity promotion."
+    },
+    {
+      "id": "UI",
+      "feature": "Application shell and all editors",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": "rust/crates/syson-web/src/lib.rs",
+      "tests": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/browser-tests/authoring.cjs",
+        "rust/browser-tests/scalars.cjs"
+      ],
+      "status": "implemented_bounded",
+      "oracle": "unrun",
+      "independent_review": "Bounded M5/M6 review and actual browser checks accepted; comprehensive UI parity remains unported.",
+      "limits": "Actual Rust/WASM authoring and typed scalar controls tested in an isolated browser; full SysON UI/layout/accessibility unported.",
+      "bounded_subset": {
+        "implementation": "rust/crates/syson-web",
+        "browser_smoke": "porting/runs/M2-browser.json",
+        "upstream_equivalence": "unrun"
+      },
+      "evidence": "porting/M7-CHECKPOINT.md",
+      "test_run_evidence": [
+        "porting/runs/M7/M7-integration-01/syson-web.log",
+        "porting/runs/M7/M7-browser-01/receipt.json"
+      ],
+      "initialized_creation_checkpoint": {
+        "evidence": "porting/restarts/2026-10-24/README.md",
+        "implemented": "OPT_IN_BOUNDED_WORKFLOW",
+        "locally_tested": "PASS; see separate native and browser receipts",
+        "upstream_runtime_comparison": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "scope": "Four initialized constructors, local staging/history and selected JSON reload; no whole-area completion"
+      }
+    },
+    {
+      "id": "LAYOUT",
+      "feature": "Full diagram layout and routing",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "API",
+      "feature": "REST/GraphQL and subscriptions",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "DB",
+      "feature": "Database schema and persistence",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping.",
+      "bounded_subset": {
+        "implementation": "rust/crates/syson-workflow",
+        "kind": "local immutable EMF JSON snapshot adapter",
+        "database_compatibility": "unported"
+      },
+      "initialized_creation_checkpoint": {
+        "evidence": "porting/restarts/2026-10-24/README.md",
+        "implemented": "OPT_IN_BOUNDED_WORKFLOW",
+        "locally_tested": "PASS; see separate native and browser receipts",
+        "upstream_runtime_comparison": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "scope": "Four initialized constructors, local staging/history and selected JSON reload; no whole-area completion"
+      }
+    },
+    {
+      "id": "RECOVERY",
+      "feature": "Crash recovery and integrity",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "HISTORY",
+      "feature": "Undo/redo and collaborative transaction history",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping.",
+      "initialized_creation_checkpoint": {
+        "evidence": "porting/restarts/2026-10-24/README.md",
+        "implemented": "OPT_IN_BOUNDED_WORKFLOW",
+        "locally_tested": "PASS; see separate native and browser receipts",
+        "upstream_runtime_comparison": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "scope": "Four initialized constructors, local staging/history and selected JSON reload; no whole-area completion"
+      }
+    },
+    {
+      "id": "ACCESSIBILITY",
+      "feature": "Keyboard/screen-reader application equivalence",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "EXPORT",
+      "feature": "All project/textual/archive interchange",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping.",
+      "initialized_creation_checkpoint": {
+        "evidence": "porting/restarts/2026-10-24/README.md",
+        "implemented": "OPT_IN_BOUNDED_WORKFLOW",
+        "locally_tested": "PASS; see separate native and browser receipts",
+        "upstream_runtime_comparison": "NOT_RUN",
+        "upstream_parity_verified": false,
+        "scope": "Four initialized constructors, local staging/history and selected JSON reload; no whole-area completion"
+      }
+    },
+    {
+      "id": "EXTENSIONS",
+      "feature": "Inherited Sirius extensions and query expression semantics",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    },
+    {
+      "id": "DEPS",
+      "feature": "Resolved transitive dependency and license closure",
+      "upstream_sha": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "source_evidence": [
+        "porting/source-map/README.md",
+        "porting/source-map/behavior-boundaries.md"
+      ],
+      "rust_implementation": null,
+      "tests": [],
+      "status": "unported_or_unresolved",
+      "oracle": "unrun",
+      "independent_review": "pending",
+      "limits": "See finite source inventory; inherited dependency behavior still requires source pinning and mapping."
+    }
+  ],
+  "restart_reconciliation": "porting/restarts/2026-10-24/reconciliation.json"
+}
