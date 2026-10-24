@@ -1,0 +1,322 @@
+{
+  "area_id": "MIGRATION-ID",
+  "baseline": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "recorded_at_utc": "2026-10-22T23:31:13.790462+00:00",
+  "inventory_complete": false,
+  "scope": "All fifteen Java files directly in pinned SysON application migration package plus six directly named migration test classes and ID-map resource; inherited scheduler/transaction/runtime closure remains open.",
+  "behavior_ids": [
+    "MIGRATION-ID-MAP",
+    "MIGRATION-ID-REFERENCE",
+    "MIGRATION-ID-TARGET",
+    "MIGRATION-ID-JSON-SERVICE",
+    "MIGRATION-ID-ANNOTATION",
+    "MIGRATION-ID-CONNECTOR",
+    "MIGRATION-ID-EXPOSED",
+    "MIGRATION-ID-VIEW-DIAGRAM",
+    "MIGRATION-ID-ONE-DIAGRAM",
+    "MIGRATION-ID-CONTROL-NODE",
+    "MIGRATION-ID-CONTEXT-PREDICATE"
+  ],
+  "behaviors": [
+    {
+      "id": "MIGRATION-ID-MAP",
+      "source_class": "StandardLibrariesIdsResourceToMapParser.java",
+      "source_contract": "Classpath text loading, Java default charset/BufferedReader lines, split discarding trailing empty parts, trim<=U0020, duplicate overwrite, swallowed IOException and timing log.",
+      "native_state_and_gap": "Rust line rules bounded; runtime resource/charset/partial-read behavior absent."
+    },
+    {
+      "id": "MIGRATION-ID-REFERENCE",
+      "source_class": "StandardLibrariesElementsReferencesMigrationParticipant.java",
+      "source_contract": "Noncontainment only; substring scheme gate, sysml type-prefix removal with SysML precedence, ResourceSet lookup load=false, first # prefix and actual Element before fallback mapping.",
+      "native_state_and_gap": "Rust pure callback rule exists; EMF URI parsing/non-Element/runtime failures remain caller boundary."
+    },
+    {
+      "id": "MIGRATION-ID-TARGET",
+      "source_class": "StandardLibrariesElementsDiagramMigrationParticipant.java",
+      "source_contract": "Only string targetObjectId; actual standard-library Element takes precedence, resolved nonlibrary Element suppresses fallback, unresolved/non-Element search falls back.",
+      "native_state_and_gap": "Rust pure callback rule exists; JSON traversal/mutation and object search not integrated."
+    },
+    {
+      "id": "MIGRATION-ID-JSON-SERVICE",
+      "source_class": "MigrationParticipantService.java",
+      "source_contract": "Namespace helper returns comparison for FIRST ns member; object traversal tests PARENT type before appending CHILD object, recursively traverses nested arrays without adding the array member itself.",
+      "native_state_and_gap": "Source quirks preserved explicitly; Gson coercions/errors and complete EClass subtype dispatch unported."
+    },
+    {
+      "id": "MIGRATION-ID-ANNOTATION",
+      "source_class": "AnnotationAnnotatingElementMigrationParticipant.java",
+      "source_contract": "Under helper gate, remove annotatingElement from collected Annotation objects and annotation from collected AnnotatingElement objects.",
+      "native_state_and_gap": "No Rust participant."
+    },
+    {
+      "id": "MIGRATION-ID-CONNECTOR",
+      "source_class": "ConnectorAsUsageSourceAndTargetMigrationParticipant.java",
+      "source_contract": "Under helper gate, remove source/target from collected ConnectorAsUsage objects.",
+      "native_state_and_gap": "No Rust participant."
+    },
+    {
+      "id": "MIGRATION-ID-EXPOSED",
+      "source_class": "ViewUsageExposeElementMigrationParticipant.java",
+      "source_contract": "Under helper gate, remove exposedElement from collected ViewUsage objects.",
+      "native_state_and_gap": "No Rust participant."
+    },
+    {
+      "id": "MIGRATION-ID-VIEW-DIAGRAM",
+      "source_class": "DiagramOnViewUsageMigrationParticipant.java",
+      "source_contract": "Versioned post-load adapter capture then initialization hook: DB metadata/content search, four diagram kinds, nonlibrary resource/migration metadata gate, first adapter only, create relationship/ViewUsage/optional FeatureTyping, update metadata and FIRST textual targetObjectId regex, save/remove adapter.",
+      "native_state_and_gap": "No Rust participant/hook; null creation path, multiple diagrams, transactions/failures/retry/cancel need exact qualification."
+    },
+    {
+      "id": "MIGRATION-ID-ONE-DIAGRAM",
+      "source_class": "OneDiagramDescriptionMigrationParticipant.java",
+      "source_contract": "Versioned ViewUsage adapter capture and hook change four standard diagram kinds to general view; update metadata and FIRST matching descriptionId regex, save/remove adapter.",
+      "native_state_and_gap": "No Rust participant/hook; transaction/adapter lifecycle and Java regex behavior open."
+    },
+    {
+      "id": "MIGRATION-ID-CONTROL-NODE",
+      "source_class": "StartDoneAndControlNodeMigrationParticipant.java",
+      "source_contract": "Diagram-only string descriptionId callback maps exactly six old start/done/decision/fork/join/merge IDs to six new IDs. Other attribute/type/value unchanged.",
+      "native_state_and_gap": "No Rust mapping yet; bounded pure callback split can proceed separately from DB integration."
+    },
+    {
+      "id": "MIGRATION-ID-CONTEXT-PREDICATE",
+      "source_class": "SysONEditingContextMigrationParticipantPredicate.java",
+      "source_contract": "Editing-context predicate returns true for every supplied ID.",
+      "native_state_and_gap": "No Rust registration or scheduler."
+    }
+  ],
+  "source_refs": [
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/AnnotationAnnotatingElementMigrationParticipant.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "91905cbaa1457413117b9b85cc7dc78439d5dafca37f7266c8bc892f79967b18",
+      "bytes": 2167,
+      "execution": "NOT_RUN",
+      "participant_versions": [
+        "2025.4.0-202503140000"
+      ],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/ConnectorAsUsageSourceAndTargetMigrationParticipant.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "f3c9c962a40f84742d2a2f25ce1beff3a90ff1fcc41cf117a6a16eb0ee205b47",
+      "bytes": 2204,
+      "execution": "NOT_RUN",
+      "participant_versions": [
+        "2025.4.0-202502270000"
+      ],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/DiagramOnViewUsageMigrationAdapter.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "cd3ba5ba50c413ea41a125279efe0c3614f5ed35ed31b98605ad72d76a6a751f",
+      "bytes": 2599,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/DiagramOnViewUsageMigrationHook.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "ff9e48e3e5841caa172581d79c3221baaf25e97a0b0734e09115083d77df3715",
+      "bytes": 11388,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/DiagramOnViewUsageMigrationParticipant.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "00a42d749a8ac4394b275ef0b2dba292cd520b47de32dc07e7d468f7a80069c0",
+      "bytes": 7256,
+      "execution": "NOT_RUN",
+      "participant_versions": [
+        "2025.6.0-202505150000"
+      ],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/MigrationParticipantService.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "b67a9002a581a7b3ec00508c180274fa89b3357f3fb513fd43cc4decc08cde61",
+      "bytes": 3526,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/OneDiagramDescriptionMigrationAdapter.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "4972be632b55a47c29be41c7ff9aff26643dbba23e537befa8429d58e67a3b16",
+      "bytes": 2569,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/OneDiagramDescriptionMigrationHook.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "160876f3fb50c146cd85d7a4ce1eaddd0f10f1c94da4e6397f330e77d0c0dec2",
+      "bytes": 6807,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/OneDiagramDescriptionMigrationParticipant.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "7bfee9eec95b2e6f592dcc01cabd79fa55af218c65d3042d0565caffc8a50a37",
+      "bytes": 7113,
+      "execution": "NOT_RUN",
+      "participant_versions": [
+        "2025.8.0-202508220000"
+      ],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesElementsDiagramMigrationParticipant.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "96310b9b53b4b04c2bbc4bf7a43989e35b22c201163d19e31fb3148dd8b91645",
+      "bytes": 3979,
+      "execution": "NOT_RUN",
+      "participant_versions": [
+        "2025.8.0-202506301700"
+      ],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesElementsReferencesMigrationParticipant.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "f95dcc035a65532bde00fd93a53991326a02ee10f1006dfda21f4a779c2b90a2",
+      "bytes": 4335,
+      "execution": "NOT_RUN",
+      "participant_versions": [
+        "2025.8.0-202506301600"
+      ],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesIdsResourceToMapParser.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "2b84a9b736477d8ed0cd257981302ca5c7b7eecea3596b1f65cdd241c477510a",
+      "bytes": 2894,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StartDoneAndControlNodeMigrationParticipant.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "a554ffdcf92ed6bbe861c92ccadcbfb27269f8e3303d8ef33efd66ec3b7e8d7f",
+      "bytes": 5320,
+      "execution": "NOT_RUN",
+      "participant_versions": [
+        "2026.7.0-202606240000"
+      ],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/SysONEditingContextMigrationParticipantPredicate.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "56789137f9ba8e535ac1b16c268bccb7924726265285ad865511536803f748d8",
+      "bytes": 1220,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/ViewUsageExposeElementMigrationParticipant.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "696ccdaeca7315e9868e3ace0b34264c25e5d79c4c0ff2d02f4f1d9226fceed7",
+      "bytes": 2229,
+      "execution": "NOT_RUN",
+      "participant_versions": [
+        "2025.6.0-202506110000"
+      ],
+      "declared_test_annotations": 0
+    },
+    {
+      "path": "backend/application/syson-application/src/test/java/org/eclipse/syson/application/migration/AllDiagramsBeforeMergeOfAllDiagramDescriptionsMigrationParticipantTest.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "2905b91dc68e542ee2177bf3bff2f0f3031da095f67bcbb461fb66925db619d8",
+      "bytes": 8661,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 1
+    },
+    {
+      "path": "backend/application/syson-application/src/test/java/org/eclipse/syson/application/migration/AnnotationMigrationParticipantTest.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "66b6f27c7b00076514160371d93c93c9141e733864c91f12ef85f490f745a901",
+      "bytes": 3927,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 1
+    },
+    {
+      "path": "backend/application/syson-application/src/test/java/org/eclipse/syson/application/migration/ConnectorAsUsageMigrationParticipantTest.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "5dd0e8e9aca1f310ef81427e1972c5176cc698be826e1236ca29f71c2d760719",
+      "bytes": 3749,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 1
+    },
+    {
+      "path": "backend/application/syson-application/src/test/java/org/eclipse/syson/application/migration/ControlNodesInOldDiagramsTest.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "6131a8dd8b046b11d7da26759662aaf8c8d8486b72632220e0edae473256a5e0",
+      "bytes": 9391,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 2
+    },
+    {
+      "path": "backend/application/syson-application/src/test/java/org/eclipse/syson/application/migration/DiagramOnViewUsageMigrationParticipantTest.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "06edad50baa80fb31e056ca60d651f643df8f8d672c13b170fabd0941a74c54e",
+      "bytes": 7253,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 1
+    },
+    {
+      "path": "backend/application/syson-application/src/test/java/org/eclipse/syson/application/migration/StandardLibrariesIdsMigrationParticipantTest.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "016896597c445ebdfb9c2806958837b7ab1185c449ada63dbc5164b8e1b96097",
+      "bytes": 7150,
+      "execution": "NOT_RUN",
+      "participant_versions": [],
+      "declared_test_annotations": 2
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/resources/migration/stdlib_oldId_to_elementId.txt",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "977fd398c58a924f11fbbd056c4004b38bc2766bac30cbffac0f2be8ddaa7eae",
+      "bytes": 9159202,
+      "execution": "NOT_RUN"
+    }
+  ],
+  "runtime_execution": "NOT_RUN",
+  "proposed_next_item": {
+    "id": "MIGRATION-ID-CONTROL-NODE-01",
+    "kind": "IMPLEMENTATION",
+    "api": "Pure control_node_description_replacement(attribute: &str, string_value: Option<&str>) -> Option<&'static str>; exact six-pair string map, no JSON traversal/DB access.",
+    "writable_boundary": [
+      "rust/crates/syson-persistence/src/control_nodes.rs",
+      "rust/crates/syson-persistence/src/lib.rs",
+      "rust/crates/syson-persistence/tests/control_nodes.rs"
+    ],
+    "tests": "Six exact positive pairs; other attr/nonstring/unknown/case/prefix/suffix values unchanged. No upstream run until separately reviewed.",
+    "state": "PROPOSED_PENDING_SOURCE_REVIEW_AND_LEASE"
+  },
+  "unclosed_surface": [
+    "Inherited participant ordering/version persistence and duplicate application/retry/cancel semantics.",
+    "EMF URI parsing/resource lookup/loading/errors and real Element/non-Element behavior.",
+    "Gson/Jackson traversal/coercion and Java regex exact behavior.",
+    "Transactional DB metadata/content updates, hook lifecycle, rollback/failure/partial effects.",
+    "Complete source closure for imported services/helpers, original integration fixtures and artifact correspondence."
+  ]
+}
