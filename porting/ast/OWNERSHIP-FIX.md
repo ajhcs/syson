@@ -1,0 +1,16 @@
+# Handle ownership and flat-array review fixes
+
+Independent review found two concrete defects in the kernel snapshot `5c3755b13`. Public-API regressions were run against that unchanged implementation before fixing it:
+
+- Handles contained only an arena-local index. Distinct builders allocated equal handles at index zero, permitting foreign assignment/CST association/finish and arena lookup to bind to an unrelated node. Four regression tests failed; exact original test bytes, code/test hashes, UTC interval and output are preserved in `ownership-repro-*`. The original merge check happened to reject equal index values as SelfMerge; that was not ownership validation. The final regression also checks foreign source/target merges with different local indexes.
+- Appending a flat array validated it as a standalone value and then inserted it as an array element, creating nested mutable state. The rejection happened only on consuming finish. The immediate-error/unchanged-state regression failed, while Set(flat array) passed. Evidence is preserved in `flat-array-repro-*`.
+
+`NodeId` now privately contains an owner identity and local index. A single checked monotonic AtomicU64 allocates owner identities; it does not use a pointer/address or recycle identities after builder/arena destruction. Counter exhaustion returns `OwnerNamespaceExhausted` without wrapping, tested using an isolated counter. `Builder::new` therefore returns `Result<Builder, Error>`. `value()` remains the local numeric index and is explicitly insufficient for reconstructing or comparing owner identity. Safe public APIs cannot forge a NodeId from that value.
+
+Builder lookups return ForeignOwner for handles from another owner, including handles embedded as values. Complete arenas preserve ownership and return None on foreign lookup. Clone of an arena preserves the same identity and valid handles. Transactions retain the builder owner, consume local IDs monotonically, and roll back state without making failed-branch handles valid. Concurrent builder creation, dropped-builder handles and same-index foreign handles have native regressions. These are process-local handles, not a serialized or cross-process identity protocol.
+
+Append now rejects an array-valued input before field mutation. Set(flat array) remains supported. Budgets can still be consumed by a rejected operation, as the original monotonic-work contract specifies.
+
+`ownership-fix-run.json` and the associated outputs record the new checked executable snapshot, actual UTC intervals and source/output hashes. Earlier `initial-test-*` and `native-run.json` evidence is preserved unchanged; it describes earlier code and is not promoted to proof of the fixed version. Output normalization replaces checkout/build prefixes and trims trailing empty lines; raw capture hashes remain recorded. This change does not broaden construction, grammar, linking, CLI, import or parity claims.
+
+The first fixed-code run passed all 28 tests but clippy rejected deprecated AtomicU64::fetch_update on the installed Rust 1.99.1. That run and exact library source are preserved as `ownership-fix-initial-*`. The final implementation uses a checked compare_exchange_weak loop, avoiding the deprecated API; the changed executable code justifies its separate final run.
