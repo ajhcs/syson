@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: EPL-2.0
+// Actual browser checks for the Rust/WASM scalar adapter, not an upstream oracle.
+const assert=require('node:assert/strict');
+const fs=require('node:fs');const path=require('node:path');
+const {chromium}=require(process.env.SYSON_PLAYWRIGHT_MODULE || 'playwright');
+const output=process.env.SYSON_BROWSER_ARTIFACT_DIR;const url=process.env.SYSON_PREVIEW_URL;
+if(!output || !url)throw new Error('Set SYSON_BROWSER_ARTIFACT_DIR and SYSON_PREVIEW_URL.');
+fs.mkdirSync(output,{recursive:true});
+const model={json:{version:'1.0',encoding:'utf-8'},ns:{sysml:'http://www.eclipse.org/syson/sysml'},content:[
+ {id:'usage-resource',eClass:'sysml:PartUsage',data:{elementId:'usage-id',declaredName:'usage',isComposite:true,direction:'in'}},
+ {id:'int-resource',eClass:'sysml:LiteralInteger',data:{elementId:'int-id',declaredName:'integer',value:7}},
+ {id:'real-resource',eClass:'sysml:LiteralRational',data:{elementId:'real-id',declaredName:'real',value:0.25}},
+ {id:'comment-resource',eClass:'sysml:Comment',data:{elementId:'comment-id',declaredName:'notes',body:'\nfirst\r\nsecond\rthird'}},
+ {id:'string-resource',eClass:'sysml:LiteralString',data:{elementId:'string-id',declaredName:'text',value:'\nline one\u0000line two'}},
+ {id:'action-resource',eClass:'sysml:ActionUsage',data:{elementId:'action-id',declaredName:'actions'}},
+ {id:'definition-resource',eClass:'sysml:ConnectionDefinition',data:{elementId:'definition-id',declaredName:'Connection'}}]};
+(async()=>{const browser=await chromium.launch({headless:true});try{const page=await browser.newPage({viewport:{width:1365,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});await page.goto(url);await page.getByRole('heading',{name:'SysON model editor',exact:true}).waitFor();
+const doc=async()=>JSON.parse(await page.locator('#export-json').inputValue());
+const node=async(id)=>(await doc()).content.find(n=>n.data.elementId===id).data;
+const choose=async(name,kind)=>page.getByRole('button',{name:name+' '+kind,exact:true}).click();
+const form=(name)=>page.locator('form[data-action="attribute"][data-attribute="'+name+'"]');
+const stage=async(name)=>form(name).getByRole('button',{name:/^Stage /}).click();
+const commit=async()=>page.getByRole('button',{name:'Commit staged change',exact:true}).click();
+await page.getByText('Import another document',{exact:true}).click();await page.locator('#import-json').fill(JSON.stringify(model));await page.getByRole('button',{name:'Import as new document and clear history',exact:true}).click();
+await choose('usage','PartUsage');await page.locator('#scalar-isComposite').selectOption('false');await stage('isComposite');assert.equal((await node('usage-id')).isComposite,true);await commit();assert.equal((await node('usage-id')).isComposite,false);
+await page.locator('#scalar-direction').selectOption('inout');await stage('direction');await commit();assert.equal((await node('usage-id')).direction,'inout');assert.equal(await page.locator('#scalar-mode-direction option[value="null"]').count(),0);
+assert.equal(Object.hasOwn(await node('usage-id'),'declaredShortName'),false);await page.locator('#scalar-mode-declaredShortName').selectOption('null');await stage('declaredShortName');await commit();assert.equal((await node('usage-id')).declaredShortName,null);await page.getByRole('button',{name:'Undo',exact:true}).click();assert.equal(Object.hasOwn(await node('usage-id'),'declaredShortName'),false);await page.getByRole('button',{name:'Redo',exact:true}).click();assert.equal((await node('usage-id')).declaredShortName,null);
+await choose('integer','LiteralInteger');await page.locator('#scalar-value').fill('2147483648');assert.equal(await page.locator('#scalar-value').evaluate(el=>el.checkValidity()),false);await stage('value');assert.equal((await node('int-id')).value,7);await page.locator('#scalar-value').fill('2147483647');await stage('value');await commit();assert.equal((await node('int-id')).value,2147483647);
+await page.locator('#rename').fill('integerRenamed');await page.getByRole('button',{name:'Stage rename',exact:true}).click();await commit();assert.equal((await node('int-id')).declaredName,'integerRenamed');
+await choose('real','LiteralRational');await page.locator('#scalar-value').fill('0.125');await stage('value');await commit();assert.equal((await node('real-id')).value,0.125);
+await choose('notes','Comment');assert.equal(await page.locator('#scalar-body').inputValue(),'\nfirst\nsecond\nthird');await stage('body');await commit();assert.equal((await node('comment-id')).body,'\nfirst\r\nsecond\rthird');await page.locator('#scalar-body').fill('\nchanged\nnext');await stage('body');await page.getByRole('button',{name:'Cancel staged change',exact:true}).click();assert.equal((await node('comment-id')).body,'\nfirst\r\nsecond\rthird');await page.locator('#scalar-body').fill('\nchanged\nnext');await stage('body');await commit();assert.equal((await node('comment-id')).body,'\nchanged\nnext');
+await choose('text','LiteralString');assert.equal(await page.locator('#scalar-value').inputValue(),'\nline one\ufffdline two');await stage('value');await commit();assert.equal((await node('string-id')).value,'\nline one\u0000line two');await page.locator('#scalar-value').fill('</textarea><b>literal text</b>\nsecond');await stage('value');await commit();assert.equal((await node('string-id')).value,'</textarea><b>literal text</b>\nsecond');assert.equal(await page.locator('.scalar-property b').count(),0);
+// Shared model capability: the imported ActionUsage supports selected child creation.
+assert.equal(await page.locator('#parent option[value="action-id"]').count(),1);assert.equal(await page.locator('#definition option[value="definition-id"]').count(),1);
+await page.locator('#kind').selectOption('part_usage');await page.locator('#parent').selectOption('action-id');await page.locator('#definition').selectOption('definition-id');await page.locator('#name').fill('linkedChild');await page.getByRole('button',{name:'Stage creation',exact:true}).click();await commit();const action=await node('action-id');assert.equal(action.ownedRelationship[0].eClass,'sysml:FeatureMembership');assert.equal(action.ownedRelationship[0].data.ownedRelatedElement[0].data.ownedRelationship[0].eClass,'sysml:FeatureTyping');
+await page.screenshot({path:path.join(output,'scalar-desktop.png'),fullPage:true});await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(output,'scalar-mobile.png'),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth));assert.deepEqual(errors,[]);fs.writeFileSync(path.join(output,'scalar-created-model.emf.json'),await page.locator('#export-json').inputValue());console.log(JSON.stringify({result:'PASS',checks:['typed bool/enum/i32/double','integer HTML boundary','unset vs explicit null/history','generic literal rename','LF/CRLF/CR preservation','staging/cancel','escaped multiline text','shared creation capability and polymorphic typing','mobile no overflow'],consoleErrors:errors}));}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1});
