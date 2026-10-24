@@ -12,6 +12,8 @@ use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 use syson_domain::model::{Element, ElementId, Model};
 mod scalar;
+mod containment;
+pub use containment::ContainmentFeature;
 pub use scalar::*;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -548,3 +550,15 @@ impl Transaction {
         }
     }
 }
+
+#[cfg(feature = "raw-factory-candidate")]
+pub mod factory;
+#[cfg(feature = "raw-factory-candidate")]
+mod raw_admission;
+#[cfg(feature = "raw-factory-candidate")]
+pub use raw_admission::{attach_raw_selected, RawAdmissionReport, RawAdmissionError};
+
+#[cfg(feature="raw-factory-candidate")]
+mod port_definition_refs;
+#[cfg(feature="raw-factory-candidate")]
+pub use port_definition_refs::PortDefinitionReference;
