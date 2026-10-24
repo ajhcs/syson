@@ -11,7 +11,8 @@
 //! Inputs must preflatten non-Membership Relationship wrappers into semantic
 //! owner/owned-element links. Only Membership wrappers are recognized here.
 //! Raw EMF containment is NOT an accepted lossless input format.
-use crate::names::{name_matches, parse_qualified_name, printable_name};
+use crate::names::{name_matches, printable_name};
+use crate::query::{self, QueryGraph};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct ElementId(pub usize);
@@ -143,59 +144,36 @@ impl Model {
         name: &str,
         accepts: impl Fn(&Element) -> bool,
     ) -> Result<Option<ElementId>, ModelError> {
-        let parts = parse_qualified_name(name);
-        for root in &self.roots {
-            let found = if parts.len() > 1 {
-                self.find_qualified_root(*root, &parts, &accepts)?
-            } else {
-                self.find_unqualified(*root, name, &accepts)?
-            };
-            if found.is_some() {
-                return Ok(found);
-            }
-        }
-        Ok(None)
+        query::find_by_name_and_type(self, &self.roots, name, |id| Ok(accepts(self.get(id)?)))
     }
-    fn find_unqualified(
-        &self,
-        root: ElementId,
-        name: &str,
-        accepts: &impl Fn(&Element) -> bool,
-    ) -> Result<Option<ElementId>, ModelError> {
-        let mut stack = vec![root];
-        while let Some(id) = stack.pop() {
-            let e = self.get(id)?;
-            if accepts(e) && e.matches(name) {
-                return Ok(Some(id));
-            }
-            stack.extend(e.children.iter().rev().copied());
-        }
-        Ok(None)
+}
+
+/// Historical projection adapter. Native callers provide QueryGraph facts
+/// directly; they must not reinterpret these projected children as raw EMF.
+impl QueryGraph for Model {
+    type Error = ModelError;
+
+    fn raw_children(&self, id: ElementId) -> Result<Vec<ElementId>, ModelError> {
+        Ok(self.get(id)?.children.clone())
     }
-    fn find_qualified_root(
-        &self,
-        root: ElementId,
-        parts: &[&str],
-        accepts: &impl Fn(&Element) -> bool,
-    ) -> Result<Option<ElementId>, ModelError> {
-        let e = self.get(root)?;
-        if e.is_namespace && e.owner.is_none() && e.declared_name.is_none() {
-            self.find_qualified_child(root, parts, accepts)
-        } else if e.matches(parts[0]) {
-            self.find_qualified_child(root, &parts[1..], accepts)
-        } else {
-            Ok(None)
-        }
+
+    fn is_namespace(&self, id: ElementId) -> Result<bool, ModelError> {
+        Ok(self.get(id)?.is_namespace)
     }
-    fn find_qualified_child(
-        &self,
-        parent: ElementId,
-        parts: &[&str],
-        accepts: &impl Fn(&Element) -> bool,
-    ) -> Result<Option<ElementId>, ModelError> {
-        let Some((head, tail)) = parts.split_first() else {
-            return Ok(None);
-        };
+
+    fn has_raw_container(&self, id: ElementId) -> Result<bool, ModelError> {
+        Ok(self.get(id)?.owner.is_some())
+    }
+
+    fn is_unnamed(&self, id: ElementId) -> Result<bool, ModelError> {
+        Ok(self.get(id)?.effective_name().is_none())
+    }
+
+    fn name_matches(&self, id: ElementId, name: &str) -> Result<bool, ModelError> {
+        Ok(self.get(id)?.matches(name))
+    }
+
+    fn owned_elements(&self, parent: ElementId) -> Result<Vec<ElementId>, ModelError> {
         let e = self.get(parent)?;
         // getOwnedElement is an EMF derived relation, not literal eContents:
         // membership wrappers are flattened by the projection adapter below.
@@ -208,29 +186,16 @@ impl Model {
                 candidates.push(*id);
             }
         }
-        let mut selected = None;
-        for id in candidates {
-            if self.get(id)?.matches(head) {
-                selected = Some(id);
-                break;
-            }
-        }
-        if selected.is_none() && e.is_namespace {
-            'imports: for import in &e.imports {
-                if import.visibility == Visibility::Public {
-                    for id in &import.related {
-                        if self.get(*id)?.matches(head) {
-                            selected = Some(*id);
-                            break 'imports;
-                        }
-                    }
-                }
-            }
-        }
-        match selected {
-            Some(id) if !tail.is_empty() => self.find_qualified_child(id, tail, accepts),
-            Some(id) if accepts(self.get(id)?) => Ok(Some(id)),
-            _ => Ok(None),
-        }
+        Ok(candidates)
+    }
+
+    fn public_imported_elements(&self, id: ElementId) -> Result<Vec<ElementId>, ModelError> {
+        Ok(self
+            .get(id)?
+            .imports
+            .iter()
+            .filter(|import| import.visibility == Visibility::Public)
+            .flat_map(|import| import.related.iter().copied())
+            .collect())
     }
 }

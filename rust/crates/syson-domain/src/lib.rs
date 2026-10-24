@@ -11,4 +11,5 @@
 #![forbid(unsafe_code)]
 pub mod model;
 pub mod names;
+pub mod query;
 pub mod uuid;
