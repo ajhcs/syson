@@ -1,0 +1,64 @@
+{
+  "scope": "Two selected REST operations; no server, route binder, dispatcher, native object loader or authentication implementation.",
+  "operations": {
+    "element_by_id": {
+      "method": "GET",
+      "path": "/api/rest/projects/{projectId}/commits/{commitId}/elements/{elementId}",
+      "success_body": "bare serialized object, not internal payload envelope",
+      "missing_element": "handler ErrorPayload -> controller404 without body"
+    },
+    "relationships": {
+      "method": "GET",
+      "path": "/api/rest/projects/{projectId}/commits/{commitId}/elements/{relatedElementId}/relationships",
+      "success_body": "bare JSON array",
+      "default_direction": "BOTH",
+      "missing_or_non_element_target": "success []200"
+    }
+  },
+  "shared": {
+    "commit_uuid_binding": "declared; commitId unused by both controller bodies",
+    "query_timeout_seconds": 20,
+    "absent_context_or_nonmatching_payload": "404 with no controller body",
+    "view_capability_error_payload": "controller treats as non-success ->404; no401 invented",
+    "success_payload_constructors": "element/list and correlation id nonnull; HTTP response strips correlation envelope",
+    "unmapped": [
+      "UUID/direction binding errors and exact query parameter resolver",
+      "context lookup/dispatch/block timeout or exception mapping",
+      "actual authentication/session/origin policy",
+      "content negotiation and JSON ResponseBodyAdvice runtime wiring",
+      "malformed/foreign EObject serialization and getter/proxy failures",
+      "complete source-to-deployed artifact correspondence"
+    ]
+  },
+  "object_projection": {
+    "traversal": "getElements omits implied Relationship descendant itself, still visits descendants; an admitted Element root is added before filtering descendants",
+    "relationship_set": "HashSet union of owned and inverse relationships; isImplied filter after union; no stable upstream array order established",
+    "inverse_adapter_absent": "known null adapter yields empty incoming set; unresolved adapter facts are not absence"
+  },
+  "serialization": {
+    "root": "SysML Element @id from elementId; null throws Optional.of; @type EClass name",
+    "features": "all structural features, including transient; Java UTF16 name sort",
+    "attributes": "caller-observed JSON or enum literal; explicit null retained",
+    "reference_null": "null field, even for many",
+    "eannotations": "exact Ecore reference identity omitted, not a name heuristic",
+    "single_reference": "nonnull nonvirtual Element with nonnull elementId -> {@id}; standard-library flag does not exclude; other nonnull values omitted",
+    "many_reference": "list Element items only; omit standard-library, virtual and null-ID targets; non-list produces []"
+  },
+  "json_adapter": {
+    "parser": "serde_json=1.0.151 arbitrary_precision; original valid JSON text retained for wire emission",
+    "numeric_spelling": "must not re-emit parsed Value as original because serde normalizes E/e, absent exponent plus and -0",
+    "unknown_properties": "preserved verbatim in admitted JSON DTO",
+    "not_claimed": "Jackson byte/key-order or numeric-format parity, complete native getters/EMF serializers"
+  },
+  "upstream_parity_verified": false,
+  "upstream_runtime": "NOT_RUN",
+  "native_validation": {
+    "executor": "/root coordinator; distinct from implementation worker",
+    "tests_passed": 21,
+    "format": "PASS",
+    "clippy_warnings_denied": "PASS",
+    "source_unchanged_during_capture": true,
+    "evidence": "porting/follow-ons/F20/VALIDATION.json",
+    "transport_or_upstream_acceptance": false
+  }
+}
