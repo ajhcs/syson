@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "candidate_revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+  "master": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/db.changelog-master.xml",
+  "document_order": [
+    {
+      "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/db.changelog-master.xml",
+      "sha256": "59612d5b1810f2605cca27c105c4f611a4ef9d0763fbf36407e06fa82f0cdbd6",
+      "attributes": {}
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/synthetic.xml",
+      "sha256": "94c7349d84a7a4bd096657a235940e906b07f7b81f6219333ec3e8b7229b681f",
+      "attributes": {}
+    }
+  ],
+  "include_order": [
+    {
+      "from": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/db.changelog-master.xml",
+      "ordinal": 0,
+      "attributes": {
+        "file": "db/synthetic.xml"
+      },
+      "target": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/synthetic.xml"
+    }
+  ],
+  "changesets": [
+    {
+      "sequence": 0,
+      "identity": [
+        "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/synthetic.xml",
+        "synthetic-first",
+        "fixture"
+      ],
+      "attributes": {
+        "id": "synthetic-first",
+        "author": "fixture"
+      },
+      "declarations": [
+        {
+          "tag": "createTable",
+          "attributes": {
+            "tableName": "synthetic"
+          },
+          "text": null,
+          "children": []
+        }
+      ],
+      "controls": [],
+      "liquibase_checksum": "NOT_COMPUTED",
+      "runtime_decision": "UNEVALUATED"
+    },
+    {
+      "sequence": 1,
+      "identity": [
+        "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/synthetic.xml",
+        "synthetic-second",
+        "fixture"
+      ],
+      "attributes": {
+        "id": "synthetic-second",
+        "author": "fixture",
+        "context": "fixture-only",
+        "runInTransaction": "false"
+      },
+      "declarations": [
+        {
+          "tag": "preConditions",
+          "attributes": {
+            "onFail": "HALT"
+          },
+          "text": null,
+          "children": [
+            {
+              "tag": "dbms",
+              "attributes": {
+                "type": "postgresql"
+              },
+              "text": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "sql",
+          "attributes": {
+            "dbms": "postgresql"
+          },
+          "text": "SELECT 1",
+          "children": []
+        },
+        {
+          "tag": "rollback",
+          "attributes": {},
+          "text": null,
+          "children": [
+            {
+              "tag": "dropTable",
+              "attributes": {
+                "tableName": "synthetic"
+              },
+              "text": null,
+              "children": []
+            }
+          ]
+        }
+      ],
+      "controls": [
+        {
+          "tag": "preConditions",
+          "attributes": {
+            "onFail": "HALT"
+          },
+          "text": null,
+          "children": [
+            {
+              "tag": "dbms",
+              "attributes": {
+                "type": "postgresql"
+              },
+              "text": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "rollback",
+          "attributes": {},
+          "text": null,
+          "children": [
+            {
+              "tag": "dropTable",
+              "attributes": {
+                "tableName": "synthetic"
+              },
+              "text": null,
+              "children": []
+            }
+          ]
+        }
+      ],
+      "liquibase_checksum": "NOT_COMPUTED",
+      "runtime_decision": "UNEVALUATED"
+    }
+  ],
+  "global_controls": [],
+  "declaration_count": 2,
+  "artifact_correspondence": "UNPROVEN",
+  "applied_schema": "UNKNOWN",
+  "liquibase_history": "UNAVAILABLE",
+  "database_execution": "NOT_RUN",
+  "execution_blockers": [
+    "candidate-to-resolved-artifact correspondence",
+    "exact Liquibase/JDBC/DBMS versions and extensions",
+    "synthetic database state, history and checksum baseline",
+    "runtime context/label/DBMS/precondition evaluation and rollback review"
+  ],
+  "fixture_label": "SYNTHETIC_DECLARATIONS_NOT_A_DATABASE_STATE"
+}
