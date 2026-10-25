@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "source_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "status": "BLOCKED_PREPARATION_ONLY",
+  "requirements": {
+    "java_major": "21",
+    "node": "24.20.0",
+    "npm": "11.19.0",
+    "maven": "VERSION_NOT_PINNED_BY_INSPECTED_SOURCE"
+  },
+  "source_scripts": {
+    "package.json": {
+      "build": "turbo run build --output-logs=errors-only",
+      "build-verbose": "turbo run build",
+      "start": "turbo run start",
+      "test": "turbo run test",
+      "format": "turbo run format",
+      "format-lint": "turbo run format-lint"
+    },
+    "frontend/syson/package.json": {
+      "start": "tsc && vite --host",
+      "build": "vite build && tsc",
+      "test": "vitest --run --config vite.config.js",
+      "format": "prettier --write \"src/**/*.{js,ts,tsx,css}\"",
+      "format-lint": "prettier --list-different \"src/**/*.{js,ts,tsx,css}\""
+    },
+    "frontend/syson-components/package.json": {
+      "build-dev": "vite build --mode 'development' && tsc",
+      "build": "vite build && tsc",
+      "format": "prettier --write \"src/**/*.{js,ts,tsx,css}\"",
+      "format-lint": "prettier --list-different \"src/**/*.{js,ts,tsx,css}\"",
+      "publish:local": "yalc push"
+    }
+  },
+  "source_observations": {
+    "turbo_build_depends_on": [
+      "format-lint",
+      "^build"
+    ],
+    "turbo_start_persistent": true,
+    "vite_env_spread_and_loadEnv": true,
+    "ci_maven_uses_mutable_snapshot_update_flag": true,
+    "ci_commands": [
+      "npm ci",
+      "npm run build",
+      "mvn -U -B -e clean verify --settings settings.xml"
+    ],
+    "source_jar_coordinate": "org.eclipse.syson:syson-application:2026.9.3",
+    "source_build_is_execution": true
+  },
+  "tool_inventory_sha256": "4ede724a28abab61bfffb6f54649574fdecf508f5c0e6912b17da732e0fce689",
+  "registry_access": {
+    "authorization": "NOT_TESTED",
+    "network_probe": "NOT_RUN",
+    "missing_or_unobserved_is_not_denial": true
+  },
+  "dependency_closure": {
+    "maven_effective_graph": "UNRESOLVED",
+    "npm_archive_integrity": "NOT_INDEPENDENTLY_VERIFIED",
+    "artifact_source_correspondence": "UNPROVEN",
+    "snapshot": {
+      "coordinate": "org.eclipse.sirius:org.eclipse.sirius.emfjson:2.5.5-SNAPSHOT",
+      "timestamp": null,
+      "build_number": null,
+      "artifact_sha256": null,
+      "source_sha256": null
+    }
+  },
+  "workspace": {
+    "source_checkout": "/workspace/worktrees/builderbob/syson/reference-f40-20261025",
+    "capture_directory": "/workspace/artifacts/builderbob/syson/reference-f40-20261025",
+    "maven_repository": "/workspace/cache/builderbob/syson-reference-f40/m2",
+    "npm_cache": "/workspace/cache/builderbob/syson-reference-f40/npm",
+    "database_directory": "/workspace/artifacts/builderbob/syson/reference-f40-20261025/database",
+    "destinations_verified_fresh": false
+  },
+  "network": {
+    "bind_address": "127.0.0.1",
+    "application_port": 18439,
+    "database_port": 15439,
+    "port_availability": "NOT_CHECKED",
+    "public_exposure": "FORBIDDEN"
+  },
+  "bindings": {
+    "JAVA21_BINARY": null,
+    "NODE24_BINARY": null,
+    "NPM11_BINARY": null,
+    "MAVEN_BINARY": null,
+    "CURATED_BUILD_ENVIRONMENT": null,
+    "REVIEWED_SETTINGS_FILE": null,
+    "SYNTHETIC_APPLICATION_CONFIG": null,
+    "BUILT_APPLICATION_JAR": null,
+    "JDBC_DATABASE_BASELINE": null
+  },
+  "command_templates": [
+    {
+      "stage": "checkout",
+      "argv": [
+        "git",
+        "worktree",
+        "add",
+        "--detach",
+        "/workspace/worktrees/builderbob/syson/reference-f40-20261025",
+        "6ba2ac64e6b16ee2b05752ad55395eebb87d4910"
+      ]
+    },
+    {
+      "stage": "project-dependency-installation",
+      "argv": [
+        "<NPM11_BINARY>",
+        "ci",
+        "--offline",
+        "--ignore-scripts",
+        "--cache",
+        "/workspace/cache/builderbob/syson-reference-f40/npm"
+      ]
+    },
+    {
+      "stage": "frontend-build",
+      "argv": [
+        "<NPM11_BINARY>",
+        "run",
+        "build"
+      ]
+    },
+    {
+      "stage": "backend-build",
+      "argv": [
+        "<MAVEN_BINARY>",
+        "--offline",
+        "-B",
+        "-e",
+        "-T1",
+        "-Dmaven.repo.local=/workspace/cache/builderbob/syson-reference-f40/m2",
+        "--settings",
+        "<REVIEWED_SETTINGS_FILE>",
+        "clean",
+        "verify"
+      ]
+    },
+    {
+      "stage": "launch",
+      "argv": [
+        "<JAVA21_BINARY>",
+        "-jar",
+        "<BUILT_APPLICATION_JAR>",
+        "--server.address=127.0.0.1",
+        "--server.port=18439",
+        "--spring.config.additional-location=<SYNTHETIC_APPLICATION_CONFIG>"
+      ]
+    }
+  ],
+  "limits": {
+    "compiler_jobs": 1,
+    "owned_process_group_only": true,
+    "automatic_cleanup": false,
+    "service_registration": false,
+    "minimum_free_workspace_bytes": 10737418240,
+    "execution_budget": "REQUIRES_SEPARATE_ALLOCATION",
+    "system_tool_installation": false,
+    "project_dependency_installation": "REVIEW_ONLY_NOT_RUN"
+  },
+  "stop_conditions": [
+    "tool/source/dependency digest or declared-version mismatch",
+    "missing immutable SNAPSHOT/source/artifact closure",
+    "unreviewed environment/configuration or credentials",
+    "unexpected network resolution or external filesystem write",
+    "non-loopback database/application target or occupied synthetic port",
+    "resource allocation expired, output bound exceeded or insufficient workspace space",
+    "unexpected child processes or inability to identify owned process group"
+  ],
+  "retention": [
+    "raw commands/stdout/stderr with actual UTC timestamps",
+    "effective dependency coordinates and resolved artifact/source hashes",
+    "original failed outputs and unmodified database/history state",
+    "owned PID/process-group receipts before stopping; no automatic deletion"
+  ],
+  "execution": "NOT_RUN",
+  "requires_separate_action_review": true
+}
