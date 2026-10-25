@@ -3,6 +3,7 @@
 //! SCC condensation gives directed longest-path ranks. Weak components occupy
 //! separate cross-axis bands; measured layer widths prevent rectangle overlap.
 #![forbid(unsafe_code)]
+pub mod containers;
 use std::cmp::Reverse;
 use std::collections::BinaryHeap;
 
