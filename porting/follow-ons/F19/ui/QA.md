@@ -1,0 +1,9 @@
+# Rendered canvas QA
+
+The coordinator ran the installed Playwright workflow against a loopback-only immutable static preview, then inspected the actual desktop and mobile canvas captures. Name labels, package rectangles and the routed typing edge are visible; no overlay obscures controls, and the mobile document has no horizontal overflow. The browser plugin required by the frontend skill was unavailable, so the recorded installed Playwright fallback was used. All journeys blocked service workers and guarded against external-origin requests; no external requests were observed.
+
+The layout journey asserts the exact page title, captures its actual preview URL and1365×1000/390×844 viewports, and records empty console error and warning arrays. Existing authoring/scalar journeys also pass with empty error arrays. Browser checks exercise actual DOM measurement and WASM dispatch; the font-generation event case is explicitly simulated and tests the event/cancellation binding.
+
+Screenshots remain at `/workspace/build/builderbob/syson-batch5-f19-20261025/f19c-browser-02/layout/layout-desktop.png` and `layout-mobile.png`. Their SHA256 values and all other outputs are recorded in the copied browser receipt. The served WASM hash equals the release build capture's hash and served loader/style/index hashes equal the captured source. All executed inputs remained unchanged. No native SysON runtime, source-language oracle, arbitrary obstacle/containment optimality or full graphical editor acceptance was tested.
+
+The initial setup attempt failed with PermissionError on `/workspace/artifacts`, before any server/browser started. The coordinator used an existing operator-owned Samsung workspace build directory; no permissions or administration were changed. Its exact runner and failure receipt are preserved separately.
