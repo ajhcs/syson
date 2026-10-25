@@ -1,0 +1,67 @@
+{
+  "source_first_inspection": true,
+  "source_candidate": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+  "dependency_snapshot": "19cc940e7a0ea0c909f140fc0bc79d19220cddd2",
+  "semantic_documents": "porting/source-map/syside-source/semantic-source-documents.jsonl",
+  "retained_inputs": {
+    "porting/source-map/syside-source/semantic-source-documents.jsonl": "1d51961e3f76efc4a3eecfff72b9a8aea3246d6ce54465c8cf134d19dcdbc324"
+  },
+  "sources": [
+    {
+      "path": "packages/syside-languageserver/src/services/references/linker.ts",
+      "sha256": "9a31929220ead5d796b2e33170758dc10d0fe415ff0b4bc5a2e44a484c769f3d",
+      "anchors": [
+        "for (const type of ref.parts)",
+        "if (!type.ref) return undefined;",
+        "if (this.visitedAliases.has(meta)) return meta.element();",
+        "container.found[index] = target;",
+        "if (this.reflection.isSubtype(foundType, referenceType)) return description;"
+      ]
+    },
+    {
+      "path": "packages/syside-languageserver/src/services/references/scope-provider.ts",
+      "sha256": "58c2ebd580dc45d7737e2e750bca0f861dbf5b1c05287db21f5f7c27e49e3bfc",
+      "anchors": [
+        "if (index === 0)",
+        "parent = container.found.at(index - 1);",
+        "return this.localScope(parent, container.document, aliasResolver);"
+      ]
+    },
+    {
+      "path": "packages/syside-languageserver/src/model/KerML/references/element-reference.ts",
+      "sha256": "cf4b8609964557ad8451cc3221c43393d6ae703e97bbae8a5f6f21fe7083e72b",
+      "anchors": [
+        "readonly to = new Target<ElementMeta>();",
+        "readonly found: (ElementMeta | undefined)[] = [];"
+      ]
+    },
+    {
+      "path": "packages/syside-languageserver/src/model/KerML/references/type-reference.ts",
+      "sha256": "7f7f76116cb55336229702ddfc0c6f4d1f6ea6399ed1c86f3ada257f9381aca5",
+      "anchors": [
+        "extends NamespaceReferenceMeta",
+        "override readonly to = new Target<TypeMeta>();"
+      ]
+    },
+    {
+      "path": "packages/syside-languageserver/src/model/naming.ts",
+      "sha256": "6eb7e99dca2d6f00b7a7b577be6ab63d569fc18cf05c2ad171c203d56a037dd0",
+      "anchors": [
+        "if (!name.startsWith(\"'\")) return name;",
+        "return name.slice(1, name.length - 1).replaceAll"
+      ]
+    }
+  ],
+  "rust_prerequisites": [
+    {
+      "path": "rust/crates/syson-ast-adapter/src/lib.rs",
+      "sha256": "f91fe8a50c2b1d79a5afcd30cef9afe6a85d1859473c9a8977b3cc251ea62d96"
+    },
+    {
+      "path": "rust/crates/syson-references/src/lib.rs",
+      "sha256": "947e97042e8f22922f404675068b86485173da430587e403387bb3aabee079b7"
+    }
+  ],
+  "native_runtime": "NOT_RUN",
+  "source_artifact_correspondence": "UNPROVEN"
+}
