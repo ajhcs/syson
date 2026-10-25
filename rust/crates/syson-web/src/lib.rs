@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: EPL-2.0
 //! Bounded browser authoring UI. Model semantics remain in syson-model.
 #![deny(unsafe_op_in_unsafe_fn)]
+mod inspector_accessibility;
 pub mod layout_controller;
 pub mod layout_geometry;
 use serde_json::Value;
@@ -64,6 +65,7 @@ struct App {
     message: String,
     error: bool,
     canvas: layout_controller::Canvas,
+    accessibility: inspector_accessibility::InspectorAccessibility,
 }
 impl Default for App {
     fn default() -> Self {
@@ -74,6 +76,7 @@ impl Default for App {
             message: "Create a package to begin. Changes are held in this browser tab.".into(),
             error: false,
             canvas: layout_controller::Canvas::default(),
+            accessibility: inspector_accessibility::InspectorAccessibility::default(),
         }
     }
 }
@@ -124,6 +127,7 @@ fn ids(request: &Value) -> Result<Vec<NodeIds>, String> {
 }
 impl App {
     fn handle(&mut self, request: &Value) -> Result<String, String> {
+        self.accessibility.begin();
         let before = self
             .editor
             .document()
@@ -150,6 +154,17 @@ impl App {
                 self.canvas.cancel()?;
             }
         }
+        let doc = self
+            .pending
+            .as_ref()
+            .map(Transaction::document)
+            .unwrap_or_else(|| self.editor.document());
+        self.accessibility.finish(
+            request["action"].as_str().unwrap_or(""),
+            result.is_ok(),
+            field(request, "attribute"),
+            can_rename(doc, &self.selected),
+        );
         result
     }
     fn handle_action(&mut self, request: &Value) -> Result<String, String> {
@@ -418,7 +433,7 @@ impl App {
             let id = escape(&element.element_id);
             let name = escape(element.name.as_deref().unwrap_or("(unnamed)"));
             let class = escape(&element.class);
-            tree.push_str(&format!("<li><button type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button></li>",self.selected==element.element_id));
+            tree.push_str(&format!("<li><button id=\"select-{id}\" type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button></li>",self.selected==element.element_id));
             if doc.can_create_in(&element.element_id) {
                 parent_options
                     .push_str(&format!("<option value=\"{id}\">{name} · {class}</option>"));
@@ -471,7 +486,7 @@ impl App {
         let inspector = if let Some(element) = selected {
             let rename_form = if can_rename(doc, &self.selected) {
                 format!(
-                    "<form data-action=\"rename\"><label for=\"rename\">Element name</label><textarea id=\"rename\" name=\"name\" rows=\"2\" required>{selected_name}</textarea><div class=\"form-actions\"><button type=\"submit\">Stage rename</button></div></form>"
+                    "<form data-action=\"rename\" aria-label=\"Rename selected element\"><label for=\"rename\">Element name</label><textarea id=\"rename\" name=\"name\" rows=\"2\" required>{selected_name}</textarea><div class=\"form-actions\"><button id=\"stage-rename\" type=\"submit\">Stage rename</button></div></form>"
                 )
             } else {
                 String::new()
@@ -490,7 +505,7 @@ impl App {
             "<p>Select an element in the model list.</p>".into()
         };
         let pending = if self.pending.is_some() {
-            "<div class=\"form-actions\"><button class=\"primary\" type=\"button\" data-action=\"commit\">Commit staged change</button><button type=\"button\" data-action=\"cancel\">Cancel staged change</button></div>"
+            "<div class=\"form-actions\"><button id=\"commit-staged\" class=\"primary\" type=\"button\" data-action=\"commit\">Commit staged change</button><button id=\"cancel-staged\" type=\"button\" data-action=\"cancel\">Cancel staged change</button></div>"
         } else {
             ""
         };
@@ -515,10 +530,12 @@ impl App {
             .unwrap_or_default();
         let revision = self.canvas.revision();
         let geometry = escape_textarea(&self.canvas.export(self.editor.document()));
+        let focus = escape(self.accessibility.focus());
         format!(
-            "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button type=\"button\" data-action=\"undo\">Undo</button><button type=\"button\" data-action=\"redo\">Redo</button></nav></header><p class=\"status {}\" role=\"{}\">{}</p><div class=\"layout\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2><ul class=\"tree\">{tree}</ul></section><section class=\"canvas\" data-canvas-revision=\"{revision}\" {phase}><h2>Diagram preview</h2><p><small>Bounded package/part canvas. Native graphical editor parity is incomplete.</small></p><p><button type=\"button\" data-action=\"layout\">Layout canvas</button> <button type=\"button\" data-action=\"canvas_cancel\">Cancel canvas work</button></p><p><button type=\"button\" data-action=\"canvas_undo\">Canvas undo</button> <button type=\"button\" data-action=\"canvas_redo\">Canvas redo</button></p><svg viewBox=\"{view}\" aria-hidden=\"true\">{diagram}</svg></section><section class=\"panel inspector\"><h2>Create element</h2><form data-action=\"stage\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2>Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details><label for=\"export-geometry\">Canvas geometry export (separate from model)</label><textarea id=\"export-geometry\" readonly spellcheck=\"false\">{geometry}</textarea><details id=\"geometry-details\"><summary>Import canvas geometry</summary><form data-action=\"geometry_import\"><label for=\"import-geometry\">Canvas companion JSON for this exact document</label><textarea id=\"import-geometry\" name=\"json\" required spellcheck=\"false\"></textarea><button type=\"submit\">Import canvas geometry</button></form></details></section>",
+            "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button id=\"model-undo\" type=\"button\" data-action=\"undo\">Undo</button><button id=\"model-redo\" type=\"button\" data-action=\"redo\">Redo</button></nav></header><p id=\"editor-status\" data-editor-status class=\"status {}\" role=\"{}\" aria-live=\"{}\" aria-atomic=\"true\">{}</p><div class=\"layout\" data-inspector-focus=\"{focus}\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2><ul class=\"tree\">{tree}</ul></section><section class=\"canvas\" data-canvas-revision=\"{revision}\" {phase}><h2>Diagram preview</h2><p><small>Bounded package/part canvas. Native graphical editor parity is incomplete.</small></p><p><button type=\"button\" data-action=\"layout\">Layout canvas</button> <button type=\"button\" data-action=\"canvas_cancel\">Cancel canvas work</button></p><p><button type=\"button\" data-action=\"canvas_undo\">Canvas undo</button> <button type=\"button\" data-action=\"canvas_redo\">Canvas redo</button></p><svg viewBox=\"{view}\" aria-hidden=\"true\">{diagram}</svg></section><section class=\"panel inspector\" aria-label=\"Element inspector\"><h2 id=\"create-heading\">Create element</h2><form data-action=\"stage\" aria-labelledby=\"create-heading\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button id=\"stage-create\" class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2 id=\"selection-heading\" tabindex=\"-1\">Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details><label for=\"export-geometry\">Canvas geometry export (separate from model)</label><textarea id=\"export-geometry\" readonly spellcheck=\"false\">{geometry}</textarea><details id=\"geometry-details\"><summary>Import canvas geometry</summary><form data-action=\"geometry_import\"><label for=\"import-geometry\">Canvas companion JSON for this exact document</label><textarea id=\"import-geometry\" name=\"json\" required spellcheck=\"false\"></textarea><button type=\"submit\">Import canvas geometry</button></form></details></section>",
             if self.error { "error" } else { "" },
             if self.error { "alert" } else { "status" },
+            if self.error { "assertive" } else { "polite" },
             escape(&self.message)
         )
     }
@@ -704,7 +721,7 @@ fn render_scalar_field(attribute: &AttributeDescriptor) -> String {
         ""
     };
     format!(
-        "<form class=\"scalar-property\" data-action=\"attribute\" data-attribute=\"{name}\"><input type=\"hidden\" name=\"attribute\" value=\"{name}\"><label for=\"{input_id}\">{label}</label><p id=\"{description}\" class=\"property-state\">{}</p>{control}<label for=\"scalar-mode-{name}\">Change for {label}</label><select id=\"scalar-mode-{name}\" name=\"mode\"><option value=\"value\">Set a value</option>{null_option}</select><div class=\"form-actions\"><button type=\"submit\">Stage {label}</button></div></form>",
+        "<form class=\"scalar-property\" data-action=\"attribute\" data-attribute=\"{name}\" aria-label=\"Edit {label}\"><input type=\"hidden\" name=\"attribute\" value=\"{name}\"><label for=\"{input_id}\">{label}</label><p id=\"{description}\" class=\"property-state\">{}</p>{control}<label for=\"scalar-mode-{name}\">Change for {label}</label><select id=\"scalar-mode-{name}\" name=\"mode\"><option value=\"value\">Set a value</option>{null_option}</select><div class=\"form-actions\"><button id=\"stage-attribute-{name}\" type=\"submit\">Stage {label}</button></div></form>",
         stored_state(attribute)
     )
 }
@@ -775,7 +792,7 @@ fn paint() {
     STATE.with(|s| OUTPUT.with(|o| {
         let html=s.borrow().render();
         *o.borrow_mut()=if html.len() > 16 * LIMIT {
-            "<h1>SysON model editor</h1><p role=\"alert\">This model exceeds the 16 MiB preview output limit. Model data remains in tab memory.</p><button type=\"button\" data-action=\"undo\">Undo last edit</button>".into()
+            "<h1>SysON model editor</h1><p id=\"editor-status\" data-editor-status role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">This model exceeds the 16 MiB preview output limit. Model data remains in tab memory.</p><button type=\"button\" data-action=\"undo\">Undo last edit</button>".into()
         } else {html};
     }));
 }
@@ -853,6 +870,35 @@ mod tests {
     use serde_json::json;
     fn create(seed: u8, name: &str) -> Value {
         json!({"action":"stage","fields":{"kind":"package","name":name,"parent":""},"entropy":(0..96).map(|i|(i as u8).wrapping_add(seed)).collect::<Vec<_>>()})
+    }
+    #[test]
+    fn inspector_focus_follows_real_staging_without_changing_committed_data() {
+        let mut app = App::default();
+        app.handle(&create(0, "Vehicle")).unwrap();
+        assert!(
+            app.render()
+                .contains("data-inspector-focus=\"commit-staged\"")
+        );
+        assert_eq!(app.editor.document().elements().len(), 0);
+        app.handle(&json!({"action":"commit"})).unwrap();
+        assert!(app.render().contains("data-inspector-focus=\"name\""));
+        let id = app.editor.document().elements()[0].element_id.clone();
+        app.handle(&json!({"action":"select","fields":{"value":id}}))
+            .unwrap();
+        assert!(app.render().contains("data-inspector-focus=\"rename\""));
+        let before = app.editor.document().to_json().unwrap();
+        app.handle(&json!({"action":"rename","fields":{"name":"draft"}}))
+            .unwrap();
+        assert!(app.render().contains("id=\"commit-staged\""));
+        assert_eq!(app.editor.document().to_json().unwrap(), before);
+        app.handle(&json!({"action":"cancel"})).unwrap();
+        let html = app.render();
+        assert!(html.contains("data-inspector-focus=\"rename\""));
+        assert!(html.contains("aria-atomic=\"true\""));
+        assert!(html.contains("aria-live=\"polite\""));
+        assert_eq!(app.editor.document().to_json().unwrap(), before);
+        app.handle(&json!({"action":"canvas_cancel"})).unwrap();
+        assert!(app.render().contains("data-inspector-focus=\"\""));
     }
     #[test]
     fn staged_creation_cancel_commit_undo_redo_use_shared_model_history() {
