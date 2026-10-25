@@ -1,0 +1,129 @@
+{
+  "prerequisite": "F02",
+  "prerequisite_commit": "15501a5ff2459cd1056809b70f23d0d2ae895b8a",
+  "upstream_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "f02_contract": "porting/area-inventories/DOMAIN-QUERY/imports/contract.json",
+  "f02_fixture_sha256": "9105f54c8e560dd8b31f5a020d58c6eea3b54a51a387439f3bc1fc89c44636c1",
+  "expected_result_evidence": "MANUALLY_SOURCE_DERIVED_NOT_RUNTIME_GOLDEN",
+  "scope_adaptation": "new standalone crate avoids active held syson-initializer-graph paths",
+  "case_mapping": [
+    {
+      "id": "ordered-imports",
+      "mode": "namespace_pipeline",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "owned-seed-uses-effective-names",
+      "mode": "namespace_pipeline",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "nameless-duplicates-survive",
+      "mode": "namespace_pipeline",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "rejected-short-name-retains-primary",
+      "mode": "filter_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "primary-conflict-short-circuits",
+      "mode": "filter_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "equal-alias-text-distinct-reference",
+      "mode": "filter_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "same-alias-reference-checks-short",
+      "mode": "filter_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "same-name-and-short-name-self-conflict",
+      "mode": "filter_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "cycle-A-B-A",
+      "mode": "graph_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "excluded-target",
+      "mode": "graph_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "diamond-shared-visited",
+      "mode": "graph_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "visibility-public-only",
+      "mode": "graph_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "visibility-include-all",
+      "mode": "graph_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "UNSUPPORTED_INCLUDE_ALL"
+    },
+    {
+      "id": "recursive-membership-excluded-target",
+      "mode": "graph_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "nonrecursive-membership-ignores-namespace-exclusion",
+      "mode": "graph_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "recursive-namespace-descendants-appended",
+      "mode": "graph_trace",
+      "source_status": "MEMBERSHIPS",
+      "rust_disposition": "MEMBERSHIPS"
+    },
+    {
+      "id": "memberships-of-visibility-is-null",
+      "mode": "stub",
+      "source_status": "NULL_UNIMPLEMENTED",
+      "rust_disposition": "NULL_UNIMPLEMENTED"
+    },
+    {
+      "id": "unresolved-proxy-not-absence",
+      "mode": "unresolved",
+      "source_status": "UNRESOLVED_NOT_ADMITTED",
+      "rust_disposition": "UNRESOLVED_NOT_ADMITTED"
+    },
+    {
+      "id": "base-import-null-then-flatten",
+      "mode": "stub",
+      "source_status": "SOURCE_NULL_FLATTEN_ERROR",
+      "rust_disposition": "SOURCE_NULL_FLATTEN_ERROR"
+    }
+  ],
+  "compiler_status": "PASS_15_TEST_FUNCTIONS",
+  "upstream_runtime": "NOT_RUN",
+  "fixture_translator_sha256": "408c734c44e9f30d33cad509b1378ad0ede4c48e888ca6d57be0ad96e55f430b",
+  "generated_rust_sha256": "6456570ccffd759b9303768c6898f976d156329de11b470d354c954165e4ee54"
+}
