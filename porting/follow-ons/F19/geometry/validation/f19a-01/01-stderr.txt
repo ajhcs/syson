@@ -1,0 +1,28 @@
+   Compiling serde_core v1.0.229
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.151
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling syson-domain v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-domain)
+   Compiling syson-metamodel v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-metamodel)
+   Compiling syson-layout v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-layout)
+   Compiling syson-editor v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-editor)
+   Compiling syson-node-measurement v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-node-measurement)
+   Compiling syson-routing v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-routing)
+   Compiling syson-model v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-model)
+   Compiling syson-web v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-web)
+error[E0502]: cannot borrow `result.edges` as mutable because it is also borrowed as immutable
+   --> src/layout_geometry.rs:408:24
+    |
+384 |           let routes: Vec<_> = result
+    |  ______________________________-
+385 | |             .edges
+    | |__________________- immutable borrow occurs here
+...
+407 |           for route in routed.edges {
+    |                        ------------ immutable borrow later used here
+408 |               let edge = result.edges.iter_mut().find(|e| e.id == route.id).unwrap();
+    |                          ^^^^^^^^^^^^ mutable borrow occurs here
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `syson-web` (lib) due to 1 previous error

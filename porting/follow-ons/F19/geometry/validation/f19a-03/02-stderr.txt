@@ -1,0 +1,48 @@
+    Checking serde_core v1.0.229
+    Checking zmij v1.0.23
+    Checking itoa v1.0.18
+    Checking memchr v2.8.3
+    Checking serde_json v1.0.151
+    Checking syson-domain v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-domain)
+    Checking syson-metamodel v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-metamodel)
+    Checking syson-layout v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-layout)
+    Checking syson-editor v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-editor)
+    Checking syson-node-measurement v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-node-measurement)
+    Checking syson-routing v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-routing)
+    Checking syson-model v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-model)
+    Checking syson-web v0.1.0 (/workspace/worktrees/builderbob/syson/f19-layout-controller/rust/crates/syson-web)
+error: this `if` statement can be collapsed
+  --> src/layout_geometry.rs:91:9
+   |
+91 | /         if let Some(parent) = &e.owner {
+92 | |             if !elements
+93 | |                 .iter()
+94 | |                 .any(|p| &p.element_id == parent && p.class == "Package")
+...  |
+98 | |         }
+   | |_________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+   = note: `-D clippy::collapsible-if` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+   |
+91 ~         if let Some(parent) = &e.owner
+92 ~             && !elements
+93 |                 .iter()
+...
+96 |                 return Err(fail());
+97 ~             }
+   |
+
+error: deref which would be done by auto-deref
+   --> src/layout_geometry.rs:102:21
+    |
+102 |                 id: &*e.element_id,
+    |                     ^^^^^^^^^^^^^^ help: try: `&e.element_id`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#explicit_auto_deref
+    = note: `-D clippy::explicit-auto-deref` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::explicit_auto_deref)]`
+
+error: could not compile `syson-web` (lib test) due to 2 previous errors
