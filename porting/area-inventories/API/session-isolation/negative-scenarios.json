@@ -1,0 +1,195 @@
+{
+  "schema": "SYSON-SESSION-ISOLATION-SCENARIOS/1",
+  "execution": "NOT_RUN",
+  "cases": [
+    {
+      "id": "anonymous-read",
+      "boundaries": [
+        "authentication"
+      ],
+      "source_ids": [
+        "starter",
+        "security-manual",
+        "object-delegate"
+      ],
+      "synthetic_setup": "Two synthetic projects; request has no established principal.",
+      "probe": "Read an element through the actual admitted REST entry point.",
+      "candidate_goal": "Record the selected anonymous-access policy and show its enforcement before choosing an authenticated Rust mode.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "forbidden-element",
+      "boundaries": [
+        "authorization",
+        "project-context"
+      ],
+      "source_ids": [
+        "object-delegate",
+        "project-delegate"
+      ],
+      "synthetic_setup": "Synthetic principal A has access only to project A; element B belongs to project B.",
+      "probe": "Ask the admitted element operation for B while authenticated as A.",
+      "candidate_goal": "For a proposed isolated host mode, reject disclosure across the reviewed project permission boundary; exact native HTTP outcome remains unqualified.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "forbidden-relationships",
+      "boundaries": [
+        "authorization",
+        "project-context"
+      ],
+      "source_ids": [
+        "object-delegate"
+      ],
+      "synthetic_setup": "Synthetic A is restricted to project A; related element B belongs to project B.",
+      "probe": "Query the relationships operation using B and both directions.",
+      "candidate_goal": "Check denial/no foreign relationship data, rather than accepting an empty-data fixture as evidence of authorization.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "same-object-id-two-projects",
+      "boundaries": [
+        "project-context"
+      ],
+      "source_ids": [
+        "object-delegate",
+        "project-delegate"
+      ],
+      "synthetic_setup": "Projects A and B contain the same element ID but different marker data.",
+      "probe": "Read by ID in each allowed context and attempt the other project context.",
+      "candidate_goal": "Require identity to retain project context and detect accidental ID-only lookup; principal policy must be reviewed first.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "forged-context",
+      "boundaries": [
+        "project-context",
+        "authorization"
+      ],
+      "source_ids": [
+        "project-delegate"
+      ],
+      "synthetic_setup": "Synthetic principal A; request pairs project A with semantic-data/editing-context ID B.",
+      "probe": "Send the mismatched identifiers through real request/context resolution.",
+      "candidate_goal": "Reject a foreign context substitution in the proposed isolated host mode; mapping existence alone is not authorization.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "expired-session",
+      "boundaries": [
+        "session-cookie",
+        "authentication"
+      ],
+      "source_ids": [
+        "starter",
+        "frontend-entry"
+      ],
+      "synthetic_setup": "A disposable test session has expired under the bound effective configuration.",
+      "probe": "Repeat read and command requests with the expired session identifier.",
+      "candidate_goal": "Record expiry enforcement and prove no cached identity is accepted without revalidation.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "logout-subscription",
+      "boundaries": [
+        "session-cookie",
+        "websocket"
+      ],
+      "source_ids": [
+        "frontend-entry",
+        "frontend-url"
+      ],
+      "synthetic_setup": "A synthetic subscribed session is revoked using the selected logout mechanism.",
+      "probe": "Observe the existing subscription and attempt reconnect after revocation.",
+      "candidate_goal": "Define and verify revocation semantics for active and reconnecting transports; no native lifecycle is presumed.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "cross-origin-preflight",
+      "boundaries": [
+        "cors"
+      ],
+      "source_ids": [
+        "properties",
+        "dev-properties",
+        "compose"
+      ],
+      "synthetic_setup": "Disposable origins allowed.invalid and denied.invalid under a reviewed effective policy.",
+      "probe": "Send preflight and credentialed requests from each origin.",
+      "candidate_goal": "Capture actual allow-origin/credentials headers and browser result; source property declarations do not decide runtime policy.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "websocket-origin",
+      "boundaries": [
+        "websocket",
+        "cors"
+      ],
+      "source_ids": [
+        "frontend-entry",
+        "frontend-url"
+      ],
+      "synthetic_setup": "Synthetic upgrade request supplies a disallowed origin and separately an expired identity.",
+      "probe": "Attempt the actual inherited WebSocket upgrade and subscription operation.",
+      "candidate_goal": "Check upgrade and subscription gates separately from HTTP CORS; record the chosen origin/identity policy.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "csrf-command",
+      "boundaries": [
+        "csrf",
+        "session-cookie"
+      ],
+      "source_ids": [
+        "starter",
+        "entry"
+      ],
+      "synthetic_setup": "A synthetic cookie session and a state-changing command; only disposable model data.",
+      "probe": "Compare missing/invalid/valid anti-CSRF evidence through the actual command entry.",
+      "candidate_goal": "Determine whether CSRF applies to the selected authentication mode, then verify the effective protection or an explicitly reviewed alternative.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "cookie-attributes",
+      "boundaries": [
+        "session-cookie"
+      ],
+      "source_ids": [
+        "starter",
+        "production-manual"
+      ],
+      "synthetic_setup": "Bound HTTPS/proxy configuration and a synthetic login/session establishment.",
+      "probe": "Inspect actual Set-Cookie attributes and subsequent requests without storing session secrets.",
+      "candidate_goal": "Qualify Secure/HttpOnly/SameSite/domain/path/lifetime against explicit deployment policy; TLS documentation alone supplies no cookie proof.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    },
+    {
+      "id": "artifact-mismatch",
+      "boundaries": [
+        "artifact-binding"
+      ],
+      "source_ids": [
+        "pom",
+        "compose",
+        "application-compose",
+        "dockerfile"
+      ],
+      "synthetic_setup": "A source checkout and a candidate JAR/image whose digest has not been reconciled.",
+      "probe": "Compare the exact dependency/source/config receipt with the artifact used for all observations.",
+      "candidate_goal": "Refuse attribution of runtime results to source until the artifact and effective policy are bound.",
+      "native_expected": "UNRESOLVED",
+      "receipt": null
+    }
+  ]
+}
