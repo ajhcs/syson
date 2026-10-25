@@ -1,0 +1,7 @@
+The canvas geometry composition has no request lifecycle, publication boundary or persisted history. This controller adds cooperative prepare/compute/apply tickets, separate canvas undo/redo and model-bound companion geometry JSON over the real F19A computation. Cancelled or superseded requests cannot publish; model changes invalidate history, and scene reads/export/history reject another committed model.
+
+Import derives node, parent and typing identity directly from the bound semantic document. Strict fields, integer nodes/header data, half-unit orthogonal route endpoints and duplicate/unknown IDs are validated before any state change. A shared encoder bounds both the canonical file and its escaped default-ABI envelope before publication, so exported admitted scenes can be reimported within the same byte budget. Model bytes remain unchanged. Imported geometry is file data, not a fresh measurement or computed-layout attestation.
+
+Validation:40 Rust tests pass (11 controller,9 inherited geometry,20 inherited web), formatting, all-target Clippy and3 prerequisite source checks pass. Exact coordinator runner, raw streams, input hashes and unchanged-input receipt are retained. Browser and upstream-runtime execution are outside this controller stage.
+
+This PR depends on the immutable F19A geometry stage and precedes the rendered App/loader stage. Land prerequisites first, then retarget and revalidate. It changes no App actions, browser loader, held graph path or production service.
