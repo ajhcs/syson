@@ -16,13 +16,34 @@ try {
     const drafts = background ? [...root.querySelectorAll('input[id],select[id],textarea[id]')]
       .filter(e => !e.readOnly).map(e => [e.id, e.value, e.checked]) : [];
     const details = background ? [...root.querySelectorAll('details')].map(e => e.open) : [];
-    root.innerHTML = decoder.decode(new Uint8Array(api.memory.buffer, api.output_ptr(), api.output_len()));
+    const template = document.createElement('template');
+    template.innerHTML = decoder.decode(new Uint8Array(api.memory.buffer, api.output_ptr(), api.output_len()));
+    const previousStatus = root.querySelector('[data-editor-status]');
+    const nextStatus = template.content.querySelector('[data-editor-status]');
+    if (previousStatus?.parentElement === root && nextStatus?.parentNode === template.content) {
+      // The live region stays connected while its surrounding editor is repainted.
+      for (const node of [...root.childNodes]) if (node !== previousStatus) node.remove();
+      let after = false;
+      for (const node of [...template.content.childNodes]) {
+        if (node === nextStatus) { after = true; continue; }
+        root.insertBefore(node, after ? null : previousStatus);
+      }
+      for (const attribute of [...previousStatus.attributes]) {
+        if (!nextStatus.hasAttribute(attribute.name)) previousStatus.removeAttribute(attribute.name);
+      }
+      for (const attribute of nextStatus.attributes) {
+        if (previousStatus.getAttribute(attribute.name) !== attribute.value) previousStatus.setAttribute(attribute.name, attribute.value);
+      }
+      if (previousStatus.textContent !== nextStatus.textContent) previousStatus.textContent = nextStatus.textContent;
+    } else root.replaceChildren(template.content);
     for (const [id, value, checked] of drafts) {
       const e = document.getElementById(id);
       if (e) { e.value = value; if ('checked' in e) e.checked = checked; }
     }
     if (background) root.querySelectorAll('details').forEach((e, i) => { e.open = details[i]; });
-    const next = focused?.id && document.getElementById(focused.id);
+    const requested = !background && root.querySelector('[data-inspector-focus]')?.dataset.inspectorFocus;
+    const next = (requested && (document.getElementById(requested) ?? document.getElementById('selection-heading')))
+      || (focused?.id && document.getElementById(focused.id));
     if (next) { next.focus({preventScroll: background}); if (background && caret) next.setSelectionRange(...caret); }
     const canvas = root.querySelector('[data-canvas-revision]');
     const {canvasTicket: ticket, canvasPhase: phase} = canvas?.dataset ?? {};
