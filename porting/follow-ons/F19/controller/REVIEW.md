@@ -1,0 +1,7 @@
+# F19B source and capture review
+
+The root coordinator reviewed the controller before compiler allocation and requested selection-count admission before repeated lookup, semantic-document-derived import identity instead of synthetic measurement, and a shared publication/import byte-budget gate. Both the companion file and its JSON-string form plus2048 reserved default-ABI framing bytes must fit1MiB. The escaped-model regression exercises a file that fits the raw limit but cannot fit that envelope, while preserving the previous publication/history and preserving pending work on failed import.
+
+The coordinator executed offline formatting,40 Rust tests and all-target Clippy serially against unchanged frozen inputs. The11 controller tests cover publication phases, stale/cancelled requests, model/selection invalidation, exact first-selection/incident merge semantics, separate bounded history, strict atomic import, model binding, escaped byte budgets and exhausted identities. All29 inherited tests remain passing. Exact runner, six original streams and92 executed input hashes are preserved.
+
+A distinct reviewer found no blocking findings within the documented structural-import and cooperative-publication scope. Import schema/identity checks do not attest fresh font measurement, native source geometry or route optimality. The rendered App/loader journey and browser execution are the subsequent dependent stage; they did not execute in this controller capture.
