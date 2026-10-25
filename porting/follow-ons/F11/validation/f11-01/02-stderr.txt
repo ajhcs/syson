@@ -1,0 +1,58 @@
+    Checking syson-ast-values v0.1.0 (/workspace/worktrees/builderbob/syson/f11-ast-adapter/rust/crates/syson-ast-values)
+    Checking syson-ast v0.1.0 (/workspace/worktrees/builderbob/syson/f11-ast-adapter/rust/crates/syson-ast)
+    Checking syson-reflection v0.1.0 (/workspace/worktrees/builderbob/syson/f11-ast-adapter/rust/crates/syson-reflection)
+    Checking syson-ast-adapter v0.1.0 (/workspace/worktrees/builderbob/syson/f11-ast-adapter/rust/crates/syson-ast-adapter)
+error: unneeded late initialization
+   --> src/lib.rs:97:9
+    |
+ 97 |         let name;
+    |         ^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_late_init
+    = note: `-D clippy::needless-late-init` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::needless_late_init)]`
+help: move the declaration `name` here and remove the assignments from the branches
+    |
+ 97 ~         
+ 98 ~         let name = if byte.is_ascii_alphabetic() || byte == b'_' {
+ 99 |             i += 1;
+...
+104 |             }
+105 ~             RESERVED.binary_search(&&source[start..i]).is_err()
+106 |         } else if byte == b'\'' {
+...
+126 |             }
+127 ~             true
+128 |         } else if b"{}:;".contains(&byte) {
+...
+132 |             }
+133 ~             false
+134 |         } else {
+135 |             return Err(Error::Unsupported { offset: i });
+136 ~         };
+    |
+
+error: unneeded late initialization
+   --> src/lib.rs:235:9
+    |
+235 |         let children;
+    |         ^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_late_init
+help: move the declaration `children` here and remove the assignments from the branches
+    |
+235 ~         
+236 ~         let children = if kind == "PartUsage" {
+237 |             if self
+...
+256 |             self.expect(";")?;
+257 ~             Vec::new()
+258 |         } else if self.take(";") {
+259 ~             Vec::new()
+260 |         } else {
+261 |             self.expect("{")?;
+262 ~             self.list(true, depth + 1)?
+263 ~         };
+    |
+
+error: could not compile `syson-ast-adapter` (lib) due to 2 previous errors
