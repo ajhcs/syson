@@ -1,0 +1,27 @@
+{
+  "status": "BLOCKED_NOT_EXECUTABLE",
+  "purpose": "Commands for separate review only; no migration tool or database invocation occurred",
+  "unresolved_bindings": {
+    "<PINNED_LIQUIBASE_BINARY>": "existing admitted binary path plus artifact SHA256 and exact version",
+    "<SYNTHETIC_DEFAULTS_FILE>": "reviewed workspace file pointing only to a disposable synthetic JDBC target; credentials excluded from chat/logs",
+    "<RESOLVED_CLASSPATH>": "reviewed matching artifact/JDBC closure with SHA256 and source correspondence",
+    "<CAPTURE_DIRECTORY>": "new workspace output directory with retained originals and no automatic cleanup"
+  },
+  "required_review": [
+    "candidate source-to-resolved artifact correspondence including EMF JSON SNAPSHOT timestamp/build/digests",
+    "exact Liquibase/JDBC/PostgreSQL versions and PostgreSQL extension permissions",
+    "empty and existing synthetic schema/history/checksum fixtures with disposable-volume ownership",
+    "DBMS/context/label/precondition selection and transaction behavior",
+    "separate rollback decision; no blanket rollback inferred from declaration absence",
+    "exact immutable action bytes, limits, stop conditions and capture/retention destinations"
+  ],
+  "command_templates": [
+    ["<PINNED_LIQUIBASE_BINARY>", "--defaults-file=<SYNTHETIC_DEFAULTS_FILE>", "--classpath=<RESOLVED_CLASSPATH>", "--changelog-file=db/db.changelog-master.xml", "validate"],
+    ["<PINNED_LIQUIBASE_BINARY>", "--defaults-file=<SYNTHETIC_DEFAULTS_FILE>", "--classpath=<RESOLVED_CLASSPATH>", "--changelog-file=db/db.changelog-master.xml", "status", "--verbose"],
+    ["<PINNED_LIQUIBASE_BINARY>", "--defaults-file=<SYNTHETIC_DEFAULTS_FILE>", "--classpath=<RESOLVED_CLASSPATH>", "--changelog-file=db/db.changelog-master.xml", "update-sql"]
+  ],
+  "templates_version_qualified": false,
+  "update_or_rollback_command": "NOT_PREPARED; separate reviewed execution required",
+  "stdout_stderr_capture": "<CAPTURE_DIRECTORY>; per-command raw streams and actual timestamps required",
+  "execution": "NOT_RUN"
+}
