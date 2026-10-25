@@ -4,8 +4,7 @@
 pub mod layout_controller;
 pub mod layout_geometry;
 use serde_json::Value;
-use std::{cell::RefCell, collections::BTreeMap};
-use syson_editor::{Diagram, Node, Point, prepare_rotation};
+use std::cell::RefCell;
 use syson_metamodel::ClassifierId;
 use syson_model::{
     AttributeBlock, AttributeDescriptor, AttributeError, Document, Editor, NodeIds, ScalarType,
@@ -64,7 +63,7 @@ struct App {
     selected: String,
     message: String,
     error: bool,
-    geometry: BTreeMap<String, (f64, f64)>,
+    canvas: layout_controller::Canvas,
 }
 impl Default for App {
     fn default() -> Self {
@@ -74,7 +73,7 @@ impl Default for App {
             selected: String::new(),
             message: "Create a package to begin. Changes are held in this browser tab.".into(),
             error: false,
-            geometry: BTreeMap::new(),
+            canvas: layout_controller::Canvas::default(),
         }
     }
 }
@@ -125,6 +124,35 @@ fn ids(request: &Value) -> Result<Vec<NodeIds>, String> {
 }
 impl App {
     fn handle(&mut self, request: &Value) -> Result<String, String> {
+        let before = self
+            .editor
+            .document()
+            .to_json()
+            .map_err(|e| e.to_string())?;
+        let result = self.handle_action(request);
+        if result.is_ok() {
+            let action = request["action"].as_str().unwrap_or("");
+            if matches!(action, "commit" | "import")
+                || (matches!(action, "undo" | "redo")
+                    && result.as_deref() == Ok("History applied."))
+                || self
+                    .editor
+                    .document()
+                    .to_json()
+                    .map_err(|e| e.to_string())?
+                    != before
+            {
+                self.canvas.model_changed()?;
+            } else if matches!(
+                action,
+                "select" | "stage" | "attribute" | "rename" | "cancel"
+            ) {
+                self.canvas.cancel()?;
+            }
+        }
+        result
+    }
+    fn handle_action(&mut self, request: &Value) -> Result<String, String> {
         let action = request["action"].as_str().ok_or("Action missing")?;
         match action {
             "select" => {
@@ -281,39 +309,64 @@ impl App {
                 let doc = Document::from_json(field(request, "json")).map_err(|e| e.to_string())?;
                 self.editor = Editor::new(doc);
                 self.selected.clear();
-                self.geometry.clear();
                 Ok("Imported a new document. Previous document history was cleared.".into())
             }
-            "rotate" => {
-                if self.selected.is_empty() {
-                    return Err("Select an element first.".into());
+            "layout" | "rotate" => {
+                if self.pending.is_some() {
+                    return Err(
+                        "Commit or cancel the staged change before changing canvas geometry."
+                            .into(),
+                    );
                 }
-                let (width, height) = self
-                    .geometry
-                    .get(&self.selected)
-                    .copied()
-                    .unwrap_or((180., 70.));
-                let diagram: Diagram<(), ()> = Diagram {
-                    nodes: vec![Node {
-                        id: self.selected.clone(),
-                        position: Point::default(),
-                        width: Some(width),
-                        height: Some(height),
-                        resized_by_user: false,
-                        connection_handles: vec![],
-                        payload: (),
-                    }],
-                    edges: vec![],
+                let selected = if action == "rotate" {
+                    vec![self.selected.clone()]
+                } else {
+                    vec![]
                 };
-                let rotated = prepare_rotation(&diagram, std::slice::from_ref(&self.selected));
-                self.geometry.insert(
-                    self.selected.clone(),
-                    (
-                        rotated.nodes[0].width.unwrap(),
-                        rotated.nodes[0].height.unwrap(),
-                    ),
-                );
-                Ok("Preview geometry rotated. Model data is unchanged.".into())
+                self.canvas.request(
+                    self.editor.document(),
+                    field(request, "labels"),
+                    field(request, "revision"),
+                    selected,
+                    action == "rotate",
+                )?;
+                Ok("Canvas request prepared. Computation is queued.".into())
+            }
+            "canvas_compute" => {
+                self.canvas.compute(field(request, "ticket"))?;
+                Ok("Canvas computed. Publication is queued.".into())
+            }
+            "canvas_apply" => {
+                let changed = self
+                    .canvas
+                    .apply(field(request, "ticket"), self.editor.document())?;
+                Ok(if changed { "Canvas applied. After rotation, use Layout canvas to resize package containers." } else { "Stale canvas request discarded." }.into())
+            }
+            "canvas_cancel" => {
+                self.canvas.cancel()?;
+                Ok("Queued canvas work cancelled.".into())
+            }
+            "canvas_undo" | "canvas_redo" => {
+                if self.pending.is_some() {
+                    return Err("Commit or cancel the staged change first.".into());
+                }
+                let changed = self
+                    .canvas
+                    .history(action == "canvas_redo", self.editor.document())?;
+                Ok(if changed {
+                    "Canvas history applied."
+                } else {
+                    "No canvas history available."
+                }
+                .into())
+            }
+            "geometry_import" => {
+                if self.pending.is_some() {
+                    return Err("Commit or cancel the staged change first.".into());
+                }
+                self.canvas
+                    .import(self.editor.document(), field(request, "json"))?;
+                Ok("Canvas geometry imported for this committed document.".into())
             }
             _ => Err("Unsupported action.".into()),
         }
@@ -332,6 +385,34 @@ impl App {
             String::from("<option value=\"\">Document root (package only)</option>");
         let mut definitions = String::from("<option value=\"\">No explicit definition</option>");
         let mut diagram = String::new();
+        let mut routes = String::new();
+        let scene = if self.pending.is_none() {
+            self.canvas.scene(self.editor.document())
+        } else {
+            None
+        };
+        let (mut left, mut top, mut right, mut bottom) = (0_f64, 0_f64, 420_f64, 250_f64);
+        if let Some(scene) = scene {
+            for edge in &scene.edges {
+                let points = edge
+                    .data
+                    .as_ref()
+                    .and_then(|d| d.bending_points.as_ref())
+                    .unwrap();
+                for p in points {
+                    left = left.min(p.x - 24.);
+                    top = top.min(p.y - 24.);
+                    right = right.max(p.x + 24.);
+                    bottom = bottom.max(p.y + 24.);
+                }
+                let route = points
+                    .iter()
+                    .map(|p| format!("{},{}", p.x, p.y))
+                    .collect::<Vec<_>>()
+                    .join(" ");
+                routes.push_str(&format!("<polyline data-canvas-edge=\"{}\" points=\"{route}\" fill=\"none\" stroke=\"#465b6d\" stroke-width=\"2\"/>",escape(&edge.id)));
+            }
+        }
         let mut y = 24.;
         for (index, element) in elements.iter().enumerate() {
             let id = escape(&element.element_id);
@@ -348,11 +429,21 @@ impl App {
             if !has_diagram_preview(&element.class) {
                 continue;
             }
-            let (width, height) = self
-                .geometry
-                .get(&element.element_id)
-                .copied()
-                .unwrap_or((180., 70.));
+            let node = scene.and_then(|s| s.nodes.iter().find(|n| n.id == element.element_id));
+            let (x, node_y, width, height) = node
+                .map(|n| {
+                    (
+                        n.position.x,
+                        n.position.y,
+                        n.width.unwrap(),
+                        n.height.unwrap(),
+                    )
+                })
+                .unwrap_or((24., y, 180., 70.));
+            left = left.min(x - 24.);
+            top = top.min(node_y - 24.);
+            right = right.max(x + width + 24.);
+            bottom = bottom.max(node_y + height + 24.);
             let stroke = if self.selected == element.element_id {
                 "#1768b5"
             } else {
@@ -362,9 +453,11 @@ impl App {
             // Preserve full strings in the title and the separate model list.
             let clip_width = (width - 24.).max(0.);
             let clip_height = (height - 16.).max(0.);
-            diagram.push_str(&format!("<g><title>{class}: {name}</title><rect x=\"24\" y=\"{y}\" width=\"{width}\" height=\"{height}\" fill=\"white\" stroke=\"{stroke}\" stroke-width=\"2\"/><defs><clipPath id=\"preview-label-{index}\"><rect x=\"36\" y=\"{}\" width=\"{clip_width}\" height=\"{clip_height}\"/></clipPath></defs><g clip-path=\"url(#preview-label-{index})\"><text x=\"36\" y=\"{}\" font-size=\"12\" fill=\"#465b6d\">{class}</text><text x=\"36\" y=\"{}\" font-size=\"14\">{name}</text></g></g>",y+8.,y+22.,y+45.));
+            let label_x = x + 12.;
+            diagram.push_str(&format!("<g><title>{class}: {name}</title><rect data-canvas-node=\"{id}\" x=\"{x}\" y=\"{node_y}\" width=\"{width}\" height=\"{height}\" fill=\"white\" stroke=\"{stroke}\" stroke-width=\"2\"/><defs><clipPath id=\"preview-label-{index}\"><rect x=\"{label_x}\" y=\"{}\" width=\"{clip_width}\" height=\"{clip_height}\"/></clipPath></defs><g clip-path=\"url(#preview-label-{index})\"><text x=\"{label_x}\" y=\"{}\" font-size=\"12\" fill=\"#465b6d\">{class}</text><foreignObject x=\"{label_x}\" y=\"{}\" width=\"{clip_width}\" height=\"{clip_height}\"><div xmlns=\"http://www.w3.org/1999/xhtml\"><span data-canvas-label=\"{id}\" style=\"font:14px system-ui;line-height:24px;white-space:pre;display:inline-block\">{name}</span></div></foreignObject></g></g>",node_y+8.,node_y+16.,node_y+20.));
             y += height + 24.;
         }
+        diagram.push_str(&routes);
         if tree.is_empty() {
             tree.push_str("<li><p>No model elements yet.</p></li>");
         }
@@ -409,12 +502,24 @@ impl App {
                 .unwrap_or_else(|e| e.to_string()),
         );
         let kinds = creation_kinds();
+        if scene.is_none() {
+            bottom = bottom.max(y);
+        }
+        let view = format!("{left} {top} {} {}", right - left, bottom - top);
+        let phase = self
+            .canvas
+            .phase()
+            .map(|(ticket, phase)| {
+                format!("data-canvas-ticket=\"{ticket}\" data-canvas-phase=\"{phase}\"")
+            })
+            .unwrap_or_default();
+        let revision = self.canvas.revision();
+        let geometry = escape_textarea(&self.canvas.export(self.editor.document()));
         format!(
-            "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button type=\"button\" data-action=\"undo\">Undo</button><button type=\"button\" data-action=\"redo\">Redo</button></nav></header><p class=\"status {}\" role=\"{}\">{}</p><div class=\"layout\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2><ul class=\"tree\">{tree}</ul></section><section class=\"canvas\"><h2>Diagram preview</h2><small>Local preview positions; upstream diagram layout is not implemented.</small><svg viewBox=\"0 0 420 {}\" aria-hidden=\"true\">{diagram}</svg></section><section class=\"panel inspector\"><h2>Create element</h2><form data-action=\"stage\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2>Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details></section>",
+            "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button type=\"button\" data-action=\"undo\">Undo</button><button type=\"button\" data-action=\"redo\">Redo</button></nav></header><p class=\"status {}\" role=\"{}\">{}</p><div class=\"layout\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2><ul class=\"tree\">{tree}</ul></section><section class=\"canvas\" data-canvas-revision=\"{revision}\" {phase}><h2>Diagram preview</h2><p><small>Bounded package/part canvas. Native graphical editor parity is incomplete.</small></p><p><button type=\"button\" data-action=\"layout\">Layout canvas</button> <button type=\"button\" data-action=\"canvas_cancel\">Cancel canvas work</button></p><p><button type=\"button\" data-action=\"canvas_undo\">Canvas undo</button> <button type=\"button\" data-action=\"canvas_redo\">Canvas redo</button></p><svg viewBox=\"{view}\" aria-hidden=\"true\">{diagram}</svg></section><section class=\"panel inspector\"><h2>Create element</h2><form data-action=\"stage\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2>Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details><label for=\"export-geometry\">Canvas geometry export (separate from model)</label><textarea id=\"export-geometry\" readonly spellcheck=\"false\">{geometry}</textarea><details id=\"geometry-details\"><summary>Import canvas geometry</summary><form data-action=\"geometry_import\"><label for=\"import-geometry\">Canvas companion JSON for this exact document</label><textarea id=\"import-geometry\" name=\"json\" required spellcheck=\"false\"></textarea><button type=\"submit\">Import canvas geometry</button></form></details></section>",
             if self.error { "error" } else { "" },
             if self.error { "alert" } else { "status" },
-            escape(&self.message),
-            y.max(250.)
+            escape(&self.message)
         )
     }
 }
@@ -850,10 +955,35 @@ mod tests {
             .find(|e| e.class == "PartUsage")
             .unwrap()
             .element_id;
-        app.handle(&json!({"action":"rotate"})).unwrap();
+        let labels = Value::Array(
+            app.editor
+                .document()
+                .elements()
+                .iter()
+                .filter(|e| matches!(e.class.as_str(), "Package" | "PartDefinition" | "PartUsage"))
+                .map(|e| json!({"id":e.element_id,"width":80.,"height":24.}))
+                .collect(),
+        )
+        .to_string();
+        app.handle(
+            &json!({"action":"layout","fields":{"labels":labels,"revision":app.canvas.revision()}}),
+        )
+        .unwrap();
+        for action in ["canvas_compute", "canvas_apply"] {
+            let ticket = app.canvas.phase().unwrap().0.to_string();
+            app.handle(&json!({"action":action,"fields":{"ticket":ticket}}))
+                .unwrap();
+        }
+        app.handle(&json!({"action":"rotate","fields":{"revision":app.canvas.revision()}}))
+            .unwrap();
+        for action in ["canvas_compute", "canvas_apply"] {
+            let ticket = app.canvas.phase().unwrap().0.to_string();
+            app.handle(&json!({"action":action,"fields":{"ticket":ticket}}))
+                .unwrap();
+        }
         let html = app.render();
         assert!(html.contains("width=\"70\" height=\"180\""));
-        assert!(html.contains("<clipPath id=\"preview-label-2\"><rect x=\"36\" y=\"126\" width=\"46\" height=\"164\"/>"));
+        assert!(html.contains("width=\"46\" height=\"164\"/>"));
         assert!(html.contains("<g clip-path=\"url(#preview-label-2)\">"));
         assert!(html.contains("<title>PartUsage: frontWheel</title>"));
         assert!(
