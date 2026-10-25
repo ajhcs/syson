@@ -1,0 +1,13 @@
+# F01: resource-scoped GeneralView planning
+
+The existing ViewUsage planner now has a separate adapter binding its GeneralView lookup to the real immutable ResourceSet query. It calls the existing planner and delegates its local context queries, replacing only general_view_definition at the actual source prefix. Original graph source/tests remain under an older held lease; this standalone crate changes neither those paths nor NativeContext.
+
+The provider returns a PrefixSnapshot containing explicit resources, resource context and the exact source Step prefix. Prefix/context mismatches produce an incomplete plan, never a null Type. Naming and FeatureTyping attachment occur before the query. Callers must supply resources observed at that point; equality of the prefix stamp cannot prove native resource correspondence. A pre-rename snapshot is rejected, and the regression's post-rename observation changes the query result. These caller observations do not implement graph mutation or prefix application.
+
+Actual ResourceSet::find_general_view preserves root/resource ordering, qualified-name/type precedence, lazy errors and explicit derived import visibility observations. A result stores both resource key and semantic element ID under a checked process-local snapshot identity. Equal IDs or identical bytes in another snapshot cannot authorize the target. Detached context, a resource without a set and an ordinary no-match remain distinct known-absence reasons; invalid members/provider failures/import gaps remain incomplete outcomes. Imported membership observations retain the existing native-query limits.
+
+The old planner temporarily requires an ExternalObject. A private symbol is chosen outside delegated external handles, then translated into a typed GeneralViewType step holding the scoped target. No legacy Plan or unqualified GeneralView handle leaves the adapter; unexpected external effects refuse. All other source steps and dispatch order remain available. Resolution and plan validation require the owning immutable snapshot.
+
+This is source-derived planning, with application still unimplemented. It does not construct/mutate ViewUsage, apply an external reference, load a URI/library, evaluate native imports, or qualify native caches/notifications. The provider's visibility assertion and local Context answers remain caller inputs. The pinned upstream source is 6ba2ac64e6b16ee2b05752ad55395eebb87d4910; no upstream runtime or native oracle ran.
+
+The coordinator owns Cargo manifests/lockfiles and serial offline checks. The source pin checker verifies five upstream/adapter inputs against their exact Git blobs. Validation receipts, original failures and commands are retained separately once executed.
