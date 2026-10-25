@@ -1,0 +1,5 @@
+API parity work needs an explicit session/project boundary before selecting a Rust host adapter. This PR records the pinned SysON dependency, configuration and delegate chain, with 18 source-file pins and twelve unrun negative scenarios covering identity, project context, session/cookie, CSRF, HTTP/WS origins and source/artifact correspondence.
+
+The security manual's no-built-in-auth statement, inherited Sirius Web starter/client boundaries, explicit CORS declarations and object/library read-only behavior retain their exact scopes. No deployed JAR/image or effective policy is bound. Native outcomes and host selection remain unresolved; the packet's qualification is BLOCKED_SOURCE_PREPARATION_ONLY.
+
+Validation: 21 stdlib regression tests and the 18-pin source/12-scenario checker pass, with original runner, stdout/stderr and unchanged-input hashes retained. Checks reject source drift, missing negative families and false runtime/acceptance promotion. No HTTP request, upstream lifecycle, database, credential or policy change ran. The packet supplies reviewed preparation for later API/command work, with operational security and native behavior still unqualified.

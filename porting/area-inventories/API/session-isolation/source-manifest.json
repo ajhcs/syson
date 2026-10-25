@@ -1,0 +1,301 @@
+{
+  "upstream_commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "evidence": [
+    {
+      "id": "pom",
+      "path": "pom.xml",
+      "sha256": "f49d6760fd6ea2d3c079e9607c472eb27c23bfab64560d9166e362c85c58e656",
+      "anchors": [
+        {
+          "first_line": 21,
+          "last_line": 21,
+          "text": "\t\t<version>4.1.1</version>"
+        },
+        {
+          "first_line": 36,
+          "last_line": 36,
+          "text": "\t\t<sirius.web.version>2026.9.3</sirius.web.version>"
+        }
+      ]
+    },
+    {
+      "id": "application-pom",
+      "path": "backend/application/syson-application/pom.xml",
+      "sha256": "045220bbdac5e9b28ce44c214eabde8381cf297c6c8af3c6fb9f20372869aa59",
+      "anchors": [
+        {
+          "first_line": 48,
+          "last_line": 48,
+          "text": "\t\t\t<artifactId>syson-starter</artifactId>"
+        }
+      ]
+    },
+    {
+      "id": "starter-pom",
+      "path": "backend/application/syson-starter/pom.xml",
+      "sha256": "648e960c707c8fb4c60bda6a562b62b2f5959f4c44aa6ce12684cefce4a40a07",
+      "anchors": [
+        {
+          "first_line": 35,
+          "last_line": 35,
+          "text": "\t\t\t<artifactId>sirius-web-starter</artifactId>"
+        },
+        {
+          "first_line": 36,
+          "last_line": 36,
+          "text": "\t\t\t<version>${sirius.web.version}</version>"
+        }
+      ]
+    },
+    {
+      "id": "starter",
+      "path": "backend/application/syson-starter/src/main/java/org/eclipse/syson/starter/SysONStarterConfiguration.java",
+      "sha256": "c82bc4c40fc6da27f2656f8bb964fc4621e07993903a5e391600cf4c5f383f32",
+      "anchors": [
+        {
+          "first_line": 19,
+          "last_line": 19,
+          "text": " * Auto-configuration of SysON components. Sirius Web components are configured by the {@code sirius-web-starter}"
+        },
+        {
+          "first_line": 25,
+          "last_line": 25,
+          "text": "@ComponentScan(basePackages = \"org.eclipse.syson\")"
+        }
+      ]
+    },
+    {
+      "id": "entry",
+      "path": "backend/application/syson-application/src/main/java/org/eclipse/syson/SysONApplication.java",
+      "sha256": "1e3ef534eb04105cd0d0fd6251f3538eb64723cf6210de8329b8f08802265076",
+      "anchors": [
+        {
+          "first_line": 36,
+          "last_line": 36,
+          "text": "@EnableAutoConfiguration"
+        }
+      ]
+    },
+    {
+      "id": "properties",
+      "path": "backend/application/syson-application/src/main/resources/application.properties",
+      "sha256": "eb9b880a115b24e3fae015a1ea611b88779a6d31b74270ec4a4cacb4c5bd91e0",
+      "anchors": [
+        {
+          "first_line": 29,
+          "last_line": 29,
+          "text": "sirius.components.cors.allowedOriginPatterns=*"
+        },
+        {
+          "first_line": 30,
+          "last_line": 30,
+          "text": "sirius.components.cors.allowedCredentials=true"
+        }
+      ]
+    },
+    {
+      "id": "dev-properties",
+      "path": "backend/application/syson-application/src/main/resources/application-dev.properties",
+      "sha256": "1484686f3e7f54c0d07e8158715a8b9e5e07820ff531ee0010c414d799187544",
+      "anchors": [
+        {
+          "first_line": 60,
+          "last_line": 60,
+          "text": "sirius.components.cors.allowedOriginPatterns=*"
+        },
+        {
+          "first_line": 61,
+          "last_line": 61,
+          "text": "sirius.components.cors.allowedCredentials=true"
+        }
+      ]
+    },
+    {
+      "id": "object-delegate",
+      "path": "backend/services/syson-sysml-rest-api-services/src/main/java/org/eclipse/syson/sysml/rest/api/SysONObjectRestService.java",
+      "sha256": "ceb1d40624d386d0019b36d78720a2e92c7a2a541f5dd89299fc1e047f8c9f62",
+      "anchors": [
+        {
+          "first_line": 44,
+          "last_line": 44,
+          "text": "public class SysONObjectRestService implements IObjectRestServiceDelegate {"
+        },
+        {
+          "first_line": 79,
+          "last_line": 79,
+          "text": "        return this.defaultObjectRestService.getElementById(editingContext, elementId);"
+        },
+        {
+          "first_line": 105,
+          "last_line": 105,
+          "text": "            var resourceSet = emfEditingContext.getDomain().getResourceSet();"
+        }
+      ]
+    },
+    {
+      "id": "project-delegate",
+      "path": "backend/services/syson-sysml-rest-api-services/src/main/java/org/eclipse/syson/sysml/rest/api/SysONProjectDataVersioningRestService.java",
+      "sha256": "3434efa1f5c11b2e3ca8b64886d972a112b487273b298ca1741978ef9705930d",
+      "anchors": [
+        {
+          "first_line": 45,
+          "last_line": 45,
+          "text": "public class SysONProjectDataVersioningRestService implements IProjectDataVersioningRestServiceDelegate {"
+        },
+        {
+          "first_line": 147,
+          "last_line": 147,
+          "text": "    protected Optional<String> getProjectId(String editingContextId) {"
+        },
+        {
+          "first_line": 149,
+          "last_line": 149,
+          "text": "                .flatMap(semanticDataId -> this.projectSemanticDataSearchService.findBySemanticDataId(AggregateReference.to(semanticDataId)))"
+        }
+      ]
+    },
+    {
+      "id": "read-only",
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/services/SysONReadOnlyObjectPredicateDelegate.java",
+      "sha256": "67e8661896f3a4745b16c6d6d5b50e84d3410f33e447da18b5996ee39852f148",
+      "anchors": [
+        {
+          "first_line": 29,
+          "last_line": 29,
+          "text": " * by the {@link IReadOnlyObjectPredicate} implementation (used for the <i>Explorer</i> and <i>Details</i> views) when"
+        },
+        {
+          "first_line": 57,
+          "last_line": 57,
+          "text": "                            .map(ResourceMetadataAdapter::isReadOnly)"
+        }
+      ]
+    },
+    {
+      "id": "frontend-entry",
+      "path": "frontend/syson/src/index.tsx",
+      "sha256": "de881053d4cebe6c992a80b7735b4456e88731d5df4eeac46b3e923e33215b39",
+      "anchors": [
+        {
+          "first_line": 20,
+          "last_line": 20,
+          "text": "  SiriusWebApplication,"
+        },
+        {
+          "first_line": 64,
+          "last_line": 64,
+          "text": "    httpOrigin={httpOrigin}"
+        },
+        {
+          "first_line": 65,
+          "last_line": 65,
+          "text": "    wsOrigin={wsOrigin}"
+        }
+      ]
+    },
+    {
+      "id": "frontend-url",
+      "path": "frontend/syson/src/core/URL.ts",
+      "sha256": "9a15cccfd8f6241508f88400e589092d7715a2b6d8891d83f53f71f405579ce5",
+      "anchors": [
+        {
+          "first_line": 14,
+          "last_line": 14,
+          "text": "const { VITE_HTTP_SERVER_PORT, VITE_WS_SERVER_PORT } = import.meta.env;"
+        },
+        {
+          "first_line": 32,
+          "last_line": 32,
+          "text": "  wsURL = `ws://${window.location.hostname}:${VITE_WS_SERVER_PORT}`;"
+        }
+      ]
+    },
+    {
+      "id": "frontend-package",
+      "path": "frontend/syson/package.json",
+      "sha256": "5da3d21d67cf91b5c58a39f590ec169a20cae6785b2ba4e85574c6acb59d2c6d",
+      "anchors": [
+        {
+          "first_line": 37,
+          "last_line": 37,
+          "text": "    \"@eclipse-sirius/sirius-web-application\": \"2026.9.3\","
+        }
+      ]
+    },
+    {
+      "id": "compose",
+      "path": "docker-compose.yml",
+      "sha256": "9280004dd219b70cc224a8e1b511fa828a1cd90843ce7d3aa84a8ad22b68b55f",
+      "anchors": [
+        {
+          "first_line": 15,
+          "last_line": 15,
+          "text": "    image: \"${IMAGE_TAG:-eclipsesyson/syson:v2026.9.0}\""
+        },
+        {
+          "first_line": 22,
+          "last_line": 22,
+          "text": "      SIRIUS_COMPONENTS_CORS_ALLOWEDORIGINPATTERNS: \"*\""
+        }
+      ]
+    },
+    {
+      "id": "application-compose",
+      "path": "backend/application/syson-application/docker-compose.yml",
+      "sha256": "03c29f0294df4a633ea4d395fd745c8ad25b384209b3bc5ed3648a4e427557d8",
+      "anchors": [
+        {
+          "first_line": 12,
+          "last_line": 12,
+          "text": "    image: \"${IMAGE_TAG:-eclipsesyson/syson:latest}\""
+        }
+      ]
+    },
+    {
+      "id": "dockerfile",
+      "path": "backend/application/syson-application/Dockerfile",
+      "sha256": "01d28975e4441aa13b9002710eb4324874d247a74d9b63c92943fbfb8b3f8693",
+      "anchors": [
+        {
+          "first_line": 4,
+          "last_line": 4,
+          "text": "COPY target/syson-application*[^sources].jar /syson-application.jar"
+        }
+      ]
+    },
+    {
+      "id": "security-manual",
+      "path": "doc/content/modules/user-manual/pages/features/security.adoc",
+      "sha256": "263586acbec2bce1edbbf2a83c949b80d8f1e8a347461dc85ebdcf838582a095",
+      "anchors": [
+        {
+          "first_line": 8,
+          "last_line": 8,
+          "text": "* Authentication and Authorization: While {product} does not include built-in mechanisms for authentication or authorization, we recognize the importance of secure user management."
+        }
+      ]
+    },
+    {
+      "id": "production-manual",
+      "path": "doc/content/modules/installation-guide/pages/how-tos/install/production_deploy.adoc",
+      "sha256": "e1a195d75a3bf3148a414b2a15df8ee141630788ad4063ddafac93c72c149194",
+      "anchors": [
+        {
+          "first_line": 4,
+          "last_line": 4,
+          "text": "This setup is intended for deployment in a live environment, with full multi-user access and all necessary security configurations."
+        },
+        {
+          "first_line": 59,
+          "last_line": 59,
+          "text": "== Secure the application"
+        },
+        {
+          "first_line": 90,
+          "last_line": 90,
+          "text": "  --server.ssl.key-store=path/to/your/keystore.p12 \\"
+        }
+      ]
+    }
+  ]
+}

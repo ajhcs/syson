@@ -1,0 +1,119 @@
+{
+  "schema": "SYSON-SESSION-ISOLATION-SOURCE/1",
+  "status": "BLOCKED_SOURCE_PREPARATION_ONLY",
+  "source_projection": {
+    "source_version": "2026.9.3",
+    "spring_boot_parent": "4.1.1",
+    "sirius_web_property": "2026.9.3",
+    "starter_version_expression": "${sirius.web.version}",
+    "frontend_application_version": "2026.9.3",
+    "properties": {
+      "sirius.components.cors.allowedOriginPatterns": "*",
+      "sirius.components.cors.allowedCredentials": "true"
+    },
+    "dev-properties": {
+      "sirius.components.cors.allowedOriginPatterns": "*",
+      "sirius.components.cors.allowedCredentials": "true"
+    }
+  },
+  "host_adapter": null,
+  "claims": {
+    "runtime_executed": false,
+    "native_policy_qualified": false,
+    "deployed_correspondence": false
+  },
+  "unresolved": [
+    {
+      "id": "authentication",
+      "status": "UNRESOLVED",
+      "reason": "The manual states no built-in authentication. Inherited request filters and external gateway policy are not bound to an executed artifact.",
+      "source_ids": [
+        "starter",
+        "security-manual"
+      ],
+      "required_evidence": "Exact inherited authentication/filter sources and reviewed deployment mode, then anonymous/authenticated request captures."
+    },
+    {
+      "id": "authorization",
+      "status": "UNRESOLVED",
+      "reason": "The SysON delegate receives an editing context and forwards lookup. That method is not the HTTP authorization boundary.",
+      "source_ids": [
+        "object-delegate",
+        "security-manual"
+      ],
+      "required_evidence": "Inherited route/method authorization plus project permission enforcement and caller-to-context binding."
+    },
+    {
+      "id": "session-cookie",
+      "status": "UNRESOLVED",
+      "reason": "Session identity, login/logout lifecycle and cookie attributes are inherited or deployment-specific; no runtime cookie receipt is supplied.",
+      "source_ids": [
+        "starter",
+        "frontend-entry"
+      ],
+      "required_evidence": "Resolved server/client session implementation, effective cookie configuration and login/expiry/logout captures."
+    },
+    {
+      "id": "csrf",
+      "status": "UNRESOLVED",
+      "reason": "Auto-configuration and a starter dependency identify a boundary, without supplying the effective CSRF filter chain or command entry policy.",
+      "source_ids": [
+        "starter",
+        "entry"
+      ],
+      "required_evidence": "Resolved effective CSRF configuration and state-changing HTTP tests for the selected session mode."
+    },
+    {
+      "id": "cors",
+      "status": "UNRESOLVED",
+      "reason": "Source properties declare wildcard origin patterns and credentials=true. The actual consuming configuration, profile/environment precedence and headers are unexecuted.",
+      "source_ids": [
+        "properties",
+        "dev-properties",
+        "compose"
+      ],
+      "required_evidence": "Inherited CORS consumer, effective configuration and preflight/credentialed response observations."
+    },
+    {
+      "id": "websocket",
+      "status": "UNRESOLVED",
+      "reason": "The application passes HTTP/WS origins into SiriusWebApplication; credential forwarding, upgrade authorization, origin checks and revocation are inherited.",
+      "source_ids": [
+        "frontend-entry",
+        "frontend-url"
+      ],
+      "required_evidence": "Resolved transport/upgrade/subscription implementation and cross-origin/revocation captures."
+    },
+    {
+      "id": "project-context",
+      "status": "UNRESOLVED",
+      "reason": "Semantic-data-to-project mapping and object/library read-only decisions are visible. Principal permission checks and request-to-editing-context selection are outside those local methods.",
+      "source_ids": [
+        "project-delegate",
+        "object-delegate",
+        "read-only"
+      ],
+      "required_evidence": "Resolved request/context lookup and principal/project checks; equal element IDs in separate synthetic projects."
+    },
+    {
+      "id": "artifact-binding",
+      "status": "UNRESOLVED",
+      "reason": "Source version2026.9.3 differs from the root compose default v2026.9.0; the other compose uses latest and Dockerfile copies a wildcard JAR. No supplied runtime digest binds them.",
+      "source_ids": [
+        "pom",
+        "compose",
+        "application-compose",
+        "dockerfile",
+        "production-manual"
+      ],
+      "required_evidence": "Exact JAR/image digest and dependency/source map, effective config/profile/gateway policy and corresponding runtime capture."
+    }
+  ],
+  "artifact": {
+    "state": "UNBOUND",
+    "jar_sha256": null,
+    "image_digest": null,
+    "effective_configuration_sha256": null,
+    "policy_source_sha256": null
+  }
+}
