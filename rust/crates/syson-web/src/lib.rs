@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: EPL-2.0
 //! Bounded browser authoring UI. Model semantics remain in syson-model.
 #![deny(unsafe_op_in_unsafe_fn)]
+pub mod layout_geometry;
 use serde_json::Value;
 use std::{cell::RefCell, collections::BTreeMap};
 use syson_editor::{Diagram, Node, Point, prepare_rotation};

@@ -1,0 +1,7 @@
+The web crate has no computed package/part canvas geometry API. This first F19 stage composes real F15 leaf sizing, F18 package forests and F17 sibling routing while preserving the committed semantic document. It accepts a finite package/part family, explicit name-label observations and same-parent typing edges; unsupported model classes, ports, identities and geometry fail explicitly.
+
+The owning container is excluded from its child router, while sibling containers remain obstacles. Leaf rotation computations retain unselected endpoint positions. Whole-pixel measurement/header policy and part rectangle sizing are proposed canvas policies, not native rendering or ELK parity. Existing route buffers are recomputed without copying them.
+
+Validation:29 Rust tests pass (9 new geometry tests and20 existing web tests), plus formatting, all-target Clippy and five pinned prerequisite source checks. Original compile, fixture-assumption and lint failures retain exact source/streams/runners alongside the final passing capture. No browser or upstream runtime ran in this stage.
+
+This PR is the first of three ordered F19 stages; controller and actual rendered binding follow as separate dependent PRs in this batch. It targets the immutable F15/F17/F18 snapshot. Land prerequisites first, then retarget and revalidate; never merge into the snapshot branch. No App/loader binding or held graph path is changed here.
