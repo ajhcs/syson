@@ -1,0 +1,93 @@
+{
+  "unit": "C01b",
+  "run": "c01b-02",
+  "status": "PASS",
+  "started_utc": "2026-10-26T20:18:39.738092+00:00",
+  "source_before": {
+    "rust/tools/reference-binding/Cargo.lock": "e3eff399a4e6eafd52ed69bc51675b9cde5e2f0fd7482886f1a491035895a102",
+    "rust/tools/reference-binding/Cargo.toml": "77abc5f2d8612c7ca2cf46ee6a28bea85e677b5e2ddbb945feeb5a5e35a17f2c",
+    "rust/tools/reference-binding/README.md": "0a9fcecea698b3d366db4245ae5be0a78999b2e51bd0ff5877fa47b006d9292d",
+    "rust/tools/reference-binding/examples/selected-request.json": "f1edb84c747a68b80658574c5d9c228ac5633dd974e968c96cf271f007446076",
+    "rust/tools/reference-binding/src/inspector.rs": "71ad2e12771680ba150d0a1e90bb5161bfd935a846af67d06f94089e0dcf9a8a",
+    "rust/tools/reference-binding/src/lib.rs": "886c719da73b9abd6bec9b69b7839abaf66b12d3c99922c23aba1c761a94cf18",
+    "rust/tools/reference-binding/src/main.rs": "0a4341b3eaf7e592b7290dacc1847b8f36aa23e0a7e7e82aa60e676c3c064cc4",
+    "rust/tools/reference-binding/tests/admission.rs": "be83ebd3d54d43d3521312aa923b7746be7de643b59c535a034cd73628cce398",
+    "rust/tools/reference-binding/tests/fixtures/unverified-retained-facts.json": "c89c27b60fb03e3da4b38564bb4bf1cec677b147ba1891e1ebd91c88b8a3c659",
+    "rust/tools/reference-binding/tests/inspection.rs": "7280917e5b4a2678f17c28ec56b82b648bb65b7fcbfd1af4c63e701132604993"
+  },
+  "source_base": "d592fe7332493b15e75b6538b5557f1fb262a3f7",
+  "runner_sha256": "3b91a1f6f312d4a9b64fc5f3a718d5503ac1f8e81a514c67807dabac356a0363",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01b-reference-inspector/rust/tools/reference-binding/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T20:18:39.739390+00:00",
+      "completed_utc": "2026-10-26T20:18:39.763509+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01b-reference-inspector/rust/tools/reference-binding/Cargo.toml",
+        "--test",
+        "inspection",
+        "file_symlink_containment_and_stricter_classpath_symlink_rules_are_distinct",
+        "--",
+        "--exact",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T20:18:39.763521+00:00",
+      "completed_utc": "2026-10-26T20:18:39.881690+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "cb17b845e6351778212dc1bad5128e7f5c9caaa6ec27e73f15e87e8e436d0242",
+      "stderr_sha256": "b24e7d311fcba975a68026ba1a4b32aae1d5d9369cf506a2421a2a10009f6c31"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01b-reference-inspector/rust/tools/reference-binding/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T20:18:39.881710+00:00",
+      "completed_utc": "2026-10-26T20:18:40.052095+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "030ef7c6a66c30851b958542d987e2eb7207df059f94e5e60dc5803df2d0fccf"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T20:18:40.052119+00:00",
+  "source_after": {
+    "rust/tools/reference-binding/Cargo.lock": "e3eff399a4e6eafd52ed69bc51675b9cde5e2f0fd7482886f1a491035895a102",
+    "rust/tools/reference-binding/Cargo.toml": "77abc5f2d8612c7ca2cf46ee6a28bea85e677b5e2ddbb945feeb5a5e35a17f2c",
+    "rust/tools/reference-binding/README.md": "0a9fcecea698b3d366db4245ae5be0a78999b2e51bd0ff5877fa47b006d9292d",
+    "rust/tools/reference-binding/examples/selected-request.json": "f1edb84c747a68b80658574c5d9c228ac5633dd974e968c96cf271f007446076",
+    "rust/tools/reference-binding/src/inspector.rs": "71ad2e12771680ba150d0a1e90bb5161bfd935a846af67d06f94089e0dcf9a8a",
+    "rust/tools/reference-binding/src/lib.rs": "886c719da73b9abd6bec9b69b7839abaf66b12d3c99922c23aba1c761a94cf18",
+    "rust/tools/reference-binding/src/main.rs": "0a4341b3eaf7e592b7290dacc1847b8f36aa23e0a7e7e82aa60e676c3c064cc4",
+    "rust/tools/reference-binding/tests/admission.rs": "be83ebd3d54d43d3521312aa923b7746be7de643b59c535a034cd73628cce398",
+    "rust/tools/reference-binding/tests/fixtures/unverified-retained-facts.json": "c89c27b60fb03e3da4b38564bb4bf1cec677b147ba1891e1ebd91c88b8a3c659",
+    "rust/tools/reference-binding/tests/inspection.rs": "7280917e5b4a2678f17c28ec56b82b648bb65b7fcbfd1af4c63e701132604993"
+  },
+  "source_unchanged": true
+}
