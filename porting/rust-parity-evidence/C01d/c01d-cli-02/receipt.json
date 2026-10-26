@@ -1,0 +1,100 @@
+{
+  "unit": "C01d",
+  "status": "PASS",
+  "errors": [],
+  "source_before": {
+    "rust/tools/native-db-contract/Cargo.lock": "1ae36123fac5902c507b3de0b537ce399cccc4b10e1511c9194cba77402cd565",
+    "rust/tools/native-db-contract/Cargo.toml": "75089ff5aa1e61662aa94844e32afc46b72dda3900ecf20c81e574b10d8cd043",
+    "rust/tools/native-db-contract/README.md": "62badac0d189f3b414c6401983691cfd0bbaef79158b0c2bc4edc18e7026fb9b",
+    "rust/tools/native-db-contract/src/lib.rs": "a45643d19bdc57fb865249a24afb7f98dd7860c7a250fd47fde8d732dbe686fc",
+    "rust/tools/native-db-contract/src/main.rs": "29cfa942956d149c95c476800c79b7ddc3445e5bd3212cc74c7df205c8c5fcb0",
+    "rust/tools/native-db-contract/tests/catalog.rs": "f7ece7d83aec9b47a06e4b8de725f03ecbd8d34d93b670d3dea1f8d7fc56be15",
+    "rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json": "62dc261f15c200385fac1887c4f4e0fd1995d3996017e4321511dc9f8c024ef1",
+    "porting/rust-parity-evidence/C01d/catalog-query.sql": "f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+    "porting/rust-parity-evidence/C01d/preparation.json": "c5ce3d8b2d45d4262c004ddc75553f8de5b2dd86a0d01d1742658ac3fa545ada"
+  },
+  "source_after": {
+    "rust/tools/native-db-contract/Cargo.lock": "1ae36123fac5902c507b3de0b537ce399cccc4b10e1511c9194cba77402cd565",
+    "rust/tools/native-db-contract/Cargo.toml": "75089ff5aa1e61662aa94844e32afc46b72dda3900ecf20c81e574b10d8cd043",
+    "rust/tools/native-db-contract/README.md": "62badac0d189f3b414c6401983691cfd0bbaef79158b0c2bc4edc18e7026fb9b",
+    "rust/tools/native-db-contract/src/lib.rs": "a45643d19bdc57fb865249a24afb7f98dd7860c7a250fd47fde8d732dbe686fc",
+    "rust/tools/native-db-contract/src/main.rs": "29cfa942956d149c95c476800c79b7ddc3445e5bd3212cc74c7df205c8c5fcb0",
+    "rust/tools/native-db-contract/tests/catalog.rs": "f7ece7d83aec9b47a06e4b8de725f03ecbd8d34d93b670d3dea1f8d7fc56be15",
+    "rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json": "62dc261f15c200385fac1887c4f4e0fd1995d3996017e4321511dc9f8c024ef1",
+    "porting/rust-parity-evidence/C01d/catalog-query.sql": "f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+    "porting/rust-parity-evidence/C01d/preparation.json": "c5ce3d8b2d45d4262c004ddc75553f8de5b2dd86a0d01d1742658ac3fa545ada"
+  },
+  "source_unchanged": true,
+  "program_sha256": "600319e89e263f1e960ee4a889d07427446491edd3c5cfcd95bd71c7a76f99dd",
+  "native_input": "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/catalog-stdout.txt",
+  "native_input_sha256": "62dc261f15c200385fac1887c4f4e0fd1995d3996017e4321511dc9f8c024ef1",
+  "commands": [
+    {
+      "case": "native",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/catalog-stdout.txt"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "stdout_sha256": "f2d72b8ceb0d703df339d5a30d5d3c7867430af52da318722ac425d2ccb76990",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "refusal",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/c01d-cli-02/malformed.json"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "32e36afa668a3374a5ecfa2859a2359084ea08198f7be330455ee0de938acc16"
+    },
+    {
+      "case": "usage",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-native-db-contract"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "35a5735f86bf0e4e77e7f08bc47c8b94aa3a19bc56d7e1d707cd1247d1563d25"
+    },
+    {
+      "case": "directory",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/c01d-cli-02/directory"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e584701b428b0c13b81b7a95eb4c01c2dd2d475d87038ee938e2edc53b328cd0"
+    },
+    {
+      "case": "symlink",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/c01d-cli-02/input-symlink.json"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e584701b428b0c13b81b7a95eb4c01c2dd2d475d87038ee938e2edc53b328cd0"
+    }
+  ],
+  "equality": {
+    "all_descriptors": true,
+    "history_order": true,
+    "counts": {
+      "table": 15,
+      "column": 87,
+      "constraint": 26,
+      "index": 16,
+      "migration": 20
+    },
+    "obligations": 164
+  },
+  "boundary": "Observed current native contracts, not native/Rust behavior, whole-source rebuild, resolver/auth/UI or durable transaction acceptance."
+}

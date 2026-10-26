@@ -1,0 +1,85 @@
+{
+  "unit": "C01d",
+  "run": "c01d-01",
+  "status": "PASS",
+  "started_utc": "2026-10-26T21:01:46.984188+00:00",
+  "source_before": {
+    "rust/tools/native-db-contract/Cargo.lock": "1ae36123fac5902c507b3de0b537ce399cccc4b10e1511c9194cba77402cd565",
+    "rust/tools/native-db-contract/Cargo.toml": "75089ff5aa1e61662aa94844e32afc46b72dda3900ecf20c81e574b10d8cd043",
+    "rust/tools/native-db-contract/README.md": "62badac0d189f3b414c6401983691cfd0bbaef79158b0c2bc4edc18e7026fb9b",
+    "rust/tools/native-db-contract/src/lib.rs": "faec7cced6cccc90572991b854c46cab5edb533a799daab4fdfa4ccd00743142",
+    "rust/tools/native-db-contract/src/main.rs": "29cfa942956d149c95c476800c79b7ddc3445e5bd3212cc74c7df205c8c5fcb0",
+    "rust/tools/native-db-contract/tests/catalog.rs": "fae66d38bb87e170f7318925c4b301c013c3994ebdebe371dceb2ea452c095a3",
+    "porting/rust-parity-evidence/C01d/catalog-query.sql": "f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+    "porting/rust-parity-evidence/C01d/preparation.json": "d1f90bb1c970e4aee27dbc7c682968fd5c61b637f5c8f40908165d26e7b3f723"
+  },
+  "source_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "runner_sha256": "9a7b460bea45f2d92e0a2f0665dc4586ed7d1fe4365024f0b53b1e82a622d7a6",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01d-persistence-contract/rust/tools/native-db-contract/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T21:01:46.985858+00:00",
+      "completed_utc": "2026-10-26T21:01:47.006702+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01d-persistence-contract/rust/tools/native-db-contract/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T21:01:47.006715+00:00",
+      "completed_utc": "2026-10-26T21:01:48.129324+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "5e7a67b4099c3f6c6239da8650f80b02db34b6b2e3ae8862ad48cf214d6ea3b9",
+      "stderr_sha256": "19a750ce87e71941d1729e74e84396cec18956d762309151145cfc3fdf92b482"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01d-persistence-contract/rust/tools/native-db-contract/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T21:01:48.129357+00:00",
+      "completed_utc": "2026-10-26T21:01:48.318933+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "bb600aff29fd133036e03de24a8d6ae5436a081d638c6b16b88ffe05a2ca4a9c"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T21:01:48.318956+00:00",
+  "source_after": {
+    "rust/tools/native-db-contract/Cargo.lock": "1ae36123fac5902c507b3de0b537ce399cccc4b10e1511c9194cba77402cd565",
+    "rust/tools/native-db-contract/Cargo.toml": "75089ff5aa1e61662aa94844e32afc46b72dda3900ecf20c81e574b10d8cd043",
+    "rust/tools/native-db-contract/README.md": "62badac0d189f3b414c6401983691cfd0bbaef79158b0c2bc4edc18e7026fb9b",
+    "rust/tools/native-db-contract/src/lib.rs": "faec7cced6cccc90572991b854c46cab5edb533a799daab4fdfa4ccd00743142",
+    "rust/tools/native-db-contract/src/main.rs": "29cfa942956d149c95c476800c79b7ddc3445e5bd3212cc74c7df205c8c5fcb0",
+    "rust/tools/native-db-contract/tests/catalog.rs": "fae66d38bb87e170f7318925c4b301c013c3994ebdebe371dceb2ea452c095a3",
+    "porting/rust-parity-evidence/C01d/catalog-query.sql": "f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+    "porting/rust-parity-evidence/C01d/preparation.json": "d1f90bb1c970e4aee27dbc7c682968fd5c61b637f5c8f40908165d26e7b3f723"
+  },
+  "source_unchanged": true
+}

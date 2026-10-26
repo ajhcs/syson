@@ -1,0 +1,188 @@
+extend type Subscription {
+  ganttEvent(input: GanttEventInput!): GanttEventPayload!
+}
+
+input GanttEventInput {
+  id: ID!
+  editingContextId: ID!
+  ganttId: ID!
+}
+
+union GanttEventPayload = ErrorPayload | GanttRefreshedEventPayload
+
+type GanttRefreshedEventPayload {
+  id: ID!
+  gantt: Gantt!
+}
+
+type Gantt implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  targetObjectId: ID!
+  tasks: [Task!]!
+  columns: [GanttColumn!]!
+  dateRounding: GanttDateRounding!
+}
+
+type GanttDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+}
+
+type GanttDateRounding {
+  value : Int!
+  timeUnit : GanttDateRoundingTimeUnit!
+}
+
+enum GanttDateRoundingTimeUnit {
+  MINUTE
+  HOUR
+  DAY
+}
+
+type GanttColumn {
+  id: ID!
+  displayed : Boolean!
+  width: Int!
+}
+
+type Task {
+  id: ID!
+  descriptionId: ID!
+  targetObjectId: String!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  targetObjectLabel: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  detail: TaskDetail!
+  style: TaskStyle
+  subTasks: [Task!]
+  dependencyLinks: [DependencyLink!]
+}
+
+type DependencyLink {
+  id: ID!
+  target: StartOrEnd!
+  source: StartOrEnd!
+  sourceDependencyId: String!
+}
+
+enum StartOrEnd {
+  START
+  END
+}
+
+enum TemporalType {
+  DATE_TIME
+  DATE
+}
+
+type TaskDetail {
+  name: String!
+  description: String!
+  startTime: String
+  endTime: String
+  temporalType: TemporalType
+  progress: Int!
+  computeStartEndDynamically: Boolean!
+  collapsed: Boolean!
+}
+
+type TaskStyle {
+  labelColor: String!
+  backgroundColor: String!
+  progressColor: String!
+}
+
+extend type Mutation {
+  createGanttTask(input: CreateGanttTaskInput!): CreateGanttTaskPayload
+  deleteGanttTask(input: DeleteGanttTaskInput!): DeleteGanttTaskPayload
+  editGanttTask(input: EditGanttTaskInput!): EditGanttTaskPayload
+  dropGanttTask(input: DropGanttTaskInput!): DropGanttTaskPayload
+  createGanttTaskDependency(input: CreateGanttTaskDependencyInput!): CreateGanttTaskDependencyPayload
+  deleteGanttTaskDependency(input: DeleteGanttTaskDependencyInput!): DeleteGanttTaskDependencyPayload
+  changeGanttTaskCollapseState(input: ChangeGanttTaskCollapseStateInput!): ChangeGanttTaskCollapseStatePayload
+  changeGanttColumn(input: ChangeGanttColumnInput!): ChangeGanttColumnPayload
+}
+
+input CreateGanttTaskInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  currentTaskId: ID
+}
+union CreateGanttTaskPayload = SuccessPayload | ErrorPayload
+
+input DeleteGanttTaskInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  taskId: ID!
+}
+union DeleteGanttTaskPayload = SuccessPayload | ErrorPayload
+
+input EditGanttTaskDetailInput {
+  name: String
+  description: String
+  temporalType: TemporalType
+  startTime: String
+  endTime: String
+  progress: Int
+  assignee: String
+}
+
+input EditGanttTaskInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  taskId: ID!
+  newDetail: EditGanttTaskDetailInput!
+}
+union EditGanttTaskPayload = SuccessPayload | ErrorPayload
+
+input DropGanttTaskInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  droppedTaskId: ID!
+  targetTaskId: ID
+  dropIndex: Int!
+}
+union DropGanttTaskPayload = SuccessPayload | ErrorPayload
+
+input CreateGanttTaskDependencyInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  sourceTaskId: ID!
+  targetTaskId: ID!
+  sourceStartOrEnd: StartOrEnd!
+  targetStartOrEnd: StartOrEnd!
+}
+union CreateGanttTaskDependencyPayload = SuccessPayload | ErrorPayload
+
+input DeleteGanttTaskDependencyInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  sourceTaskId: ID!
+  targetTaskId: ID!
+}
+union DeleteGanttTaskDependencyPayload = SuccessPayload | ErrorPayload
+
+input ChangeGanttTaskCollapseStateInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  taskId: ID!
+  collapsed: Boolean!
+}
+union ChangeGanttTaskCollapseStatePayload = SuccessPayload | ErrorPayload
+
+input ChangeGanttColumnInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  columnId: ID!
+  displayed: Boolean!
+  width: Int!
+}
+union ChangeGanttColumnPayload = SuccessPayload | ErrorPayload

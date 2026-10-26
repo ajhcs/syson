@@ -1,0 +1,63 @@
+{
+  "unit": "C01d",
+  "status": "PASS_SELECTED_CATALOG_CONTRACT_PROJECTION",
+  "root_checks": {
+    "capture": "captures/c01d-02/receipt.json",
+    "tests": 10,
+    "fmt": "PASS",
+    "all_target_clippy": "PASS",
+    "offline_locked": true,
+    "source_unchanged": true,
+    "frozen_input_count": 9
+  },
+  "actual_cli": {
+    "receipt": "c01d-cli-02/receipt.json",
+    "cases": 5,
+    "program_sha256": "600319e89e263f1e960ee4a889d07427446491edd3c5cfcd95bd71c7a76f99dd",
+    "native_input_sha256": "62dc261f15c200385fac1887c4f4e0fd1995d3996017e4321511dc9f8c024ef1",
+    "exact_observations": {
+      "table": 15,
+      "column": 87,
+      "constraint": 26,
+      "index": 16,
+      "migration": 20
+    },
+    "obligations": 164,
+    "migration_order_preserved": true,
+    "all_descriptors_preserved": true
+  },
+  "native_capture": {
+    "receipt": "native-01/receipt.json",
+    "overall_status": "PARTIAL_NATIVE_CAPTURE",
+    "catalog_command_exit_code": 0,
+    "independent_graphql_query": "REFUSED; original error preserved, not catalog failure",
+    "fresh_owned_database": true,
+    "all_owned_processes_stopped": true,
+    "inputs_unchanged": true,
+    "capture_transaction": "read-only repeatable-read; not application write isolation"
+  },
+  "selected_resource_correspondence": {
+    "inventory": "artifact-resources/inventory.json",
+    "db_xml_documents": 29,
+    "all_db_xml_equal_to_sirius_commit": "3191e2b8990373afee3415f6b26f8c5039a28321",
+    "independent_current_git_object_comparison": true,
+    "nested_jar_hashes": 312,
+    "maven_or_build_metadata_entries": 220,
+    "selected_resource_payloads": 76,
+    "boundary": "Exact selected raw resource bytes only; coordinate declarations are not source-build attestation"
+  },
+  "budget": {
+    "approved_production_max": 520,
+    "approved_authored_max": 1050,
+    "production_rust": 518,
+    "test_rust": 457,
+    "query_sql": 56,
+    "manifest": 11,
+    "authored_total_excluding_generated_lock_and_prose": 1042
+  },
+  "parent_C01": "OPEN",
+  "whole_build_source_binding": "OPEN",
+  "B05_Rust_comparison": "PENDING",
+  "native_Rust_schema_parity": "NOT_ESTABLISHED",
+  "UI_UX_performance_acceptance": "NOT_APPLICABLE_TO_THIS_READ_ONLY_DEVTOOL; no application acceptance claim"
+}

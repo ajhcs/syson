@@ -1,0 +1,56 @@
+extend type EditingContext {
+  stereotypes: EditingContextStereotypesConnection!
+}
+
+type EditingContextStereotypesConnection {
+  edges: [EditingContextStereotypesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type EditingContextStereotypesEdge {
+  node: Stereotype!
+}
+
+type Stereotype {
+  id: ID!
+  label: String!
+}
+
+extend type Mutation {
+  createDocument(input: CreateDocumentInput!): CreateDocumentPayload!
+  uploadDocument(input: UploadDocumentInput!): UploadDocumentPayload!
+}
+
+input CreateDocumentInput {
+  id: ID!
+  editingContextId: ID!
+  stereotypeId: ID!
+  name: String!
+}
+
+union CreateDocumentPayload = ErrorPayload | CreateDocumentSuccessPayload
+
+type CreateDocumentSuccessPayload {
+  id: ID!
+  document: Document!
+}
+
+type Document {
+  id: ID!
+  name: String!
+  kind: String!
+}
+
+input UploadDocumentInput {
+  editingContextId: ID!
+  file: Upload!
+  id: ID!
+  readOnly: Boolean!
+}
+
+union UploadDocumentPayload = ErrorPayload | UploadDocumentSuccessPayload
+
+type UploadDocumentSuccessPayload {
+  id: ID!
+  report: String
+}

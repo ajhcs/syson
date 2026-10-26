@@ -1,0 +1,30 @@
+extend union INodeStyle = EllipseNodeStyle
+
+type EllipseNodeStyle {
+  borderColor: String!
+  borderSize: Int!
+  borderStyle: LineStyle!
+  background: String!
+  childrenLayoutStrategy: ILayoutStrategy!
+}
+
+input EllipseNodeAppearanceInput {
+  background: String
+  borderColor: String
+  borderSize: Int
+  borderStyle: LineStyle
+}
+
+input EditEllipseNodeAppearanceInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  nodeIds: [ID!]!
+  appearance: EllipseNodeAppearanceInput!
+}
+
+extend type Mutation {
+  editEllipseNodeAppearance(input: EditEllipseNodeAppearanceInput!): EditEllipseNodeAppearancePayload!
+}
+
+union EditEllipseNodeAppearancePayload = ErrorPayload | SuccessPayload

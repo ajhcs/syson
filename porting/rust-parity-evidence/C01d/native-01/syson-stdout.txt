@@ -1,0 +1,340 @@
+                                                  
+   ????                          ????    ???   ?? 
+ ???????                        ??????   ???   ?? 
+ ???       ???  ???  ????????  ??    ??  ????  ?? 
+  ??????    ??? ??   ?????? ?  ??    ??  ?? ?? ?? 
+      ???    ?????    ???????  ??    ??  ??  ???? 
+ ????????     ???    ????????   ??????   ??   ??? 
+  ?????       ??      ??????     ????    ??   ??? 
+            ???                                   
+                                                  
+ :: Spring Boot ::  (v4.1.1)
+
+2026-10-26T20:47:58.608Z  INFO 3992833 --- [           main] org.eclipse.syson.SysONApplication       : Starting SysONApplication v2026.9.3 using Java 21.0.12.1 with PID 3992833 (/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar started by builderbob in /workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01)
+2026-10-26T20:47:58.609Z  INFO 3992833 --- [           main] org.eclipse.syson.SysONApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-10-26T20:47:59.610Z  INFO 3992833 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-26T20:47:59.610Z  INFO 3992833 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-10-26T20:47:59.694Z  INFO 3992833 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 80 ms. Found 8 JDBC repository interfaces.
+2026-10-26T20:48:00.234Z  INFO 3992833 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 18448 (http)
+2026-10-26T20:48:00.240Z  INFO 3992833 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-26T20:48:00.241Z  INFO 3992833 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-26T20:48:00.252Z  INFO 3992833 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1626 ms
+2026-10-26T20:48:00.492Z  INFO 3992833 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-26T20:48:00.530Z  INFO 3992833 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5fdb445b
+2026-10-26T20:48:00.531Z  INFO 3992833 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-26T20:48:00.580Z  INFO 3992833 --- [           main] liquibase.database                       : Set default schema name to public
+2026-10-26T20:48:00.808Z  INFO 3992833 --- [           main] liquibase.changelog                      : Creating database changelog table with name: public.databasechangelog
+2026-10-26T20:48:00.825Z  INFO 3992833 --- [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-10-26T20:48:00.939Z  INFO 3992833 --- [           main] liquibase.snapshot                       : Creating snapshot
+2026-10-26T20:48:01.007Z  INFO 3992833 --- [           main] liquibase.lockservice                    : Successfully acquired change log lock
+2026-10-26T20:48:01.007Z  INFO 3992833 --- [           main] liquibase.command                        : Using deploymentId: 3047680486
+2026-10-26T20:48:01.008Z  INFO 3992833 --- [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-10-26T20:48:01.033Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.3/01-initial-schema.xml::01-initial-schema::sbegaudeau
+2026-10-26T20:48:01.039Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.051Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table project created
+2026-10-26T20:48:01.052Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.058Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table nature created
+2026-10-26T20:48:01.064Z  INFO 3992833 --- [           main] liquibase.changelog                      : Unique constraint added to nature(project_id, name)
+2026-10-26T20:48:01.065Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to nature (project_id)
+2026-10-26T20:48:01.066Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.077Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table representation_data created
+2026-10-26T20:48:01.078Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_data (project_id)
+2026-10-26T20:48:01.083Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table semantic_data created
+2026-10-26T20:48:01.084Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to semantic_data (project_id)
+2026-10-26T20:48:01.096Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table document created
+2026-10-26T20:48:01.097Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to document (semantic_data_id)
+2026-10-26T20:48:01.098Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.3/01-initial-schema.xml::01-initial-schema::sbegaudeau ran successfully in 64ms
+2026-10-26T20:48:01.103Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.3/02-store-semantic_data-domains.xml::02-store-semantic_data-domains::sbegaudeau
+2026-10-26T20:48:01.109Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table semantic_data_domain created
+2026-10-26T20:48:01.115Z  INFO 3992833 --- [           main] liquibase.changelog                      : Unique constraint added to semantic_data_domain(semantic_data_id, uri)
+2026-10-26T20:48:01.116Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to semantic_data_domain (semantic_data_id)
+2026-10-26T20:48:01.116Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.118Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.3/02-store-semantic_data-domains.xml::02-store-semantic_data-domains::sbegaudeau ran successfully in 15ms
+2026-10-26T20:48:01.120Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.5/01-add-image-support.xml::01-add-image-support::sbegaudeau
+2026-10-26T20:48:01.132Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table image created
+2026-10-26T20:48:01.133Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to image (project_id)
+2026-10-26T20:48:01.134Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.5/01-add-image-support.xml::01-add-image-support::sbegaudeau ran successfully in 14ms
+2026-10-26T20:48:01.139Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.5/02-add-project-image-support.xml::02-add-project-image-support::sbegaudeau
+2026-10-26T20:48:01.150Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table project_image created
+2026-10-26T20:48:01.151Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to project_image (project_id)
+2026-10-26T20:48:01.152Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_image_project_id dropped
+2026-10-26T20:48:01.152Z  INFO 3992833 --- [           main] liquibase.changelog                      : Column image.project_id dropped
+2026-10-26T20:48:01.157Z  INFO 3992833 --- [           main] liquibase.changelog                      : Unique constraint added to image(label)
+2026-10-26T20:48:01.158Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.5/02-add-project-image-support.xml::02-add-project-image-support::sbegaudeau ran successfully in 19ms
+2026-10-26T20:48:01.161Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.5/03-add-migration-metadata-for-representations.xml::03-add-migration-metadata-for-representations::sbegaudeau
+2026-10-26T20:48:01.162Z  INFO 3992833 --- [           main] liquibase.changelog                      : Columns last_migration_performed(TEXT),migration_version(TEXT) added to representation_data
+2026-10-26T20:48:01.164Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.5/03-add-migration-metadata-for-representations.xml::03-add-migration-metadata-for-representations::sbegaudeau ran successfully in 3ms
+2026-10-26T20:48:01.166Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.11/01-split-representation-metadata-from-content.xml::01-split-representation-metadata-from-content::gcoutable
+2026-10-26T20:48:01.178Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table representation_content created
+2026-10-26T20:48:01.179Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_content (id)
+2026-10-26T20:48:01.180Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.180Z  INFO 3992833 --- [           main] liquibase.changelog                      : Column representation_data.content dropped
+2026-10-26T20:48:01.180Z  INFO 3992833 --- [           main] liquibase.changelog                      : Column representation_data.last_migration_performed dropped
+2026-10-26T20:48:01.181Z  INFO 3992833 --- [           main] liquibase.changelog                      : Column representation_data.migration_version dropped
+2026-10-26T20:48:01.181Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table representation_data renamed to representation_metadata
+2026-10-26T20:48:01.182Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.11/01-split-representation-metadata-from-content.xml::01-split-representation-metadata-from-content::gcoutable ran successfully in 16ms
+2026-10-26T20:48:01.186Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.1/01-add-representation-metadata-icon-url.xml::01-add-representation-metadata-icon_url::Jerome Gout
+2026-10-26T20:48:01.191Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table representation_metadata_icon_url created
+2026-10-26T20:48:01.192Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_metadata_icon_url (representation_metadata_id)
+2026-10-26T20:48:01.193Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.1/01-add-representation-metadata-icon-url.xml::01-add-representation-metadata-icon_url::Jerome Gout ran successfully in 7ms
+2026-10-26T20:48:01.196Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.1/02-add-representation-metadata-documentation.xml::02-add-representation-metadata-documentation::Jerome Gout
+2026-10-26T20:48:01.196Z  INFO 3992833 --- [           main] liquibase.changelog                      : Columns documentation(TEXT) added to representation_metadata
+2026-10-26T20:48:01.197Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.197Z  INFO 3992833 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_metadata.documentation
+2026-10-26T20:48:01.198Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.1/02-add-representation-metadata-documentation.xml::02-add-representation-metadata-documentation::Jerome Gout ran successfully in 2ms
+2026-10-26T20:48:01.200Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.2/01-alter_project_id_type.xml::01-alter_project_id_type::mcharfadi
+2026-10-26T20:48:01.267Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.269Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.2/01-alter_project_id_type.xml::01-alter_project_id_type::mcharfadi ran successfully in 69ms
+2026-10-26T20:48:01.272Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.2/02-drop-fk-semantic-data-project-id-add-project-semantic-data.xml::02-drop-fk-semantic-data-project-id-add-project-semantic-data::mcharfadi
+2026-10-26T20:48:01.278Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table project_semantic_data created
+2026-10-26T20:48:01.279Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to project_semantic_data (project_id)
+2026-10-26T20:48:01.279Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to project_semantic_data (semantic_data_id)
+2026-10-26T20:48:01.280Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.280Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_semantic_data_project_id dropped
+2026-10-26T20:48:01.280Z  INFO 3992833 --- [           main] liquibase.changelog                      : Column semantic_data.project_id dropped
+2026-10-26T20:48:01.282Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.2/02-drop-fk-semantic-data-project-id-add-project-semantic-data.xml::02-drop-fk-semantic-data-project-id-add-project-semantic-data::mcharfadi ran successfully in 10ms
+2026-10-26T20:48:01.284Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.2/03-add-library-table.xml::03-add-library-table::gdaniel
+2026-10-26T20:48:01.296Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table library created
+2026-10-26T20:48:01.302Z  INFO 3992833 --- [           main] liquibase.changelog                      : Unique constraint added to library(namespace,name,version)
+2026-10-26T20:48:01.303Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to library (semantic_data_id)
+2026-10-26T20:48:01.304Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table library_dependency created
+2026-10-26T20:48:01.309Z  INFO 3992833 --- [           main] liquibase.changelog                      : Primary key added to library_dependency (library_id,dependency_library_id)
+2026-10-26T20:48:01.310Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to library_dependency (library_id)
+2026-10-26T20:48:01.310Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to library_dependency (dependency_library_id)
+2026-10-26T20:48:01.312Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.2/03-add-library-table.xml::03-add-library-table::gdaniel ran successfully in 28ms
+2026-10-26T20:48:01.314Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.4/01-switch-representation-metadata-from-project-to-semantic-data.xml::01-switch-representation-metadata-from-project-to-semantic-data::sbegaudeau
+2026-10-26T20:48:01.315Z  INFO 3992833 --- [           main] liquibase.changelog                      : Columns semantic_data_id(UUID) added to representation_metadata
+2026-10-26T20:48:01.315Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.316Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_metadata (semantic_data_id)
+2026-10-26T20:48:01.316Z  INFO 3992833 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_metadata.semantic_data_id
+2026-10-26T20:48:01.316Z  INFO 3992833 --- [           main] liquibase.changelog                      : Column representation_metadata.project_id dropped
+2026-10-26T20:48:01.318Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.4/01-switch-representation-metadata-from-project-to-semantic-data.xml::01-switch-representation-metadata-from-project-to-semantic-data::sbegaudeau ran successfully in 2ms
+2026-10-26T20:48:01.319Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.4/02-update-the-document-primarykey.xml::02-update-the-document-primarykey::sbegaudeau
+2026-10-26T20:48:01.321Z  INFO 3992833 --- [           main] liquibase.changelog                      : Primary key dropped from document
+2026-10-26T20:48:01.328Z  INFO 3992833 --- [           main] liquibase.changelog                      : Primary key added to document (id, semantic_data_id)
+2026-10-26T20:48:01.329Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.4/02-update-the-document-primarykey.xml::02-update-the-document-primarykey::sbegaudeau ran successfully in 10ms
+2026-10-26T20:48:01.331Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.4/03-move-dependency-to-semantic-data.xml::03-move-dependency-to-semantic-data::sbegaudeau
+2026-10-26T20:48:01.332Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table library_dependency dropped
+2026-10-26T20:48:01.332Z  INFO 3992833 --- [           main] liquibase.changelog                      : Table semantic_data_dependency created
+2026-10-26T20:48:01.338Z  INFO 3992833 --- [           main] liquibase.changelog                      : Primary key added to semantic_data_dependency (semantic_data_id,dependency_semantic_data_id)
+2026-10-26T20:48:01.339Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to semantic_data_dependency (semantic_data_id)
+2026-10-26T20:48:01.339Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to semantic_data_dependency (dependency_semantic_data_id)
+2026-10-26T20:48:01.341Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.4/03-move-dependency-to-semantic-data.xml::03-move-dependency-to-semantic-data::sbegaudeau ran successfully in 10ms
+2026-10-26T20:48:01.343Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.10/01-add-is-read-only-column-in-document-table.xml::01-add-is-read-only-column-in-document-table.xml::gdaniel
+2026-10-26T20:48:01.343Z  INFO 3992833 --- [           main] liquibase.changelog                      : Columns is_read_only(BOOLEAN) added to document
+2026-10-26T20:48:01.344Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.344Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.344Z  INFO 3992833 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to document.is_read_only
+2026-10-26T20:48:01.346Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.10/01-add-is-read-only-column-in-document-table.xml::01-add-is-read-only-column-in-document-table.xml::gdaniel ran successfully in 3ms
+2026-10-26T20:48:01.348Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/01-drop-fks-project-semantic-data.xml::01-drop-fks-project-semantic-data-add-unique-constraints::ntinsalhi
+2026-10-26T20:48:01.349Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_project_semantic_data_project_id dropped
+2026-10-26T20:48:01.349Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_project_semantic_data_semantic_data_id dropped
+2026-10-26T20:48:01.354Z  INFO 3992833 --- [           main] liquibase.changelog                      : Unique constraint added to project_semantic_data(semantic_data_id)
+2026-10-26T20:48:01.360Z  INFO 3992833 --- [           main] liquibase.changelog                      : Unique constraint added to project_semantic_data(project_id, name)
+2026-10-26T20:48:01.361Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/01-drop-fks-project-semantic-data.xml::01-drop-fks-project-semantic-data-add-unique-constraints::ntinsalhi ran successfully in 13ms
+2026-10-26T20:48:01.363Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/02-drop-additional-foreign-keys.xml::02-drop-additional-foreign-keys::ntinsalhi
+2026-10-26T20:48:01.363Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_library_semantic_data_id dropped
+2026-10-26T20:48:01.364Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_representation_metadata_semantic_data_id dropped
+2026-10-26T20:48:01.364Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_project_image_project_id dropped
+2026-10-26T20:48:01.365Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/02-drop-additional-foreign-keys.xml::02-drop-additional-foreign-keys::ntinsalhi ran successfully in 2ms
+2026-10-26T20:48:01.368Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/03-align-representation-content-identity-to-representation-metadata.xml::03-align-representation-content-identity-to-representation-metadata::sbegaudeau
+2026-10-26T20:48:01.368Z  INFO 3992833 --- [           main] liquibase.changelog                      : Columns semantic_data_id(UUID) added to representation_content
+2026-10-26T20:48:01.369Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.369Z  INFO 3992833 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_content.semantic_data_id
+2026-10-26T20:48:01.370Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/03-align-representation-content-identity-to-representation-metadata.xml::03-align-representation-content-identity-to-representation-metadata::sbegaudeau ran successfully in 2ms
+2026-10-26T20:48:01.372Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata.xml::04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata::sbegaudeau
+2026-10-26T20:48:01.372Z  INFO 3992833 --- [           main] liquibase.changelog                      : Columns representation_metadata_id(UUID) added to representation_content
+2026-10-26T20:48:01.373Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.373Z  INFO 3992833 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_content.representation_metadata_id
+2026-10-26T20:48:01.373Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_content (representation_metadata_id)
+2026-10-26T20:48:01.374Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_representation_content_id dropped
+2026-10-26T20:48:01.375Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata.xml::04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata::sbegaudeau ran successfully in 3ms
+2026-10-26T20:48:01.378Z  INFO 3992833 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/05-make-representations-identifiers-semantic-data-aware.xml::05-make-representations-identifiers-semantic-data-aware::sbegaudeau
+2026-10-26T20:48:01.378Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_representation_content_representation_metadata_id dropped
+2026-10-26T20:48:01.378Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key fk_representation_metadata_id dropped
+2026-10-26T20:48:01.379Z  INFO 3992833 --- [           main] liquibase.changelog                      : Columns representation_metadata_id(UUID) added to representation_metadata
+2026-10-26T20:48:01.379Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.379Z  INFO 3992833 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_metadata.representation_metadata_id
+2026-10-26T20:48:01.391Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.391Z  INFO 3992833 --- [           main] liquibase.changelog                      : Columns semantic_data_id(UUID) added to representation_metadata_icon_url
+2026-10-26T20:48:01.392Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.392Z  INFO 3992833 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_metadata_icon_url.semantic_data_id
+2026-10-26T20:48:01.398Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.398Z  INFO 3992833 --- [           main] liquibase.changelog                      : Column representation_metadata_icon_url.semantic_data_id dropped
+2026-10-26T20:48:01.409Z  INFO 3992833 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T20:48:01.410Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_content (id)
+2026-10-26T20:48:01.410Z  INFO 3992833 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_metadata_icon_url (representation_metadata_id)
+2026-10-26T20:48:01.411Z  INFO 3992833 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/05-make-representations-identifiers-semantic-data-aware.xml::05-make-representations-identifiers-semantic-data-aware::sbegaudeau ran successfully in 33ms
+2026-10-26T20:48:01.416Z  INFO 3992833 --- [           main] liquibase.util                           : UPDATE SUMMARY
+2026-10-26T20:48:01.417Z  INFO 3992833 --- [           main] liquibase.util                           : Run:                         20
+2026-10-26T20:48:01.417Z  INFO 3992833 --- [           main] liquibase.util                           : Previously run:               0
+2026-10-26T20:48:01.417Z  INFO 3992833 --- [           main] liquibase.util                           : Filtered out:                 0
+2026-10-26T20:48:01.417Z  INFO 3992833 --- [           main] liquibase.util                           : -------------------------------
+2026-10-26T20:48:01.417Z  INFO 3992833 --- [           main] liquibase.util                           : Total change sets:           20
+2026-10-26T20:48:01.417Z  INFO 3992833 --- [           main] liquibase.util                           : Update summary generated
+2026-10-26T20:48:01.418Z  INFO 3992833 --- [           main] liquibase.command                        : Update command completed successfully.
+2026-10-26T20:48:01.418Z  INFO 3992833 --- [           main] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 0
+2026-10-26T20:48:01.419Z  INFO 3992833 --- [           main] liquibase.lockservice                    : Successfully released change log lock
+2026-10-26T20:48:01.420Z  INFO 3992833 --- [           main] liquibase.command                        : Command execution complete
+2026-10-26T20:48:01.849Z  INFO 3992833 --- [           main] .StandardLibrariesIdsResourceToMapParser : Initialization of StandardLibrariesIdsResourceToMapParser completed in 90ms
+2026-10-26T20:48:02.329Z  INFO 3992833 --- [           main] s.a.c.SysONDefaultLibrariesConfiguration : Registered EPackage 'sysml' (prefix 'sysml') against URI 'http://www.eclipse.org/syson/sysml'
+2026-10-26T20:48:02.366Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Base.json
+2026-10-26T20:48:02.375Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: BaseFunctions.json
+2026-10-26T20:48:02.378Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: BooleanFunctions.json
+2026-10-26T20:48:02.384Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Clocks.json
+2026-10-26T20:48:02.394Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: CollectionFunctions.json
+2026-10-26T20:48:02.397Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Collections.json
+2026-10-26T20:48:02.405Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ComplexFunctions.json
+2026-10-26T20:48:02.411Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ControlFunctions.json
+2026-10-26T20:48:02.418Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ControlPerformances.json
+2026-10-26T20:48:02.421Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: DataFunctions.json
+2026-10-26T20:48:02.426Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: FeatureReferencingPerformances.json
+2026-10-26T20:48:02.429Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: IntegerFunctions.json
+2026-10-26T20:48:02.441Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: KerML.json
+2026-10-26T20:48:02.443Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Links.json
+2026-10-26T20:48:02.444Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Metaobjects.json
+2026-10-26T20:48:02.445Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: NaturalFunctions.json
+2026-10-26T20:48:02.448Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: NumericalFunctions.json
+2026-10-26T20:48:02.452Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Objects.json
+2026-10-26T20:48:02.454Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Observation.json
+2026-10-26T20:48:02.456Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: OccurrenceFunctions.json
+2026-10-26T20:48:02.482Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Occurrences.json
+2026-10-26T20:48:02.484Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Performances.json
+2026-10-26T20:48:02.487Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: RationalFunctions.json
+2026-10-26T20:48:02.490Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: RealFunctions.json
+2026-10-26T20:48:02.492Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ScalarFunctions.json
+2026-10-26T20:48:02.492Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ScalarValues.json
+2026-10-26T20:48:02.499Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: SequenceFunctions.json
+2026-10-26T20:48:02.502Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: SpatialFrames.json
+2026-10-26T20:48:02.508Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: StatePerformances.json
+2026-10-26T20:48:02.509Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: StringFunctions.json
+2026-10-26T20:48:02.514Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Transfers.json
+2026-10-26T20:48:02.516Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: TransitionPerformances.json
+2026-10-26T20:48:02.518Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: TrigFunctions.json
+2026-10-26T20:48:02.520Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Triggers.json
+2026-10-26T20:48:02.528Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: VectorFunctions.json
+2026-10-26T20:48:02.529Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: VectorValues.json
+2026-10-26T20:48:02.541Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Actions.json
+2026-10-26T20:48:02.543Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Allocations.json
+2026-10-26T20:48:02.546Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: AnalysisCases.json
+2026-10-26T20:48:02.546Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: AnalysisTooling.json
+2026-10-26T20:48:02.547Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Attributes.json
+2026-10-26T20:48:02.547Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Calculations.json
+2026-10-26T20:48:02.550Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Cases.json
+2026-10-26T20:48:02.551Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: CausationConnections.json
+2026-10-26T20:48:02.553Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: CauseAndEffect.json
+2026-10-26T20:48:02.553Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Connections.json
+2026-10-26T20:48:02.554Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Constraints.json
+2026-10-26T20:48:02.555Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: DerivationConnections.json
+2026-10-26T20:48:02.558Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Flows.json
+2026-10-26T20:48:02.559Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQ.json
+2026-10-26T20:48:02.563Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQAcoustics.json
+2026-10-26T20:48:02.589Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQAtomicNuclear.json
+2026-10-26T20:48:02.591Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQBase.json
+2026-10-26T20:48:02.596Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQCharacteristicNumbers.json
+2026-10-26T20:48:02.613Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQChemistryMolecular.json
+2026-10-26T20:48:02.622Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQCondensedMatter.json
+2026-10-26T20:48:02.652Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQElectromagnetism.json
+2026-10-26T20:48:02.657Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQInformation.json
+2026-10-26T20:48:02.673Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQLight.json
+2026-10-26T20:48:02.689Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQMechanics.json
+2026-10-26T20:48:02.724Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQSpaceTime.json
+2026-10-26T20:48:02.738Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQThermodynamics.json
+2026-10-26T20:48:02.739Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ImageMetadata.json
+2026-10-26T20:48:02.741Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Interfaces.json
+2026-10-26T20:48:02.743Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Items.json
+2026-10-26T20:48:02.744Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: MeasurementRefCalculations.json
+2026-10-26T20:48:02.747Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: MeasurementReferences.json
+2026-10-26T20:48:02.748Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Metadata.json
+2026-10-26T20:48:02.750Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ModelingMetadata.json
+2026-10-26T20:48:02.751Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ParametersOfInterestMetadata.json
+2026-10-26T20:48:02.752Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Parts.json
+2026-10-26T20:48:02.753Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Ports.json
+2026-10-26T20:48:02.754Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Quantities.json
+2026-10-26T20:48:02.756Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: QuantityCalculations.json
+2026-10-26T20:48:02.757Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: RequirementDerivation.json
+2026-10-26T20:48:02.759Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Requirements.json
+2026-10-26T20:48:02.759Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: RiskMetadata.json
+2026-10-26T20:48:02.786Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SI.json
+2026-10-26T20:48:02.788Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SIPrefixes.json
+2026-10-26T20:48:02.791Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SampledFunctions.json
+2026-10-26T20:48:02.807Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ShapeItems.json
+2026-10-26T20:48:02.808Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SpatialItems.json
+2026-10-26T20:48:02.809Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: StandardViewDefinitions.json
+2026-10-26T20:48:02.810Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: StateSpaceRepresentation.json
+2026-10-26T20:48:02.812Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: States.json
+2026-10-26T20:48:02.819Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SysML.json
+2026-10-26T20:48:02.820Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: TensorCalculations.json
+2026-10-26T20:48:02.821Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Time.json
+2026-10-26T20:48:02.822Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: TradeStudies.json
+2026-10-26T20:48:02.857Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: USCustomaryUnits.json
+2026-10-26T20:48:02.859Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: UseCases.json
+2026-10-26T20:48:02.860Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: VectorCalculations.json
+2026-10-26T20:48:02.862Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: VerificationCases.json
+2026-10-26T20:48:02.865Z  INFO 3992833 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Views.json
+2026-10-26T20:48:03.141Z  INFO 3992833 --- [           main] s.a.c.SysONDefaultLibrariesConfiguration : Initialization of default libraries completed in 812ms
+2026-10-26T20:48:04.326Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : 46 GraphQL schemas found
+2026-10-26T20:48:04.326Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-projects-stylecustomizations-application-2026.9.3.jar!/schema/stylecustomizations.graphqls
+2026-10-26T20:48:04.380Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-charts-2026.9.3.jar!/schema/charts.graphqls
+2026-10-26T20:48:04.386Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-selection-2026.9.3.jar!/schema/selection.graphqls
+2026-10-26T20:48:04.387Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/syson-application-configuration-2026.9.3.jar!/schema/expressions.graphqls
+2026-10-26T20:48:04.388Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/syson-application-configuration-2026.9.3.jar!/schema/sysmlcustomnodes.graphqls
+2026-10-26T20:48:04.390Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/syson-diagram-common-view-2026.9.3.jar!/schema/syson-diagrams.graphqls
+2026-10-26T20:48:04.390Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-2026.9.3.jar!/schema/core.graphqls
+2026-10-26T20:48:04.396Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-2026.9.3.jar!/schema/impact-analysis.graphqls
+2026-10-26T20:48:04.396Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-2026.9.3.jar!/schema/workbench-configuration.graphqls
+2026-10-26T20:48:04.396Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-2026.9.3.jar!/schema/workbench-omnibox.graphqls
+2026-10-26T20:48:04.397Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/syson-sysml-import-2026.9.3.jar!/schema/syson-import.graphqls
+2026-10-26T20:48:04.397Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/capabilities.graphqls
+2026-10-26T20:48:04.398Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/customcells.graphqls
+2026-10-26T20:48:04.400Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/customnodes.graphqls
+2026-10-26T20:48:04.400Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/datatree.graphqls
+2026-10-26T20:48:04.401Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/details-view.graphqls
+2026-10-26T20:48:04.401Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/diagram-filter.graphqls
+2026-10-26T20:48:04.401Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/document.graphqls
+2026-10-26T20:48:04.401Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/duplicateobject.graphqls
+2026-10-26T20:48:04.402Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/duplicaterepresentation.graphqls
+2026-10-26T20:48:04.402Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/explorer.graphqls
+2026-10-26T20:48:04.402Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/i18n.graphqls
+2026-10-26T20:48:04.402Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/image.graphqls
+2026-10-26T20:48:04.402Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/libraries.graphqls
+2026-10-26T20:48:04.403Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/projects-omnibox.graphqls
+2026-10-26T20:48:04.403Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/query.graphqls
+2026-10-26T20:48:04.403Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/relatedelements-view.graphqls
+2026-10-26T20:48:04.404Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/relatedviews-view.graphqls
+2026-10-26T20:48:04.404Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/search.graphqls
+2026-10-26T20:48:04.404Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/siriusweb.graphqls
+2026-10-26T20:48:04.405Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/treecapabilities.graphqls
+2026-10-26T20:48:04.405Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/undoredo.graphqls
+2026-10-26T20:48:04.405Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-web-application-2026.9.3.jar!/schema/viewsexplorer-view.graphqls
+2026-10-26T20:48:04.406Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-forms-2026.9.3.jar!/schema/form.graphqls
+2026-10-26T20:48:04.409Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-browser-2026.9.3.jar!/schema/modelbrowser.graphqls
+2026-10-26T20:48:04.409Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-portals-2026.9.3.jar!/schema/portal.graphqls
+2026-10-26T20:48:04.409Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-validation-2026.9.3.jar!/schema/validation.graphqls
+2026-10-26T20:48:04.410Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-deck-2026.9.3.jar!/schema/deck.graphqls
+2026-10-26T20:48:04.411Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-formdescriptioneditors-2026.9.3.jar!/schema/formdescriptioneditor.graphqls
+2026-10-26T20:48:04.412Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-gantt-2026.9.3.jar!/schema/gantt.graphqls
+2026-10-26T20:48:04.413Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-widget-reference-2026.9.3.jar!/schema/reference.graphqls
+2026-10-26T20:48:04.414Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-diagrams-2026.9.3.jar!/schema/appearance.graphqls
+2026-10-26T20:48:04.414Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-diagrams-2026.9.3.jar!/schema/diagram.graphqls
+2026-10-26T20:48:04.418Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-palette-2026.9.3.jar!/schema/palette.graphqls
+2026-10-26T20:48:04.418Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-tables-2026.9.3.jar!/schema/table.graphqls
+2026-10-26T20:48:04.420Z DEBUG 3992833 --- [           main] o.e.s.w.i.c.g.GraphQLConfiguration       : Processing the GraphQL schema: jar:nested:/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar/!BOOT-INF/lib/sirius-components-collaborative-trees-2026.9.3.jar!/schema/tree.graphqls
+2026-10-26T20:48:04.718Z  INFO 3992833 --- [           main] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page: class path resource [static/index.html]
+2026-10-26T20:48:05.100Z  INFO 3992833 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18448 (http) with context path '/'
+2026-10-26T20:48:05.105Z  INFO 3992833 --- [           main] org.eclipse.syson.SysONApplication       : Started SysONApplication in 6.717 seconds (process running for 7.024)
+2026-10-26T20:48:05.617Z  INFO 3992833 --- [.1-18448-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-26T20:48:05.617Z  INFO 3992833 --- [.1-18448-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-26T20:48:05.618Z  INFO 3992833 --- [.1-18448-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-26T20:48:05.730Z  WARN 3992833 --- [.1-18448-exec-2] o.e.s.c.g.controllers.GraphQLController  : {
+  "errors" : [ {
+    "message" : "This request is not asking for introspection in good faith - __Type.fields is present too often!",
+    "extensions" : {
+      "classification" : "BadFaithIntrospection"
+    }
+  } ]
+}
+2026-10-26T20:48:05.830Z  INFO 3992833 --- [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-26T20:48:05.831Z  INFO 3992833 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-26T20:48:05.869Z  INFO 3992833 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-26T20:48:05.870Z  INFO 3992833 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

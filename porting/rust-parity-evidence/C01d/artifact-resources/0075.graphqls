@@ -1,0 +1,207 @@
+extend type Subscription {
+  treeEvent(input: TreeEventInput!): TreeEventPayload!
+}
+
+input TreeEventInput {
+  id: ID!
+  representationId: String!
+  editingContextId: ID!
+}
+
+extend type EditingContext {
+  treePath(treeId: ID!, selectionEntryIds: [ID!]!): TreePath!
+  expandAllTreePath(treeId: ID!, treeItemId: ID!): TreePath!
+}
+
+type TreePath {
+  treeItemIdsToExpand: [ID!]!
+  maxDepth: Int!
+}
+
+union TreeEventPayload = ErrorPayload | TreeRefreshedEventPayload
+
+type TreeRefreshedEventPayload {
+  id: ID!
+  tree: Tree!
+}
+
+type Tree implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  children: [TreeItem!]!
+}
+
+type TreeItem {
+  id: ID!
+  label: StyledString!
+  kind: String!
+  iconURL: [String!]!
+  editable: Boolean!
+  deletable: Boolean!
+  selectable: Boolean!
+  expanded: Boolean!
+  hasChildren: Boolean!
+  children: [TreeItem]!
+}
+
+type StyledString {
+  styledStringFragments: [StyledStringFragment]!
+}
+
+type StyledStringFragment {
+  text: String!
+  styledStringFragmentStyle : StyledStringFragmentStyle
+}
+
+type StyledStringFragmentStyle {
+  isStruckOut: Boolean
+  underlineStyle: UnderLineStyle
+  borderStyle: BorderStyle
+  font: String
+  backgroundColor: String
+  foregroundColor: String
+  strikeoutColor: String
+  underlineColor: String
+  borderColor: String
+  isBold: Boolean
+  isItalic: Boolean
+}
+
+enum UnderLineStyle {
+  NONE
+  HIDDEN
+  DOTTED
+  DASHED
+  SOLID
+  DOUBLE
+  GROOVE
+  RIDGE
+  INSET
+  OUTSET
+}
+
+enum BorderStyle {
+  NONE
+  SOLID
+  DOTTED
+  DASHED
+  DOUBLE
+  GROOVE
+  RIGE
+  INSET
+  OUTSET
+}
+
+type TreeDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+  initialDirectEditTreeItemLabel(treeItemId: ID!): String!
+  filters: [TreeFilter!]!
+  contextMenu(treeItemId: ID!): [TreeItemContextMenuEntry!]!
+  fetchTreeItemContextMenuEntryData(treeItemId: ID!, menuEntryId: ID!): FetchTreeItemContextMenuEntryData!
+  treeImpactAnalysisReport(treeItemId: ID!, menuEntryId: ID!): ImpactAnalysisReport!
+  treeItemTooltip(treeItemId: ID!): String!
+  palette(treeItemId: ID!): Palette!
+}
+
+type TreeFilter {
+  id: ID!
+  label: String!
+  defaultState: Boolean!
+}
+
+extend union PaletteEntry = FetchTreeItemTool | SingleClickTreeItemTool
+
+type FetchTreeItemTool implements Tool {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  keyBindings: [KeyBinding!]!
+}
+
+type SingleClickTreeItemTool implements Tool {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  withImpactAnalysis: Boolean!
+  keyBindings: [KeyBinding!]!
+}
+
+interface TreeItemContextMenuEntry {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  keyBindings: [KeyBinding!]!
+}
+
+extend type Mutation {
+  deleteTreeItem(input: DeleteTreeItemInput!): DeleteTreeItemPayload
+  renameTreeItem(input: RenameTreeItemInput!): RenameTreeItemPayload
+  invokeSingleClickTreeItemContextMenuEntry(input: InvokeSingleClickTreeItemContextMenuEntryInput!): InvokeSingleClickTreeItemContextMenuEntryPayload!
+  dropTreeItem(input: DropTreeItemInput!): DropTreeItemPayload
+}
+
+union DropTreeItemPayload = ErrorPayload | SuccessPayload
+
+input DropTreeItemInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  droppedElementIds: [ID!]!
+  targetElementId: ID!
+  index: Int!
+}
+
+input DeleteTreeItemInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  treeItemId: ID!
+}
+
+union DeleteTreeItemPayload = SuccessPayload | ErrorPayload
+
+input RenameTreeItemInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  treeItemId: ID!
+  newLabel: String!
+}
+
+union RenameTreeItemPayload = SuccessPayload | ErrorPayload
+
+type SingleClickTreeItemContextMenuEntry implements TreeItemContextMenuEntry {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  withImpactAnalysis: Boolean!
+  keyBindings: [KeyBinding!]!
+}
+
+type FetchTreeItemContextMenuEntry implements TreeItemContextMenuEntry {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  keyBindings: [KeyBinding!]!
+}
+
+type FetchTreeItemContextMenuEntryData {
+  urlToFetch : String!
+  fetchKind : FetchTreeItemContextMenuEntryKind!
+}
+
+enum FetchTreeItemContextMenuEntryKind {
+  DOWNLOAD
+  OPEN
+}
+
+input InvokeSingleClickTreeItemContextMenuEntryInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  treeItemId: ID!
+  menuEntryId: ID!
+}
+
+union InvokeSingleClickTreeItemContextMenuEntryPayload = SuccessPayload | ErrorPayload

@@ -1,0 +1,796 @@
+extend type Subscription {
+  diagramEvent(input: DiagramEventInput!): DiagramEventPayload!
+}
+
+input DiagramEventInput {
+  id: ID!
+  editingContextId: ID!
+  diagramId: ID!
+}
+
+union DiagramEventPayload = ErrorPayload | DiagramRefreshedEventPayload
+
+type DiagramRefreshedEventPayload {
+  id: ID!
+  diagram: Diagram!
+  cause: RefreshCause!
+  referencePosition: ReferencePosition
+}
+
+enum RefreshCause {
+  refresh
+  layout
+}
+
+type ReferencePosition {
+  parentId: ID
+  positions: [Position!]
+  causedBy : String!
+}
+
+type Diagram implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  targetObjectId: ID!
+  nodes: [Node!]!
+  edges: [Edge!]!
+  style: DiagramStyle!
+  layoutData: DiagramLayoutData!
+}
+
+type DiagramStyle {
+  background: String!
+}
+
+type DiagramLayoutData {
+  nodeLayoutData: [NodeLayoutData!]!
+  edgeLayoutData: [EdgeLayoutData!]!
+  labelLayoutData: [LabelLayoutData!]!
+  autoLaidOut: Boolean!
+}
+
+type NodeLayoutData {
+  id: ID!
+  position: Position!
+  size: Size!
+  resizedByUser: Boolean!
+  movedByUser: Boolean!
+  handleLayoutData: [HandleLayoutData!]!
+  minComputedSize: Size!
+}
+
+type HandleLayoutData {
+  edgeId: ID!
+  position: Position!
+  handlePosition : String!
+  type: HandleType!
+}
+
+type EdgeAnchorLayoutData {
+  edgeId: ID!
+  positionRatio: Float!
+  handlePosition : String!
+  type : HandleType!
+}
+
+type EdgeLayoutData {
+  id: ID!
+  bendingPoints: [Position!]!
+  relativePositionBendingPoints: [Position!]!
+  edgeAnchorLayoutData: [EdgeAnchorLayoutData!]!
+}
+
+enum HandleType {
+  source
+  target
+}
+
+type LabelLayoutData {
+  id: ID!
+  position: Position!
+  size: Size!
+  resizedByUser: Boolean!
+  movedByUser: Boolean!
+}
+
+enum ViewModifier {
+  Normal
+  Faded
+  Hidden
+}
+
+enum UserResizableDirection {
+  BOTH
+  HORIZONTAL
+  VERTICAL
+  NONE
+}
+
+type Node {
+  id: ID!
+  insideLabel: InsideLabel
+  outsideLabels: [OutsideLabel!]!
+  descriptionId: ID!
+  type: String!
+  targetObjectId: String!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  targetObjectLabel: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  state: ViewModifier!
+  pinned: Boolean!
+  style: INodeStyle!
+  borderNodes: [Node!]!
+  childNodes: [Node!]!
+  defaultWidth: Int
+  defaultHeight: Int
+  labelEditable: Boolean!
+  deletable: Boolean!
+  customizedStyleProperties: [NodeStyleProperty!]!
+  initialBorderNodePosition: BorderNodePosition!
+  decorators: [NodeDecorator!]!
+}
+
+type NodeDecorator {
+  id: String!
+  label: String!
+  position: NodeDecoratorPosition!
+  iconURL: String!
+}
+
+enum NodeDecoratorPosition {
+  NORTH
+  NORTH_EAST
+  EAST
+  SOUTH_EAST
+  SOUTH
+  SOUTH_WEST
+  WEST
+  NORTH_WEST
+  CENTER
+}
+
+enum NodeStyleProperty {
+  BACKGROUND,
+  BORDER_COLOR,
+  BORDER_RADIUS,
+  BORDER_SIZE,
+  BORDER_STYLE
+}
+
+enum BorderNodePosition {
+  WEST
+  EAST
+  SOUTH
+  NORTH
+  NONE
+}
+
+type FreeFormLayoutStrategy {
+  kind: String!
+}
+
+type ListLayoutStrategy {
+  kind: String!
+  areChildNodesDraggable: Boolean!
+  topGap: Int!
+  bottomGap: Int!
+  growableNodeIds: [ID!]!
+}
+
+union ILayoutStrategy = FreeFormLayoutStrategy | ListLayoutStrategy
+
+type Label {
+  id: ID!
+  text: String!
+  type: String!
+  style: LabelStyle!
+  customizedStyleProperties: [LabelStyleProperty!]!
+}
+
+type InsideLabel {
+  id: ID!
+  text: String!
+  insideLabelLocation: InsideLabelLocation!
+  style: LabelStyle!
+  isHeader: Boolean!
+  headerSeparatorDisplayMode: HeaderSeparatorDisplayMode!
+  overflowStrategy: LabelOverflowStrategy!
+  textAlign: LabelTextAlign!
+  customizedStyleProperties: [LabelStyleProperty!]!
+}
+
+enum LabelStyleProperty {
+  FONT_SIZE
+  ITALIC
+  BOLD
+  UNDERLINE
+  STRIKE_THROUGH
+  BORDER_COLOR
+  BORDER_RADIUS
+  BORDER_SIZE
+  BORDER_STYLE
+  COLOR
+  BACKGROUND
+  VISIBILITY
+}
+
+enum HeaderSeparatorDisplayMode {
+  NEVER
+  ALWAYS
+  IF_CHILDREN
+}
+
+enum InsideLabelLocation {
+  TOP_CENTER
+  TOP_LEFT
+  TOP_RIGHT
+  BOTTOM_CENTER
+  BOTTOM_LEFT
+  BOTTOM_RIGHT
+  MIDDLE_CENTER
+  MIDDLE_LEFT
+  MIDDLE_RIGHT
+}
+
+enum LabelOverflowStrategy {
+  NONE
+  WRAP
+  ELLIPSIS
+}
+
+enum LabelTextAlign {
+  LEFT
+  RIGHT
+  CENTER
+  JUSTIFY
+}
+
+type OutsideLabel {
+  id: ID!
+  text: String!
+  outsideLabelLocation: OutsideLabelLocation!
+  style: LabelStyle!
+  overflowStrategy: LabelOverflowStrategy!
+  textAlign: LabelTextAlign!
+  customizedStyleProperties: [LabelStyleProperty!]!
+}
+
+enum OutsideLabelLocation {
+  BOTTOM_BEGIN
+  BOTTOM_MIDDLE
+  BOTTOM_END
+}
+
+type LabelStyle {
+  bold: Boolean!
+  color: String!
+  fontSize: Int!
+  iconURL: [String!]!
+  italic: Boolean!
+  strikeThrough: Boolean!
+  underline: Boolean!
+  borderColor: String!
+  borderRadius: Int!
+  borderSize: Int!
+  borderStyle: LineStyle!
+  background: String!
+  maxWidth: String
+  visibility: LabelVisibility!
+}
+
+union INodeStyle = ImageNodeStyle | IconLabelNodeStyle | RectangularNodeStyle
+
+type ImageNodeStyle {
+  imageURL: String!
+  borderColor: String!
+  borderRadius: Int!
+  borderSize: Int!
+  borderStyle: LineStyle!
+  positionDependentRotation: Boolean!
+  childrenLayoutStrategy: ILayoutStrategy!
+}
+
+type IconLabelNodeStyle {
+  background: String!
+  childrenLayoutStrategy: ILayoutStrategy!
+}
+
+type RectangularNodeStyle {
+  borderColor: String!
+  borderRadius: Int!
+  borderSize: Int!
+  borderStyle: LineStyle!
+  background: String!
+  childrenLayoutStrategy: ILayoutStrategy!
+}
+
+enum LineStyle {
+  Dash
+  Dash_Dot
+  Dot
+  Solid
+}
+
+enum LabelVisibility {
+  visible
+  hidden
+}
+
+type Edge {
+  id: ID!
+  descriptionId: ID!
+  type: String!
+  beginLabel: Label
+  centerLabel: Label
+  endLabel: Label
+  sourceId: ID!
+  targetId: ID!
+  targetObjectId: String!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  targetObjectLabel: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  state: ViewModifier!
+  style: EdgeStyle!
+  centerLabelEditable: Boolean!
+  deletable: Boolean!
+  customizedStyleProperties: [EdgeStyleProperty!]!
+}
+
+enum EdgeStyleProperty {
+  SIZE,
+  COLOR,
+  LINESTYLE,
+  SOURCE_ARROW,
+  TARGET_ARROW,
+  EDGE_TYPE
+}
+
+type EdgeStyle {
+  color: String!
+  lineStyle: LineStyle!
+  size: Int!
+  sourceArrow: ArrowStyle!
+  targetArrow: ArrowStyle!
+  edgeType: EdgeType!
+}
+
+enum ArrowStyle {
+  Diamond
+  FillDiamond
+  InputArrow
+  InputArrowWithDiamond
+  InputArrowWithFillDiamond
+  InputClosedArrow
+  InputFillClosedArrow
+  None
+  OutputArrow
+  OutputClosedArrow
+  OutputFillClosedArrow
+  Circle
+  FillCircle
+  CrossedCircle
+  ClosedArrowWithVerticalBar
+  ClosedArrowWithDots
+  ClosedArrowWith4Dots
+}
+
+enum EdgeType {
+  Manhattan,
+  SmartManhattan,
+  Oblique
+}
+
+type Position {
+  x: Float!
+  y: Float!
+}
+
+type Size {
+  height: Float!
+  width: Float!
+}
+
+extend union PaletteEntry = SingleClickOnDiagramElementTool | SingleClickOnTwoDiagramElementsTool
+
+type SingleClickOnDiagramElementTool implements Tool {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  dialogDescriptionId: String
+  targetDescriptions: [DiagramElementDescription!]!
+  withImpactAnalysis: Boolean!
+  withDeletionConfirmationDialog: Boolean!
+  keyBindings: [KeyBinding!]!
+}
+
+type SingleClickOnTwoDiagramElementsTool implements Tool {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  dialogDescriptionId: String
+  candidates: [SingleClickOnTwoDiagramElementsCandidate]!
+}
+
+type SingleClickOnTwoDiagramElementsCandidate {
+  sources: [DiagramElementDescription!]!
+  targets: [DiagramElementDescription!]!
+}
+
+type DiagramDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+  layoutOption: DiagramLayoutOption!
+  minimapVisible: Boolean!
+  arrangeLayoutDirection: ArrangeLayoutDirection!
+  nodeDescriptions: [NodeDescription!]!
+  childNodeDescriptionIds: [ID!]!
+  edgeDescriptions: [EdgeDescription!]!
+  toolbar: DiagramToolbar
+  palette(diagramElementIds: [ID!]): Palette!
+  connectorPalette(sourceDiagramElementId: ID!, targetDiagramElementId: ID!): Palette!
+  actions(diagramElementId: ID!): [Action!]!
+  manageVisibilityActions(diagramElementId: ID!): [ManageVisibilityAction!]!
+  dropNodeCompatibility: [DropNodeCompatibilityEntry!]!
+  initialDirectEditElementLabel(labelId: ID!): String!
+  diagramImpactAnalysisReport(toolId: ID!, diagramElementId: ID!, variables: [ToolVariable!]!): ImpactAnalysisReport!
+  debug: Boolean
+}
+
+type DiagramToolbar {
+  expandedByDefault: Boolean!
+  filterSelectionMenuItems(diagramElementIds: [ID!]!) : [FilterSelectionMenuItem!]!
+}
+
+type FilterSelectionMenuItem {
+  id: ID!
+  label: String!
+}
+
+enum ArrangeLayoutDirection {
+  UNDEFINED
+  RIGHT
+  DOWN
+  LEFT
+  UP
+}
+
+enum DiagramLayoutOption {
+  NONE,
+  AUTO_LAYOUT,
+  AUTO_UNTIL_MANUAL
+}
+
+type DropNodeCompatibilityEntry {
+  droppedNodeDescriptionId: ID!
+  droppableOnDiagram: Boolean!
+  droppableOnNodeTypes: [ID!]!
+}
+
+interface DiagramElementDescription {
+  id: ID!
+  synchronizationPolicy: SynchronizationPolicy!
+}
+
+type NodeDescription implements DiagramElementDescription {
+  id: ID!
+  synchronizationPolicy: SynchronizationPolicy!
+  childNodeDescriptionIds: [ID!]!
+  borderNodeDescriptionIds: [ID!]!
+  userResizable: UserResizableDirection!
+  keepAspectRatio: Boolean!
+}
+
+type Action {
+  id: ID!
+  tooltip: String!
+  iconURLs: [String!]!
+}
+
+type ManageVisibilityAction {
+  id: ID!
+  label: String!
+}
+
+type EdgeDescription implements DiagramElementDescription {
+  id: ID!
+  synchronizationPolicy: SynchronizationPolicy!
+  sourceNodeDescriptions: [NodeDescription!]!
+  targetNodeDescriptions: [NodeDescription!]!
+}
+
+enum SynchronizationPolicy {
+  SYNCHRONIZED
+  UNSYNCHRONIZED
+}
+
+extend type Mutation {
+  arrangeAll(input: ArrangeAllInput!): ArrangeAllPayload!
+  editLabel(input: EditLabelInput!): EditLabelPayload!
+  invokeSingleClickOnDiagramElementTool(input: InvokeSingleClickOnDiagramElementToolInput!): InvokeSingleClickOnDiagramElementToolPayload!
+  invokeSingleClickOnTwoDiagramElementsTool(input: InvokeSingleClickOnTwoDiagramElementsToolInput!): InvokeSingleClickOnTwoDiagramElementsToolPayload!
+  dropOnDiagram(input: DropOnDiagramInput!): DropOnDiagramPayload!
+  dropNodes(input: DropNodesInput!): DropNodesPayload!
+  reconnectEdge(input: ReconnectEdgeInput!): ReconnectEdgePayload!
+  hideDiagramElement(input: HideDiagramElementInput!): HideDiagramElementPayload!
+  fadeDiagramElement(input: FadeDiagramElementInput!): FadeDiagramElementPayload!
+  updateCollapsingState(input: UpdateCollapsingStateInput!): UpdateCollapsingStatePayload!
+  pinDiagramElement(input: PinDiagramElementInput!): PinDiagramElementPayload!
+  layoutDiagram(input: LayoutDiagramInput!): LayoutDiagramPayload!
+  invokeAction(input: InvokeActionInput!): InvokeActionPayload!
+  invokeManageVisibilityAction(input: InvokeManageVisibilityActionInput!): InvokeManageVisibilityActionPayload!
+  invokeFilterSelection(input: InvokeFilterSelectionInput!): InvokeFilterSelectionPayload!
+}
+
+input DropNodesInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  droppedElementIds: [ID!]!
+  targetElementId: ID
+  dropPositions: [PositionInput!]!
+}
+
+input ArrangeAllInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+}
+
+union ArrangeAllPayload = SuccessPayload | ErrorPayload
+
+input EditLabelInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  labelId: ID!
+  newText: String!
+}
+
+union EditLabelPayload = ErrorPayload | EditLabelSuccessPayload
+
+type EditLabelSuccessPayload {
+  id: ID!
+  diagram: Diagram!
+  messages: [Message]!
+}
+
+input InvokeSingleClickOnTwoDiagramElementsToolInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  toolId: ID!
+  diagramSourceElementId: ID!
+  diagramTargetElementId: ID!
+  sourcePositionX: Float!
+  sourcePositionY: Float!
+  targetPositionX: Float!
+  targetPositionY: Float!
+  variables: [ToolVariable!]!
+}
+
+union InvokeSingleClickOnTwoDiagramElementsToolPayload = ErrorPayload | InvokeSingleClickOnTwoDiagramElementsToolSuccessPayload
+
+type InvokeSingleClickOnTwoDiagramElementsToolSuccessPayload {
+  id: ID!
+  newSelection: WorkbenchSelection
+  messages: [Message]!
+}
+
+input InvokeSingleClickOnDiagramElementToolInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  variables: [ToolVariable!]!
+  diagramElementIds: [ID!]
+  startingPositionX: Float!
+  startingPositionY: Float!
+  toolId: ID!
+}
+
+input ToolVariable {
+  name: String!
+  value: String!
+  type: ToolVariableType!
+}
+
+enum ToolVariableType {
+  STRING
+  OBJECT_ID
+  OBJECT_ID_ARRAY
+}
+
+input InvokeActionInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  diagramElementId: ID!
+  actionId: ID!
+}
+
+input InvokeManageVisibilityActionInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  diagramElementId: ID!
+  actionId: ID!
+}
+
+input InvokeFilterSelectionInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  diagramElementIds: [ID!]!
+  filterSelectionId: ID!
+}
+
+union InvokeFilterSelectionPayload = ErrorPayload | InvokeFilterSelectionSuccessPayload
+
+union InvokeActionPayload = ErrorPayload | SuccessPayload
+
+union InvokeManageVisibilityActionPayload = ErrorPayload | SuccessPayload
+
+union InvokeSingleClickOnDiagramElementToolPayload = ErrorPayload | InvokeSingleClickOnDiagramElementToolSuccessPayload
+
+type InvokeSingleClickOnDiagramElementToolSuccessPayload {
+  id: ID!
+  newSelection: WorkbenchSelection
+  messages: [Message]!
+}
+
+type InvokeFilterSelectionSuccessPayload {
+  id: ID!
+  newSelection: [ID!]!
+}
+
+input DropOnDiagramInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  diagramTargetElementId: ID
+  objectIds: [String!]!
+  startingPositionX: Float!
+  startingPositionY: Float!
+}
+
+union DropOnDiagramPayload = ErrorPayload | DropOnDiagramSuccessPayload
+
+type DropOnDiagramSuccessPayload {
+  id: ID!
+  diagram: Diagram!
+  messages: [Message]!
+}
+
+union DropNodesPayload = ErrorPayload | SuccessPayload
+
+enum ReconnectEdgeKind {
+  SOURCE
+  TARGET
+}
+
+input ReconnectEdgeInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  edgeId: String!
+  newEdgeEndId: String!
+  reconnectEdgeKind: ReconnectEdgeKind!
+  targetPositionX: Float!
+  targetPositionY: Float!
+}
+
+union ReconnectEdgePayload = ErrorPayload | SuccessPayload
+
+input HideDiagramElementInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  elementIds: [ID!]!
+  hide: Boolean!
+}
+
+union HideDiagramElementPayload = ErrorPayload | SuccessPayload
+
+input FadeDiagramElementInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  elementIds: [ID!]!
+  fade: Boolean!
+}
+
+union FadeDiagramElementPayload = ErrorPayload | SuccessPayload
+
+input PinDiagramElementInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  elementIds: [ID!]!
+  pinned: Boolean!
+}
+
+union PinDiagramElementPayload = ErrorPayload | SuccessPayload
+
+input UpdateCollapsingStateInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  diagramElementId: ID!
+  collapsingState: CollapsingState!
+}
+
+enum CollapsingState {
+  COLLAPSED
+  EXPANDED
+}
+
+union UpdateCollapsingStatePayload = ErrorPayload | SuccessPayload
+
+input LayoutDiagramInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  cause: String!
+  diagramLayoutData: DiagramLayoutDataInput!
+}
+
+input DiagramLayoutDataInput {
+  nodeLayoutData: [NodeLayoutDataInput!]!
+  edgeLayoutData: [EdgeLayoutDataInput!]!
+  labelLayoutData: [LabelLayoutDataInput!]!
+  autoLayoutState: AutoLayoutState!
+}
+
+enum AutoLayoutState {
+  UNCHANGED
+  ACTIVATE
+  DEACTIVATE
+}
+
+input NodeLayoutDataInput {
+  id: ID!
+  position: PositionInput!
+  size: SizeInput!
+  resizedByUser: Boolean!
+  movedByUser: Boolean!
+  handleLayoutData: [HandleLayoutDataInput!]!
+  minComputedSize: SizeInput!
+}
+
+input HandleLayoutDataInput {
+  edgeId: ID!
+  position: PositionInput!
+  handlePosition : String!
+  type : HandleType!
+}
+
+input EdgeAnchorLayoutDataInput {
+  edgeId: ID!
+  positionRatio: Float!
+  handlePosition : String!
+  type : HandleType!
+}
+
+input EdgeLayoutDataInput {
+  id: ID!
+  bendingPoints: [PositionInput!]!
+  relativePositionBendingPoints: [PositionInput!]!
+  edgeAnchorLayoutData: [EdgeAnchorLayoutDataInput!]!
+}
+
+input LabelLayoutDataInput {
+  id: ID!
+  position: PositionInput!
+  size: SizeInput!
+  resizedByUser: Boolean!
+  movedByUser: Boolean!
+}
+
+input PositionInput {
+  x: Float!
+  y: Float!
+}
+
+input SizeInput {
+  height: Float!
+  width: Float!
+}
+
+union LayoutDiagramPayload = ErrorPayload | SuccessPayload

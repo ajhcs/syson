@@ -1,0 +1,11 @@
+extend type Subscription {
+  diagramFilterEvent(input : DiagramFilterEventInput!): DiagramFilterEventPayload!
+}
+
+input DiagramFilterEventInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: String!
+}
+
+union DiagramFilterEventPayload = ErrorPayload | FormRefreshedEventPayload | FormCapabilitiesRefreshedEventPayload

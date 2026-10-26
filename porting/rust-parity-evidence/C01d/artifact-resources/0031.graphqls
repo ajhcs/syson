@@ -1,0 +1,85 @@
+extend type Subscription {
+  hierarchyEvent(input: HierarchyEventInput!): HierarchyEventPayload!
+}
+
+input HierarchyEventInput {
+  id: ID!
+  editingContextId: ID!
+  hierarchyId: ID!
+}
+
+union HierarchyEventPayload = ErrorPayload | HierarchyRefreshedEventPayload
+
+type HierarchyRefreshedEventPayload {
+  id: ID!
+  hierarchy: Hierarchy!
+}
+
+type Hierarchy implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  targetObjectId: ID!
+  childNodes: [HierarchyNode!]!
+}
+
+type BarChart implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  label: String!
+  entries: [BarChartEntry!]!
+  style: BarChartStyle
+  width: Int!
+  height: Int!
+  yAxisLabel: String
+}
+
+type BarChartEntry {
+  key: String!
+  value: Float!
+}
+
+type BarChartStyle {
+  barsColor: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+}
+
+type PieChart implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  label: String!
+  entries: [PieChartEntry!]!
+  style: PieChartStyle
+}
+
+type PieChartEntry {
+  key: String!
+  value: Float!
+}
+
+
+type PieChartStyle {
+  colors: [String]!
+  strokeColor: String
+  strokeWidth: Float
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+}
+
+type HierarchyNode {
+  id: ID!
+  label: String!
+  targetObjectId: ID!
+  childNodes: [HierarchyNode]!
+}
+
+type HierarchyDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+}

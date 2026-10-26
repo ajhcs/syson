@@ -1,0 +1,263 @@
+"Upload type used for the file upload"
+scalar Upload
+
+"Instant type used for dates"
+scalar Instant
+
+type Query {
+  viewer: Viewer!
+}
+
+type Viewer {
+  editingContext(editingContextId: ID!): EditingContext
+}
+
+type EditingContext {
+  id: ID!
+  domains(rootDomainsOnly: Boolean!): [Domain!]!
+  representation(representationId: ID!): RepresentationMetadata
+  representationDescriptions(objectId: ID!): EditingContextRepresentationDescriptionConnection!
+  representationDescription(representationDescriptionId: ID!): RepresentationDescription
+  rootObjectCreationDescriptions(domainId: ID!, suggested: Boolean!, referenceKind: String): [ChildCreationDescription!]!
+  childCreationDescriptions(containerId: ID!, referenceKind: String): [ChildCreationDescription!]!
+  queryBasedString(query: String!): String
+  queryBasedInt(query: String!): Int
+  queryBasedBoolean(query: String!): Boolean
+  queryBasedObject(query: String!, variableName: String): Object
+  queryBasedObjects(query: String!, variableName: String): [Object]
+  actions: EditingContextActionsConnection!
+  object(objectId: ID!): Object
+  objects(objectIds: [ID!]!): [Object!]!
+}
+
+type Domain {
+  id: ID!
+  label: String!
+}
+
+type RepresentationMetadata {
+  id: ID!
+  label: String!
+  kind: String!
+  description: RepresentationDescription!
+  iconURLs: [String!]!
+}
+
+interface Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+}
+
+interface RepresentationDescription {
+  id: ID!
+  label: String!
+}
+
+type ChildCreationDescription {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+}
+
+type EditingContextRepresentationDescriptionConnection {
+  edges: [EditingContextRepresentationDescriptionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type EditingContextRepresentationDescriptionEdge {
+  node: RepresentationDescriptionMetadata!
+}
+
+type RepresentationDescriptionMetadata {
+  id: ID!
+  label: String!
+  defaultName: String!
+  documentation: String!
+}
+
+type EditingContextActionsConnection {
+  edges: [EditingContextActionsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type EditingContextActionsEdge {
+  node: EditingContextAction!
+}
+
+type EditingContextAction {
+  id: ID!
+  label: String!
+}
+
+type Subscriber {
+  username: String!
+}
+
+type Diagnostic {
+  id: ID!
+  kind: String!
+  message: String!
+}
+
+
+type ErrorPayload {
+  id: ID!
+  messages: [Message]!
+}
+
+type SuccessPayload {
+  id: ID!
+  messages: [Message]!
+}
+
+type Message {
+  body: String!
+  level: Level!
+}
+
+enum Level {
+  SUCCESS
+  INFO
+  WARNING
+  ERROR
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+  count: Int!
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+  "When paginating forwards, are there more items?"
+  hasNextPage: Boolean!
+  "When paginating backwards, are there more items?"
+  hasPreviousPage: Boolean!
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+}
+
+type Subscription {
+  editingContextEvent(input: EditingContextEventInput!): EditingContextEventPayload!
+}
+
+input EditingContextEventInput {
+  id: ID!
+  editingContextId: ID!
+}
+
+union EditingContextEventPayload = ErrorPayload | RepresentationRenamedEventPayload
+
+type RepresentationRenamedEventPayload {
+  id: ID!
+  representationId: ID!
+  newLabel: String!
+}
+
+type Mutation {
+  createChild(input: CreateChildInput!): CreateChildPayload!
+  createRepresentation(input: CreateRepresentationInput!): CreateRepresentationPayload!
+  createRootObject(input: CreateRootObjectInput!): CreateRootObjectPayload!
+  invokeEditingContextAction(input: InvokeEditingContextActionInput!): InvokeEditingContextActionPayload!
+}
+
+type Object {
+  id: ID!
+  kind: String!
+  label: String!
+  iconURLs: [String!]!
+  queryBasedString(query: String!): String
+  queryBasedInt(query: String!): Int
+  queryBasedBoolean(query: String!): Boolean
+  queryBasedObject(query: String!, variableName: String): Object
+  queryBasedObjects(query: String!, variableName: String): [Object]
+}
+
+input CreateChildInput {
+  id: ID!
+  editingContextId: ID!
+  objectId: ID!
+  childCreationDescriptionId: ID!
+}
+
+union CreateChildPayload = ErrorPayload|CreateChildSuccessPayload
+
+type CreateChildSuccessPayload {
+  id: ID!
+  object: Object
+  messages: [Message]!
+}
+
+input CreateRepresentationInput {
+  id: ID!
+  editingContextId: ID!
+  objectId: ID!
+  representationDescriptionId: ID!
+  representationName: String!
+}
+
+union CreateRepresentationPayload = ErrorPayload | CreateRepresentationSuccessPayload
+
+type CreateRepresentationSuccessPayload {
+  id: ID!
+  representation: RepresentationMetadata!
+}
+
+input CreateRootObjectInput {
+  id: ID!
+  editingContextId: ID!
+  documentId: ID!
+  domainId: ID!
+  rootObjectCreationDescriptionId: ID!
+}
+
+union CreateRootObjectPayload = CreateRootObjectSuccessPayload | ErrorPayload
+
+type CreateRootObjectSuccessPayload {
+  id: ID!
+  object: Object!
+}
+
+input DeleteObjectInput {
+  id: ID!
+  editingContextId: ID!
+  objectId: ID!
+}
+
+union DeleteObjectPayload = ErrorPayload | SuccessPayload
+
+input RenameObjectInput {
+  id: ID!
+  editingContextId: ID!
+  objectId: ID!
+  newName: String!
+}
+
+union RenameObjectPayload = ErrorPayload | RenameObjectSuccessPayload
+
+type RenameObjectSuccessPayload {
+  id: ID!
+  newName: String!
+  objectId: String!
+}
+
+type WorkbenchSelection {
+  entries: [WorkbenchSelectionEntry!]!
+}
+
+type WorkbenchSelectionEntry {
+  id: String!
+}
+
+input InvokeEditingContextActionInput {
+  id: ID!
+  editingContextId: ID!
+  actionId: String!
+}
+
+union InvokeEditingContextActionPayload = ErrorPayload | SuccessPayload
+
+type KeyBinding {
+    isCtrl: Boolean!
+    isMeta: Boolean!
+    isAlt: Boolean!
+    key: String!
+}

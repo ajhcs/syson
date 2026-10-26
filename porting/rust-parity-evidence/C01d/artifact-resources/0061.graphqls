@@ -1,0 +1,23 @@
+type CheckboxCell implements Cell {
+  id: ID!
+  columnId: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  value: Boolean!
+  tooltipValue: String!
+}
+
+extend type Mutation {
+  editCheckboxCell(input: EditCheckboxCellInput!): EditCheckboxCellPayload!
+}
+
+input EditCheckboxCellInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  cellId: ID!
+  newValue: Boolean!
+}
+
+union EditCheckboxCellPayload = ErrorPayload | SuccessPayload

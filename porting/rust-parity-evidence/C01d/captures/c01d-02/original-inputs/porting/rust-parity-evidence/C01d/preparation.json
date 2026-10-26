@@ -1,0 +1,45 @@
+{
+  "unit": "C01d",
+  "state": "SOURCE_PREPARED_NOT_YET_EXECUTED",
+  "parent_C01": "OPEN",
+  "scope": "Native PostgreSQL table/column/table-constraint/index/applied-history contract projection for B05; no DB client or SQL execution in Rust",
+  "budget": {
+    "approved_exception": {
+      "production_max": 520,
+      "authored_max": 1050
+    },
+    "production_rust_lines": 518,
+    "test_rust_lines": 457,
+    "query_sql_lines": 56,
+    "manifest_lines": 11,
+    "authored_total_excluding_generated_lock_and_prose": 1042,
+    "reason": "Keep one cohesive catalog cross-reference contract reviewable. Incremental aggregate serialization bounds and complete foreign-key target/key/backing-index validation are required correctness fixes, with actual captured-catalog regression; no source minification."
+  },
+  "source_author_execution": "No compiler, tests, DB, app or network execution; source text editing, Rust source formatting, hashing and Git inspection only",
+  "remaining_axes": [
+    "sequences",
+    "views",
+    "functions",
+    "triggers",
+    "policies",
+    "privileges",
+    "extension/type definitions",
+    "effective transaction behavior",
+    "Rust comparison",
+    "whole-build source correspondence"
+  ],
+  "preexecution_refinements": [
+    "Earlier literal edit missed a concurrently formatted block; coordinator caught absent guard before execution. Asserted replacement and inspected final source now contain metadata-before-open nonsymlink guard and directory/symlink source regressions. Prior source-only freeze superseded.",
+    "Root found repeated long-prefix output amplification before execution. A counting Write budget now charges the fixed envelope, each full obligation before retaining it, migration-order IDs and final serialization; identity components have an explicit candidate 4096-byte limit. Nine tests include early refusal before a deliberately invalid final column.",
+    "Peer found that a foreign-key descriptor could omit target, referenced keys and backing index. New guard requires target, nonempty local keys, matching nonempty referenced keys and backing index; actual native-01 fixture is accepted, and its exact triple-null FK mutation is refused. Individual missing-FK-field and empty-key synthetic cases are retained."
+  ],
+  "final_frozen_inputs": {
+    "rust/tools/native-db-contract/src/lib.rs": "a45643d19bdc57fb865249a24afb7f98dd7860c7a250fd47fde8d732dbe686fc",
+    "rust/tools/native-db-contract/tests/catalog.rs": "f7ece7d83aec9b47a06e4b8de725f03ecbd8d34d93b670d3dea1f8d7fc56be15",
+    "rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json": "62dc261f15c200385fac1887c4f4e0fd1995d3996017e4321511dc9f8c024ef1"
+  },
+  "earlier_capture_disposition": {
+    "c01d-01": "Original nine-test/fmt/Clippy PASS retained on earlier source, superseded by FK fix; not replayed or relabeled",
+    "c01d-cli-01": "Root admission refused changed preparation.json before executable launch; original admission-refusal.json retained, no CLI PASS claimed"
+  }
+}

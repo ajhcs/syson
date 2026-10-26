@@ -1,0 +1,58 @@
+extend type Mutation {
+  insertTextualSysMLv2(input: InsertTextualSysMLv2Input!): InsertTextualSysMLv2Payload!
+}
+
+input InsertTextualSysMLv2Input {
+  id: ID!
+  editingContextId: ID!
+  objectId: ID!
+  textualContent: String!
+}
+
+union InsertTextualSysMLv2Payload = ErrorPayload | SuccessPayload
+
+extend type Mutation {
+  createExpression(input: CreateExpressionInput!): CreateExpressionPayload!
+  editExpression(input: EditExpressionInput!): EditExpressionPayload!
+}
+
+input CreateExpressionInput {
+  id: ID!
+  editingContextId: ID!
+  parentElementId: ID!
+  expressionText: String!
+  properties: ExpressionPropertiesInput
+}
+
+union CreateExpressionPayload = ErrorPayload | CreateExpressionSuccessPayload
+
+type CreateExpressionSuccessPayload {
+  id: ID!
+  newExpressionId: ID!
+  messages: [Message]!
+}
+
+input EditExpressionInput {
+  id: ID!
+  editingContextId: ID!
+  elementId: ID!
+  newExpressionText: String!
+  properties: ExpressionPropertiesInput
+}
+
+input ExpressionPropertiesInput {
+  featureValue: FeatureValueExpressionPropertiesInput
+}
+
+input FeatureValueExpressionPropertiesInput {
+  isDefault: Boolean
+  isInitial: Boolean
+}
+
+union EditExpressionPayload = ErrorPayload | EditExpressionSuccessPayload
+
+type EditExpressionSuccessPayload {
+  id: ID!
+  newExpressionId: ID!
+  messages: [Message]!
+}
