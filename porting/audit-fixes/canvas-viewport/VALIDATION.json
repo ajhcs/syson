@@ -1,0 +1,140 @@
+{
+  "schema": "AUDIT_VALIDATION_SUMMARY_V1",
+  "status": "PASS_SCOPED_VIEWPORT_AND_COLLECTIVE_JOURNEYS",
+  "source_commit": "308b552b28aba0317f02cee9f8123495ada569d2",
+  "snapshot_base": "0102549d7eb2d35833092a9b3eede55e967d20c9",
+  "prerequisites": [
+    "Recovery #61",
+    "Navigation #62"
+  ],
+  "rust_capture": {
+    "run": "viewport-02",
+    "status": "PASS",
+    "inherited_integration_tests": 44,
+    "formatting": "PASS",
+    "scoped_clippy": "PASS",
+    "release_wasm": "PASS",
+    "committed_inputs_verified": 98,
+    "canonical_receipt_external": "/workspace/build/builderbob/syson-audit-20261026/captures/viewport-02/receipt.json",
+    "canonical_receipt_sha256": "62df38362ec3cb6f930edefdbbb03f99ba89da07a5f3b621627219bd0c3a5df4"
+  },
+  "served_production_identical": {
+    "index.html": "5c878ee5b73ab96e87384afc51dfb449179c48a0e48a1318c631d32648397251",
+    "loader.js": "5de6df608b7a93f179d7e61974c139dabddee7d45f3a72596ad0ddd670ff9b74",
+    "style.css": "aa218b4343660d314133acf1a9b9334c4c8f81bc73b5b4d4663f6c112ff03173",
+    "syson_web.wasm": "b9ff6d03c8bd84a598149823d3f7b7398bbfe195e61307c73a4b8ddd1c702eab"
+  },
+  "browser_captures": [
+    {
+      "run": "audit-ui-viewport-01",
+      "status": "FAIL",
+      "passed_scripts": [],
+      "failed_scripts": [
+        "canvas_viewport"
+      ],
+      "source_unchanged": true,
+      "canonical_receipt_external": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-viewport-01/receipt.json",
+      "canonical_receipt_sha256": "26bcc3f2fae82197129c5568a0b8ae939827267256d800b1240171a8696d39c4"
+    },
+    {
+      "run": "audit-ui-viewport-02",
+      "status": "PASS",
+      "passed_scripts": [
+        "canvas_viewport"
+      ],
+      "failed_scripts": [],
+      "source_unchanged": true,
+      "canonical_receipt_external": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-viewport-02/receipt.json",
+      "canonical_receipt_sha256": "0944c0dbda02d8fd316ca1700c2d62970a61e9a2c40a738c4e3fdd19f0a974bb"
+    },
+    {
+      "run": "audit-ui-composed-01",
+      "status": "FAIL",
+      "passed_scripts": [
+        "inspector_accessibility"
+      ],
+      "failed_scripts": [
+        "layout"
+      ],
+      "source_unchanged": true,
+      "canonical_receipt_external": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-composed-01/receipt.json",
+      "canonical_receipt_sha256": "d46ee0c1fd9a18022344bbfbdbb7cbd1726a95f7744ff7b601816786836ab031"
+    },
+    {
+      "run": "audit-ui-composed-02",
+      "status": "FAIL",
+      "passed_scripts": [
+        "inspector_accessibility",
+        "layout"
+      ],
+      "failed_scripts": [
+        "authoring"
+      ],
+      "source_unchanged": true,
+      "canonical_receipt_external": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-composed-02/receipt.json",
+      "canonical_receipt_sha256": "81f5cb65277d0c7b0b2dd81f62e09d7bf1d6d2a532e630e14c8c6a4f0512a21c"
+    },
+    {
+      "run": "audit-ui-composed-03",
+      "status": "PASS",
+      "passed_scripts": [
+        "authoring",
+        "scalars",
+        "draft_recovery"
+      ],
+      "failed_scripts": [],
+      "source_unchanged": true,
+      "canonical_receipt_external": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-composed-03/receipt.json",
+      "canonical_receipt_sha256": "986476119effecbfff226a43ed9271906f40dc81ef22533c2b57d0b6b42caf32"
+    }
+  ],
+  "collective_successful_journeys": {
+    "inspector_accessibility": "audit-ui-composed-02",
+    "layout": "audit-ui-composed-02",
+    "authoring": "audit-ui-composed-03",
+    "scalars": "audit-ui-composed-03",
+    "draft_recovery": "audit-ui-composed-03",
+    "canvas_viewport": "audit-ui-viewport-02"
+  },
+  "observed_fixture_failures": {
+    "viewport_01": "Initial empty geometry textarea was parsed before export existed; corrected readiness predicate",
+    "composed_01": "Legacy layout helper toggled a correctly preserved open disclosure closed after rejected import; state-aware opening corrected",
+    "composed_02": "Legacy authoring helper likewise toggled a preserved import disclosure closed; state-aware opening corrected"
+  },
+  "pre_second_capture_review_correction": "Background caret contract applies to the focused input; unrelated blurred-caret expectation was removed before that assertion executed",
+  "actual_size_results": [
+    {
+      "width": 320,
+      "scale": 1,
+      "name_pixels": 14,
+      "class_pixels": 12,
+      "label_count": 32
+    },
+    {
+      "width": 1440,
+      "scale": 1,
+      "name_pixels": 14,
+      "class_pixels": 12,
+      "label_count": 32
+    }
+  ],
+  "independent_review": "audit_model_query read-only source review found no blockers; coordinator validated and inspected screenshots",
+  "performance_reference": {
+    "path": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-perf-01/ui_perf/result.json",
+    "sha256": "1e2f7bd95ed4498a7b31d762d74d35b5492ba9848e785a17a04f2bf4bd9f0672",
+    "samples": 30,
+    "nodes": 32,
+    "edges": 0,
+    "p50_ms": 48.69999998807907,
+    "p95_ms": 49,
+    "max_ms": 49.10000002384186,
+    "long_task_entries": 0,
+    "startup_name_field_dom_ms": 28,
+    "scope": "One local Chromium laboratory DOM/two-rAF opportunity proxy; not physical presentation, INP, LCP, native comparison or worst-case routing"
+  },
+  "limits": [
+    "Ephemeral page presentation only; no new persistent model or geometry semantics",
+    "Native browser scroll; physical touch and screen-reader speech not qualified",
+    "No native SysON graphical equivalence or cross-platform qualification"
+  ]
+}
