@@ -1,0 +1,207 @@
+{
+  "unit": "C02a",
+  "parent_C01": "OPEN",
+  "parent_C02": "OPEN",
+  "base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "dependencies": {
+    "C01c": 80,
+    "C01d": 79,
+    "C01f": 83
+  },
+  "scope": "Strict full ordered JSON observation comparator; no source/artifact identity attestation, normalizing profile, runtime client or feature-acceptance claim.",
+  "policy": {
+    "compared": "Object/array sequence, decoded strings/IDs, types, null versus absence, exact number lexemes.",
+    "excluded_only": "Insignificant JSON whitespace and string/key escape spelling. No Unicode/case/numeric normalization.",
+    "duplicates": "Duplicate decoded object keys refuse.",
+    "status": "MATCH only complete zero-difference report; MISMATCH including capped report; malformed/limits/I/O refuse. CLI exit0/1/2 respectively.",
+    "report": "64differences,160source-Unicode-character previews before debug escaping,4096byte escaped pointers; complete describes traversal not whole value printing.",
+    "limits": "8MiB per input,100000values including pending references,64levels,20000children/container. Generated hypothetical counterpart pointers must also fit; otherwise whole comparison refuses before any report escapes."
+  },
+  "verification": [
+    {
+      "capture": "captures/c02a-01",
+      "status": "PASS",
+      "scope": "Original9tests, formatting, Clippy, binary build; original source retained."
+    },
+    {
+      "finding": "Root source review",
+      "scope": "Individually admitted paths could generate an oversized hypothetical missing-counterpart pointer. No RED runtime claim; explicit wholecomparisonrefusal and a focused shifted-object/bothdirection/array regression added."
+    },
+    {
+      "capture": "captures/c02a-02",
+      "status": "FAIL",
+      "scope": "Coordinator requested Cargo test target compare rather than comparison; formatting passed, routing failed before any test executed. No source/test assertion failure."
+    },
+    {
+      "capture": "captures/c02a-03",
+      "status": "PASS",
+      "scope": "New focused pointer regression, formatting, Clippy and binary build. Original9unchanged tests not replayed; ten regressionfunctions nowpresent."
+    },
+    {
+      "capture": "diff-cli-01",
+      "status": "PASS_STRICT_OBSERVATION_COMPARATOR;_ACTUAL_DIFFERENCES_RETAINED",
+      "cases": [
+        {
+          "name": "graphql-native-self",
+          "exit_code": 0,
+          "status": "MATCH",
+          "complete": true,
+          "reported_differences": 0,
+          "left_sha256": "c91e28474067f12a8a530a9b04fdad8c6167350f93428c1b6b34a819a4fb7a52",
+          "right_sha256": "c91e28474067f12a8a530a9b04fdad8c6167350f93428c1b6b34a819a4fb7a52"
+        },
+        {
+          "name": "graphql-reader-observation",
+          "exit_code": 1,
+          "status": "MISMATCH",
+          "complete": false,
+          "reported_differences": 64,
+          "left_sha256": "c91e28474067f12a8a530a9b04fdad8c6167350f93428c1b6b34a819a4fb7a52",
+          "right_sha256": "1cfdbfb8ba27e4299a2fa8030dcbafd9ccf82a4388ce0ca77aa14c35bf65b2b3"
+        },
+        {
+          "name": "catalog-metadata-native-self",
+          "exit_code": 0,
+          "status": "MATCH",
+          "complete": true,
+          "reported_differences": 0,
+          "left_sha256": "b969983e82ca8e3ebb545f689dfd2bbdbd23d009ddf762b54c1af7e45f771bdf",
+          "right_sha256": "b969983e82ca8e3ebb545f689dfd2bbdbd23d009ddf762b54c1af7e45f771bdf"
+        },
+        {
+          "name": "catalog-metadata-reader-observation",
+          "exit_code": 1,
+          "status": "MISMATCH",
+          "complete": true,
+          "reported_differences": 22,
+          "left_sha256": "b969983e82ca8e3ebb545f689dfd2bbdbd23d009ddf762b54c1af7e45f771bdf",
+          "right_sha256": "229727f8cf7f5f31ce5d4e6ccec18f0aafca816d0897b0a9e86aff61a0092318"
+        },
+        {
+          "name": "mappings-native-self",
+          "exit_code": 0,
+          "status": "MATCH",
+          "complete": true,
+          "reported_differences": 0,
+          "left_sha256": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+          "right_sha256": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f"
+        },
+        {
+          "name": "mappings-reader-observation",
+          "exit_code": 1,
+          "status": "MISMATCH",
+          "complete": true,
+          "reported_differences": 4,
+          "left_sha256": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+          "right_sha256": "5d715495864f58557bdc3341123e0911a2bd8430eb2da50761376a8b251bad0f"
+        },
+        {
+          "name": "probes-native-self",
+          "exit_code": 0,
+          "status": "MATCH",
+          "complete": true,
+          "reported_differences": 0,
+          "left_sha256": "236e82df3cdb421fe4acee8bf36ce032aad7ae106ab2f208c1b6b0f5f827ddbf",
+          "right_sha256": "236e82df3cdb421fe4acee8bf36ce032aad7ae106ab2f208c1b6b0f5f827ddbf"
+        },
+        {
+          "name": "probes-reader-observation",
+          "exit_code": 1,
+          "status": "MISMATCH",
+          "complete": false,
+          "reported_differences": 64,
+          "left_sha256": "236e82df3cdb421fe4acee8bf36ce032aad7ae106ab2f208c1b6b0f5f827ddbf",
+          "right_sha256": "e477c171ee8cdb8177cb16ffa83b0aedb3b5a24c9dc889389c144bb9c8c73168"
+        },
+        {
+          "name": "actual-identity-mutation",
+          "exit_code": 1,
+          "status": "MISMATCH",
+          "complete": true,
+          "reported_differences": 1,
+          "left_sha256": "c91e28474067f12a8a530a9b04fdad8c6167350f93428c1b6b34a819a4fb7a52",
+          "right_sha256": "590df822cc6770ae9aade4c52c3e432760a9bd06de2b1b6470532240c170b7b4"
+        },
+        {
+          "name": "usage",
+          "exit_code": 2,
+          "no_partial_stdout": true
+        },
+        {
+          "name": "duplicate",
+          "exit_code": 2,
+          "no_partial_stdout": true
+        },
+        {
+          "name": "symlink",
+          "exit_code": 2,
+          "no_partial_stdout": true
+        }
+      ],
+      "scope": "Complete supplied projected trees; full DB schema, Rust handlers and feature parity not inferred. No reordering, numeric conversion or ignored fields inside projected subtree.",
+      "projections": [
+        {
+          "name": "graphql",
+          "left_source": "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json",
+          "left_members": [
+            "data",
+            "__schema"
+          ],
+          "right_source": "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/c01c-cli-02/native-stdout.txt",
+          "right_members": [
+            "schema"
+          ],
+          "operation": "Original UTF8 value-token byte slices; parser used only to find boundaries, never to serialize or normalize."
+        },
+        {
+          "name": "catalog-metadata",
+          "left_source": "/workspace/worktrees/builderbob/syson/rp-c01d-persistence-contract/rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json",
+          "left_members": [
+            "capture"
+          ],
+          "right_source": "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/c01d-cli-02/native-stdout.txt",
+          "right_members": [
+            "capture"
+          ],
+          "operation": "Original UTF8 value-token byte slices; parser used only to find boundaries, never to serialize or normalize."
+        },
+        {
+          "name": "mappings",
+          "left_source": "/workspace/build/builderbob/syson-rust-parity-batch5-20261026/http-native-01/native-mappings.json",
+          "left_members": [],
+          "right_source": "/workspace/build/builderbob/syson-rust-parity-batch5-20261026/http-cli-02/mappings-stdout.json",
+          "right_members": [
+            "mappings"
+          ],
+          "operation": "Original UTF8 value-token byte slices; parser used only to find boundaries, never to serialize or normalize."
+        },
+        {
+          "name": "probes",
+          "left_source": "/workspace/build/builderbob/syson-rust-parity-batch5-20261026/http-native-01/native-probes.json",
+          "left_members": [],
+          "right_source": "/workspace/build/builderbob/syson-rust-parity-batch5-20261026/http-cli-02/probes-stdout.json",
+          "right_members": [
+            "capture"
+          ],
+          "operation": "Original UTF8 value-token byte slices; parser used only to find boundaries, never to serialize or normalize."
+        }
+      ]
+    }
+  ],
+  "independent_review": {
+    "reviewer": "audit_model_query",
+    "mode": "source-only; no execution",
+    "status": "PASS",
+    "lib_sha256": "9625444d92df61835d2383812a2d4bb42cb0b8fb9bb45f5f3363cbde35ec217a",
+    "main_sha256": "1b08f0d5a5fdab9279bab3a3ea00c4103e31c241e2531a2594debf043bb4dad2",
+    "tests_sha256": "bfdb4ba1066eb9a2e25a4be59e983861bd6f434735348b91007739ee6e4a61eb"
+  },
+  "remaining": [
+    "Actual four reader-observation comparisons report MISMATCH, with two capped incomplete reports; never relabeled MATCH.",
+    "Catalog pair covers capture metadata only, not full database schema or SQL behavior.",
+    "SelfMATCH controls establish comparator behavior on supplied observations, not native/Rust parity.",
+    "Original artifact label/source target mismatch, inherited/runtime closure and parentC01/C02 acceptance remain open.",
+    "No compilers/native processes/network/DB execution by source author; root execution receipts separate."
+  ],
+  "provenance": "Large full GraphQL/catalog/HTTP prepared payloads remain under exact external identities; executed wrapper and all output reports/streams retained. Actual mapping fixture copied once from C01f with exact provenance."
+}

@@ -1,0 +1,100 @@
+{
+  "unit": "C02a",
+  "run": "c02a-01",
+  "status": "PASS",
+  "started_utc": "2026-10-26T22:58:06.008521+00:00",
+  "source_before": {
+    "rust/tools/exact-json-diff/Cargo.lock": "fd647d1c35076d79f0b837ff395990bc6e9a4d1cffc16fe5387a7bf9955bec53",
+    "rust/tools/exact-json-diff/Cargo.toml": "82cefa1538efa043020c2bf966bb60ecded6b35bc847c438f10855327bfb6592",
+    "rust/tools/exact-json-diff/README.md": "6e8334c22828db4fd63a0f1fff9fdc6b74ddcfd5991565cae714197fb9e0f22e",
+    "rust/tools/exact-json-diff/src/lib.rs": "6cdeeb7e45f48d58db1d0cccd84a1b922fd4927424494c85a863c13f9f879064",
+    "rust/tools/exact-json-diff/src/main.rs": "1b08f0d5a5fdab9279bab3a3ea00c4103e31c241e2531a2594debf043bb4dad2",
+    "rust/tools/exact-json-diff/tests/comparison.rs": "8b20a1df75d4212a6f20dbda98d565ac5a22830efaa03c5cb6aaf2553e1bf1c7",
+    "rust/tools/exact-json-diff/tests/fixtures/native-mappings.json": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+    "porting/rust-parity-evidence/C02a/fixture-provenance.json": "547cbf40026ca6f2b0fda80a63ee85c3df5d2e036ece4d41bf4322c87f15afec"
+  },
+  "source_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "runner_sha256": "703c091e10be5be2bafbebb01142e8349b3d2392d77afa0fae42061724767cfa",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c02a-json-diff/rust/tools/exact-json-diff/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T22:58:06.009825+00:00",
+      "completed_utc": "2026-10-26T22:58:06.029343+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c02a-json-diff/rust/tools/exact-json-diff/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T22:58:06.029364+00:00",
+      "completed_utc": "2026-10-26T22:58:06.723081+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e91aeb599d0490c2d26ac8b20cbaf8dcc89f6344e68453f73faeda106ab1a28f",
+      "stderr_sha256": "e9ad2d8546c682be17683dc4f32c196a2312cf0c618278c2562161019f308737"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c02a-json-diff/rust/tools/exact-json-diff/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T22:58:06.723108+00:00",
+      "completed_utc": "2026-10-26T22:58:06.890582+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "5ea4c923021aa43387a13d6ba3f643d091a2096aa57482b9628755645fbfc79a"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c02a-json-diff/rust/tools/exact-json-diff/Cargo.toml"
+      ],
+      "started_utc": "2026-10-26T22:58:06.890614+00:00",
+      "completed_utc": "2026-10-26T22:58:06.909750+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T22:58:06.909771+00:00",
+  "source_after": {
+    "rust/tools/exact-json-diff/Cargo.lock": "fd647d1c35076d79f0b837ff395990bc6e9a4d1cffc16fe5387a7bf9955bec53",
+    "rust/tools/exact-json-diff/Cargo.toml": "82cefa1538efa043020c2bf966bb60ecded6b35bc847c438f10855327bfb6592",
+    "rust/tools/exact-json-diff/README.md": "6e8334c22828db4fd63a0f1fff9fdc6b74ddcfd5991565cae714197fb9e0f22e",
+    "rust/tools/exact-json-diff/src/lib.rs": "6cdeeb7e45f48d58db1d0cccd84a1b922fd4927424494c85a863c13f9f879064",
+    "rust/tools/exact-json-diff/src/main.rs": "1b08f0d5a5fdab9279bab3a3ea00c4103e31c241e2531a2594debf043bb4dad2",
+    "rust/tools/exact-json-diff/tests/comparison.rs": "8b20a1df75d4212a6f20dbda98d565ac5a22830efaa03c5cb6aaf2553e1bf1c7",
+    "rust/tools/exact-json-diff/tests/fixtures/native-mappings.json": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+    "porting/rust-parity-evidence/C02a/fixture-provenance.json": "547cbf40026ca6f2b0fda80a63ee85c3df5d2e036ece4d41bf4322c87f15afec"
+  },
+  "source_unchanged": true
+}
