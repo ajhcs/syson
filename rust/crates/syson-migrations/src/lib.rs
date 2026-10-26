@@ -285,3 +285,6 @@ pub fn prepare(input: &str, version: &'static str, passes: &[Removal]) -> Result
         namespace_order,
     })
 }
+
+#[path = "../b25d.rs"]
+pub mod b25d;
