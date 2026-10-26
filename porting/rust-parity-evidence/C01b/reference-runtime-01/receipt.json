@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "source_before": {
+    "rust/tools/reference-binding/Cargo.lock": "e3eff399a4e6eafd52ed69bc51675b9cde5e2f0fd7482886f1a491035895a102",
+    "rust/tools/reference-binding/Cargo.toml": "77abc5f2d8612c7ca2cf46ee6a28bea85e677b5e2ddbb945feeb5a5e35a17f2c",
+    "rust/tools/reference-binding/README.md": "0a9fcecea698b3d366db4245ae5be0a78999b2e51bd0ff5877fa47b006d9292d",
+    "rust/tools/reference-binding/examples/selected-request.json": "f1edb84c747a68b80658574c5d9c228ac5633dd974e968c96cf271f007446076",
+    "rust/tools/reference-binding/src/inspector.rs": "71ad2e12771680ba150d0a1e90bb5161bfd935a846af67d06f94089e0dcf9a8a",
+    "rust/tools/reference-binding/src/lib.rs": "886c719da73b9abd6bec9b69b7839abaf66b12d3c99922c23aba1c761a94cf18",
+    "rust/tools/reference-binding/src/main.rs": "0a4341b3eaf7e592b7290dacc1847b8f36aa23e0a7e7e82aa60e676c3c064cc4",
+    "rust/tools/reference-binding/tests/admission.rs": "be83ebd3d54d43d3521312aa923b7746be7de643b59c535a034cd73628cce398",
+    "rust/tools/reference-binding/tests/fixtures/unverified-retained-facts.json": "c89c27b60fb03e3da4b38564bb4bf1cec677b147ba1891e1ebd91c88b8a3c659",
+    "rust/tools/reference-binding/tests/inspection.rs": "7280917e5b4a2678f17c28ec56b82b648bb65b7fcbfd1af4c63e701132604993"
+  },
+  "source_after": {
+    "rust/tools/reference-binding/Cargo.lock": "e3eff399a4e6eafd52ed69bc51675b9cde5e2f0fd7482886f1a491035895a102",
+    "rust/tools/reference-binding/Cargo.toml": "77abc5f2d8612c7ca2cf46ee6a28bea85e677b5e2ddbb945feeb5a5e35a17f2c",
+    "rust/tools/reference-binding/README.md": "0a9fcecea698b3d366db4245ae5be0a78999b2e51bd0ff5877fa47b006d9292d",
+    "rust/tools/reference-binding/examples/selected-request.json": "f1edb84c747a68b80658574c5d9c228ac5633dd974e968c96cf271f007446076",
+    "rust/tools/reference-binding/src/inspector.rs": "71ad2e12771680ba150d0a1e90bb5161bfd935a846af67d06f94089e0dcf9a8a",
+    "rust/tools/reference-binding/src/lib.rs": "886c719da73b9abd6bec9b69b7839abaf66b12d3c99922c23aba1c761a94cf18",
+    "rust/tools/reference-binding/src/main.rs": "0a4341b3eaf7e592b7290dacc1847b8f36aa23e0a7e7e82aa60e676c3c064cc4",
+    "rust/tools/reference-binding/tests/admission.rs": "be83ebd3d54d43d3521312aa923b7746be7de643b59c535a034cd73628cce398",
+    "rust/tools/reference-binding/tests/fixtures/unverified-retained-facts.json": "c89c27b60fb03e3da4b38564bb4bf1cec677b147ba1891e1ebd91c88b8a3c659",
+    "rust/tools/reference-binding/tests/inspection.rs": "7280917e5b4a2678f17c28ec56b82b648bb65b7fcbfd1af4c63e701132604993"
+  },
+  "source_unchanged": true,
+  "program_sha256": "db446b41f28ca9d391c569d3498388fc3fdbf9aa48754638feef767339702b17",
+  "metadata_primitives": {
+    "/usr/bin/git": "eb54b535467e0975c1284d4c4d08eea779aeb248a5d34b02e2ee171382e22201",
+    "/usr/bin/sha256sum": "4d2db56c867e5324e0084c9e897f6360d37517de77ac96f2bd31494223d69a60"
+  },
+  "original_review_sha256": "6722bcf8ed4511798b86655619e2a1747443ffb521446b0473aeb5b47441b0d2",
+  "original_review_unchanged": true,
+  "request_sha256": {
+    "historical": "f1edb84c747a68b80658574c5d9c228ac5633dd974e968c96cf271f007446076",
+    "current": "b2b8ac63449113d329ae60764c2040775eea1b3842588a5825b4a40f306a03fd"
+  },
+  "captured_utc": "2026-10-26T20:18:46.404445+00:00",
+  "commands": [
+    {
+      "case": "historical",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-reference-binding",
+        "/workspace",
+        "/workspace/repos/builderbob/syson",
+        "/workspace/worktrees/builderbob/syson/rp-c01b-reference-inspector/rust/tools/reference-binding/examples/selected-request.json",
+        "/usr/bin/git",
+        "/usr/bin/sha256sum"
+      ],
+      "exit_code": 1,
+      "expected_exit": 1,
+      "wall_ms": 113.75759699149057,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e01a24bcfa8da88fd05039f9d560f879f39bf7a028d4b74b7e330f39501b76ed"
+    },
+    {
+      "case": "current",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-reference-binding",
+        "/workspace",
+        "/workspace/repos/builderbob/syson",
+        "/workspace/build/builderbob/syson-rust-parity-batch3-20261026/C01b/selected-request-final-review.json",
+        "/usr/bin/git",
+        "/usr/bin/sha256sum"
+      ],
+      "exit_code": 0,
+      "expected_exit": 0,
+      "wall_ms": 106.75914399325848,
+      "stdout_sha256": "5309700273d589a408504eee0b6c8c0ef9cc0e8c5ce321cacce35e3ab18ca0b4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case": "usage",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-reference-binding"
+      ],
+      "exit_code": 2,
+      "expected_exit": 2,
+      "wall_ms": 0.4843870410695672,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a73eecc0c428f3202592e970619703ebe46fe38fe534553af1e488dbc0466a62"
+    }
+  ],
+  "scope": "Current local file/Git/classpath consistency and explicit historical refusal. No native rerun, atomic snapshot, historical dependency immutability, publisher authentication, whole artifact or UI acceptance."
+}
