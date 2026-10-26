@@ -1,0 +1,79 @@
+{
+  "unit": "C03a",
+  "run": "c03a-02",
+  "status": "PASS",
+  "started_utc": "2026-10-26T20:10:47.143462+00:00",
+  "source_before": {
+    "rust/tools/verify-composition/Cargo.lock": "c4956d1f4a635cec73e7894bccd5a81ad9a84bd3571bc5eae84092ece1d3a48f",
+    "rust/tools/verify-composition/Cargo.toml": "f0d00d26a28e68ca92ec74f1a16fc9cd98f002908f5d7e1d6790d670907a7224",
+    "rust/tools/verify-composition/src/lib.rs": "8080c3bde866427830d78e3d402f64e8b3adb05751a99bbe85d905f7f80d8f0b",
+    "rust/tools/verify-composition/src/main.rs": "af459e56da2f44984a63e45fa8c1c55023527ebf1c17ac584bcf9b997612bee0",
+    "rust/tools/verify-composition/tests/composition.rs": "baeaa037e43265822622961f255aa2e1faf6c466896fba30b7431aa49ddd8b31"
+  },
+  "source_base": "f19c06915a664eb636f6d0782c6d5191f9a43cd3",
+  "runner_sha256": "96d329737f9a536308a8879423ac931447f493c1dcb1d15c6c5f3ca108ccae2d",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c03a-composition/rust/tools/verify-composition/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T20:10:47.144615+00:00",
+      "completed_utc": "2026-10-26T20:10:47.165712+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c03a-composition/rust/tools/verify-composition/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T20:10:47.165728+00:00",
+      "completed_utc": "2026-10-26T20:10:48.333657+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "a063371dd507ee9ffeec18def864d64f28e2cdf6ffd6f3928ffc5c3974b2acd2",
+      "stderr_sha256": "ddef605d82922ecc92b1ad5828b692574e88a180c7d8d2c7edcf0ba44becfe1a"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c03a-composition/rust/tools/verify-composition/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T20:10:48.333679+00:00",
+      "completed_utc": "2026-10-26T20:10:48.511203+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "55ab4433c132103f42ee9436d556af646791810adb1a618f3936f9f6fd3593c8"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T20:10:48.511241+00:00",
+  "source_after": {
+    "rust/tools/verify-composition/Cargo.lock": "c4956d1f4a635cec73e7894bccd5a81ad9a84bd3571bc5eae84092ece1d3a48f",
+    "rust/tools/verify-composition/Cargo.toml": "f0d00d26a28e68ca92ec74f1a16fc9cd98f002908f5d7e1d6790d670907a7224",
+    "rust/tools/verify-composition/src/lib.rs": "8080c3bde866427830d78e3d402f64e8b3adb05751a99bbe85d905f7f80d8f0b",
+    "rust/tools/verify-composition/src/main.rs": "af459e56da2f44984a63e45fa8c1c55023527ebf1c17ac584bcf9b997612bee0",
+    "rust/tools/verify-composition/tests/composition.rs": "baeaa037e43265822622961f255aa2e1faf6c466896fba30b7431aa49ddd8b31"
+  },
+  "source_unchanged": true
+}

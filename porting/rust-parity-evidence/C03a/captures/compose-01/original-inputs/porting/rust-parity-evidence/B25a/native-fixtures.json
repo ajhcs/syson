@@ -1,0 +1,82 @@
+{
+  "unit": "B25a",
+  "fixture_kind": "FINITE_NATIVE_ORACLE_INPUTS",
+  "cases": [
+    {
+      "id": "annotation-object-child-only",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:Annotation\",\"annotatingElement\":\"parent-retained\",\"data\":{\"annotatingElement\":[\"legacy\"],\"annotation\":\"unrelated\",\"keep\":7}}]}"
+    },
+    {
+      "id": "annotating-subtype-annotatingelement",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:AnnotatingElement\",\"data\":{\"annotation\":[\"legacy\"],\"body\":\"preserve\"}}]}"
+    },
+    {
+      "id": "annotating-subtype-comment",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:Comment\",\"data\":{\"annotation\":[\"legacy\"],\"body\":\"preserve\"}}]}"
+    },
+    {
+      "id": "annotating-subtype-documentation",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:Documentation\",\"data\":{\"annotation\":[\"legacy\"],\"body\":\"preserve\"}}]}"
+    },
+    {
+      "id": "annotating-subtype-metadatafeature",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:MetadataFeature\",\"data\":{\"annotation\":[\"legacy\"],\"body\":\"preserve\"}}]}"
+    },
+    {
+      "id": "annotating-subtype-metadatausage",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:MetadataUsage\",\"data\":{\"annotation\":[\"legacy\"],\"body\":\"preserve\"}}]}"
+    },
+    {
+      "id": "annotating-subtype-textualrepresentation",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:TextualRepresentation\",\"data\":{\"annotation\":[\"legacy\"],\"body\":\"preserve\"}}]}"
+    },
+    {
+      "id": "ordered-nested-passes",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:Annotation\",\"data\":{\"eClass\":\"sysml:Comment\",\"annotatingElement\":\"first-pass\",\"data\":{\"annotation\":\"second-pass\",\"annotatingElement\":\"retained\"}}}]}"
+    },
+    {
+      "id": "nested-arrays-and-object-children",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[[[{\"eClass\":\"sysml:Annotation\",\"annotatingElement\":\"typed-parent-retained\",\"obj\":{\"annotatingElement\":\"drop\",\"keep\":1},\"array\":[{\"annotatingElement\":\"array-child-retained\"},[{\"eClass\":\"sysml:Comment\",\"obj\":{\"annotation\":\"drop\",\"annotatingElement\":\"retained\"}}]]}]]]}"
+    },
+    {
+      "id": "nonmatching-class-forms",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"vendor:Annotation\",\"data\":{\"annotatingElement\":\"keep\",\"annotation\":\"keep\"}},{\"eClass\":\"sysml:Unknown\",\"data\":{\"annotatingElement\":\"keep\",\"annotation\":\"keep\"}},{\"eClass\":42,\"data\":{\"annotation\":\"keep\"}},{\"eClass\":null,\"data\":{\"annotatingElement\":\"keep\"}}]}"
+    },
+    {
+      "id": "first-namespace-wrong-original-order",
+      "input": "{\"ns\":{\"z\":\"urn:other\",\"a\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:Annotation\",\"data\":{\"annotatingElement\":\"keep\"}}]}"
+    },
+    {
+      "id": "first-namespace-right-original-order",
+      "input": "{\"ns\":{\"z\":\"http://www.eclipse.org/syson/sysml\",\"a\":\"urn:other\"},\"content\":[{\"eClass\":\"sysml:Annotation\",\"data\":{\"annotatingElement\":\"drop\"}}]}"
+    },
+    {
+      "id": "missing-namespace",
+      "input": "{\"content\":[{\"eClass\":\"sysml:Annotation\",\"data\":{\"annotatingElement\":\"keep\"}}]}"
+    },
+    {
+      "id": "empty-namespace",
+      "input": "{\"ns\":{},\"content\":[]}"
+    },
+    {
+      "id": "array-namespace",
+      "input": "{\"ns\":[\"http://www.eclipse.org/syson/sysml\"],\"content\":[]}"
+    },
+    {
+      "id": "numeric-namespace",
+      "input": "{\"ns\":{\"sysml\":12},\"content\":[]}"
+    },
+    {
+      "id": "already-migrated-replay",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:Annotation\",\"data\":{\"keep\":true}},{\"eClass\":\"sysml:Comment\",\"data\":{\"body\":\"already migrated\"}}]}"
+    },
+    {
+      "id": "all-object-children-and-opaque-values",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:Annotation\",\"extra\":{\"annotatingElement\":null,\"large\":900719925474099312345,\"text\":\"🚗\"},\"data\":{\"annotatingElement\":{\"complex\":\"drop\"},\"annotation\":\"keep\"}}]}"
+    },
+    {
+      "id": "document-admission-b01-chain",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"id\":\"package-node\",\"eClass\":\"sysml:Package\",\"data\":{\"elementId\":\"package-semantic\",\"declaredName\":\"P\",\"ownedRelationship\":[{\"id\":\"annotation-node\",\"eClass\":\"sysml:Annotation\",\"data\":{\"elementId\":\"annotation-semantic\",\"annotatingElement\":[\"comment-semantic\"],\"ownedRelatedElement\":[{\"id\":\"comment-node\",\"eClass\":\"sysml:Comment\",\"data\":{\"elementId\":\"comment-semantic\",\"annotation\":[\"annotation-semantic\"],\"body\":\"Preserve this note 🚗\"}}]}}]}}]}"
+    }
+  ]
+}
