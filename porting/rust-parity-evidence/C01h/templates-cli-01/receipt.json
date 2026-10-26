@@ -1,0 +1,92 @@
+{
+  "status": "PASS_ACTUAL_TEMPLATE_CHOICES_AND_REFUSALS",
+  "inputs_before": {
+    "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-native-project-templates": "f35125042bcd22bb61f3e7b3e9ffca2611fe1d0f500e79b7d118e0bd9eb56242",
+    "/workspace/build/builderbob/syson-rust-parity-batch6-20261026/templates-native-01/native-templates.json": "9544d4b38698ab018957acd1ef7c7ec980ff3df9bbf7233e4f905c3e2818e64f"
+  },
+  "cases": [
+    {
+      "name": "all",
+      "exit_code": 0,
+      "entire_capture_value_equal": true,
+      "selection": null,
+      "stdout_sha256": "17818ea9f5ad274db8c883b9e19e86e9a94cead77ec9279bdf8eacbf08e508e4"
+    },
+    {
+      "name": "template",
+      "exit_code": 0,
+      "entire_capture_value_equal": true,
+      "selection": {
+        "id": "sysmlv2-template",
+        "kind": "template"
+      },
+      "stdout_sha256": "81f4f6234ec4d4d9d75ae431532c1bf0e90d4ab04b1481f81892db452514d97a"
+    },
+    {
+      "name": "blank",
+      "exit_code": 0,
+      "entire_capture_value_equal": true,
+      "selection": {
+        "id": "blank-project",
+        "kind": "template"
+      },
+      "stdout_sha256": "c5cafd6916a7198f72d091e4bc0cf783511b58c62554e62de88b45b59a9fc45a"
+    },
+    {
+      "name": "upload",
+      "exit_code": 0,
+      "entire_capture_value_equal": true,
+      "selection": {
+        "id": "upload-project",
+        "kind": "upload"
+      },
+      "stdout_sha256": "4d0620c1bd21d5e2c268724a96207ea6c72497caf4ff41bd635d2287c26abd70"
+    },
+    {
+      "name": "browse",
+      "exit_code": 0,
+      "entire_capture_value_equal": true,
+      "selection": {
+        "id": "browse-all-project-templates",
+        "kind": "browse"
+      },
+      "stdout_sha256": "dee71549dcdfa5d9fe9d63f26980dba45b4f202ff58693582be0e3c92278bd71"
+    },
+    {
+      "name": "usage",
+      "exit_code": 1,
+      "no_partial_stdout": true
+    },
+    {
+      "name": "invalid",
+      "exit_code": 1,
+      "no_partial_stdout": true
+    },
+    {
+      "name": "symlink",
+      "exit_code": 1,
+      "no_partial_stdout": true
+    },
+    {
+      "name": "unknown",
+      "exit_code": 1,
+      "no_partial_stdout": true
+    },
+    {
+      "name": "failed-context",
+      "exit_code": 1,
+      "no_partial_stdout": true
+    },
+    {
+      "name": "wrong-context-control",
+      "exit_code": 1,
+      "no_partial_stdout": true
+    }
+  ],
+  "scope": "Actual captured template/control choices only; no instantiation, paging reconstruction or UI acceptance",
+  "inputs_after": {
+    "/workspace/build/builderbob/syson-audit-20261026/build/target/debug/syson-native-project-templates": "f35125042bcd22bb61f3e7b3e9ffca2611fe1d0f500e79b7d118e0bd9eb56242",
+    "/workspace/build/builderbob/syson-rust-parity-batch6-20261026/templates-native-01/native-templates.json": "9544d4b38698ab018957acd1ef7c7ec980ff3df9bbf7233e4f905c3e2818e64f"
+  },
+  "source_unchanged": true
+}

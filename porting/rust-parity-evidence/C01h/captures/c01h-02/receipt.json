@@ -1,0 +1,107 @@
+{
+  "unit": "C01h",
+  "run": "c01h-02",
+  "status": "PASS",
+  "started_utc": "2026-10-26T23:09:13.264261+00:00",
+  "source_before": {
+    "rust/tools/native-project-templates/Cargo.lock": "bd2b286b0cd7db1d2403778e3c82268b4b0eb63e6ad5afd85cb221567c428e26",
+    "rust/tools/native-project-templates/Cargo.toml": "62348be6a2869eaa5e78a23ceb8f4c4d97e4e6ee0480cbe1045526aec2646a48",
+    "rust/tools/native-project-templates/README.md": "dffc992b0377a0da8c001c01311d72016e164953ea41f44e6c0d1ea999c42117",
+    "rust/tools/native-project-templates/src/lib.rs": "ee85bfefd77534928d293abcf0cf6e443866f645e728d6023634f3df567065b6",
+    "rust/tools/native-project-templates/src/main.rs": "f1826dfe1f93c47d7d7b8d72125dcfbcd2d3d16717a3ac2020519971be95cc3e",
+    "rust/tools/native-project-templates/tests/catalogue.rs": "099225c91621f43edc19ebe65a2274f23f14188cb6a178dcf53259db61d86b65",
+    "rust/tools/native-project-templates/tests/fixtures/native-templates.json": "9544d4b38698ab018957acd1ef7c7ec980ff3df9bbf7233e4f905c3e2818e64f",
+    "porting/rust-parity-evidence/C01h/preparation.json": "d16c18c01ad29dd0aadba8c1a0149f72b315a42429fabcd21822b360c24058ac",
+    "porting/rust-parity-evidence/C01h/queries.json": "2b99399483bd56e9fd6548d423936393b8d8911362eae89834d3dd61c427befa",
+    "porting/rust-parity-evidence/C01h/source-provenance.json": "ee78736699a664571e0ca18690504171c81ada96708ea96acc0117a2c513f2e9"
+  },
+  "source_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "runner_sha256": "924aa8fdd53279e320b446e9b4465d39759346fd026d9a935a87c9d53476ec8b",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01h-project-templates/rust/tools/native-project-templates/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T23:09:13.265669+00:00",
+      "completed_utc": "2026-10-26T23:09:13.287159+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01h-project-templates/rust/tools/native-project-templates/Cargo.toml",
+        "--test",
+        "catalogue",
+        "regression_",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T23:09:13.287175+00:00",
+      "completed_utc": "2026-10-26T23:09:13.675131+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "b1f5b8081ca70a76bd61169adda1350a8b462142663cb684d39d22f3c8de61bd",
+      "stderr_sha256": "f33ec7527df2c092fa76c2de9ea625bec74918f6b66dc0f897852ca601fad776"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01h-project-templates/rust/tools/native-project-templates/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T23:09:13.675155+00:00",
+      "completed_utc": "2026-10-26T23:09:13.841819+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3f2d8bbb49f3d098701a23d2e235d60684a1b782d0523531092ee3cc5bebdfb5"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01h-project-templates/rust/tools/native-project-templates/Cargo.toml"
+      ],
+      "started_utc": "2026-10-26T23:09:13.841849+00:00",
+      "completed_utc": "2026-10-26T23:09:13.862251+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T23:09:13.862270+00:00",
+  "source_after": {
+    "rust/tools/native-project-templates/Cargo.lock": "bd2b286b0cd7db1d2403778e3c82268b4b0eb63e6ad5afd85cb221567c428e26",
+    "rust/tools/native-project-templates/Cargo.toml": "62348be6a2869eaa5e78a23ceb8f4c4d97e4e6ee0480cbe1045526aec2646a48",
+    "rust/tools/native-project-templates/README.md": "dffc992b0377a0da8c001c01311d72016e164953ea41f44e6c0d1ea999c42117",
+    "rust/tools/native-project-templates/src/lib.rs": "ee85bfefd77534928d293abcf0cf6e443866f645e728d6023634f3df567065b6",
+    "rust/tools/native-project-templates/src/main.rs": "f1826dfe1f93c47d7d7b8d72125dcfbcd2d3d16717a3ac2020519971be95cc3e",
+    "rust/tools/native-project-templates/tests/catalogue.rs": "099225c91621f43edc19ebe65a2274f23f14188cb6a178dcf53259db61d86b65",
+    "rust/tools/native-project-templates/tests/fixtures/native-templates.json": "9544d4b38698ab018957acd1ef7c7ec980ff3df9bbf7233e4f905c3e2818e64f",
+    "porting/rust-parity-evidence/C01h/preparation.json": "d16c18c01ad29dd0aadba8c1a0149f72b315a42429fabcd21822b360c24058ac",
+    "porting/rust-parity-evidence/C01h/queries.json": "2b99399483bd56e9fd6548d423936393b8d8911362eae89834d3dd61c427befa",
+    "porting/rust-parity-evidence/C01h/source-provenance.json": "ee78736699a664571e0ca18690504171c81ada96708ea96acc0117a2c513f2e9"
+  },
+  "source_unchanged": true
+}

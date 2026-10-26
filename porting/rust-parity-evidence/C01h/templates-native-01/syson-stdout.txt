@@ -1,0 +1,521 @@
+                                                  
+   ▄▄▄▄                          ▄▄▄▄    ▄▄▄   ▄▄ 
+ ▄█▀▀▀▀█                        ██▀▀██   ███   ██ 
+ ██▄       ▀██  ███  ▄▄█████▄  ██    ██  ██▀█  ██ 
+  ▀████▄    ██▄ ██   ██▄▄▄▄ ▀  ██    ██  ██ ██ ██ 
+      ▀██    ████▀    ▀▀▀▀██▄  ██    ██  ██  █▄██ 
+ █▄▄▄▄▄█▀     ███    █▄▄▄▄▄██   ██▄▄██   ██   ███ 
+  ▀▀▀▀▀       ██      ▀▀▀▀▀▀     ▀▀▀▀    ▀▀   ▀▀▀ 
+            ███                                   
+                                                  
+ :: Spring Boot ::  (v4.1.1)
+
+2026-10-26T22:55:39.115Z  INFO 87605 --- [           main] org.eclipse.syson.SysONApplication       : Starting SysONApplication v2026.9.3 using Java 21.0.12.1 with PID 87605 (/workspace/build/builderbob/syson-rust-parity-batch5-20261026/reference-repack-01/syson-source-delta-comparison.jar started by builderbob in /workspace/build/builderbob/syson-rust-parity-batch6-20261026/templates-native-01)
+2026-10-26T22:55:39.117Z  INFO 87605 --- [           main] org.eclipse.syson.SysONApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-10-26T22:55:40.139Z  INFO 87605 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-26T22:55:40.140Z  INFO 87605 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2026-10-26T22:55:40.235Z  INFO 87605 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92 ms. Found 8 JDBC repository interfaces.
+2026-10-26T22:55:40.792Z  INFO 87605 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 18451 (http)
+2026-10-26T22:55:40.799Z  INFO 87605 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-26T22:55:40.799Z  INFO 87605 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-26T22:55:40.811Z  INFO 87605 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1675 ms
+2026-10-26T22:55:41.064Z  INFO 87605 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-26T22:55:41.104Z  INFO 87605 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@49de4263
+2026-10-26T22:55:41.105Z  INFO 87605 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-26T22:55:41.164Z  INFO 87605 --- [           main] liquibase.database                       : Set default schema name to public
+2026-10-26T22:55:41.399Z  INFO 87605 --- [           main] liquibase.changelog                      : Creating database changelog table with name: public.databasechangelog
+2026-10-26T22:55:41.417Z  INFO 87605 --- [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-10-26T22:55:41.560Z  INFO 87605 --- [           main] liquibase.snapshot                       : Creating snapshot
+2026-10-26T22:55:41.627Z  INFO 87605 --- [           main] liquibase.lockservice                    : Successfully acquired change log lock
+2026-10-26T22:55:41.627Z  INFO 87605 --- [           main] liquibase.command                        : Using deploymentId: 3055341057
+2026-10-26T22:55:41.628Z  INFO 87605 --- [           main] liquibase.changelog                      : Reading from public.databasechangelog
+2026-10-26T22:55:41.655Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.3/01-initial-schema.xml::01-initial-schema::sbegaudeau
+2026-10-26T22:55:41.661Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.673Z  INFO 87605 --- [           main] liquibase.changelog                      : Table project created
+2026-10-26T22:55:41.675Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.680Z  INFO 87605 --- [           main] liquibase.changelog                      : Table nature created
+2026-10-26T22:55:41.687Z  INFO 87605 --- [           main] liquibase.changelog                      : Unique constraint added to nature(project_id, name)
+2026-10-26T22:55:41.688Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to nature (project_id)
+2026-10-26T22:55:41.689Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.700Z  INFO 87605 --- [           main] liquibase.changelog                      : Table representation_data created
+2026-10-26T22:55:41.701Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_data (project_id)
+2026-10-26T22:55:41.706Z  INFO 87605 --- [           main] liquibase.changelog                      : Table semantic_data created
+2026-10-26T22:55:41.707Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to semantic_data (project_id)
+2026-10-26T22:55:41.718Z  INFO 87605 --- [           main] liquibase.changelog                      : Table document created
+2026-10-26T22:55:41.719Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to document (semantic_data_id)
+2026-10-26T22:55:41.720Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.3/01-initial-schema.xml::01-initial-schema::sbegaudeau ran successfully in 64ms
+2026-10-26T22:55:41.725Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.3/02-store-semantic_data-domains.xml::02-store-semantic_data-domains::sbegaudeau
+2026-10-26T22:55:41.730Z  INFO 87605 --- [           main] liquibase.changelog                      : Table semantic_data_domain created
+2026-10-26T22:55:41.737Z  INFO 87605 --- [           main] liquibase.changelog                      : Unique constraint added to semantic_data_domain(semantic_data_id, uri)
+2026-10-26T22:55:41.737Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to semantic_data_domain (semantic_data_id)
+2026-10-26T22:55:41.738Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.739Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.3/02-store-semantic_data-domains.xml::02-store-semantic_data-domains::sbegaudeau ran successfully in 14ms
+2026-10-26T22:55:41.741Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.5/01-add-image-support.xml::01-add-image-support::sbegaudeau
+2026-10-26T22:55:41.753Z  INFO 87605 --- [           main] liquibase.changelog                      : Table image created
+2026-10-26T22:55:41.753Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to image (project_id)
+2026-10-26T22:55:41.754Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.5/01-add-image-support.xml::01-add-image-support::sbegaudeau ran successfully in 13ms
+2026-10-26T22:55:41.758Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.5/02-add-project-image-support.xml::02-add-project-image-support::sbegaudeau
+2026-10-26T22:55:41.769Z  INFO 87605 --- [           main] liquibase.changelog                      : Table project_image created
+2026-10-26T22:55:41.770Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to project_image (project_id)
+2026-10-26T22:55:41.770Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_image_project_id dropped
+2026-10-26T22:55:41.771Z  INFO 87605 --- [           main] liquibase.changelog                      : Column image.project_id dropped
+2026-10-26T22:55:41.776Z  INFO 87605 --- [           main] liquibase.changelog                      : Unique constraint added to image(label)
+2026-10-26T22:55:41.777Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.5/02-add-project-image-support.xml::02-add-project-image-support::sbegaudeau ran successfully in 19ms
+2026-10-26T22:55:41.781Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.5/03-add-migration-metadata-for-representations.xml::03-add-migration-metadata-for-representations::sbegaudeau
+2026-10-26T22:55:41.782Z  INFO 87605 --- [           main] liquibase.changelog                      : Columns last_migration_performed(TEXT),migration_version(TEXT) added to representation_data
+2026-10-26T22:55:41.784Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.5/03-add-migration-metadata-for-representations.xml::03-add-migration-metadata-for-representations::sbegaudeau ran successfully in 3ms
+2026-10-26T22:55:41.787Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2024.11/01-split-representation-metadata-from-content.xml::01-split-representation-metadata-from-content::gcoutable
+2026-10-26T22:55:41.799Z  INFO 87605 --- [           main] liquibase.changelog                      : Table representation_content created
+2026-10-26T22:55:41.799Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_content (id)
+2026-10-26T22:55:41.800Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.800Z  INFO 87605 --- [           main] liquibase.changelog                      : Column representation_data.content dropped
+2026-10-26T22:55:41.801Z  INFO 87605 --- [           main] liquibase.changelog                      : Column representation_data.last_migration_performed dropped
+2026-10-26T22:55:41.801Z  INFO 87605 --- [           main] liquibase.changelog                      : Column representation_data.migration_version dropped
+2026-10-26T22:55:41.801Z  INFO 87605 --- [           main] liquibase.changelog                      : Table representation_data renamed to representation_metadata
+2026-10-26T22:55:41.802Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2024.11/01-split-representation-metadata-from-content.xml::01-split-representation-metadata-from-content::gcoutable ran successfully in 15ms
+2026-10-26T22:55:41.805Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.1/01-add-representation-metadata-icon-url.xml::01-add-representation-metadata-icon_url::Jerome Gout
+2026-10-26T22:55:41.811Z  INFO 87605 --- [           main] liquibase.changelog                      : Table representation_metadata_icon_url created
+2026-10-26T22:55:41.811Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_metadata_icon_url (representation_metadata_id)
+2026-10-26T22:55:41.812Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.1/01-add-representation-metadata-icon-url.xml::01-add-representation-metadata-icon_url::Jerome Gout ran successfully in 7ms
+2026-10-26T22:55:41.815Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.1/02-add-representation-metadata-documentation.xml::02-add-representation-metadata-documentation::Jerome Gout
+2026-10-26T22:55:41.816Z  INFO 87605 --- [           main] liquibase.changelog                      : Columns documentation(TEXT) added to representation_metadata
+2026-10-26T22:55:41.816Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.817Z  INFO 87605 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_metadata.documentation
+2026-10-26T22:55:41.818Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.1/02-add-representation-metadata-documentation.xml::02-add-representation-metadata-documentation::Jerome Gout ran successfully in 3ms
+2026-10-26T22:55:41.819Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.2/01-alter_project_id_type.xml::01-alter_project_id_type::mcharfadi
+2026-10-26T22:55:41.885Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.887Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.2/01-alter_project_id_type.xml::01-alter_project_id_type::mcharfadi ran successfully in 68ms
+2026-10-26T22:55:41.890Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.2/02-drop-fk-semantic-data-project-id-add-project-semantic-data.xml::02-drop-fk-semantic-data-project-id-add-project-semantic-data::mcharfadi
+2026-10-26T22:55:41.897Z  INFO 87605 --- [           main] liquibase.changelog                      : Table project_semantic_data created
+2026-10-26T22:55:41.897Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to project_semantic_data (project_id)
+2026-10-26T22:55:41.898Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to project_semantic_data (semantic_data_id)
+2026-10-26T22:55:41.898Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.899Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_semantic_data_project_id dropped
+2026-10-26T22:55:41.899Z  INFO 87605 --- [           main] liquibase.changelog                      : Column semantic_data.project_id dropped
+2026-10-26T22:55:41.900Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.2/02-drop-fk-semantic-data-project-id-add-project-semantic-data.xml::02-drop-fk-semantic-data-project-id-add-project-semantic-data::mcharfadi ran successfully in 10ms
+2026-10-26T22:55:41.902Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.2/03-add-library-table.xml::03-add-library-table::gdaniel
+2026-10-26T22:55:41.914Z  INFO 87605 --- [           main] liquibase.changelog                      : Table library created
+2026-10-26T22:55:41.920Z  INFO 87605 --- [           main] liquibase.changelog                      : Unique constraint added to library(namespace,name,version)
+2026-10-26T22:55:41.920Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to library (semantic_data_id)
+2026-10-26T22:55:41.921Z  INFO 87605 --- [           main] liquibase.changelog                      : Table library_dependency created
+2026-10-26T22:55:41.926Z  INFO 87605 --- [           main] liquibase.changelog                      : Primary key added to library_dependency (library_id,dependency_library_id)
+2026-10-26T22:55:41.926Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to library_dependency (library_id)
+2026-10-26T22:55:41.927Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to library_dependency (dependency_library_id)
+2026-10-26T22:55:41.928Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.2/03-add-library-table.xml::03-add-library-table::gdaniel ran successfully in 26ms
+2026-10-26T22:55:41.931Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.4/01-switch-representation-metadata-from-project-to-semantic-data.xml::01-switch-representation-metadata-from-project-to-semantic-data::sbegaudeau
+2026-10-26T22:55:41.931Z  INFO 87605 --- [           main] liquibase.changelog                      : Columns semantic_data_id(UUID) added to representation_metadata
+2026-10-26T22:55:41.932Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.932Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_metadata (semantic_data_id)
+2026-10-26T22:55:41.933Z  INFO 87605 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_metadata.semantic_data_id
+2026-10-26T22:55:41.933Z  INFO 87605 --- [           main] liquibase.changelog                      : Column representation_metadata.project_id dropped
+2026-10-26T22:55:41.934Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.4/01-switch-representation-metadata-from-project-to-semantic-data.xml::01-switch-representation-metadata-from-project-to-semantic-data::sbegaudeau ran successfully in 3ms
+2026-10-26T22:55:41.936Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.4/02-update-the-document-primarykey.xml::02-update-the-document-primarykey::sbegaudeau
+2026-10-26T22:55:41.937Z  INFO 87605 --- [           main] liquibase.changelog                      : Primary key dropped from document
+2026-10-26T22:55:41.943Z  INFO 87605 --- [           main] liquibase.changelog                      : Primary key added to document (id, semantic_data_id)
+2026-10-26T22:55:41.945Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.4/02-update-the-document-primarykey.xml::02-update-the-document-primarykey::sbegaudeau ran successfully in 9ms
+2026-10-26T22:55:41.947Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.4/03-move-dependency-to-semantic-data.xml::03-move-dependency-to-semantic-data::sbegaudeau
+2026-10-26T22:55:41.947Z  INFO 87605 --- [           main] liquibase.changelog                      : Table library_dependency dropped
+2026-10-26T22:55:41.948Z  INFO 87605 --- [           main] liquibase.changelog                      : Table semantic_data_dependency created
+2026-10-26T22:55:41.954Z  INFO 87605 --- [           main] liquibase.changelog                      : Primary key added to semantic_data_dependency (semantic_data_id,dependency_semantic_data_id)
+2026-10-26T22:55:41.954Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to semantic_data_dependency (semantic_data_id)
+2026-10-26T22:55:41.955Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to semantic_data_dependency (dependency_semantic_data_id)
+2026-10-26T22:55:41.956Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.4/03-move-dependency-to-semantic-data.xml::03-move-dependency-to-semantic-data::sbegaudeau ran successfully in 9ms
+2026-10-26T22:55:41.958Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2025.10/01-add-is-read-only-column-in-document-table.xml::01-add-is-read-only-column-in-document-table.xml::gdaniel
+2026-10-26T22:55:41.959Z  INFO 87605 --- [           main] liquibase.changelog                      : Columns is_read_only(BOOLEAN) added to document
+2026-10-26T22:55:41.959Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.959Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.960Z  INFO 87605 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to document.is_read_only
+2026-10-26T22:55:41.961Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2025.10/01-add-is-read-only-column-in-document-table.xml::01-add-is-read-only-column-in-document-table.xml::gdaniel ran successfully in 3ms
+2026-10-26T22:55:41.964Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/01-drop-fks-project-semantic-data.xml::01-drop-fks-project-semantic-data-add-unique-constraints::ntinsalhi
+2026-10-26T22:55:41.964Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_project_semantic_data_project_id dropped
+2026-10-26T22:55:41.965Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_project_semantic_data_semantic_data_id dropped
+2026-10-26T22:55:41.969Z  INFO 87605 --- [           main] liquibase.changelog                      : Unique constraint added to project_semantic_data(semantic_data_id)
+2026-10-26T22:55:41.975Z  INFO 87605 --- [           main] liquibase.changelog                      : Unique constraint added to project_semantic_data(project_id, name)
+2026-10-26T22:55:41.977Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/01-drop-fks-project-semantic-data.xml::01-drop-fks-project-semantic-data-add-unique-constraints::ntinsalhi ran successfully in 13ms
+2026-10-26T22:55:41.978Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/02-drop-additional-foreign-keys.xml::02-drop-additional-foreign-keys::ntinsalhi
+2026-10-26T22:55:41.979Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_library_semantic_data_id dropped
+2026-10-26T22:55:41.979Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_representation_metadata_semantic_data_id dropped
+2026-10-26T22:55:41.979Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_project_image_project_id dropped
+2026-10-26T22:55:41.980Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/02-drop-additional-foreign-keys.xml::02-drop-additional-foreign-keys::ntinsalhi ran successfully in 2ms
+2026-10-26T22:55:41.983Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/03-align-representation-content-identity-to-representation-metadata.xml::03-align-representation-content-identity-to-representation-metadata::sbegaudeau
+2026-10-26T22:55:41.984Z  INFO 87605 --- [           main] liquibase.changelog                      : Columns semantic_data_id(UUID) added to representation_content
+2026-10-26T22:55:41.984Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.985Z  INFO 87605 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_content.semantic_data_id
+2026-10-26T22:55:41.986Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/03-align-representation-content-identity-to-representation-metadata.xml::03-align-representation-content-identity-to-representation-metadata::sbegaudeau ran successfully in 3ms
+2026-10-26T22:55:41.988Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata.xml::04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata::sbegaudeau
+2026-10-26T22:55:41.988Z  INFO 87605 --- [           main] liquibase.changelog                      : Columns representation_metadata_id(UUID) added to representation_content
+2026-10-26T22:55:41.989Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.989Z  INFO 87605 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_content.representation_metadata_id
+2026-10-26T22:55:41.989Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_content (representation_metadata_id)
+2026-10-26T22:55:41.990Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_representation_content_id dropped
+2026-10-26T22:55:41.991Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata.xml::04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata::sbegaudeau ran successfully in 3ms
+2026-10-26T22:55:41.994Z  INFO 87605 --- [           main] liquibase.ui                             : Running Changeset: db/changelog/2026.1/05-make-representations-identifiers-semantic-data-aware.xml::05-make-representations-identifiers-semantic-data-aware::sbegaudeau
+2026-10-26T22:55:41.995Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_representation_content_representation_metadata_id dropped
+2026-10-26T22:55:41.995Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key fk_representation_metadata_id dropped
+2026-10-26T22:55:41.995Z  INFO 87605 --- [           main] liquibase.changelog                      : Columns representation_metadata_id(UUID) added to representation_metadata
+2026-10-26T22:55:41.995Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:41.996Z  INFO 87605 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_metadata.representation_metadata_id
+2026-10-26T22:55:42.008Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:42.008Z  INFO 87605 --- [           main] liquibase.changelog                      : Columns semantic_data_id(UUID) added to representation_metadata_icon_url
+2026-10-26T22:55:42.009Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:42.009Z  INFO 87605 --- [           main] liquibase.changelog                      : NOT NULL constraint has been added to representation_metadata_icon_url.semantic_data_id
+2026-10-26T22:55:42.014Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:42.015Z  INFO 87605 --- [           main] liquibase.changelog                      : Column representation_metadata_icon_url.semantic_data_id dropped
+2026-10-26T22:55:42.026Z  INFO 87605 --- [           main] liquibase.changelog                      : Custom SQL executed
+2026-10-26T22:55:42.026Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_content (id)
+2026-10-26T22:55:42.027Z  INFO 87605 --- [           main] liquibase.changelog                      : Foreign key constraint added to representation_metadata_icon_url (representation_metadata_id)
+2026-10-26T22:55:42.028Z  INFO 87605 --- [           main] liquibase.changelog                      : ChangeSet db/changelog/2026.1/05-make-representations-identifiers-semantic-data-aware.xml::05-make-representations-identifiers-semantic-data-aware::sbegaudeau ran successfully in 34ms
+2026-10-26T22:55:42.033Z  INFO 87605 --- [           main] liquibase.util                           : UPDATE SUMMARY
+2026-10-26T22:55:42.033Z  INFO 87605 --- [           main] liquibase.util                           : Run:                         20
+2026-10-26T22:55:42.034Z  INFO 87605 --- [           main] liquibase.util                           : Previously run:               0
+2026-10-26T22:55:42.034Z  INFO 87605 --- [           main] liquibase.util                           : Filtered out:                 0
+2026-10-26T22:55:42.034Z  INFO 87605 --- [           main] liquibase.util                           : -------------------------------
+2026-10-26T22:55:42.034Z  INFO 87605 --- [           main] liquibase.util                           : Total change sets:           20
+2026-10-26T22:55:42.034Z  INFO 87605 --- [           main] liquibase.util                           : Update summary generated
+2026-10-26T22:55:42.035Z  INFO 87605 --- [           main] liquibase.command                        : Update command completed successfully.
+2026-10-26T22:55:42.035Z  INFO 87605 --- [           main] liquibase.ui                             : Liquibase: Update has been successful. Rows affected: 0
+2026-10-26T22:55:42.037Z  INFO 87605 --- [           main] liquibase.lockservice                    : Successfully released change log lock
+2026-10-26T22:55:42.037Z  INFO 87605 --- [           main] liquibase.command                        : Command execution complete
+2026-10-26T22:55:42.476Z  INFO 87605 --- [           main] .StandardLibrariesIdsResourceToMapParser : Initialization of StandardLibrariesIdsResourceToMapParser completed in 71ms
+2026-10-26T22:55:42.983Z  INFO 87605 --- [           main] s.a.c.SysONDefaultLibrariesConfiguration : Registered EPackage 'sysml' (prefix 'sysml') against URI 'http://www.eclipse.org/syson/sysml'
+2026-10-26T22:55:43.033Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Base.json
+2026-10-26T22:55:43.043Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: BaseFunctions.json
+2026-10-26T22:55:43.046Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: BooleanFunctions.json
+2026-10-26T22:55:43.053Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Clocks.json
+2026-10-26T22:55:43.063Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: CollectionFunctions.json
+2026-10-26T22:55:43.066Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Collections.json
+2026-10-26T22:55:43.072Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ComplexFunctions.json
+2026-10-26T22:55:43.079Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ControlFunctions.json
+2026-10-26T22:55:43.086Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ControlPerformances.json
+2026-10-26T22:55:43.090Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: DataFunctions.json
+2026-10-26T22:55:43.095Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: FeatureReferencingPerformances.json
+2026-10-26T22:55:43.098Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: IntegerFunctions.json
+2026-10-26T22:55:43.112Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: KerML.json
+2026-10-26T22:55:43.114Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Links.json
+2026-10-26T22:55:43.115Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Metaobjects.json
+2026-10-26T22:55:43.117Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: NaturalFunctions.json
+2026-10-26T22:55:43.119Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: NumericalFunctions.json
+2026-10-26T22:55:43.124Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Objects.json
+2026-10-26T22:55:43.126Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Observation.json
+2026-10-26T22:55:43.128Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: OccurrenceFunctions.json
+2026-10-26T22:55:43.145Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Occurrences.json
+2026-10-26T22:55:43.148Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Performances.json
+2026-10-26T22:55:43.150Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: RationalFunctions.json
+2026-10-26T22:55:43.153Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: RealFunctions.json
+2026-10-26T22:55:43.155Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ScalarFunctions.json
+2026-10-26T22:55:43.155Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: ScalarValues.json
+2026-10-26T22:55:43.162Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: SequenceFunctions.json
+2026-10-26T22:55:43.166Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: SpatialFrames.json
+2026-10-26T22:55:43.171Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: StatePerformances.json
+2026-10-26T22:55:43.172Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: StringFunctions.json
+2026-10-26T22:55:43.177Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Transfers.json
+2026-10-26T22:55:43.179Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: TransitionPerformances.json
+2026-10-26T22:55:43.181Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: TrigFunctions.json
+2026-10-26T22:55:43.184Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: Triggers.json
+2026-10-26T22:55:43.192Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: VectorFunctions.json
+2026-10-26T22:55:43.192Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded KerML Standard Library resource: VectorValues.json
+2026-10-26T22:55:43.206Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Actions.json
+2026-10-26T22:55:43.208Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Allocations.json
+2026-10-26T22:55:43.212Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: AnalysisCases.json
+2026-10-26T22:55:43.212Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: AnalysisTooling.json
+2026-10-26T22:55:43.213Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Attributes.json
+2026-10-26T22:55:43.213Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Calculations.json
+2026-10-26T22:55:43.216Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Cases.json
+2026-10-26T22:55:43.218Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: CausationConnections.json
+2026-10-26T22:55:43.219Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: CauseAndEffect.json
+2026-10-26T22:55:43.220Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Connections.json
+2026-10-26T22:55:43.221Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Constraints.json
+2026-10-26T22:55:43.222Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: DerivationConnections.json
+2026-10-26T22:55:43.226Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Flows.json
+2026-10-26T22:55:43.227Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQ.json
+2026-10-26T22:55:43.232Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQAcoustics.json
+2026-10-26T22:55:43.259Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQAtomicNuclear.json
+2026-10-26T22:55:43.262Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQBase.json
+2026-10-26T22:55:43.267Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQCharacteristicNumbers.json
+2026-10-26T22:55:43.302Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQChemistryMolecular.json
+2026-10-26T22:55:43.311Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQCondensedMatter.json
+2026-10-26T22:55:43.343Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQElectromagnetism.json
+2026-10-26T22:55:43.347Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQInformation.json
+2026-10-26T22:55:43.365Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQLight.json
+2026-10-26T22:55:43.382Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQMechanics.json
+2026-10-26T22:55:43.392Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQSpaceTime.json
+2026-10-26T22:55:43.407Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ISQThermodynamics.json
+2026-10-26T22:55:43.407Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ImageMetadata.json
+2026-10-26T22:55:43.410Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Interfaces.json
+2026-10-26T22:55:43.412Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Items.json
+2026-10-26T22:55:43.412Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: MeasurementRefCalculations.json
+2026-10-26T22:55:43.416Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: MeasurementReferences.json
+2026-10-26T22:55:43.416Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Metadata.json
+2026-10-26T22:55:43.419Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ModelingMetadata.json
+2026-10-26T22:55:43.420Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ParametersOfInterestMetadata.json
+2026-10-26T22:55:43.420Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Parts.json
+2026-10-26T22:55:43.422Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Ports.json
+2026-10-26T22:55:43.423Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Quantities.json
+2026-10-26T22:55:43.425Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: QuantityCalculations.json
+2026-10-26T22:55:43.426Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: RequirementDerivation.json
+2026-10-26T22:55:43.428Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Requirements.json
+2026-10-26T22:55:43.428Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: RiskMetadata.json
+2026-10-26T22:55:43.484Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SI.json
+2026-10-26T22:55:43.486Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SIPrefixes.json
+2026-10-26T22:55:43.489Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SampledFunctions.json
+2026-10-26T22:55:43.506Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: ShapeItems.json
+2026-10-26T22:55:43.508Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SpatialItems.json
+2026-10-26T22:55:43.509Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: StandardViewDefinitions.json
+2026-10-26T22:55:43.511Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: StateSpaceRepresentation.json
+2026-10-26T22:55:43.513Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: States.json
+2026-10-26T22:55:43.521Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: SysML.json
+2026-10-26T22:55:43.522Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: TensorCalculations.json
+2026-10-26T22:55:43.524Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Time.json
+2026-10-26T22:55:43.525Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: TradeStudies.json
+2026-10-26T22:55:43.543Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: USCustomaryUnits.json
+2026-10-26T22:55:43.545Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: UseCases.json
+2026-10-26T22:55:43.546Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: VectorCalculations.json
+2026-10-26T22:55:43.548Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: VerificationCases.json
+2026-10-26T22:55:43.551Z  INFO 87605 --- [           main] o.e.s.a.libraries.SysONLibraryLoader     : Loaded SysML Standard Library resource: Views.json
+2026-10-26T22:55:43.827Z  INFO 87605 --- [           main] s.a.c.SysONDefaultLibrariesConfiguration : Initialization of default libraries completed in 845ms
+2026-10-26T22:55:45.438Z  INFO 87605 --- [           main] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page: class path resource [static/index.html]
+2026-10-26T22:55:45.789Z  INFO 87605 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18451 (http) with context path '/'
+2026-10-26T22:55:45.820Z  INFO 87605 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 18461 (http)
+2026-10-26T22:55:45.820Z  INFO 87605 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-26T22:55:45.820Z  INFO 87605 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+2026-10-26T22:55:45.822Z  INFO 87605 --- [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 30 ms
+2026-10-26T22:55:45.829Z  INFO 87605 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-10-26T22:55:45.852Z  INFO 87605 --- [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 18461 (http) with context path '/'
+2026-10-26T22:55:45.857Z  INFO 87605 --- [           main] org.eclipse.syson.SysONApplication       : Started SysONApplication in 6.988 seconds (process running for 7.313)
+2026-10-26T22:55:46.067Z  INFO 87605 --- [.1-18451-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-26T22:55:46.067Z  INFO 87605 --- [.1-18451-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-26T22:55:46.069Z  INFO 87605 --- [.1-18451-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-10-26T22:55:46.177Z  INFO 87605 --- [.1-18451-exec-2] p.c.ViewerAllProjectTemplatesDataFetcher : 4 project template(s) retrieved
+2026-10-26T22:55:46.208Z  INFO 87605 --- [.1-18451-exec-3] .a.p.c.ViewerProjectTemplatesDataFetcher : 6 project template(s) retrieved
+2026-10-26T22:55:46.214Z  WARN 87605 --- [.1-18451-exec-4] i.c.g.GraphQLDataFetcherExceptionHandler : fromIndex(0) > toIndex(-1)
+
+java.lang.IllegalArgumentException: fromIndex(0) > toIndex(-1)
+	at java.base/java.util.AbstractList.subListRangeCheck(Unknown Source) ~[na:na]
+	at java.base/java.util.ArrayList.subList(Unknown Source) ~[na:na]
+	at org.eclipse.sirius.web.application.project.services.ProjectTemplateApplicationService.handleProjectBrowser(ProjectTemplateApplicationService.java:114) ~[sirius-web-application-2026.9.3.jar!/:2026.9.3]
+	at org.eclipse.sirius.web.application.project.services.ProjectTemplateApplicationService.findAll(ProjectTemplateApplicationService.java:69) ~[sirius-web-application-2026.9.3.jar!/:2026.9.3]
+	at org.eclipse.sirius.web.application.project.controllers.ViewerProjectTemplatesDataFetcher.get(ViewerProjectTemplatesDataFetcher.java:87) ~[sirius-web-application-2026.9.3.jar!/:2026.9.3]
+	at org.eclipse.sirius.web.application.project.controllers.ViewerProjectTemplatesDataFetcher.get(ViewerProjectTemplatesDataFetcher.java:45) ~[sirius-web-application-2026.9.3.jar!/:2026.9.3]
+	at graphql.execution.ExecutionStrategy.invokeDataFetcher(ExecutionStrategy.java:512) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.fetchField(ExecutionStrategy.java:466) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.fetchField(ExecutionStrategy.java:404) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.resolveFieldWithInfo(ExecutionStrategy.java:360) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.getAsyncFieldValueInfo(ExecutionStrategy.java:325) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.executeObject(ExecutionStrategy.java:212) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.completeValueForObject(ExecutionStrategy.java:952) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.completeValue(ExecutionStrategy.java:696) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.completeField(ExecutionStrategy.java:645) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.resolveFieldWithInfo(ExecutionStrategy.java:375) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.getAsyncFieldValueInfo(ExecutionStrategy.java:325) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.AsyncExecutionStrategy.execute(AsyncExecutionStrategy.java:58) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.Execution.executeOperation(Execution.java:220) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.Execution.execute(Execution.java:139) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.execute(GraphQL.java:620) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.lambda$parseValidateAndExecute$5(GraphQL.java:549) ~[graphql-java-25.0.jar!/:na]
+	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(Unknown Source) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture.thenCompose(Unknown Source) ~[na:na]
+	at graphql.EngineRunningState.compose(EngineRunningState.java:91) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.parseValidateAndExecute(GraphQL.java:544) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.lambda$executeAsync$1(GraphQL.java:504) ~[graphql-java-25.0.jar!/:na]
+	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(Unknown Source) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture.thenCompose(Unknown Source) ~[na:na]
+	at graphql.EngineRunningState.compose(EngineRunningState.java:91) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.lambda$executeAsync$2(GraphQL.java:493) ~[graphql-java-25.0.jar!/:na]
+	at graphql.EngineRunningState.engineRun(EngineRunningState.java:202) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.executeAsync(GraphQL.java:485) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.execute(GraphQL.java:427) ~[graphql-java-25.0.jar!/:na]
+	at org.eclipse.sirius.components.graphql.controllers.GraphQLController.performRequest(GraphQLController.java:150) ~[sirius-components-graphql-2026.9.3.jar!/:2026.9.3]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:132) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:59) ~[tomcat-embed-websocket-11.0.24.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:535) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:86) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:71) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:347) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:406) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:71) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1307) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:2036) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:74) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:949) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:483) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:74) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[na:na]
+
+2026-10-26T22:55:46.220Z  WARN 87605 --- [.1-18451-exec-4] o.e.s.c.g.controllers.GraphQLController  : {
+  "errors" : [ {
+    "message" : "Exception while fetching data (/viewer/projectTemplates) : fromIndex(0) > toIndex(-1)",
+    "locations" : [ {
+      "line" : 1,
+      "column" : 101
+    } ],
+    "path" : [ "viewer", "projectTemplates" ],
+    "extensions" : {
+      "classification" : "DataFetchingException"
+    }
+  } ],
+  "data" : null
+}
+2026-10-26T22:55:46.223Z  WARN 87605 --- [.1-18451-exec-5] i.c.g.GraphQLDataFetcherExceptionHandler : fromIndex(4) > toIndex(3)
+
+java.lang.IllegalArgumentException: fromIndex(4) > toIndex(3)
+	at java.base/java.util.AbstractList.subListRangeCheck(Unknown Source) ~[na:na]
+	at java.base/java.util.ArrayList.subList(Unknown Source) ~[na:na]
+	at org.eclipse.sirius.web.application.project.services.ProjectTemplateApplicationService.handleProjectBrowser(ProjectTemplateApplicationService.java:114) ~[sirius-web-application-2026.9.3.jar!/:2026.9.3]
+	at org.eclipse.sirius.web.application.project.services.ProjectTemplateApplicationService.findAll(ProjectTemplateApplicationService.java:69) ~[sirius-web-application-2026.9.3.jar!/:2026.9.3]
+	at org.eclipse.sirius.web.application.project.controllers.ViewerProjectTemplatesDataFetcher.get(ViewerProjectTemplatesDataFetcher.java:87) ~[sirius-web-application-2026.9.3.jar!/:2026.9.3]
+	at org.eclipse.sirius.web.application.project.controllers.ViewerProjectTemplatesDataFetcher.get(ViewerProjectTemplatesDataFetcher.java:45) ~[sirius-web-application-2026.9.3.jar!/:2026.9.3]
+	at graphql.execution.ExecutionStrategy.invokeDataFetcher(ExecutionStrategy.java:512) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.fetchField(ExecutionStrategy.java:466) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.fetchField(ExecutionStrategy.java:404) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.resolveFieldWithInfo(ExecutionStrategy.java:360) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.getAsyncFieldValueInfo(ExecutionStrategy.java:325) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.executeObject(ExecutionStrategy.java:212) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.completeValueForObject(ExecutionStrategy.java:952) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.completeValue(ExecutionStrategy.java:696) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.completeField(ExecutionStrategy.java:645) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.resolveFieldWithInfo(ExecutionStrategy.java:375) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.ExecutionStrategy.getAsyncFieldValueInfo(ExecutionStrategy.java:325) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.AsyncExecutionStrategy.execute(AsyncExecutionStrategy.java:58) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.Execution.executeOperation(Execution.java:220) ~[graphql-java-25.0.jar!/:na]
+	at graphql.execution.Execution.execute(Execution.java:139) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.execute(GraphQL.java:620) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.lambda$parseValidateAndExecute$5(GraphQL.java:549) ~[graphql-java-25.0.jar!/:na]
+	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(Unknown Source) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture.thenCompose(Unknown Source) ~[na:na]
+	at graphql.EngineRunningState.compose(EngineRunningState.java:91) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.parseValidateAndExecute(GraphQL.java:544) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.lambda$executeAsync$1(GraphQL.java:504) ~[graphql-java-25.0.jar!/:na]
+	at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(Unknown Source) ~[na:na]
+	at java.base/java.util.concurrent.CompletableFuture.thenCompose(Unknown Source) ~[na:na]
+	at graphql.EngineRunningState.compose(EngineRunningState.java:91) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.lambda$executeAsync$2(GraphQL.java:493) ~[graphql-java-25.0.jar!/:na]
+	at graphql.EngineRunningState.engineRun(EngineRunningState.java:202) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.executeAsync(GraphQL.java:485) ~[graphql-java-25.0.jar!/:na]
+	at graphql.GraphQL.execute(GraphQL.java:427) ~[graphql-java-25.0.jar!/:na]
+	at org.eclipse.sirius.components.graphql.controllers.GraphQLController.performRequest(GraphQLController.java:150) ~[sirius-components-graphql-2026.9.3.jar!/:2026.9.3]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:252) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:184) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1000) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.9.jar!/:7.0.9]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:132) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:59) ~[tomcat-embed-websocket-11.0.24.jar!/:na]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.9.jar!/:7.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:111) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:535) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:86) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:71) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:347) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:406) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:71) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:1307) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:2036) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:74) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:949) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:483) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:74) ~[tomcat-embed-core-11.0.24.jar!/:na]
+	at java.base/java.lang.Thread.run(Unknown Source) ~[na:na]
+
+2026-10-26T22:55:46.224Z  WARN 87605 --- [.1-18451-exec-5] o.e.s.c.g.controllers.GraphQLController  : {
+  "errors" : [ {
+    "message" : "Exception while fetching data (/viewer/projectTemplates) : fromIndex(4) > toIndex(3)",
+    "locations" : [ {
+      "line" : 1,
+      "column" : 101
+    } ],
+    "path" : [ "viewer", "projectTemplates" ],
+    "extensions" : {
+      "classification" : "DataFetchingException"
+    }
+  } ],
+  "data" : null
+}
+2026-10-26T22:55:46.227Z  INFO 87605 --- [.1-18451-exec-6] .a.p.c.ViewerProjectTemplatesDataFetcher : 4 project template(s) retrieved
+2026-10-26T22:55:46.229Z  INFO 87605 --- [.1-18451-exec-8] .a.p.c.ViewerProjectTemplatesDataFetcher : 2 project template(s) retrieved
+2026-10-26T22:55:46.232Z  INFO 87605 --- [.1-18451-exec-7] .a.p.c.ViewerProjectTemplatesDataFetcher : 0 project template(s) retrieved
+2026-10-26T22:55:46.235Z  WARN 87605 --- [.1-18451-exec-9] o.e.s.c.g.controllers.GraphQLController  : {
+  "errors" : [ {
+    "message" : "Variable 'context' has an invalid value: Invalid input for enum 'ProjectTemplateContext'. No value found for name 'NOT_A_PROJECT_TEMPLATE_CONTEXT'",
+    "locations" : [ {
+      "line" : 1,
+      "column" : 55
+    } ],
+    "extensions" : {
+      "classification" : "ValidationError"
+    }
+  } ]
+}
+2026-10-26T22:55:46.237Z  WARN 87605 --- [1-18451-exec-10] o.e.s.c.g.controllers.GraphQLController  : {
+  "errors" : [ {
+    "message" : "Variable 'page' has an invalid value: Expected a value that can be converted to type 'Int' but it was a 'String'",
+    "locations" : [ {
+      "line" : 1,
+      "column" : 28
+    } ],
+    "extensions" : {
+      "classification" : "ValidationError"
+    }
+  } ]
+}
+2026-10-26T22:55:46.239Z  INFO 87605 --- [.1-18451-exec-1] .a.p.c.ViewerProjectTemplatesDataFetcher : 4 project template(s) retrieved
+2026-10-26T22:55:46.244Z  INFO 87605 --- [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-26T22:55:46.244Z  INFO 87605 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-26T22:55:46.245Z  INFO 87605 --- [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-26T22:55:46.245Z  INFO 87605 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-26T22:55:46.275Z  INFO 87605 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-26T22:55:46.276Z  INFO 87605 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

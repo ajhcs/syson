@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "scope": "READ_ONLY_PROJECT_TEMPLATE_DISCOVERY",
+  "boundary": "Actual catalog/page observations only; no registry activation, pagination reconstruction, template instantiation, library loading or browser acceptance",
+  "observations": [
+    {
+      "id": "all-templates",
+      "variant": "all",
+      "request": {
+        "query": "query C01hAllProjectTemplates { viewer { allProjectTemplates { id label imageURL requiredLibraries { id namespace name version } } } }",
+        "variables": {}
+      },
+      "expectation": "OBSERVE"
+    },
+    {
+      "id": "browser-large",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": 0,
+          "limit": 64,
+          "context": "PROJECT_BROWSER"
+        }
+      },
+      "expectation": "OBSERVE"
+    },
+    {
+      "id": "browser-small-first",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": 0,
+          "limit": 2,
+          "context": "PROJECT_BROWSER"
+        }
+      },
+      "expectation": "OBSERVE"
+    },
+    {
+      "id": "browser-small-next",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": 1,
+          "limit": 2,
+          "context": "PROJECT_BROWSER"
+        }
+      },
+      "expectation": "OBSERVE"
+    },
+    {
+      "id": "modal-large",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": 0,
+          "limit": 64,
+          "context": "PROJECT_TEMPLATE_MODAL"
+        }
+      },
+      "expectation": "OBSERVE"
+    },
+    {
+      "id": "modal-small-first",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": 0,
+          "limit": 2,
+          "context": "PROJECT_TEMPLATE_MODAL"
+        }
+      },
+      "expectation": "OBSERVE"
+    },
+    {
+      "id": "modal-small-next",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": 1,
+          "limit": 2,
+          "context": "PROJECT_TEMPLATE_MODAL"
+        }
+      },
+      "expectation": "OBSERVE"
+    },
+    {
+      "id": "invalid-context",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": 0,
+          "limit": 6,
+          "context": "NOT_A_PROJECT_TEMPLATE_CONTEXT"
+        }
+      },
+      "expectation": "GRAPHQL_ERROR"
+    },
+    {
+      "id": "invalid-page-type",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": "not-an-int",
+          "limit": 6,
+          "context": "PROJECT_BROWSER"
+        }
+      },
+      "expectation": "GRAPHQL_ERROR"
+    },
+    {
+      "id": "negative-page-zero-limit",
+      "variant": "page",
+      "request": {
+        "query": "query C01hProjectTemplates($page: Int!, $limit: Int!, $context: ProjectTemplateContext!) { viewer { projectTemplates(page: $page, limit: $limit, context: $context) { edges { node { id label imageURL requiredLibraries { id namespace name version } } } pageInfo { count startCursor endCursor hasPreviousPage hasNextPage } } } }",
+        "variables": {
+          "page": -1,
+          "limit": 0,
+          "context": "PROJECT_TEMPLATE_MODAL"
+        }
+      },
+      "expectation": "OBSERVE"
+    }
+  ]
+}
