@@ -1,0 +1,266 @@
+{
+  "unit": "F27",
+  "run": "f27-01",
+  "status": "PASS",
+  "started_utc": "2026-10-26T00:03:46.601486+00:00",
+  "source_before": {
+    "rust/crates/syson-storage/Cargo.lock": "499ae97a52f3eb583115087f8cc565407b966fe30cf21991c6b2b0f0aedd7992",
+    "rust/crates/syson-storage/Cargo.toml": "039b72465f98d8344f92900865a41628f8b619aa9e65149f0a625a9848519b32",
+    "rust/crates/syson-storage/src/bridge.py": "144ea99dd706ec69da4f37602d998bf9b52268c3b86933a5a7e2f6132241cac4",
+    "rust/crates/syson-storage/src/lib.rs": "944517a3b6a60e5ef34910d9300053eb0915c5e903e37d164c4490f24645d21a",
+    "rust/crates/syson-storage/tests/storage.rs": "94cb554d0bc459faafcc41ceb2f717ec86143563b4bf6c6e1ee1bed43915d8fe",
+    "rust/crates/syson-model/Cargo.lock": "357967d9f9b30797a59b065fc6ba161a0d859cac4187229a4bb8da4f975fe3c9",
+    "rust/crates/syson-model/Cargo.toml": "bc0366d0009494df9cdf9aaa2cc702f295df86f874a1dede82db449c81247b46",
+    "rust/crates/syson-model/src/containment.rs": "039ab16703a2a04dbe5f41b3a4a6f1ee13dbb0e87485842fb079510d3f923159",
+    "rust/crates/syson-model/src/factory.rs": "23d10256b4d12f6eb119dc68c7ed4f91138da490c11875ab3417496c9dee7b6d",
+    "rust/crates/syson-model/src/lib.rs": "dd77aaa4b5015b2ee9900559003557377d49465b6a419f91a6a692ac0523981b",
+    "rust/crates/syson-model/src/port_definition_refs.rs": "af4e9adf193300f7bf320549ac036189ad0d7036aea2820617688b24eeb59af6",
+    "rust/crates/syson-model/src/raw_admission.rs": "8a2be62daccfbf02d62f4753da86c54459b4086114edc87e2105f7205e1dee96",
+    "rust/crates/syson-model/src/scalar.rs": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+    "rust/crates/syson-model/tests/containment.rs": "35b46f57371eb8e194f85c28e074a08c2dabf7369611c750da94cb065d4f670e",
+    "rust/crates/syson-model/tests/creation_capabilities.rs": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+    "rust/crates/syson-model/tests/fixtures/simple-project.emf.json": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d",
+    "rust/crates/syson-model/tests/model.rs": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+    "rust/crates/syson-model/tests/port_definition_refs.rs": "f56c6ab59f48deabbd9da76035931e24a068889f0aadccda2b139087c58cafbb",
+    "rust/crates/syson-model/tests/scalars.rs": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d",
+    "rust/crates/syson-domain/Cargo.lock": "9af05380551c03381265ca5e0e917c7371a784a521fef57fcfa2fd0bc14b0251",
+    "rust/crates/syson-domain/Cargo.toml": "3a7c8cd8f3de857273114262ec3e9056736952d837f09c5c8032ab8d5cfb786c",
+    "rust/crates/syson-domain/src/lib.rs": "b61a2458613465b321c622d5fbc471dccf9b3347b65c2158878c1f77fad27f5b",
+    "rust/crates/syson-domain/src/model.rs": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+    "rust/crates/syson-domain/src/names.rs": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+    "rust/crates/syson-domain/src/query.rs": "ef3515e88721df2fe35c5dc67e37675bc8cfe0b469b5303b8195c464e71f1e0c",
+    "rust/crates/syson-domain/src/uuid.rs": "63f34e679acc05cbec751d93abb62103d211a70a9481ee3bd704a9c481248d5a",
+    "rust/crates/syson-domain/tests/compatibility.rs": "d6190421e348a8125b63d9fd19b3f9cfd52764d592a2f1b80f50c5c2ff687851",
+    "rust/crates/syson-domain/tests/query_graph.rs": "5a3f838943e44f2535fe32e9e4e92da47327e3946d4795aae01e80b8ddb3057a",
+    "rust/crates/syson-metamodel/Cargo.lock": "5a41a1dd1d2de207ea0c222cde9d7e02ce3265c8b1ff09ad819684b45c15a9c2",
+    "rust/crates/syson-metamodel/Cargo.toml": "a01b76bc383bfbcd998e1f5cb12ef0ada41034308ab75fb9b539cc88f529cedd",
+    "rust/crates/syson-metamodel/src/generated.rs": "02d68b123460a89590d4c3d62a6421e94d0b8d933ad9a80cc67fbcd816158aab",
+    "rust/crates/syson-metamodel/src/lib.rs": "f5755e0e1b7910389cce955280f1424cdc75b9e33e0dde99a7cb6386613cf61c",
+    "rust/crates/syson-metamodel/tests/registry.rs": "bcda1c594260f03f32d577d6a33e48381ed0865aa4b904bbfb820b0a3d38de48",
+    "rust/crates/syson-metamodel/tools/generate.py": "e39239f219da9b726d435d984945cd42d437a85b5ae7ea6ca7f56d44e7dd4d6c",
+    "rust/crates/syson-references/Cargo.lock": "6ba54c671958e1a64c722711de326d45069bdb8ac40fd1a9adac1fdfbf23ee86",
+    "rust/crates/syson-references/Cargo.toml": "4ea6062fbcb6a577e12b31efd00f154d039fcdc3894939f1b8b863b8ee33677d",
+    "rust/crates/syson-references/src/lib.rs": "947e97042e8f22922f404675068b86485173da430587e403387bb3aabee079b7",
+    "rust/crates/syson-references/tests/references.rs": "de8cd7f7ae85938f59e396577c17c30dc8b135ad6ef6672017178f80ec964611",
+    "rust/crates/syson-document-reconcile/Cargo.lock": "e3c1c8e475a12b372db2d6d58252dc2a72e9b269d72646a3bc59a0a3ab8e7c46",
+    "rust/crates/syson-document-reconcile/Cargo.toml": "478b6ba90eb6ecd4bfbd5a1a633247ebafac81069795ffa93ca5186b2986d55b",
+    "rust/crates/syson-document-reconcile/src/lib.rs": "264211b7a8dfad16fcd71ba631e5129e65776082e72a4b5f88e6bd3704157eab",
+    "rust/crates/syson-document-reconcile/tests/reconciliation.rs": "de46330a47248a447c974e141bf22a175c4d5f5c80bf6373e6a9049165bf5818"
+  },
+  "source_base": "466517a8f4ba51dec0fa30706a292baeee9eb822",
+  "runner_sha256": "6bb4dd551e927fd26216a81803ffdaf7ce581cbb84d35716939fbe3fb53f7cb5",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/f27-document-storage/rust/crates/syson-storage/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T00:03:46.605161+00:00",
+      "completed_utc": "2026-10-26T00:03:46.626117+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/f27-document-storage/rust/crates/syson-storage/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T00:03:46.626138+00:00",
+      "completed_utc": "2026-10-26T00:03:49.128669+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "98148a0d30c72fae2f3a4c2ea0e6d9ebca553368d45915edd3ec8d2cc6dc8333",
+      "stderr_sha256": "5fc89b0ac9e2da316626da4bec25c6f9d7a0ab8a05a5949fb2976c51b10493db"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/f27-document-storage/rust/crates/syson-storage/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T00:03:49.128696+00:00",
+      "completed_utc": "2026-10-26T00:03:49.509399+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3f90a70ef00cba89a823579741468111c769b3fa0f2bda34d70b43d90d8f1283"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T00:03:49.509426+00:00",
+  "source_after": {
+    "rust/crates/syson-storage/Cargo.lock": "499ae97a52f3eb583115087f8cc565407b966fe30cf21991c6b2b0f0aedd7992",
+    "rust/crates/syson-storage/Cargo.toml": "039b72465f98d8344f92900865a41628f8b619aa9e65149f0a625a9848519b32",
+    "rust/crates/syson-storage/src/bridge.py": "144ea99dd706ec69da4f37602d998bf9b52268c3b86933a5a7e2f6132241cac4",
+    "rust/crates/syson-storage/src/lib.rs": "944517a3b6a60e5ef34910d9300053eb0915c5e903e37d164c4490f24645d21a",
+    "rust/crates/syson-storage/tests/storage.rs": "94cb554d0bc459faafcc41ceb2f717ec86143563b4bf6c6e1ee1bed43915d8fe",
+    "rust/crates/syson-model/Cargo.lock": "357967d9f9b30797a59b065fc6ba161a0d859cac4187229a4bb8da4f975fe3c9",
+    "rust/crates/syson-model/Cargo.toml": "bc0366d0009494df9cdf9aaa2cc702f295df86f874a1dede82db449c81247b46",
+    "rust/crates/syson-model/src/containment.rs": "039ab16703a2a04dbe5f41b3a4a6f1ee13dbb0e87485842fb079510d3f923159",
+    "rust/crates/syson-model/src/factory.rs": "23d10256b4d12f6eb119dc68c7ed4f91138da490c11875ab3417496c9dee7b6d",
+    "rust/crates/syson-model/src/lib.rs": "dd77aaa4b5015b2ee9900559003557377d49465b6a419f91a6a692ac0523981b",
+    "rust/crates/syson-model/src/port_definition_refs.rs": "af4e9adf193300f7bf320549ac036189ad0d7036aea2820617688b24eeb59af6",
+    "rust/crates/syson-model/src/raw_admission.rs": "8a2be62daccfbf02d62f4753da86c54459b4086114edc87e2105f7205e1dee96",
+    "rust/crates/syson-model/src/scalar.rs": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+    "rust/crates/syson-model/tests/containment.rs": "35b46f57371eb8e194f85c28e074a08c2dabf7369611c750da94cb065d4f670e",
+    "rust/crates/syson-model/tests/creation_capabilities.rs": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+    "rust/crates/syson-model/tests/fixtures/simple-project.emf.json": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d",
+    "rust/crates/syson-model/tests/model.rs": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+    "rust/crates/syson-model/tests/port_definition_refs.rs": "f56c6ab59f48deabbd9da76035931e24a068889f0aadccda2b139087c58cafbb",
+    "rust/crates/syson-model/tests/scalars.rs": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d",
+    "rust/crates/syson-domain/Cargo.lock": "9af05380551c03381265ca5e0e917c7371a784a521fef57fcfa2fd0bc14b0251",
+    "rust/crates/syson-domain/Cargo.toml": "3a7c8cd8f3de857273114262ec3e9056736952d837f09c5c8032ab8d5cfb786c",
+    "rust/crates/syson-domain/src/lib.rs": "b61a2458613465b321c622d5fbc471dccf9b3347b65c2158878c1f77fad27f5b",
+    "rust/crates/syson-domain/src/model.rs": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+    "rust/crates/syson-domain/src/names.rs": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+    "rust/crates/syson-domain/src/query.rs": "ef3515e88721df2fe35c5dc67e37675bc8cfe0b469b5303b8195c464e71f1e0c",
+    "rust/crates/syson-domain/src/uuid.rs": "63f34e679acc05cbec751d93abb62103d211a70a9481ee3bd704a9c481248d5a",
+    "rust/crates/syson-domain/tests/compatibility.rs": "d6190421e348a8125b63d9fd19b3f9cfd52764d592a2f1b80f50c5c2ff687851",
+    "rust/crates/syson-domain/tests/query_graph.rs": "5a3f838943e44f2535fe32e9e4e92da47327e3946d4795aae01e80b8ddb3057a",
+    "rust/crates/syson-metamodel/Cargo.lock": "5a41a1dd1d2de207ea0c222cde9d7e02ce3265c8b1ff09ad819684b45c15a9c2",
+    "rust/crates/syson-metamodel/Cargo.toml": "a01b76bc383bfbcd998e1f5cb12ef0ada41034308ab75fb9b539cc88f529cedd",
+    "rust/crates/syson-metamodel/src/generated.rs": "02d68b123460a89590d4c3d62a6421e94d0b8d933ad9a80cc67fbcd816158aab",
+    "rust/crates/syson-metamodel/src/lib.rs": "f5755e0e1b7910389cce955280f1424cdc75b9e33e0dde99a7cb6386613cf61c",
+    "rust/crates/syson-metamodel/tests/registry.rs": "bcda1c594260f03f32d577d6a33e48381ed0865aa4b904bbfb820b0a3d38de48",
+    "rust/crates/syson-metamodel/tools/generate.py": "e39239f219da9b726d435d984945cd42d437a85b5ae7ea6ca7f56d44e7dd4d6c",
+    "rust/crates/syson-references/Cargo.lock": "6ba54c671958e1a64c722711de326d45069bdb8ac40fd1a9adac1fdfbf23ee86",
+    "rust/crates/syson-references/Cargo.toml": "4ea6062fbcb6a577e12b31efd00f154d039fcdc3894939f1b8b863b8ee33677d",
+    "rust/crates/syson-references/src/lib.rs": "947e97042e8f22922f404675068b86485173da430587e403387bb3aabee079b7",
+    "rust/crates/syson-references/tests/references.rs": "de8cd7f7ae85938f59e396577c17c30dc8b135ad6ef6672017178f80ec964611",
+    "rust/crates/syson-document-reconcile/Cargo.lock": "e3c1c8e475a12b372db2d6d58252dc2a72e9b269d72646a3bc59a0a3ab8e7c46",
+    "rust/crates/syson-document-reconcile/Cargo.toml": "478b6ba90eb6ecd4bfbd5a1a633247ebafac81069795ffa93ca5186b2986d55b",
+    "rust/crates/syson-document-reconcile/src/lib.rs": "264211b7a8dfad16fcd71ba631e5129e65776082e72a4b5f88e6bd3704157eab",
+    "rust/crates/syson-document-reconcile/tests/reconciliation.rs": "de46330a47248a447c974e141bf22a175c4d5f5c80bf6373e6a9049165bf5818"
+  },
+  "storage_execution_review": {
+    "status": "APPROVED_BY_COORDINATOR",
+    "run": "f27-01",
+    "reviewed_utc": "2026-10-26T00:03:21.508264+00:00",
+    "reviewer": "/root",
+    "source_sha256": {
+      "rust/crates/syson-storage/src/lib.rs": "944517a3b6a60e5ef34910d9300053eb0915c5e903e37d164c4490f24645d21a",
+      "rust/crates/syson-storage/src/bridge.py": "144ea99dd706ec69da4f37602d998bf9b52268c3b86933a5a7e2f6132241cac4",
+      "rust/crates/syson-storage/tests/storage.rs": "94cb554d0bc459faafcc41ceb2f717ec86143563b4bf6c6e1ee1bed43915d8fe"
+    },
+    "tool_sha256": {
+      "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+      "/usr/lib/python3.12/sqlite3/__init__.py": "f7cc982617b68e147540ef352d38310fe4d25c2c9c2542b67d0590c871df09a8",
+      "/usr/lib/python3.12/sqlite3/dbapi2.py": "7c5c8d98df1f2c50c4062a3be2c0f0499190c179fa4fc281507a1ef763a98f28",
+      "/usr/lib/python3.12/lib-dynload/_sqlite3.cpython-312-x86_64-linux-gnu.so": "ecf54958b24c533f5c8dc67ca82cdce236aeb322864140bfe93eb8a69b729f4d",
+      "/usr/lib/x86_64-linux-gnu/libsqlite3.so.0": "85265a9d4afca6f4b325ceb078b669c754fb881abed4cafe91ccebe9d625d975"
+    },
+    "python": "3.12.3",
+    "sqlite": "3.45.1",
+    "driver_argv": [
+      "/usr/bin/python3",
+      "-I",
+      "-S",
+      "-B",
+      "-c",
+      "compiled frozen bridge",
+      "explicit fresh owned DB path"
+    ],
+    "test_setup": "Fixed PRAGMA user_version=999 against fresh owned candidate DB only",
+    "commands": [
+      "cargo fmt --manifest-path rust/crates/syson-storage/Cargo.toml -- --check",
+      "cargo test --offline --locked --manifest-path rust/crates/syson-storage/Cargo.toml -- --test-threads=1",
+      "cargo clippy --offline --locked --manifest-path rust/crates/syson-storage/Cargo.toml --all-targets -- -D warnings"
+    ],
+    "database_boundary": "/workspace/build/builderbob/syson-batch8-20261025/scratch/f27-01/f27-test-<owned-pid>-<counter>/store.sqlite3",
+    "allowed_effects": [
+      "create fresh owned test directories and DB files",
+      "candidate schema and synthetic document transactions",
+      "SQLite creation/finalization of its own same-directory rollback journals",
+      "retained test DB files and test-format mutation"
+    ],
+    "excluded": [
+      "network or DB service",
+      "package or registry installation",
+      "credentials",
+      "production or existing user DB targets",
+      "native PostgreSQL schema/artifact equivalence",
+      "crash/power-loss/production durability claims",
+      "operator cleanup or deletion of retained evidence"
+    ],
+    "scope": "One serial one-job frozen stdlib-SQLite candidate test run; driver reviewed before first database execution"
+  },
+  "storage_tool_sha256_after": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/lib/python3.12/sqlite3/__init__.py": "f7cc982617b68e147540ef352d38310fe4d25c2c9c2542b67d0590c871df09a8",
+    "/usr/lib/python3.12/sqlite3/dbapi2.py": "7c5c8d98df1f2c50c4062a3be2c0f0499190c179fa4fc281507a1ef763a98f28",
+    "/usr/lib/python3.12/lib-dynload/_sqlite3.cpython-312-x86_64-linux-gnu.so": "ecf54958b24c533f5c8dc67ca82cdce236aeb322864140bfe93eb8a69b729f4d",
+    "/usr/lib/x86_64-linux-gnu/libsqlite3.so.0": "85265a9d4afca6f4b325ceb078b669c754fb881abed4cafe91ccebe9d625d975"
+  },
+  "retained_database_artifacts": {
+    "f27-test-2488440-11/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "7bf248ea008f4b734c2c595d5ab8729ca383f29320c6ea6e91e55fcd54946ac4"
+    },
+    "f27-test-2488440-13/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "45f99eb7d6ddac5f4f332532bb9c025b2e979a77ce7a84054b96cd30e4ca3770"
+    },
+    "f27-test-2488440-10/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "47deb4d9c063ca985b90e161b8a6e66a7b215589ea362fc3d7f2aa8785d7e438"
+    },
+    "f27-test-2488440-7/store.sqlite3": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "f27-test-2488440-3/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "8a4a5862b8560445741c9cd6ce6ed13ed3612cc29b58470a1479b66abf43e869"
+    },
+    "f27-test-2488440-9/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "c8a5dee02ae8b3bc3e0c52098726c5801dce264c0e53488a9e73a8312abb155a"
+    },
+    "f27-test-2488440-5/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "2732b25d151666075bd1d1b3a7946c90abb4061fa1e6088013cb0f9fa8927c4e"
+    },
+    "f27-test-2488440-2/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "45f99eb7d6ddac5f4f332532bb9c025b2e979a77ce7a84054b96cd30e4ca3770"
+    },
+    "f27-test-2488440-1/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "e2d87f133e8db54afafa176e323ac803050d406c58262d1c00e5a623b89f1b23"
+    },
+    "f27-test-2488440-14/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "0faec66fa1562fca624ff0ebc85efc7252203f24c015a833852e276065090b85"
+    },
+    "f27-test-2488440-6/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "cf511f9958de6e548c5da78e61ee01804df92fa6b87b19f2909ec4fe6df57ef9"
+    },
+    "f27-test-2488440-4/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "7d10093b21e03e4ab1f8026dd6cc3a352320f55e89035c6c9c37048d02311db3"
+    },
+    "f27-test-2488440-12/store.sqlite3": {
+      "bytes": 12288,
+      "sha256": "dedc03edb99823b776b845ff6b7a9847da019633bcf22c14f76f02110b8561af"
+    }
+  },
+  "source_unchanged": true
+}

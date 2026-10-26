@@ -1,0 +1,56 @@
+{
+  "status": "COORDINATOR_APPROVED_AND_EXECUTED",
+  "driver": "/usr/bin/python3",
+  "argv": [
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "compiled include_str(src/bridge.py)",
+    "explicit absolute owned DB path"
+  ],
+  "environment": "cleared",
+  "python_observed_by_parent": "3.12.3",
+  "sqlite_observed_by_parent": "3.45.1",
+  "database_scope": "$TMPDIR/f27-test-<owned-test-process-pid>-<monotonic-counter>/store.sqlite3; TMPDIR must be absolute under /workspace",
+  "allowed_side_effects": [
+    "create fresh owned directory/file",
+    "candidate schema initialization",
+    "selected synthetic document DML",
+    "SQLite same-directory rollback journal",
+    "retained test DBs and failure files"
+  ],
+  "forbidden_side_effects": [
+    "network",
+    "service registration",
+    "package installation",
+    "production target",
+    "credential access",
+    "arbitrary SQL",
+    "implicit creation on load",
+    "cleanup/deletion"
+  ],
+  "native_schema": "NOT_APPLIED",
+  "native_artifact_correspondence": "UNPROVEN",
+  "limits": {
+    "operations": 64,
+    "document_bytes": 1048576,
+    "protocol_bytes": 8388608,
+    "document_name_bytes": 4096,
+    "sqlite_lock_timeout_seconds": 1
+  },
+  "worker_database_execution": "NOT_RUN",
+  "fixed_test_setup": {
+    "executable": "/usr/bin/python3",
+    "argv": [
+      "-I",
+      "-S",
+      "-B",
+      "-c",
+      "import pathlib,sqlite3,sys; db=sqlite3.connect(pathlib.Path(sys.argv[1]).as_uri()+'?mode=rw',uri=True,isolation_level=None); db.execute('PRAGMA user_version=999'); db.close()",
+      "fresh test-owned candidate DB path"
+    ],
+    "execution_by_worker": "NOT_RUN"
+  },
+  "approved_execution_review": "validation/f27-01/storage-execution-review.json"
+}

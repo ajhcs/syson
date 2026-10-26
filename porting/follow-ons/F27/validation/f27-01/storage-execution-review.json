@@ -1,0 +1,52 @@
+{
+  "status": "APPROVED_BY_COORDINATOR",
+  "run": "f27-01",
+  "reviewed_utc": "2026-10-26T00:03:21.508264+00:00",
+  "reviewer": "/root",
+  "source_sha256": {
+    "rust/crates/syson-storage/src/lib.rs": "944517a3b6a60e5ef34910d9300053eb0915c5e903e37d164c4490f24645d21a",
+    "rust/crates/syson-storage/src/bridge.py": "144ea99dd706ec69da4f37602d998bf9b52268c3b86933a5a7e2f6132241cac4",
+    "rust/crates/syson-storage/tests/storage.rs": "94cb554d0bc459faafcc41ceb2f717ec86143563b4bf6c6e1ee1bed43915d8fe"
+  },
+  "tool_sha256": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/lib/python3.12/sqlite3/__init__.py": "f7cc982617b68e147540ef352d38310fe4d25c2c9c2542b67d0590c871df09a8",
+    "/usr/lib/python3.12/sqlite3/dbapi2.py": "7c5c8d98df1f2c50c4062a3be2c0f0499190c179fa4fc281507a1ef763a98f28",
+    "/usr/lib/python3.12/lib-dynload/_sqlite3.cpython-312-x86_64-linux-gnu.so": "ecf54958b24c533f5c8dc67ca82cdce236aeb322864140bfe93eb8a69b729f4d",
+    "/usr/lib/x86_64-linux-gnu/libsqlite3.so.0": "85265a9d4afca6f4b325ceb078b669c754fb881abed4cafe91ccebe9d625d975"
+  },
+  "python": "3.12.3",
+  "sqlite": "3.45.1",
+  "driver_argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "compiled frozen bridge",
+    "explicit fresh owned DB path"
+  ],
+  "test_setup": "Fixed PRAGMA user_version=999 against fresh owned candidate DB only",
+  "commands": [
+    "cargo fmt --manifest-path rust/crates/syson-storage/Cargo.toml -- --check",
+    "cargo test --offline --locked --manifest-path rust/crates/syson-storage/Cargo.toml -- --test-threads=1",
+    "cargo clippy --offline --locked --manifest-path rust/crates/syson-storage/Cargo.toml --all-targets -- -D warnings"
+  ],
+  "database_boundary": "/workspace/build/builderbob/syson-batch8-20261025/scratch/f27-01/f27-test-<owned-pid>-<counter>/store.sqlite3",
+  "allowed_effects": [
+    "create fresh owned test directories and DB files",
+    "candidate schema and synthetic document transactions",
+    "SQLite creation/finalization of its own same-directory rollback journals",
+    "retained test DB files and test-format mutation"
+  ],
+  "excluded": [
+    "network or DB service",
+    "package or registry installation",
+    "credentials",
+    "production or existing user DB targets",
+    "native PostgreSQL schema/artifact equivalence",
+    "crash/power-loss/production durability claims",
+    "operator cleanup or deletion of retained evidence"
+  ],
+  "scope": "One serial one-job frozen stdlib-SQLite candidate test run; driver reviewed before first database execution"
+}
