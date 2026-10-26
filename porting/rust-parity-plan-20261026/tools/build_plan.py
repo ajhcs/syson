@@ -60,7 +60,7 @@ for uid, deps in edges.items():
         if dep not in byid[uid]['dependencies']:
             byid[uid]['dependencies'].append(dep)
             byid[uid].setdefault('coordinator_added_dependencies', []).append(dep)
-for parent, children in {'C01':['C01a','C01b','C01c','C01d'], 'C03':['C03a','C03b']}.items():
+for parent, children in {'C01':['C01a','C01b','C01c','C01d','C01e','C01f'], 'C03':['C03a','C03b','C03c']}.items():
     byid[parent]['acceptance_children'] = children
     byid[parent]['bounded_child_disposition'] = 'Selected evidence tools only; all original parent tasks and downstream parent gates remain required.'
 providers = [u['id'] for u in UNITS if u['id'].startswith('V')]

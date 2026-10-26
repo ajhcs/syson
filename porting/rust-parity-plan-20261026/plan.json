@@ -2,11 +2,12 @@
   "schema": 1,
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "state": "ADOPTED_REVIEWABLE_PLAN;_IMPLEMENTATION_AND_NATIVE_CLOSURE_REMAIN_OPEN",
-  "unit_count": 727,
+  "unit_count": 730,
   "full_parity_claimed": false,
   "count_meaning": "Named review units, including verification and explicitly generated source batches; discovery may add bounded children. Not a feature count, percentage or guaranteed final PR count.",
   "lane_counts": {
     "lanes/batch4.json": 3,
+    "lanes/batch5.json": 3,
     "lanes/coordination-support.json": 3,
     "lanes/migration-support.json": 1,
     "lanes/model.json": 408,
@@ -197,6 +198,26 @@
       "accepted:C06",
       "accepted:C07",
       "implementation:C03b"
+    ],
+    "implementation:C01e": [
+      "implementation:C01b"
+    ],
+    "accepted:C01e": [
+      "implementation:C01e"
+    ],
+    "implementation:C01f": [
+      "implementation:C01c"
+    ],
+    "accepted:C01f": [
+      "implementation:C01f"
+    ],
+    "implementation:C03c": [
+      "implementation:C03b"
+    ],
+    "accepted:C03c": [
+      "accepted:C06",
+      "accepted:C07",
+      "implementation:C03c"
     ],
     "implementation:C01a": [],
     "accepted:C01a": [
@@ -7027,6 +7048,8 @@
       "accepted:C01b",
       "accepted:C01c",
       "accepted:C01d",
+      "accepted:C01e",
+      "accepted:C01f",
       "implementation:C01"
     ],
     "implementation:C02": [
@@ -7039,6 +7062,7 @@
     "accepted:C03": [
       "accepted:C03a",
       "accepted:C03b",
+      "accepted:C03c",
       "implementation:C03"
     ],
     "implementation:C04": [
@@ -7087,10 +7111,13 @@
       "implementation:C01b",
       "implementation:C01c",
       "implementation:C01d",
+      "implementation:C01e",
+      "implementation:C01f",
       "implementation:C02",
       "implementation:C03",
       "implementation:C03a",
       "implementation:C03b",
+      "implementation:C03c",
       "implementation:C04",
       "implementation:I01",
       "implementation:I03",
@@ -7633,10 +7660,13 @@
       "implementation:C01b",
       "implementation:C01c",
       "implementation:C01d",
+      "implementation:C01e",
+      "implementation:C01f",
       "implementation:C02",
       "implementation:C03",
       "implementation:C03a",
       "implementation:C03b",
+      "implementation:C03c",
       "implementation:C05",
       "implementation:I01",
       "implementation:I03",
@@ -8132,10 +8162,13 @@
       "implementation:C01b",
       "implementation:C01c",
       "implementation:C01d",
+      "implementation:C01e",
+      "implementation:C01f",
       "implementation:C02",
       "implementation:C03",
       "implementation:C03a",
       "implementation:C03b",
+      "implementation:C03c",
       "implementation:C06",
       "implementation:I01",
       "implementation:I03",
@@ -8610,10 +8643,13 @@
       "implementation:C01b",
       "implementation:C01c",
       "implementation:C01d",
+      "implementation:C01e",
+      "implementation:C01f",
       "implementation:C02",
       "implementation:C03",
       "implementation:C03a",
       "implementation:C03b",
+      "implementation:C03c",
       "implementation:C07",
       "implementation:I01",
       "implementation:I03",
@@ -9082,10 +9118,13 @@
       "implementation:C01b",
       "implementation:C01c",
       "implementation:C01d",
+      "implementation:C01e",
+      "implementation:C01f",
       "implementation:C02",
       "implementation:C03",
       "implementation:C03a",
       "implementation:C03b",
+      "implementation:C03c",
       "implementation:C08",
       "implementation:I01",
       "implementation:I03",
@@ -9647,10 +9686,13 @@
       "implementation:C01b",
       "implementation:C01c",
       "implementation:C01d",
+      "implementation:C01e",
+      "implementation:C01f",
       "implementation:C02",
       "implementation:C03",
       "implementation:C03a",
       "implementation:C03b",
+      "implementation:C03c",
       "implementation:C09",
       "implementation:I01",
       "implementation:I03",
@@ -10824,6 +10866,9 @@
       "implementation:C01c",
       "implementation:C01d",
       "implementation:C03b",
+      "implementation:C01e",
+      "implementation:C01f",
+      "implementation:C03c",
       "implementation:C01a",
       "implementation:C01b",
       "implementation:C03a",
@@ -11600,10 +11645,13 @@
       "accepted:C01b",
       "accepted:C01c",
       "accepted:C01d",
+      "accepted:C01e",
+      "accepted:C01f",
       "accepted:C02",
       "accepted:C03",
       "accepted:C03a",
       "accepted:C03b",
+      "accepted:C03c",
       "accepted:C04",
       "accepted:C05",
       "accepted:C06",
@@ -12368,18 +12416,23 @@
     ],
     [
       "C01d",
+      "C01e",
+      "C01f"
+    ],
+    [
       "C02",
-      "C03"
+      "C03",
+      "C03a"
     ],
     [
       "B32",
-      "C03a",
+      "C03b",
       "C04"
     ],
     [
       "B33",
       "B34",
-      "C03b"
+      "C03c"
     ],
     [
       "B35",
@@ -18954,7 +19007,9 @@
         "C01a",
         "C01b",
         "C01c",
-        "C01d"
+        "C01d",
+        "C01e",
+        "C01f"
       ],
       "bounded_child_disposition": "Selected evidence tools only; all original parent tasks and downstream parent gates remain required."
     },
@@ -19670,6 +19725,144 @@
       "source_fragment_sha256": "00bff24d29fdcebdb9bb87b0c504159eea2d9a84dbbe3ef81975b872c8e715a1"
     },
     {
+      "lane": "coordination-integration",
+      "state": "LOCALLY_VERIFIED_BOUNDED_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation and meaningful source/caller/refusal fixtures",
+        "Exact execution evidence, independent review and remaining acceptance limits"
+      ],
+      "budget": {
+        "production_lines_max": 475,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "exception_reason": "One cohesive source/ZIP observation validator covers125delta paths,312containers and7class families; retain strictchecks without artificial schema/backend split. Root reviewed before execution.",
+        "observed_production_lines": 469,
+        "observed_test_lines": 340
+      },
+      "ownership": "One isolated source author; root owns manifests/locks, source acquisition, compilers, ZIP repack and native/DB/browser execution. No held-path changes.",
+      "done_when": "Named bounded implementation/capture gates verified; parent C01/C03 and full feature acceptance remain open.",
+      "id": "C01e",
+      "title": "Build a selected-source-delta comparison artifact with exact replacement planning",
+      "dependencies": [
+        "C01b"
+      ],
+      "external_prs": [
+        78
+      ],
+      "paths": [
+        "rust/tools/reference-delta-plan/",
+        "porting/rust-parity-evidence/C01e/"
+      ],
+      "source_refs": [
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/metamodel/syson-sysml-metamodel-edit/src/main/java/org/eclipse/syson/sysml/provider/ItemUsageItemProvider.java",
+          "sha256": "4bb07036961fa8ad64ee811af35f7408e60ad16d6f9b8766e4bc03bec59ef7fc"
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/metamodel/syson-sysml-metamodel-edit/src/main/java/org/eclipse/syson/sysml/provider/ReferenceUsageItemProvider.java",
+          "sha256": "801dcbba0dc2d183d99adcc7c9062f30e0567be4b6e1379bce11f28d8ad3d98c"
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/views/syson-diagram-common-view/src/main/java/org/eclipse/syson/diagram/common/view/nodes/AbstractReferenceUsageBorderNodeDescriptionProvider.java",
+          "sha256": "c433be59e0587dd925f64121d659a3fed939bc39263bb37f002dcea78a5aa184"
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/views/syson-diagram-common-view/src/main/java/org/eclipse/syson/diagram/common/view/nodes/ForkActionNodeDescriptionProvider.java",
+          "sha256": "ab0f5aad98a1bd7b04663171d92347d92e5a2f439599434086abb38adb9660c4"
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/views/syson-diagram-common-view/src/main/java/org/eclipse/syson/diagram/common/view/nodes/JoinActionNodeDescriptionProvider.java",
+          "sha256": "f30409a8821ac7c8ef8209ead3f5121f7881e9954b17c62e9407a5e31a6fab81"
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/views/syson-diagram-common-view/src/main/java/org/eclipse/syson/diagram/common/view/tools/ParameterCompartmentNodeToolProvider.java",
+          "sha256": "bfc8d019a6b564445d926effbaa5584ae22230055e9ba0292548eb9333e6dd37"
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/views/syson-standard-diagrams-view/src/main/java/org/eclipse/syson/standard/diagrams/view/SDVDescriptionProvider.java",
+          "sha256": "cfc4a04e39dc4330f1ee5d4bab4fee2cb760e6a4198feb54562e34211650fe77"
+        }
+      ],
+      "tasks": [
+        "Map the complete official-label-to-target125pathdelta:7Java+114SVG runtime paths and4documentation-only paths, using actual312JAR memberships and pinned Git bytes.",
+        "Plan only exact class-family/resource additions or replacements; reject missing/ambiguous/stale/signed/multi-release inputs and unexpected compiler outputs.",
+        "Root compiles only seven explicit target sources against identified current312JARs, repacks a separately named derived comparison artifact, and verifies every unselected entry payload and declared metadata rule.",
+        "Retain original official artifact and all failed attempts; derived manifest must never assert independent full Maven/frontend build or whole-target source equivalence."
+      ],
+      "verification": [
+        "Root reviews exact compiler/ZIP/source inputs and raw emitted class families before execution; no package acquisition or hidden runtime fallback.",
+        "Meaningful planner negatives plus fmt/tests/Clippy offline, actual generated plan consumed by root reassembly, complete before/after archive inventories.",
+        "Fresh isolated derived-artifact startup and selected native/UI-provider/resource probes; exact process cleanup. Full target build/dependency provenance and parentC01 stayOPEN."
+      ],
+      "external_pr_details": [
+        78
+      ],
+      "source_fragment": "lanes/batch5.json",
+      "source_fragment_sha256": "7e0d67e6d5323e6e11f5f4191106402aaf6a8276230745adbc273b6b2c80305c"
+    },
+    {
+      "lane": "coordination-integration",
+      "state": "LOCALLY_VERIFIED_BOUNDED_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation and meaningful source/caller/refusal fixtures",
+        "Exact execution evidence, independent review and remaining acceptance limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "observed_production_lines": 362,
+        "observed_test_lines": 316
+      },
+      "ownership": "One isolated source author; root owns manifests/locks, source acquisition, compilers, ZIP repack and native/DB/browser execution. No held-path changes.",
+      "done_when": "Named bounded implementation/capture gates verified; parent C01/C03 and full feature acceptance remain open.",
+      "id": "C01f",
+      "title": "Capture actual native HTTP handler and wire-observation contracts",
+      "dependencies": [
+        "C01c"
+      ],
+      "external_prs": [
+        80
+      ],
+      "paths": [
+        "rust/tools/native-http-contract/",
+        "porting/rust-parity-evidence/C01f/"
+      ],
+      "source_refs": [
+        "porting/source-map/inherited/sirius-source-files.jsonl"
+      ],
+      "tasks": [
+        "Capture actual Actuator mappings on a separate loopback diagnostic context with only mappings access/exposure; preserve complete mappings and explicit runtime/config provenance.",
+        "Capture22fixed read-only/error/negotiation/CORS probes on app endpoint with redirects disabled, complete repeated header pairs and exact UTF8 orhex bodies; no multipart/SSE/websocket/mutations.",
+        "Validate actual structured MVC conditions and preserve every non-MVC/resource/filter/servlet category and unknown fields; do not flatten omitted conditions into inferred defaults.",
+        "Emit observed mapping/probe contracts with C01OPEN; handler inventory and captured errors do not qualify all resolver/auth/request-lifecycle behavior."
+      ],
+      "verification": [
+        "Root reviews fresh owned PostgreSQL/JRE lifecycle, three loopback ports, bounded HTTP requests and cleanup; diagnostic changes explicitly separated from default deployment.",
+        "Actual fixture positives and duplicate/missing/condition/header/probe-safety/byte-limit negatives; fmt/tests/Clippy offline plus actual CLI equivalence to raw captures.",
+        "Independent review and preserved original failures; no request to external hosts and no native/artifact/fullAPIparity from counts."
+      ],
+      "external_pr_details": [
+        80
+      ],
+      "source_fragment": "lanes/batch5.json",
+      "source_fragment_sha256": "7e0d67e6d5323e6e11f5f4191106402aaf6a8276230745adbc273b6b2c80305c"
+    },
+    {
       "id": "C02",
       "title": "Build reproducible differential and connected-workflow harnesses",
       "lane": "verification",
@@ -19757,7 +19950,8 @@
       "source_fragment_sha256": "5cbbab5fa9f513c78ca54cfa364bf5c2adb3dc970214e14421c02a7700d66ace",
       "acceptance_children": [
         "C03a",
-        "C03b"
+        "C03b",
+        "C03c"
       ],
       "bounded_child_disposition": "Selected evidence tools only; all original parent tasks and downstream parent gates remain required."
     },
@@ -19931,6 +20125,63 @@
       "source_fragment_sha256": "00bff24d29fdcebdb9bb87b0c504159eea2d9a84dbbe3ef81975b872c8e715a1"
     },
     {
+      "lane": "coordination-integration",
+      "state": "LOCALLY_VERIFIED_BOUNDED_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation and meaningful source/caller/refusal fixtures",
+        "Exact execution evidence, independent review and remaining acceptance limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "observed_production_lines": 292,
+        "observed_test_lines": 346
+      },
+      "ownership": "One isolated source author; root owns manifests/locks, source acquisition, compilers, ZIP repack and native/DB/browser execution. No held-path changes.",
+      "done_when": "Named bounded implementation/capture gates verified; parent C01/C03 and full feature acceptance remain open.",
+      "id": "C03c",
+      "title": "Losslessly transport authoritative prepared-project wire payloads",
+      "dependencies": [
+        "C03b"
+      ],
+      "external_prs": [
+        81
+      ],
+      "paths": [
+        "rust/crates/syson-project-wire/",
+        "porting/rust-parity-evidence/C03c/"
+      ],
+      "source_refs": [
+        {
+          "component": "rust-prerequisite",
+          "revision": "7f111c24bb3f79c44c55cdef2d4fa3246e50560b",
+          "path": "rust/crates/syson-project-preparation/src/lib.rs",
+          "sha256": "57ae680410011c83963ecb7d122d79d9b174ad87a20854d528449d226e5f2228"
+        }
+      ],
+      "tasks": [
+        "Expose encode only for actual C03b PreparedProject, using authoritative wire JSON and every explicit nullable participant/reference/diagram stamp.",
+        "Use inline borrowed RawValue to preserve exact payload token bytes, namespace-first order, large numbers, Unicode and opaque members without double escaping or typed-Document serialization.",
+        "Decode a strict versioned local candidate envelope to untrusted ProjectInput; reject unknown/future format, duplicate/missing/unknown metadata fields, trailing bytes and bounded input/output failures.",
+        "Use private bounded output buffer with no partial-byte result on failure; no identities or native project/archive/storage compatibility invented."
+      ],
+      "verification": [
+        "Actualprepare\u2192encode\u2192decode\u2192prepare/replay and exact raw-byte/ns-first/metadata tests, foreign/pending stamps and unknown representation kinds.",
+        "Item/per-payload/aggregate/metadata/envelope limits plus malformed/future/duplicate/missing failures preserve prior input/output.",
+        "Root serial offline fmt/tests/Clippy, meaningful roundtrip/capacity probes and independent review. SQL/durablepublication and C01/C03/C06/C07 remainOPEN."
+      ],
+      "acceptance_gates": [
+        "C06",
+        "C07"
+      ],
+      "external_pr_details": [
+        81
+      ],
+      "source_fragment": "lanes/batch5.json",
+      "source_fragment_sha256": "7e0d67e6d5323e6e11f5f4191106402aaf6a8276230745adbc273b6b2c80305c"
+    },
+    {
       "id": "C04",
       "title": "Verify Rust production artifact and process closure",
       "lane": "verification",
@@ -20017,10 +20268,13 @@
         "C01b",
         "C01c",
         "C01d",
+        "C01e",
+        "C01f",
         "C02",
         "C03",
         "C03a",
         "C03b",
+        "C03c",
         "I01",
         "I03",
         "I04",
@@ -20607,10 +20861,13 @@
         "C01b",
         "C01c",
         "C01d",
+        "C01e",
+        "C01f",
         "C02",
         "C03",
         "C03a",
         "C03b",
+        "C03c",
         "I01",
         "I03",
         "I04",
@@ -21152,10 +21409,13 @@
         "C01b",
         "C01c",
         "C01d",
+        "C01e",
+        "C01f",
         "C02",
         "C03",
         "C03a",
         "C03b",
+        "C03c",
         "I01",
         "I03",
         "I04",
@@ -21685,10 +21945,13 @@
         "C01b",
         "C01c",
         "C01d",
+        "C01e",
+        "C01f",
         "C02",
         "C03",
         "C03a",
         "C03b",
+        "C03c",
         "I01",
         "I03",
         "I04",
@@ -22269,10 +22532,13 @@
         "C01b",
         "C01c",
         "C01d",
+        "C01e",
+        "C01f",
         "C02",
         "C03",
         "C03a",
         "C03b",
+        "C03c",
         "I01",
         "I03",
         "I04",
@@ -22874,10 +23140,13 @@
         "C01b",
         "C01c",
         "C01d",
+        "C01e",
+        "C01f",
         "C02",
         "C03",
         "C03a",
         "C03b",
+        "C03c",
         "I01",
         "I03",
         "I04",
@@ -23395,6 +23664,9 @@
         "C01c",
         "C01d",
         "C03b",
+        "C01e",
+        "C01f",
+        "C03c",
         "C01a",
         "C01b",
         "C03a",
@@ -24148,7 +24420,7 @@
       "done_when": "Every required parity obligation is accepted on the same exact target/candidate closure and all release gates pass; otherwise the plan remains incomplete.",
       "state": "PLANNED_BLOCKED_ON_ALL_REMAINING_UNITS",
       "source_fragment": "tools/build_plan.py",
-      "source_fragment_sha256": "36cc07096d1f41062bc4abd58aaddf8b5c25a3a05382a2b1cf33296be754bef0"
+      "source_fragment_sha256": "366d034ac3c292a0305790d4de3b375fd749d9e8d2f496abab8384f3624a09fa"
     },
     {
       "id": "I01",
