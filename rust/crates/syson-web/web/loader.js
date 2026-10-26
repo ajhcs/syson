@@ -13,13 +13,14 @@ try {
     const focused = document.activeElement;
     const caret = focused && typeof focused.selectionStart === 'number'
       ? [focused.selectionStart, focused.selectionEnd, focused.selectionDirection] : null;
-    const drafts = background ? [...root.querySelectorAll('input[id],select[id],textarea[id]')]
-      .filter(e => !e.readOnly).map(e => [e.id, e.value, e.checked]) : [];
-    const details = background ? [...root.querySelectorAll('details')].map(e => e.open) : [];
+    const drafts = [...root.querySelectorAll('input[id],select[id],textarea[id]')]
+      .filter(e => !e.readOnly).map(e => [e.id, e.value, e.checked]);
+    const details = [...root.querySelectorAll('details')].map(e => e.open);
     const template = document.createElement('template');
     template.innerHTML = decoder.decode(new Uint8Array(api.memory.buffer, api.output_ptr(), api.output_len()));
     const previousStatus = root.querySelector('[data-editor-status]');
     const nextStatus = template.content.querySelector('[data-editor-status]');
+    const preserveDrafts = background || nextStatus?.classList.contains('error');
     if (previousStatus?.parentElement === root && nextStatus?.parentNode === template.content) {
       // The live region stays connected while its surrounding editor is repainted.
       for (const node of [...root.childNodes]) if (node !== previousStatus) node.remove();
@@ -36,15 +37,22 @@ try {
       }
       if (previousStatus.textContent !== nextStatus.textContent) previousStatus.textContent = nextStatus.textContent;
     } else root.replaceChildren(template.content);
-    for (const [id, value, checked] of drafts) {
+    for (const [id, value, checked] of preserveDrafts ? drafts : []) {
       const e = document.getElementById(id);
       if (e) { e.value = value; if ('checked' in e) e.checked = checked; }
     }
-    if (background) root.querySelectorAll('details').forEach((e, i) => { e.open = details[i]; });
+    if (preserveDrafts) root.querySelectorAll('details').forEach((e, i) => { e.open = details[i]; });
     const requested = !background && root.querySelector('[data-inspector-focus]')?.dataset.inspectorFocus;
     const next = (requested && (document.getElementById(requested) ?? document.getElementById('selection-heading')))
       || (focused?.id && document.getElementById(focused.id));
-    if (next) { next.focus({preventScroll: background}); if (background && caret) next.setSelectionRange(...caret); }
+    if (next) {
+      // Returning focus must remain reachable even if a restored disclosure closed it.
+      for (let ancestor = next.parentElement; ancestor && ancestor !== root; ancestor = ancestor.parentElement) {
+        if (ancestor.tagName === 'DETAILS') ancestor.open = true;
+      }
+      next.focus({preventScroll: background});
+      if (background && caret) next.setSelectionRange(...caret);
+    }
     const canvas = root.querySelector('[data-canvas-revision]');
     const {canvasTicket: ticket, canvasPhase: phase} = canvas?.dataset ?? {};
     const key = `${ticket}/${phase}`;
@@ -65,7 +73,7 @@ try {
     api.input_reset();
     for (const byte of input) api.input_byte(byte);
     api.dispatch();
-    paint(background);
+    paint(background || ['canvas_undo', 'canvas_redo', 'canvas_cancel'].includes(action));
   }
   async function requestCanvas(action) {
     const revision = root.querySelector('[data-canvas-revision]').dataset.canvasRevision;
