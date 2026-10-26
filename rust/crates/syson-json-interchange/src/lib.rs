@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: EPL-2.0
 //! Value-preserving selected EMF JSON bundles; no loader or complete serializer.
 #![forbid(unsafe_code)]
+pub mod native_model;
 pub mod selected_model;
 
 use serde_json::Value;

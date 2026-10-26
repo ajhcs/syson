@@ -1,0 +1,214 @@
+{
+  "unit": "I01",
+  "status": "IMPLEMENTED_LOCAL_VERIFICATION_PASS_NATIVE_ACCEPTANCE_PENDING",
+  "source_base": "d8fc0876714a0fcecb5548e9658ab0acf5cf1e53",
+  "execution_owner": "coordinator; worker performed source editing/rustfmt only",
+  "upstream_runtime": "NOT_RUN",
+  "final_local_tests_passed": 36,
+  "test_suite_counts": [
+    0,
+    10,
+    14,
+    12,
+    0
+  ],
+  "final_all_input_hashes_match_worktree": true,
+  "final_input_count": 116,
+  "scope": [
+    "Package",
+    "PartDefinition",
+    "PartUsage",
+    "OwningMembership",
+    "FeatureMembership",
+    "FeatureTyping"
+  ],
+  "captures": [
+    {
+      "run": "i01-01",
+      "status": "FAIL",
+      "receipt_path": "/workspace/build/builderbob/syson-rust-parity-20261026/captures/i01-01/receipt.json",
+      "receipt_sha256": "ddff07737afaff6e8919f07adb9c117786c1bb93bf2b981aa27f921716ecee99",
+      "runner_sha256": "52d44fd30a79d4f3ee52ca609966f87aae8a137447bfde9d0ccf711f16b3e0dc",
+      "source_unchanged": true,
+      "archived_main_crate_input_count_verified": 8,
+      "dependency_input_count_hashed_not_copied": 108,
+      "retention_scope": "Runner archives main crate source; dependency inputs are hash-recorded and retained through the immutable base commit. Full source hashes remain in the external receipt.",
+      "changed_file_hashes": {
+        "rust/crates/syson-json-interchange/src/lib.rs": "1186e9460310dec4d183567aede62136e1860b4bcd259b0814bb135a521f5ea1",
+        "rust/crates/syson-json-interchange/src/native_model.rs": "5f9a6d38fb72d6378157e7abdbc66efb137490f06f5845ed2d83fb9940419d1b",
+        "rust/crates/syson-json-interchange/tests/native_model.rs": "dbfb80f464e060e2dbfd35ba6e3ce1ea5c6fc6d0427e03728b3b662b50edfa31"
+      },
+      "commands": [
+        {
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/rp-reverse-bridge/rust/crates/syson-json-interchange/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "cargo",
+            "test",
+            "--offline",
+            "--locked",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/rp-reverse-bridge/rust/crates/syson-json-interchange/Cargo.toml",
+            "--",
+            "--test-threads=1"
+          ],
+          "exit_code": 101,
+          "stdout_sha256": "b8ce4f94d879dae1dba0fd1e7e9c2667afc14148be988eeea5800d7d87d5ff2e",
+          "stderr_sha256": "fc5f74add126999831de05feb18cb39bc25217174dd50ef2dfaa12a45150f647"
+        }
+      ]
+    },
+    {
+      "run": "i01-02",
+      "status": "FAIL",
+      "receipt_path": "/workspace/build/builderbob/syson-rust-parity-20261026/captures/i01-02/receipt.json",
+      "receipt_sha256": "80b139d62838c60aafbc5219bcc8af6de42f4d630231f01608d4e97769ce544c",
+      "runner_sha256": "52d44fd30a79d4f3ee52ca609966f87aae8a137447bfde9d0ccf711f16b3e0dc",
+      "source_unchanged": true,
+      "archived_main_crate_input_count_verified": 8,
+      "dependency_input_count_hashed_not_copied": 108,
+      "retention_scope": "Runner archives main crate source; dependency inputs are hash-recorded and retained through the immutable base commit. Full source hashes remain in the external receipt.",
+      "changed_file_hashes": {
+        "rust/crates/syson-json-interchange/src/lib.rs": "1186e9460310dec4d183567aede62136e1860b4bcd259b0814bb135a521f5ea1",
+        "rust/crates/syson-json-interchange/src/native_model.rs": "4fb49a651c5981db27a36ff4676bb6b20b213179e4923730fdc6093bceae459d",
+        "rust/crates/syson-json-interchange/tests/native_model.rs": "dbfb80f464e060e2dbfd35ba6e3ce1ea5c6fc6d0427e03728b3b662b50edfa31"
+      },
+      "commands": [
+        {
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/rp-reverse-bridge/rust/crates/syson-json-interchange/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "cargo",
+            "test",
+            "--offline",
+            "--locked",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/rp-reverse-bridge/rust/crates/syson-json-interchange/Cargo.toml",
+            "--",
+            "--test-threads=1"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "340dc1fce40e8179cdfdbb78614800853638bf1543ea38b8690d6efaec8bd1a6",
+          "stderr_sha256": "ad4e625d137ac96ce39b0835d4787bb58ccb9610b88ee21978d5c9da2cde74a7"
+        },
+        {
+          "argv": [
+            "cargo",
+            "clippy",
+            "--offline",
+            "--locked",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/rp-reverse-bridge/rust/crates/syson-json-interchange/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 101,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "07dcd79fb236d7c62110857cf89ee9edb78b770bb346ffda52b16080847f2c14"
+        }
+      ]
+    },
+    {
+      "run": "i01-03",
+      "status": "PASS",
+      "receipt_path": "/workspace/build/builderbob/syson-rust-parity-20261026/captures/i01-03/receipt.json",
+      "receipt_sha256": "724cb5e0ffc75f2f4b6cb0020ec5c02f8844e47e5b32b4901b34bb579bb354cf",
+      "runner_sha256": "52d44fd30a79d4f3ee52ca609966f87aae8a137447bfde9d0ccf711f16b3e0dc",
+      "source_unchanged": true,
+      "archived_main_crate_input_count_verified": 8,
+      "dependency_input_count_hashed_not_copied": 108,
+      "retention_scope": "Runner archives main crate source; dependency inputs are hash-recorded and retained through the immutable base commit. Full source hashes remain in the external receipt.",
+      "changed_file_hashes": {
+        "rust/crates/syson-json-interchange/src/lib.rs": "1186e9460310dec4d183567aede62136e1860b4bcd259b0814bb135a521f5ea1",
+        "rust/crates/syson-json-interchange/src/native_model.rs": "8f9320b66fd11f8fae505d25f9e5ea59f405f132261ce7c0af209863b23b2fe1",
+        "rust/crates/syson-json-interchange/tests/native_model.rs": "c97b5c5e9566832bf410929167a33cf4bf828f97a97821de32576826bcfe1db9"
+      },
+      "commands": [
+        {
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/rp-reverse-bridge/rust/crates/syson-json-interchange/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "argv": [
+            "cargo",
+            "test",
+            "--offline",
+            "--locked",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/rp-reverse-bridge/rust/crates/syson-json-interchange/Cargo.toml",
+            "--",
+            "--test-threads=1"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "0a60a82924fafcaf4783df9628e87b7811c62827af467c9663e5154a6e53c850",
+          "stderr_sha256": "943c9c2e5d58f2f06ebe028f30788b20836393ea1e11c0ce50ecd7a428c065da"
+        },
+        {
+          "argv": [
+            "cargo",
+            "clippy",
+            "--offline",
+            "--locked",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/rp-reverse-bridge/rust/crates/syson-json-interchange/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "3a17cea466e63e45041de3c7db7414f2e1fcc931b7bfb93351e3122d92933fdb"
+        }
+      ]
+    }
+  ],
+  "failure_disposition": [
+    {
+      "run": "i01-01",
+      "finding": "Mutable optional containment indexing inserted null, changing absent fields. Six of ten new tests failed.",
+      "fix": "Use non-inserting get_mut(feature).and_then(Value::as_array_mut); whole-document round-trip tests cover preservation. Original source/streams retained."
+    },
+    {
+      "run": "i01-02",
+      "finding": "All36integrationtests passed; Clippy rejected large by-value Result error representation.",
+      "fix": "Box Native/Selected typed causes, retain inspectable public errors; adapt exact invalid-key assertion. Original source/streams retained."
+    }
+  ],
+  "native_acceptance": "Pending C01/C02: pinned effective native artifacts, real native-open/edit/save/reload comparison and matched performance. Existing F14 test is actual local importer integration, not native SysON execution.",
+  "performance": "Not benchmarked; retains existing1MiB/4096node/64depth finite bounds and uses bounded multiple snapshots/validation passes. Profile before optimization.",
+  "review": "Independent source review found no blockers after revisiting the root-captured mutable-indexing defect; source review alone had missed it initially."
+}
