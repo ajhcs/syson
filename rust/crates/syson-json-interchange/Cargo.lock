@@ -86,6 +86,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "syson-ast"
+version = "0.1.0"
+
+[[package]]
+name = "syson-ast-adapter"
+version = "0.1.0"
+dependencies = [
+ "syson-ast",
+ "syson-ast-values",
+ "syson-reflection",
+]
+
+[[package]]
+name = "syson-ast-values"
+version = "0.1.0"
+
+[[package]]
 name = "syson-domain"
 version = "0.1.0"
 
@@ -127,7 +144,20 @@ dependencies = [
  "syson-metamodel",
  "syson-model",
  "syson-references",
+ "syson-text-import",
  "syson-view-usage",
+]
+
+[[package]]
+name = "syson-linker"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "syson-ast",
+ "syson-ast-adapter",
+ "syson-metamodel",
+ "syson-model",
+ "syson-references",
 ]
 
 [[package]]
@@ -150,6 +180,23 @@ dependencies = [
  "serde_json",
  "syson-metamodel",
  "syson-model",
+]
+
+[[package]]
+name = "syson-reflection"
+version = "0.1.0"
+
+[[package]]
+name = "syson-text-import"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "syson-ast",
+ "syson-ast-adapter",
+ "syson-linker",
+ "syson-metamodel",
+ "syson-model",
+ "syson-references",
 ]
 
 [[package]]
