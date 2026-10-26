@@ -48,7 +48,8 @@ fs.mkdirSync(output, {recursive:true});
     assert.equal(await phase(),'compute');
     assert.equal(await page.locator('#name').inputValue(),'draft before layout');
     await page.locator('#rename').fill('unsaved wheel draft');
-    await page.locator('#geometry-details summary').click();
+    if (!await page.locator('#geometry-details').evaluate(e=>e.open))
+      await page.locator('#geometry-details summary').click();
     await page.locator('#import-geometry').fill('unsaved JSON draft');
     await page.locator('#rename').focus();
     await page.locator('#rename').evaluate(e => e.setSelectionRange(3,9,'backward'));
@@ -95,20 +96,23 @@ fs.mkdirSync(output, {recursive:true});
     // Invalid import is atomic even while a valid computation is queued.
     const beforeImport = await text();
     await button('Layout canvas').click();
-    await page.locator('#geometry-details summary').click();
+    if (!await page.locator('#geometry-details').evaluate(e=>e.open))
+      await page.locator('#geometry-details summary').click();
     await page.locator('#import-geometry').fill('{bad');
     await button('Import canvas geometry').click();
     assert.equal(await text(),beforeImport); assert.equal(await phase(),'compute');
     await page.clock.runFor(50);
     const foreign = await geometry(); foreign.model += ' ';
-    await page.locator('#geometry-details summary').click();
+    if (!await page.locator('#geometry-details').evaluate(e=>e.open))
+      await page.locator('#geometry-details summary').click();
     await page.locator('#import-geometry').fill(JSON.stringify(foreign));
     await button('Import canvas geometry').click(); assert.equal(await text(),beforeImport);
     // Structurally valid file data may contain outside/negative routes; fit all points.
     const imported = await geometry(), edge = imported.edges[0];
     const first = edge.points[0], last = edge.points.at(-1);
     edge.points = [first,[first[0],-100],[-200,-100],[-200,last[1]],last];
-    await page.locator('#geometry-details summary').click();
+    if (!await page.locator('#geometry-details').evaluate(e=>e.open))
+      await page.locator('#geometry-details summary').click();
     await page.locator('#import-geometry').fill(JSON.stringify(imported));
     await button('Import canvas geometry').click();
     assert.match(await page.getByRole('status').innerText(),/imported/);
