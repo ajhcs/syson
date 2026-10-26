@@ -1,0 +1,17 @@
+{
+  "unit": "C03c",
+  "reviewer": "/root/audit_parser_interchange",
+  "mode": "READ_ONLY_SOURCE_REVIEW_NO_REVIEWER_RUNTIME",
+  "verdict": "ACCEPTED_NO_BLOCKERS_IN_DECLARED_SCOPE",
+  "source_sha256": {
+    "rust/crates/syson-project-wire/src/lib.rs": "72c0402e148da04fa10f397cefd49580efed7269d60f779d04b83814d523f7f5",
+    "rust/crates/syson-project-wire/tests/codec.rs": "1d6e4cceb5a29e29c110c961d86f68a2af0d90d465f58e9e8d29ff2b503166f3"
+  },
+  "scope": [
+    "Prepared-only authoritative wire export; no typed-Document reconstruction.",
+    "RawValue token preservation, required nullable fields, strict metadata and intentionally opaque payload members.",
+    "Private bounded output, caps and decode-as-untrusted-input boundary.",
+    "Actual preparation/codec/replay, foreign namespace, all six stamps and byte/refusal tests."
+  ],
+  "runtime_boundary": "Coordinator executed c03c-01; independent reviewer did not compile or run the code."
+}
