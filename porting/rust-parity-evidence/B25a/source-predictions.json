@@ -1,0 +1,457 @@
+{
+  "status": "SOURCE_PREDICTIONS_NOT_EXECUTED_NATIVE_RESULTS",
+  "participant_version": "2025.4.0-202503140000",
+  "predictions": [
+    {
+      "id": "annotation-object-child-only",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Annotation",
+              "annotatingElement": "parent-retained",
+              "data": {
+                "annotation": "unrelated",
+                "keep": 7
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Remove from object-valued data child, not matching typed parent itself."
+    },
+    {
+      "id": "annotating-subtype-annotatingelement",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:AnnotatingElement",
+              "data": {
+                "body": "preserve"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Exact metamodel AnnotatingElement subtype closure, including inherited cases."
+    },
+    {
+      "id": "annotating-subtype-comment",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Comment",
+              "data": {
+                "body": "preserve"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Exact metamodel AnnotatingElement subtype closure, including inherited cases."
+    },
+    {
+      "id": "annotating-subtype-documentation",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Documentation",
+              "data": {
+                "body": "preserve"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Exact metamodel AnnotatingElement subtype closure, including inherited cases."
+    },
+    {
+      "id": "annotating-subtype-metadatafeature",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:MetadataFeature",
+              "data": {
+                "body": "preserve"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Exact metamodel AnnotatingElement subtype closure, including inherited cases."
+    },
+    {
+      "id": "annotating-subtype-metadatausage",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:MetadataUsage",
+              "data": {
+                "body": "preserve"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Exact metamodel AnnotatingElement subtype closure, including inherited cases."
+    },
+    {
+      "id": "annotating-subtype-textualrepresentation",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:TextualRepresentation",
+              "data": {
+                "body": "preserve"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Exact metamodel AnnotatingElement subtype closure, including inherited cases."
+    },
+    {
+      "id": "ordered-nested-passes",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Annotation",
+              "data": {
+                "eClass": "sysml:Comment",
+                "data": {
+                  "annotatingElement": "retained"
+                }
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Two full passes in native order; first removes from Annotation object child, second from nested Comment child."
+    },
+    {
+      "id": "nested-arrays-and-object-children",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            [
+              [
+                {
+                  "eClass": "sysml:Annotation",
+                  "annotatingElement": "typed-parent-retained",
+                  "obj": {
+                    "keep": 1
+                  },
+                  "array": [
+                    {
+                      "annotatingElement": "array-child-retained"
+                    },
+                    [
+                      {
+                        "eClass": "sysml:Comment",
+                        "obj": {
+                          "annotatingElement": "retained"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Nested arrays recurse, but array element objects are not themselves children collected from typed parent."
+    },
+    {
+      "id": "nonmatching-class-forms",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "vendor:Annotation",
+              "data": {
+                "annotatingElement": "keep",
+                "annotation": "keep"
+              }
+            },
+            {
+              "eClass": "sysml:Unknown",
+              "data": {
+                "annotatingElement": "keep",
+                "annotation": "keep"
+              }
+            },
+            {
+              "eClass": 42,
+              "data": {
+                "annotation": "keep"
+              }
+            },
+            {
+              "eClass": null,
+              "data": {
+                "annotatingElement": "keep"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Prefix, native EClass membership and primitive form decide matching; no suffix-based fallback."
+    },
+    {
+      "id": "first-namespace-wrong-original-order",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "z": "urn:other",
+            "a": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Annotation",
+              "data": {
+                "annotatingElement": "keep"
+              }
+            }
+          ]
+        },
+        "matched_resource": false,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Native service returns on first namespace entry; later matching entry does not activate."
+    },
+    {
+      "id": "first-namespace-right-original-order",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "z": "http://www.eclipse.org/syson/sysml",
+            "a": "urn:other"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Annotation",
+              "data": {}
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Preserve original namespace ordering rather than sorted JSON object order."
+    },
+    {
+      "id": "missing-namespace",
+      "source_prediction": {
+        "json": {
+          "content": [
+            {
+              "eClass": "sysml:Annotation",
+              "data": {
+                "annotatingElement": "keep"
+              }
+            }
+          ]
+        },
+        "matched_resource": false,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Source-predicted native resource predicate no-op."
+    },
+    {
+      "id": "empty-namespace",
+      "source_prediction": {
+        "json": {
+          "ns": {},
+          "content": []
+        },
+        "matched_resource": false,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Source-predicted native resource predicate no-op."
+    },
+    {
+      "id": "array-namespace",
+      "source_prediction": {
+        "json": {
+          "ns": [
+            "http://www.eclipse.org/syson/sysml"
+          ],
+          "content": []
+        },
+        "matched_resource": false,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Source-predicted native resource predicate no-op."
+    },
+    {
+      "id": "numeric-namespace",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": 12
+          },
+          "content": []
+        },
+        "matched_resource": false,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Source-predicted native resource predicate no-op."
+    },
+    {
+      "id": "already-migrated-replay",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Annotation",
+              "data": {
+                "keep": true
+              }
+            },
+            {
+              "eClass": "sysml:Comment",
+              "data": {
+                "body": "already migrated"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Removal passes are value-idempotent; native lifecycle history dispatch remains outside this module."
+    },
+    {
+      "id": "all-object-children-and-opaque-values",
+      "source_prediction": {
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Annotation",
+              "extra": {
+                "large": 900719925474099312345,
+                "text": "🚗"
+              },
+              "data": {
+                "annotation": "keep"
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Every object-valued child of matching typed parent is collected, including vendor objects; unrelated large numbers and Unicode survive."
+    },
+    {
+      "id": "document-admission-b01-chain",
+      "source_prediction": {
+        "json": {
+          "json": {
+            "version": "1.0",
+            "encoding": "utf-8"
+          },
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "id": "package-node",
+              "eClass": "sysml:Package",
+              "data": {
+                "elementId": "package-semantic",
+                "declaredName": "P",
+                "ownedRelationship": [
+                  {
+                    "id": "annotation-node",
+                    "eClass": "sysml:Annotation",
+                    "data": {
+                      "elementId": "annotation-semantic",
+                      "ownedRelatedElement": [
+                        {
+                          "id": "comment-node",
+                          "eClass": "sysml:Comment",
+                          "data": {
+                            "elementId": "comment-semantic",
+                            "body": "Preserve this note 🚗"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "matched_resource": true,
+        "participant_version": "2025.4.0-202503140000"
+      },
+      "reason": "Same fully shaped envelope feeds the actual Document admission and B01 preparation regression."
+    }
+  ]
+}
