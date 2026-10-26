@@ -1,0 +1,60 @@
+{
+  "unit": "B25b",
+  "status": "BOUNDED_IMPLEMENTATION_AND_SELECTED_SOURCE_RUNTIME_VERIFIED",
+  "base": {
+    "branch": "codex/syson-rp-b25-support",
+    "commit": "cbf8a9f7a56f459a2374962e96010233fe711801",
+    "upstream_dependency": "B01 PR #70; shared B25S prerequisite PR pending publication at preparation time"
+  },
+  "implementation_commit": "377d9d5cddddc05487013b79753c75ddd59eff7c",
+  "participant_version": "2025.4.0-202502270000",
+  "upstream_source_pin": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "participant_source": {
+    "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/ConnectorAsUsageSourceAndTargetMigrationParticipant.java",
+    "sha256": "f3c9c962a40f84742d2a2f25ce1beff3a90ff1fcc41cf117a6a16eb0ee205b47"
+  },
+  "helper_source": {
+    "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/MigrationParticipantService.java",
+    "sha256": "b67a9002a581a7b3ec00508c180274fa89b3357f3fb513fd43cc4decc08cde61"
+  },
+  "source_review": "Reciprocal independent source review PASS; root shared support review/runtime authoritative",
+  "root_tests": {
+    "capture": "b25b-01",
+    "tests": 17,
+    "new_unit_tests": 8,
+    "inherited_shared_tests": 9,
+    "fmt": "PASS",
+    "scoped_all_target_Clippy": "PASS",
+    "unchanged_input_hashes": 62,
+    "current_input_hashes_verified": true
+  },
+  "native_comparison": {
+    "cases": 12,
+    "all_match_for": [
+      "JSON values",
+      "version",
+      "resource predicate",
+      "status"
+    ],
+    "compiled_source_binding": "Exact four pinned Java participant/helper sources, shared native harness; B25b source pin verified",
+    "runtime_dependencies": "Nine identified official2026.9.3 dependency JARs; full artifact-source closure remains OPEN",
+    "exception_text_or_class_equality": false,
+    "shared_predicate_cases": 728,
+    "shared_version_ordered_compositions": 4
+  },
+  "shared_evidence": {
+    "commit": "cbf8a9f7a56f459a2374962e96010233fe711801",
+    "path": "porting/rust-parity-evidence/B25S",
+    "source_provenance_sha256": "f8fee88694ed13f36b3a8d3cce0395d6aed12a4620a5393ff2eb2e8ef2cd4e81",
+    "qualification": "Shared source/jar/runtime/compile/probe/sequence provenance, original failures and bounded-memory observations are inherited unchanged, not unit-specific broad parity."
+  },
+  "limits": "Shared Rust admission at1MiB/depth64/65536 JSON values; these are local finite policies, not native capacity limits. Prepared.to_json() retains namespace ordering/current values and rechecks edited output admission.",
+  "actual_caller": "B25b\u2192Prepared.to_json()\u2192Document::from_json\u2192B01 pure library-ID preparation with independent watermark and replay; durable atomic publication belongs caller/later persistence integration.",
+  "history": "Original mixed fixture/prediction packet remains prepared-packet-01.json. It was not executed before normalization into input-only native-fixtures.json and separate source-predictions.json. No B25b runtime failure occurred; shared B25S prior failures remain in inherited exact evidence.",
+  "browser": "NOT_RUN; no UI source changed or UI parity claim",
+  "performance": "No B25b performance qualification. Shared bounded-memory probe is one fixed workload, not p50/p95/general throughput.",
+  "full_feature_acceptance": false,
+  "external_artifacts": "/workspace/build/builderbob/syson-rust-parity-batch2-20261026",
+  "held_paths": "No model/factory/initializer or held backlog paths changed",
+  "landing": "Do not merge child into support. Land shared prerequisite through review, retarget/rebase this child to actual target, inspect inherited/combined diff and revalidate actual integration."
+}
