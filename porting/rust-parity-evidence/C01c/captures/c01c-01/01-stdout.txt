@@ -1,0 +1,60 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 9 tests
+test actual_native_bad_faith_refusal_and_partial_graphql_errors_are_never_schema_success ... ok
+test actual_official_runtime_response_preserves_the_entire_selected_schema ... ok
+test byte_type_and_member_budgets_refuse_before_expensive_identity_processing ... ok
+test dangling_wrong_kind_wrong_position_and_invalid_graphql_names_refuse ... FAILED
+test duplicate_type_member_argument_enum_directive_and_edge_identities_refuse ... FAILED
+test missing_full_query_selections_fail_instead_of_becoming_empty_or_null ... FAILED
+test raw_default_literal_descriptions_deprecations_and_member_order_are_not_reparsed ... FAILED
+test typed_optional_metadata_is_required_and_defaults_are_graphql_literal_strings ... FAILED
+test wrappers_must_terminate_at_named_types_and_respect_nested_nullability ... ok
+
+failures:
+
+---- dangling_wrong_kind_wrong_position_and_invalid_graphql_names_refuse stdout ----
+
+thread 'dangling_wrong_kind_wrong_position_and_invalid_graphql_names_refuse' (4016270) panicked at tests/contract.rs:29:10:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- duplicate_type_member_argument_enum_directive_and_edge_identities_refuse stdout ----
+
+thread 'duplicate_type_member_argument_enum_directive_and_edge_identities_refuse' (4016273) panicked at tests/contract.rs:29:10:
+called `Option::unwrap()` on a `None` value
+
+---- missing_full_query_selections_fail_instead_of_becoming_empty_or_null stdout ----
+
+thread 'missing_full_query_selections_fail_instead_of_becoming_empty_or_null' (4016286) panicked at tests/contract.rs:29:10:
+called `Option::unwrap()` on a `None` value
+
+---- raw_default_literal_descriptions_deprecations_and_member_order_are_not_reparsed stdout ----
+
+thread 'raw_default_literal_descriptions_deprecations_and_member_order_are_not_reparsed' (4016287) panicked at tests/contract.rs:29:10:
+called `Option::unwrap()` on a `None` value
+
+---- typed_optional_metadata_is_required_and_defaults_are_graphql_literal_strings stdout ----
+
+thread 'typed_optional_metadata_is_required_and_defaults_are_graphql_literal_strings' (4016288) panicked at tests/contract.rs:29:10:
+called `Option::unwrap()` on a `None` value
+
+
+failures:
+    dangling_wrong_kind_wrong_position_and_invalid_graphql_names_refuse
+    duplicate_type_member_argument_enum_directive_and_edge_identities_refuse
+    missing_full_query_selections_fail_instead_of_becoming_empty_or_null
+    raw_default_literal_descriptions_deprecations_and_member_order_are_not_reparsed
+    typed_optional_metadata_is_required_and_defaults_are_graphql_literal_strings
+
+test result: FAILED. 4 passed; 5 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.72s
+
