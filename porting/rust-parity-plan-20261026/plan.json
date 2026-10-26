@@ -2,10 +2,11 @@
   "schema": 1,
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "state": "ADOPTED_REVIEWABLE_PLAN;_IMPLEMENTATION_AND_NATIVE_CLOSURE_REMAIN_OPEN",
-  "unit_count": 720,
+  "unit_count": 721,
   "full_parity_claimed": false,
   "count_meaning": "Named review units, including verification and explicitly generated source batches; discovery may add bounded children. Not a feature count, percentage or guaranteed final PR count.",
   "lane_counts": {
+    "lanes/migration-support.json": 1,
     "lanes/model.json": 408,
     "lanes/parser.json": 184,
     "lanes/platform.json": 45,
@@ -173,6 +174,14 @@
   },
   "unordered_write_conflicts": [],
   "readiness_graph": {
+    "implementation:B25S": [
+      "implementation:B01"
+    ],
+    "accepted:B25S": [
+      "accepted:C06",
+      "accepted:C07",
+      "implementation:B25S"
+    ],
     "implementation:I01": [],
     "accepted:I01": [
       "implementation:I01"
@@ -6770,19 +6779,22 @@
       "implementation:B24"
     ],
     "implementation:B25a": [
-      "implementation:B01"
+      "implementation:B01",
+      "implementation:B25S"
     ],
     "accepted:B25a": [
       "implementation:B25a"
     ],
     "implementation:B25b": [
-      "implementation:B01"
+      "implementation:B01",
+      "implementation:B25S"
     ],
     "accepted:B25b": [
       "implementation:B25b"
     ],
     "implementation:B25c": [
-      "implementation:B01"
+      "implementation:B01",
+      "implementation:B25S"
     ],
     "accepted:B25c": [
       "implementation:B25c"
@@ -7007,6 +7019,7 @@
       "implementation:B22",
       "implementation:B23",
       "implementation:B24",
+      "implementation:B25S",
       "implementation:B25a",
       "implementation:B25b",
       "implementation:B25c",
@@ -8039,6 +8052,7 @@
       "implementation:B21",
       "implementation:B23",
       "implementation:B24",
+      "implementation:B25S",
       "implementation:B25a",
       "implementation:B25b",
       "implementation:B25c",
@@ -8508,6 +8522,7 @@
       "implementation:B21",
       "implementation:B23",
       "implementation:B24",
+      "implementation:B25S",
       "implementation:B25a",
       "implementation:B25b",
       "implementation:B25c",
@@ -8972,6 +8987,7 @@
       "implementation:B22",
       "implementation:B23",
       "implementation:B24",
+      "implementation:B25S",
       "implementation:B25a",
       "implementation:B25b",
       "implementation:B25c",
@@ -9527,6 +9543,7 @@
       "implementation:B22",
       "implementation:B23",
       "implementation:B24",
+      "implementation:B25S",
       "implementation:B25a",
       "implementation:B25b",
       "implementation:B25c",
@@ -10713,6 +10730,7 @@
       "implementation:V044"
     ],
     "implementation:C99": [
+      "implementation:B25S",
       "implementation:I01",
       "implementation:M01",
       "implementation:M02",
@@ -11458,6 +11476,7 @@
       "accepted:B22",
       "accepted:B23",
       "accepted:B24",
+      "accepted:B25S",
       "accepted:B25a",
       "accepted:B25b",
       "accepted:B25c",
@@ -12170,19 +12189,14 @@
       "P01"
     ],
     [
-      "B25a",
-      "B25b",
-      "B25c"
-    ],
-    [
+      "B25S",
       "B25d",
-      "C01",
-      "C03"
+      "C01"
     ],
     [
       "B02",
       "B05",
-      "C02"
+      "B25a"
     ],
     [
       "B03",
@@ -12220,54 +12234,59 @@
       "B24"
     ],
     [
-      "B26a",
-      "B26b",
+      "B25b",
+      "B25c",
       "B27"
     ],
     [
-      "B28",
-      "B29",
-      "B30"
+      "B26a",
+      "B26b",
+      "B28"
     ],
     [
-      "B31",
+      "B29",
+      "B30",
+      "B31"
+    ],
+    [
       "B36",
-      "B37"
+      "B37",
+      "B38"
+    ],
+    [
+      "B39",
+      "B40",
+      "B41"
+    ],
+    [
+      "C02",
+      "C03",
+      "M01"
     ],
     [
       "B32",
-      "B38",
-      "B39"
-    ],
-    [
-      "B33",
-      "B34",
-      "B40"
-    ],
-    [
-      "B41",
       "C04",
       "C05"
     ],
     [
+      "B33",
+      "B34",
+      "C06"
+    ],
+    [
       "B35",
-      "C06",
-      "C07"
+      "C07",
+      "C08"
     ],
     [
-      "C08",
       "C09",
-      "M01"
-    ],
-    [
       "M02",
-      "M03",
-      "P02"
+      "M03"
     ],
     [
       "M04",
       "M05",
-      "P03"
+      "P02"
     ],
     [
       "M06",
@@ -12940,59 +12959,58 @@
       "M99"
     ],
     [
+      "P03",
       "P04",
-      "P05",
-      "P155"
+      "P05"
     ],
     [
       "P06",
-      "P156",
-      "P157"
+      "P155",
+      "P156"
     ],
     [
       "P07",
-      "P158",
-      "P159"
+      "P157",
+      "P158"
     ],
     [
       "P08",
-      "P160",
-      "P161"
+      "P159",
+      "P160"
     ],
     [
       "P09",
-      "P162",
-      "P163"
+      "P161",
+      "P162"
     ],
     [
       "P10",
-      "P164",
-      "P165"
+      "P163",
+      "P164"
     ],
     [
       "P11",
-      "P166",
-      "P167"
+      "P165",
+      "P166"
     ],
     [
       "P12",
-      "P168",
-      "P169"
+      "P167",
+      "P168"
     ],
     [
       "P13",
-      "P170",
-      "P171"
+      "P169",
+      "P170"
     ],
     [
       "P14",
-      "P20",
-      "U01"
+      "P171",
+      "P20"
     ],
     [
       "P15",
-      "U02",
-      "U03"
+      "U01"
     ],
     [
       "P100",
@@ -13246,6 +13264,10 @@
     ],
     [
       "P184",
+      "U02",
+      "U03"
+    ],
+    [
       "U04",
       "U08"
     ],
@@ -16292,6 +16314,59 @@
       "cross_lane_readiness_rationale": "Library publication/update must operate on versioned loaded libraries, real resource/cache lifecycle and migration integration; a supplied impact snapshot alone is insufficient. Text/resource library entry points must converge."
     },
     {
+      "id": "B25S",
+      "title": "Shared bounded JSON migration helper and namespace-safe composition",
+      "lane": "platform-support",
+      "dependencies": [
+        "B01"
+      ],
+      "external_prs": [
+        70
+      ],
+      "paths": [
+        "rust/crates/syson-migrations/Cargo.toml",
+        "rust/crates/syson-migrations/Cargo.lock",
+        "rust/crates/syson-migrations/src/lib.rs",
+        "rust/crates/syson-migrations/tests/core.rs",
+        "rust/crates/syson-migrations/examples/path_memory.rs",
+        "porting/rust-parity-evidence/B25S/"
+      ],
+      "source_refs": [
+        {
+          "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/MigrationParticipantService.java",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "sha256": "b67a9002a581a7b3ec00508c180274fa89b3357f3fb513fd43cc4decc08cde61"
+        }
+      ],
+      "tasks": [
+        "Preserve first namespace key in original insertion order, with last duplicate values; bounded serialization must retain current namespace values/order across participants.",
+        "Collect object children of matching typed parents using actual metamodel subtype proofs; snapshot each pass and apply in declared order.",
+        "Use bounded ordinal target IDs/postorder removal rather than cloned ancestor-key paths; retain unknown values and immutable-input failure behavior.",
+        "Expose selected participant version without persistent/global migration-history claims; B06 owns atomic publication."
+      ],
+      "verification": [
+        "Nine shared Rust regressions,fmt,Clippy and releaseprobe build.",
+        "Exact four pinned Java source/helper classes,identified nine dependency JARs;44same-inputparticipant cases,728subtype predicates and four version-ordered compositions; retain original outputs.",
+        "Same bounded actual-binary memory probe before/final,compilation excluded; no general performance or wholeartifact/app/DB/UI acceptance."
+      ],
+      "acceptance_gates": [
+        "C06",
+        "C07"
+      ],
+      "commit_plan": [
+        "Shared service/tests/locked manifest and source contract",
+        "Exact runtime/memory evidence and remaining boundaries"
+      ],
+      "budget": "<=400handwrittenproductionlines,<=900authoredlines;rawreceipts/sourcefixturesseparate",
+      "done_when": "Selected service implementation/evidence reviewed; feature acceptance additionally waits real composed persistence and C01/C06/C07 runtime closure.",
+      "state": "LOCALLY_VERIFIED_BOUNDED_FEATURE_ACCEPTANCE_OPEN",
+      "external_pr_details": [
+        70
+      ],
+      "source_fragment": "lanes/migration-support.json",
+      "source_fragment_sha256": "7b5193dadd10879f91771772067df7fc6ba20c34045e1dba0cd896d569f694e2"
+    },
+    {
       "id": "B25a",
       "title": "Annotation annotating-element migration",
       "status": "planned_source_only",
@@ -16299,7 +16374,8 @@
         "cross-cutting"
       ],
       "deps": [
-        "B01"
+        "B01",
+        "B25S"
       ],
       "external_prs": [],
       "source_refs": [
@@ -16349,7 +16425,8 @@
         "Fresh exact-head native comparison and meaningful regressions pass; no claim for other migration participants."
       ],
       "dependencies": [
-        "B01"
+        "B01",
+        "B25S"
       ],
       "paths": [
         "rust/crates/syson-migrations/b25a.rs",
@@ -16359,7 +16436,10 @@
       "external_pr_details": [],
       "lane": "platform",
       "source_fragment": "lanes/platform.json",
-      "source_fragment_sha256": "ead5f3506d2655a08a4dc34436fe9a76cb359e7f6253e65743f1e89e6056c8cc"
+      "source_fragment_sha256": "ead5f3506d2655a08a4dc34436fe9a76cb359e7f6253e65743f1e89e6056c8cc",
+      "coordinator_added_dependencies": [
+        "B25S"
+      ]
     },
     {
       "id": "B25b",
@@ -16369,7 +16449,8 @@
         "cross-cutting"
       ],
       "deps": [
-        "B01"
+        "B01",
+        "B25S"
       ],
       "external_prs": [],
       "source_refs": [
@@ -16419,7 +16500,8 @@
         "Fresh exact-head native comparison and meaningful regressions pass; no claim for other migration participants."
       ],
       "dependencies": [
-        "B01"
+        "B01",
+        "B25S"
       ],
       "paths": [
         "rust/crates/syson-migrations/b25b.rs",
@@ -16429,7 +16511,10 @@
       "external_pr_details": [],
       "lane": "platform",
       "source_fragment": "lanes/platform.json",
-      "source_fragment_sha256": "ead5f3506d2655a08a4dc34436fe9a76cb359e7f6253e65743f1e89e6056c8cc"
+      "source_fragment_sha256": "ead5f3506d2655a08a4dc34436fe9a76cb359e7f6253e65743f1e89e6056c8cc",
+      "coordinator_added_dependencies": [
+        "B25S"
+      ]
     },
     {
       "id": "B25c",
@@ -16439,7 +16524,8 @@
         "cross-cutting"
       ],
       "deps": [
-        "B01"
+        "B01",
+        "B25S"
       ],
       "external_prs": [],
       "source_refs": [
@@ -16489,7 +16575,8 @@
         "Fresh exact-head native comparison and meaningful regressions pass; no claim for other migration participants."
       ],
       "dependencies": [
-        "B01"
+        "B01",
+        "B25S"
       ],
       "paths": [
         "rust/crates/syson-migrations/b25c.rs",
@@ -16499,7 +16586,10 @@
       "external_pr_details": [],
       "lane": "platform",
       "source_fragment": "lanes/platform.json",
-      "source_fragment_sha256": "ead5f3506d2655a08a4dc34436fe9a76cb359e7f6253e65743f1e89e6056c8cc"
+      "source_fragment_sha256": "ead5f3506d2655a08a4dc34436fe9a76cb359e7f6253e65743f1e89e6056c8cc",
+      "coordinator_added_dependencies": [
+        "B25S"
+      ]
     },
     {
       "id": "B25d",
@@ -18899,6 +18989,7 @@
         "B22",
         "B23",
         "B24",
+        "B25S",
         "B25a",
         "B25b",
         "B25c",
@@ -20021,6 +20112,7 @@
         "B21",
         "B23",
         "B24",
+        "B25S",
         "B25a",
         "B25b",
         "B25c",
@@ -20545,6 +20637,7 @@
         "B21",
         "B23",
         "B24",
+        "B25S",
         "B25a",
         "B25b",
         "B25c",
@@ -21121,6 +21214,7 @@
         "B22",
         "B23",
         "B24",
+        "B25S",
         "B25a",
         "B25b",
         "B25c",
@@ -21716,6 +21810,7 @@
         "B22",
         "B23",
         "B24",
+        "B25S",
         "B25a",
         "B25b",
         "B25c",
@@ -22246,6 +22341,7 @@
       "title": "Accept complete matched SysON parity and Rust release closure",
       "lane": "acceptance",
       "dependencies": [
+        "B25S",
         "I01",
         "M01",
         "M02",
@@ -22995,7 +23091,7 @@
       "done_when": "Every required parity obligation is accepted on the same exact target/candidate closure and all release gates pass; otherwise the plan remains incomplete.",
       "state": "PLANNED_BLOCKED_ON_ALL_REMAINING_UNITS",
       "source_fragment": "tools/build_plan.py",
-      "source_fragment_sha256": "cf88be7a6ccd7ef09db9bc23d2132e08e7bc4622a8720e403e974fbf60c8cd58"
+      "source_fragment_sha256": "2d877f07030adc6cd04eb66338d2713997534053a379360a379ef24996d0b8ef"
     },
     {
       "id": "I01",

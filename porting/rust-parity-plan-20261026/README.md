@@ -92,3 +92,11 @@ To regenerate the coordinator-owned UI/source batches, run `python3 tools/build_
 Final parity requires all primary obligations and discovered children to have evidence for the target revision. Allowed terminal dispositions are native-compatible behavior, independently justified intentional improvement preserving required compatibility, or source/runtime-proven absence from the native baseline. A required behavior marked unknown, unsupported, unrun, candidate-only or preparation-only prevents completion. The ledger validator must enforce this before any full-parity claim.
 
 All work stays in isolated Samsung workspace worktrees and build paths. Existing dirty work, original source history, failed receipts and held owner scopes remain preserved. Production installation, service registration, destructive state changes, merges and deployment are distinct reviewed actions; passing development checks does not perform them.
+
+## Second independent migration batch
+
+B25a/B25b/B25c now share the new B25S support child. The current graph has721reviewunits; the original720-unit expansion remains the planning snapshot above. B25S is an explicit prerequisite for all three; the coordinator owns shared manifests and one-line module exports. Each sibling keeps a separate source/evidence PR. Selected source-compiled Java comparisons and bounded local checks are recorded in execution.json; SQL publication, whole-artifact binding and feature acceptance remain open.
+
+Current graph and negative-gate checks: [batch2-validation.json](batch2-validation.json). The original validation.json retains the initial720-unit capture.
+
+Published second batch: [B25S #71](https://github.com/ajhcs/syson/pull/71), [B25a #72](https://github.com/ajhcs/syson/pull/72), [B25b #73](https://github.com/ajhcs/syson/pull/73), [B25c #74](https://github.com/ajhcs/syson/pull/74). The siblings target the shared prerequisite for focused review. Land prerequisites, retarget and inspect/revalidate; never merge into support or snapshot branches.

@@ -48,6 +48,7 @@ for u in UNITS:
 
 # Root-reviewed cross-lane integration edges are explicit and separate from lane snapshots.
 edges = {
+ 'B25a':['B25S'], 'B25b':['B25S'], 'B25c':['B25S'],
  'U03':['B08','B23'], 'U04':['B19'], 'U05':['B21'],
  'U07':['B11','B12'], 'U08':['B13','B17','B18'],
  'U09':['B20'], 'U16':['B14'], 'U21':['B22'],
