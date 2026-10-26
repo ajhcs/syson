@@ -1,0 +1,35 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 13 tests
+test all_frontend_limits_and_invalid_depths_fail_closed ... ok
+test anonymous_and_empty_bodies_keep_optional_names_absent ... ok
+test defaults_and_absent_optionals_are_distinct_from_empty_or_false_values ... ok
+test kernel_limit_and_precancelled_input_never_return_partial_arena ... ok
+test keyword_union_never_silently_constructs_keyword_as_regular_name ... ok
+test malformed_finite_pairs_produce_no_arena_and_retain_precise_offsets ... ok
+test package_part_definition_and_typed_usage_have_source_shaped_wrappers ... ok
+test prior_arenas_are_immutable_and_node_handles_do_not_cross_owners ... ok
+test qualified_typing_stays_unresolved_with_raw_name_segments_and_parenting ... ok
+test raw_quoted_names_preserve_quotes_escapes_and_both_span_units ... ok
+test repeated_declarations_preserve_encounter_order_and_distinct_identity ... ok
+test usage_membership_depends_on_package_or_definition_body_context ... ok
+test valid_source_outside_whitelist_is_explicitly_unsupported ... FAILED
+
+failures:
+
+---- valid_source_outside_whitelist_is_explicitly_unsupported stdout ----
+
+thread 'valid_source_outside_whitelist_is_explicitly_unsupported' (3413686) panicked at tests/construction.rs:259:9:
+package P; // comment
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    valid_source_outside_whitelist_is_explicitly_unsupported
+
+test result: FAILED. 12 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,373 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "scope": "Ten fresh P01 fixtures; no rerun or relabel of the eight previous native audit cases. Positive declaration projection ignores process-local IDs/default-array ordering; native Comment/hidden ML_NOTE differences remain explicit.",
+  "base_commit": "ca1c4b3ab364db7dc9da835c66cba72912c3417f",
+  "worktree": "/workspace/worktrees/builderbob/syson/rp-line-comments",
+  "node": "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+  "node_sha256": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+  "script": "/workspace/repos/builderbob/syson/backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+  "script_sha256": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+  "script_upstream": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "cwd": "/workspace/build/builderbob/syson-rust-parity-20261026/P01",
+  "argv_template": [
+    "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+    "--max-old-space-size=512",
+    "/workspace/repos/builderbob/syson/backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+    "dump",
+    "<fixture.path>",
+    "--stdlib",
+    "none"
+  ],
+  "execution_limits": {
+    "sequential": true,
+    "timeout_seconds": 30,
+    "max_old_space_mib": 512,
+    "stdout_capture_bytes_limit": 4194304,
+    "stderr_capture_bytes_limit": 1048576
+  },
+  "side_effects_review": [
+    "Coordinator creates owned synthetic fixturefiles under the auditdir and captures exactstdout/stderr/exitcode/elapsedtime/hash",
+    "Bundled CLI reads supplied extensionchecked .sysml file through NodeFileSystem then DocumentBuilder.build with validationChecks none and standardLibrary none",
+    "No npm/Maven/package install, server/database/network credential is needed by this finite CLI path",
+    "Bundle contains filesystem/network/childprocess implementation modules used by other features; no blanket claim those APIs are unavailable",
+    "Inspected CLI doesnot invoke WorkspaceManager.initializeWorkspace/loadPlugins or startServer; finite fixtures contain no imports or external paths",
+    "Stop on unexpected dependency/service/network/file-discovery demand; do not substitute full workspace/standard libraries"
+  ],
+  "native_action_path": [
+    "CLI dump action checks .sysml extension and reads only supplied synthetic fixture",
+    "createServices(NodeFileSystem); LangiumDocuments.getOrCreateDocument(file URI)",
+    "DocumentBuilder.build([document], { validationChecks: \"none\", standardLibrary: \"none\" })",
+    "Severity1 lexical/parser/linker errors cause stderr and exit1; otherwise stringify JSON AST stdout",
+    "No WorkspaceManager initialization, plugin loading, language server start, Maven/npm or foreign library loading requested"
+  ],
+  "rust_action_path": [
+    "Adapter::pinned()",
+    "Adapter::construct(originalSource, Limits::default(), Arc<AtomicBool(false)>)",
+    "lex(originalSource, visible token budget) → finite Parser.list → emit → immutable Arena",
+    "Project Namespace/Package/PartDefinition/PartUsage preorder, raw declaredName and name byte/UTF16 spans, unresolved TypeReference parts; no linker or Java translator claim"
+  ],
+  "rust_commands": [
+    "cargo fmt --all -- --check",
+    "cargo test --offline -p syson-ast-adapter",
+    "cargo clippy --offline -p syson-ast-adapter --all-targets -- -D warnings"
+  ],
+  "browser": "NOT_APPLICABLE: no browser/editor caller changed; source-level finite adapter only.",
+  "fixtures": [
+    {
+      "id": "01-LF",
+      "source": "// 🚗 }; @ 'fake'\npackage// name boundary\nP {part// definition boundary\ndef T;part x:// type boundary\nT; }// EOF { package Ghost;",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/01-LF.sysml",
+      "sha256": "0c7491cbafca3734f946bb87529e1dfcbdd3df3e83be374c70355cde9a0d2b52",
+      "native_expected": "SUCCESS",
+      "rust_expected": "SUCCESS",
+      "expected_declarations_preorder": [
+        {
+          "kind": "Package",
+          "raw_declaredName": "P",
+          "name_bytes": [
+            44,
+            45
+          ],
+          "name_utf16": [
+            42,
+            43
+          ]
+        },
+        {
+          "kind": "PartDefinition",
+          "raw_declaredName": "T",
+          "name_bytes": [
+            78,
+            79
+          ],
+          "name_utf16": [
+            76,
+            77
+          ]
+        },
+        {
+          "kind": "PartUsage",
+          "raw_declaredName": "x",
+          "name_bytes": [
+            85,
+            86
+          ],
+          "name_utf16": [
+            83,
+            84
+          ]
+        }
+      ],
+      "expected_typing_segments": [
+        [
+          "T"
+        ]
+      ],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED"
+    },
+    {
+      "id": "02-CR",
+      "source": "// 🚗 }; @ 'fake'\rpackage// name boundary\rP {part// definition boundary\rdef T;part x:// type boundary\rT; }// EOF { package Ghost;",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/02-CR.sysml",
+      "sha256": "3797165a7d2fab4853331a447dc2957b68494b9f38d3a581e0d3341d10d9ee71",
+      "native_expected": "SUCCESS",
+      "rust_expected": "SUCCESS",
+      "expected_declarations_preorder": [
+        {
+          "kind": "Package",
+          "raw_declaredName": "P",
+          "name_bytes": [
+            44,
+            45
+          ],
+          "name_utf16": [
+            42,
+            43
+          ]
+        },
+        {
+          "kind": "PartDefinition",
+          "raw_declaredName": "T",
+          "name_bytes": [
+            78,
+            79
+          ],
+          "name_utf16": [
+            76,
+            77
+          ]
+        },
+        {
+          "kind": "PartUsage",
+          "raw_declaredName": "x",
+          "name_bytes": [
+            85,
+            86
+          ],
+          "name_utf16": [
+            83,
+            84
+          ]
+        }
+      ],
+      "expected_typing_segments": [
+        [
+          "T"
+        ]
+      ],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED"
+    },
+    {
+      "id": "03-CRLF",
+      "source": "// 🚗 }; @ 'fake'\r\npackage// name boundary\r\nP {part// definition boundary\r\ndef T;part x:// type boundary\r\nT; }// EOF { package Ghost;",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/03-CRLF.sysml",
+      "sha256": "aed07d41884702cade64e5a1d23cd233fc4c664c619edb4ad73eccc95a3869c1",
+      "native_expected": "SUCCESS",
+      "rust_expected": "SUCCESS",
+      "expected_declarations_preorder": [
+        {
+          "kind": "Package",
+          "raw_declaredName": "P",
+          "name_bytes": [
+            46,
+            47
+          ],
+          "name_utf16": [
+            44,
+            45
+          ]
+        },
+        {
+          "kind": "PartDefinition",
+          "raw_declaredName": "T",
+          "name_bytes": [
+            81,
+            82
+          ],
+          "name_utf16": [
+            79,
+            80
+          ]
+        },
+        {
+          "kind": "PartUsage",
+          "raw_declaredName": "x",
+          "name_bytes": [
+            88,
+            89
+          ],
+          "name_utf16": [
+            86,
+            87
+          ]
+        }
+      ],
+      "expected_typing_segments": [
+        [
+          "T"
+        ]
+      ],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED"
+    },
+    {
+      "id": "04-comment-only-EOF",
+      "source": "// 🚗 @ { } 'never closed /* :;",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/04-comment-only-EOF.sysml",
+      "sha256": "10cd90b83192e87a8ce40eab4a554a58f49f910ee65307cbc55bea1d2eeaa6ef",
+      "native_expected": "SUCCESS",
+      "rust_expected": "SUCCESS",
+      "expected_declarations_preorder": [],
+      "expected_typing_segments": [],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED"
+    },
+    {
+      "id": "05-quoted-slashes",
+      "source": "// 😀 prefix\npackage 'http://example' { part def 'a\\'//b'; part 'x//y': 'http://example' // reference segment\r\n :: 'a\\'//b'; }",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/05-quoted-slashes.sysml",
+      "sha256": "768b93564b17439f850d195fd291b761126b6342332b9208c010ccf87e1808af",
+      "native_expected": "SUCCESS",
+      "rust_expected": "SUCCESS",
+      "expected_declarations_preorder": [
+        {
+          "kind": "Package",
+          "raw_declaredName": "'http://example'",
+          "name_bytes": [
+            23,
+            39
+          ],
+          "name_utf16": [
+            21,
+            37
+          ]
+        },
+        {
+          "kind": "PartDefinition",
+          "raw_declaredName": "'a\\'//b'",
+          "name_bytes": [
+            51,
+            59
+          ],
+          "name_utf16": [
+            49,
+            57
+          ]
+        },
+        {
+          "kind": "PartUsage",
+          "raw_declaredName": "'x//y'",
+          "name_bytes": [
+            66,
+            72
+          ],
+          "name_utf16": [
+            64,
+            70
+          ]
+        }
+      ],
+      "expected_typing_segments": [
+        [
+          "'http://example'",
+          "'a\\'//b'"
+        ]
+      ],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED"
+    },
+    {
+      "id": "06-fourth-slash",
+      "source": "////* ordinary\npackage P;",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/06-fourth-slash.sysml",
+      "sha256": "cf1cf5fc6c99fde1c554c6069d4503c25e534998c8d7ea432577f62d6e6d2a3e",
+      "native_expected": "SUCCESS",
+      "rust_expected": "SUCCESS",
+      "expected_declarations_preorder": [
+        {
+          "kind": "Package",
+          "raw_declaredName": "P",
+          "name_bytes": [
+            23,
+            24
+          ],
+          "name_utf16": [
+            23,
+            24
+          ]
+        }
+      ],
+      "expected_typing_segments": [],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED"
+    },
+    {
+      "id": "07-semantic-block-comment",
+      "source": "/* semantic */ package P;",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/07-semantic-block-comment.sysml",
+      "sha256": "c5518770f62c97efafe46d867fdb81c35573ecf4706d5b396f21e5c1570180db",
+      "native_expected": "SUCCESS with semantic Comment declaration body /* semantic */ in addition to Package",
+      "rust_expected": "Unsupported { offset: 0 }",
+      "expected_declarations_preorder": [
+        {
+          "kind": "Package",
+          "raw_declaredName": "P",
+          "name_bytes": [
+            23,
+            24
+          ],
+          "name_utf16": [
+            23,
+            24
+          ]
+        }
+      ],
+      "expected_typing_segments": [],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED",
+      "intentional_difference": "P05 semantic REGULAR_COMMENT/Comment not implemented; must never be silently discarded. Declaration projection lists only Package; native Comment must be separately recorded."
+    },
+    {
+      "id": "08-overlap-multiline-note",
+      "source": "//* note\n*/ package P;",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/08-overlap-multiline-note.sysml",
+      "sha256": "2120c4d7077853624c80863828969b6bfd9e4c8586f82f0c991fcdc44b7f0cdc",
+      "native_expected": "SUCCESS",
+      "rust_expected": "Unsupported { offset: 0 }",
+      "expected_declarations_preorder": [
+        {
+          "kind": "Package",
+          "raw_declaredName": "P",
+          "name_bytes": [
+            20,
+            21
+          ],
+          "name_utf16": [
+            20,
+            21
+          ]
+        }
+      ],
+      "expected_typing_segments": [],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED",
+      "intentional_difference": "P02 hidden ML_NOTE overlaps SL_NOTE prefix. P01 intentionally refuses exact //* prefix rather than stripping only its first line."
+    },
+    {
+      "id": "09-commented-closing-brace",
+      "source": "package P { // 😀 }",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/09-commented-closing-brace.sysml",
+      "sha256": "6caea40ea280f0c8c44438b121dd3758330ac57dd1951b3718db5bd10df2a17b",
+      "native_expected": "PARSE_ERROR exit1; no successful complete AST",
+      "rust_expected": "Malformed { offset: 21, expected: \"}\" }",
+      "expected_declarations_preorder": [],
+      "expected_typing_segments": [],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED"
+    },
+    {
+      "id": "10-no-token-merging",
+      "source": "pack// no lexical merging\nage P;",
+      "path": "/workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/10-no-token-merging.sysml",
+      "sha256": "877d0387edc326834245d4d1a8190d32b94223eeaa31f13357c02fbb18840199",
+      "native_expected": "PARSE_ERROR exit1; do not merge pack and age",
+      "rust_expected": "Unsupported { offset: 0 }",
+      "expected_declarations_preorder": [],
+      "expected_typing_segments": [],
+      "expectation_status": "SOURCE_REVIEWED_NOT_EXECUTED"
+    }
+  ]
+}

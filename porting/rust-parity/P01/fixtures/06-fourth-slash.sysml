@@ -1,0 +1,2 @@
+////* ordinary
+package P;
