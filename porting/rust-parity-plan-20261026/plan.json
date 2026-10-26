@@ -2,10 +2,11 @@
   "schema": 1,
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "state": "ADOPTED_REVIEWABLE_PLAN;_IMPLEMENTATION_AND_NATIVE_CLOSURE_REMAIN_OPEN",
-  "unit_count": 721,
+  "unit_count": 724,
   "full_parity_claimed": false,
   "count_meaning": "Named review units, including verification and explicitly generated source batches; discovery may add bounded children. Not a feature count, percentage or guaranteed final PR count.",
   "lane_counts": {
+    "lanes/coordination-support.json": 3,
     "lanes/migration-support.json": 1,
     "lanes/model.json": 408,
     "lanes/parser.json": 184,
@@ -174,6 +175,25 @@
   },
   "unordered_write_conflicts": [],
   "readiness_graph": {
+    "implementation:C01a": [],
+    "accepted:C01a": [
+      "implementation:C01a"
+    ],
+    "implementation:C01b": [
+      "implementation:C01a"
+    ],
+    "accepted:C01b": [
+      "implementation:C01b"
+    ],
+    "implementation:C03a": [
+      "implementation:B25S",
+      "implementation:B25a",
+      "implementation:B25b",
+      "implementation:B25c"
+    ],
+    "accepted:C03a": [
+      "implementation:C03a"
+    ],
     "implementation:B25S": [
       "implementation:B01"
     ],
@@ -6800,7 +6820,8 @@
       "implementation:B25c"
     ],
     "implementation:B25d": [
-      "implementation:B01"
+      "implementation:B01",
+      "implementation:B25S"
     ],
     "accepted:B25d": [
       "implementation:B25d"
@@ -6979,6 +7000,8 @@
     ],
     "implementation:C01": [],
     "accepted:C01": [
+      "accepted:C01a",
+      "accepted:C01b",
       "implementation:C01"
     ],
     "implementation:C02": [
@@ -6989,6 +7012,7 @@
     ],
     "implementation:C03": [],
     "accepted:C03": [
+      "accepted:C03a",
       "implementation:C03"
     ],
     "implementation:C04": [
@@ -7033,8 +7057,11 @@
       "implementation:B32",
       "implementation:B33",
       "implementation:C01",
+      "implementation:C01a",
+      "implementation:C01b",
       "implementation:C02",
       "implementation:C03",
+      "implementation:C03a",
       "implementation:C04",
       "implementation:I01",
       "implementation:I03",
@@ -7566,10 +7593,17 @@
       "implementation:B20",
       "implementation:B21",
       "implementation:B23",
+      "implementation:B25S",
+      "implementation:B25a",
+      "implementation:B25b",
+      "implementation:B25c",
       "implementation:B29",
       "implementation:C01",
+      "implementation:C01a",
+      "implementation:C01b",
       "implementation:C02",
       "implementation:C03",
+      "implementation:C03a",
       "implementation:C05",
       "implementation:I01",
       "implementation:I03",
@@ -8061,8 +8095,11 @@
       "implementation:B26b",
       "implementation:B29",
       "implementation:C01",
+      "implementation:C01a",
+      "implementation:C01b",
       "implementation:C02",
       "implementation:C03",
+      "implementation:C03a",
       "implementation:C06",
       "implementation:I01",
       "implementation:I03",
@@ -8533,8 +8570,11 @@
       "implementation:B28",
       "implementation:B29",
       "implementation:C01",
+      "implementation:C01a",
+      "implementation:C01b",
       "implementation:C02",
       "implementation:C03",
+      "implementation:C03a",
       "implementation:C07",
       "implementation:I01",
       "implementation:I03",
@@ -8999,8 +9039,11 @@
       "implementation:B29",
       "implementation:B31",
       "implementation:C01",
+      "implementation:C01a",
+      "implementation:C01b",
       "implementation:C02",
       "implementation:C03",
+      "implementation:C03a",
       "implementation:C08",
       "implementation:I01",
       "implementation:I03",
@@ -9558,8 +9601,11 @@
       "implementation:B33",
       "implementation:B34",
       "implementation:C01",
+      "implementation:C01a",
+      "implementation:C01b",
       "implementation:C02",
       "implementation:C03",
+      "implementation:C03a",
       "implementation:C09",
       "implementation:I01",
       "implementation:I03",
@@ -10730,6 +10776,9 @@
       "implementation:V044"
     ],
     "implementation:C99": [
+      "implementation:C01a",
+      "implementation:C01b",
+      "implementation:C03a",
       "implementation:B25S",
       "implementation:I01",
       "implementation:M01",
@@ -11499,8 +11548,11 @@
       "accepted:B40",
       "accepted:B41",
       "accepted:C01",
+      "accepted:C01a",
+      "accepted:C01b",
       "accepted:C02",
       "accepted:C03",
+      "accepted:C03a",
       "accepted:C04",
       "accepted:C05",
       "accepted:C06",
@@ -12190,8 +12242,8 @@
     ],
     [
       "B25S",
-      "B25d",
-      "C01"
+      "C01",
+      "C01a"
     ],
     [
       "B02",
@@ -12236,57 +12288,67 @@
     [
       "B25b",
       "B25c",
-      "B27"
+      "B25d"
     ],
     [
       "B26a",
       "B26b",
-      "B28"
+      "B27"
     ],
     [
+      "B28",
       "B29",
-      "B30",
-      "B31"
+      "B30"
     ],
     [
+      "B31",
       "B36",
-      "B37",
-      "B38"
+      "B37"
     ],
     [
+      "B38",
       "B39",
-      "B40",
-      "B41"
+      "B40"
     ],
     [
-      "C02",
+      "B41",
+      "C01b",
+      "C02"
+    ],
+    [
       "C03",
-      "M01"
+      "C03a",
+      "C04"
     ],
     [
       "B32",
-      "C04",
-      "C05"
+      "C05",
+      "C06"
     ],
     [
       "B33",
       "B34",
-      "C06"
+      "C07"
     ],
     [
       "B35",
-      "C07",
-      "C08"
+      "C08",
+      "C09"
     ],
     [
-      "C09",
+      "M01",
       "M02",
-      "M03"
+      "P02"
+    ],
+    [
+      "M03",
+      "P03",
+      "P04"
     ],
     [
       "M04",
       "M05",
-      "P02"
+      "P05"
     ],
     [
       "M06",
@@ -12957,11 +13019,6 @@
       "M97",
       "M98",
       "M99"
-    ],
-    [
-      "P03",
-      "P04",
-      "P05"
     ],
     [
       "P06",
@@ -16599,7 +16656,8 @@
         "cross-cutting"
       ],
       "deps": [
-        "B01"
+        "B01",
+        "B25S"
       ],
       "external_prs": [],
       "source_refs": [
@@ -16649,7 +16707,8 @@
         "Fresh exact-head native comparison and meaningful regressions pass; no claim for other migration participants."
       ],
       "dependencies": [
-        "B01"
+        "B01",
+        "B25S"
       ],
       "paths": [
         "rust/crates/syson-migrations/b25d.rs",
@@ -16659,7 +16718,10 @@
       "external_pr_details": [],
       "lane": "platform",
       "source_fragment": "lanes/platform.json",
-      "source_fragment_sha256": "ead5f3506d2655a08a4dc34436fe9a76cb359e7f6253e65743f1e89e6056c8cc"
+      "source_fragment_sha256": "ead5f3506d2655a08a4dc34436fe9a76cb359e7f6253e65743f1e89e6056c8cc",
+      "coordinator_added_dependencies": [
+        "B25S"
+      ]
     },
     {
       "id": "B26a",
@@ -18831,7 +18893,107 @@
         66
       ],
       "source_fragment": "lanes/ui.json",
-      "source_fragment_sha256": "5cbbab5fa9f513c78ca54cfa364bf5c2adb3dc970214e14421c02a7700d66ace"
+      "source_fragment_sha256": "5cbbab5fa9f513c78ca54cfa364bf5c2adb3dc970214e14421c02a7700d66ace",
+      "acceptance_children": [
+        "C01a",
+        "C01b"
+      ],
+      "bounded_child_disposition": "Selected evidence tools only; all original parent tasks and downstream parent gates remain required."
+    },
+    {
+      "lane": "coordination-support",
+      "state": "LOCALLY_VERIFIED_BOUNDED_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation, locked manifest and meaningful refusal fixtures",
+        "Exact frozen-source execution and independent review evidence with remaining limitations"
+      ],
+      "ownership": "One source author per isolated branch; coordinator owns manifests, composition and serial compiler/runtime execution.",
+      "done_when": "Bounded tool behavior is verified on frozen inputs; parent C01/C03 and full feature acceptance remain open.",
+      "id": "C01a",
+      "title": "Pure fail-closed selected-reference evidence policy",
+      "dependencies": [],
+      "external_prs": [
+        66
+      ],
+      "paths": [
+        "rust/tools/reference-binding/",
+        "porting/rust-parity-evidence/C01a/"
+      ],
+      "source_refs": [
+        "porting/audits/20261026/native-reference.json",
+        "porting/rust-parity-evidence/B25S/"
+      ],
+      "tasks": [
+        "Validate seven evidence roles, four compiled selected sources, nine dependency identities, compiler/runtime argv and five compiled classes using explicitly unverified supplied facts.",
+        "Bind target Git sources and the complete source-label delta; report the 125-path mismatch without admitting whole-artifact equivalence.",
+        "Require final reviewed harness hash to equal the compiled harness; preserve the contradictory original review as a refusal and label coherent positive policy fixtures synthetic.",
+        "Return file_inspection_performed=false and C01 OPEN; perform no file/Git I/O in the policy core."
+      ],
+      "verification": [
+        "Nine focused policy tests include stale harness, missing/changed inputs, partial source/class/dependency coverage, altered argv/config/OCI relationships and claim escalation.",
+        "Root offline locked serial fmt/test/all-target Clippy capture; peer review verifies the historical contradiction is not rewritten.",
+        "Source/build preflight records exact 125-path delta and reviewed Maven/Java/frontend dependency prerequisites; no native build or installation claim."
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2
+      },
+      "external_pr_details": [
+        66
+      ],
+      "source_fragment": "lanes/coordination-support.json",
+      "source_fragment_sha256": "4894bff09259dc65d2d7f498d7921a46c7309fd92b13484e60a28c2f383ab555"
+    },
+    {
+      "lane": "coordination-support",
+      "state": "LOCALLY_VERIFIED_CURRENT_INPUT_INSPECTION_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation, locked manifest and meaningful refusal fixtures",
+        "Exact frozen-source execution and independent review evidence with remaining limitations"
+      ],
+      "ownership": "One source author per isolated branch; coordinator owns manifests, composition and serial compiler/runtime execution.",
+      "done_when": "Bounded tool behavior is verified on frozen inputs; parent C01/C03 and full feature acceptance remain open.",
+      "id": "C01b",
+      "title": "Read-only file and Git inspector for selected-reference policy",
+      "dependencies": [
+        "C01a"
+      ],
+      "external_prs": [
+        76
+      ],
+      "paths": [
+        "rust/tools/reference-binding/",
+        "porting/rust-parity-evidence/C01b/"
+      ],
+      "source_refs": [
+        "porting/audits/20261026/native-reference.json",
+        "rust/tools/reference-binding/"
+      ],
+      "tasks": [
+        "Inspect actual root-contained regular files and target Git blobs using bounded reads and fixed read-only argv; prohibit shell, network fetch, hooks and source mutation.",
+        "Enumerate the effective wildcard classpath: exactly nine JARs and five recursive class files; reject extra/missing files, symlinks and path escapes.",
+        "Exercise the real retained request as a refusal for its original stale harness review; inspect a new separately scoped current review without rewriting historical receipts.",
+        "Qualify current local file/Git/receipt consistency only; do not authenticate publishers or claim historical dependency immutability, exact rebuilt artifact or full C01 closure."
+      ],
+      "verification": [
+        "Eight real-file/inventory tests include extra/missing JARs/classes/resources, symlinks, escapes and byte/tree limits; nine inherited policy tests cover changed hashes and provenance. The actual CLI checks real target Git and retained inputs, original review refusal and usage diagnostics.",
+        "Root offline locked serial fmt/test/Clippy; exact actual CLI input, executable and output capture; no native oracle replay.",
+        "Independent review of subprocess argv, bounds and claim boundaries; confirm original review remains byte-identical.",
+        "Retain first17testPASS/ClippyFAIL; after one test-only slice lint repair, run only the affected symlink test plus fmt/Clippy. Production bytes remain unchanged."
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "observed_new_production_lines": 399,
+        "observed_new_test_lines": 258
+      },
+      "external_pr_details": [
+        76
+      ],
+      "source_fragment": "lanes/coordination-support.json",
+      "source_fragment_sha256": "4894bff09259dc65d2d7f498d7921a46c7309fd92b13484e60a28c2f383ab555"
     },
     {
       "id": "C02",
@@ -18918,7 +19080,70 @@
         66
       ],
       "source_fragment": "lanes/ui.json",
-      "source_fragment_sha256": "5cbbab5fa9f513c78ca54cfa364bf5c2adb3dc970214e14421c02a7700d66ace"
+      "source_fragment_sha256": "5cbbab5fa9f513c78ca54cfa364bf5c2adb3dc970214e14421c02a7700d66ace",
+      "acceptance_children": [
+        "C03a"
+      ],
+      "bounded_child_disposition": "Selected evidence tools only; all original parent tasks and downstream parent gates remain required."
+    },
+    {
+      "lane": "coordination-support",
+      "state": "LOCALLY_VERIFIED_BOUNDED_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation, locked manifest and meaningful refusal fixtures",
+        "Exact frozen-source execution and independent review evidence with remaining limitations"
+      ],
+      "ownership": "One source author per isolated branch; coordinator owns manifests, composition and serial compiler/runtime execution.",
+      "done_when": "Bounded tool behavior is verified on frozen inputs; parent C01/C03 and full feature acceptance remain open.",
+      "id": "C03a",
+      "title": "Verify explicit committed source-blob compositions",
+      "dependencies": [
+        "B25S",
+        "B25a",
+        "B25b",
+        "B25c"
+      ],
+      "external_prs": [
+        71,
+        72,
+        73,
+        74
+      ],
+      "paths": [
+        "rust/tools/verify-composition/",
+        "porting/rust-parity-evidence/C03a/"
+      ],
+      "source_refs": [
+        "porting/pr-split-20261024",
+        "porting/rust-parity-evidence/B25S/"
+      ],
+      "tasks": [
+        "Validate exact common base, source/candidate branch refs and immutable commit/blob identities with actual read-only Git commands.",
+        "Require every source delta to be selected and owned; reject missing/overlapping/undeclared changes, wrong modes and stale references.",
+        "Allow only explicitly generated ordered common module exports backed by selected owner files; compare per-source and union bytes exactly.",
+        "Verify global committed candidate delta and selected/generated on-disk files; separately freeze all actual compiler inputs against candidate Git before composed checks.",
+        "Publish the three existing migration PRs as an exact prerequisite snapshot, without merging into source branches or claiming whole-program acceptance."
+      ],
+      "verification": [
+        "Eight actual Git repository tests cover valid no-mutation, stale refs, omitted fixtures, conflicts, wrong blobs, altered working files, undeclared commit changes, common exports/order, path escape, bounds and executable/symlink failures, including owner-execute semantics.",
+        "Run the CLI against the real 93-file plus one-generated-export snapshot; record manifest/executable identities and original output.",
+        "Root fmt/test/all-target Clippy for verifier and composed library; 29 composed tests with every compiler input equal to committed candidate before execution.",
+        "Peer source review and exact committed-source/receipt identity checks; inherited untouched working files are outside tool scope and must be separately frozen for builds."
+      ],
+      "budget": {
+        "production_lines_max": 500,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "exception": "Root explicitly reviewed cohesive read-only verifier at 482 production/784 authored lines; retain one bounded contract rather than weakening checks or manufacturing backend splits."
+      },
+      "external_pr_details": [
+        71,
+        72,
+        73,
+        74
+      ],
+      "source_fragment": "lanes/coordination-support.json",
+      "source_fragment_sha256": "4894bff09259dc65d2d7f498d7921a46c7309fd92b13484e60a28c2f383ab555"
     },
     {
       "id": "C04",
@@ -19003,8 +19228,11 @@
         "B32",
         "B33",
         "C01",
+        "C01a",
+        "C01b",
         "C02",
         "C03",
+        "C03a",
         "I01",
         "I03",
         "I04",
@@ -19580,10 +19808,17 @@
         "B20",
         "B21",
         "B23",
+        "B25S",
+        "B25a",
+        "B25b",
+        "B25c",
         "B29",
         "C01",
+        "C01a",
+        "C01b",
         "C02",
         "C03",
+        "C03a",
         "I01",
         "I03",
         "I04",
@@ -20121,8 +20356,11 @@
         "B26b",
         "B29",
         "C01",
+        "C01a",
+        "C01b",
         "C02",
         "C03",
+        "C03a",
         "I01",
         "I03",
         "I04",
@@ -20648,8 +20886,11 @@
         "B28",
         "B29",
         "C01",
+        "C01a",
+        "C01b",
         "C02",
         "C03",
+        "C03a",
         "I01",
         "I03",
         "I04",
@@ -21226,8 +21467,11 @@
         "B29",
         "B31",
         "C01",
+        "C01a",
+        "C01b",
         "C02",
         "C03",
+        "C03a",
         "I01",
         "I03",
         "I04",
@@ -21825,8 +22069,11 @@
         "B33",
         "B34",
         "C01",
+        "C01a",
+        "C01b",
         "C02",
         "C03",
+        "C03a",
         "I01",
         "I03",
         "I04",
@@ -22341,6 +22588,9 @@
       "title": "Accept complete matched SysON parity and Rust release closure",
       "lane": "acceptance",
       "dependencies": [
+        "C01a",
+        "C01b",
+        "C03a",
         "B25S",
         "I01",
         "M01",
@@ -23091,7 +23341,7 @@
       "done_when": "Every required parity obligation is accepted on the same exact target/candidate closure and all release gates pass; otherwise the plan remains incomplete.",
       "state": "PLANNED_BLOCKED_ON_ALL_REMAINING_UNITS",
       "source_fragment": "tools/build_plan.py",
-      "source_fragment_sha256": "2d877f07030adc6cd04eb66338d2713997534053a379360a379ef24996d0b8ef"
+      "source_fragment_sha256": "b47b98e1edfb2fb44c9e9919b47815a1062e5f5bbab97d11559608eb8143e568"
     },
     {
       "id": "I01",

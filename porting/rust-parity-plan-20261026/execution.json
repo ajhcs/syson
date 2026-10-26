@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "SECOND_INDEPENDENT_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
+  "status": "THIRD_INDEPENDENT_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
   "candidate_revision": null,
   "full_parity_claimed": false,
   "closure": {
@@ -12,7 +12,10 @@
       "Remaining semantic,language,host,UI,capacity and release acceptance units"
     ],
     "discovered_children": [
-      "B25S"
+      "B25S",
+      "C01a",
+      "C01b",
+      "C03a"
     ]
   },
   "units": {
@@ -118,6 +121,73 @@
       "pull_request": "https://github.com/ajhcs/syson/pull/74",
       "commits": 2,
       "native_observation": "MATCHED_SELECTED_SOURCE_RUNTIME;exactpinnedparticipant/helperclasseswith9identifiedreleaseJARs;wholeartifact/app/SQLclosureOPEN"
+    },
+    "B25d": {
+      "tests": 16,
+      "source_capture": "b25d-01",
+      "prerequisite": "B25S",
+      "native_observation": "19 source-compiled Java/Rust callback and traversal cases: version/kind/status match; JSON/change match on success. Two native partial trees retained; Rust refuses atomically. Whole artifact/framework/SQL/UI open.",
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rp-b25d",
+      "head": "d8cc04372d184f5f51825cc7623047586a9ed7ab",
+      "pull_request": "https://github.com/ajhcs/syson/pull/75",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2
+    },
+    "C01a": {
+      "tests": 9,
+      "source_capture": "c01a-01",
+      "native_observation": "NOT_RUN_BY_THIS_UNIT",
+      "scope": "Pure policy over UnverifiedFacts only; no I/O. Historical harness review mismatch refuses; positive policy fixtures explicitly synthetic. Source/build preflight retained.",
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rp-c01a-reference-binding",
+      "head": "d592fe7332493b15e75b6538b5557f1fb262a3f7",
+      "pull_request": "https://github.com/ajhcs/syson/pull/76",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2
+    },
+    "C03a": {
+      "tests": 8,
+      "source_capture": "c03a-02",
+      "actual_cli": "Verifies actual93selectedfiles+1orderedgeneratedexport from three exact source PRs",
+      "composition": {
+        "snapshot": "f19c06915a664eb636f6d0782c6d5191f9a43cd3",
+        "tests": 29,
+        "source_capture": "compose-01",
+        "committed_build_inputs": 97
+      },
+      "earlier_capture": "c03a-01 seven-test PASS retained before peer owner-execute-bit finding; repaired final8test capture used",
+      "scope": "Selected on-disk files/modes plus global committed delta; inherited compiler inputs separately frozen against Git before composed checks. Parent C03 landing remains open.",
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rp-c03a-composition",
+      "head": "9d244f04e76ae0ec3291416b733ae1e35b470905",
+      "pull_request": "https://github.com/ajhcs/syson/pull/77",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2
+    },
+    "C01b": {
+      "tests": 17,
+      "source_capture": "c01b-02",
+      "prerequisite": "C01a",
+      "test_evidence": {
+        "c01b-01": "17 tests PASS; overall FAIL due to single test-only Clippy slice lint",
+        "c01b-02": "Affected symlink test plus fmt/all-target Clippy PASS; unchanged other passed tests not replayed"
+      },
+      "original_failures": [
+        "c01b-01"
+      ],
+      "actual_cli": "Three cases PASS: original historical request refuses stale harness, current scoped review inspects real files/Git/exact9JAR+5class inventory, usage exits2 with instructions.",
+      "scope": "Current individually sampled input consistency only; not atomic/historical state, retroactive approval, receipt/publisher authenticity or whole artifact binding.",
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rp-c01b-reference-inspector",
+      "head": "a12d115f67d070fa21e9fca77a32195d5f5e9fa6",
+      "pull_request": "https://github.com/ajhcs/syson/pull/78",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2
     }
   }
 }

@@ -48,7 +48,7 @@ for u in UNITS:
 
 # Root-reviewed cross-lane integration edges are explicit and separate from lane snapshots.
 edges = {
- 'B25a':['B25S'], 'B25b':['B25S'], 'B25c':['B25S'],
+ 'B25a':['B25S'], 'B25b':['B25S'], 'B25c':['B25S'], 'B25d':['B25S'],
  'U03':['B08','B23'], 'U04':['B19'], 'U05':['B21'],
  'U07':['B11','B12'], 'U08':['B13','B17','B18'],
  'U09':['B20'], 'U16':['B14'], 'U21':['B22'],
@@ -60,6 +60,9 @@ for uid, deps in edges.items():
         if dep not in byid[uid]['dependencies']:
             byid[uid]['dependencies'].append(dep)
             byid[uid].setdefault('coordinator_added_dependencies', []).append(dep)
+for parent, children in {'C01':['C01a','C01b'], 'C03':['C03a']}.items():
+    byid[parent]['acceptance_children'] = children
+    byid[parent]['bounded_child_disposition'] = 'Selected evidence tools only; all original parent tasks and downstream parent gates remain required.'
 providers = [u['id'] for u in UNITS if u['id'].startswith('V')]
 for uid in ['U18','U19','U20']:
     byid[uid]['dependencies'] += [d for d in providers if d not in byid[uid]['dependencies']]
