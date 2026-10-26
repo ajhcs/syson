@@ -90,6 +90,21 @@ fn lex<'a>(source: &'a str, maximum: usize, cancel: &AtomicBool) -> Result<Vec<T
             i += 1;
             continue;
         }
+        if byte == b'/' && source.as_bytes().get(i + 1) == Some(&b'/') {
+            // Native //* multiline notes overlap this prefix and remain outside
+            // this finite lexical family. Never discard semantic /* comments.
+            if source.as_bytes().get(i + 2) == Some(&b'*') {
+                return Err(Error::Unsupported { offset: i });
+            }
+            i += 2;
+            while i < source.len() && !matches!(source.as_bytes()[i], b'\r' | b'\n') {
+                if i.is_multiple_of(1024) {
+                    check(cancel)?;
+                }
+                i += 1;
+            }
+            continue;
+        }
         if tokens.len() == maximum {
             return Err(Error::Limit);
         }
