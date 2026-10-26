@@ -9,7 +9,32 @@ try {
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
   const queued = new Set();
+  // Presentation state lives only in this page, outside model/canvas history.
+  let canvasView = 'actual';
+  let actualPan = {left: 0, top: 0};
+  function rememberCanvasPan() {
+    const viewport = root.querySelector('[data-canvas-viewport]');
+    if (viewport?.dataset.canvasView === 'actual') {
+      actualPan = {left: viewport.scrollLeft, top: viewport.scrollTop};
+    }
+  }
+  function applyCanvasView() {
+    const viewport = root.querySelector('[data-canvas-viewport]');
+    const svg = viewport?.querySelector('svg');
+    if (!svg) return;
+    const width = Math.max(svg.viewBox.baseVal.width, 300);
+    viewport.dataset.canvasView = canvasView;
+    // At actual size, one diagram unit is one CSS pixel. Fit is explicit.
+    svg.style.minWidth = canvasView === 'actual' ? `${width}px` : '0px';
+    svg.style.maxWidth = canvasView === 'actual' ? `${width}px` : 'none';
+    for (const button of root.querySelectorAll('button[data-canvas-view]')) {
+      button.setAttribute('aria-pressed', String(button.dataset.canvasView === canvasView));
+    }
+    viewport.scrollLeft = canvasView === 'actual' ? actualPan.left : 0;
+    viewport.scrollTop = canvasView === 'actual' ? actualPan.top : 0;
+  }
   function paint(background = false) {
+    rememberCanvasPan();
     const focused = document.activeElement;
     const caret = focused && typeof focused.selectionStart === 'number'
       ? [focused.selectionStart, focused.selectionEnd, focused.selectionDirection] : null;
@@ -42,6 +67,7 @@ try {
       if (e) { e.value = value; if ('checked' in e) e.checked = checked; }
     }
     if (preserveDrafts) root.querySelectorAll('details').forEach((e, i) => { e.open = details[i]; });
+    applyCanvasView();
     const requested = !background && root.querySelector('[data-inspector-focus]')?.dataset.inspectorFocus;
     const next = (requested && (document.getElementById(requested) ?? document.getElementById('selection-heading')))
       || (focused?.id && document.getElementById(focused.id));
@@ -108,6 +134,13 @@ try {
     try { send(form.dataset.action, Object.fromEntries(new FormData(form))); } catch (error) { report(error); }
   });
   root.addEventListener('click', event => {
+    const viewButton = event.target.closest('button[data-canvas-view]');
+    if (viewButton && ['actual', 'fit'].includes(viewButton.dataset.canvasView)) {
+      rememberCanvasPan();
+      canvasView = viewButton.dataset.canvasView;
+      applyCanvasView();
+      return; // No WASM dispatch, rerender, document edit or history entry.
+    }
     const button = event.target.closest('button[data-action]');
     if (button) {
       const action = button.dataset.action;
