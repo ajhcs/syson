@@ -1,0 +1,113 @@
+{
+  "status": "SOURCE_DERIVED_NATIVE_AQL_UNRUN",
+  "classifiers": [
+    "Package",
+    "PartDefinition",
+    "PartUsage",
+    "OwningMembership",
+    "FeatureMembership",
+    "FeatureTyping"
+  ],
+  "rules": [
+    "validateNamespaceDistinguishibility",
+    "validatePartUsagePartDefinition"
+  ],
+  "sources": [
+    {
+      "path": "backend/application/syson-sysml-validation/src/main/java/org/eclipse/syson/sysml/validation/rules/SysMLValidationRule.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "c2cf92508c4f9b61c2bd70aebccb1c631bd18edb3b89efadb972ee183a85f766",
+      "anchors": [
+        "validateNamespaceDistinguishibility",
+        "aql:self.ownedMembership->forAll(m1 | self.ownedMembership->forAll(m2 | m1 <> m2 implies m1.isDistinguishableFrom(m2)))",
+        "aql:self.partDefinition->notEmpty()",
+        "this.severity = Diagnostic.WARNING;"
+      ]
+    },
+    {
+      "path": "backend/application/syson-sysml-validation/src/main/java/org/eclipse/syson/sysml/validation/rules/SysONValidationRulesProvider.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "0ba2522d47bb48047c3ec0b6a4f1f492a2aa83982a549f5f3cca37e4115933cd",
+      "anchors": [
+        "rule.eClass().equals(eClass) || rule.eClass().isSuperTypeOf(eClass)"
+      ]
+    },
+    {
+      "path": "backend/application/syson-sysml-validation/src/main/java/org/eclipse/syson/sysml/validation/SysONSysMLValidator.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "134f3bae6b1d27ca743e4c7f8b6b17d06a7e722d2cbbff66d2454a188931b850",
+      "anchors": [
+        "!this.utilService.isRootNamespace(element)",
+        "this.validationRulesProvider.getValidationRules(eClass)",
+        "final String elementQualifiedName = element.getQualifiedName();"
+      ]
+    },
+    {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/MembershipImpl.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "4458b25fa330b95a673013337b46b69627064c5b4c716663b62bd71bcdf4bf8b",
+      "anchors": [
+        "public boolean isDistinguishableFrom(Membership other)",
+        "memberElementSuperClasses.contains(otherMemberElementClass)",
+        "(diffMemberShortName && diffMemberName)"
+      ]
+    },
+    {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/OwningMembershipImpl.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "c9b001a480fc6ee3ca6005160bdcd2edefdbf195477f7f126eac9026c32923d5",
+      "anchors": [
+        "return ownedMemberElement.getName();",
+        "return ownedMemberElement.getShortName();",
+        "return ownedMembers.get(0);"
+      ]
+    },
+    {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/java/org/eclipse/syson/sysml/impl/PartUsageImpl.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "531b034d7a1c0eab63bb096de1cddad3a6f0b6cbb75f3d59ca8068cf294a0f39",
+      "anchors": [
+        ".filter(FeatureTyping.class::isInstance)",
+        ".map(FeatureTyping::getType)",
+        ".filter(PartDefinition.class::isInstance)"
+      ]
+    },
+    {
+      "path": "rust/crates/syson-text-import/src/lib.rs",
+      "revision": "259ecebe50ed80debf7a8bf0506c7bb3a600a214",
+      "sha256": "9eaf961c48417f203ab3f8b8ccf327409f8df7014c291815a2740cea461117f1",
+      "anchors": [
+        "let name = raw.replace",
+        "type_part_usage(&usage, target.element_id(), ids)"
+      ]
+    },
+    {
+      "path": "rust/crates/syson-ast-adapter/src/lib.rs",
+      "revision": "259ecebe50ed80debf7a8bf0506c7bb3a600a214",
+      "sha256": "f91fe8a50c2b1d79a5afcd30cef9afe6a85d1859473c9a8977b3cc251ea62d96",
+      "anchors": [
+        "Lexeme::from_source(source, decl.start, decl.end)",
+        "pub fn construct("
+      ]
+    },
+    {
+      "path": "rust/crates/syson-semantic-names/src/lib.rs",
+      "revision": "259ecebe50ed80debf7a8bf0506c7bb3a600a214",
+      "sha256": "236a58425b066821921472a394e6755de21b52158cfc5e02de77e18b41f5fc19",
+      "anchors": [
+        "pub fn owner(",
+        "pub fn owned_elements(",
+        "pub fn qualified_name("
+      ]
+    },
+    {
+      "path": "rust/crates/syson-model/src/lib.rs",
+      "revision": "259ecebe50ed80debf7a8bf0506c7bb3a600a214",
+      "sha256": "dd77aaa4b5015b2ee9900559003557377d49465b6a419f91a6a692ac0523981b",
+      "anchors": [
+        "pub fn elements(&self)",
+        "collect_summaries(related, owner, false, out);"
+      ]
+    }
+  ]
+}
