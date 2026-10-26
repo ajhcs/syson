@@ -1,0 +1,77 @@
+{
+  "unit": "B25d",
+  "status": "SELECTED_CALLBACK_AND_TRAVERSAL_VERIFIED",
+  "base_branch": "codex/syson-rp-b25-support",
+  "base_head": "cbf8a9f7a56f459a2374962e96010233fe711801",
+  "implementation_scope": "Exact six description-ID mappings, explicit currentValue attribute callback, and bounded immutable representation preparation.",
+  "source_pins": {
+    "syson": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "sirius_candidate": "3191e2b8990373afee3415f6b26f8c5039a28321"
+  },
+  "local": {
+    "capture": "b25d-01",
+    "status": "PASS",
+    "tests": 16,
+    "new_tests": 7,
+    "shared_tests": 9,
+    "formatting": "PASS",
+    "all_target_clippy": "PASS",
+    "unchanged_inputs": 49,
+    "receipt_sha256": "3fb34864a81e2e140c4a0686e6d3bbe8dd0a16f81cc6727eea9007e5f40dcab6"
+  },
+  "selected_native": {
+    "cases": 19,
+    "case_ids": [
+      "callback-start",
+      "callback-done",
+      "callback-decision",
+      "callback-fork",
+      "callback-join",
+      "callback-merge",
+      "callback-explicit-value-differs-from-root",
+      "callback-missing-root-property",
+      "callback-case-sensitive-attribute",
+      "callback-nonstring-null",
+      "callback-nonstring-number",
+      "callback-nonstring-boolean",
+      "callback-nonstring-object",
+      "callback-nonstring-array",
+      "traversal-all-six-nested-and-readonly",
+      "traversal-object-valued-description",
+      "traversal-replay-and-opaque-values",
+      "traversal-nested-array-refusal",
+      "traversal-late-refusal-native-partial-tree"
+    ],
+    "runtime": "Actual source-compiled SysON participant plus inherited Sirius interface/service, Jackson3, seven identified release JARs.",
+    "matched": [
+      "version",
+      "kind",
+      "success/refusal",
+      "JSON values and changed on success"
+    ],
+    "intentional_failure_difference": "Two native nested-array refusals retain partial native trees. Rust private preparation returns no output; no Java exception-text equality is claimed.",
+    "whole_artifact_source_binding": "OPEN",
+    "native_recipe": "observations/native/receipt.json",
+    "rust_recipe": "observations/rust/receipt.json"
+  },
+  "wrapper_policy": [
+    "Exact Diagram kind only; foreign kinds preserve JSON and supplied selected watermark.",
+    "None applies; exact participant version skips; an unknown matched-kind version refuses. This is local selection policy, not native framework history.",
+    "Prepared.to_json rechecks input/output candidate bounds; 1MiB,depth64,65536JSONvalues,4096-byte selected watermark.",
+    "Low-level mutable callback deliberately performs no admission or persistence checks.",
+    "Actual B01 Representation handoff keeps the selected participant watermark separate from B01 diagram library-ID migration state."
+  ],
+  "reproduction_scope": [
+    "Original Rust observation runner and complete source/manifest/lock retained; historical runner uses original host paths and a fresh output directory.",
+    "Exact Java harness, compiled foreign source bytes, compile/runtime argv, JAR/tool identities and raw streams retained. Native execution is recipe-recorded; no separately archived native controller script is claimed.",
+    "No JARs or binaries are copied into this PR. Reproduction requires the identified dependencies/toolchains and adjusted local paths as described in README.md."
+  ],
+  "limitations": [
+    "No global artifact, framework lifecycle, real editing-context/read-only enforcement, native representation deserialization, SQL, GUI, durable transaction or broad performance parity claim.",
+    "Read-only fixture metadata is ignored by the participant; the oracle uses an explicitly unused owned context for inherited traversal.",
+    "Non-namespace object key order is not compared as byte identity.",
+    "Source predictions remain labeled separately from actual observations."
+  ],
+  "external_artifact_root": "/workspace/build/builderbob/syson-rust-parity-batch3-20261026",
+  "peer_review": "Independent source-only review accepted exact frozen module/test hashes with no blockers; root separately executed and accepted the bounded comparison. No native framework lifecycle acceptance is inferred."
+}
