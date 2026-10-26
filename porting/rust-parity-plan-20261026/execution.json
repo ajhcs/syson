@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "THIRD_INDEPENDENT_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
+  "status": "FOURTH_INDEPENDENT_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
   "candidate_revision": null,
   "full_parity_claimed": false,
   "closure": {
@@ -15,7 +15,10 @@
       "B25S",
       "C01a",
       "C01b",
-      "C03a"
+      "C03a",
+      "C01c",
+      "C01d",
+      "C03b"
     ]
   },
   "units": {
@@ -186,6 +189,124 @@
       "branch": "codex/syson-rp-c01b-reference-inspector",
       "head": "a12d115f67d070fa21e9fca77a32195d5f5e9fa6",
       "pull_request": "https://github.com/ajhcs/syson/pull/78",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2
+    },
+    "C01d": {
+      "tests": 10,
+      "source_capture": "c01d-02",
+      "actual_cli": "c01d-cli-02:5casesPASS; all164native descriptors and20history positions preserved.",
+      "observed": {
+        "tables": 15,
+        "columns": 87,
+        "constraints": 26,
+        "indexes": 16,
+        "applied_changelog": 20
+      },
+      "verification_history": {
+        "c01d-01": "Nine tests/fmt/Clippy PASS on earlier bounded scope; superseded by complete-FK proof fix.",
+        "c01d-cli-01": "Input admission refused before executable launch because preparation metadata changed; original capture preserved.",
+        "c01d-02": "Ten tests/fmt/Clippy PASS incl actual native catalog/FK corruption; all final inputs frozen."
+      },
+      "native_capture": "native-01overallPARTIAL retained: catalog command succeeds, independent GraphQL capability probe refused. Catalog notreplayed.",
+      "source_correspondence": "All29shippedDBXMLresources match pinned Sirius3191 source bytes; applied state comes from actual read-only repeatable-read catalog capture.",
+      "scope": "B05 obligations remain Rust-comparison-pending. Whole DB schema/transactions/driver/durability and parentC01 are OPEN. Capture read-only isolation is not application write isolation.",
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rp-c01d-persistence-contract",
+      "head": "beac96785d12ce27712835726e4d74fd4c1968d5",
+      "pull_request": "https://github.com/ajhcs/syson/pull/79",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2
+    },
+    "C01c": {
+      "tests": 10,
+      "source_capture": "c01c-04",
+      "reader_test_capture": "c01c-02",
+      "verification_history": {
+        "c01c-01": "Four tests passed, five failed in helper assuming Query arguments; retained.",
+        "c01c-02": "Ten reader tests/fmt/Clippy PASS after named-only references and actual Mutation-argument fixture correction.",
+        "c01c-03": "CLI-only regular-file guard build/fmt/Clippy PASS; no reader-test replay.",
+        "c01c-04": "CLI-only compact-streaming build/fmt/Clippy PASS; no reader-test replay."
+      },
+      "actual_cli": "c01c-cli-02:8casesPASS; exact full native schema Value equality, native error refusal, usage/directory/symlink, query emission and synthetic deep opaque field preservation without pretty-indent amplification.",
+      "native_capture": "native-02:5singlecapabilities+fullintrospectionPASS; native-01combinedcapabilityguardrefusal retained, native guard unchanged.",
+      "observed": {
+        "types": 671,
+        "fields": 1418,
+        "input_fields": 809,
+        "directives": 7,
+        "loaded_SDL_resources": 46,
+        "local_source_resources": 4,
+        "inherited_source_resources": 42
+      },
+      "source_correspondence": "All46actualSDLresourcebytes match pinned selected sources. Candidate forkstudio SDL notloaded in this artifact/config only.312nestedJAR coordinate inventory is not an independent build proof.",
+      "scope": "Observed standard introspection only; parentC01,whole-source-build,resolver/auth/actions/applied-directive/model/UI/performance acceptance OPEN.",
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rp-c01c-graphql-contract",
+      "head": "604e6b6d929ea68d5f9f317724f5c49ff0fa4e4c",
+      "pull_request": "https://github.com/ajhcs/syson/pull/80",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2
+    },
+    "C03b": {
+      "tests": 10,
+      "source_capture": "c03b-01",
+      "prerequisites": [
+        "B01",
+        "B25S",
+        "B25a",
+        "B25b",
+        "B25c",
+        "B25d",
+        "C03a"
+      ],
+      "composition": {
+        "snapshot": "9baa77f9ce8c27cb0b784bee121872aab0ffcef5",
+        "selected_files": 130,
+        "generated_files": 1,
+        "source_capture": "compose4-01",
+        "tests": 36,
+        "committed_build_inputs": 109,
+        "verifier_capture": "Structuredtranscription ofactualtooloutput; no invented rawstdout/prearchivedwrapper."
+      },
+      "native_capture": "project-observations-02PASS:2wholeJSON/namespace-first project comparisons +1latearrayrefusal(Rustatomic/nativepartial). Two deduplicated semantic inputs andtwo control inputs; B01 active withoutmatchinglibraryIDs, notnativeB01/historyequivalence.",
+      "original_failures": [
+        "project-observations-01:LC_ALL=CJava stdout replacedemoji; retained withoutnormalization. ExplicitdocumentedUTF8stdout/stderr in02 repairscaptureonly."
+      ],
+      "measurements": {
+        "synthetic_semantic_nodes": [
+          256,
+          1024,
+          4096
+        ],
+        "diagram_nodes": 6,
+        "measured_samples_each": 10,
+        "warmups_each": 2,
+        "median_prepare_ms": [
+          1.7735,
+          6.888,
+          29.1005
+        ],
+        "p95_prepare_ms": [
+          2.253,
+          6.923,
+          29.305
+        ],
+        "whole_observer_RSS_KiB": [
+          5184,
+          11328,
+          37612
+        ],
+        "boundary": "Decode/encode excluded fromprepare timings; RSS entireprocess; no native ratio or UI/capacity acceptance."
+      },
+      "scope": "Private preparation only. Wire JSON carries namespace eligibility and is authoritative for persistence/replay; typed Document serialization cannot replace it. FutureB06 atomicwire+watermarkpublication,C01/C03/C06/C07 and host/UI/SQL acceptance OPEN.",
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rp-c03b-project-preparation",
+      "head": "7f111c24bb3f79c44c55cdef2d4fa3246e50560b",
+      "pull_request": "https://github.com/ajhcs/syson/pull/81",
       "publication": "OPEN_UNMERGED_DRAFT",
       "commits": 2
     }
