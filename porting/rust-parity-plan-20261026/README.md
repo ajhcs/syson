@@ -81,7 +81,7 @@ Current prototype admission limits are deliberate safety boundaries, not native-
 
 ## Completion accounting
 
-The first batch is P01 lexical line comments, I01 reverse native-reference conversion and B01 versioned migration preparation. Each has an existing frozen source prerequisite and disjoint production path. B01 prepares immutable outputs; durable all-document/representation/watermark publication is a later storage transaction PR. P01 does not discard semantic block comments. I01 does not guess identity domains.
+The first batch is published as [P01 #68](https://github.com/ajhcs/syson/pull/68), [I01 #69](https://github.com/ajhcs/syson/pull/69) and [B01 #70](https://github.com/ajhcs/syson/pull/70). These implement lexical line comments, reverse native-reference conversion and selected versioned migration preparation. Each has an existing frozen source prerequisite and disjoint production path. B01 prepares immutable outputs; durable all-document/representation/watermark publication is a later storage transaction PR. P01 does not discard semantic block comments. I01 does not guess identity domains.
 
 Statuses distinguish planned, authoring, source-reviewed, locally verified, native-differential verified, composed-workflow verified and accepted. Published draft is a publication state, not feature acceptance. [execution.json](execution.json) records actual first-batch progress without rewriting the planning baseline or historical audit captures.
 
