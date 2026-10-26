@@ -364,20 +364,32 @@ pub fn validate(
             if !passed {
                 let span = spans[&row.element_id].clone();
                 let prefix = &source[..span.bytes.start];
+                let (mut line, mut column_utf16) = (1, 1);
+                let mut chars = prefix.chars().peekable();
+                while let Some(c) = chars.next() {
+                    match c {
+                        '\r' => {
+                            if chars.peek() == Some(&'\n') {
+                                chars.next();
+                            }
+                            line += 1;
+                            column_utf16 = 1;
+                        }
+                        '\n' => {
+                            line += 1;
+                            column_utf16 = 1;
+                        }
+                        _ => column_utf16 += c.len_utf16(),
+                    }
+                }
                 report.diagnostics.push(Diagnostic {
                     rule,
                     element: row.element_id.clone(),
                     qualified_name: names.qualified_name(&object)?,
                     severity: "WARNING",
                     span,
-                    line: prefix.bytes().filter(|b| *b == b'\n').count() + 1,
-                    column_utf16: prefix
-                        .rsplit('\n')
-                        .next()
-                        .unwrap_or("")
-                        .encode_utf16()
-                        .count()
-                        + 1,
+                    line,
+                    column_utf16,
                 });
             }
         }
