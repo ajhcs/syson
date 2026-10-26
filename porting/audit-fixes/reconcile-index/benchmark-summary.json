@@ -1,0 +1,33 @@
+{
+  "status": "PASS_LOCAL_RELEASE_BENCHMARK",
+  "benchmark_sha256": "f91dd5afba20d4eec2e155d2d8f0b69121df5e69415257ee3a10f2905b27ec65",
+  "warmups_per_size": 1,
+  "samples_per_size": 5,
+  "comparison": [
+    {
+      "documents": 1000,
+      "samples": 5,
+      "before_median_ms": 0.680922,
+      "after_median_ms": 0.069463,
+      "median_speedup": 9.802657529908009
+    },
+    {
+      "documents": 5000,
+      "samples": 5,
+      "before_median_ms": 14.121751,
+      "after_median_ms": 0.411136,
+      "median_speedup": 34.34812568103985
+    },
+    {
+      "documents": 10000,
+      "samples": 5,
+      "before_median_ms": 55.10911,
+      "after_median_ms": 0.896634,
+      "median_speedup": 61.46221312151893
+    }
+  ],
+  "before_capture": "validation/rec-before-01",
+  "after_capture": "validation/rec-after-02",
+  "scope": "Unchanged-document Rust planner on the same coordinator host; not a native Java benchmark or universal small-input speedup",
+  "rss": "time wraps Cargo/compiler plus benchmark; no planner-only RSS claim"
+}

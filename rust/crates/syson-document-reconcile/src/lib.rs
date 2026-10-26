@@ -4,7 +4,7 @@
 //! Source-derived plans for SemanticData updates, without clocks, UUID allocation or I/O.
 //! Inputs are caller-ordered observations of Java sets/lists, not a reconstruction of HashSet order.
 #![forbid(unsafe_code)]
-use std::collections::BTreeSet;
+use std::collections::{BTreeSet, HashMap, HashSet};
 
 /// UUID bytes; malformed/null Java identities are outside this typed boundary.
 pub type Uuid = [u8; 16];
@@ -83,13 +83,12 @@ impl<T> DocumentPlan<'_, T> {
 }
 
 fn distinct_instances<'a, T>(documents: &[&'a Document<T>]) -> Vec<&'a Document<T>> {
-    let mut seen: Vec<&'a Document<T>> = Vec::new();
-    for document in documents {
-        if !seen.iter().any(|prior| std::ptr::eq(*prior, *document)) {
-            seen.push(*document);
-        }
-    }
-    seen
+    let mut identities = HashSet::with_capacity(documents.len());
+    documents
+        .iter()
+        .copied()
+        .filter(|document| identities.insert(std::ptr::from_ref(*document)))
+        .collect()
 }
 
 /// Plan updateDocuments in the supplied source iteration order. Duplicate UUIDs
@@ -102,10 +101,17 @@ pub fn plan_documents<'a, T>(
 ) -> DocumentPlan<'a, T> {
     let existing = distinct_instances(existing);
     let incoming = distinct_instances(incoming);
+    // Indexes are used only for membership/lookup. Source observation order
+    // remains in the vectors; duplicate UUIDs retain the first existing object.
+    let mut by_id = HashMap::with_capacity(existing.len());
+    for document in &existing {
+        by_id.entry(document.id).or_insert(*document);
+    }
+    let mut kept = HashSet::with_capacity(incoming.len());
     let mut output = Vec::new();
     let mut changed = false;
     for document in incoming {
-        let action = match existing.iter().find(|prior| prior.id == document.id) {
+        let action = match by_id.get(&document.id).copied() {
             Some(prior) if prior.name == document.name && prior.content == document.content => {
                 DocumentAction::Keep {
                     document: prior,
@@ -132,10 +138,7 @@ pub fn plan_documents<'a, T>(
         // LinkedHashSet<Document> deduplicates kept instances by object identity.
         // Each Rebuild is a fresh object even when all its values match another.
         let duplicate = match &action {
-            DocumentAction::Keep { document, .. } => output.iter().any(|item| {
-                matches!(item, DocumentAction::Keep { document: prior, .. }
-                    if std::ptr::eq(*prior, *document))
-            }),
+            DocumentAction::Keep { document, .. } => !kept.insert(std::ptr::from_ref(*document)),
             DocumentAction::Rebuild { .. } => false,
         };
         if !duplicate {

@@ -321,3 +321,69 @@ fn even_noop_removal_requires_successful_remove_if_admission() {
         ));
     }
 }
+
+#[test]
+fn large_mixed_update_preserves_first_identity_order_rebuilds_and_effect_positions() {
+    const COUNT: usize = 2_048;
+    let make = |index: usize, changed: bool| {
+        let mut value = doc(
+            0,
+            &format!("document-{index}"),
+            if changed { "changed" } else { "original" },
+        );
+        value.id[..8].copy_from_slice(&(index as u64).to_le_bytes());
+        value
+    };
+    let originals: Vec<_> = (0..COUNT).map(|i| make(i, false)).collect();
+    let shadows: Vec<_> = (0..COUNT).map(|i| make(i, true)).collect();
+    let incoming: Vec<_> = (0..COUNT).map(|i| make(i, i.is_multiple_of(257))).collect();
+    let existing: Vec<_> = originals
+        .iter()
+        .zip(&shadows)
+        .flat_map(|(original, shadow)| [original, shadow, original])
+        .collect();
+    let first_new = make(COUNT, false);
+    let second_new = make(COUNT, false);
+    let mut requested: Vec<_> = incoming
+        .iter()
+        .rev()
+        .flat_map(|value| [value, value])
+        .collect();
+    requested.extend([&first_new, &second_new, &first_new]);
+    let plan = plan_documents(&existing, &requested, &[]);
+    let mut effects: Vec<_> = (0..COUNT)
+        .filter(|position| (COUNT - 1 - position).is_multiple_of(257))
+        .map(|output_index| Effect::RebuiltDocumentTimestamp { output_index })
+        .collect();
+    effects.extend([Effect::AggregateTimestamp, Effect::UpdatedEvent]);
+    assert_eq!(plan.effects(), effects);
+    let (actions, _) = replaced(plan);
+    assert_eq!(actions.len(), COUNT + 2);
+    for (position, action) in actions[..COUNT].iter().enumerate() {
+        let index = COUNT - 1 - position;
+        if index.is_multiple_of(257) {
+            assert!(
+                matches!(action, DocumentAction::Rebuild { id, name, content: "changed", is_read_only: false }
+                if *id == originals[index].id && *name == originals[index].name)
+            );
+        } else {
+            assert!(
+                matches!(action, DocumentAction::Keep { document, origin: Origin::Existing }
+                if ptr::eq(*document, &originals[index]))
+            );
+        }
+    }
+    assert!(
+        matches!(&actions[COUNT], DocumentAction::Keep { document, origin: Origin::Incoming }
+        if ptr::eq(*document, &first_new))
+    );
+    assert!(
+        matches!(&actions[COUNT + 1], DocumentAction::Keep { document, origin: Origin::Incoming }
+        if ptr::eq(*document, &second_new))
+    );
+    assert!(
+        originals
+            .iter()
+            .all(|value| value.is_read_only && value.last_modified_on == 20)
+    );
+}

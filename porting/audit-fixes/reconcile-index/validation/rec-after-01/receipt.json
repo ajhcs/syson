@@ -1,0 +1,79 @@
+{
+  "unit": "REC",
+  "run": "rec-after-01",
+  "status": "FAIL",
+  "started_utc": "2026-10-26T15:49:51.232182+00:00",
+  "source_before": {
+    "rust/crates/syson-document-reconcile/Cargo.lock": "e3c1c8e475a12b372db2d6d58252dc2a72e9b269d72646a3bc59a0a3ab8e7c46",
+    "rust/crates/syson-document-reconcile/Cargo.toml": "478b6ba90eb6ecd4bfbd5a1a633247ebafac81069795ffa93ca5186b2986d55b",
+    "rust/crates/syson-document-reconcile/examples/reconcile_bench.rs": "f91dd5afba20d4eec2e155d2d8f0b69121df5e69415257ee3a10f2905b27ec65",
+    "rust/crates/syson-document-reconcile/src/lib.rs": "c4688a700982dc50857678a95300e77dc8f55b06f556f93e33a6b35afe2cb693",
+    "rust/crates/syson-document-reconcile/tests/reconciliation.rs": "231f00269fa035bce91962df3c441358bff61477a4857820eb1e2db818a50eb9"
+  },
+  "source_base": "b454d4991d2518dd58ecab29ddcffe012823c46d",
+  "runner_sha256": "c06fcc65b385ee6abe75a8c57e0333c9246871a2431dc7a875af17d61fdb8537",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/audit-reconcile-index/rust/crates/syson-document-reconcile/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T15:49:51.233713+00:00",
+      "completed_utc": "2026-10-26T15:49:51.253581+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/audit-reconcile-index/rust/crates/syson-document-reconcile/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T15:49:51.253595+00:00",
+      "completed_utc": "2026-10-26T15:49:51.781031+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "8462c79953edbf9d43c9e5aaf5db0573698ee3ecc004122dcf9fd2b984ea5a65",
+      "stderr_sha256": "047bde4301cf57dd4c31dd0f7e77206eed92086de68c87d1f0d0a70517224519"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/audit-reconcile-index/rust/crates/syson-document-reconcile/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T15:49:51.781054+00:00",
+      "completed_utc": "2026-10-26T15:49:51.891055+00:00",
+      "exit_code": 101,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a9f4b7c578b257153e341fdbe42dc5e4f034cecd2094bd4a09d5a82c6dcd4518"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T15:49:51.891087+00:00",
+  "source_after": {
+    "rust/crates/syson-document-reconcile/Cargo.lock": "e3c1c8e475a12b372db2d6d58252dc2a72e9b269d72646a3bc59a0a3ab8e7c46",
+    "rust/crates/syson-document-reconcile/Cargo.toml": "478b6ba90eb6ecd4bfbd5a1a633247ebafac81069795ffa93ca5186b2986d55b",
+    "rust/crates/syson-document-reconcile/examples/reconcile_bench.rs": "f91dd5afba20d4eec2e155d2d8f0b69121df5e69415257ee3a10f2905b27ec65",
+    "rust/crates/syson-document-reconcile/src/lib.rs": "c4688a700982dc50857678a95300e77dc8f55b06f556f93e33a6b35afe2cb693",
+    "rust/crates/syson-document-reconcile/tests/reconciliation.rs": "231f00269fa035bce91962df3c441358bff61477a4857820eb1e2db818a50eb9"
+  },
+  "source_unchanged": true
+}
