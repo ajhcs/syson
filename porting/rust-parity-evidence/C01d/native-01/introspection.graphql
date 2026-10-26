@@ -1,0 +1,54 @@
+query C01cEffectiveSchema {
+  __schema {
+    description
+    queryType { kind name }
+    mutationType { kind name }
+    subscriptionType { kind name }
+    types { ...C01cFullType }
+    directives {
+      name description isRepeatable locations
+      args(includeDeprecated: true) { ...C01cInputValue }
+    }
+  }
+}
+fragment C01cFullType on __Type {
+  kind name description specifiedByURL isOneOf
+  fields(includeDeprecated: true) {
+    name description isDeprecated deprecationReason
+    args(includeDeprecated: true) { ...C01cInputValue }
+    type { ...C01cTypeRef }
+  }
+  inputFields(includeDeprecated: true) { ...C01cInputValue }
+  interfaces { ...C01cTypeRef }
+  enumValues(includeDeprecated: true) { name description isDeprecated deprecationReason }
+  possibleTypes { ...C01cTypeRef }
+}
+fragment C01cInputValue on __InputValue {
+  name description defaultValue isDeprecated deprecationReason
+  type { ...C01cTypeRef }
+}
+fragment C01cTypeRef on __Type {
+  kind name
+  ofType {
+    kind name
+    ofType {
+      kind name
+      ofType {
+        kind name
+        ofType {
+          kind name
+          ofType {
+            kind name
+            ofType {
+              kind name
+              ofType {
+                kind name
+                ofType { kind name }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

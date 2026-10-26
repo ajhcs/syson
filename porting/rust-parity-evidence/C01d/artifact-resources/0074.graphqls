@@ -1,0 +1,368 @@
+extend type Subscription {
+  tableEvent(input: TableEventInput!): TableEventPayload!
+}
+
+input TableEventInput {
+  id: ID!
+  representationId: ID!
+  editingContextId: ID!
+}
+
+union TableEventPayload = ErrorPayload | TableRefreshedEventPayload | TableGlobalFilterValuePayload | TableColumnFilterPayload | TableColumnSortPayload
+
+type TableRefreshedEventPayload {
+  id: ID!
+  table: Table!
+}
+
+type TableGlobalFilterValuePayload {
+  id: ID!
+  globalFilterValue: String!
+}
+
+type TableColumnFilterPayload {
+  id: ID!
+  columnFilters: [ColumnFilter!]!
+}
+
+type TableColumnSortPayload {
+  id: ID!
+  columnSort: [ColumnSort!]!
+}
+
+type ColumnFilter {
+  id: ID!
+  value: String!
+}
+
+type ColumnSort {
+  id: ID!
+  desc: Boolean!
+}
+
+extend type RepresentationMetadata {
+  configuration: TableConfiguration
+}
+
+type TableConfiguration {
+  globalFilter: String
+  columnFilters: [ColumnFilter!]!
+  columnSort: [ColumnSort!]!
+  defaultPageSize: Int!
+}
+
+type Table implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  stripeRow: Boolean!
+  columns: [Column!]!
+  lines: [Line!]!
+  paginationData: PaginationData
+  globalFilter: String
+  columnFilters: [ColumnFilter!]!
+  enableSubRows: Boolean!
+  columnSort: [ColumnSort!]!
+  pageSizeOptions: [Int!]!
+  defaultPageSize: Int!
+}
+
+type Column {
+  id: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  headerLabel: String!
+  headerIconURLs: [String!]!
+  headerIndexLabel: String!
+  width: Int!
+  isResizable: Boolean!
+  hidden: Boolean!
+  filterVariant: String!
+  isSortable: Boolean!
+}
+
+type Line {
+  id: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  cells: [Cell!]!
+  headerLabel: String!
+  headerIconURLs: [String!]!
+  headerIndexLabel: String!
+  height: Int!
+  isResizable: Boolean!
+  depthLevel: Int!
+  hasChildren: Boolean!
+}
+
+type PaginationData {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  totalRowCount: Int
+}
+
+interface Cell {
+  id: ID!
+  columnId: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  tooltipValue: String!
+}
+
+type TextfieldCell implements Cell {
+  id: ID!
+  columnId: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  value: String!
+  tooltipValue: String!
+}
+
+type TextareaCell implements Cell {
+  id: ID!
+  columnId: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  value: String!
+  tooltipValue: String!
+}
+
+type SelectCell implements Cell {
+  id: ID!
+  columnId: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  options: [SelectCellOption!]!
+  value: String!
+  tooltipValue: String!
+}
+
+type MultiSelectCell implements Cell {
+  id: ID!
+  columnId: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  options: [SelectCellOption!]!
+  values: [String]!
+  tooltipValue: String!
+}
+
+type SelectCellOption {
+  id: ID!
+  label: String!
+}
+
+type IconLabelCell implements Cell {
+  id: ID!
+  columnId: ID!
+  targetObjectId: ID!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  value: String!
+  iconURLs: [String!]!
+  tooltipValue: String!
+}
+
+type TableDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+  rowContextMenuEntries(tableId: ID!, rowId: ID!): [RowContextMenuEntry!]!
+  rowFilters(tableId: ID!): [RowFilter!]!
+  toolMenuEntries(tableId: ID!): [ToolMenuEntry!]!
+}
+
+type RowContextMenuEntry {
+  id: ID!
+  label: String!
+  iconURLs: [String!]!
+}
+
+type RowFilter {
+  id: ID!
+  label: String!
+  defaultState: Boolean!
+}
+
+type ToolMenuEntry {
+  id: ID!
+  label: String!
+  iconURLs: [String!]!
+}
+
+extend type Mutation {
+  editSelectCell(input: EditSelectCellInput!): EditSelectCellPayload!
+  editMultiSelectCell(input: EditMultiSelectCellInput!): EditMultiSelectCellPayload!
+  editTextfieldCell(input: EditTextfieldCellInput!): EditTextfieldCellPayload!
+  editTextareaCell(input: EditTextareaCellInput!): EditTextareaCellPayload!
+  resizeTableColumn(input: ResizeTableColumnInput!): ResizeTableColumnPayload!
+  changeTableColumnVisibility(input: ChangeTableColumnVisibilityInput!): ChangeTableColumnVisibilityPayload!
+  resizeTableRow(input: ResizeTableRowInput!): ResizeTableRowPayload!
+  resetTableRowsHeight(input: ResetTableRowsHeightInput!): ResetTableRowsHeightPayload!
+  changeGlobalFilterValue(input: ChangeGlobalFilterValueInput!): ChangeGlobalFilterValuePayload!
+  changeColumnFilter(input: ChangeColumnFilterInput!): ChangeColumnFilterPayload!
+  reorderTableColumns(input: ReorderTableColumnsInput!): ReorderTableColumnsPayload!
+  invokeRowContextMenuEntry(input: InvokeRowContextMenuEntryInput!): InvokeRowContextMenuEntryPayload!
+  changeColumnSort(input: ChangeColumnSortInput!): ChangeColumnSortPayload!
+  invokeToolMenuEntry(input: InvokeToolMenuEntryInput!): InvokeToolMenuEntryPayload!
+}
+
+input EditSelectCellInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  cellId: ID!
+  newValue: String!
+}
+
+union EditSelectCellPayload = ErrorPayload | SuccessPayload
+
+input EditMultiSelectCellInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  cellId: ID!
+  newValue: [String]!
+}
+
+union EditMultiSelectCellPayload = ErrorPayload | SuccessPayload
+
+input EditTextfieldCellInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  cellId: ID!
+  newValue: String!
+}
+
+union EditTextfieldCellPayload = ErrorPayload | SuccessPayload
+
+input EditTextareaCellInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  cellId: ID!
+  newValue: String!
+}
+
+union EditTextareaCellPayload = ErrorPayload | SuccessPayload
+
+input ResizeTableColumnInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  columnId: ID!
+  width: Int
+}
+
+union ResizeTableColumnPayload = ErrorPayload | SuccessPayload
+
+input ChangeTableColumnVisibilityInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  columnsVisibility: [ColumnVisibility!]!
+}
+
+input ColumnVisibility {
+  columnId: ID!
+  visible: Boolean!
+}
+
+union ChangeTableColumnVisibilityPayload = ErrorPayload | SuccessPayload
+
+input ResizeTableRowInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  rowId: ID!
+  height: Int!
+}
+
+union ResizeTableRowPayload = ErrorPayload | SuccessPayload
+
+input ChangeGlobalFilterValueInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  globalFilterValue: String!
+}
+
+union ChangeGlobalFilterValuePayload = ErrorPayload | SuccessPayload
+
+input ChangeColumnFilterInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  columnFilters: [ColumnFilterInput!]!
+}
+
+input ColumnFilterInput {
+  id: ID!
+  value: String!
+}
+
+union ChangeColumnFilterPayload = ErrorPayload | SuccessPayload
+
+input ResetTableRowsHeightInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+}
+
+union ResetTableRowsHeightPayload = ErrorPayload | SuccessPayload
+
+input ReorderTableColumnsInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  reorderedColumnIds: [ID!]!
+}
+
+union ReorderTableColumnsPayload = ErrorPayload | SuccessPayload
+
+input InvokeRowContextMenuEntryInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  rowId: ID!
+  menuEntryId: ID!
+}
+
+union InvokeRowContextMenuEntryPayload = ErrorPayload | SuccessPayload
+
+input ChangeColumnSortInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  columnSort: [ColumnSortInput!]!
+}
+
+input ColumnSortInput {
+  id: ID!
+  desc: Boolean!
+}
+
+union ChangeColumnSortPayload = ErrorPayload | SuccessPayload
+
+input InvokeToolMenuEntryInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  tableId: ID!
+  menuEntryId: ID!
+}
+
+union InvokeToolMenuEntryPayload = SuccessPayload | ErrorPayload

@@ -1,0 +1,610 @@
+extend type Subscription {
+  formEvent(input: FormEventInput!): FormEventPayload!
+}
+
+input FormEventInput {
+  id: ID!
+  editingContextId: ID!
+  formId: ID!
+}
+
+union FormEventPayload = ErrorPayload | FormRefreshedEventPayload | FormCapabilitiesRefreshedEventPayload
+
+type FormRefreshedEventPayload {
+  id: ID!
+  form: Form!
+}
+
+type Form implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  targetObjectId: ID!
+  pages: [Page!]!
+}
+
+type Page {
+  id: ID!
+  label: String!
+  toolbarActions: [ToolbarAction!]!
+  groups: [Group!]!
+}
+
+type Group {
+  id: ID!
+  label: String!
+  displayMode: GroupDisplayMode!
+  toolbarActions: [ToolbarAction!]!
+  widgets: [Widget!]!
+  borderStyle: ContainerBorderStyle
+}
+
+enum GroupDisplayMode {
+  LIST
+  TOGGLEABLE_AREAS
+}
+
+type ContainerBorderStyle {
+  color: String
+  radius: Int!
+  size: Int!
+  lineStyle: ContainerBorderLineStyle!
+}
+
+enum ContainerBorderLineStyle {
+  Dashed
+  Dotted
+  Solid
+}
+
+interface Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+}
+
+type WidgetGridLayout {
+  gridTemplateColumns: String!
+  gridTemplateRows: String!
+  labelGridColumn: String!
+  labelGridRow: String!
+  widgetGridColumn: String!
+  widgetGridRow: String!
+  gap: String!
+}
+
+type Checkbox implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  value: Boolean!
+  style: CheckboxStyle
+}
+
+type CheckboxStyle {
+  color: String
+  widgetGridLayout: WidgetGridLayout
+}
+
+type List implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  items: [ListItem!]!
+  style: ListStyle
+}
+
+type ListStyle {
+  color: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+}
+
+type ListItem {
+  id: ID!
+  label: String!
+  kind: String!
+  iconURL: [String!]!
+  deletable: Boolean!
+}
+
+type MultiSelect implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  options: [SelectOption!]!
+  values: [String]
+  style: MultiSelectStyle
+}
+
+type MultiSelectStyle {
+  backgroundColor: String
+  foregroundColor: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+  widgetGridLayout: WidgetGridLayout
+}
+
+type Radio implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  options: [RadioOption!]!
+  style: RadioStyle
+}
+
+type RadioOption {
+  id: ID!
+  label: String!
+  selected: Boolean!
+}
+
+type RadioStyle {
+  color: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+}
+
+type Select implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  options: [SelectOption!]!
+  value: String
+  style: SelectStyle
+}
+
+type SelectOption {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+}
+
+type SelectStyle {
+  backgroundColor: String
+  foregroundColor: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+  widgetGridLayout: WidgetGridLayout
+}
+
+type Textarea implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  value: String!
+  style: TextareaStyle
+  supportsCompletion: Boolean
+}
+
+type TextareaStyle {
+  backgroundColor: String
+  foregroundColor: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+  widgetGridLayout: WidgetGridLayout
+}
+
+type Textfield implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  value: String!
+  style: TextfieldStyle
+  supportsCompletion: Boolean
+}
+
+type TextfieldStyle {
+  backgroundColor: String
+  foregroundColor: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+  widgetGridLayout: WidgetGridLayout
+}
+
+type LabelWidget implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  value: String!
+  style: LabelWidgetStyle
+}
+
+type LabelWidgetStyle {
+  color: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+}
+
+type Link implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  url: String!
+  style: LinkStyle
+}
+
+type LinkStyle {
+  color: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+}
+
+type Button implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  buttonLabel: String
+  imageURL: String
+  readOnly: Boolean!
+  style: ButtonStyle
+}
+
+type SplitButton implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  actions: [Button!]!
+}
+
+type ButtonStyle {
+  backgroundColor: String
+  foregroundColor: String
+  fontSize: Int
+  italic: Boolean
+  bold: Boolean
+  underline: Boolean
+  strikeThrough: Boolean
+}
+
+type ToolbarAction implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  buttonLabel: String
+  imageURL: String
+  readOnly: Boolean!
+  style: ButtonStyle
+}
+
+union Chart = BarChart | PieChart
+
+type ChartWidget implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  chart: Chart!
+}
+
+type FlexboxContainer implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  flexDirection: String!
+  flexWrap: String!
+  flexGrow: Int!
+  children: [Widget!]!
+  borderStyle: ContainerBorderStyle
+}
+
+type TreeWidget implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  nodes: [TreeNode!]!
+  expandedNodesIds: [ID!]!
+}
+
+type TreeNode {
+  id: ID!
+  parentId: ID
+  label: String!
+  kind: String!
+  iconURL: [String!]!
+  endIconsURL: [[String!]!]!
+  selectable: Boolean!
+  checkable: Boolean!
+  value: Boolean!
+}
+
+type Image implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  url: String!
+  maxWidth: String
+}
+
+type RichText implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  value: String!
+}
+
+type Slider implements Widget {
+  id: ID!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  label: String!
+  iconURL: [String!]!
+  readOnly: Boolean!
+  minValue: Int!
+  maxValue: Int!
+  currentValue: Int!
+}
+
+type DateTime implements Widget {
+  id: ID!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  label: String!
+  iconURL: [String!]!
+  readOnly: Boolean!
+  stringValue: String!
+  type: DateTimeType!
+  style: DateTimeStyle
+}
+
+enum DateTimeType {
+  DATE_TIME
+  DATE
+  TIME
+}
+
+type DateTimeStyle {
+  foregroundColor: String
+  backgroundColor: String
+  italic: Boolean
+  bold: Boolean
+  widgetGridLayout: WidgetGridLayout
+}
+
+type TableWidget implements Widget {
+  id: ID!
+  label: String!
+  iconURL: [String!]!
+  diagnostics: [Diagnostic!]!
+  hasHelpText: Boolean!
+  readOnly: Boolean!
+  table: Table
+}
+
+type FormCapabilitiesRefreshedEventPayload {
+  id: ID!
+  formId: ID!
+  capabilities: FormCapabilities!
+}
+
+type FormCapabilities {
+  canEdit: Boolean!
+}
+
+type FormDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+  completionProposals(widgetId: ID! currentText: String! cursorPosition: Int!): [CompletionProposal!]!
+  helpText(widgetId: ID!): String
+}
+
+type CompletionProposal {
+  description: String!
+  textToInsert: String!
+  charsToReplace: Int!
+}
+
+extend type Mutation {
+  editCheckbox(input: EditCheckboxInput!): EditCheckboxPayload!
+  editTreeCheckbox(input: EditTreeCheckboxInput!): EditTreeCheckboxPayload!
+  editMultiSelect(input: EditMultiSelectInput!): EditMultiSelectPayload!
+  editRadio(input: EditRadioInput!): EditRadioPayload!
+  editSelect(input: EditSelectInput!): EditSelectPayload!
+  editTextfield(input: EditTextfieldInput!): EditTextfieldPayload!
+  editRichText(input: EditRichTextInput!): EditRichTextPayload!
+  clickListItem(input: ClickListItemInput!): ClickListItemPayload!
+  deleteListItem(input: DeleteListItemInput!): DeleteListItemPayload!
+  pushButton(input: PushButtonInput!): PushButtonPayload!
+  editSlider(input: EditSliderInput!): EditSliderPayload!
+  editDateTime(input: EditDateTimeInput!): EditDateTimePayload!
+}
+
+input EditCheckboxInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  checkboxId: ID!
+  newValue: Boolean!
+}
+
+union EditCheckboxPayload = ErrorPayload | SuccessPayload
+
+input EditTreeCheckboxInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  treeId: ID!
+  checkboxId: ID!
+  newValue: Boolean!
+}
+
+union EditTreeCheckboxPayload = ErrorPayload | SuccessPayload
+
+input EditMultiSelectInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  selectId: ID!
+  newValues: [String]!
+}
+
+union EditMultiSelectPayload = ErrorPayload | SuccessPayload
+
+input EditRadioInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  radioId: ID!
+  newValue: ID!
+}
+
+union EditRadioPayload = ErrorPayload | SuccessPayload
+
+input EditSelectInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  selectId: ID!
+  newValue: ID!
+}
+
+union EditSelectPayload = ErrorPayload | SuccessPayload
+
+input EditTextfieldInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  textfieldId: ID!
+  newValue: String!
+}
+
+union EditTextfieldPayload = ErrorPayload | SuccessPayload
+
+input EditRichTextInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  richTextId: ID!
+  newValue: String!
+}
+
+union EditRichTextPayload = ErrorPayload | SuccessPayload
+
+input DeleteListItemInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  listId: ID!
+  listItemId: ID!
+}
+
+union DeleteListItemPayload = ErrorPayload | SuccessPayload
+
+input ClickListItemInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  listId: ID!
+  listItemId: ID!
+  clickEventKind: ClickEventKind!
+}
+
+enum ClickEventKind {
+  SINGLE_CLICK
+  DOUBLE_CLICK
+}
+
+union ClickListItemPayload = ErrorPayload | SuccessPayload
+
+input PushButtonInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  buttonId: ID!
+}
+
+union PushButtonPayload = ErrorPayload | SuccessPayload
+
+input EditSliderInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  sliderId: ID!
+  newValue: Int!
+}
+
+union EditSliderPayload = SuccessPayload | ErrorPayload
+
+input EditDateTimeInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  widgetId: ID!
+  newValue: String!
+}
+
+union EditDateTimePayload = SuccessPayload | ErrorPayload

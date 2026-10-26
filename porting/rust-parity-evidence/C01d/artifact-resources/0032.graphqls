@@ -1,0 +1,55 @@
+extend type Subscription {
+  selectionDialogTreeEvent(input: SelectionDialogTreeEventInput!): TreeEventPayload!
+}
+
+input SelectionDialogTreeEventInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: String!
+}
+
+type SelectionDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+  dialog(variables: [SelectionDialogVariable!]!): SelectionDialog!
+  dialogSelectionRequiredWithSelectionStatusMessage(selectedObjectIds: [String!]!): String!
+  treeDescription: TreeDescription!
+  multiple: Boolean!
+  optional: Boolean!
+}
+
+input SelectionDialogVariable {
+  name: String!
+  value: String!
+}
+
+type SelectionDialog {
+  titles: SelectionDialogTitles!
+  description: String!
+  noSelectionAction: SelectionDialogAction!
+  withSelectionAction: SelectionDialogAction!
+  statusMessages: SelectionDialogStatusMessages!
+  confirmButtonLabels: SelectionDialogConfirmButtonLabels!
+}
+
+type SelectionDialogTitles {
+  defaultTitle: String!
+  noSelectionTitle: String!
+  withSelectionTitle: String!
+}
+
+type SelectionDialogAction {
+  label: String!
+  description: String!
+}
+
+type SelectionDialogStatusMessages {
+  noSelectionActionStatusMessage: String!
+  selectionRequiredWithoutSelectionStatusMessage: String!
+}
+
+type SelectionDialogConfirmButtonLabels {
+  noSelectionConfirmButtonLabel: String!
+  selectionRequiredWithoutSelectionConfirmButtonLabel: String!
+  selectionRequiredWithSelectionConfirmButtonLabel: String!
+}

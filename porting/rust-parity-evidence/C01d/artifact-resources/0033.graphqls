@@ -1,0 +1,112 @@
+extend union INodeStyle = SysMLPackageNodeStyle
+
+type SysMLPackageNodeStyle {
+  borderColor: String!
+  borderSize: Int!
+  borderStyle: LineStyle!
+  background: String!
+}
+
+extend union INodeStyle = SysMLImportedPackageNodeStyle
+
+type SysMLImportedPackageNodeStyle {
+  borderColor: String!
+  borderSize: Int!
+  borderStyle: LineStyle!
+  background: String!
+}
+
+extend union INodeStyle = SysMLNoteNodeStyle
+
+type SysMLNoteNodeStyle {
+  background: String!
+  borderColor: String!
+  borderSize: Int!
+  borderStyle: LineStyle!
+}
+
+extend union INodeStyle = SysMLViewFrameNodeStyle
+
+type SysMLViewFrameNodeStyle {
+  background: String!
+  borderColor: String!
+  borderSize: Int!
+  borderStyle: LineStyle!
+  borderRadius: Int!
+}
+
+input SysMLPackageNodeAppearanceInput {
+  background: String
+  borderColor: String
+  borderSize: Int
+  borderStyle: LineStyle
+}
+
+input EditSysMLPackageNodeAppearanceInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  nodeIds: [ID!]!
+  appearance: SysMLPackageNodeAppearanceInput!
+}
+
+union EditSysMLPackageNodeAppearancePayload = ErrorPayload | SuccessPayload
+
+input SysMLImportedPackageNodeAppearanceInput {
+  background: String
+  borderColor: String
+  borderSize: Int
+  borderStyle: LineStyle
+}
+
+input EditSysMLImportedPackageNodeAppearanceInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  nodeIds: [ID!]!
+  appearance: SysMLImportedPackageNodeAppearanceInput!
+}
+
+union EditSysMLImportedPackageNodeAppearancePayload = ErrorPayload | SuccessPayload
+
+input SysMLNoteNodeAppearanceInput {
+  background: String
+  borderColor: String
+  borderSize: Int
+  borderStyle: LineStyle
+}
+
+input EditSysMLNoteNodeAppearanceInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  nodeIds: [ID!]!
+  appearance: SysMLNoteNodeAppearanceInput!
+}
+
+union EditSysMLNoteNodeAppearancePayload = ErrorPayload | SuccessPayload
+
+input SysMLViewFrameNodeAppearanceInput {
+  background: String
+  borderColor: String
+  borderSize: Int
+  borderStyle: LineStyle
+  borderRadius: Int
+}
+
+input EditSysMLViewFrameNodeAppearanceInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  nodeIds: [ID!]!
+  appearance: SysMLViewFrameNodeAppearanceInput!
+}
+
+union EditSysMLViewFrameNodeAppearancePayload = ErrorPayload | SuccessPayload
+
+extend type Mutation {
+  editSysMLPackageNodeAppearance(input: EditSysMLPackageNodeAppearanceInput!): EditSysMLPackageNodeAppearancePayload!
+  editSysMLImportedPackageNodeAppearance(input: EditSysMLImportedPackageNodeAppearanceInput!): EditSysMLImportedPackageNodeAppearancePayload!
+  editSysMLNoteNodeAppearance(input: EditSysMLNoteNodeAppearanceInput!): EditSysMLNoteNodeAppearancePayload!
+  editSysMLViewFrameNodeAppearance(input: EditSysMLViewFrameNodeAppearanceInput!): EditSysMLViewFrameNodeAppearancePayload!
+}

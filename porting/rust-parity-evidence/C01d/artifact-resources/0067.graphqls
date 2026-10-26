@@ -1,0 +1,160 @@
+extend type Subscription {
+  deckEvent(input: DeckEventInput!): DeckEventPayload!
+}
+
+input DeckEventInput {
+  id: ID!
+  editingContextId: ID!
+  deckId: ID!
+}
+
+union DeckEventPayload = ErrorPayload |  DeckRefreshedEventPayload
+
+type DeckRefreshedEventPayload {
+  id: ID!
+  deck: Deck!
+}
+
+type Deck implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  targetObjectId: ID!
+  lanes: [Lane!]!
+  style: DeckStyle
+}
+
+type DeckDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+}
+
+type DeckStyle {
+  backgroundColor: String!
+}
+
+type Lane {
+  id: ID!
+  targetObjectId: String!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  targetObjectLabel: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  title: String!
+  label: String!
+  collapsible: Boolean!
+  collapsed: Boolean!
+  cards: [Card!]!
+  style: DeckElementStyle
+}
+
+type Card {
+  id: ID!
+  targetObjectId: String!
+  targetObjectKind: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  targetObjectLabel: String! @deprecated(reason: "https://github.com/eclipse-sirius/sirius-web/issues/5114")
+  title: String!
+  label: String!
+  description: String!
+  visible: Boolean!
+  style: DeckElementStyle
+}
+
+type DeckElementStyle {
+  bold: Boolean!
+  color: String!
+  fontSize: Int!
+  italic: Boolean!
+  strikeThrough: Boolean!
+  underline: Boolean!
+  backgroundColor: String!
+}
+
+extend type Mutation {
+  createDeckCard(input: CreateDeckCardInput!): CreateDeckCardPayload
+  deleteDeckCard(input: DeleteDeckCardInput!): DeleteDeckCardPayload
+  editDeckCard(input: EditDeckCardInput!): EditDeckCardPayload
+  dropDeckCard(input: DropDeckCardInput!): DropDeckCardPayload
+  editDeckLane(input: EditDeckLaneInput!): EditDeckLanePayload
+  dropDeckLane(input: DropDeckLaneInput!): DropDeckLanePayload
+  changeLaneCollapsedState(input: ChangeLaneCollapsedStateInput!): ChangeLaneCollapsedStatePayload
+  changeCardsVisibility(input: ChangeCardsVisibilityInput!): ChangeCardsVisibilityPayload
+}
+
+input CreateDeckCardInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  currentLaneId: ID!
+  title: String
+  label: String
+  description: String
+}
+union CreateDeckCardPayload = SuccessPayload | ErrorPayload
+
+input DeleteDeckCardInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  cardId: ID!
+}
+
+union DeleteDeckCardPayload = SuccessPayload | ErrorPayload
+
+input EditDeckCardInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  cardId: ID!
+  newTitle: String!
+  newLabel: String!
+  newDescription: String!
+}
+
+union EditDeckCardPayload = SuccessPayload | ErrorPayload
+
+input DropDeckCardInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  oldLaneId: ID!
+  newLaneId: ID!
+  cardId: ID!
+  addedIndex: Int!
+}
+
+union DropDeckCardPayload = SuccessPayload | ErrorPayload
+
+input EditDeckLaneInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  laneId: ID!
+  newTitle: String!
+}
+union EditDeckLanePayload = SuccessPayload | ErrorPayload
+
+input DropDeckLaneInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  laneId: ID!
+  newIndex: Int!
+}
+
+union DropDeckLanePayload = SuccessPayload | ErrorPayload
+
+input ChangeLaneCollapsedStateInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  laneId: ID!
+  collapsed: Boolean!
+}
+union ChangeLaneCollapsedStatePayload = SuccessPayload | ErrorPayload
+
+input ChangeCardsVisibilityInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  visibleCardsIds: [String!]!
+  hiddenCardsIds: [String!]!
+}
+union ChangeCardsVisibilityPayload = SuccessPayload | ErrorPayload

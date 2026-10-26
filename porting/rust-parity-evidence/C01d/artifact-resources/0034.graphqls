@@ -1,0 +1,25 @@
+extend type EditingContext {
+  expressionTextualRepresentation(elementId: ID!): ExpressionEditorState
+}
+
+type ExpressionEditorState {
+  textualRepresentation: String!
+  featureValueProperties: FeatureValueExpressionProperties
+}
+
+type FeatureValueExpressionProperties {
+  isDefault: Boolean!
+  isInitial: Boolean!
+}
+
+extend type Mutation {
+  deleteExpression(input: DeleteExpressionInput!): DeleteExpressionPayload!
+}
+
+input DeleteExpressionInput {
+  id: ID!
+  editingContextId: String!
+  parentElementId: String!
+}
+
+union DeleteExpressionPayload = ErrorPayload | SuccessPayload

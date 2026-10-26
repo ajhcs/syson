@@ -1,0 +1,27 @@
+extend type Subscription {
+  validationEvent(input: ValidationEventInput!): ValidationEventPayload!
+}
+
+input ValidationEventInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: String!
+}
+
+union ValidationEventPayload = ErrorPayload | ValidationRefreshedEventPayload
+
+type ValidationRefreshedEventPayload {
+  id: ID!
+  validation: Validation!
+}
+
+type Validation implements Representation {
+  id: ID!
+  metadata: RepresentationMetadata!
+  diagnostics: [Diagnostic!]!
+}
+
+type ValidationDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+}

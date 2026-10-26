@@ -1,0 +1,87 @@
+extend type Subscription {
+  portalEvent(input: PortalEventInput!): PortalEventPayload!
+}
+
+input PortalEventInput {
+  id: ID!
+  editingContextId: ID!
+  portalId: String!
+}
+
+union PortalEventPayload = ErrorPayload | PortalRefreshedEventPayload
+
+type PortalRefreshedEventPayload {
+  id: ID!
+  portal: Portal!
+}
+
+type Portal implements Representation {
+  id: ID!
+  targetObjectId: ID!
+  metadata: RepresentationMetadata!
+  views: [PortalView!]!
+  layoutData: [PortalViewLayoutData!]!
+}
+
+type PortalDescription implements RepresentationDescription {
+  id: ID!
+  label: String!
+}
+
+type PortalView {
+  id: ID!
+  representationMetadata: RepresentationMetadata!
+}
+
+type PortalViewLayoutData {
+  portalViewId: ID!
+  x: Int!
+  y: Int!
+  width: Int!
+  height: Int!
+}
+
+extend type Mutation {
+  addPortalView(input: AddPortalViewInput!): AddPortalViewPayload!
+  removePortalView(input: RemovePortalViewInput!): RemovePortalViewPayload!
+  layoutPortal(input: LayoutPortalInput!): LayoutPortalPayload!
+}
+
+input AddPortalViewInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  viewRepresentationId: ID!
+  x: Int!
+  y: Int!
+  width: Int!
+  height: Int!
+}
+
+union AddPortalViewPayload = SuccessPayload | ErrorPayload
+
+input RemovePortalViewInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  portalViewId: String!
+}
+
+union RemovePortalViewPayload = SuccessPayload | ErrorPayload
+
+input LayoutPortalInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: ID!
+  layoutData: [PortalViewLayoutDataInput!]!
+}
+
+input PortalViewLayoutDataInput {
+  portalViewId: ID!
+  x: Int!
+  y: Int!
+  width: Int!
+  height: Int!
+}
+
+union LayoutPortalPayload = SuccessPayload | ErrorPayload

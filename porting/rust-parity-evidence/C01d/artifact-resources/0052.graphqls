@@ -1,0 +1,75 @@
+extend type Viewer {
+  libraries(page: Int!, limit: Int!): ViewerLibrariesConnection!
+  library(namespace: String!, name: String!, version: String!): Library
+}
+
+type ViewerLibrariesConnection {
+  edges: [ViewerLibrariesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type ViewerLibrariesEdge {
+  node: Library!
+}
+
+type Library {
+  id: ID!
+  namespace: String!
+  name: String!
+  version: String!
+  versions(page: Int!, limit: Int!): LibraryVersionsConnection!
+  description: String!
+  createdOn: Instant!
+  currentEditingContext: EditingContext!
+}
+
+type LibraryVersionsConnection {
+  edges: [LibraryVersionsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type LibraryVersionsEdge {
+  node: Library!
+}
+
+extend type Mutation {
+  publishLibraries(input: PublishLibrariesInput!): PublishLibrariesPayload!
+  importLibraries(input: ImportLibrariesInput!): ImportLibrariesPayload!
+  updateLibrary(input: UpdateLibraryInput!): UpdateLibraryPayload!
+  
+}
+
+extend type Object {
+  library: Library
+}
+
+extend type EditingContext {
+  updateLibraryImpactAnalysisReport(libraryId: ID!): ImpactAnalysisReport!
+}
+
+input PublishLibrariesInput {
+  id: ID!
+  editingContextId: ID!
+  publicationKind: String!
+  version: String!
+  description: String!
+}
+
+union PublishLibrariesPayload = ErrorPayload | SuccessPayload
+
+input ImportLibrariesInput {
+  id: ID!
+  editingContextId: ID!
+  type: String!
+  libraryIds: [ID!]!
+}
+
+union ImportLibrariesPayload = ErrorPayload | SuccessPayload
+
+input UpdateLibraryInput {
+  id: ID!
+  editingContextId: ID!
+  libraryId: String!
+}
+
+union UpdateLibraryPayload = ErrorPayload | SuccessPayload

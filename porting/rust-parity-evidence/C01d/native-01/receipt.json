@@ -1,0 +1,186 @@
+{
+  "status": "PARTIAL_NATIVE_CAPTURE",
+  "started_utc": "2026-10-26T20:47:57.521358+00:00",
+  "inputs": {
+    "/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/initdb": "a5392ad4bb2d7998cb6b44535ad33b94c1ac3973dceab5b38612a40275383fcf",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/postgres": "2b94be1b4c0ae426325a3a598e952828790ff96d51d03631d5722171f1656ccd",
+    "/workspace/build/builderbob/ajhcs-sysml-java21-20261004/jdk-21.0.12.1+1-jre/bin/java": "999c141a6e620c71aa4230ccb62341a89162f37818753ff006d766bf935dcbe1",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/psql": "862d0169e204435b049122382e952341960eeadc64f11fac5444aab14ff80005",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/capabilities.graphql": "52c7d2804969b2f3bd0d3145ed150df338b13ed86c228c3625a2a3599add70ed",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c",
+    "/workspace/worktrees/builderbob/syson/rp-c01d-persistence-contract/porting/rust-parity-evidence/C01d/catalog-query.sql": "f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+    "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/audit.properties": "6d4c4a485022258606cf9f5dede95666042e16d146b3f30f1f18b07bc8e24921"
+  },
+  "commands": [
+    {
+      "name": "postgres-version",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/postgres",
+        "--version"
+      ],
+      "pid": 3992812,
+      "started_utc": "2026-10-26T20:47:57.521602+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-10-26T20:48:06.054923+00:00"
+    },
+    {
+      "name": "initdb",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/initdb",
+        "-D",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/data",
+        "-L",
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/share/postgresql/15",
+        "--locale=C",
+        "--encoding=UTF8",
+        "--auth=trust",
+        "--no-instructions"
+      ],
+      "pid": 3992813,
+      "started_utc": "2026-10-26T20:47:57.553107+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-10-26T20:48:06.054915+00:00"
+    },
+    {
+      "name": "postgres",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/postgres",
+        "-D",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/data",
+        "-p",
+        "15448",
+        "-h",
+        "127.0.0.1",
+        "-k",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/socket",
+        "-c",
+        "unix_socket_permissions=0700",
+        "-c",
+        "shared_buffers=64MB",
+        "-c",
+        "max_connections=30",
+        "-c",
+        "dynamic_library_path=/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/lib"
+      ],
+      "pid": 3992826,
+      "started_utc": "2026-10-26T20:47:57.867085+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-10-26T20:48:06.054877+00:00"
+    },
+    {
+      "name": "syson",
+      "argv": [
+        "/workspace/build/builderbob/ajhcs-sysml-java21-20261004/jdk-21.0.12.1+1-jre/bin/java",
+        "-Xms256m",
+        "-Xmx1536m",
+        "-XX:ActiveProcessorCount=2",
+        "-Djava.io.tmpdir=/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/tmp",
+        "-Djava.util.prefs.userRoot=/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/prefs",
+        "-jar",
+        "/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar",
+        "--spring.config.location=classpath:/application.properties",
+        "--spring.config.additional-location=file:/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/audit.properties"
+      ],
+      "pid": 3992833,
+      "started_utc": "2026-10-26T20:47:58.069469+00:00",
+      "exit_code": 143,
+      "completed_utc": "2026-10-26T20:48:05.941013+00:00"
+    },
+    {
+      "name": "catalog",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/psql",
+        "-X",
+        "-q",
+        "-A",
+        "-t",
+        "-v",
+        "ON_ERROR_STOP=1",
+        "-h",
+        "127.0.0.1",
+        "-p",
+        "15448",
+        "-U",
+        "builderbob",
+        "-d",
+        "postgres",
+        "-v",
+        "artifact_sha256=85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+        "-v",
+        "target_revision=6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+        "-v",
+        "source_label_revision=b380dada415ce05155150f23cb3b74ae21cc45e4",
+        "-v",
+        "query_sha256=f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+        "-f",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/catalog-query.sql"
+      ],
+      "pid": 3992958,
+      "started_utc": "2026-10-26T20:48:05.795578+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-10-26T20:48:05.827196+00:00"
+    }
+  ],
+  "http": [
+    {
+      "name": "capabilities",
+      "url": "http://127.0.0.1:18448/api/graphql",
+      "method": "POST",
+      "request_headers": {
+        "Content-length": "464",
+        "Host": "127.0.0.1:18448",
+        "User-agent": "Python-urllib/3.12",
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      "response_headers": {
+        "Vary": "Origin",
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+        "Date": "Mon, 26 Oct 2026 20:48:05 GMT",
+        "Connection": "close"
+      },
+      "status": 200,
+      "elapsed_ms": 94.9867989984341,
+      "request_sha256": "b8c57884052526a6e934d8ad242102d50059efdd93fc05a5f4fd93a10e293d07",
+      "response_sha256": "33cae53965a70dc4690ee4bd2d67aac8c40d6ac476bf5bd515a6c28fd623052f",
+      "response_bytes": 179
+    }
+  ],
+  "binds": [
+    "127.0.0.1:15448",
+    "127.0.0.1:18448"
+  ],
+  "artifact_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+  "target_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "source_binding": "OPEN:125 source-label paths differ; not independently rebuilt",
+  "context": "Fresh empty owned PostgreSQL database; anonymous same-origin HTTP introspection, no credentials/session.",
+  "service_registration": false,
+  "review": "Coordinator reviewed fixed argv/config/SQL/queries before first execution; fresh synthetic DB only.",
+  "scope_failures": {
+    "GraphQL": "RuntimeError('GraphQL returned errors: capabilities')"
+  },
+  "native_counts": {
+    "types": null,
+    "tables": 15,
+    "columns": 87,
+    "constraints": 26,
+    "indexes": 16,
+    "applied_changelog": 20
+  },
+  "all_owned_processes_stopped": true,
+  "completed_utc": "2026-10-26T20:48:06.054936+00:00",
+  "inputs_after": {
+    "/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/initdb": "a5392ad4bb2d7998cb6b44535ad33b94c1ac3973dceab5b38612a40275383fcf",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/postgres": "2b94be1b4c0ae426325a3a598e952828790ff96d51d03631d5722171f1656ccd",
+    "/workspace/build/builderbob/ajhcs-sysml-java21-20261004/jdk-21.0.12.1+1-jre/bin/java": "999c141a6e620c71aa4230ccb62341a89162f37818753ff006d766bf935dcbe1",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/psql": "862d0169e204435b049122382e952341960eeadc64f11fac5444aab14ff80005",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/capabilities.graphql": "52c7d2804969b2f3bd0d3145ed150df338b13ed86c228c3625a2a3599add70ed",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c",
+    "/workspace/worktrees/builderbob/syson/rp-c01d-persistence-contract/porting/rust-parity-evidence/C01d/catalog-query.sql": "f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+    "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-01/audit.properties": "6d4c4a485022258606cf9f5dede95666042e16d146b3f30f1f18b07bc8e24921"
+  },
+  "source_unchanged": true
+}

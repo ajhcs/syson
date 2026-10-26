@@ -1,0 +1,11 @@
+extend type Subscription {
+  detailsEvent(input: DetailsEventInput!): DetailsEventPayload!
+}
+
+input DetailsEventInput {
+  id: ID!
+  editingContextId: ID!
+  representationId: String!
+}
+
+union DetailsEventPayload = ErrorPayload | FormRefreshedEventPayload | FormCapabilitiesRefreshedEventPayload
