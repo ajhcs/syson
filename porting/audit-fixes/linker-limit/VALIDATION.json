@@ -1,0 +1,60 @@
+{
+  "schema": "AUDIT_VALIDATION_SUMMARY_V1",
+  "finding": "BUG-AUDIT-PARSER-001",
+  "status": "PASS_LOCAL_BOUNDARY_FIX",
+  "base": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+  "source_commit": "197617ea0666ee184af022f3f1ca27414b1175d9",
+  "captures": [
+    {
+      "run": "link-red-01",
+      "status": "FAIL",
+      "passed_tests": 17,
+      "failed_tests": 1,
+      "source_unchanged": true,
+      "captured_input_files": 68,
+      "runner_sha256": "6388cee3478ad08c5b4252940185e3d7a3641036c4b352990657f9129ddf2268",
+      "exit_codes": [
+        0,
+        101
+      ],
+      "canonical_receipt_external": "/workspace/build/builderbob/syson-audit-20261026/captures/link-red-01/receipt.json",
+      "canonical_receipt_sha256": "577e20ea367e30426aec5dc469b297e0b9c56432680f966e01ca7e1e1d4e37b8",
+      "original_inputs_and_runner_external": "/workspace/build/builderbob/syson-audit-20261026/captures/link-red-01",
+      "source_sha256": {
+        "rust/crates/syson-linker/Cargo.lock": "d548cb3b37582e899e9b540df6224d630c36060d8cdbae92c05e53d8c3970a8d",
+        "rust/crates/syson-linker/Cargo.toml": "46144a418e7e7f9e1de8baf81bcede6907b4acaa4ad7bfe8bfe9786bcf7e640c",
+        "rust/crates/syson-linker/src/lib.rs": "6ebba197984e5151f7fbca5fbefa468a73401ad65cae919bd3a293c4d405023e",
+        "rust/crates/syson-linker/tests/linking.rs": "a1710c4ca1bbe6c0eb803ffe81fa0a343c3edf610625d118e913419e9b77aaf1"
+      },
+      "test_stdout_sha256": "18382a3cb68973a3f5429389607a58ad8b48371d3c266af2cfbf9de371cfaf4a"
+    },
+    {
+      "run": "link-green-01",
+      "status": "PASS",
+      "passed_tests": 19,
+      "failed_tests": 0,
+      "source_unchanged": true,
+      "captured_input_files": 68,
+      "runner_sha256": "6388cee3478ad08c5b4252940185e3d7a3641036c4b352990657f9129ddf2268",
+      "exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "canonical_receipt_external": "/workspace/build/builderbob/syson-audit-20261026/captures/link-green-01/receipt.json",
+      "canonical_receipt_sha256": "949adc73215809abd93c44ce815fe7d9a10359a5380d07368a873cc84e4d0d1b",
+      "original_inputs_and_runner_external": "/workspace/build/builderbob/syson-audit-20261026/captures/link-green-01",
+      "source_sha256": {
+        "rust/crates/syson-linker/Cargo.lock": "d548cb3b37582e899e9b540df6224d630c36060d8cdbae92c05e53d8c3970a8d",
+        "rust/crates/syson-linker/Cargo.toml": "46144a418e7e7f9e1de8baf81bcede6907b4acaa4ad7bfe8bfe9786bcf7e640c",
+        "rust/crates/syson-linker/src/lib.rs": "ad28199c2a512d00048e8326c89ad7e91c0aa647508a1a8a394fd547fb9b8510",
+        "rust/crates/syson-linker/tests/linking.rs": "cff91b466cc114dfbabca9d5636f46b7896dad39943406a42612eecc7f757177"
+      },
+      "test_stdout_sha256": "0c9edf66346e3b5bd0b90c6006ac3eea970e1b2db6c4ead75b706c87945c9145"
+    }
+  ],
+  "independent_source_review": "Coordinator reviewed repaired real-declaration allowance and custom-root boundary; no blockers",
+  "scope": "Linker real-declaration admission only; no new dependency or held path",
+  "upstream_runtime": "NOT_RUN",
+  "full_native_parity": false
+}

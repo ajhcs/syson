@@ -10,6 +10,9 @@ use std::{
 use syson_ast::{Arena, NodeId, Slot, Value};
 use syson_metamodel::{self as mm, ClassifierId as C};
 use syson_references::{Registry, Target};
+
+/// Real declarations admitted by the finite linker; the anonymous F11 root is synthetic.
+pub const MAX_DECLARATIONS: usize = 256;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Error {
     Unsupported,
@@ -68,6 +71,7 @@ pub struct Snapshot {
     registry: Registry,
     resource: String,
     scopes: BTreeMap<NodeId, BTreeMap<String, Entry>>,
+    scope_limit: usize,
     parents: BTreeMap<NodeId, NodeId>,
     aliases: Vec<Alias>,
     bindings: BTreeMap<NodeId, Json>,
@@ -126,12 +130,16 @@ impl Snapshot {
         if arena.nodes().len() > 4096 || aliases.len() > 256 || bindings.len() > 256 {
             return Err(Error::Limit);
         }
+        let synthetic_root = arena.node(arena.root()).is_some_and(|node| {
+            node.kind() == Some("Namespace") && matches!(node.slot("declaredName"), Slot::Absent)
+        });
         let mut result = Self {
             identity: Arc::new(()),
             arena,
             registry,
             resource,
             scopes: BTreeMap::new(),
+            scope_limit: MAX_DECLARATIONS + usize::from(synthetic_root),
             parents: BTreeMap::new(),
             aliases,
             bindings: BTreeMap::new(),
@@ -171,7 +179,7 @@ impl Snapshot {
         &self.arena
     }
     fn index(&mut self, id: NodeId, depth: usize) -> Result<(), Error> {
-        if depth > 64 || self.scopes.len() == 256 {
+        if depth > 64 || self.scopes.len() >= self.scope_limit {
             return Err(Error::Limit);
         }
         if !matches!(

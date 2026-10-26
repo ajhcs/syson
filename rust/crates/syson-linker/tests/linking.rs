@@ -430,3 +430,100 @@ fn alias_work_admission_is_bounded_and_external_proxy_bindings_are_not_admitted(
         Err(Error::Unsupported)
     ));
 }
+
+fn boundary_source(declarations: usize) -> String {
+    assert!(declarations >= 3);
+    let mut source = String::from("package P {");
+    for n in 0..declarations - 2 {
+        source.push_str(&format!("part def T{n};"));
+    }
+    source.push_str(&format!("part component:T{};}}", declarations - 3));
+    source
+}
+#[test]
+fn default_parser_declaration_boundary_excludes_the_synthetic_namespace() {
+    for declarations in [255, 256] {
+        let arena = parse(&boundary_source(declarations));
+        let target = named(&arena, &format!("T{}", declarations - 3))[0];
+        let reference = references(&arena)[0];
+        let snapshot = empty(arena, vec![]).unwrap_or_else(|e| {
+            panic!("{declarations} admitted real declarations must fit the linker: {e:?}")
+        });
+        assert_eq!(snapshot.link(reference).unwrap().target(), Some(target));
+    }
+}
+#[test]
+fn custom_parser_budget_does_not_expand_the_linker_declaration_budget() {
+    let arena = Adapter::pinned()
+        .unwrap()
+        .construct(
+            &boundary_source(257),
+            Limits {
+                declarations: 257,
+                ..Limits::default()
+            },
+            Arc::new(AtomicBool::new(false)),
+        )
+        .unwrap();
+    assert!(matches!(empty(arena, vec![]), Err(Error::Limit)));
+}
+#[test]
+fn default_parser_still_refuses_257_real_declarations() {
+    assert!(matches!(
+        Adapter::pinned().unwrap().construct(
+            &boundary_source(257),
+            Limits::default(),
+            Arc::new(AtomicBool::new(false))
+        ),
+        Err(syson_ast_adapter::Error::Limit)
+    ));
+}
+
+#[test]
+fn a_real_package_root_does_not_receive_a_synthetic_root_allowance() {
+    use syson_ast::{Assignment, Builder, Datum, DefaultValue, Reflection};
+    let build = |declarations| {
+        let mut reflection = Reflection::default();
+        for kind in ["Package", "PartDefinition"] {
+            reflection
+                .declare(kind.into(), vec![DefaultValue::Array("children".into())])
+                .unwrap();
+        }
+        reflection
+            .declare("OwningMembership".into(), vec![])
+            .unwrap();
+        let mut builder = Builder::new(
+            reflection,
+            syson_ast::Limits::default(),
+            Arc::new(AtomicBool::new(false)),
+        )
+        .unwrap();
+        let root = builder.allocate(Some("Package"), None).unwrap();
+        for n in 1..declarations {
+            let child = builder.allocate(Some("PartDefinition"), None).unwrap();
+            builder
+                .assign(
+                    child,
+                    "declaredName",
+                    Assignment::Set,
+                    Datum::new(Value::String(format!("T{n}"))),
+                )
+                .unwrap();
+            let membership = builder.allocate(Some("OwningMembership"), None).unwrap();
+            builder
+                .assign(membership, "target", Assignment::Set, Datum::node(child))
+                .unwrap();
+            builder
+                .assign(
+                    root,
+                    "children",
+                    Assignment::Append,
+                    Datum::node(membership),
+                )
+                .unwrap();
+        }
+        builder.finish(root).unwrap()
+    };
+    assert!(empty(build(256), vec![]).is_ok());
+    assert!(matches!(empty(build(257), vec![]), Err(Error::Limit)));
+}
