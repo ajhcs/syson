@@ -1,0 +1,84 @@
+{
+  "unit": "C01f",
+  "parent_C01": "OPEN",
+  "scope": "Actual captured application handler mapping conditions and fixed anonymous read-only/error HTTP wire observations; offline reader only.",
+  "base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "native": {
+    "receipt": "native-01/receipt.json",
+    "status": "PASS_ACTUAL_MAPPINGS_AND_HTTP_PROBES",
+    "all_owned_processes_stopped": true,
+    "source_unchanged": true,
+    "fresh_database": true,
+    "diagnostic_context": "Separate loopback management listener with default access none, mappings read-only, exposure mappings only, discovery disabled. Captured mappings contain one application context; no claim that every listener or deployment is enumerated.",
+    "counts": {
+      "contexts": 1,
+      "dispatcher_rows": 54,
+      "mvc_rows": 33,
+      "servlet_filters": 5,
+      "servlets": 1,
+      "probes": 22
+    },
+    "source_label_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+    "target_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "artifact_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "source_equivalence": "OPEN:125 source-label paths differ; not rebuilt by this task."
+  },
+  "verification": [
+    {
+      "capture": "captures/c01f-01",
+      "status": "FAIL",
+      "completed": "fmt and all10tests PASS",
+      "failure": "Clippy production nested-if lint; no behavior assertion failed."
+    },
+    {
+      "capture": "captures/c01f-02",
+      "status": "FAIL",
+      "completed": "fmt and affected actualmapping test PASS",
+      "failure": "Clippy test-only nested-if lint newly reached after production lint repair."
+    },
+    {
+      "capture": "captures/c01f-03",
+      "status": "PASS",
+      "completed": "fmt, affected duplicate-category test, Clippy and binary build; no full10 rerun."
+    },
+    {
+      "capture": "http-cli-01",
+      "status": "FAIL",
+      "completed": "Mappings exact Python Value equality passed. Probe output produced but equality assertion failed before recording completed case.",
+      "failure": "serde_json default float parsing rounded four native elapsed decimals; raw output and original receipt retained."
+    },
+    {
+      "capture": "captures/c01f-04",
+      "status": "PASS",
+      "completed": "all11tests, fmt and Clippy under root-enabled arbitrary_precision; raw-text regression also covers unknown large integer and exact native elapsed token."
+    },
+    {
+      "capture": "captures/c01f-05",
+      "status": "PASS",
+      "completed": "Final anonymous-context guard affected test, fmt, Clippy and binary build only; no full11 rerun."
+    },
+    {
+      "capture": "http-cli-02",
+      "status": "PASS_ACTUAL_CLI_VALUE_PRESERVATION_AND_REFUSALS",
+      "completed": "Seven cases: actual mappings/probes Python Value equality, exact manifest bytes, usage/invalid/symlink/directory failures with no stdout."
+    }
+  ],
+  "independent_review": {
+    "reviewer": "audit_model_query",
+    "mode": "read-only source, no execution",
+    "final": "PASS",
+    "finding": "Unknown large integer fidelity gap; independently actual CLI exposed elapsed-decimal rounding. arbitrary_precision enabled without registry version changes; raw-text regression added.",
+    "final_lib_sha256": "cc8f69b8f9ecb0b1c5c426d9d942c1636aaacfc4bf721564249c178df48a37bb",
+    "final_main_sha256": "3e00fd895df47ddaa2ad8315a59d6c0b8437f16ceb3f07e74857ff9fdfa794b3",
+    "final_tests_sha256": "2a83ad89a8b51d41bcf29a7e0e3d7b97acdf3df8fd052edc56d1993028f9585e"
+  },
+  "boundaries": [
+    "No Rust HTTP handler or route-match simulator implemented.",
+    "No authenticity or whole-artifact/build equivalence inferred from supplied metadata.",
+    "JSON Value trees and exact body strings/hex preserved; not original envelope whitespace/member-duplicate byte preservation.",
+    "Anonymous fresh-empty-DB diagnostic context only; no authentication/session/multipart/SSE/WebSocket/mutation/business lifecycle or other-deployment acceptance.",
+    "Timings are retained observations, not latency/usability/INP/load benchmarks.",
+    "No held paths, old evidence, plan lanes or other crates changed."
+  ],
+  "provenance": "Native bodies committed once in tests/fixtures; raw root runners/receipts/logs/config/entities retained. CLI large raw stdout linked by exact external identity. Historical failed snapshots retained by SHA, never relabeled."
+}
