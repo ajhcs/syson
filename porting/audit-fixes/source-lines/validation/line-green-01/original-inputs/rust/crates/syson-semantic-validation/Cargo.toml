@@ -1,0 +1,20 @@
+[package]
+name = "syson-semantic-validation"
+version = "0.1.0"
+edition = "2024"
+license = "EPL-2.0"
+publish = false
+
+[workspace]
+
+[dependencies]
+serde_json = { version = "=1.0.151", features = ["arbitrary_precision"] }
+syson-ast = { path = "../syson-ast" }
+syson-ast-adapter = { path = "../syson-ast-adapter" }
+syson-model = { path = "../syson-model" }
+syson-metamodel = { path = "../syson-metamodel" }
+syson-references = { path = "../syson-references" }
+syson-semantic-names = { path = "../syson-semantic-names" }
+
+[dev-dependencies]
+syson-text-import = { path = "../syson-text-import" }

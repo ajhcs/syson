@@ -312,3 +312,47 @@ fn unadmitted_fields_and_mismatched_or_absent_typed_feature_refuse() {
         Err(Error::UnsupportedShape(_))
     ));
 }
+
+#[test]
+fn diagnostic_positions_accept_all_lexer_line_endings() {
+    for first in ["\r", "\n", "\r\n"] {
+        for second in ["\r", "\n", "\r\n"] {
+            for third in ["\r", "\n", "\r\n"] {
+                let source =
+                    format!("package '🚗' {{{first}  part def T;{second}  part '轮😀':T;{third}}}");
+                let mut edited = value(&imported(&source));
+                named(&mut edited, "轮😀")["data"]["ownedRelationship"] = json!([]);
+                let report = run(&source, &document(edited));
+                assert_eq!(report.diagnostics.len(), 1);
+                let diagnostic = &report.diagnostics[0];
+                assert_eq!(diagnostic.rule, PART);
+                assert_eq!(
+                    (diagnostic.line, diagnostic.column_utf16),
+                    (3, 3),
+                    "line endings {first:?}/{second:?}/{third:?}"
+                );
+                assert_eq!(&source[diagnostic.span.bytes.clone()], "part '轮😀':T;");
+                assert_eq!(
+                    diagnostic.span.utf16.start,
+                    source[..diagnostic.span.bytes.start].encode_utf16().count()
+                );
+            }
+        }
+    }
+}
+
+#[test]
+fn diagnostic_columns_reset_after_mixed_breaks_and_count_supplementary_units() {
+    let prefix = "package '🚗' {part def T;";
+    let source = format!("\r\n\r{prefix}part a:T;}}");
+    let mut edited = value(&imported(&source));
+    named(&mut edited, "a")["data"]["ownedRelationship"] = json!([]);
+    let report = run(&source, &document(edited));
+    let diagnostic = &report.diagnostics[0];
+    assert_eq!(
+        (diagnostic.line, diagnostic.column_utf16),
+        (3, prefix.encode_utf16().count() + 1)
+    );
+    assert_eq!(&source[diagnostic.span.bytes.clone()], "part a:T;");
+    assert_ne!(diagnostic.column_utf16, prefix.len() + 1);
+}
