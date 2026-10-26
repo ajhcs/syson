@@ -1,0 +1,377 @@
+{
+  "schema": 1,
+  "mode": "READ_ONLY_SOURCE_AUDIT",
+  "native_runtime_executed_by_auditor": false,
+  "compiler_or_tests_executed_by_auditor": false,
+  "browser_executed_by_auditor": false,
+  "coverage_units": 9,
+  "units": [
+    {
+      "unit": "F20",
+      "title": "REST read contracts and observed serialization",
+      "head": "53dffb79ede9ee05464c75e037b8b74a3db8319c",
+      "scope": "Typed source-observation adapters; no HTTP listener or model getter computation",
+      "parity": "SOURCE_CONTRACT_ONLY_NATIVE_RUNTIME_UNQUALIFIED",
+      "expectations": {
+        "functional": "Retain raw JSON number/property spellings; selected200/404 branches and reference omission/traversal must match pinned source observations. Unresolved context/dispatch/inverse observation must refuse rather than invent status.",
+        "performance": "Linear traversal/relationship union aside from feature sort; no end-to-end request latency can be measured until F22 transport exists. Native source timeout20s is a branch contract, not an acceptable interactive target.",
+        "usability": "Preserve absent-vs-unresolved and readable host translation of Gap variants; no UI surface yet.",
+        "visual_ui": "NOT_APPLICABLE_TO_THIS_STANDALONE_CONTRACT"
+      },
+      "source_review": "No new proven correctness defect. Checked serializer against actual SysMLv2JsonSerializer.java and controller/event-handler source packet; Object payloads are intentionally opaque, so non-object JSON is not reported as an invented DTO bug.",
+      "evidence": [
+        "rust/crates/syson-api-types/src/lib.rs",
+        "porting/area-inventories/API/read-contract/SOURCE.json",
+        "backend/services/syson-sysml-rest-api-services/src/main/java/org/eclipse/syson/sysml/rest/api/SysMLv2JsonSerializer.java"
+      ]
+    },
+    {
+      "unit": "F21",
+      "title": "Session/project isolation source packet",
+      "head": "ebc14e80f773e608e877dd93f7034d413a8da5b4",
+      "scope": "18source pins, unresolved boundaries and12unrun negative scenarios",
+      "parity": "BLOCKED_SOURCE_PREPARATION_ONLY",
+      "expectations": {
+        "functional": "No claim that cookie/CORS/session/project isolation is implemented or exercised. Need effective native request chain, actual anonymous/session/foreign-project command/WS captures before host acceptance.",
+        "performance": "Runtime session/request overhead not measured or implemented here.",
+        "usability": "Host must disclose deployment/session model and give clear unauthorized/expired/foreign-project outcomes after policy is selected.",
+        "visual_ui": "NOT_APPLICABLE; runtime screenshots/login/session flows remain missing"
+      },
+      "source_review": "No new source-packet correctness defect; tests verify documentary claims, not session behavior. This is a material runtime qualification gap when counting33completed units.",
+      "evidence": [
+        "porting/area-inventories/API/session-isolation/contract.json",
+        "porting/follow-ons/F21/README.md"
+      ]
+    },
+    {
+      "unit": "F25",
+      "title": "Document/dependency reconciliation planner",
+      "head": "b454d4991d2518dd58ecab29ddcffe012823c46d",
+      "scope": "Pure source-derived planner, caller-ordered identity observations and effect requests",
+      "parity": "FINITE_SOURCE_DERIVED_IMPLEMENTATION_NATIVE_EVENTS_UNQUALIFIED",
+      "expectations": {
+        "functional": "First existing UUID match wins; pointer-distinct sameUUID documents remain distinct, kept instances deduplicate by pointer, rebuilds remain separate; no-op keeps original collection/domains/timestamps. Dependency mutation admission and event ordering preserve source.",
+        "performance": "Common unchanged reconciliation should scale near-linearly with document count, apart from ordered set construction; target must be measured at1k/5k/10k rather than inferred from unit tests. Current repeated linear scans are quadratic.",
+        "usability": "Plans explicitly separate pure decision from clock/event/publication effects; host integration remains absent.",
+        "visual_ui": "NOT_APPLICABLE_TO_THIS_PURE_PLANNER"
+      },
+      "source_review": "Concrete P2 performance findingPLAT-PERF-01; no semantic mismatch found against SOURCE-CONTRACTS source excerpts. Baseline benchmark source prepared, execution pending coordinator.",
+      "evidence": [
+        "rust/crates/syson-document-reconcile/src/lib.rs:84",
+        "rust/crates/syson-document-reconcile/src/lib.rs:103",
+        "rust/crates/syson-document-reconcile/src/lib.rs:108",
+        "rust/crates/syson-document-reconcile/src/lib.rs:135",
+        "porting/follow-ons/F25/SOURCE-CONTRACTS.json"
+      ]
+    },
+    {
+      "unit": "F26",
+      "title": "Candidate Liquibase declaration graph",
+      "head": "fc15b4bdd4363af8e29ea5a842981bb21378a497",
+      "scope": "Retained XML order/controls and exact candidate source graph; no migrations applied",
+      "parity": "SOURCE_PREPARATION_NATIVE_SCHEMA_ARTIFACT_CORRESPONDENCE_UNPROVEN",
+      "expectations": {
+        "functional": "Pin29documents/28includes/20changesets; reject external/custom payloads, cycles/repeated includes, substitutions and invalid resource paths; retain text/tails and unevaluated context/DBMS/preconditions/rollback.",
+        "performance": "Bounded frozen declaration set; actual JDBC migration time/history/checksum/rollback not exercised.",
+        "usability": "Never present a declaration-check PASS as an installed/applied database schema; operational migration and recovery UX require F28/native evidence.",
+        "visual_ui": "NOT_APPLICABLE"
+      },
+      "source_review": "No new correctness defect in the finite declaration planner. It intentionally does not solve schema correspondence and therefore does not close runtime parity.",
+      "evidence": [
+        "porting/persistence/schema-contract/plan.py",
+        "porting/persistence/schema-contract/candidate-plan.json"
+      ]
+    },
+    {
+      "unit": "F27",
+      "title": "Local selected-document SQLite storage",
+      "head": "b540273b901f9c69b5fc2f200efc1aa864d95ebc",
+      "scope": "Fixed-operation Python stdlib SQLite bridge with actual F25 decision/F04 identity integrations",
+      "parity": "LOCAL_SQLITE_CANDIDATE_NOT_NATIVE_POSTGRESQL_PERSISTENCE",
+      "expectations": {
+        "functional": "Atomic batch rollback, pre-SQL serializer refusal, stored read-only/stale guards, no delete/recreateABA, no implicit DB creation on open; project/document/node/semantic identities remain separate.",
+        "performance": "Measure create/load/update latency and RSS for small/1MiB docs and rejected aggregate batches. Existing newPythonprocess percall implies persistent-host throughput is unqualified. EightMiB protocol limit should bound serialization memory before allocating a full oversize packet.",
+        "usability": "Error::Io/Driver/Protocol/Refused currently lose detailed diagnosis; host needs actionable retry/read-only/stale messaging. Explicit owner path and retained failed initialization support diagnosis; no UI integration.",
+        "visual_ui": "NOT_APPLICABLE_TO_THIS_STORAGE_ADAPTER"
+      },
+      "source_review": "Concrete P2 resource-budget findingPLAT-PERF-02: aggregate size guard follows all per-document serialization, JSON Value cloning and unbounded final to_vec. Ordinary API-admitted64xnear1MiB creates exceed8MiB only after large avoidable allocation. Quantification pending coordinator; no DB execution by auditor. No additional semantic/SQL atomicity bug proven.",
+      "evidence": [
+        "rust/crates/syson-storage/src/lib.rs:145",
+        "rust/crates/syson-storage/src/lib.rs:212",
+        "rust/crates/syson-storage/src/lib.rs:281",
+        "rust/crates/syson-storage/src/bridge.py",
+        "porting/follow-ons/F27/README.md"
+      ]
+    },
+    {
+      "unit": "F31",
+      "title": "Immutable local snapshot publication faults",
+      "head": "762217dd56e6a0c4cd2aa2a01bfb62454bb8b6e9",
+      "scope": "Injectable I/O seam and real local files for original immutable snapshot sequence",
+      "parity": "LOCAL_DEVELOPMENT_SNAPSHOT_NOT_NATIVE_POSTGRESQL_RECOVERY",
+      "expectations": {
+        "functional": "Create-new staging/no replacement; bounded load; exact pre/post-publication fault state. Caller must inspect destination on ambiguous I/O because errors can occur after publication.",
+        "performance": "Measure16MiB serialization/publication separately from UI; no crash/power-loss guarantee follows from fsync/process-local reload tests.",
+        "usability": "Before any user-facing save action, provide explicit reconcile/recovery guidance for Io afterpublication; blind retry can collide. CurrentAPI documents this ambiguity honestly, but F32 recovery orchestration remains absent.",
+        "visual_ui": "NOT_APPLICABLE_TO_THIS_FAULT_TEST_SEAM"
+      },
+      "source_review": "No new source defect. Ambiguous publication outcome is documented and tested rather than incorrectly guaranteed atomic acknowledgment; classify operational recovery as incomplete, not fixed by these15tests.",
+      "evidence": [
+        "rust/crates/syson-workflow/src/snapshot_io.rs:61",
+        "rust/crates/syson-workflow/src/lib.rs:68",
+        "porting/follow-ons/F31/README.md"
+      ]
+    },
+    {
+      "unit": "F38",
+      "title": "Immutable move-provider dispatch planner",
+      "head": "546604c2cf64bf07586964c5683c0030fc85bd56",
+      "scope": "One provider category, externally observed capabilities, no provider invocation",
+      "parity": "SOURCE_DERIVED_SELECTION_ONLY_NOT_NATIVE_PLUGIN_OR_MOVE_EXECUTION",
+      "expectations": {
+        "functional": "First reached true wins; unresolved reached observation refuses; false trailing/default behavior and nullcustomfallback preserve upstreamOptional semantics; duplicates retain slot identity.",
+        "performance": "Selection linear in visited provider count, early exit; native discovery/canHandle/move execution performance not measured.",
+        "usability": "Labels are diagnostic with duplicate labelsallowed, slots remain distinguishable; caller must supply request-fresh capability observations.",
+        "visual_ui": "NOT_APPLICABLE; no palette/plugin-management surface implemented"
+      },
+      "source_review": "No new correctness defect in frozen selection family. Actual provider execution/model mutation and native request identity remain outside the adapter.",
+      "evidence": [
+        "rust/crates/syson-extensions/src/lib.rs",
+        "porting/follow-ons/F38/README.md"
+      ]
+    },
+    {
+      "unit": "F39",
+      "title": "Reference execution preflight",
+      "head": "fa85317782c535217d5a937178fdce2167bb92cf",
+      "scope": "Pinned lifecycle/source/toolchain review packet with unrun command templates",
+      "parity": "BLOCKED_PREPARATION_ONLY_AT_ORIGINAL_CAPTURE",
+      "expectations": {
+        "functional": "Never equate preflight checker PASS with an app build or reference capture. Resolve artifact/tool/source/DB/launch exact effects before nativeexecution; permit refreshed evidence rather than treating old missingtools as permanent denial.",
+        "performance": "Fresh native reference must record startup, page/load/interaction and representative model sizes; old preflight has no runtime measurements.",
+        "usability": "Use owned loopback/synthetic state and preserve original failures so comparison can be reproduced.",
+        "visual_ui": "NOT_APPLICABLE; live upstream comparison is root coordinator work"
+      },
+      "source_review": "No new checker defect. Root has now found an existingJava21JRE and is investigating official2026.9.3OCI/JAR; historical inventory is not current blocker proof. Bounded auditor paths found onlyJDK26/noMaven orJAR, but discovery was explicitlynonexhaustive.",
+      "evidence": [
+        "porting/reference-preflight/preflight.json",
+        "porting/reference-preflight/tool-inventory.json",
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "unit": "F43",
+      "title": "Rust/WASM distribution content verifier",
+      "head": "ae763874c419cd16ebf8e426ce6859ac97ffb101",
+      "scope": "Fixedad814source/capturedmetadata and supplied package policy verifier; syntheticWASM fixture",
+      "parity": "SOURCE_PACKAGE_POLICY_MATCH_ONLY_BUILD_AND_LEGAL_CORRESPONDENCE_UNPROVEN",
+      "expectations": {
+        "functional": "Verify active normal resolved graph, immutable local source/manifests/locks, archives/checksums/licenses/runtimeassets and reject unlisted files/symlinks. Never claim8byte syntheticWASM is applicationbuild.",
+        "performance": "Hash/check actual distribution bytes; disk/hashcost naturally linear in suppliedsource/archive size.",
+        "usability": "Return actionable rejectionpaths and explicit synthetic/build/provenance disposition. Before release regenerate/reviewpolicy for the actual composed33unit source rather than oldad814snapshot.",
+        "visual_ui": "NOT_APPLICABLE_TO_THIS_VERIFIER"
+      },
+      "source_review": "No new verifier defect in pinnedpolicy. Currentpolicy does not qualify newly addedF19/F36assets/newcrates; release composition/package/source-to-WASM build proof remains a material gap.",
+      "evidence": [
+        "porting/distribution-check/check.py",
+        "porting/distribution-check/policy.json",
+        "porting/distribution-check/README.md"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "PLAT-PERF-01",
+      "severity": "P2",
+      "unit": "F25",
+      "status": "FIX_TESTED_AND_COMMITTED_PENDING_PR_PUBLICATION",
+      "problem": "Unchangeddocument reconciliation repeats linear pointerdedup, UUIDlookup and outputdedup scans.2N^2-N pointer/UUIDcomparisons forNunique unchanged documents.",
+      "reproducer": "Pureexamples/reconcile_bench.rs in assignedaudit-reconcile-indexworktree:1k/5k/10k unique docs, samepointerrefs on bothsides, warmup+5samples, black_box andUnchanged assertion. Root owns releaseexecution.",
+      "expected": "Preserve all source order/objectidentity/firstUUID/effect semantics while replacing lookups/dedup with standard indexes. Benchmark scaling and exactsemanticregressions must both pass.",
+      "fix_pr": "SeparateF25ordered identity/UUIDindex optimization PR atop#24; benchmark-first commit then optimization+semanticregressions commit; no manifests/newdeps.",
+      "remediation": {
+        "branch": "codex/syson-audit-reconcile-index",
+        "code_commit": "6f29248f1dbd8200734039f362b4e836844f6c1c",
+        "head": "a85366ae8252596b417384d02e0ded6784d93eed",
+        "tests": 16,
+        "formatting": "PASS",
+        "clippy": "PASS",
+        "benchmark_10k_median_speedup": 61.46221312151893,
+        "before_median_ms": 55.10911,
+        "after_median_ms": 0.896634,
+        "original_failed_capture": "rec-after-01 preserved; test-only style repair",
+        "source_scope": "Declared unchanged-document workload only; no universal/native performance or planner-only RSS claim"
+      }
+    },
+    {
+      "id": "PLAT-PERF-02",
+      "severity": "P2",
+      "unit": "F27",
+      "status": "FIX_TESTED_AND_COMMITTED_PENDING_PR_PUBLICATION",
+      "problem": "8MiB aggregateprotocol guard is after64 perdocserializations, JSONValuepacketclones and finalunboundedserde_json::to_vec. A singlecallerDocument below1MiB reused by64createoperations can cause manytens/hundredsofMiB allocations before refusal.",
+      "reproducer": "Construct one near1MiB selectedDocument withlargeopaquevalue;64Change::Create entriesdistinctKey andsameDocument ref; existingownedStore. transact(...,1048576) mustreturnLimit beforeSQL. Measure peakRSS baseline/fix; also9documentoverflow/escapedstrings/nameoverhead cases. Noauditorruntimeexecution.",
+      "expected": "Bound aggregatecollection/outputserialization early; account JSONescaping andmetadata overhead; no SQL/spawn on earlyrefusal; preserve successful64smalloperationbatch andserializererror distinctions.",
+      "fix_pr": "Separate storageboundedprotocolserialization PR atop#53, <=400productionlines; no newregistrydriver ornativeDBclaims. Exactbridgeaction review if touched; avoidbridgechange if possible.",
+      "remediation": {
+        "branch": "codex/syson-audit-storage-budget",
+        "code_commit": "3636b55474f53311a71c39d73ed0cd5ebc2d81db",
+        "head": "6dc96e2cb4ef548656f4c9ac3a24f6e37ff9c194",
+        "tests": 17,
+        "formatting": "PASS",
+        "clippy": "PASS",
+        "release_build": "PASS",
+        "before_max_rss_kib": 267536,
+        "after_max_rss_kib": 13332,
+        "reduction_percent": 95.01674540996352,
+        "bridge_and_probe_unchanged": true,
+        "source_scope": "Fixed rejected64-operation workload, one borrowed1048448-byte document; actual release command measured separately from compiler. No native PostgreSQL or universal latency claim."
+      }
+    },
+    {
+      "id": "PLAT-PARITY-01",
+      "priority": "RUNTIME_RELEASE_GATE",
+      "units": [
+        "F20",
+        "F21",
+        "F26",
+        "F39",
+        "F43"
+      ],
+      "status": "DOCUMENTED_SCOPE_GAP_NOT_NEW_CODE_DEFECT",
+      "problem": "Sourcecontracts/preflight/packagepolicy work is countedamong33representedunits but isnot UI/HTTP/session/nativeDB/buildruntime parity.",
+      "expected": "Auditmatrix must labelUI N/A, runtimeunrun/candidate and remainingintegrationpath rather than highUXscore or fullnativepass."
+    }
+  ],
+  "runtime_inventory_note": "Root coordinator is refreshing artifact/tool/DB feasibility independently; historicalF39 missingtool observations are not a presentpermissiondenial. No service/daemon/container/admin actions ran in this audit lane.",
+  "proposed_performance_ranges": {
+    "status": "PROPOSED_AUDIT_TARGETS_NOT_MEASURED_RESULTS",
+    "host_scope": "Same coordinator host, release build, fixed workload and five samples; report raw ranges and median. Do not use the 20-second native controller timeout as a usability target.",
+    "F25": {
+      "workload": "1k / 5k / 10k unchanged document observations",
+      "proposed_target": "At most 2ms median for 1k and 20ms for 10k, with 10k/1k growth under20x; target is a local performance budget, not a SysON equivalence claim."
+    },
+    "F27": {
+      "workload": "Fresh local candidate store; small and near1MiB document create/load/update; reject oversized aggregate batch before any SQL",
+      "proposed_target": "Warm local CRUD p95 under100ms for small documents and250ms for near1MiB documents; quantify process-startup overhead. Oversized batch additional planner/protocol memory should be O(8MiB budget plus one document), not O(64MiB input batch). All timings remain unmeasured in this read-only lane."
+    },
+    "F31": {
+      "workload": "16MiB snapshot write/sync/publication and fresh reload",
+      "proposed_target": "Report operation phases and storage environment separately; do not promise fixed sub100ms durable publication across filesystems or imply power-loss qualification."
+    }
+  },
+  "coordinator_measurements": {
+    "F25_before": {
+      "capture": "captures/rec-before-01",
+      "status": "PASS",
+      "samples": [
+        {
+          "documents": 1000,
+          "samples": 5,
+          "min_ns": 602492,
+          "median_ns": 680922,
+          "max_ns": 688286,
+          "outcome": "unchanged"
+        },
+        {
+          "documents": 5000,
+          "samples": 5,
+          "min_ns": 13594443,
+          "median_ns": 14121751,
+          "max_ns": 14487851,
+          "outcome": "unchanged"
+        },
+        {
+          "documents": 10000,
+          "samples": 5,
+          "min_ns": 54875123,
+          "median_ns": 55109110,
+          "max_ns": 58826888,
+          "outcome": "unchanged"
+        }
+      ],
+      "native_runtime": "NOT_RUN",
+      "rss_disposition": "time wraps Cargo/compiler plus benchmark; do not interpret as planner-only RSS"
+    },
+    "F25_after": {
+      "status": "PASS_LOCAL_RELEASE_BENCHMARK",
+      "benchmark_sha256": "f91dd5afba20d4eec2e155d2d8f0b69121df5e69415257ee3a10f2905b27ec65",
+      "warmups_per_size": 1,
+      "samples_per_size": 5,
+      "comparison": [
+        {
+          "documents": 1000,
+          "samples": 5,
+          "before_median_ms": 0.680922,
+          "after_median_ms": 0.069463,
+          "median_speedup": 9.802657529908009
+        },
+        {
+          "documents": 5000,
+          "samples": 5,
+          "before_median_ms": 14.121751,
+          "after_median_ms": 0.411136,
+          "median_speedup": 34.34812568103985
+        },
+        {
+          "documents": 10000,
+          "samples": 5,
+          "before_median_ms": 55.10911,
+          "after_median_ms": 0.896634,
+          "median_speedup": 61.46221312151893
+        }
+      ],
+      "before_capture": "validation/rec-before-01",
+      "after_capture": "validation/rec-after-02",
+      "scope": "Unchanged-document Rust planner on the same coordinator host; not a native Java benchmark or universal small-input speedup",
+      "rss": "time wraps Cargo/compiler plus benchmark; no planner-only RSS claim"
+    },
+    "F27_memory": {
+      "status": "PASS_MEASURED_LOCAL_MEMORY_REPAIR",
+      "dataset": {
+        "operations": 64,
+        "serialized_document_bytes": 1048448,
+        "borrowed_document_instances": 1,
+        "expected_result": "aggregate_limit"
+      },
+      "probe_sha256": "c6d84f7bb0f68306eacb704d38bc06a838c483bde8c953a9204312aa9b4c4d0c",
+      "measurements": [
+        {
+          "run": "storage-before-01",
+          "max_rss_kib": 267536,
+          "max_rss_mib": 261.265625,
+          "binary_sha256": "fa03454c21b30c28b0f529dca6ea9b3c14c54cff8178b5a022e3a84e0ceea385",
+          "raw_file_sha256": {
+            "receipt.json": "2e8dee381ff2e4150ca9edaa010494d625b96c152a3557881970e1912ae57dc9",
+            "stderr.txt": "ae5b12cddc8d0b4de51589ed063b41322e578c94960c9d427ab57356d25046c9",
+            "stdout.txt": "d415218fd3f2f7558e16c6a6afdfe84ee4149ae474cba02a4f75c1344c8f37eb",
+            "build.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "build.stderr.txt": "b5f4738c040b848cc4e644f2a1c54f78a5311c590c7ab073084226e44f520ef2"
+          },
+          "database_external_path": "/workspace/build/builderbob/syson-audit-20261026/storage-before-01/store.sqlite3",
+          "database_bytes": 12288,
+          "database_sha256": "45f99eb7d6ddac5f4f332532bb9c025b2e979a77ce7a84054b96cd30e4ca3770",
+          "database_bytes_unchanged": true
+        },
+        {
+          "run": "storage-after-01",
+          "max_rss_kib": 13332,
+          "max_rss_mib": 13.01953125,
+          "binary_sha256": "11b5d1ca82e7b2564080af4611a00232cd297f1a106428461b9b7fecddc1cfee",
+          "raw_file_sha256": {
+            "receipt.json": "b2e54612a5075d5c0c267ddc4e91336305784f82c43b507c3693cf29d17389ad",
+            "stderr.txt": "18d8e49f76689972d35410d12f82731cb1de684640f482ab78507b55172bbb7f",
+            "stdout.txt": "d415218fd3f2f7558e16c6a6afdfe84ee4149ae474cba02a4f75c1344c8f37eb"
+          },
+          "database_external_path": "/workspace/build/builderbob/syson-audit-20261026/storage-after-01/store.sqlite3",
+          "database_bytes": 12288,
+          "database_sha256": "45f99eb7d6ddac5f4f332532bb9c025b2e979a77ce7a84054b96cd30e4ca3770",
+          "database_bytes_unchanged": true
+        }
+      ],
+      "reduction_percent": 95.01674540996352,
+      "measurement": "Actual release example command measured by /usr/bin/time -v after separate build; compiler excluded. One before/after run, no percentile, universal latency, native PostgreSQL or total concurrent process-tree memory claim.",
+      "baseline_source": "F27 #53 b540273b901f9c69b5fc2f200efc1aa864d95ebc plus identical frozen probe",
+      "database_binaries": "Retained externally; hashes only in PR"
+    }
+  }
+}
