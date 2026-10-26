@@ -1,0 +1,79 @@
+{
+  "status": "SOURCE_INSPECTED_NATIVE_EXECUTION_UNRUN",
+  "sources": [
+    {
+      "path": "backend/application/syson-sysml-import/src/main/java/org/eclipse/syson/sysml/services/SysideSysMLTextImporter.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "91f74824d04773bc6354e77d90d32fc78b85586845c259342b3fa7427cdc898e",
+      "anchors": [
+        "var astParsingResult = this.sysmlToAst.convert(inputStream, \".sysml\");",
+        "newObjects = transformer.convertToElements"
+      ]
+    },
+    {
+      "path": "backend/application/syson-sysml-import/src/main/java/org/eclipse/syson/sysml/ASTTransformer.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "0642d9aa18f8bfed5776eed6d82ba50123351cdd5074b74a3616b695c15da52f",
+      "anchors": [
+        "var astObjectParser = new EAttributeHandler(this.messageReporter);",
+        "List<EObject> parsedAst = this.astTreeParser.parseAst(astJson);",
+        "this.fixAndResolve(result);"
+      ]
+    },
+    {
+      "path": "backend/application/syson-sysml-import/src/main/java/org/eclipse/syson/sysml/parser/AstTreeParser.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "1f2ac5145f8235ac1371406abf681a61b2402f093571ff5a1be9139661c053e4",
+      "anchors": [
+        "this.attributeHandler.setAttribute(eObject, key, value);"
+      ]
+    },
+    {
+      "path": "backend/application/syson-sysml-import/src/main/java/org/eclipse/syson/sysml/parser/EAttributeHandler.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "72c7f17c0fcdf184df0dde54cf7f76276ce064fced88edbd967ef57deaf413e4",
+      "anchors": [
+        "translator.computeAttributeAndValueToSet(ownerEClass, attrName, value);",
+        "this.setValue(eObject, attr, translatedValue);"
+      ]
+    },
+    {
+      "path": "backend/application/syson-sysml-import/src/main/java/org/eclipse/syson/sysml/parser/translation/EAttributeTranslator.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "360ee0e70059df211ba173d8e40fd9b6743a078df75a0490ee41991528dcba5e",
+      "anchors": [
+        "this.value = this.getValue(this.matchingAttribute, astValue);",
+        "String cleanedValue = this.asCleanedText(astValue);",
+        "result = node.asString().replace(QUOTE_CONST, \"\");"
+      ]
+    },
+    {
+      "path": "rust/crates/syson-ast-adapter/src/lib.rs",
+      "revision": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "sha256": "f91fe8a50c2b1d79a5afcd30cef9afe6a85d1859473c9a8977b3cc251ea62d96",
+      "anchors": [
+        "pub fn construct(",
+        "let children = parser.list(false, 0)?;"
+      ]
+    },
+    {
+      "path": "rust/crates/syson-linker/src/lib.rs",
+      "revision": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "sha256": "6ebba197984e5151f7fbca5fbefa468a73401ad65cae919bd3a293c4d405023e",
+      "anchors": [
+        "pub fn link(",
+        "pub fn semantic("
+      ]
+    },
+    {
+      "path": "rust/crates/syson-model/src/lib.rs",
+      "revision": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "sha256": "dd77aaa4b5015b2ee9900559003557377d49465b6a419f91a6a692ac0523981b",
+      "anchors": [
+        "pub fn commit(",
+        "pub fn type_part_usage(",
+        "\"data\":{\"elementId\":typing.element,\"type\":definition,\"typedFeature\":usage}})"
+      ]
+    }
+  ]
+}
