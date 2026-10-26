@@ -6,10 +6,11 @@ pub mod layout_controller;
 pub mod layout_geometry;
 use serde_json::Value;
 use std::cell::RefCell;
+use std::collections::{BTreeMap, BTreeSet};
 use syson_metamodel::ClassifierId;
 use syson_model::{
-    AttributeBlock, AttributeDescriptor, AttributeError, Document, Editor, NodeIds, ScalarType,
-    Transaction,
+    AttributeBlock, AttributeDescriptor, AttributeError, Document, Editor, ElementSummary, NodeIds,
+    ScalarType, Transaction,
 };
 
 const LIMIT: usize = 1_048_576;
@@ -62,6 +63,7 @@ struct App {
     editor: Editor,
     pending: Option<Transaction>,
     selected: String,
+    active_property: String,
     message: String,
     error: bool,
     canvas: layout_controller::Canvas,
@@ -73,6 +75,7 @@ impl Default for App {
             editor: Editor::new(Document::empty()),
             pending: None,
             selected: String::new(),
+            active_property: String::new(),
             message: "Create a package to begin. Changes are held in this browser tab.".into(),
             error: false,
             canvas: layout_controller::Canvas::default(),
@@ -128,6 +131,9 @@ fn ids(request: &Value) -> Result<Vec<NodeIds>, String> {
 impl App {
     fn handle(&mut self, request: &Value) -> Result<String, String> {
         self.accessibility.begin();
+        if request["action"].as_str() == Some("attribute") && self.pending.is_none() {
+            self.active_property = field(request, "attribute").into();
+        }
         let before = self
             .editor
             .document()
@@ -136,6 +142,9 @@ impl App {
         let result = self.handle_action(request);
         if result.is_ok() {
             let action = request["action"].as_str().unwrap_or("");
+            if matches!(action, "select" | "import") {
+                self.active_property.clear();
+            }
             if matches!(action, "commit" | "import")
                 || (matches!(action, "undo" | "redo")
                     && result.as_deref() == Ok("History applied."))
@@ -171,6 +180,12 @@ impl App {
         let action = request["action"].as_str().ok_or("Action missing")?;
         match action {
             "select" => {
+                if self.pending.is_some() && field(request, "value") != self.selected {
+                    return Err(
+                        "Commit or cancel the staged change before selecting another element."
+                            .into(),
+                    );
+                }
                 self.selected = field(request, "value").into();
                 Ok("Selection updated.".into())
             }
@@ -395,7 +410,7 @@ impl App {
         // Every imported element remains selectable, including literal values and
         // relationship objects. Only the existing bounded kinds get SVG previews.
         let elements = doc.elements();
-        let mut tree = String::new();
+        let tree = render_model_navigation(&elements, &self.selected);
         let mut parent_options =
             String::from("<option value=\"\">Document root (package only)</option>");
         let mut definitions = String::from("<option value=\"\">No explicit definition</option>");
@@ -433,7 +448,6 @@ impl App {
             let id = escape(&element.element_id);
             let name = escape(element.name.as_deref().unwrap_or("(unnamed)"));
             let class = escape(&element.class);
-            tree.push_str(&format!("<li><button id=\"select-{id}\" type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button></li>",self.selected==element.element_id));
             if doc.can_create_in(&element.element_id) {
                 parent_options
                     .push_str(&format!("<option value=\"{id}\">{name} · {class}</option>"));
@@ -473,13 +487,17 @@ impl App {
             y += height + 24.;
         }
         diagram.push_str(&routes);
-        if tree.is_empty() {
-            tree.push_str("<li><p>No model elements yet.</p></li>");
-        }
         let selected = elements.iter().find(|e| e.element_id == self.selected);
         let selected_name = escape_textarea(selected.and_then(|e| e.name.as_deref()).unwrap_or(""));
         let scalar_inspector = if selected.is_some() {
-            render_scalar_inspector(doc, &self.selected)
+            render_scalar_inspector(
+                doc,
+                &self.selected,
+                self.accessibility
+                    .focus()
+                    .strip_prefix("scalar-")
+                    .unwrap_or(&self.active_property),
+            )
         } else {
             String::new()
         };
@@ -497,7 +515,7 @@ impl App {
                 ""
             };
             format!(
-                "<h3>{}</h3><p><small>Stable element ID<br>{}</small></p>{rename_form}{rotate_control}{scalar_inspector}",
+                "<h3>{}</h3><details id=\"element-identity\" class=\"identity-details\"><summary>Element identifier</summary><p class=\"element-id\">{}</p></details>{rename_form}{rotate_control}{scalar_inspector}",
                 escape(&element.class),
                 escape(&element.element_id)
             )
@@ -532,13 +550,115 @@ impl App {
         let geometry = escape_textarea(&self.canvas.export(self.editor.document()));
         let focus = escape(self.accessibility.focus());
         format!(
-            "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button id=\"model-undo\" type=\"button\" data-action=\"undo\">Undo</button><button id=\"model-redo\" type=\"button\" data-action=\"redo\">Redo</button></nav></header><p id=\"editor-status\" data-editor-status class=\"status {}\" role=\"{}\" aria-live=\"{}\" aria-atomic=\"true\">{}</p><div class=\"layout\" data-inspector-focus=\"{focus}\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2><ul class=\"tree\">{tree}</ul></section><section class=\"canvas\" data-canvas-revision=\"{revision}\" {phase}><h2>Diagram preview</h2><p><small>Bounded package/part canvas. Native graphical editor parity is incomplete.</small></p><p><button type=\"button\" data-action=\"layout\">Layout canvas</button> <button type=\"button\" data-action=\"canvas_cancel\">Cancel canvas work</button></p><p><button type=\"button\" data-action=\"canvas_undo\">Canvas undo</button> <button type=\"button\" data-action=\"canvas_redo\">Canvas redo</button></p><svg viewBox=\"{view}\" aria-hidden=\"true\">{diagram}</svg></section><section class=\"panel inspector\" aria-label=\"Element inspector\"><h2 id=\"create-heading\">Create element</h2><form data-action=\"stage\" aria-labelledby=\"create-heading\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button id=\"stage-create\" class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2 id=\"selection-heading\" tabindex=\"-1\">Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details><label for=\"export-geometry\">Canvas geometry export (separate from model)</label><textarea id=\"export-geometry\" readonly spellcheck=\"false\">{geometry}</textarea><details id=\"geometry-details\"><summary>Import canvas geometry</summary><form data-action=\"geometry_import\"><label for=\"import-geometry\">Canvas companion JSON for this exact document</label><textarea id=\"import-geometry\" name=\"json\" required spellcheck=\"false\"></textarea><button type=\"submit\">Import canvas geometry</button></form></details></section>",
+            "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button id=\"model-undo\" type=\"button\" data-action=\"undo\">Undo</button><button id=\"model-redo\" type=\"button\" data-action=\"redo\">Redo</button></nav></header><p id=\"editor-status\" data-editor-status class=\"status {}\" role=\"{}\" aria-live=\"{}\" aria-atomic=\"true\">{}</p><div class=\"layout\" data-inspector-focus=\"{focus}\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2>{tree}</section><section class=\"canvas\" data-canvas-revision=\"{revision}\" {phase}><h2>Diagram preview</h2><p><small>Arrange packages and parts with Layout canvas. Select an element in the model to edit its properties.</small></p><p><button type=\"button\" data-action=\"layout\">Layout canvas</button> <button type=\"button\" data-action=\"canvas_cancel\">Cancel canvas work</button></p><p><button type=\"button\" data-action=\"canvas_undo\">Canvas undo</button> <button type=\"button\" data-action=\"canvas_redo\">Canvas redo</button></p><svg viewBox=\"{view}\" aria-hidden=\"true\">{diagram}</svg></section><section class=\"panel inspector\" aria-label=\"Element inspector\"><h2 id=\"create-heading\">Create element</h2><form data-action=\"stage\" aria-labelledby=\"create-heading\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button id=\"stage-create\" class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2 id=\"selection-heading\" tabindex=\"-1\">Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details><label for=\"export-geometry\">Canvas geometry export (separate from model)</label><textarea id=\"export-geometry\" readonly spellcheck=\"false\">{geometry}</textarea><details id=\"geometry-details\"><summary>Import canvas geometry</summary><form data-action=\"geometry_import\"><label for=\"import-geometry\">Canvas companion JSON for this exact document</label><textarea id=\"import-geometry\" name=\"json\" required spellcheck=\"false\"></textarea><button type=\"submit\">Import canvas geometry</button></form></details></section>",
             if self.error { "error" } else { "" },
             if self.error { "alert" } else { "status" },
             if self.error { "assertive" } else { "polite" },
             escape(&self.message)
         )
     }
+}
+fn navigation_button(element: &ElementSummary, selected: &str) -> String {
+    let id = escape(&element.element_id);
+    let name = escape(element.name.as_deref().unwrap_or("(unnamed)"));
+    let class = escape(&element.class);
+    format!(
+        "<button id=\"select-{id}\" type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button>",
+        selected == element.element_id
+    )
+}
+/// Nested native lists expose semantic ownership without pretending to implement
+/// ARIA tree arrow-key behavior. Relationship objects remain available separately.
+fn render_model_navigation(elements: &[ElementSummary], selected: &str) -> String {
+    let by_id: BTreeMap<_, _> = elements
+        .iter()
+        .map(|e| (e.element_id.as_str(), e))
+        .collect();
+    let relationships: BTreeSet<_> = elements
+        .iter()
+        .filter(|e| {
+            syson_metamodel::lookup(syson_metamodel::Package::Domain, &e.class)
+                .is_some_and(|c| syson_metamodel::is_subtype(c, ClassifierId::Relationship))
+        })
+        .map(|e| e.element_id.as_str())
+        .collect();
+    let mut children: BTreeMap<Option<&str>, Vec<&ElementSummary>> = BTreeMap::new();
+    for element in elements
+        .iter()
+        .filter(|e| !relationships.contains(e.element_id.as_str()))
+    {
+        let mut owner = element.owner.as_deref();
+        let mut seen = BTreeSet::new();
+        while let Some(id) = owner.filter(|id| relationships.contains(id)) {
+            if !seen.insert(id) {
+                owner = None;
+                break;
+            }
+            owner = by_id.get(id).and_then(|e| e.owner.as_deref());
+        }
+        children
+            .entry(owner.filter(|id| by_id.contains_key(id)))
+            .or_default()
+            .push(element);
+    }
+    let mut html = String::from("<ul class=\"tree\" aria-label=\"Model hierarchy\">");
+    let mut stack: Vec<_> = children
+        .get(&None)
+        .into_iter()
+        .flatten()
+        .rev()
+        .map(|element| (Some(*element), 0))
+        .collect();
+    if stack.is_empty() {
+        html.push_str(if relationships.is_empty() {
+            "<li><p>No model elements yet.</p></li>"
+        } else {
+            "<li><p>This document contains relationship objects only.</p></li>"
+        });
+    }
+    while let Some((element, depth)) = stack.pop() {
+        let Some(element) = element else {
+            html.push_str("</ul></li>");
+            continue;
+        };
+        html.push_str(&format!(
+            "<li style=\"--model-depth:{depth}\">{}",
+            navigation_button(element, selected)
+        ));
+        if let Some(nested) = children.get(&Some(element.element_id.as_str())) {
+            html.push_str("<ul class=\"tree-children\">");
+            stack.push((None, 0));
+            stack.extend(nested.iter().rev().map(|e| (Some(*e), depth + 1)));
+        } else {
+            html.push_str("</li>");
+        }
+    }
+    html.push_str("</ul>");
+    if !relationships.is_empty() {
+        let open = if relationships.contains(selected) {
+            " open"
+        } else {
+            ""
+        };
+        html.push_str(&format!("<details id=\"model-relationships\"{open}><summary>Relationships ({})</summary><p class=\"navigation-help\">Inspect membership and typing links here.</p><ul class=\"tree\" aria-label=\"Relationship objects\">", relationships.len()));
+        for element in elements
+            .iter()
+            .filter(|e| relationships.contains(e.element_id.as_str()))
+        {
+            html.push_str(&format!(
+                "<li>{}</li>",
+                navigation_button(element, selected)
+            ));
+        }
+        html.push_str("</ul></details>");
+    }
+    html
+}
+fn common_property(name: &str) -> bool {
+    matches!(
+        name,
+        "declaredShortName" | "isAbstract" | "isComposite" | "direction" | "body" | "value"
+    )
 }
 /// Textarea APIs normalize line endings. Preserve the saved spelling when the
 /// submitted value is otherwise unchanged, rather than silently rewriting it.
@@ -653,9 +773,16 @@ fn render_scalar_field(attribute: &AttributeDescriptor) -> String {
             .unwrap_or(""),
     );
     let control = match attribute.value_type.as_ref() {
-        Some(ScalarType::String) => format!(
-            "<textarea id=\"{input_id}\" name=\"value\" rows=\"3\" aria-describedby=\"{description}\">{text}</textarea>"
-        ),
+        Some(ScalarType::String) => {
+            let rows = if attribute.name == "declaredShortName" {
+                1
+            } else {
+                3
+            };
+            format!(
+                "<textarea id=\"{input_id}\" name=\"value\" rows=\"{rows}\" aria-describedby=\"{description}\">{text}</textarea>"
+            )
+        }
         Some(ScalarType::Boolean) => {
             let current = attribute.value.as_ref().and_then(Value::as_bool);
             format!(
@@ -734,11 +861,13 @@ fn blocked_label(reason: &AttributeBlock) -> &'static str {
         AttributeBlock::UnsupportedType(_) => "This value type cannot be edited here.",
     }
 }
-fn render_scalar_inspector(document: &Document, selected: &str) -> String {
+fn render_scalar_inspector(document: &Document, selected: &str, active_property: &str) -> String {
     let Ok(inspection) = document.inspect_node(selected) else {
         return "<p>Properties are unavailable for this element type.</p>".into();
     };
     let mut editable = String::new();
+    let mut advanced = String::new();
+    let mut advanced_count = 0;
     let mut unavailable = String::new();
     let mut count = 0;
     for attribute in &inspection.attributes {
@@ -750,8 +879,11 @@ fn render_scalar_inspector(document: &Document, selected: &str) -> String {
                 stored_state(attribute)
             ));
             count += 1;
-        } else {
+        } else if common_property(attribute.name) {
             editable.push_str(&render_scalar_field(attribute));
+        } else {
+            advanced.push_str(&render_scalar_field(attribute));
+            advanced_count += 1;
         }
     }
     for diagnostic in &inspection.diagnostics {
@@ -770,13 +902,29 @@ fn render_scalar_inspector(document: &Document, selected: &str) -> String {
         ));
         count += 1;
     }
+    let advanced = if advanced_count == 0 {
+        String::new()
+    } else {
+        let open = if !common_property(active_property)
+            && inspection
+                .writable_attributes()
+                .any(|a| a.name == active_property)
+        {
+            " open"
+        } else {
+            ""
+        };
+        format!(
+            "<details id=\"advanced-properties\"{open}><summary>More properties ({advanced_count})</summary>{advanced}</details>"
+        )
+    };
     let inherited_note = if inspection.unresolved_supertypes.is_empty() {
         ""
     } else {
         "<p>Some inherited properties are unavailable.</p>"
     };
     format!(
-        "<section aria-label=\"Element properties\"><h3>Properties</h3><p>Not set and null are shown separately. Removing a saved value is unavailable.</p>{editable}<details><summary>Read-only and unavailable properties ({count})</summary><dl>{unavailable}</dl></details>{inherited_note}</section>"
+        "<section aria-label=\"Element properties\"><h3>Properties</h3><p>Stage a property change, then commit or cancel it above.</p>{editable}{advanced}<details id=\"unavailable-properties\"><summary>Read-only and unavailable properties ({count})</summary><dl>{unavailable}</dl></details>{inherited_note}</section>"
     )
 }
 fn escape(input: &str) -> String {
@@ -1552,5 +1700,147 @@ mod tests {
         }
         dispatch();
         OUTPUT.with(|o| assert!(o.borrow().contains("Input exceeds 1 MiB")));
+    }
+    #[test]
+    fn model_navigation_nests_semantic_children_and_keeps_relationships_selectable() {
+        let mut app = App::default();
+        app.handle(&create(0, "Vehicle")).unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        let package = app.editor.document().elements()[0].element_id.clone();
+        let mut usage = create(1, "wheel");
+        usage["fields"]["kind"] = json!("part_usage");
+        usage["fields"]["parent"] = json!(package);
+        app.handle(&usage).unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        let elements = app.editor.document().elements();
+        let relationship = elements
+            .iter()
+            .find(|e| e.class == "OwningMembership")
+            .unwrap();
+        let child = elements.iter().find(|e| e.class == "PartUsage").unwrap();
+        let html = render_model_navigation(&elements, "");
+        let (hierarchy, advanced) = html
+            .split_once("<details id=\"model-relationships\"")
+            .unwrap();
+        assert!(hierarchy.contains("<ul class=\"tree-children\">"));
+        assert!(hierarchy.contains(&format!("data-value=\"{}\"", child.element_id)));
+        assert!(!hierarchy.contains(&format!("data-value=\"{}\"", relationship.element_id)));
+        assert!(advanced.starts_with("><summary>Relationships (1)</summary>"));
+        for element in &elements {
+            assert_eq!(
+                html.matches(&format!("id=\"select-{}\"", element.element_id))
+                    .count(),
+                1
+            );
+        }
+        app.handle(&json!({"action":"select","fields":{"value":relationship.element_id}}))
+            .unwrap();
+        assert!(app.render().contains("id=\"model-relationships\" open"));
+        let before = app.editor.document().clone();
+        app.handle(&json!({"action":"canvas_cancel"})).unwrap();
+        assert!(app.render().contains("id=\"model-relationships\" open"));
+        assert_eq!(app.editor.document(), &before);
+    }
+    #[test]
+    fn advanced_property_disclosure_stays_open_through_stage_commit_and_cancel() {
+        let mut app = scalar_app(
+            "PartUsage",
+            json!({"elementId":"element","declaredName":"wheel","isConstant":false}),
+        );
+        let original = app.editor.document().clone();
+        let html = app.render();
+        let advanced = html.find("id=\"advanced-properties\"").unwrap();
+        assert!(!html.contains("id=\"advanced-properties\" open"));
+        for name in [
+            "declaredShortName",
+            "isAbstract",
+            "isComposite",
+            "direction",
+        ] {
+            assert!(html.find(&format!("id=\"scalar-{name}\"")).unwrap() < advanced);
+        }
+        assert!(html.find("id=\"scalar-isConstant\"").unwrap() > advanced);
+        app.handle(&attribute_request("isConstant", "value", "true"))
+            .unwrap();
+        assert!(app.render().contains("id=\"advanced-properties\" open"));
+        assert_eq!(app.editor.document(), &original);
+        assert!(
+            app.handle(&attribute_request("isAbstract", "value", "true"))
+                .is_err()
+        );
+        assert!(app.render().contains("id=\"advanced-properties\" open"));
+        // A blocked action must not hide the origin needed for cancel focus.
+        assert!(
+            app.handle(&json!({"action":"import","fields":{"json":"{}"}}))
+                .is_err()
+        );
+        app.handle(&json!({"action":"cancel"})).unwrap();
+        let html = app.render();
+        assert!(html.contains("id=\"advanced-properties\" open"));
+        assert!(html.contains("data-inspector-focus=\"scalar-isConstant\""));
+        assert_eq!(app.editor.document(), &original);
+        app.handle(&attribute_request("isConstant", "value", "true"))
+            .unwrap();
+        app.handle(&json!({"action":"select","fields":{"value":"element"}}))
+            .unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        assert!(app.render().contains("id=\"advanced-properties\" open"));
+        assert_eq!(
+            app.editor.document().element("element").unwrap()["data"]["isConstant"],
+            true
+        );
+        app.handle(&json!({"action":"select","fields":{"value":"element"}}))
+            .unwrap();
+        assert!(!app.render().contains("id=\"advanced-properties\" open"));
+    }
+    #[test]
+    fn pending_property_edit_keeps_selection_and_commit_focus_on_its_original_element() {
+        let doc = Document::from_json(&json!({
+            "json":{"version":"1.0","encoding":"utf-8"},
+            "ns":{"sysml":"http://www.eclipse.org/syson/sysml"},
+            "content":[
+                {"id":"wire-a","eClass":"sysml:PartUsage","data":{"elementId":"a","declaredName":"A","isAbstract":false}},
+                {"id":"wire-b","eClass":"sysml:PartUsage","data":{"elementId":"b","declaredName":"B","isAbstract":false}}
+            ]
+        }).to_string()).unwrap();
+        let mut app = App {
+            editor: Editor::new(doc),
+            selected: "a".into(),
+            ..Default::default()
+        };
+        let original = app.editor.document().clone();
+        app.handle(&attribute_request("isAbstract", "value", "true"))
+            .unwrap();
+        assert_eq!(
+            app.handle(&json!({"action":"select","fields":{"value":"b"}})),
+            Err("Commit or cancel the staged change before selecting another element.".into())
+        );
+        assert_eq!(app.selected, "a");
+        assert_eq!(app.editor.document(), &original);
+        assert_eq!(
+            app.pending
+                .as_ref()
+                .unwrap()
+                .document()
+                .element("b")
+                .unwrap()["data"]["isAbstract"],
+            false
+        );
+        app.handle(&json!({"action":"commit"})).unwrap();
+        assert_eq!(
+            app.editor.document().element("a").unwrap()["data"]["isAbstract"],
+            true
+        );
+        assert_eq!(
+            app.editor.document().element("b").unwrap()["data"]["isAbstract"],
+            false
+        );
+        assert!(
+            app.render()
+                .contains("data-inspector-focus=\"scalar-isAbstract\"")
+        );
+        app.handle(&json!({"action":"select","fields":{"value":"b"}}))
+            .unwrap();
+        assert_eq!(app.selected, "b");
     }
 }

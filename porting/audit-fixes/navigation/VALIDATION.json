@@ -1,0 +1,98 @@
+{
+  "status": "PASS_WITH_DECLARED_SCOPE",
+  "final_native_capture": "nav-03",
+  "final_native_tests": 44,
+  "formatting": "PASS",
+  "scoped_all_target_clippy": "PASS",
+  "release_wasm": "PASS",
+  "final_source_inputs_verified": 98,
+  "native_captures": [
+    {
+      "run": "nav-01",
+      "status": "PASS",
+      "commands": 4,
+      "inputs": 98,
+      "receipt_sha256": "2554a7778886a67259a2294fd04db6fa9e302166e5014c73c3823cf42ca3723a",
+      "wasm_sha256": "c90cb0f68fe165406fc02c954c84d1b094ad77534773b9ca866afd11061d6396",
+      "wasm_retained_external": "/workspace/build/builderbob/syson-audit-20261026/captures/nav-01/syson_web.wasm"
+    },
+    {
+      "run": "nav-02",
+      "status": "PASS",
+      "commands": 4,
+      "inputs": 98,
+      "receipt_sha256": "44770d2979927cf8c2edcf957a8b762a38ab8aaf9f2e92ba3ac715a906ac7cc5",
+      "wasm_sha256": "52982302acff1cbac67003ea84bf742a9a580e9cf9c07d7e143d93f7652ad3d5",
+      "wasm_retained_external": "/workspace/build/builderbob/syson-audit-20261026/captures/nav-02/syson_web.wasm"
+    },
+    {
+      "run": "nav-03",
+      "status": "PASS",
+      "commands": 4,
+      "inputs": 98,
+      "receipt_sha256": "25224285d3cb1113dc73148745fade757f5a8b4752696ef603f21ae69b729f60",
+      "wasm_sha256": "c06fd43620797d6678c028646f30d8bc2860422d6144c562f40ff8a83a02bfdb",
+      "wasm_retained_external": "/workspace/build/builderbob/syson-audit-20261026/captures/nav-03/syson_web.wasm"
+    }
+  ],
+  "browser_captures": [
+    {
+      "run": "audit-ui-navigation-01",
+      "build_capture": "nav-02",
+      "status": "PASS",
+      "journeys": [
+        "inspector_accessibility",
+        "layout",
+        "authoring",
+        "scalars"
+      ],
+      "source_inputs": 8,
+      "receipt_sha256": "b1d14ba1bd823aadb697d63399000d3d8e5bf080c24371d445de3292f66bfb25",
+      "external_artifacts": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-navigation-01",
+      "browser_path": "Browser plugin not available; regular installed Playwright"
+    },
+    {
+      "run": "audit-ui-navigation-02",
+      "build_capture": "nav-03",
+      "status": "PASS",
+      "journeys": [
+        "inspector_accessibility"
+      ],
+      "source_inputs": 5,
+      "receipt_sha256": "0550dad8b09a514f2439269e5aa8bbbfe5fd9a045b4f3fc7e477b567dd485acd",
+      "external_artifacts": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-navigation-02",
+      "browser_path": "Browser plugin not available; regular installed Playwright"
+    }
+  ],
+  "browser_source_retention": {
+    "previous_sha256": "d618df8d40453eda40082df31e01eaba84871836fa76089b24b6af4bd6350767",
+    "previous_status": "EXACT_LATER_RECOVERY_VERIFIED_AGAINST_BOTH_IMMUTABLE_NATIVE_CAPTURES",
+    "previous_recovery_record": "validation/browser-inputs/recovery.json",
+    "final_sha256": "155c979a07c1ffc7eeb3f8f02ace60418d4edcc3bd54b8aaa5e4360c47aadede",
+    "final_status": "COPIED_AFTER_EXECUTION_FROM_UNCHANGED_HASH_VERIFIED_SOURCE",
+    "original_captures_mutated": false
+  },
+  "viewports": [
+    [
+      1365,
+      1000
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      320,
+      844
+    ]
+  ],
+  "independent_review": "PASS_NO_BLOCKERS_WITHIN_FINITE_NAVIGATION_SCOPE",
+  "screen_reader_speech": "NOT_RUN",
+  "native_upstream_feature_equivalence": "NOT_CLAIMED",
+  "limitations": [
+    "Canvas zoom/fit and small mobile diagram-label readability are not fixed here",
+    "This branch does not include the separate loader draft-preservation fix; coordinator composition is separate",
+    "Four journeys passed on nav-02; only the changed inspector journey reran on final nav-03",
+    "No touch-device study or cross-browser/screen-reader acceptance"
+  ]
+}
