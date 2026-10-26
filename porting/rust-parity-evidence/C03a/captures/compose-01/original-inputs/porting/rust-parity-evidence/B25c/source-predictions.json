@@ -1,0 +1,266 @@
+{
+  "status": "SOURCE_DERIVED_NOT_NATIVE_OBSERVATIONS",
+  "cases": [
+    {
+      "id": "01-field-and-neighbors",
+      "source_prediction": "Remove exposedElement in data only; preserve IDs and neighboring spellings.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "json": {
+          "version": "1.0",
+          "encoding": "utf-8"
+        },
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "content": [
+          {
+            "id": "view-node",
+            "eClass": "sysml:ViewUsage",
+            "data": {
+              "elementId": "view-semantic",
+              "exposeElement": "stay",
+              "exposedElements": "stay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "02-vendor-and-parent",
+      "source_prediction": "Matching parent collects each object-valued child, including vendor; array rows are not automatically collected.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "json": {
+          "version": "1.0",
+          "encoding": "utf-8"
+        },
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "content": [
+          {
+            "eClass": "sysml:ViewUsage",
+            "exposedElement": "parent stays",
+            "data": {},
+            "vendor": {
+              "label": "stay"
+            },
+            "array": [
+              {
+                "exposedElement": "array row stays"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "03-nested-arrays",
+      "source_prediction": "Traverse arbitrary nested arrays/objects, not only known EMF containment.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "vendor": [
+          [
+            [
+              {
+                "wrapper": {
+                  "id": "view-node",
+                  "eClass": "sysml:ViewUsage",
+                  "data": {
+                    "elementId": "nested"
+                  }
+                }
+              }
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "04-nonmatching-PartUsage",
+      "source_prediction": "No-op: not ViewUsage or a subtype in pinned domain metadata.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "json": {
+          "version": "1.0",
+          "encoding": "utf-8"
+        },
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "content": [
+          {
+            "eClass": "sysml:PartUsage",
+            "data": {
+              "exposedElement": "stay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "05-nonmatching-ViewDefinition",
+      "source_prediction": "No-op: not ViewUsage or a subtype in pinned domain metadata.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "json": {
+          "version": "1.0",
+          "encoding": "utf-8"
+        },
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "content": [
+          {
+            "eClass": "sysml:ViewDefinition",
+            "data": {
+              "exposedElement": "stay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "06-nonmatching-MissingClass",
+      "source_prediction": "No-op: not ViewUsage or a subtype in pinned domain metadata.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "json": {
+          "version": "1.0",
+          "encoding": "utf-8"
+        },
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "content": [
+          {
+            "eClass": "sysml:MissingClass",
+            "data": {
+              "exposedElement": "stay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "07-nonmatching-ViewUsage",
+      "source_prediction": "No-op: not ViewUsage or a subtype in pinned domain metadata.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "json": {
+          "version": "1.0",
+          "encoding": "utf-8"
+        },
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "content": [
+          {
+            "eClass": "other:ViewUsage",
+            "data": {
+              "exposedElement": "stay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "08-first-namespace-matches",
+      "source_prediction": "First original namespace entry matches despite lexical key sorting; migrate.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "ns": {
+          "z": "http://www.eclipse.org/syson/sysml",
+          "a": "urn:foreign"
+        },
+        "content": [
+          {
+            "eClass": "sysml:ViewUsage",
+            "data": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "09-first-namespace-foreign",
+      "source_prediction": "First original namespace entry does not match; no-op despite later matching entry.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "ns": {
+          "z": "urn:foreign",
+          "a": "http://www.eclipse.org/syson/sysml"
+        },
+        "content": [
+          {
+            "eClass": "sysml:ViewUsage",
+            "data": {
+              "exposedElement": "stay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "10-empty-namespace",
+      "source_prediction": "No-op.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "ns": {},
+        "content": [
+          {
+            "id": "view-node",
+            "eClass": "sysml:ViewUsage",
+            "data": {
+              "exposedElement": "stay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "11-null-first-namespace",
+      "source_prediction": "Native namespace access throws; bounded Rust error with no prepared output.",
+      "native_expectation": "THROWS_NAMESPACE_ACCESS",
+      "expected_json": null
+    },
+    {
+      "id": "12-typed-parent-property-only",
+      "source_prediction": "No object-valued children except namespace, which has no target feature; parent primitive untouched.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "eClass": "sysml:ViewUsage",
+        "exposedElement": "parent primitive stays",
+        "vendor": [
+          {
+            "exposedElement": "untyped row stays"
+          }
+        ]
+      }
+    },
+    {
+      "id": "13-large-opaque-number",
+      "source_prediction": "Remove only exposedElement; preserve arbitrary-precision unrelated numeric value.",
+      "native_expectation": "SUCCESS",
+      "expected_json": {
+        "ns": {
+          "sysml": "http://www.eclipse.org/syson/sysml"
+        },
+        "content": [
+          {
+            "eClass": "sysml:ViewUsage",
+            "data": {
+              "opaque": 12345678901234567890123456789012345678901234567890
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
