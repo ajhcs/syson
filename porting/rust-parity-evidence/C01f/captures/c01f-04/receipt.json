@@ -1,0 +1,97 @@
+{
+  "unit": "C01f",
+  "run": "c01f-04",
+  "status": "PASS",
+  "started_utc": "2026-10-26T22:14:58.329643+00:00",
+  "source_before": {
+    "rust/tools/native-http-contract/Cargo.lock": "5b86d71dc33109257f35b877733af96e537d16dbe1658dc84dac26e38884eb1a",
+    "rust/tools/native-http-contract/Cargo.toml": "5c386c1d17fa36f0d5e9876eea67792cca8a82da748c4e9a71722503e9cc719f",
+    "rust/tools/native-http-contract/README.md": "b31baa9807db5775772be1e31188b61006ba86417f091be64f7752bff75fc03a",
+    "rust/tools/native-http-contract/src/lib.rs": "223bad226260e44b8e0267dbf7883ca28460b90f4b912acabf9047adb1d6d455",
+    "rust/tools/native-http-contract/src/main.rs": "3e00fd895df47ddaa2ad8315a59d6c0b8437f16ceb3f07e74857ff9fdfa794b3",
+    "rust/tools/native-http-contract/tests/contract.rs": "eb4312dd6c5237cabfc454dca05394296093dba28f8bcf271a30c4ac7757d9ff",
+    "rust/tools/native-http-contract/tests/fixtures/native-mappings.json": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+    "rust/tools/native-http-contract/tests/fixtures/native-probes.json": "236e82df3cdb421fe4acee8bf36ce032aad7ae106ab2f208c1b6b0f5f827ddbf",
+    "porting/rust-parity-evidence/C01f/native-01/http-action-review.json": "cb8f3df6370bc839c5b2866bb4fb551620291bffcdec47d0bd43acd05e5ebbe3",
+    "porting/rust-parity-evidence/C01f/native-01/payload-identities.json": "959cd32309f962e38c2326f7ca07774cdeb29f6d80468a879c4312d030708692",
+    "porting/rust-parity-evidence/C01f/native-01/probes.json": "ea79840be51da54a668d560615bd235673466f71bdfd3e015c92a03e459ab400",
+    "porting/rust-parity-evidence/C01f/native-01/receipt.json": "70ff7e5f0dc690287e8390c20b9cfa7d772bdacbba6a200c3d0dd5f73c85dc3a",
+    "porting/rust-parity-evidence/C01f/observed-wire-summary.json": "f128ff1c294603b1c66de782f4e55d0686c69f1c197b7ef323d151c0e138947d",
+    "porting/rust-parity-evidence/C01f/probes.json": "ea79840be51da54a668d560615bd235673466f71bdfd3e015c92a03e459ab400"
+  },
+  "source_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "runner_sha256": "0364e8a243d97b45826d61abac2f3ad4b1a06e5bd72012733f4fbad864d25a94",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01f-http-contract/rust/tools/native-http-contract/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T22:14:58.331206+00:00",
+      "completed_utc": "2026-10-26T22:14:58.351953+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01f-http-contract/rust/tools/native-http-contract/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T22:14:58.351969+00:00",
+      "completed_utc": "2026-10-26T22:14:58.983196+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "a48177ab6832c048e53d52167f90d01ea29e5e5a7a2699c0c5c5d59c84962f5d",
+      "stderr_sha256": "963c8da11eba07089024bdc11017c302da5b9fde20d3843a4df82673fb395462"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01f-http-contract/rust/tools/native-http-contract/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T22:14:58.983227+00:00",
+      "completed_utc": "2026-10-26T22:14:59.159453+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "48faee8ccf78b5ee1249fd266d0c160f214650089056a06f6878894e9335a3fb"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T22:14:59.159484+00:00",
+  "source_after": {
+    "rust/tools/native-http-contract/Cargo.lock": "5b86d71dc33109257f35b877733af96e537d16dbe1658dc84dac26e38884eb1a",
+    "rust/tools/native-http-contract/Cargo.toml": "5c386c1d17fa36f0d5e9876eea67792cca8a82da748c4e9a71722503e9cc719f",
+    "rust/tools/native-http-contract/README.md": "b31baa9807db5775772be1e31188b61006ba86417f091be64f7752bff75fc03a",
+    "rust/tools/native-http-contract/src/lib.rs": "223bad226260e44b8e0267dbf7883ca28460b90f4b912acabf9047adb1d6d455",
+    "rust/tools/native-http-contract/src/main.rs": "3e00fd895df47ddaa2ad8315a59d6c0b8437f16ceb3f07e74857ff9fdfa794b3",
+    "rust/tools/native-http-contract/tests/contract.rs": "eb4312dd6c5237cabfc454dca05394296093dba28f8bcf271a30c4ac7757d9ff",
+    "rust/tools/native-http-contract/tests/fixtures/native-mappings.json": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+    "rust/tools/native-http-contract/tests/fixtures/native-probes.json": "236e82df3cdb421fe4acee8bf36ce032aad7ae106ab2f208c1b6b0f5f827ddbf",
+    "porting/rust-parity-evidence/C01f/native-01/http-action-review.json": "cb8f3df6370bc839c5b2866bb4fb551620291bffcdec47d0bd43acd05e5ebbe3",
+    "porting/rust-parity-evidence/C01f/native-01/payload-identities.json": "959cd32309f962e38c2326f7ca07774cdeb29f6d80468a879c4312d030708692",
+    "porting/rust-parity-evidence/C01f/native-01/probes.json": "ea79840be51da54a668d560615bd235673466f71bdfd3e015c92a03e459ab400",
+    "porting/rust-parity-evidence/C01f/native-01/receipt.json": "70ff7e5f0dc690287e8390c20b9cfa7d772bdacbba6a200c3d0dd5f73c85dc3a",
+    "porting/rust-parity-evidence/C01f/observed-wire-summary.json": "f128ff1c294603b1c66de782f4e55d0686c69f1c197b7ef323d151c0e138947d",
+    "porting/rust-parity-evidence/C01f/probes.json": "ea79840be51da54a668d560615bd235673466f71bdfd3e015c92a03e459ab400"
+  },
+  "source_unchanged": true
+}

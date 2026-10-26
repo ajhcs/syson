@@ -1,0 +1,236 @@
+{
+  "derivative": true,
+  "source": "native-probes.json committed fixture; immutable native receipt retains raw entity bodies and parsed ordered header pairs",
+  "matrix": [
+    {
+      "id": "graphql-get",
+      "method": "GET",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "graphql-head",
+      "method": "HEAD",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 0,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "graphql-options",
+      "method": "OPTIONS",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [],
+      "body_bytes": 0,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "projects-get",
+      "method": "GET",
+      "path": "/api/rest/projects",
+      "status": 200,
+      "content_type_values": [
+        "application/json"
+      ],
+      "body_bytes": 2,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "projects-head",
+      "method": "HEAD",
+      "path": "/api/rest/projects",
+      "status": 200,
+      "content_type_values": [
+        "application/json"
+      ],
+      "body_bytes": 0,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "projects-options",
+      "method": "OPTIONS",
+      "path": "/api/rest/projects",
+      "status": 200,
+      "content_type_values": [],
+      "body_bytes": 0,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "absent-project",
+      "method": "GET",
+      "path": "/api/rest/projects/__c01f_absent__",
+      "status": 404,
+      "content_type_values": [],
+      "body_bytes": 0,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "absent-elements",
+      "method": "GET",
+      "path": "/api/rest/projects/__c01f_absent__/commits/00000000-0000-0000-0000-000000000000/elements",
+      "status": 404,
+      "content_type_values": [],
+      "body_bytes": 0,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "absent-element",
+      "method": "GET",
+      "path": "/api/rest/projects/__c01f_absent__/commits/00000000-0000-0000-0000-000000000000/elements/00000000-0000-0000-0000-000000000000",
+      "status": 404,
+      "content_type_values": [],
+      "body_bytes": 0,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "invalid-commit",
+      "method": "GET",
+      "path": "/api/rest/projects/__c01f_absent__/commits/not-a-uuid/elements",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "missing-json",
+      "method": "GET",
+      "path": "/api/__c01f_missing__",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "missing-html",
+      "method": "GET",
+      "path": "/api/__c01f_missing__",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "malformed-json",
+      "method": "POST",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "missing-query",
+      "method": "POST",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "invalid-syntax-json",
+      "method": "POST",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "application/json"
+      ],
+      "body_bytes": 173,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "invalid-syntax-html",
+      "method": "POST",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "invalid-field-json",
+      "method": "POST",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "application/json"
+      ],
+      "body_bytes": 221,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "invalid-field-graphql-json",
+      "method": "POST",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "application/graphql-response+json"
+      ],
+      "body_bytes": 221,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "wrong-content-type",
+      "method": "POST",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "empty-body",
+      "method": "POST",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [
+        "text/html"
+      ],
+      "body_bytes": 504,
+      "same_504byte_frontend_shell": true
+    },
+    {
+      "id": "cors-allowed",
+      "method": "OPTIONS",
+      "path": "/api/graphql",
+      "status": 200,
+      "content_type_values": [],
+      "body_bytes": 0,
+      "same_504byte_frontend_shell": false
+    },
+    {
+      "id": "cors-denied",
+      "method": "OPTIONS",
+      "path": "/api/graphql",
+      "status": 403,
+      "content_type_values": [],
+      "body_bytes": 20,
+      "same_504byte_frontend_shell": false
+    }
+  ],
+  "interpretation": "Nine exact same 504-byte frontend-shell bodies have status200. These are not JSON/GraphQL successes. Invalid-syntax-json and invalid-field cases have JSON errors despite status200; cors-denied is403. Timing is retained observation, not latency acceptance.",
+  "deviation_policy": "No HTTP behavior is implemented by this reader. Later Rust transport may improve error usability with an explicit reviewed difference; do not silently equate a200 frontend fallback with API success."
+}

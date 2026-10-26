@@ -1,0 +1,29 @@
+{
+  "schema": "C01f-fixed-readonly-probes-v1",
+  "boundary": "Anonymous fresh-empty-database observation; no redirects, authentication, cookies, uploads, mutation operations or outbound origins. Origin headers are values only. Source predictions are not observations.",
+  "generated_request_headers": ["Host", "Connection: close", "Accept-Encoding: identity", "Content-Length: exact UTF8 request body bytes (POST only)"],
+  "cases": [
+    {"id":"graphql-get","method":"GET","path":"/api/graphql","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"graphql-head","method":"HEAD","path":"/api/graphql","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"graphql-options","method":"OPTIONS","path":"/api/graphql","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"projects-get","method":"GET","path":"/api/rest/projects","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"projects-head","method":"HEAD","path":"/api/rest/projects","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"projects-options","method":"OPTIONS","path":"/api/rest/projects","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"absent-project","method":"GET","path":"/api/rest/projects/__c01f_absent__","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"absent-elements","method":"GET","path":"/api/rest/projects/__c01f_absent__/commits/00000000-0000-0000-0000-000000000000/elements","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"absent-element","method":"GET","path":"/api/rest/projects/__c01f_absent__/commits/00000000-0000-0000-0000-000000000000/elements/00000000-0000-0000-0000-000000000000","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"invalid-commit","method":"GET","path":"/api/rest/projects/__c01f_absent__/commits/not-a-uuid/elements","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"missing-json","method":"GET","path":"/api/__c01f_missing__","headers":[["Accept","application/json"]],"body_utf8":""},
+    {"id":"missing-html","method":"GET","path":"/api/__c01f_missing__","headers":[["Accept","text/html"]],"body_utf8":""},
+    {"id":"malformed-json","method":"POST","path":"/api/graphql","headers":[["Accept","application/json"],["Content-Type","application/json"]],"body_utf8":"{"},
+    {"id":"missing-query","method":"POST","path":"/api/graphql","headers":[["Accept","application/json"],["Content-Type","application/json"]],"body_utf8":"{}"},
+    {"id":"invalid-syntax-json","method":"POST","path":"/api/graphql","headers":[["Accept","application/json"],["Content-Type","application/json"]],"body_utf8":"{\"query\":\"{\"}"},
+    {"id":"invalid-syntax-html","method":"POST","path":"/api/graphql","headers":[["Accept","text/html"],["Content-Type","application/json"]],"body_utf8":"{\"query\":\"{\"}"},
+    {"id":"invalid-field-json","method":"POST","path":"/api/graphql","headers":[["Accept","application/json"],["Content-Type","application/json"]],"body_utf8":"{\"query\":\"{ __c01f_missing__ }\"}"},
+    {"id":"invalid-field-graphql-json","method":"POST","path":"/api/graphql","headers":[["Accept","application/graphql-response+json"],["Content-Type","application/json"]],"body_utf8":"{\"query\":\"{ __c01f_missing__ }\"}"},
+    {"id":"wrong-content-type","method":"POST","path":"/api/graphql","headers":[["Accept","application/json"],["Content-Type","text/plain"]],"body_utf8":"{"},
+    {"id":"empty-body","method":"POST","path":"/api/graphql","headers":[["Accept","application/json"],["Content-Type","application/json"]],"body_utf8":""},
+    {"id":"cors-allowed","method":"OPTIONS","path":"/api/graphql","headers":[["Accept","application/json"],["Origin","{application_origin}"],["Access-Control-Request-Method","POST"],["Access-Control-Request-Headers","content-type"]],"body_utf8":""},
+    {"id":"cors-denied","method":"OPTIONS","path":"/api/graphql","headers":[["Accept","application/json"],["Origin","http://c01f.invalid"],["Access-Control-Request-Method","POST"],["Access-Control-Request-Headers","content-type"]],"body_utf8":""}
+  ]
+}
