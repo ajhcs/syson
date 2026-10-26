@@ -1,0 +1,7 @@
+# Source-position audit fix
+
+The finite F11 lexer accepts CR and LF as ASCII whitespace. The original F47 diagnostic implementation counts only LF, so a model warning associated with a CR-separated source declaration points to the wrong line and column. This is a usability improvement to the previously declared position limit.
+
+The regression-only first capture leaves production source unchanged and checks all 27 combinations of CR/LF/CRLF between a package, definition, usage and closing brace, with Unicode names, plus mixed leading breaks and supplementary UTF-16 column units. Coordinator execution and the original failure must be retained before repair. No native AQL or source-map correspondence is claimed.
+
+Coordinator red capture line-red-01 ran the regression-only source: 16 existing tests passed and both new tests failed. Bare CR reported line1,column32 instead of line3,column3; the mixed case reported line2,column27 instead of line3,column26. Exact original source, runner and raw streams are retained by the coordinator. The repair now counts CRLF as one break, CR and LF as one each, and all other characters by UTF-16 code-unit width; it leaves original source spans unchanged. Coordinator green capture line-green-01 passes all 18 integration tests, formatting and scoped all-target Clippy; all captured source inputs remain unchanged. Both original failing and passing captures remain verbatim in validation/. Coordinator and independent source review found no blocking issue within this finite source-position scope.

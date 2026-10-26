@@ -1,0 +1,11 @@
+{
+  "base": "37d1800cb9858f5d62ac244963dad031ffe3b410",
+  "source_path": "rust/crates/syson-ast-adapter/src/lib.rs",
+  "source_sha256": "f91fe8a50c2b1d79a5afcd30cef9afe6a85d1859473c9a8977b3cc251ea62d96",
+  "anchor": "if byte.is_ascii_whitespace() {",
+  "observation": "F11 lexer accepts ASCII CR and LF, including mixed source separators. Position reporting should count CRLF once, bare CR and LF once each; source offsets remain unchanged.",
+  "phase": "PASS_REVIEWED_LOCAL_SOURCE_POSITION_FIX",
+  "native_runtime": "NOT_RUN",
+  "red_capture": "line-red-01:16PASS2FAIL; bareCRactual(1,32)expected(3,3), mixedactual(2,27)expected(3,26)",
+  "green_capture": "line-green-01:18PASS, formatting and scoped all-target Clippy PASS; original spans unchanged"
+}
