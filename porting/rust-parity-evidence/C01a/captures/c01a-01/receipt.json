@@ -1,0 +1,81 @@
+{
+  "unit": "C01a",
+  "run": "c01a-01",
+  "status": "PASS",
+  "started_utc": "2026-10-26T20:05:55.007511+00:00",
+  "source_before": {
+    "rust/tools/reference-binding/Cargo.lock": "e3eff399a4e6eafd52ed69bc51675b9cde5e2f0fd7482886f1a491035895a102",
+    "rust/tools/reference-binding/Cargo.toml": "77abc5f2d8612c7ca2cf46ee6a28bea85e677b5e2ddbb945feeb5a5e35a17f2c",
+    "rust/tools/reference-binding/examples/selected-request.json": "f1edb84c747a68b80658574c5d9c228ac5633dd974e968c96cf271f007446076",
+    "rust/tools/reference-binding/src/lib.rs": "d295f2d72abe792f8310443ee95bb2e2e6a918f07c2e7c7408d518c3395ec9d6",
+    "rust/tools/reference-binding/tests/admission.rs": "be83ebd3d54d43d3521312aa923b7746be7de643b59c535a034cd73628cce398",
+    "rust/tools/reference-binding/tests/fixtures/unverified-retained-facts.json": "c89c27b60fb03e3da4b38564bb4bf1cec677b147ba1891e1ebd91c88b8a3c659"
+  },
+  "source_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "runner_sha256": "a170364e11ae139222f411331f29781a1f4d27ead3106ae507fd435fa6557110",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01a-reference-binding/rust/tools/reference-binding/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T20:05:55.008586+00:00",
+      "completed_utc": "2026-10-26T20:05:55.028376+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01a-reference-binding/rust/tools/reference-binding/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T20:05:55.028390+00:00",
+      "completed_utc": "2026-10-26T20:05:55.511216+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "c1755e302b958a8fb70a52c2075ad987fa2d3323aed74e8dd581066fafacf086",
+      "stderr_sha256": "9d01ee53eb56ef0f8f858894f262f5717030f154c8a3142f7b95d98c3912a3ce"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01a-reference-binding/rust/tools/reference-binding/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T20:05:55.511245+00:00",
+      "completed_utc": "2026-10-26T20:05:55.822779+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e1b64915ce3227a92164055cbbbfd1059dfa1365a317703d3211156246ee96dc"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T20:05:55.822812+00:00",
+  "source_after": {
+    "rust/tools/reference-binding/Cargo.lock": "e3eff399a4e6eafd52ed69bc51675b9cde5e2f0fd7482886f1a491035895a102",
+    "rust/tools/reference-binding/Cargo.toml": "77abc5f2d8612c7ca2cf46ee6a28bea85e677b5e2ddbb945feeb5a5e35a17f2c",
+    "rust/tools/reference-binding/examples/selected-request.json": "f1edb84c747a68b80658574c5d9c228ac5633dd974e968c96cf271f007446076",
+    "rust/tools/reference-binding/src/lib.rs": "d295f2d72abe792f8310443ee95bb2e2e6a918f07c2e7c7408d518c3395ec9d6",
+    "rust/tools/reference-binding/tests/admission.rs": "be83ebd3d54d43d3521312aa923b7746be7de643b59c535a034cd73628cce398",
+    "rust/tools/reference-binding/tests/fixtures/unverified-retained-facts.json": "c89c27b60fb03e3da4b38564bb4bf1cec677b147ba1891e1ebd91c88b8a3c659"
+  },
+  "source_unchanged": true
+}
