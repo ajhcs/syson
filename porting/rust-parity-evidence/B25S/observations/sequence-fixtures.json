@@ -1,0 +1,21 @@
+{
+  "scope": "Fourfreshfiniteversion-orderedpureparticipantcompositioninputs;notpersistence",
+  "cases": [
+    {
+      "id": "matching-first",
+      "input": "{\"ns\": {\"z\": \"http://www.eclipse.org/syson/sysml\", \"a\": \"foreign\"}, \"content\": [{\"eClass\": \"sysml:Comment\", \"data\": {\"annotation\": [\"old\"], \"keep\": \"comment\"}}, {\"eClass\": \"sysml:Annotation\", \"data\": {\"annotatingElement\": \"old\"}}, {\"eClass\": \"sysml:ConnectorAsUsage\", \"data\": {\"source\": [\"s\"], \"target\": [\"t\"]}}, {\"eClass\": \"sysml:ViewUsage\", \"data\": {\"exposedElement\": [\"v\"]}}]}"
+    },
+    {
+      "id": "foreign-first",
+      "input": "{\"ns\": {\"z\": \"foreign\", \"a\": \"http://www.eclipse.org/syson/sysml\"}, \"content\": [{\"eClass\": \"sysml:Comment\", \"data\": {\"annotation\": [\"old\"], \"keep\": \"comment\"}}, {\"eClass\": \"sysml:Annotation\", \"data\": {\"annotatingElement\": \"old\"}}, {\"eClass\": \"sysml:ConnectorAsUsage\", \"data\": {\"source\": [\"s\"], \"target\": [\"t\"]}}, {\"eClass\": \"sysml:ViewUsage\", \"data\": {\"exposedElement\": [\"v\"]}}]}"
+    },
+    {
+      "id": "removed-first-alias",
+      "input": "{\"ns\": {\"source\": \"http://www.eclipse.org/syson/sysml\", \"z\": \"foreign\", \"a\": \"http://www.eclipse.org/syson/sysml\"}, \"eClass\": \"sysml:ConnectorAsUsage\", \"content\": [{\"eClass\": \"sysml:Comment\", \"data\": {\"annotation\": [\"old\"], \"keep\": \"comment\"}}, {\"eClass\": \"sysml:Annotation\", \"data\": {\"annotatingElement\": \"old\"}}, {\"eClass\": \"sysml:ConnectorAsUsage\", \"data\": {\"source\": [\"s\"], \"target\": [\"t\"]}}, {\"eClass\": \"sysml:ViewUsage\", \"data\": {\"exposedElement\": [\"v\"]}}]}"
+    },
+    {
+      "id": "duplicate-first-alias-last-value",
+      "input": "{\"ns\":{\"z\":\"wrong\",\"a\":\"foreign\",\"z\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\": \"sysml:Comment\", \"data\": {\"annotation\": [\"old\"], \"keep\": \"comment\"}}, {\"eClass\": \"sysml:Annotation\", \"data\": {\"annotatingElement\": \"old\"}}, {\"eClass\": \"sysml:ConnectorAsUsage\", \"data\": {\"source\": [\"s\"], \"target\": [\"t\"]}}, {\"eClass\": \"sysml:ViewUsage\", \"data\": {\"exposedElement\": [\"v\"]}}]}"
+    }
+  ]
+}
