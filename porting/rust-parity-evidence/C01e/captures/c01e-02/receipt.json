@@ -1,0 +1,106 @@
+{
+  "unit": "C01e",
+  "run": "c01e-02",
+  "status": "PASS",
+  "started_utc": "2026-10-26T22:25:46.786466+00:00",
+  "source_before": {
+    "rust/tools/reference-delta-plan/Cargo.lock": "4d06d67ba314633d3c0b88ce69d12e65e9b461a014a5a5ffd216eec22bc2f65c",
+    "rust/tools/reference-delta-plan/Cargo.toml": "1888e6b9d12536b9480c3c0a8e906eb246cc642f67563a5a4a7902ee0a262acc",
+    "rust/tools/reference-delta-plan/README.md": "dd60f9e04e743069f38c5d2c97c4056e523600ad2907f419c531ae8f8c1f67ee",
+    "rust/tools/reference-delta-plan/src/lib.rs": "23827ccb2786377165510d23f544829fe840c0528d2b2fd6a38534acf4539bc8",
+    "rust/tools/reference-delta-plan/src/main.rs": "5b9a664fa298cd9181b3e36fd40f08d96953e2cac39f90836ce93ebf36d59754",
+    "rust/tools/reference-delta-plan/tests/fixtures/packet-final.json": "8e3e97e0544c33432a9443477109dd23741984fb123ed756f644f513d9fc277b",
+    "rust/tools/reference-delta-plan/tests/planning.rs": "ea90d37386f677e6f6ef52e4879ddced74c445476b1ac4fe4165723ccb76f660",
+    "porting/rust-parity-evidence/C01e/preparation.json": "6553a777bd3e8143a0897d7b24444c403521300387675ca5c89f05306f9ffbfe"
+  },
+  "source_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "runner_sha256": "fc5562066135295fde2d415fcf29144062cbc361987553f7b0311a70fbf12b88",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01e-reference-delta/rust/tools/reference-delta-plan/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T22:25:46.788390+00:00",
+      "completed_utc": "2026-10-26T22:25:46.810416+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01e-reference-delta/rust/tools/reference-delta-plan/Cargo.toml",
+        "--test",
+        "planning",
+        "selected_svg_multi_release_shadow_is_refused",
+        "--",
+        "--exact",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T22:25:46.810439+00:00",
+      "completed_utc": "2026-10-26T22:25:47.426283+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "d43ccf108cb3d0efed8f06949cdb61aa5efa6ec0b4a22be6bfb7206ddab8b420",
+      "stderr_sha256": "6c5a1a4e4dbfa04283c6169a3cdfb866873ed0fbbc4064a244389c06932f6233"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01e-reference-delta/rust/tools/reference-delta-plan/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T22:25:47.426306+00:00",
+      "completed_utc": "2026-10-26T22:25:47.619301+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "d125d1b73402395a96a27b8d70b526a3e34507e5bfd6a452c605d74787ff125c"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01e-reference-delta/rust/tools/reference-delta-plan/Cargo.toml",
+        "--bin",
+        "syson-reference-delta-plan"
+      ],
+      "started_utc": "2026-10-26T22:25:47.619324+00:00",
+      "completed_utc": "2026-10-26T22:25:47.640750+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T22:25:47.640772+00:00",
+  "source_after": {
+    "rust/tools/reference-delta-plan/Cargo.lock": "4d06d67ba314633d3c0b88ce69d12e65e9b461a014a5a5ffd216eec22bc2f65c",
+    "rust/tools/reference-delta-plan/Cargo.toml": "1888e6b9d12536b9480c3c0a8e906eb246cc642f67563a5a4a7902ee0a262acc",
+    "rust/tools/reference-delta-plan/README.md": "dd60f9e04e743069f38c5d2c97c4056e523600ad2907f419c531ae8f8c1f67ee",
+    "rust/tools/reference-delta-plan/src/lib.rs": "23827ccb2786377165510d23f544829fe840c0528d2b2fd6a38534acf4539bc8",
+    "rust/tools/reference-delta-plan/src/main.rs": "5b9a664fa298cd9181b3e36fd40f08d96953e2cac39f90836ce93ebf36d59754",
+    "rust/tools/reference-delta-plan/tests/fixtures/packet-final.json": "8e3e97e0544c33432a9443477109dd23741984fb123ed756f644f513d9fc277b",
+    "rust/tools/reference-delta-plan/tests/planning.rs": "ea90d37386f677e6f6ef52e4879ddced74c445476b1ac4fe4165723ccb76f660",
+    "porting/rust-parity-evidence/C01e/preparation.json": "6553a777bd3e8143a0897d7b24444c403521300387675ca5c89f05306f9ffbfe"
+  },
+  "source_unchanged": true
+}
