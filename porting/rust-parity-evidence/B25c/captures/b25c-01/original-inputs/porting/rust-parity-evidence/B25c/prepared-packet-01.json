@@ -1,0 +1,126 @@
+{
+  "participant": "B25c",
+  "version": "2025.6.0-202506110000",
+  "scope": "Selected source-compiled participant preparation; no full native deserialization or durable migration claim.",
+  "fixtures": [
+    {
+      "id": "01-field-and-neighbors",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"id\":\"view-node\",\"eClass\":\"sysml:ViewUsage\",\"data\":{\"elementId\":\"view-semantic\",\"exposedElement\":[\"old\"],\"exposeElement\":\"stay\",\"exposedElements\":\"stay\"}}]}",
+      "input_sha256": "e27d69f53858a652b0142fdeff80f931fd49862ed4da7330dc603dfdc1481b73"
+    },
+    {
+      "id": "02-vendor-and-parent",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:ViewUsage\",\"exposedElement\":\"parent stays\",\"data\":{\"exposedElement\":7},\"vendor\":{\"exposedElement\":null,\"label\":\"stay\"},\"array\":[{\"exposedElement\":\"array row stays\"}]}]}",
+      "input_sha256": "2918e85d391960ade38199f3f73ebc2a0767b4ebe45a6c838d7cc82abe52e5ec"
+    },
+    {
+      "id": "03-nested-arrays",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"vendor\":[[[{\"wrapper\":{\"id\":\"view-node\",\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"old\",\"elementId\":\"nested\"}}}]]]}",
+      "input_sha256": "00eb6225c60aaf9e4ef3512f0d3465be9ad35c19f34f8322dc318c5b071e8d0e"
+    },
+    {
+      "id": "04-nonmatching-PartUsage",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:PartUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}",
+      "input_sha256": "00cfac271f112d21e817c6132249426de9e24001b9d19498acddba71bd1bf7bf"
+    },
+    {
+      "id": "05-nonmatching-ViewDefinition",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:ViewDefinition\",\"data\":{\"exposedElement\":\"stay\"}}]}",
+      "input_sha256": "9c9ac71d358fa2a582d22dd15536ac29774c34aae706a983d58230619d31dbfc"
+    },
+    {
+      "id": "06-nonmatching-MissingClass",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:MissingClass\",\"data\":{\"exposedElement\":\"stay\"}}]}",
+      "input_sha256": "40483f4ffdda620426ccacdc499baad8830154c11efbac81e0d02018acc90af1"
+    },
+    {
+      "id": "07-nonmatching-ViewUsage",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"other:ViewUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}",
+      "input_sha256": "ee7a07dc836b82e6a32d4f071ae1de3b906a1c7fcb2e60a9fe20a3d93a2d739c"
+    },
+    {
+      "id": "08-first-namespace-matches",
+      "input": "{\"ns\":{\"z\":\"http://www.eclipse.org/syson/sysml\",\"a\":\"urn:foreign\"},\"content\":[{\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"old\"}}]}",
+      "input_sha256": "e16918c0abe42f40c98750d308a8dd2e570de25fcb859e0857a5746f6c67a280"
+    },
+    {
+      "id": "09-first-namespace-foreign",
+      "input": "{\"ns\":{\"z\":\"urn:foreign\",\"a\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}",
+      "input_sha256": "d4b61c7fcd995ef805103b716c2bfb520e91b9c49d7b3fae96d90052d3e20e86"
+    },
+    {
+      "id": "10-empty-namespace",
+      "input": "{\"ns\":{},\"content\":[{\"id\":\"view-node\",\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}",
+      "input_sha256": "97c6bff27f7d2212b0a64791a3370dc6b7f9db8ae6bfeb9e9aa31b1bcc03b614"
+    },
+    {
+      "id": "11-null-first-namespace",
+      "input": "{\"ns\":{\"sysml\":null},\"content\":[{\"id\":\"view-node\",\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}",
+      "input_sha256": "08e745b9f55781de618c06685889053f08f4af62006676a31497216ae2a7f0c0"
+    },
+    {
+      "id": "12-typed-parent-property-only",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"eClass\":\"sysml:ViewUsage\",\"exposedElement\":\"parent primitive stays\",\"vendor\":[{\"exposedElement\":\"untyped row stays\"}]}",
+      "input_sha256": "9e2e2ebe974aa39738d7029fe89d2322769cf58033df96459219681b5c353493"
+    },
+    {
+      "id": "13-large-opaque-number",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"old\",\"opaque\":12345678901234567890123456789012345678901234567890}}]}",
+      "input_sha256": "37e1f6f706bffd15b0494dba21e48344e7c6e76a1a8abb30a09c0a9a4d570881"
+    }
+  ],
+  "source_predictions": [
+    {
+      "id": "01-field-and-neighbors",
+      "prediction": "Remove exposedElement in data only; preserve IDs and neighboring spellings."
+    },
+    {
+      "id": "02-vendor-and-parent",
+      "prediction": "Matching parent collects each object-valued child, including vendor; array rows are not automatically collected."
+    },
+    {
+      "id": "03-nested-arrays",
+      "prediction": "Traverse arbitrary nested arrays/objects, not only known EMF containment."
+    },
+    {
+      "id": "04-nonmatching-PartUsage",
+      "prediction": "No-op: not ViewUsage or a subtype in pinned domain metadata."
+    },
+    {
+      "id": "05-nonmatching-ViewDefinition",
+      "prediction": "No-op: not ViewUsage or a subtype in pinned domain metadata."
+    },
+    {
+      "id": "06-nonmatching-MissingClass",
+      "prediction": "No-op: not ViewUsage or a subtype in pinned domain metadata."
+    },
+    {
+      "id": "07-nonmatching-ViewUsage",
+      "prediction": "No-op: not ViewUsage or a subtype in pinned domain metadata."
+    },
+    {
+      "id": "08-first-namespace-matches",
+      "prediction": "First original namespace entry matches despite lexical key sorting; migrate."
+    },
+    {
+      "id": "09-first-namespace-foreign",
+      "prediction": "First original namespace entry does not match; no-op despite later matching entry."
+    },
+    {
+      "id": "10-empty-namespace",
+      "prediction": "No-op."
+    },
+    {
+      "id": "11-null-first-namespace",
+      "prediction": "Native namespace access throws; bounded Rust error with no prepared output."
+    },
+    {
+      "id": "12-typed-parent-property-only",
+      "prediction": "No object-valued children except namespace, which has no target feature; parent primitive untouched."
+    },
+    {
+      "id": "13-large-opaque-number",
+      "prediction": "Remove only exposedElement; preserve arbitrary-precision unrelated numeric value."
+    }
+  ]
+}

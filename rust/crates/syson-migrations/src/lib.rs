@@ -285,3 +285,12 @@ pub fn prepare(input: &str, version: &'static str, passes: &[Removal]) -> Result
         namespace_order,
     })
 }
+
+#[path = "../b25a.rs"]
+pub mod b25a;
+
+#[path = "../b25b.rs"]
+pub mod b25b;
+
+#[path = "../b25c.rs"]
+pub mod b25c;
