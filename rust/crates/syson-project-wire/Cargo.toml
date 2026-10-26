@@ -1,0 +1,17 @@
+[package]
+name = "syson-project-wire"
+version = "0.1.0"
+edition = "2024"
+license = "EPL-2.0"
+publish = false
+
+[workspace]
+
+[dependencies]
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = { version = "=1.0.151", features = ["raw_value"] }
+syson-project-preparation = { path = "../syson-project-preparation" }
+
+[dev-dependencies]
+syson-migration-pipeline = { path = "../syson-migration-pipeline" }
+syson-persistence = { path = "../syson-persistence" }
