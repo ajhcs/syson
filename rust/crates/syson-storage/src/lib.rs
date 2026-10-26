@@ -92,6 +92,17 @@ impl Write for Limited {
         if bytes.len() > self.limit.saturating_sub(self.bytes.len()) {
             return Err(std::io::Error::other("selected document byte budget"));
         }
+        let required = self.bytes.len() + bytes.len();
+        if required > self.bytes.capacity() {
+            // Grow geometrically without allocating past this writer's budget.
+            let capacity = self
+                .bytes
+                .capacity()
+                .saturating_mul(2)
+                .max(required)
+                .min(self.limit);
+            self.bytes.reserve_exact(capacity - self.bytes.len());
+        }
         self.bytes.extend_from_slice(bytes);
         Ok(bytes.len())
     }
@@ -109,6 +120,16 @@ fn serialize(document: &Document, limit: usize) -> Result<String, Error> {
     };
     serde_json::to_writer(&mut writer, document.value()).map_err(|_| Error::Serialization)?;
     String::from_utf8(writer.bytes).map_err(|_| Error::Serialization)
+}
+fn protocol_start(action: &str) -> Result<Limited, Error> {
+    let mut input = Limited {
+        bytes: vec![],
+        limit: LIMIT,
+    };
+    input.write_all(b"{\"action\":").map_err(|_| Error::Limit)?;
+    serde_json::to_writer(&mut input, action).map_err(|_| Error::Limit)?;
+    input.write_all(b",\"value\":").map_err(|_| Error::Limit)?;
+    Ok(input)
 }
 impl Store {
     /// The caller supplies a fresh owned absolute file path. Failure retains it.
@@ -139,11 +160,15 @@ impl Store {
         Ok(store)
     }
     fn call(&self, action: &str, value: Value) -> Result<Value, Error> {
+        let mut input = protocol_start(action)?;
+        serde_json::to_writer(&mut input, &value).map_err(|_| Error::Limit)?;
+        input.write_all(b"}").map_err(|_| Error::Limit)?;
+        self.invoke(input.bytes)
+    }
+    fn invoke(&self, input: Vec<u8>) -> Result<Value, Error> {
         if !self.path.is_absolute() {
             return Err(Error::Io);
         }
-        let input = serde_json::to_vec(&json!({"action":action,"value":value}))
-            .map_err(|_| Error::Serialization)?;
         if input.len() > LIMIT {
             return Err(Error::Limit);
         }
@@ -207,8 +232,9 @@ impl Store {
         if changes.is_empty() || changes.len() > 64 {
             return Err(Error::Limit);
         }
-        let mut operations = Vec::new();
-        for change in changes {
+        let mut input = protocol_start("transact")?;
+        input.write_all(b"[").map_err(|_| Error::Limit)?;
+        for (index, change) in changes.iter().enumerate() {
             let (kind, key, name, content, revision, changed, read_only) = match change {
                 Change::Create {
                     key,
@@ -277,9 +303,16 @@ impl Store {
             if name.len() > 4096 {
                 return Err(Error::Limit);
             }
-            operations.push(json!({"kind":kind,"key":key.wire(),"name":name,"content":content,"revision":revision,"changed":changed,"read_only":read_only}));
+            if index > 0 {
+                input.write_all(b",").map_err(|_| Error::Limit)?;
+            }
+            let mut operation = json!({"kind":kind,"key":key.wire(),"name":name,"revision":revision,"changed":changed,"read_only":read_only});
+            // Move the one serialized document; do not clone or retain a batch.
+            operation["content"] = Value::String(content);
+            serde_json::to_writer(&mut input, &operation).map_err(|_| Error::Limit)?;
         }
-        if self.call("transact", json!(operations))?["ok"] != true {
+        input.write_all(b"]}").map_err(|_| Error::Limit)?;
+        if self.invoke(input.bytes)?["ok"] != true {
             return Err(Error::Protocol);
         }
         Ok(())
@@ -289,5 +322,48 @@ impl Store {
             return Err(Error::ForeignObservation);
         }
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod budget_tests {
+    use super::*;
+
+    #[test]
+    fn writer_capacity_and_failed_append_respect_the_declared_budget() {
+        let mut writer = Limited {
+            bytes: vec![],
+            limit: 17,
+        };
+        for chunk in [b"123".as_slice(), b"4567", b"8901234", b"567"] {
+            writer.write_all(chunk).unwrap();
+            assert!(writer.bytes.capacity() <= 17);
+        }
+        let before = writer.bytes.clone();
+        assert!(writer.write_all(b"x").is_err());
+        assert_eq!(writer.bytes, before);
+    }
+
+    #[test]
+    fn json_escaping_and_the_final_delimiter_count_toward_the_byte_budget() {
+        let value = json!({"name":"quote\" slash\\ nul\0 newline\n unicode🚗".repeat(30)});
+        let expected = serde_json::to_vec(&json!([value.clone()])).unwrap();
+        for budget in [expected.len() - 1, expected.len()] {
+            let mut writer = Limited {
+                bytes: vec![],
+                limit: budget,
+            };
+            let result = writer
+                .write_all(b"[")
+                .and_then(|_| {
+                    serde_json::to_writer(&mut writer, &value).map_err(std::io::Error::other)
+                })
+                .and_then(|_| writer.write_all(b"]"));
+            assert_eq!(result.is_ok(), budget == expected.len());
+            assert!(writer.bytes.len() <= budget && writer.bytes.capacity() <= budget);
+            if result.is_ok() {
+                assert_eq!(writer.bytes, expected);
+            }
+        }
     }
 }
