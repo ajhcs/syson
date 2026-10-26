@@ -1,0 +1,18 @@
+{
+  "independent_peer": "ACCEPTED final lib ee85bfefd77534928d293abcf0cf6e443866f645e728d6023634f3df567065b6 / CLI f1826dfe1f93c47d7d7b8d72125dcfbcd2d3d16717a3ac2020519971be95cc3e / tests 099225c91621f43edc19ebe65a2274f23f14188cb6a178dcf53259db61d86b65",
+  "findings": [
+    {
+      "finding": "Public projection could accept an invented public Choice without lookup",
+      "repair": "Optional observation/choice IDs now resolve through internal validated unique lookup before output",
+      "regression": "regression_projection_binds_selection_to_validated_observation"
+    },
+    {
+      "finding": "Missing selected nullable cursor treated asnull",
+      "repair": "Require field presence, then allow explicitnull/string",
+      "regression": "regression_selected_nullable_cursors_must_exist"
+    }
+  ],
+  "history": "Original eight-case PASS retained separately from two final focused regression executions; actual native fixture/canonical manifest unchanged and no native capture replay",
+  "scope": "Only observed native catalogue validation and context-aware choice/lookup; pagination/instantiation/auth/provider activation/browser extension/UI behavior remain separate",
+  "clearance": "Root explicitly cleared two focused commits after final checks/eleven actual CLI cases and independent peer acceptance; no worker push or merge"
+}

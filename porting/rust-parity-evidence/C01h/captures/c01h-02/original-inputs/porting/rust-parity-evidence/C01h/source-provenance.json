@@ -1,0 +1,31 @@
+{
+  "target_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "sirius_candidate": "3191e2b8990373afee3415f6b26f8c5039a28321",
+  "native_reference_sha256": "7d94f1b7cd4a5d88f55a6a2c11d62eab032f833454a58ad842033d30dd704386",
+  "source_refs": [
+    {
+      "component": "syson",
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/sysmlv2/SysMLv2ProjectTemplatesProvider.java",
+      "sha256": "eb8325e3865f993f96d78c424916bbef0b053e5aafe641b470dd006367dae6c5"
+    },
+    {
+      "component": "sirius",
+      "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/project/services/ProjectTemplateApplicationService.java",
+      "sha256": "54ee9fe3730c05937c94258d9d6297b962f800e04748049dcedc0740bf7e21b6"
+    }
+  ],
+  "source_findings": [
+    "ProjectTemplates fetcher clamps nonpositive page to0 and limit to20; invalid GraphQL enum/integer variables fail before service",
+    "Service uses pageable.getOffset()*pageSize; capture actual page behavior/errors rather than inventing a corrected pagination model or PageImpl semantics",
+    "Blank is a real template. Only browser-context IDs upload-project and browse-all-project-templates select controls; empty label alone does not",
+    "imageURL datafetcher prefixes /api/images; preserve observed URL exactly, do not normalize blank or duplicated path segments",
+    "Studio templates depend on runtime enabled/disabled feature condition; provider count/activation must be observed",
+    "Representation descriptions need real editing context and object; nonexistent context returns null. Frontend extensions require actual browser/registry evidence, outside this unit"
+  ],
+  "owners": [
+    "C01",
+    "B23",
+    "U03"
+  ],
+  "remaining_gates": "OPEN: template instantiation, provider activation proof, library resolution, representation registry, browser extensions, UI/UX, full source/build binding"
+}
