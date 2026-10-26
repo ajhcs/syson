@@ -1,0 +1,92 @@
+{
+  "status": "SOURCE_INSPECTED_NATIVE_EXECUTION_UNRUN",
+  "sources": [
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/services/textual/SysMLElementSerializer.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "17ea6ca2072d537dd4672f9277287aa5ff49e8f51107fc3e48ce08e9d1c88ec8",
+      "anchors": [
+        "public String casePackage(Package pack)",
+        "public String casePartDefinition(PartDefinition partDef)",
+        "public String casePartUsage(PartUsage partUsage)",
+        "private void appendFeatureTyping(",
+        "String featureTypePart = String.join(\", \", types);",
+        "builder.append(\" {\");",
+        "builder.newLine().append(\"}\");",
+        "builder.appendSpaceIfNeeded().appendPrintableName(name);"
+      ]
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/services/textual/utils/Appender.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "3739da34dd924343aeb54e56f4f8a7ae7c42f0ef8a2659dc6d4ba259b0ec3895",
+      "anchors": [
+        "this.append(new NameHelper().toPrintableName(name, true));",
+        "return content.replaceAll(this.newLine, this.newLine + this.indentation);"
+      ]
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/services/textual/SysMLSerializingOptions.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "02c120f7bcf03672c438ada251ad3c8dc9a67626f41ce4daa2eeb0e65a2eff62",
+      "anchors": [
+        "String lineSeparator, String indentation, INameDeresolver nameDeresolver"
+      ]
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/services/textual/utils/FileNameDeresolver.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "35ead3a6eba275a9ae7a7c4b2057609213e2963d816f629792f6dc3ece4586e4",
+      "anchors": [
+        "String directIdentifier = this.getResolvableDirectIdentifier(element, deresolvingNamespace);",
+        "qualifiedNames.stream().sorted(Comparator.comparing(String::length)).findFirst()"
+      ]
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/services/textual/utils/SysMLKeywordSwitch.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "a8fb8ea811250ae2057aabb6e70b81cfafb64cbe1ea59a074e62c24a0699867d",
+      "anchors": [
+        "public String casePartDefinition(PartDefinition object)",
+        "public String casePartUsage(PartUsage object)"
+      ]
+    },
+    {
+      "path": "backend/services/syson-sysml-metamodel-services/src/main/java/org/eclipse/syson/sysml/metamodel/helper/NameHelper.java",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "sha256": "3063853eec018d689ec9b50f17c32da8e8056a97bcf5fd30ebf71e3e4317b4b6",
+      "anchors": [
+        "public String toPrintableName(String initialName, boolean escapeSingleQuotes)",
+        "SysMLv2Keywords.KEYWORDS.contains(initialName.trim())"
+      ]
+    },
+    {
+      "path": "rust/crates/syson-text-import/src/lib.rs",
+      "revision": "574193c29659010bd5c31c1e6a768fb58f712230",
+      "sha256": "9eaf961c48417f203ab3f8b8ccf327409f8df7014c291815a2740cea461117f1",
+      "anchors": [
+        "let name = raw.replace",
+        "pub fn stage(",
+        "type_part_usage(&usage, target.element_id(), ids)?"
+      ]
+    },
+    {
+      "path": "rust/crates/syson-domain/src/names.rs",
+      "revision": "574193c29659010bd5c31c1e6a768fb58f712230",
+      "sha256": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+      "anchors": [
+        "pub fn printable_name(",
+        "KEYWORDS.contains(&name)"
+      ]
+    },
+    {
+      "path": "rust/crates/syson-model/src/lib.rs",
+      "revision": "574193c29659010bd5c31c1e6a768fb58f712230",
+      "sha256": "dd77aaa4b5015b2ee9900559003557377d49465b6a419f91a6a692ac0523981b",
+      "anchors": [
+        "pub fn type_part_usage(",
+        "\"data\":{\"elementId\":typing.element,\"type\":definition,\"typedFeature\":usage}})"
+      ]
+    }
+  ]
+}
