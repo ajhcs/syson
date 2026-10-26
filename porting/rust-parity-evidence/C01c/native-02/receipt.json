@@ -1,0 +1,273 @@
+{
+  "status": "PASS_NATIVE_GRAPHQL_CAPTURE",
+  "started_utc": "2026-10-26T20:51:36.728853+00:00",
+  "inputs": {
+    "/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/initdb": "a5392ad4bb2d7998cb6b44535ad33b94c1ac3973dceab5b38612a40275383fcf",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/postgres": "2b94be1b4c0ae426325a3a598e952828790ff96d51d03631d5722171f1656ccd",
+    "/workspace/build/builderbob/ajhcs-sysml-java21-20261004/jdk-21.0.12.1+1-jre/bin/java": "999c141a6e620c71aa4230ccb62341a89162f37818753ff006d766bf935dcbe1",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/psql": "862d0169e204435b049122382e952341960eeadc64f11fac5444aab14ff80005",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/capabilities.graphql": "52c7d2804969b2f3bd0d3145ed150df338b13ed86c228c3625a2a3599add70ed",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c",
+    "/workspace/worktrees/builderbob/syson/rp-c01d-persistence-contract/porting/rust-parity-evidence/C01d/catalog-query.sql": "f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/capabilities-single.graphql": "c5d0536130c53740131aec76b5340df690cee6689a15bdc7229fbd6c6a1edece",
+    "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-02/audit.properties": "6d4c4a485022258606cf9f5dede95666042e16d146b3f30f1f18b07bc8e24921"
+  },
+  "commands": [
+    {
+      "name": "postgres-version",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/postgres",
+        "--version"
+      ],
+      "pid": 4005517,
+      "started_utc": "2026-10-26T20:51:36.729088+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-10-26T20:51:45.351716+00:00"
+    },
+    {
+      "name": "initdb",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/initdb",
+        "-D",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-02/data",
+        "-L",
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/share/postgresql/15",
+        "--locale=C",
+        "--encoding=UTF8",
+        "--auth=trust",
+        "--no-instructions"
+      ],
+      "pid": 4005519,
+      "started_utc": "2026-10-26T20:51:36.736409+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-10-26T20:51:45.351710+00:00"
+    },
+    {
+      "name": "postgres",
+      "argv": [
+        "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/postgres",
+        "-D",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-02/data",
+        "-p",
+        "15448",
+        "-h",
+        "127.0.0.1",
+        "-k",
+        "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-02/socket",
+        "-c",
+        "unix_socket_permissions=0700",
+        "-c",
+        "shared_buffers=64MB",
+        "-c",
+        "max_connections=30",
+        "-c",
+        "dynamic_library_path=/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/lib"
+      ],
+      "pid": 4005577,
+      "started_utc": "2026-10-26T20:51:37.050527+00:00",
+      "exit_code": 0,
+      "completed_utc": "2026-10-26T20:51:45.351684+00:00"
+    },
+    {
+      "name": "syson",
+      "argv": [
+        "/workspace/build/builderbob/ajhcs-sysml-java21-20261004/jdk-21.0.12.1+1-jre/bin/java",
+        "-Xms256m",
+        "-Xmx1536m",
+        "-XX:ActiveProcessorCount=2",
+        "-Djava.io.tmpdir=/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-02/tmp",
+        "-Djava.util.prefs.userRoot=/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-02/prefs",
+        "-jar",
+        "/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar",
+        "--spring.config.location=classpath:/application.properties",
+        "--spring.config.additional-location=file:/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-02/audit.properties"
+      ],
+      "pid": 4005593,
+      "started_utc": "2026-10-26T20:51:37.252333+00:00",
+      "exit_code": 143,
+      "completed_utc": "2026-10-26T20:51:45.238185+00:00"
+    }
+  ],
+  "http": [
+    {
+      "name": "capabilities-Type",
+      "url": "http://127.0.0.1:18448/api/graphql",
+      "method": "POST",
+      "request_headers": {
+        "Content-length": "217",
+        "Host": "127.0.0.1:18448",
+        "User-agent": "Python-urllib/3.12",
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      "response_headers": {
+        "Vary": "Origin",
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+        "Date": "Mon, 26 Oct 2026 20:51:44 GMT",
+        "Connection": "close"
+      },
+      "status": 200,
+      "elapsed_ms": 129.43398399511352,
+      "request_sha256": "becc02fff4287d37419d0155352956517b01b0027bc5f2e7929f08de5dbb27ba",
+      "response_sha256": "42a6c847bab0c042107792a92a853394ecf5fa69d54d979b7a74fc1e072ec016",
+      "response_bytes": 454
+    },
+    {
+      "name": "capabilities-Field",
+      "url": "http://127.0.0.1:18448/api/graphql",
+      "method": "POST",
+      "request_headers": {
+        "Content-length": "218",
+        "Host": "127.0.0.1:18448",
+        "User-agent": "Python-urllib/3.12",
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      "response_headers": {
+        "Vary": "Origin",
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+        "Date": "Mon, 26 Oct 2026 20:51:44 GMT",
+        "Connection": "close"
+      },
+      "status": 200,
+      "elapsed_ms": 12.802127981558442,
+      "request_sha256": "ba89b50bc55cd7261d3d33e0eb71f1b8abd2447b2506df095baf9784fffba0a5",
+      "response_sha256": "f1c1582941b8991368f4762c6218aaf167b299058c4ac4b4db9ee7dc2b2c5e55",
+      "response_bytes": 244
+    },
+    {
+      "name": "capabilities-InputValue",
+      "url": "http://127.0.0.1:18448/api/graphql",
+      "method": "POST",
+      "request_headers": {
+        "Content-length": "223",
+        "Host": "127.0.0.1:18448",
+        "User-agent": "Python-urllib/3.12",
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      "response_headers": {
+        "Vary": "Origin",
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+        "Date": "Mon, 26 Oct 2026 20:51:44 GMT",
+        "Connection": "close"
+      },
+      "status": 200,
+      "elapsed_ms": 2.754422021098435,
+      "request_sha256": "6eefe2ee82f81f2382eb9434b9d0b317815116f500212f8bc716a7137354de8f",
+      "response_sha256": "a4275ce20458a3c47355b9d1e4aa3f28304510443e2e5ce992ec1f875714a7f3",
+      "response_bytes": 224
+    },
+    {
+      "name": "capabilities-Directive",
+      "url": "http://127.0.0.1:18448/api/graphql",
+      "method": "POST",
+      "request_headers": {
+        "Content-length": "222",
+        "Host": "127.0.0.1:18448",
+        "User-agent": "Python-urllib/3.12",
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      "response_headers": {
+        "Vary": "Origin",
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+        "Date": "Mon, 26 Oct 2026 20:51:44 GMT",
+        "Connection": "close"
+      },
+      "status": 200,
+      "elapsed_ms": 1.9038849859498441,
+      "request_sha256": "7c47d8f2938ab3cc4eceb89fc859d3d884fd04b08643b5dd0e9f793c47e689ab",
+      "response_sha256": "f4444f786d2455f2da575cb77a9f6619ab19d0d12149ff51bd570b3539832ff7",
+      "response_bytes": 210
+    },
+    {
+      "name": "capabilities-Schema",
+      "url": "http://127.0.0.1:18448/api/graphql",
+      "method": "POST",
+      "request_headers": {
+        "Content-length": "219",
+        "Host": "127.0.0.1:18448",
+        "User-agent": "Python-urllib/3.12",
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      "response_headers": {
+        "Vary": "Origin",
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+        "Date": "Mon, 26 Oct 2026 20:51:44 GMT",
+        "Connection": "close"
+      },
+      "status": 200,
+      "elapsed_ms": 1.9350849906913936,
+      "request_sha256": "2aae45a3b8e5de054dc372a957c6e73d5918f01936c63f36fef8507df77dae87",
+      "response_sha256": "cad218258ecf2edd885080184bd6d29e8a6c296859f741f2629d2501b2521117",
+      "response_bytes": 227
+    },
+    {
+      "name": "introspection",
+      "url": "http://127.0.0.1:18448/api/graphql",
+      "method": "POST",
+      "request_headers": {
+        "Content-length": "1461",
+        "Host": "127.0.0.1:18448",
+        "User-agent": "Python-urllib/3.12",
+        "Content-type": "application/json",
+        "Accept": "application/json"
+      },
+      "response_headers": {
+        "Vary": "Origin",
+        "Content-Type": "application/json",
+        "Transfer-Encoding": "chunked",
+        "Date": "Mon, 26 Oct 2026 20:51:45 GMT",
+        "Connection": "close"
+      },
+      "status": 200,
+      "elapsed_ms": 93.4114969568327,
+      "request_sha256": "f0fd2ad0bf0d17c946e4f90d686d1857213202b5ab974e1cc4cd92202be8d4c0",
+      "response_sha256": "eadaeae732417084c749148676df97fb645956c4f01a82afc1481a026d83300f",
+      "response_bytes": 681102
+    }
+  ],
+  "binds": [
+    "127.0.0.1:15448",
+    "127.0.0.1:18448"
+  ],
+  "artifact_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+  "target_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "source_binding": "OPEN:125 source-label paths differ; not independently rebuilt",
+  "context": "Fresh empty owned PostgreSQL database; anonymous same-origin HTTP introspection, no credentials/session.",
+  "service_registration": false,
+  "review": "Coordinator reviewed fixed argv/config/SQL/queries before first execution; fresh synthetic DB only.",
+  "scope_failures": {},
+  "native_counts": {
+    "types": 671,
+    "tables": null,
+    "columns": null,
+    "constraints": null,
+    "indexes": null,
+    "applied_changelog": null
+  },
+  "database_catalog": "NOT_REPLAYED_ALREADY_CAPTURED_NATIVE01",
+  "all_owned_processes_stopped": true,
+  "completed_utc": "2026-10-26T20:51:45.351726+00:00",
+  "inputs_after": {
+    "/workspace/build/builderbob/syson-audit-20261026/syson-application-2026.9.3.jar": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/initdb": "a5392ad4bb2d7998cb6b44535ad33b94c1ac3973dceab5b38612a40275383fcf",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/postgres": "2b94be1b4c0ae426325a3a598e952828790ff96d51d03631d5722171f1656ccd",
+    "/workspace/build/builderbob/ajhcs-sysml-java21-20261004/jdk-21.0.12.1+1-jre/bin/java": "999c141a6e620c71aa4230ccb62341a89162f37818753ff006d766bf935dcbe1",
+    "/workspace/build/builderbob/syson-audit-20261026/postgres-root/usr/lib/postgresql/15/bin/psql": "862d0169e204435b049122382e952341960eeadc64f11fac5444aab14ff80005",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/capabilities.graphql": "52c7d2804969b2f3bd0d3145ed150df338b13ed86c228c3625a2a3599add70ed",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c",
+    "/workspace/worktrees/builderbob/syson/rp-c01d-persistence-contract/porting/rust-parity-evidence/C01d/catalog-query.sql": "f6f274f1a391e89132f215b039283af6dafefcaa0025d3671034c7164083461c",
+    "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/porting/rust-parity-evidence/C01c/capabilities-single.graphql": "c5d0536130c53740131aec76b5340df690cee6689a15bdc7229fbd6c6a1edece",
+    "/workspace/build/builderbob/syson-rust-parity-batch4-20261026/native-02/audit.properties": "6d4c4a485022258606cf9f5dede95666042e16d146b3f30f1f18b07bc8e24921"
+  },
+  "source_unchanged": true
+}

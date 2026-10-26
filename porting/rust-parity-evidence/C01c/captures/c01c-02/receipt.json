@@ -1,0 +1,89 @@
+{
+  "unit": "C01c",
+  "run": "c01c-02",
+  "status": "PASS",
+  "started_utc": "2026-10-26T21:01:07.082784+00:00",
+  "source_before": {
+    "rust/tools/native-graphql-contract/Cargo.lock": "8d49e7dbc644a857c7ce4b4139d95c61c16b56f13e8c57d40a01cfe0535960f0",
+    "rust/tools/native-graphql-contract/Cargo.toml": "38fe146899004692f387b6e8d736ab75d3122e14474bf203447ec5d07b1d77e0",
+    "rust/tools/native-graphql-contract/src/lib.rs": "131c402a6a55e25216c00286972792cc7f43e07405906fa684ece6b5d5944f40",
+    "rust/tools/native-graphql-contract/src/main.rs": "1bc043cca94a319af3f42c844f878b7f075121fd1b7c37dcd467307422c2b541",
+    "rust/tools/native-graphql-contract/tests/contract.rs": "62a04231c305aeceab8e2d9b18e05a4e11dc579778ebba925f516aa53b795f70",
+    "rust/tools/native-graphql-contract/tests/fixtures/native-badfaith-introspection.json": "33cae53965a70dc4690ee4bd2d67aac8c40d6ac476bf5bd515a6c28fd623052f",
+    "rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json": "eadaeae732417084c749148676df97fb645956c4f01a82afc1481a026d83300f",
+    "porting/rust-parity-evidence/C01c/capabilities-single.graphql": "c5d0536130c53740131aec76b5340df690cee6689a15bdc7229fbd6c6a1edece",
+    "porting/rust-parity-evidence/C01c/capabilities.graphql": "52c7d2804969b2f3bd0d3145ed150df338b13ed86c228c3625a2a3599add70ed",
+    "porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c"
+  },
+  "source_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "runner_sha256": "9a7b460bea45f2d92e0a2f0665dc4586ed7d1fe4365024f0b53b1e82a622d7a6",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/rust/tools/native-graphql-contract/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-26T21:01:07.084302+00:00",
+      "completed_utc": "2026-10-26T21:01:07.104327+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/rust/tools/native-graphql-contract/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-26T21:01:07.104340+00:00",
+      "completed_utc": "2026-10-26T21:01:10.565170+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "fb94592f120a46ac788380622dfe46d09aaca042c819386e16de5ea21d5b5986",
+      "stderr_sha256": "226d357eeb761f77d3dcac77ba8f1b0d8174eb62ecf47042a1a9111eef9d8874"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rp-c01c-graphql-contract/rust/tools/native-graphql-contract/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-26T21:01:10.565203+00:00",
+      "completed_utc": "2026-10-26T21:01:10.751121+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1527adaf13d8559a80aa2229d2a87a3d63cd36ec36d718caa62886bf1f439f7d"
+    }
+  ],
+  "execution": "COORDINATOR_SERIAL_ONE_JOB_OFFLINE_LOCKED",
+  "upstream_runtime": "NOT_RUN",
+  "completed_utc": "2026-10-26T21:01:10.751155+00:00",
+  "source_after": {
+    "rust/tools/native-graphql-contract/Cargo.lock": "8d49e7dbc644a857c7ce4b4139d95c61c16b56f13e8c57d40a01cfe0535960f0",
+    "rust/tools/native-graphql-contract/Cargo.toml": "38fe146899004692f387b6e8d736ab75d3122e14474bf203447ec5d07b1d77e0",
+    "rust/tools/native-graphql-contract/src/lib.rs": "131c402a6a55e25216c00286972792cc7f43e07405906fa684ece6b5d5944f40",
+    "rust/tools/native-graphql-contract/src/main.rs": "1bc043cca94a319af3f42c844f878b7f075121fd1b7c37dcd467307422c2b541",
+    "rust/tools/native-graphql-contract/tests/contract.rs": "62a04231c305aeceab8e2d9b18e05a4e11dc579778ebba925f516aa53b795f70",
+    "rust/tools/native-graphql-contract/tests/fixtures/native-badfaith-introspection.json": "33cae53965a70dc4690ee4bd2d67aac8c40d6ac476bf5bd515a6c28fd623052f",
+    "rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json": "eadaeae732417084c749148676df97fb645956c4f01a82afc1481a026d83300f",
+    "porting/rust-parity-evidence/C01c/capabilities-single.graphql": "c5d0536130c53740131aec76b5340df690cee6689a15bdc7229fbd6c6a1edece",
+    "porting/rust-parity-evidence/C01c/capabilities.graphql": "52c7d2804969b2f3bd0d3145ed150df338b13ed86c228c3625a2a3599add70ed",
+    "porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c"
+  },
+  "source_unchanged": true
+}
