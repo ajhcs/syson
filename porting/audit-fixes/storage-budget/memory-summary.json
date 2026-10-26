@@ -1,0 +1,48 @@
+{
+  "status": "PASS_MEASURED_LOCAL_MEMORY_REPAIR",
+  "dataset": {
+    "operations": 64,
+    "serialized_document_bytes": 1048448,
+    "borrowed_document_instances": 1,
+    "expected_result": "aggregate_limit"
+  },
+  "probe_sha256": "c6d84f7bb0f68306eacb704d38bc06a838c483bde8c953a9204312aa9b4c4d0c",
+  "measurements": [
+    {
+      "run": "storage-before-01",
+      "max_rss_kib": 267536,
+      "max_rss_mib": 261.265625,
+      "binary_sha256": "fa03454c21b30c28b0f529dca6ea9b3c14c54cff8178b5a022e3a84e0ceea385",
+      "raw_file_sha256": {
+        "receipt.json": "2e8dee381ff2e4150ca9edaa010494d625b96c152a3557881970e1912ae57dc9",
+        "stderr.txt": "ae5b12cddc8d0b4de51589ed063b41322e578c94960c9d427ab57356d25046c9",
+        "stdout.txt": "d415218fd3f2f7558e16c6a6afdfe84ee4149ae474cba02a4f75c1344c8f37eb",
+        "build.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "build.stderr.txt": "b5f4738c040b848cc4e644f2a1c54f78a5311c590c7ab073084226e44f520ef2"
+      },
+      "database_external_path": "/workspace/build/builderbob/syson-audit-20261026/storage-before-01/store.sqlite3",
+      "database_bytes": 12288,
+      "database_sha256": "45f99eb7d6ddac5f4f332532bb9c025b2e979a77ce7a84054b96cd30e4ca3770",
+      "database_bytes_unchanged": true
+    },
+    {
+      "run": "storage-after-01",
+      "max_rss_kib": 13332,
+      "max_rss_mib": 13.01953125,
+      "binary_sha256": "11b5d1ca82e7b2564080af4611a00232cd297f1a106428461b9b7fecddc1cfee",
+      "raw_file_sha256": {
+        "receipt.json": "b2e54612a5075d5c0c267ddc4e91336305784f82c43b507c3693cf29d17389ad",
+        "stderr.txt": "18d8e49f76689972d35410d12f82731cb1de684640f482ab78507b55172bbb7f",
+        "stdout.txt": "d415218fd3f2f7558e16c6a6afdfe84ee4149ae474cba02a4f75c1344c8f37eb"
+      },
+      "database_external_path": "/workspace/build/builderbob/syson-audit-20261026/storage-after-01/store.sqlite3",
+      "database_bytes": 12288,
+      "database_sha256": "45f99eb7d6ddac5f4f332532bb9c025b2e979a77ce7a84054b96cd30e4ca3770",
+      "database_bytes_unchanged": true
+    }
+  ],
+  "reduction_percent": 95.01674540996352,
+  "measurement": "Actual release example command measured by /usr/bin/time -v after separate build; compiler excluded. One before/after run, no percentile, universal latency, native PostgreSQL or total concurrent process-tree memory claim.",
+  "baseline_source": "F27 #53 b540273b901f9c69b5fc2f200efc1aa864d95ebc plus identical frozen probe",
+  "database_binaries": "Retained externally; hashes only in PR"
+}

@@ -437,3 +437,46 @@ fn changed_candidate_format_refuses_reopen_and_existing_handle_writes_without_mu
     );
     assert_eq!(fs::read(&file).unwrap(), after_setup);
 }
+
+#[test]
+fn aggregate_limit_discards_a_large_borrowed_document_batch_before_sql() {
+    let file = path();
+    let store = Store::create(&file).unwrap();
+    let mut value = Document::empty().value().clone();
+    value["opaque"] = json!("x".repeat(1_048_000));
+    let input = Document::from_json(&value.to_string()).unwrap();
+    let before = fs::read(&file).unwrap();
+    let changes: Vec<_> = (0u8..64)
+        .map(|index| Change::Create {
+            key: key(31, index),
+            name: "large batch",
+            document: &input,
+            read_only: false,
+        })
+        .collect();
+    assert_eq!(store.transact(&changes, 1_048_576), Err(Error::Limit));
+    assert_eq!(fs::read(&file).unwrap(), before);
+    assert!(store.load(key(31, 0)).unwrap().is_none());
+    assert!(store.load(key(31, 63)).unwrap().is_none());
+}
+
+#[test]
+fn complete_64_operation_packet_preserves_escaped_names_and_document_values() {
+    let store = Store::create(path()).unwrap();
+    let input = document("quote\" slash\\ newline\n unicode🚗");
+    let name = "quote\" slash\\ nul\0 newline\n unicode🚗".repeat(40);
+    let changes: Vec<_> = (0u8..64)
+        .map(|index| Change::Create {
+            key: key(32, index),
+            name: &name,
+            document: &input,
+            read_only: false,
+        })
+        .collect();
+    store.transact(&changes, 1_048_576).unwrap();
+    for index in [0, 31, 63] {
+        let loaded = store.load(key(32, index)).unwrap().unwrap();
+        assert_eq!(loaded.name(), name);
+        assert_eq!(loaded.document().value(), input.value());
+    }
+}
