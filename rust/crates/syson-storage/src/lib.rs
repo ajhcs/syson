@@ -13,6 +13,7 @@ use syson_document_reconcile::{Document as Observation, DocumentPlan, Uuid, plan
 use syson_model::Document;
 const LIMIT: usize = 8 * 1024 * 1024;
 const DOCUMENT_LIMIT: usize = 1024 * 1024;
+const NAME_LIMIT: usize = 4096;
 const BRIDGE: &str = include_str!("bridge.py");
 #[derive(Debug, PartialEq, Eq)]
 pub enum Error {
@@ -247,6 +248,9 @@ impl Store {
             row[0].as_str().ok_or(Error::Protocol)?,
             row[1].as_str().ok_or(Error::Protocol)?,
         );
+        if name.len() > NAME_LIMIT || content.len() > DOCUMENT_LIMIT {
+            return Err(Error::Limit);
+        }
         let read_only = row[2].as_u64().filter(|v| *v <= 1).ok_or(Error::Protocol)? == 1;
         let revision = row[3]
             .as_u64()
@@ -268,6 +272,16 @@ impl Store {
     pub fn transact(&self, changes: &[Change<'_>], document_bytes: usize) -> Result<(), Error> {
         if changes.is_empty() || changes.len() > 64 {
             return Err(Error::Limit);
+        }
+        // Borrowed metadata admission precedes owned copies and serialization.
+        for change in changes {
+            let name = match change {
+                Change::Create { name, .. } | Change::Update { name, .. } => *name,
+                Change::Delete { .. } => continue,
+            };
+            if name.len() > NAME_LIMIT {
+                return Err(Error::Limit);
+            }
         }
         let mut input = protocol_start("transact", self.generation.as_deref())?;
         input.write_all(b"[").map_err(|_| Error::Limit)?;
@@ -337,9 +351,6 @@ impl Store {
                     )
                 }
             };
-            if name.len() > 4096 {
-                return Err(Error::Limit);
-            }
             if index > 0 {
                 input.write_all(b",").map_err(|_| Error::Limit)?;
             }
