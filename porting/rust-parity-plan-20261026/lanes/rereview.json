@@ -939,16 +939,14 @@
       "lane": "rereview-repairs",
       "state": "PLANNED_NOT_IMPLEMENTED",
       "dependencies": [
-        "RR04"
+        "RR18a",
+        "RR18b"
       ],
       "external_prs": [
         65,
         61
       ],
       "paths": [
-        "rust/crates/syson-web/src/lib.rs",
-        "rust/crates/syson-web/src/layout_controller.rs",
-        "rust/crates/syson-web/tests/rr18_regression.rs",
         "porting/rust-parity-evidence/RR18/"
       ],
       "source_refs": [
@@ -958,7 +956,7 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Use bounded model and HTML writers before materialization. Avoid full serialization for absent canvas frames. Admit preview before replacing the active Editor/history. Fallback must preserve safe export, recover and discard actions after import."
+        "Integrate RR18a recovery and RR18b before-allocation rendering on one exact source candidate. Original preview/import/export, allocation, real UI and performance obligations remain required."
       ],
       "verification": [
         "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
@@ -984,6 +982,10 @@
         "B31",
         "U03",
         "U18"
+      ],
+      "acceptance_children": [
+        "RR18a",
+        "RR18b"
       ]
     },
     {
@@ -1759,6 +1761,122 @@
       ],
       "owner_plan_units": [
         "RR16"
+      ]
+    },
+    {
+      "id": "RR18a",
+      "title": "Preserve active editing state on refused preview and keep recovery reachable",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR04"
+      ],
+      "external_prs": [
+        65,
+        61
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/tests/rr18_regression.rs",
+        "porting/rust-parity-evidence/RR18a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Admit imported document preview on a private candidate before replacing active Editor/history/canvas/selection. Keep export, recover and explicit discard reachable when preview is refused. Use bounded RR04 model output and avoid serialization when canvas frame is absent. Full HTML before-allocation rendering remains RR18b."
+      ],
+      "verification": [
+        "Reproduce actual <=1MiB escaped-name destructive-import counterexample on exact baseline, then demonstrate prior document/history/selection/drafts survive refusal in real default WASM UI at desktop/mobile with keyboard/console/long-task observations. Verify fallback model download and recover/discard actions.",
+        "Freeze exact prerequisite/source/input hashes, preserve failing attempts and final-source tests with independent review; no held raw/graph/factory execution."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-web/web/loader.js"
+        ],
+        "policy": "Root-only same-focused-control caret restoration on draft-preserving repaint, after actual baseline reproduction. Author does not edit loader. Generic recovery-shell draft storage remains RR18b."
+      }
+    },
+    {
+      "id": "RR18b",
+      "title": "Bound HTML preview and intermediate rendering before materialization",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18a"
+      ],
+      "external_prs": [
+        65,
+        61
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/web/loader.js",
+        "rust/crates/syson-web/tests/rr18b_regression.rs",
+        "porting/rust-parity-evidence/RR18b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace full-render-then-length-check and independently allocating helpers with bounded HTML/escaping/model/geometry sinks or counted admission before materialization. Cover navigation/options/SVG/scalar inspectors/export and all fallback paths without weakening atomic import recovery.",
+        "Preserve unrelated unsubmitted form drafts across recovery-shell removal and restoration using bounded presentation-only loader storage, with focus/caret restored. RR18a preserves drafts on normal refused-import DOM only; its fallback shell lacks prior form fields."
+      ],
+      "verification": [
+        "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Prove pre-copy refusal/high-water allocation bounds, escaped exact-fit and +1 boundaries and independently observed actual browser responsiveness. RR18a lifecycle-only success cannot close this child.",
+        "Actual WASM fallback -> recover must retain permitted prior form drafts/caret, bound stored draft bytes, and make explicit discard clear model and presentation drafts with keyboard confirmation.",
+        "Use the exact RR18a browser fixtures:700258-byte escaped import and900381-byte committed export/2701179-byte URI. Current same-host Chromium observation has longtasks up to111ms at320px and71ms at1440px. Rendering responsiveness remains OPEN. On the pinned owned reference profile, target no main-thread task >=50ms in these journeys through pre-admission/counting/chunking; record phase timing and any unmet budget explicitly, and do not claim performance acceptance while this required budget fails. Physical mobile/other-browser acceptance remains separate."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
       ]
     }
   ]

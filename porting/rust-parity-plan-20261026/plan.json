@@ -2,7 +2,7 @@
   "schema": 1,
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "state": "ADOPTED_REVIEWABLE_PLAN;_IMPLEMENTATION_AND_NATIVE_CLOSURE_REMAIN_OPEN",
-  "unit_count": 764,
+  "unit_count": 766,
   "full_parity_claimed": false,
   "count_meaning": "Named review units, including verification and explicitly generated source batches; discovery may add bounded children. Not a feature count, percentage or guaranteed final PR count.",
   "lane_counts": {
@@ -14,7 +14,7 @@
     "lanes/model.json": 408,
     "lanes/parser.json": 184,
     "lanes/platform.json": 45,
-    "lanes/rereview.json": 31,
+    "lanes/rereview.json": 33,
     "lanes/ui.json": 82,
     "tools/build_plan.py": 1
   },
@@ -7243,9 +7243,12 @@
       "implementation:RR17"
     ],
     "implementation:RR18": [
-      "implementation:RR04"
+      "implementation:RR18a",
+      "implementation:RR18b"
     ],
     "accepted:RR18": [
+      "accepted:RR18a",
+      "accepted:RR18b",
       "implementation:RR18"
     ],
     "implementation:RR19": [
@@ -7348,6 +7351,18 @@
     ],
     "accepted:RR16b": [
       "implementation:RR16b"
+    ],
+    "implementation:RR18a": [
+      "implementation:RR04"
+    ],
+    "accepted:RR18a": [
+      "implementation:RR18a"
+    ],
+    "implementation:RR18b": [
+      "implementation:RR18a"
+    ],
+    "accepted:RR18b": [
+      "implementation:RR18b"
     ],
     "implementation:C01": [],
     "accepted:C01": [
@@ -7906,6 +7921,8 @@
       "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
+      "implementation:RR18a",
+      "implementation:RR18b",
       "implementation:RR19",
       "implementation:RR20",
       "implementation:RR21",
@@ -8497,6 +8514,8 @@
       "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
+      "implementation:RR18a",
+      "implementation:RR18b",
       "implementation:RR19",
       "implementation:RR20",
       "implementation:RR21",
@@ -9005,6 +9024,8 @@
       "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
+      "implementation:RR18a",
+      "implementation:RR18b",
       "implementation:RR19",
       "implementation:RR20",
       "implementation:RR21",
@@ -9514,6 +9535,8 @@
       "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
+      "implementation:RR18a",
+      "implementation:RR18b",
       "implementation:RR19",
       "implementation:RR20",
       "implementation:RR21",
@@ -10045,6 +10068,8 @@
       "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
+      "implementation:RR18a",
+      "implementation:RR18b",
       "implementation:RR19",
       "implementation:RR20",
       "implementation:RR21",
@@ -10649,6 +10674,8 @@
       "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
+      "implementation:RR18a",
+      "implementation:RR18b",
       "implementation:RR19",
       "implementation:RR20",
       "implementation:RR21",
@@ -12081,6 +12108,8 @@
       "implementation:RR23d",
       "implementation:RR16a",
       "implementation:RR16b",
+      "implementation:RR18a",
+      "implementation:RR18b",
       "implementation:C01",
       "implementation:C02",
       "implementation:C03",
@@ -12844,6 +12873,8 @@
       "accepted:RR16b",
       "accepted:RR17",
       "accepted:RR18",
+      "accepted:RR18a",
+      "accepted:RR18b",
       "accepted:RR19",
       "accepted:RR20",
       "accepted:RR21",
@@ -13012,7 +13043,7 @@
     [
       "B06",
       "RR16a",
-      "RR18"
+      "RR18a"
     ],
     [
       "B07",
@@ -13047,16 +13078,11 @@
     [
       "B27",
       "B29",
-      "RR20"
+      "RR18b"
     ],
     [
-      "B17",
       "B28",
-      "B36"
-    ],
-    [
-      "B18",
-      "B31",
+      "B36",
       "B37"
     ],
     [
@@ -13066,23 +13092,33 @@
     ],
     [
       "B41",
+      "RR18",
+      "RR20"
+    ],
+    [
+      "B17",
       "M03",
       "RR19"
     ],
     [
-      "M04",
+      "B18",
+      "B31",
+      "M04"
+    ],
+    [
       "M05",
-      "RR21"
+      "RR21",
+      "RR24a"
     ],
     [
       "M06",
       "M40",
-      "RR24a"
+      "RR23a"
     ],
     [
       "M07",
       "M17",
-      "RR23a"
+      "RR23b"
     ],
     [
       "M08",
@@ -13111,53 +13147,36 @@
     ],
     [
       "M20",
-      "RR23b",
-      "RR23c"
+      "RR23c",
+      "RR23d"
     ],
     [
       "M21",
-      "RR23d",
+      "RR23",
       "RR24"
     ],
     [
       "I09",
       "M22",
-      "RR22"
+      "RR16b"
     ],
     [
       "M32",
       "M39",
-      "RR23"
-    ],
-    [
-      "I07",
-      "M33",
-      "RR16b"
-    ],
-    [
       "RR16"
     ],
     [
       "C02",
-      "RR17"
+      "I07",
+      "M33"
     ],
     [
-      "C03",
-      "C04",
-      "C05"
-    ],
-    [
-      "B32",
+      "C05",
       "C06",
       "C07"
     ],
     [
-      "B33",
-      "B34",
-      "C08"
-    ],
-    [
-      "B35",
+      "C08",
       "C09",
       "M02"
     ],
@@ -13652,303 +13671,314 @@
       "M38"
     ],
     [
-      "I06",
       "I08",
-      "M380"
+      "M380",
+      "M381"
     ],
     [
-      "M381",
       "M382",
-      "M383"
+      "M383",
+      "M384"
     ],
     [
-      "M384",
       "M385",
-      "M386"
+      "M386",
+      "M387"
     ],
     [
-      "M387",
       "M388",
-      "M389"
+      "M389",
+      "M390"
     ],
     [
-      "M390",
       "M391",
-      "M392"
+      "M392",
+      "M393"
     ],
     [
-      "M393",
       "M394",
-      "M395"
+      "M395",
+      "M396"
     ],
     [
-      "M396",
       "M397",
-      "M398"
+      "M398",
+      "M399"
     ],
     [
-      "M399",
       "M400",
-      "M41"
+      "M41",
+      "M42"
     ],
     [
-      "M42",
       "M43",
-      "M44"
+      "M44",
+      "M45"
     ],
     [
-      "M45",
       "M46",
-      "M47"
+      "M47",
+      "M48"
     ],
     [
-      "M48",
       "M50",
-      "M51"
+      "M51",
+      "M52"
     ],
     [
-      "M52",
       "M53",
-      "M54"
+      "M54",
+      "M55"
     ],
     [
-      "M55",
       "M56",
-      "M57"
+      "M57",
+      "M58"
     ],
     [
-      "M58",
       "M59",
-      "M60"
+      "M60",
+      "M61"
     ],
     [
-      "M61",
       "M62",
-      "M63"
+      "M63",
+      "M64"
     ],
     [
-      "M64",
       "M65",
-      "M66"
+      "M66",
+      "M67"
     ],
     [
-      "M67",
       "M68",
-      "M69"
+      "M69",
+      "M70"
     ],
     [
-      "M70",
       "M71",
-      "M72"
+      "M72",
+      "M73"
     ],
     [
-      "M73",
       "M74",
-      "M75"
+      "M75",
+      "M76"
     ],
     [
-      "M76",
       "M77",
-      "M78"
+      "M78",
+      "M79"
     ],
     [
-      "M79",
       "M80",
-      "M81"
+      "M81",
+      "M82"
     ],
     [
-      "M82",
       "M83",
-      "M84"
+      "M84",
+      "M85"
     ],
     [
-      "M85",
       "M86",
-      "M87"
+      "M87",
+      "M88"
     ],
     [
-      "M88",
       "M89",
-      "M90"
+      "M90",
+      "M91"
     ],
     [
-      "M91",
       "M92",
-      "M93"
+      "M93",
+      "M94"
     ],
     [
-      "M94",
       "M95",
-      "M96"
+      "M96",
+      "M97"
     ],
     [
-      "M97",
       "M98",
-      "M99"
+      "M99",
+      "P02"
     ],
     [
-      "P02",
       "P03",
-      "P04"
+      "P04",
+      "P05"
     ],
     [
-      "P05",
+      "P06",
       "P155",
       "P156"
     ],
     [
-      "P06",
+      "P07",
       "P157",
       "P158"
     ],
     [
-      "P07",
+      "P08",
       "P159",
       "P160"
     ],
     [
-      "P08",
+      "P09",
       "P161",
       "P162"
     ],
     [
-      "P09",
+      "P10",
       "P163",
       "P164"
     ],
     [
-      "P10",
+      "P11",
       "P165",
       "P166"
     ],
     [
-      "P11",
+      "P12",
       "P167",
       "P168"
     ],
     [
-      "P12",
+      "P13",
       "P169",
       "P170"
     ],
     [
-      "P13",
+      "P14",
       "P171",
       "P20"
     ],
     [
-      "P14",
-      "U01"
-    ],
-    [
       "P15",
-      "U02",
-      "U03"
+      "RR17",
+      "RR22"
     ],
     [
+      "C03",
+      "C04",
+      "I06"
+    ],
+    [
+      "B32",
       "P100",
-      "P101",
+      "P101"
+    ],
+    [
+      "B33",
+      "B34",
       "P102"
     ],
     [
+      "B35",
       "P103",
-      "P104",
-      "P105"
+      "P104"
     ],
     [
+      "P105",
       "P106",
-      "P107",
-      "P108"
+      "P107"
     ],
     [
+      "P108",
       "P109",
-      "P110",
-      "P111"
+      "P110"
     ],
     [
+      "P111",
       "P112",
-      "P113",
-      "P114"
+      "P113"
     ],
     [
+      "P114",
       "P115",
-      "P116",
-      "P117"
+      "P116"
     ],
     [
+      "P117",
       "P118",
-      "P119",
-      "P120"
+      "P119"
     ],
     [
+      "P120",
       "P121",
-      "P122",
-      "P123"
+      "P122"
     ],
     [
+      "P123",
       "P124",
-      "P125",
-      "P126"
+      "P125"
     ],
     [
+      "P126",
       "P127",
-      "P128",
-      "P129"
+      "P128"
     ],
     [
+      "P129",
       "P130",
-      "P131",
-      "P132"
+      "P131"
     ],
     [
+      "P132",
       "P133",
-      "P134",
-      "P137"
+      "P134"
     ],
     [
       "P135",
-      "P138",
-      "P139"
+      "P137",
+      "P138"
     ],
     [
       "P136",
-      "P140",
-      "P141"
+      "P139",
+      "P140"
     ],
     [
+      "P141",
       "P142",
-      "P143",
-      "P144"
+      "P143"
     ],
     [
+      "P144",
       "P145",
-      "P146",
-      "P147"
+      "P146"
     ],
     [
+      "P147",
       "P148",
-      "P149",
-      "P150"
+      "P149"
     ],
     [
+      "P150",
       "P16",
-      "P19",
-      "P21"
+      "P19"
     ],
     [
       "P17",
-      "P22",
-      "P23"
+      "P21",
+      "P22"
     ],
     [
       "P18",
-      "P24",
-      "P25"
+      "P23",
+      "P24"
+    ],
+    [
+      "P172",
+      "P25",
+      "P26"
     ],
     [
       "P151",
-      "P172",
-      "P26"
+      "P173",
+      "P27"
     ],
     [
       "P152",
@@ -13956,19 +13986,14 @@
       "P154"
     ],
     [
-      "P173",
-      "P27",
+      "P174",
+      "P28",
       "P29"
     ],
     [
-      "P174",
-      "P28",
-      "P30"
-    ],
-    [
       "P175",
-      "P31",
-      "P32"
+      "P30",
+      "P31"
     ],
     [
       "P176",
@@ -13983,120 +14008,128 @@
     [
       "P182",
       "P183",
-      "P33"
+      "P32"
     ],
     [
+      "P33",
       "P34",
-      "P35",
-      "P36"
+      "P35"
     ],
     [
+      "P36",
       "P37",
-      "P38",
-      "P39"
+      "P38"
     ],
     [
+      "P39",
       "P40",
-      "P41",
-      "P42"
+      "P41"
     ],
     [
+      "P42",
       "P43",
-      "P44",
-      "P45"
+      "P44"
     ],
     [
+      "P45",
       "P46",
-      "P47",
-      "P48"
+      "P47"
     ],
     [
+      "P48",
       "P49",
-      "P50",
-      "P51"
+      "P50"
     ],
     [
+      "P51",
       "P52",
-      "P53",
-      "P54"
+      "P53"
     ],
     [
+      "P54",
       "P55",
-      "P56",
-      "P57"
+      "P56"
     ],
     [
+      "P57",
       "P58",
-      "P59",
-      "P60"
+      "P59"
     ],
     [
+      "P60",
       "P61",
-      "P62",
-      "P63"
+      "P62"
     ],
     [
+      "P63",
       "P64",
-      "P65",
-      "P66"
+      "P65"
     ],
     [
+      "P66",
       "P67",
-      "P68",
-      "P69"
+      "P68"
     ],
     [
+      "P69",
       "P70",
-      "P73",
-      "P74"
+      "P73"
     ],
     [
       "P71",
-      "P75",
+      "P74",
       "P77"
     ],
     [
       "P72",
-      "P76",
+      "P75",
       "P78"
     ],
     [
+      "P76",
       "P79",
-      "P80",
-      "P81"
+      "P80"
     ],
     [
+      "P81",
       "P82",
-      "P83",
-      "P84"
+      "P83"
     ],
     [
+      "P84",
       "P85",
-      "P86",
-      "P89"
+      "P86"
     ],
     [
       "P87",
-      "P90",
-      "P93"
+      "P89",
+      "P90"
     ],
     [
       "P88",
       "P91",
-      "P94"
+      "P93"
     ],
     [
       "P92",
-      "P95",
-      "P96"
+      "P94",
+      "P95"
     ],
     [
+      "P96",
       "P97",
-      "P98",
-      "P99"
+      "P98"
+    ],
+    [
+      "P99",
+      "U01"
     ],
     [
       "P184",
+      "U02",
+      "U03"
+    ],
+    [
       "U04",
       "U08"
     ],
@@ -21851,6 +21884,8 @@
         "RR16b",
         "RR17",
         "RR18",
+        "RR18a",
+        "RR18b",
         "RR19",
         "RR20",
         "RR21",
@@ -22486,6 +22521,8 @@
         "RR16b",
         "RR17",
         "RR18",
+        "RR18a",
+        "RR18b",
         "RR19",
         "RR20",
         "RR21",
@@ -23040,6 +23077,8 @@
         "RR16b",
         "RR17",
         "RR18",
+        "RR18a",
+        "RR18b",
         "RR19",
         "RR20",
         "RR21",
@@ -23604,6 +23643,8 @@
         "RR16b",
         "RR17",
         "RR18",
+        "RR18a",
+        "RR18b",
         "RR19",
         "RR20",
         "RR21",
@@ -24247,6 +24288,8 @@
         "RR16b",
         "RR17",
         "RR18",
+        "RR18a",
+        "RR18b",
         "RR19",
         "RR20",
         "RR21",
@@ -24902,6 +24945,8 @@
         "RR16b",
         "RR17",
         "RR18",
+        "RR18a",
+        "RR18b",
         "RR19",
         "RR20",
         "RR21",
@@ -25669,6 +25714,8 @@
         "RR23d",
         "RR16a",
         "RR16b",
+        "RR18a",
+        "RR18b",
         "C01",
         "C02",
         "C03",
@@ -105812,7 +105859,7 @@
         8
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR02",
@@ -105888,7 +105935,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR03",
@@ -105950,7 +105997,7 @@
         85
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR04",
@@ -106014,7 +106061,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR05",
@@ -106076,7 +106123,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR06",
@@ -106131,7 +106178,7 @@
         52
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR07",
@@ -106202,7 +106249,7 @@
         40
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR08",
@@ -106268,7 +106315,7 @@
         41
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR09",
@@ -106327,7 +106374,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR10",
@@ -106384,7 +106431,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR11",
@@ -106439,7 +106486,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR12",
@@ -106501,7 +106548,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR13",
@@ -106566,7 +106613,7 @@
         32
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR14",
@@ -106621,7 +106668,7 @@
         77
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR15",
@@ -106675,7 +106722,7 @@
         12
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR16",
@@ -106733,7 +106780,7 @@
         19
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR16a",
@@ -106784,7 +106831,7 @@
         19
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR16b",
@@ -106842,7 +106889,7 @@
         109
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR17",
@@ -106903,7 +106950,7 @@
         67
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR18",
@@ -106911,16 +106958,14 @@
       "lane": "rereview-repairs",
       "state": "PLANNED_NOT_IMPLEMENTED",
       "dependencies": [
-        "RR04"
+        "RR18a",
+        "RR18b"
       ],
       "external_prs": [
         65,
         61
       ],
       "paths": [
-        "rust/crates/syson-web/src/lib.rs",
-        "rust/crates/syson-web/src/layout_controller.rs",
-        "rust/crates/syson-web/tests/rr18_regression.rs",
         "porting/rust-parity-evidence/RR18/"
       ],
       "source_refs": [
@@ -106930,7 +106975,7 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Use bounded model and HTML writers before materialization. Avoid full serialization for absent canvas frames. Admit preview before replacing the active Editor/history. Fallback must preserve safe export, recover and discard actions after import."
+        "Integrate RR18a recovery and RR18b before-allocation rendering on one exact source candidate. Original preview/import/export, allocation, real UI and performance obligations remain required."
       ],
       "verification": [
         "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
@@ -106957,12 +107002,144 @@
         "U03",
         "U18"
       ],
+      "acceptance_children": [
+        "RR18a",
+        "RR18b"
+      ],
       "external_pr_details": [
         65,
         61
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
+    },
+    {
+      "id": "RR18a",
+      "title": "Preserve active editing state on refused preview and keep recovery reachable",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR04"
+      ],
+      "external_prs": [
+        65,
+        61
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/tests/rr18_regression.rs",
+        "porting/rust-parity-evidence/RR18a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Admit imported document preview on a private candidate before replacing active Editor/history/canvas/selection. Keep export, recover and explicit discard reachable when preview is refused. Use bounded RR04 model output and avoid serialization when canvas frame is absent. Full HTML before-allocation rendering remains RR18b."
+      ],
+      "verification": [
+        "Reproduce actual <=1MiB escaped-name destructive-import counterexample on exact baseline, then demonstrate prior document/history/selection/drafts survive refusal in real default WASM UI at desktop/mobile with keyboard/console/long-task observations. Verify fallback model download and recover/discard actions.",
+        "Freeze exact prerequisite/source/input hashes, preserve failing attempts and final-source tests with independent review; no held raw/graph/factory execution."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-web/web/loader.js"
+        ],
+        "policy": "Root-only same-focused-control caret restoration on draft-preserving repaint, after actual baseline reproduction. Author does not edit loader. Generic recovery-shell draft storage remains RR18b."
+      },
+      "external_pr_details": [
+        65,
+        61
+      ],
+      "source_fragment": "lanes/rereview.json",
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
+    },
+    {
+      "id": "RR18b",
+      "title": "Bound HTML preview and intermediate rendering before materialization",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18a"
+      ],
+      "external_prs": [
+        65,
+        61
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/web/loader.js",
+        "rust/crates/syson-web/tests/rr18b_regression.rs",
+        "porting/rust-parity-evidence/RR18b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace full-render-then-length-check and independently allocating helpers with bounded HTML/escaping/model/geometry sinks or counted admission before materialization. Cover navigation/options/SVG/scalar inspectors/export and all fallback paths without weakening atomic import recovery.",
+        "Preserve unrelated unsubmitted form drafts across recovery-shell removal and restoration using bounded presentation-only loader storage, with focus/caret restored. RR18a preserves drafts on normal refused-import DOM only; its fallback shell lacks prior form fields."
+      ],
+      "verification": [
+        "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Prove pre-copy refusal/high-water allocation bounds, escaped exact-fit and +1 boundaries and independently observed actual browser responsiveness. RR18a lifecycle-only success cannot close this child.",
+        "Actual WASM fallback -> recover must retain permitted prior form drafts/caret, bound stored draft bytes, and make explicit discard clear model and presentation drafts with keyboard confirmation.",
+        "Use the exact RR18a browser fixtures:700258-byte escaped import and900381-byte committed export/2701179-byte URI. Current same-host Chromium observation has longtasks up to111ms at320px and71ms at1440px. Rendering responsiveness remains OPEN. On the pinned owned reference profile, target no main-thread task >=50ms in these journeys through pre-admission/counting/chunking; record phase timing and any unmet budget explicitly, and do not claim performance acceptance while this required budget fails. Physical mobile/other-browser acceptance remains separate."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ],
+      "external_pr_details": [
+        65,
+        61
+      ],
+      "source_fragment": "lanes/rereview.json",
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR19",
@@ -107023,7 +107200,7 @@
         62
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR20",
@@ -107083,7 +107260,7 @@
         65
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR21",
@@ -107147,7 +107324,7 @@
         59
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR22",
@@ -107242,7 +107419,7 @@
         103
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR23",
@@ -107330,7 +107507,7 @@
         108
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR23a",
@@ -107397,7 +107574,7 @@
         100
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR23b",
@@ -107464,7 +107641,7 @@
         100
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR23c",
@@ -107531,7 +107708,7 @@
         100
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR23d",
@@ -107598,7 +107775,7 @@
         100
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR24",
@@ -107673,7 +107850,7 @@
         82
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "RR24a",
@@ -107727,7 +107904,7 @@
         90
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+      "source_fragment_sha256": "f83937e66f17f02e1e0f600549a47664c89fe20e2fc753c3df3caa5dcb785e67"
     },
     {
       "id": "U01",
