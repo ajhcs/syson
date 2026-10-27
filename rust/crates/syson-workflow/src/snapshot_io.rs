@@ -7,7 +7,7 @@ use std::{
 };
 use syson_model::Document;
 
-use crate::{SnapshotStore, StoreError};
+use crate::{SNAPSHOT_LIMIT, SnapshotStore, StoreError, open_nonblocking};
 
 /// Trusted caller-supplied filesystem operations for deterministic fault testing.
 /// Implementations must preserve the named operation's semantics. In particular,
@@ -39,11 +39,14 @@ impl SnapshotIo for FsSnapshotIo {
         fs::hard_link(staged, destination)
     }
     fn sync_directory(&mut self, directory: &Path) -> io::Result<()> {
-        #[cfg(unix)]
-        File::open(directory)?.sync_all()?;
-        #[cfg(not(unix))]
-        let _ = directory;
-        Ok(())
+        let file = open_nonblocking(directory)?;
+        if !file.metadata()?.is_dir() {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "snapshot directory required",
+            ));
+        }
+        file.sync_all()
     }
     fn remove_staged(&mut self, staged: &Path) -> io::Result<()> {
         fs::remove_file(staged)
@@ -64,10 +67,10 @@ impl SnapshotStore {
         io: &mut impl SnapshotIo,
     ) -> Result<PathBuf, StoreError> {
         let path = self.path(key)?;
-        let data = document.to_json()?;
-        if data.len() > 16 * 1024 * 1024 {
-            return Err(StoreError::TooLarge);
-        }
+        // RR04 counts canonical bytes/depth before reserving complete output.
+        // Keep one write_staged call so trusted I/O fault semantics stay intact.
+        let data = document.to_json_bounded(SNAPSHOT_LIMIT, || false)?;
+        self.check_root()?;
         let staged = path.with_extension("staged");
         let mut file = io.create_staged(&staged)?;
         io.write_staged(&mut file, data.as_bytes())?;
@@ -77,6 +80,7 @@ impl SnapshotStore {
         #[cfg(unix)]
         io.sync_directory(&self.root)?;
         io.remove_staged(&staged)?;
+        self.check_root()?;
         Ok(path)
     }
 }
