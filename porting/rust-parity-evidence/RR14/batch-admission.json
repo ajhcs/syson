@@ -1,0 +1,86 @@
+{
+  "plan_revision": "e370816da953e0ffe4d38669b2c794b15ba2af63",
+  "units": [
+    {
+      "id": "RR04",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr04-json-writer",
+      "branch": "codex/syson-rr04-json-writer",
+      "base": "4e0b6dfd9688a64392a2ab91846761600c605a28",
+      "base_branch": "codex/syson-rr02-literal-adoption",
+      "write_scope": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/tests/rr04_regression.rs",
+        "porting/rust-parity-evidence/RR04/"
+      ]
+    },
+    {
+      "id": "RR12",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr12-storage-fields",
+      "branch": "codex/syson-rr12-storage-fields",
+      "base": "e441af7de9f66146231295ef71519016d8c2141d",
+      "base_branch": "codex/syson-rr11-db-generation",
+      "write_scope": [
+        "rust/crates/syson-storage/src/lib.rs",
+        "rust/crates/syson-storage/src/bridge.py",
+        "rust/crates/syson-storage/tests/rr12_regression.rs",
+        "porting/rust-parity-evidence/RR12/"
+      ]
+    },
+    {
+      "id": "RR14",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr14-manifest-input",
+      "branch": "codex/syson-rr14-manifest-input",
+      "base": "9d244f04e76ae0ec3291416b733ae1e35b470905",
+      "base_branch": "codex/syson-rp-c03a-composition",
+      "write_scope": [
+        "rust/tools/verify-composition/src/lib.rs",
+        "rust/tools/verify-composition/tests/rr14_regression.rs",
+        "porting/rust-parity-evidence/RR14/"
+      ]
+    }
+  ],
+  "held_leases_preserved": [
+    {
+      "id": "MODEL-FACTORY-REVIEW-01",
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "id": "MODEL-CONNECTION-DEFINITION-HELPER-01",
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "ownership_reconciliation": "Exact active scopes do not intersect selected units. Root explicitly grants only RR04 serializer/counting/publication-helper regions in model lib.rs and its new test; module exports, raw_admission, initializer graph, factory review and old helpers remain held/read-only. Prior RR02/RR11/C03a authors released their exact scopes. No historical hold is released.",
+  "root_coordinator_additional_paths": {
+    "RR04": [],
+    "RR12": [
+      "rust/crates/syson-storage/tests/rr11_regression.rs"
+    ],
+    "RR14": []
+  },
+  "format_policy": "Assert all changed paths in scope BEFORE formatting; rustfmt skip_children=true only on exact leased .rs paths. Never recursive cargo fmt on model.",
+  "execution_owner": "/root",
+  "compiler_jobs": 1,
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+  "coordinator_wiring_policy": "RR12 inherits three RR11 dev connection wrappers; root forwards setlimit to actual wrapped SQLite connection so the new production guard remains exercised. No root bypass or generic injection API."
+}

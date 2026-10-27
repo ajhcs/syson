@@ -1,0 +1,56 @@
+// SPDX-License-Identifier: EPL-2.0
+#![cfg(unix)]
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::{Command, Output, Stdio},
+    sync::atomic::{AtomicU64, Ordering},
+    thread,
+    time::{Duration, Instant},
+};
+static NEXT: AtomicU64 = AtomicU64::new(0);
+fn directory() -> PathBuf {
+    let root = PathBuf::from(
+        std::env::var_os("SYSON_COMPOSITION_TEST_ROOT").expect("owned composition fixture root required"),
+    );
+    assert!(root.is_absolute() && root.starts_with("/workspace") && root.is_dir());
+    assert!(!root.components().any(|p| p == std::path::Component::ParentDir));
+    let dir = root.join(format!("rr14-{}-{}", std::process::id(), NEXT.fetch_add(1, Ordering::Relaxed)));
+    fs::create_dir(&dir).unwrap();
+    dir
+}
+fn fifo(path: &Path) {
+    assert!(path.is_absolute() && path.starts_with("/workspace"));
+    let output = Command::new("/usr/bin/mkfifo")
+        .arg("--").arg(path).env_clear().output().unwrap();
+    assert!(output.status.success(), "{}", String::from_utf8_lossy(&output.stderr));
+}
+fn cli(repo: &Path, manifest: &Path) -> (Output, bool) {
+    let mut child = Command::new(env!("CARGO_BIN_EXE_syson-verify-composition"))
+        .arg(repo).arg(manifest)
+        .env_clear().env("PATH", "/usr/bin:/bin")
+        .stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::piped())
+        .spawn().unwrap();
+    let start = Instant::now();
+    loop {
+        if child.try_wait().unwrap().is_some() {
+            return (child.wait_with_output().unwrap(), false);
+        }
+        if start.elapsed() >= Duration::from_secs(2) {
+            child.kill().unwrap();
+            return (child.wait_with_output().unwrap(), true);
+        }
+        thread::sleep(Duration::from_millis(5));
+    }
+}
+#[test]
+fn fifo_manifest_refuses_before_open_can_block() {
+    let dir = directory();
+    let manifest = dir.join("manifest.fifo");
+    fifo(&manifest);
+    let (output, timed_out) = cli(&dir, &manifest);
+    assert!(!timed_out, "manifest FIFO blocked before regular-file admission; child was killed and waited");
+    assert!(!output.status.success());
+    assert!(output.stdout.is_empty());
+    assert!(String::from_utf8_lossy(&output.stderr).contains("composition refused"));
+}
