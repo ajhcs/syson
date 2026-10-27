@@ -1,0 +1,86 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Baseline-compatible manual/raw oracles: never parse expected marker objects.
+use serde_json::{Map, Value};
+use syson_migrations::{self as migrations, Error, SYSML_URI, b25a, b25b, b25c, b25d};
+
+const MARKERS: &str = r#""numberMarker":{"$serde_json::private::Number":"123"},"rawMarker":{"$serde_json::private::RawValue":"{\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"literal text only\"}}"}"#;
+fn expected_marker(key: &str, value: &str) -> Value {
+    let mut map = Map::new();
+    map.insert(key.into(), Value::String(value.into()));
+    Value::Object(map)
+}
+fn assert_markers(value: &Value) {
+    assert_eq!(value["numberMarker"], expected_marker("$serde_json::private::Number", "123"));
+    assert_eq!(value["rawMarker"], expected_marker("$serde_json::private::RawValue", r#"{"eClass":"sysml:ViewUsage","data":{"exposedElement":"literal text only"}}"#));
+}
+fn semantic(markers: &str) -> String {
+    format!(r#"{{"ns":{{"z":"{SYSML_URI}","a":"foreign"}},{markers},"content":[{{"eClass":"sysml:ConnectorAsUsage","data":{{"source":"legacy-source","target":"legacy-target","keep":"connector"}}}},{{"eClass":"sysml:Annotation","data":{{"annotatingElement":"legacy","keep":"annotation"}}}},{{"eClass":"sysml:AnnotatingElement","data":{{"annotation":"legacy","keep":"annotating"}}}},{{"eClass":"sysml:ViewUsage","data":{{"exposedElement":"legacy","keep":"view"}}}}]}}"#)
+}
+#[test]
+fn every_semantic_participant_keeps_private_marker_objects_through_ordered_reentry() {
+    let input = semantic(MARKERS);
+    let before = input.clone();
+    let mut bytes = input.clone();
+    type Participant = fn(&str) -> Result<migrations::Prepared, Error>;
+    for (participant, version, index, removed) in [
+        (b25b::prepare as Participant, b25b::VERSION, 0, "source"),
+        (b25a::prepare as Participant, b25a::VERSION, 1, "annotatingElement"),
+        (b25c::prepare as Participant, b25c::VERSION, 3, "exposedElement"),
+    ] {
+        let output = participant(&bytes).unwrap();
+        assert!(output.matched_resource);
+        assert_eq!(output.participant_version, version);
+        assert_markers(&output.json);
+        assert!(output.json["content"][index]["data"].get(removed).is_none());
+        assert_eq!(output.json["content"][index]["data"]["keep"].as_str().unwrap(), ["connector","annotation","annotating","view"][index]);
+        bytes = output.to_json().unwrap();
+        assert!(bytes.contains(r#""ns":{"z":"http://www.eclipse.org/syson/sysml","a":"foreign"}"#));
+        assert_markers(&migrations::prepare(&bytes, "inspection", &[]).unwrap().json);
+    }
+    assert_eq!(input, before);
+}
+#[test]
+fn action_control_participant_keeps_marker_objects_in_matching_foreign_and_replay_modes() {
+    let input = format!(r#"{{{MARKERS},"descriptionId":"{}","label":"雪😀"}}"#, b25d::MAPPINGS[0].0);
+    let before = input.clone();
+    let output = b25d::prepare(b25d::KIND, &input, None).unwrap();
+    assert_markers(&output.json);
+    assert_eq!(output.json["descriptionId"], b25d::MAPPINGS[0].1);
+    assert_eq!(output.participant_version.as_deref(), Some(b25d::VERSION));
+    let replay = b25d::prepare(b25d::KIND, &output.to_json().unwrap(), Some(b25d::VERSION)).unwrap();
+    assert!(!replay.changed);
+    assert_markers(&replay.json);
+    let foreign = b25d::prepare("foreign", &input, Some("foreign-stamp")).unwrap();
+    assert!(!foreign.matched_kind && !foreign.changed);
+    assert_eq!(foreign.participant_version.as_deref(), Some("foreign-stamp"));
+    assert_markers(&foreign.json);
+    assert_eq!(foreign.json["descriptionId"], b25d::MAPPINGS[0].0);
+    assert_eq!(input, before);
+}
+#[test]
+fn namespace_first_value_is_literal_before_the_resource_predicate() {
+    for first in [
+        r#"{"$serde_json::private::Number":"123"}"#.to_owned(),
+        format!(r#"{{"$serde_json::private::RawValue":"\"{SYSML_URI}\""}}"#),
+    ] {
+        let input = format!(r#"{{"ns":{{"z":{first},"a":"{SYSML_URI}"}}}}"#);
+        assert_eq!(migrations::prepare(&input, "inspection", &[]), Err(Error::NamespaceShape));
+    }
+}
+#[test]
+fn all_four_participants_keep_exact_numeric_token_spelling() {
+    let huge = "9".repeat(16_384);
+    for token in ["-0", "0.00", "1E+000", "1e-99999", huge.as_str()] {
+        let input = format!(r#"{{"ns":{{"s":"{SYSML_URI}"}},"n":{token}}}"#);
+        for participant in [b25b::prepare, b25a::prepare, b25c::prepare] {
+            let output = participant(&input).unwrap();
+            let Value::Number(number) = &output.json["n"] else { panic!("number expected") };
+            assert_eq!(number.to_string(), token);
+            assert!(output.to_json().unwrap().contains(&format!(r#""n":{token}"#)));
+        }
+        let output = b25d::prepare(b25d::KIND, &input, None).unwrap();
+        let Value::Number(number) = &output.json["n"] else { panic!("number expected") };
+        assert_eq!(number.to_string(), token);
+        assert!(output.to_json().unwrap().contains(&format!(r#""n":{token}"#)));
+    }
+}
