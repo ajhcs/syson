@@ -1,0 +1,18 @@
+   Compiling syson-metamodel v0.1.0 (/workspace/worktrees/builderbob/syson/rr12-storage-fields/rust/crates/syson-metamodel)
+   Compiling syson-domain v0.1.0 (/workspace/worktrees/builderbob/syson/rr12-storage-fields/rust/crates/syson-domain)
+   Compiling syson-model v0.1.0 (/workspace/worktrees/builderbob/syson/rr12-storage-fields/rust/crates/syson-model)
+   Compiling syson-references v0.1.0 (/workspace/worktrees/builderbob/syson/rr12-storage-fields/rust/crates/syson-references)
+   Compiling syson-document-reconcile v0.1.0 (/workspace/worktrees/builderbob/syson/rr12-storage-fields/rust/crates/syson-document-reconcile)
+   Compiling syson-storage v0.1.0 (/workspace/worktrees/builderbob/syson/rr12-storage-fields/rust/crates/syson-storage)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.59s
+     Running unittests src/lib.rs (/workspace/build/builderbob/syson-rereview-batch3-20261027/build/target/debug/deps/syson_storage-4ae69d06c1f43e0b)
+     Running tests/rr11_regression.rs (/workspace/build/builderbob/syson-rereview-batch3-20261027/build/target/debug/deps/rr11_regression-bfeaea7722e784c2)
+     Running tests/rr12_regression.rs (/workspace/build/builderbob/syson-rereview-batch3-20261027/build/target/debug/deps/rr12_regression-dd1f710b2f9f512b)
+
+thread 'generation_and_schema_strings_are_bounded_before_crossing_the_driver_boundary' (407506) panicked at tests/rr12_regression.rs:407:9:
+{"largest_returned_string_chars":344,"payload_selects":0,"python_peak_bytes":8390218}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'row_type_and_byte_preflight_refuses_before_returning_large_fields_to_python' (407573) panicked at tests/rr12_regression.rs:385:9:
+name-one-over: {"largest_returned_string_chars":344,"payload_selects":0,"python_peak_bytes":8390218}
+error: test failed, to rerun pass `--test rr12_regression`
