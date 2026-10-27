@@ -1,0 +1,96 @@
+{
+  "canonical_head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+  "plan_head": "c962a85e56accc9d940e5e28eac480765a3a2f09",
+  "held_leases_preserved": [
+    {
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "previous_entries": 47,
+  "source_base": "40b3c1b3e6d86fb9ba082864dda4d17e6be8ee5b",
+  "operator": "builderbob",
+  "storage": "Hostbob-adminverifiedSamsung990PRO2TBext4rw",
+  "merge_authorization": "Currentuserexplicitlyasksappropriatepushandmerge;exactreview/dependency/holdgatesremain;nevermergesnapshotbases",
+  "plan_branch": "codex/syson-parity-plan-batch11",
+  "units": [
+    {
+      "id": "RR18b3a",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr18b3a-borrowed-summaries",
+      "branch": "codex/syson-rr18b3a-borrowed-summaries",
+      "base": "40b3c1b3e6d86fb9ba082864dda4d17e6be8ee5b",
+      "base_branch": "codex/syson-rr18b-joint-snapshot",
+      "author": "/root/batch2_view_migration",
+      "write_scope": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/src/element_summary.rs",
+        "rust/crates/syson-model/tests/rr18b3a_regression.rs",
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/tests/rr18b3a_regression.rs",
+        "porting/rust-parity-evidence/RR18b3a/"
+      ]
+    },
+    {
+      "id": "RR18b3b",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr18b3b-textarea-layout",
+      "branch": "codex/syson-rr18b3b-textarea-layout",
+      "base": "40b3c1b3e6d86fb9ba082864dda4d17e6be8ee5b",
+      "base_branch": "codex/syson-rr18b-joint-snapshot",
+      "author": "/root/rr07_keywords",
+      "write_scope": [
+        "rust/crates/syson-web/web/style.css",
+        "porting/rust-parity-evidence/RR18b3b/"
+      ]
+    }
+  ],
+  "root_coordinator_additional_paths": {
+    "RR18b3a": [
+      "rust/crates/syson-model/src/lib.rs"
+    ],
+    "RR18b3b": []
+  },
+  "source_leases": "Root grants source-only exact paths after acknowledgment. Authors never format/compile/run/Git. Root owns shared module hook, manifests, locks, Git, serial offline execution and publication. Release only explicitly after publication; old holds unchanged.",
+  "model_root_hook": "mod element_summary; pub use element_summary::ElementSummaryRef; only after source freeze",
+  "split_before_source_mutation": {
+    "parent": "RR18b3",
+    "children": [
+      "RR18b3a",
+      "RR18b3b",
+      "RR18b3c",
+      "RR18b3d"
+    ],
+    "this_batch": [
+      "RR18b3a",
+      "RR18b3b"
+    ],
+    "remaining": [
+      "RR18b3c",
+      "RR18b3d"
+    ]
+  },
+  "merge_policy": "New feature PRs initially target exact snapshot for review only; cannot merge until main prerequisites/held owner gates and landing-tree requalification. Documentation merge queue separately reviewed."
+}
