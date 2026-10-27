@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "SECOND_REREVIEW_REPAIR_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
+  "status": "THIRD_REREVIEW_REPAIR_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
   "candidate_revision": null,
   "full_parity_claimed": false,
   "closure": {
@@ -10,7 +10,7 @@
       "C01 exact source/artifact/effective inherited closure",
       "Existing M02 factory/admission owner hold",
       "Remaining semantic,language,host,UI,capacity and release acceptance units",
-      "Re-review RR01\u2013RR24 and strengthened existing acceptance tasks; no repair implementation in this plan update"
+      "Remaining re-review repairs RR01\u2013RR24 and strengthened existing acceptance tasks; bounded published repairs remain NOT_ACCEPTED"
     ],
     "discovered_children": [
       "B25S",
@@ -598,10 +598,100 @@
         ],
         "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
       }
+    },
+    "RR04": {
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rr04-json-writer",
+      "head": "26d3b2e82bc4b66de518872c4a620a84619e773b",
+      "base": "4e0b6dfd9688a64392a2ab91846761600c605a28",
+      "base_branch": "codex/syson-rr02-literal-adoption",
+      "external_prerequisites": [
+        91,
+        90,
+        69,
+        63,
+        8
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/94",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2,
+      "independent_review": "PASS_SOURCE_ONLY;ROOT_EXECUTION_SEPARATE",
+      "tests": 100,
+      "source_capture": "rr04-02",
+      "test_evidence": "rr04-01:47 existing model+11 new+41 interchange and both Clippy pass. Only new test added; rr04-02 runs12new cases/modelClippy/scopedfmt with identical production and other inputs.",
+      "original_failures": [
+        "red-01 expected dense allocation counterexample; peer requested final-write cancellation test before final qualification"
+      ],
+      "native_observation": "NOT_RUN; local Rust/API/owned SQLite or Git CLI evidence only",
+      "evidence": "porting/rust-parity-evidence/RR04/RESULTS.md",
+      "limits": "4 MiB/depth128 candidate publication limit; external partial/complete bytes can remain on failure or cancellation; no flush/durability/latency/native/UI claim. RR05 adoption remains open."
+    },
+    "RR12": {
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rr12-storage-fields",
+      "head": "cf7d79603d435a3c77b8edf42f53a11df4bfaa33",
+      "base": "e441af7de9f66146231295ef71519016d8c2141d",
+      "base_branch": "codex/syson-rr11-db-generation",
+      "external_prerequisites": [
+        89,
+        64,
+        53
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/95",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2,
+      "independent_review": "PASS_SOURCE_ONLY;ROOT_EXECUTION_SEPARATE",
+      "tests": 33,
+      "source_capture": "rr12-03",
+      "test_evidence": "rr12-01:2unit+8RR11 pass;6newpass/2measurementexpectations fail. Test/docs-only bound correction. rr12-03:8new+previouslyunexecuted15storage/Clippy/fmt pass; earlier10 not replayed.",
+      "original_failures": [
+        "red-01 expected borrowed-name and stored-name counterexamples",
+        "rr12-01 two whole-Python-peak assertions omitted existing 8 MiB stdin buffer; original 8390218-byte observation retained",
+        "rr12-02 root receipt-key error after formatting only; no tests executed"
+      ],
+      "native_observation": "NOT_RUN; local Rust/API/owned SQLite or Git CLI evidence only",
+      "evidence": "porting/rust-parity-evidence/RR12/RESULTS.md",
+      "limits": "UTF8 local SQLite v2 candidate only; Python bridge pending B07. Python allocation bounds include existing 8 MiB stdin preallocation and exclude SQLite C/RSS. Native/UI/durability acceptance open.",
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-storage/tests/rr11_regression.rs"
+        ],
+        "policy": "Coordinator-only inherited RR11 test proxy setlimit forwarding to the actual SQLite connection after author freeze; preserve every production guard. Serialize this exact shared test edit and requalify the RR11 cases. This path is not a parallel source-author lease."
+      }
+    },
+    "RR14": {
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rr14-manifest-input",
+      "head": "e1c536a2455fb2ffdf4423b93362eff32a2e0b62",
+      "base": "9d244f04e76ae0ec3291416b733ae1e35b470905",
+      "base_branch": "codex/syson-rp-c03a-composition",
+      "external_prerequisites": [
+        77,
+        72,
+        73,
+        74,
+        71
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/96",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2,
+      "independent_review": "PASS_SOURCE_ONLY;ROOT_EXECUTION_SEPARATE",
+      "tests": 15,
+      "source_capture": "rr14-01",
+      "test_evidence": "15cases/scopedfmt/Clippy/build pass. Fresh actual CLI verifies93selected+1generated composition with96inputs unchanged; historical29migrationcases not rerun.",
+      "original_failures": [
+        "red-01 expected FIFO blocking counterexample; child killed and waited at two seconds"
+      ],
+      "native_observation": "NOT_RUN; local Rust/API/owned SQLite or Git CLI evidence only",
+      "evidence": "porting/rust-parity-evidence/RR14/RESULTS.md",
+      "limits": "Linux x86_64 fixed open flags only; ancestor aliases supported, other platforms refuse. Metadata is not hostile-writer snapshot or regular-disk deadline. No migration/native/UI acceptance."
     }
   },
   "rereview": {
-    "status": "TWO_REPAIR_BATCHES_LOCALLY_VERIFIED;_REMAINING_ACCEPTANCE_OPEN",
+    "status": "THREE_REPAIR_BATCHES_LOCALLY_VERIFIED;_REMAINING_ACCEPTANCE_OPEN",
     "report": "rereview-20261026/README.md",
     "repair_units": [
       "RR01",
@@ -638,7 +728,10 @@
       "RR11",
       "RR02",
       "RR03",
-      "RR07"
+      "RR07",
+      "RR04",
+      "RR12",
+      "RR14"
     ],
     "keyword_inventory_correction": {
       "lexer": 170,
