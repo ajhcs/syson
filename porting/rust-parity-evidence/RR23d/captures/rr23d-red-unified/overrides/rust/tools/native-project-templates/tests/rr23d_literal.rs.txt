@@ -1,0 +1,93 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Manual marker maps and raw numeric tokens; no parsed expected marker Value.
+use serde_json::{Map, Value};
+use syson_native_project_templates::Catalogue;
+const NATIVE: &[u8] = include_bytes!("fixtures/native-templates.json");
+fn input() -> Value { serde_json::from_slice(NATIVE).unwrap() }
+fn marker(key: &str, value: &str) -> Value {
+    let mut map = Map::new(); map.insert(key.into(), Value::String(value.into())); Value::Object(map)
+}
+fn bytes(value: &Value) -> Vec<u8> { serde_json::to_vec(value).unwrap() }
+fn row<'a>(capture: &'a mut Value, id: &str) -> &'a mut Value {
+    capture["observations"].as_array_mut().unwrap().iter_mut().find(|row| row["id"] == id).unwrap()
+}
+fn observed<'a>(projection: &'a Value, id: &str) -> &'a Value {
+    projection["observations"].as_array().unwrap().iter().find(|row| row["id"] == id).unwrap()
+}
+fn body(capture: &mut Value, id: &str, edit: impl FnOnce(&mut Value)) {
+    let row = row(capture, id);
+    let mut body: Value = serde_json::from_str(row["body_utf8"].as_str().unwrap()).unwrap();
+    edit(&mut body);
+    row["body_utf8"] = Value::String(serde_json::to_string(&body).unwrap());
+}
+#[test]
+fn outer_private_number_object_stays_an_ordinary_object() {
+    let mut input = input();
+    let expected = marker("$serde_json::private::Number", "123");
+    input["context"]["vendor"] = expected.clone();
+    let raw = bytes(&input);
+    let catalogue = Catalogue::from_capture(&raw).unwrap();
+    assert_eq!(catalogue.envelope()["context"]["vendor"], expected);
+    assert_eq!(catalogue.projection(None).unwrap()["capture"]["context"]["vendor"], expected);
+}
+#[test]
+fn outer_private_raw_object_keeps_its_literal_string() {
+    let mut input = input();
+    let expected = marker("$serde_json::private::RawValue", r#"{"injected":[true],"label":"雪😀"}"#);
+    input["context"]["vendor"] = expected.clone();
+    let catalogue = Catalogue::from_capture(&bytes(&input)).unwrap();
+    assert_eq!(catalogue.envelope()["context"]["vendor"], expected);
+    assert_eq!(catalogue.projection(None).unwrap()["capture"]["context"]["vendor"], expected);
+}
+#[test]
+fn outer_projection_preserves_exact_numeric_token_spelling() {
+    let huge = "9".repeat(16_384);
+    for token in ["-0", "0.00", "1E+000", "1e-99999", "1e99999", huge.as_str()] {
+        let mut input = input(); input["context"]["vendor"] = Value::String("RR23D_TOKEN".into());
+        let raw = String::from_utf8(bytes(&input)).unwrap().replace("\"RR23D_TOKEN\"", token);
+        let before = raw.clone();
+        let output = Catalogue::from_capture(raw.as_bytes()).unwrap().projection(None).unwrap();
+        let Value::Number(number) = &output["capture"]["context"]["vendor"] else { panic!("number required") };
+        assert_eq!(number.to_string(), token);
+        assert_eq!(raw, before);
+    }
+}
+#[test]
+fn nested_private_number_object_cannot_be_a_typed_page_count() {
+    let mut input = input();
+    body(&mut input, "modal-large", |body| {
+        body["data"]["viewer"]["projectTemplates"]["pageInfo"]["count"] = marker("$serde_json::private::Number", "4");
+    });
+    assert!(Catalogue::from_capture(&bytes(&input)).is_err());
+}
+#[test]
+fn nested_private_raw_object_cannot_fabricate_an_empty_errors_array() {
+    let mut input = input();
+    body(&mut input, "all-templates", |body| { body["errors"] = marker("$serde_json::private::RawValue", "[]"); });
+    assert!(Catalogue::from_capture(&bytes(&input)).is_err());
+}
+#[test]
+fn original_page_count_negative_zero_acceptance_keeps_raw_body_carrier() {
+    let mut input = input();
+    body(&mut input, "modal-large", |body| {
+        body["data"]["viewer"]["projectTemplates"]["pageInfo"]["count"] = Value::String("RR23D_COUNT".into());
+    });
+    let row = row(&mut input, "modal-large");
+    let raw_body = row["body_utf8"].as_str().unwrap().replace("\"RR23D_COUNT\"", "-0");
+    row["body_utf8"] = Value::String(raw_body.clone());
+    let catalogue = Catalogue::from_capture(&bytes(&input)).unwrap();
+    let projection = catalogue.projection(None).unwrap();
+    assert_eq!(observed(&projection, "modal-large")["outcome"], "SUCCESS");
+    let saved = projection["capture"]["observations"].as_array().unwrap().iter().find(|row| row["id"] == "modal-large").unwrap();
+    assert_eq!(saved["body_utf8"].as_str(), Some(raw_body.as_str()));
+}
+#[test]
+fn original_request_negative_zero_matches_canonical_page_and_limit_zero() {
+    for (id, field) in [("modal-large", "page"), ("negative-page-zero-limit", "limit")] {
+        let mut input = input();
+        row(&mut input, id)["request"]["variables"][field] = Value::String("RR23D_REQUEST_ZERO".into());
+        let raw = String::from_utf8(bytes(&input)).unwrap().replace("\"RR23D_REQUEST_ZERO\"", "-0");
+        let catalogue = Catalogue::from_capture(raw.as_bytes()).unwrap();
+        assert_eq!(observed(&catalogue.projection(None).unwrap(), id)["outcome"], "SUCCESS");
+    }
+}
