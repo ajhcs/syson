@@ -8,6 +8,7 @@ Lane: rereview-repairs. State: PLANNED_NOT_IMPLEMENTED.
 - RR18b3b
 - RR18b3c
 - RR18b3e
+- RR18b3f
 
 Existing PR prerequisites: [#61](https://github.com/ajhcs/syson/pull/61), [#65](https://github.com/ajhcs/syson/pull/65), [#112](https://github.com/ajhcs/syson/pull/112)
 
@@ -17,6 +18,7 @@ Existing PR prerequisites: [#61](https://github.com/ajhcs/syson/pull/61), [#65](
 - RR18b3b
 - RR18b3c
 - RR18b3e
+- RR18b3f
 
 ## Feature acceptance dependencies
 
