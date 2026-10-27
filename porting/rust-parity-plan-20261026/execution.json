@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "SIXTH_REREVIEW_REPAIR_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
+  "status": "SEVENTH_REREVIEW_REPAIR_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
   "candidate_revision": null,
   "full_parity_claimed": false,
   "closure": {
@@ -1283,10 +1283,160 @@
         "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
       },
       "earlier_passes_not_final_source": "01/02 preborrowedguard attributed separately; full03 requalification is final"
+    },
+    "RR23c": {
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rr23c-http-literals",
+      "head": "6798b49da84d8e8917e75f4d77fc25b3da14d93d",
+      "base": "67ce68d5a8a20c913b21eba901484d1f101944f3",
+      "base_branch": "codex/syson-rr23c-base",
+      "external_prerequisites": [
+        83,
+        90,
+        100
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/107",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2,
+      "independent_review": "PASS_SOURCE_AND_CORRECTED_PACKAGED_EVIDENCE_READ_ONLY;ROOT_EXECUTION_SEPARATE",
+      "tests": 24,
+      "actual_cli_cases": 8,
+      "source_capture": "rr23c-02",
+      "test_evidence": "24unique cases(11inherited+13new)pass01; test-only borrowed assertion fix02 reruns only affected exact case with identical production, thenClippy/build. Eight actualCLI cases preserve54handlers/33MVC/22probes+9frontendHTML shells, manifest bytes, manual literal lanes/typedzero/refusals.",
+      "original_failures": [
+        "OriginalAP default4PASS/4FAIL vs dependency-unified2PASS/6FAIL; first -0 numeric assertions stop laterloop subcases until finalgreen.",
+        "01all24testsPASS then newtest owned comparison Clippyfailure;02onlyaffected exacttest rerun, no unchangedproduction suite replay."
+      ],
+      "native_observation": "NOT_RUN; unchanged captured native observations and actual repaired Rust CLI only",
+      "evidence": "porting/rust-parity-evidence/RR23c/RESULTS.md",
+      "limits": "LastWins physical200k/root128/raw32MiB/scalar64MiB adds before-collapse tightening while existing decoded200k/key8192/string4MiB/text24MiB guards remain aftermaterialization. No global preallocation/memory/latency/native route/UI/parentRR23/C01 acceptance.",
+      "snapshot_blobs": [
+        {
+          "path": "rust/crates/syson-json-value/Cargo.lock",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "390dddaf1ea92f784b38a3a1f5b97e676b300ac3",
+          "sha256": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e"
+        },
+        {
+          "path": "rust/crates/syson-json-value/Cargo.toml",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "2d6d3bb080b0f7ff61f20395cec9da084137ce39",
+          "sha256": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5"
+        },
+        {
+          "path": "rust/crates/syson-json-value/README.md",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "0e63720efb3557fdcf6f5ca81e9bda06ed386235",
+          "sha256": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f"
+        },
+        {
+          "path": "rust/crates/syson-json-value/src/lib.rs",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "fef6e09e335f075e174ece6364694d18d1a5abeb",
+          "sha256": "fb83a0daad8b57c43109651b5d6a8aa1ab4220b8e09c825faf3d05f94862efea"
+        },
+        {
+          "path": "rust/crates/syson-json-value/tests/literal.rs",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "161441ff639af36410a6ce223a6ee909ffe4652e",
+          "sha256": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c"
+        },
+        {
+          "path": "rust/crates/syson-json-value/tests/rr24a_duplicates.rs",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "f49f8e50ae50ca77b92c542994a5a5509801ba17",
+          "sha256": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a"
+        }
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-http-contract/Cargo.toml",
+          "rust/tools/native-http-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      },
+      "metadata_corrections": "Before publication: each packet names its own #83/#87 prerequisite; RR23d late failure claim narrowed to actual input preservation. No source change/test replay.",
+      "earlier_full_test_capture": "rr23c-01",
+      "unchanged_production_attribution": "01/02 production and old tests identical; one new assertion borrowed numeric comparison changed/requalified."
+    },
+    "RR23d": {
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rr23d-template-literals",
+      "head": "798044594e4b076a88a5c44a1d5e67d02bae870a",
+      "base": "fedc8ba846ffcc2b21948b7d3ddb842c9e9f5e4a",
+      "base_branch": "codex/syson-rr23d-base",
+      "external_prerequisites": [
+        87,
+        90,
+        100
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/108",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2,
+      "independent_review": "PASS_SOURCE_AND_CORRECTED_PACKAGED_EVIDENCE_READ_ONLY;ROOT_EXECUTION_SEPARATE",
+      "tests": 23,
+      "actual_cli_cases": 13,
+      "source_capture": "rr23d-01",
+      "test_evidence": "23final-source cases(10inherited+13new),fmt/Clippy/build pass. Thirteen actualCLI cases preserve five capture/selection routes,sixestablishedrefusals,literal/typedzero and nestedIDrefusal; tenobservations/fourGraphQLerrors/empty-page distinctions remain.",
+      "original_failures": [
+        "Original and explicitdependency-unified configurations both2PASS/5reachedliteralFAIL; PageInfo count:-0 and canonical requestpage/limit:-0 controlsPASS in both.",
+        "No failed final-source compiler/test/lint attempt; initial numericloop red stopsatfirst-0, all later numeric subcases coveredfinalgreen."
+      ],
+      "native_observation": "NOT_RUN; unchanged captured native observations and actual repaired Rust CLI only",
+      "evidence": "porting/rust-parity-evidence/RR23d/RESULTS.md",
+      "limits": "LastWins8MiB/root128/2Mphysicalvalues+keys/16MiBscalar PER outer/manifest/body boundary, not sharedaggregate. Borrowed typed numericzero compatibility preserves rawtokens; no opaqueobjectcoercion. Existing projectionlimit remains. No instantiation/paging correction/native/UI/capacity/globalallocation/parentRR23/C01 acceptance.",
+      "snapshot_blobs": [
+        {
+          "path": "rust/crates/syson-json-value/Cargo.lock",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "390dddaf1ea92f784b38a3a1f5b97e676b300ac3",
+          "sha256": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e"
+        },
+        {
+          "path": "rust/crates/syson-json-value/Cargo.toml",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "2d6d3bb080b0f7ff61f20395cec9da084137ce39",
+          "sha256": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5"
+        },
+        {
+          "path": "rust/crates/syson-json-value/README.md",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "0e63720efb3557fdcf6f5ca81e9bda06ed386235",
+          "sha256": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f"
+        },
+        {
+          "path": "rust/crates/syson-json-value/src/lib.rs",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "fef6e09e335f075e174ece6364694d18d1a5abeb",
+          "sha256": "fb83a0daad8b57c43109651b5d6a8aa1ab4220b8e09c825faf3d05f94862efea"
+        },
+        {
+          "path": "rust/crates/syson-json-value/tests/literal.rs",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "161441ff639af36410a6ce223a6ee909ffe4652e",
+          "sha256": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c"
+        },
+        {
+          "path": "rust/crates/syson-json-value/tests/rr24a_duplicates.rs",
+          "donor": "9c95c9ef5fd297f97451e3884ba2eb618f3d2396",
+          "git_blob": "f49f8e50ae50ca77b92c542994a5a5509801ba17",
+          "sha256": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a"
+        }
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-project-templates/Cargo.toml",
+          "rust/tools/native-project-templates/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      },
+      "metadata_corrections": "Before publication: each packet names its own #83/#87 prerequisite; RR23d late failure claim narrowed to actual input preservation. No source change/test replay."
     }
   },
   "rereview": {
-    "status": "SIX_REPAIR_BATCHES_LOCALLY_VERIFIED;_REMAINING_ACCEPTANCE_OPEN",
+    "status": "SEVEN_REPAIR_BATCHES_LOCALLY_VERIFIED;_REMAINING_ACCEPTANCE_OPEN",
     "report": "rereview-20261026/README.md",
     "repair_units": [
       "RR01",
@@ -1341,7 +1491,9 @@
       "RR24",
       "RR22",
       "RR23a",
-      "RR23b"
+      "RR23b",
+      "RR23c",
+      "RR23d"
     ],
     "keyword_inventory_correction": {
       "lexer": 170,
