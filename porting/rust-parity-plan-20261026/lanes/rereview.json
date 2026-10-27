@@ -85,7 +85,7 @@
         "Retain reloadable normal publication under explicit 4 MiB raw/canonical and value-depth-128 admission. Use the private no-output counter once at import/changed commit; preserve history/revision atomicity and Bundle limit-error family. Provisional staged clones remain outside this publication guarantee."
       ],
       "verification": [
-        "Retain root observed vendor object\u2192123 counterexample red then green; actual Editor edit\u2192bridge\u2192save/reopen with both marker keys and unchanged surrounding data.",
+        "Retain root observed vendor object→123 counterexample red then green; actual Editor edit→bridge→save/reopen with both marker keys and unchanged surrounding data.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
         "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
       ],
@@ -203,7 +203,7 @@
       ],
       "tasks": [
         "Expose a reusable bounded counting/writing API over authoritative document values. Charge before allocation; preserve serializer and identity contracts. Failure cannot publish partial owned output or mutate the document.",
-        "Promote and reuse RR02\u2019s private canonical admission counter as the shared bounded writer/count API; do not introduce a second independent serializer or weaken normal-publication reloadability."
+        "Promote and reuse RR02’s private canonical admission counter as the shared bounded writer/count API; do not introduce a second independent serializer or weaken normal-publication reloadability."
       ],
       "verification": [
         "Reject the dense 0.5 MiB, depth-60 fixture before a 16 MiB allocation. Verify encoded boundaries, Unicode/escape growth, cancellation and raw identity.",
@@ -2062,7 +2062,8 @@
         "RR18b3b",
         "RR18b3c",
         "RR18b3d",
-        "RR18b3e"
+        "RR18b3e",
+        "RR18b3f"
       ]
     },
     {
@@ -2199,9 +2200,9 @@
         112
       ],
       "paths": [
-        "rust/crates/syson-web/src/lib.rs",
         "rust/crates/syson-web/src/bounded_render.rs",
         "rust/crates/syson-web/tests/rr18b3c_regression.rs",
+        "rust/crates/syson-web/tests/support/rr18b3c_alloc.rs",
         "porting/rust-parity-evidence/RR18b3c/"
       ],
       "source_refs": [
@@ -2212,13 +2213,16 @@
       ],
       "tasks": [
         "Implement counted/limited escaping and scalar-helper emission through the existing model/literal authority; avoid independently allocating oversized escaped inputs, selected scalar JSON and readonly inspectors before admission. Preserve exact accepted wire/HTML bytes.",
-        "Hand off the bounded sink contract to complete renderer composition; do not claim navigation/SVG/geometry/global HTML or latency closure from helper-only tests."
+        "Hand off the bounded sink contract to complete renderer composition; do not claim navigation/SVG/geometry/global HTML or latency closure from helper-only tests.",
+        "Keep actual two-field helper-limit caller qualification in separate verification child RR18b3c2; helper producer acceptance requires that child. No source/helper/global gate is removed by this review-size split."
       ],
       "verification": [
         "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
         "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
-        "Prove pre-copy refusal/high-water allocation bounds, escaped exact-fit and +1 boundaries and independently observed actual browser responsiveness. RR18a lifecycle-only success cannot close this child."
+        "Prove pre-copy refusal/high-water allocation bounds, escaped exact-fit and +1 boundaries and independently observed actual browser responsiveness. RR18a lifecycle-only success cannot close this child.",
+        "Distinguish helper-component admission from global renderer closure: the admitted 700258-byte,700000-ampersand Package expands across navigation/options/SVG/export beyond16MiB while import selection is empty. Retain actual UI refusal/model/history/draft evidence, but whole-page preallocation and responsiveness remain RR18b3d requirements; a<=1MiB scalar alone is not falsely labelled >16MiB helper output.",
+        "Use exact frozen legacy bytes plus independent UTF8/CR/NUL/sentinel and raw-number/private-marker-object oracles. Count whole helper wrappers, exact-fit/+1, individually fitting fields whose aggregate refuses, and swallowed-write-error fault injection. Measure successful allocation-request aggregate/largest separately from RSS/live/high-water; disclose owned inspection and the added document-size scan."
       ],
       "commit_plan": [
         "Focused implementation and meaningful regression/caller fixtures",
@@ -2239,6 +2243,20 @@
         "B31",
         "U03",
         "U18"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-web/src/lib.rs",
+          "rust/crates/syson-web/src/bounded_render.rs"
+        ],
+        "policy": "Root-only module hook, fallible try_render/preview/navigation/paint caller wiring and test compatibility adapters after explicit source freeze; no parallel writer. Current source is exact a+b snapshot, not actual main or RR20 adoption. Existing Result alias visibility is the only coordinator module change beyond formatting; author acknowledges exact freeze."
+      },
+      "acceptance_children": [
+        "RR18b3c2",
+        "RR18b3c3"
+      ],
+      "acceptance_implementation_inputs": [
+        "RR18b3d"
       ]
     },
     {
@@ -2250,7 +2268,8 @@
         "RR18b3a",
         "RR18b3b",
         "RR18b3c",
-        "RR18b3e"
+        "RR18b3e",
+        "RR18b3f"
       ],
       "external_prs": [
         61,
@@ -2325,7 +2344,8 @@
       "state": "PLANNED_NOT_IMPLEMENTED",
       "dependencies": [
         "RR18b3c",
-        "RR18b3b"
+        "RR18b3b",
+        "RR18b3c3"
       ],
       "external_prs": [
         61,
@@ -2421,6 +2441,157 @@
       "owner_plan_units": [
         "C01",
         "C09"
+      ]
+    },
+    {
+      "id": "RR18b3c2",
+      "title": "Qualify the real aggregate scalar-helper refusal and committed recovery caller",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18b3c",
+        "RR18b3c3"
+      ],
+      "external_prs": [
+        115,
+        116
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/RR18b3c2/"
+      ],
+      "source_refs": [
+        "rereview-batch12-findings.json"
+      ],
+      "tasks": [
+        "Add a verification-only default-WASM browser recipe using two separately admitted under1MiB scalar requests: imported Comment body850000ampersands, select, then stage declaredShortName850000ampersands. The pendingmodel remains under4MiB but complete inspector output exceeds16MiB. Verify actual helper Err recovery preserves exact committed download, history and keyboard recovery; no product code change.",
+        "Keep parent RR18b3c acceptance pending this consuming caller; preserve original global-expansion/RSS/performance limits and all old holds."
+      ],
+      "verification": [
+        "Use real default WASM/DOM/native controls at320/1440, exact command/source/fixture hashes, console/AX/keyboard and actual screenshots. Capture task observations and focused-control rectangles before automation can scroll; no broad <50ms claim.",
+        "Verify fresh producer Rust/WASM then explicitly rebind unchanged compiled input bytes for verification-only branch; no invented fresh Rust rebuild or source acceptance. Retain every failed browser attempt and original instrument/source attribution.",
+        "Verify all evidence seals against actual committed blobs or declared supplement, including ignored HTTP logs; independent read-only source and evidence review before push."
+      ],
+      "commit_plan": [
+        "Focused actual-browser recipe and exact producer binding",
+        "Sealed executed evidence and independent review with remaining gates"
+      ],
+      "budget": {
+        "production_lines_max": 0,
+        "authored_lines_max": 250,
+        "expected_commits": 2,
+        "split_rule": "Verification only; any product repair requires a separately owned behavior-family PR."
+      },
+      "ownership": "Exact isolated c implementation snapshot; author writes only RR18b3c2 evidence/recipe; root owns Git and actual runtime. No producer, loader, CSS, model, Cargo or hold edits.",
+      "done_when": "Actual helper-limit consuming caller and packet gates pass on exact producer bytes; no feature/global-performance or parity acceptance follows.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ]
+    },
+    {
+      "id": "RR18b3c3",
+      "title": "Do not charge pristine native-normalized textarea defaults as dirty drafts",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18b3c"
+      ],
+      "external_prs": [
+        114
+      ],
+      "paths": [
+        "rust/crates/syson-web/web/loader.js",
+        "porting/rust-parity-evidence/RR18b3c3/"
+      ],
+      "source_refs": [
+        "rereview-batch12-findings.json"
+      ],
+      "tasks": [
+        "Fix only textarea dirty comparison: compare native value against the default in CRLF/CR-to-LF domain using an allocation-free UTF16 scan. Preserve focused-field retention, true dirty/cleared/extraLF/Unicode differences, INPUT/SELECT behavior, exact model bytes and existing quota. No model/semantic engine or replacement input authority.",
+        "Retain actual c2 failure proving no attribute dispatch and phantom dirty body. Requalify exact loader plus producer composition and actual c2 helper-limit consumer in separate PRs."
+      ],
+      "verification": [
+        "Actual native LF/CRLF/CR/mixed/trailingCR/empty/astral defaults and genuine dirty/clear/focused fields; quota/+1/refusal and no silent losses. Verify the original 850kbody+850kshortname journey reaches helper refusal, exactdownload/recovery/history/caret preserved.",
+        "Re-run affected actual browser draft/cancellation/font/longID/native textarea/keyboard/AX recipes at320/1440; bind exact scripts, source, owned cleanup, screenshots and performance observations. Reuse only byte-identical qualified producerWASM explicitly; no fresh Rust build claim for loader-only patch.",
+        "Independent source/evidence review and every sealed artifact checked against committed Git blobs, including ignored logs. Full latency, glyphs, focus visibility and total renderer bounds remain OPEN."
+      ],
+      "acceptance_implementation_inputs": [
+        "RR18b3c2"
+      ],
+      "commit_plan": [
+        "Focused loader repair and native regression recipe",
+        "Exact verified browser evidence and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 50,
+        "authored_lines_max": 300,
+        "expected_commits": 2,
+        "split_rule": "Any model, quota policy, rendering or unrelated workflow change requires a separately owned behavior-family PR."
+      },
+      "ownership": "Author exact three-file source grant after explicit ACK; root owns runtime/Git/results. Old held paths and producer Rust remain read-only.",
+      "done_when": "Actual retained quota-counterexample and consuming caller gates pass on exact committed composition without weakening quota or model preservation.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ]
+    },
+    {
+      "id": "RR18b3f",
+      "title": "Keep saved scalar and readonly value displays readable with exact full-text access",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18b3c",
+        "RR18b3c3"
+      ],
+      "external_prs": [
+        115,
+        116
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/bounded_render.rs",
+        "rust/crates/syson-web/tests/rr18b3f_regression.rs",
+        "porting/rust-parity-evidence/RR18b3f/"
+      ],
+      "source_refs": [
+        "rereview-batch12-findings.json"
+      ],
+      "tasks": [
+        "Replace unbounded visible saved-state/readonly value paragraphs with a bounded readable summary and usable native full-value disclosure/control. Preserve exact saved JSON/literal semantics, accessible names, keyboard/full-text/copy access and unchanged model/export bytes. Do not silently truncate values or only hide focus offscreen.",
+        "Keep ordinary small values clear; do not build oversized previews before admission or defeat helper limits. Full renderer composition RR18b3d must adopt the final helper contract after this UX repair. No CSS-file author scope is granted; any shared styling requires an explicit coordinator boundary before source edits."
+      ],
+      "verification": [
+        "Reproduce actual850kComment body saved-value wall from batch12 helper-scalar320 screenshot; measure bounding rectangles/page scroll extent before automation scroll, then verify bounded initial display, native disclosure/full-text access at320/1440, selection/history/CRLF/Unicode/readonly/AX and exact downloaded model bytes.",
+        "Use actual screenshots and UI interaction/performance observations; retain current missing glyph and global<50ms/renderer admission gates. Requalify exact affected scalar helper oracles on changed source, preserving legacy golden captures as historical data rather than relabelling them.",
+        "At 320 and 1440 CSS pixels, the initial saved-state display must occupy at most six text lines and 160 CSS pixels per property, without horizontal page overflow. Full-value access must have a labelled keyboard path and a selectable native control with at most twelve visible rows and local scrolling; exact saved JSON and model downloads remain authoritative. Any required broader interaction or lazy-output protocol must be split before exceeding the source budget."
+      ],
+      "commit_plan": [
+        "Focused saved-value presentation and meaningful boundary fixtures",
+        "Exact browser/screenshots/performance/independent review and limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split before exceeding budget; full model/renderer/host presentation rewrites require separate behavior families."
+      },
+      "ownership": "Future isolated bounded_render helper/display paths only. Root coordinates any new shared registration/styling and serial execution; no inference that existing writers are released.",
+      "done_when": "Bounded readable presentation and exact full-value/model access pass actual keyboard/AX/viewport/caller checks; full parity and glyph/latency closure stay separate.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
       ]
     }
   ]
