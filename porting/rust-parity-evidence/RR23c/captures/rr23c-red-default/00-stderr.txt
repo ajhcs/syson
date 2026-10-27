@@ -1,0 +1,30 @@
+   Compiling zmij v1.0.23
+   Compiling serde_core v1.0.229
+   Compiling serde_json v1.0.151
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling syson-native-http-contract v0.1.0 (/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-red-default/source/rust/tools/native-http-contract)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.07s
+     Running tests/rr23c_literal.rs (/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/deps/rr23c_literal-27e8ce21c79bc14c)
+
+thread 'mapping_number_marker_remains_an_object' (1048833) panicked at tests/rr23c_literal.rs:20:5:
+assertion `left == right` failed
+  left: Number(123)
+ right: Object {"$serde_json::private::Number": String("123")}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'mapping_numeric_tokens_keep_exact_source_spelling' (1048835) panicked at tests/rr23c_literal.rs:44:9:
+assertion `left == right` failed
+  left: "0"
+ right: "-0"
+
+thread 'probe_number_marker_remains_an_object' (1048842) panicked at tests/rr23c_literal.rs:20:5:
+assertion `left == right` failed
+  left: Number(123)
+ right: Object {"$serde_json::private::Number": String("123")}
+
+thread 'probe_numeric_tokens_keep_exact_source_spelling' (1048843) panicked at tests/rr23c_literal.rs:44:9:
+assertion `left == right` failed
+  left: "0"
+ right: "-0"
+error: test failed, to rerun pass `--test rr23c_literal`

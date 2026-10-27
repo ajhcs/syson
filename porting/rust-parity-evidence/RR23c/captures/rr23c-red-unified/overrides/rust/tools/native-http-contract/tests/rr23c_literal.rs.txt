@@ -1,0 +1,72 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Independent raw/manual oracles, not generic parsing of expected marker maps.
+use serde_json::{Map, Value};
+use syson_native_http_contract::{inspect_mappings, inspect_probes};
+const MAPPINGS: &str = include_str!("fixtures/native-mappings.json");
+const PROBES: &str = include_str!("fixtures/native-probes.json");
+type Inspect = fn(&str) -> Result<Value, String>;
+fn inject(source: &str, member: &str) -> String {
+    format!("{{{member},{}", source.strip_prefix('{').unwrap())
+}
+fn object(key: &str, text: &str) -> Value {
+    let mut map = Map::new();
+    map.insert(key.into(), Value::String(text.into()));
+    Value::Object(map)
+}
+fn marker(inspect: Inspect, source: &str, lane: &str, raw: &str, key: &str, text: &str) {
+    let input = inject(source, &(r#""vendor":"#.to_owned() + raw));
+    let before = input.clone();
+    let output = inspect(&input).unwrap();
+    assert_eq!(output[lane]["vendor"], object(key, text));
+    assert_eq!(input, before);
+}
+#[test]
+fn mapping_number_marker_remains_an_object() {
+    marker(inspect_mappings, MAPPINGS, "mappings", r#"{"$serde_json::private::Number":"123"}"#, "$serde_json::private::Number", "123");
+}
+#[test]
+fn probe_number_marker_remains_an_object() {
+    marker(inspect_probes, PROBES, "capture", r#"{"$serde_json::private::Number":"123"}"#, "$serde_json::private::Number", "123");
+}
+#[test]
+fn mapping_raw_marker_keeps_its_string_without_injecting_content() {
+    marker(inspect_mappings, MAPPINGS, "mappings", r#"{"$serde_json::private::RawValue":"{\"trap\":[true],\"text\":\"雪😀\"}"}"#, "$serde_json::private::RawValue", r#"{"trap":[true],"text":"雪😀"}"#);
+}
+#[test]
+fn probe_raw_marker_keeps_its_string_without_injecting_content() {
+    marker(inspect_probes, PROBES, "capture", r#"{"$serde_json::private::RawValue":"{\"trap\":[true],\"text\":\"雪😀\"}"}"#, "$serde_json::private::RawValue", r#"{"trap":[true],"text":"雪😀"}"#);
+}
+fn numbers(inspect: Inspect, source: &str, lane: &str) {
+    let huge = "9".repeat(4096);
+    for token in ["-0", "0.00", "1E+000", "1e-99999", "1e99999", huge.as_str()] {
+        let output = inspect(&inject(source, &(r#""vendor":"#.to_owned() + token))).unwrap();
+        let Value::Number(number) = &output[lane]["vendor"] else { panic!("not a number") };
+        assert_eq!(number.to_string(), token);
+    }
+}
+#[test]
+fn mapping_numeric_tokens_keep_exact_source_spelling() { numbers(inspect_mappings, MAPPINGS, "mappings"); }
+#[test]
+fn probe_numeric_tokens_keep_exact_source_spelling() { numbers(inspect_probes, PROBES, "capture"); }
+fn ordinary_probes() -> String {
+    // The unchanged native fixture has no manufactured private objects/-0.
+    serde_json::from_str::<Value>(PROBES).unwrap().to_string()
+}
+#[test]
+fn typed_negative_zero_body_count_with_empty_body_is_accepted() {
+    let source = ordinary_probes();
+    let needle = r#""body_bytes":0"#;
+    assert!(source.contains(needle));
+    let input = source.replacen(needle, r#""body_bytes":-0"#, 1);
+    let before = input.clone();
+    assert_eq!(inspect_probes(&input).unwrap()["summary"]["probes"], 22);
+    assert_eq!(input, before);
+}
+#[test]
+fn typed_negative_zero_status_is_rejected_by_the_existing_status_range() {
+    let source = ordinary_probes();
+    let needle = r#""status":200"#;
+    assert!(source.contains(needle));
+    let input = source.replacen(needle, r#""status":-0"#, 1);
+    assert!(inspect_probes(&input).unwrap_err().contains("invalid status"));
+}
