@@ -77,7 +77,7 @@ try {
         if (ancestor.tagName === 'DETAILS') ancestor.open = true;
       }
       next.focus({preventScroll: background});
-      if (background && caret) next.setSelectionRange(...caret);
+      if (preserveDrafts && caret && next.id === focused?.id && next.tagName === focused?.tagName && next.type === focused?.type) next.setSelectionRange(...caret);
     }
     const canvas = root.querySelector('[data-canvas-revision]');
     const {canvasTicket: ticket, canvasPhase: phase} = canvas?.dataset ?? {};
