@@ -31,6 +31,12 @@ pub enum Error {
     },
     Native(crate::Error),
 }
+fn model_error(error: syson_model::ModelError) -> Error {
+    match error {
+        syson_model::ModelError::JsonAdmission(syson_json_value::Error::Limit(_)) => Error::Limit,
+        other => Error::Model(other.to_string()),
+    }
+}
 struct Target {
     node: String,
     class: String,
@@ -199,14 +205,9 @@ pub fn load(key: &str, document: &Document, encoding: SourceEncoding) -> Result<
     match encoding {
         SourceEncoding::LocalSemanticElementIds => (),
     }
-    if document
-        .to_json()
-        .map_err(|e| Error::Model(e.to_string()))?
-        .len()
-        > MAX_RESOURCE_BYTES
-    {
-        return Err(Error::Limit);
-    }
+    let admitted_size = document
+        .json_size(MAX_RESOURCE_BYTES, || false)
+        .map_err(model_error)?;
     let mut targets = BTreeMap::new();
     for node in document.value()["content"].as_array().unwrap() {
         if node["eClass"] != "sysml:Package" {
@@ -218,9 +219,12 @@ pub fn load(key: &str, document: &Document, encoding: SourceEncoding) -> Result<
     for node in converted["content"].as_array_mut().unwrap() {
         convert(node, &targets)?;
     }
+    // All admitted semantic and node UUIDs are exactly 36 ASCII bytes. Only
+    // these two reference strings change, so converted canonical size cannot grow.
+    let json = crate::converted_json(&converted, admitted_size).map_err(model_error)?;
     Bundle::load(vec![Input {
         key: key.into(),
-        json: serde_json::to_string(&converted).map_err(|e| Error::Model(e.to_string()))?,
+        json,
         fragments: FragmentIdentity::JsonNodeId,
     }])
     .map_err(Error::Native)
