@@ -1,0 +1,48 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 13 tests
+test actual_f14_gate_refuses_wider_reserved_names_and_parser_size_limits ... ok
+test cross_package_deresolution_qualifies_only_when_required ... ok
+test dangling_wrong_class_wrong_typed_feature_and_multiple_types_refuse ... ok
+test duplicate_siblings_and_lossy_name_inputs_refuse ... ok
+test empty_and_multiple_root_packages_keep_order ... ok
+test exact_package_part_typing_bytes_roundtrip_through_actual_f14 ... ok
+test explicit_crlf_and_tabs_have_no_platform_or_trailing_newline_dependency ... ok
+test nested_feature_memberships_and_forward_references_keep_order ... ok
+test printable_spaces_unicode_and_native_keywords_roundtrip ... ok
+test semantic_typing_never_falls_back_to_local_node_identity ... ok
+test shadowed_root_path_is_refused_instead_of_binding_a_different_type ... ok
+test unknown_fields_modifiers_and_untyped_parts_are_not_silently_dropped ... ok
+test unsupported_classifier_and_wrong_membership_kind_fail_without_output ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+
+running 8 tests
+test borrowed_qualified_names_keep_shortest_selection_and_unicode ... FAILED
+test exact_and_near_limit_root_packages_pass_actual_f14_roundtrip ... ok
+test indentation_and_nested_closing_lines_fit_exactly_before_reimport ... ok
+test one_extra_name_byte_and_crlf_growth_refuse_before_output_allocation ... ok
+test oversized_name_refuses_before_name_or_output_allocation ... ok
+test quoted_unicode_and_crlf_are_counted_as_bytes_at_the_exact_limit ... ok
+test repeated_qualified_segments_overflow_without_owned_candidates_or_output ... ok
+test rr07_reserved_word_and_lossy_escape_policy_remain_unchanged ... ok
+
+failures:
+
+---- borrowed_qualified_names_keep_shortest_selection_and_unicode stdout ----
+
+thread 'borrowed_qualified_names_keep_shortest_selection_and_unicode' (308634) panicked at tests/rr06_regression.rs:92:10:
+called `Result::unwrap()` on an `Err` value: Parse(Unsupported { offset: 27 })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    borrowed_qualified_names_keep_shortest_selection_and_unicode
+
+test result: FAILED. 7 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.43s
+
