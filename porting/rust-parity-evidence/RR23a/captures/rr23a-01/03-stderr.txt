@@ -1,0 +1,30 @@
+    Checking serde_core v1.0.229
+    Checking zmij v1.0.23
+    Checking memchr v2.8.3
+    Checking itoa v1.0.18
+    Checking serde_json v1.0.151
+    Checking serde v1.0.229
+    Checking syson-json-value v0.1.0 (/workspace/worktrees/builderbob/syson/rr23a-graphql-literals/rust/crates/syson-json-value)
+    Checking syson-native-graphql-contract v0.1.0 (/workspace/worktrees/builderbob/syson/rr23a-graphql-literals/rust/tools/native-graphql-contract)
+error: this `if` statement can be collapsed
+  --> tests/rr23a_literal.rs:81:21
+   |
+81 | /                     if key == "defaultValue" {
+82 | |                         if let Some(s) = value.as_str() {
+83 | |                             found.push(s);
+84 | |                         }
+85 | |                     }
+   | |_____________________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+   = note: `-D clippy::collapsible-if` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+   |
+81 ~                     if key == "defaultValue"
+82 ~                         && let Some(s) = value.as_str() {
+83 |                             found.push(s);
+84 ~                         }
+   |
+
+error: could not compile `syson-native-graphql-contract` (test "rr23a_literal") due to 1 previous error

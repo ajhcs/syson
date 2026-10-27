@@ -1,0 +1,41 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Independent literal oracles: marker expectations never cross a Value parser.
+use serde_json::{Map, Value};
+use syson_native_graphql_contract::inspect;
+const NATIVE: &str = include_str!("fixtures/native-official-label-introspection.json");
+fn inserted(member: &str) -> String {
+    let needle = r#""__schema":{"#;
+    assert_eq!(NATIVE.matches(needle).count(), 1);
+    NATIVE.replacen(needle, &(needle.to_owned() + member + ","), 1)
+}
+fn literal_object(key: &str, value: &str) -> Value {
+    let mut map = Map::new();
+    map.insert(key.into(), Value::String(value.into()));
+    Value::Object(map)
+}
+#[test]
+fn private_number_named_object_is_preserved_as_an_ordinary_object() {
+    let input = inserted(r#""vendor":{"$serde_json::private::Number":"123"}"#);
+    let before = input.clone();
+    let output = inspect(&input).unwrap();
+    assert_eq!(output["schema"]["vendor"], literal_object("$serde_json::private::Number", "123"));
+    assert_eq!(input, before);
+}
+#[test]
+fn private_raw_named_object_preserves_its_string_without_injecting_content() {
+    let input = inserted(r#""vendor":{"$serde_json::private::RawValue":"{\"nested\":[true],\"label\":\"雪😀\"}"}"#);
+    let before = input.clone();
+    let output = inspect(&input).unwrap();
+    assert_eq!(output["schema"]["vendor"], literal_object("$serde_json::private::RawValue", r#"{"nested":[true],"label":"雪😀"}"#));
+    assert_eq!(input, before);
+}
+#[test]
+fn unknown_numeric_values_keep_their_exact_valid_source_spelling() {
+    let huge = "9".repeat(4096);
+    for token in ["-0", "0.00", "1E+000", "1e-99999", "1e99999", huge.as_str()] {
+        let input = inserted(&(r#""vendor":"#.to_owned() + token));
+        let output = inspect(&input).unwrap();
+        let Value::Number(number) = &output["schema"]["vendor"] else { panic!("numeric token became a non-number") };
+        assert_eq!(number.to_string(), token);
+    }
+}

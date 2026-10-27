@@ -1,0 +1,24 @@
+   Compiling serde_core v1.0.229
+   Compiling serde_json v1.0.151
+   Compiling serde v1.0.229
+   Compiling syson-json-value v0.1.0 (/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23a-red-unified/source/rust/crates/syson-json-value)
+   Compiling syson-native-graphql-contract v0.1.0 (/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23a-red-unified/source/rust/tools/native-graphql-contract)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.66s
+     Running tests/rr23a_literal.rs (/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/deps/rr23a_literal-92e6d21944f671fa)
+
+thread 'private_number_named_object_is_preserved_as_an_ordinary_object' (999141) panicked at tests/rr23a_literal.rs:21:5:
+assertion `left == right` failed
+  left: Number(123)
+ right: Object {"$serde_json::private::Number": String("123")}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'private_raw_named_object_preserves_its_string_without_injecting_content' (999142) panicked at tests/rr23a_literal.rs:29:5:
+assertion `left == right` failed
+  left: Object {"label": String("雪😀"), "nested": Array [Bool(true)]}
+ right: Object {"$serde_json::private::RawValue": String("{\"nested\":[true],\"label\":\"雪😀\"}")}
+
+thread 'unknown_numeric_values_keep_their_exact_valid_source_spelling' (999143) panicked at tests/rr23a_literal.rs:39:9:
+assertion `left == right` failed
+  left: "0"
+ right: "-0"
+error: test failed, to rerun pass `--test rr23a_literal`
