@@ -1,0 +1,49 @@
+{
+  "unit": "RR23b",
+  "status": "PASS_ACTUAL_READER_CLI;_NO_FRESH_NATIVE_EPOCH",
+  "commands": [
+    {
+      "name": "native",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-db-contract",
+        "/workspace/worktrees/builderbob/syson/rr23b-db-literals/rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "marker-oid",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23b-cli-02/scratch/marker-oid.json"
+      ],
+      "exit_code": 1
+    },
+    {
+      "name": "marker-capture",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23b-cli-02/scratch/marker-capture.json"
+      ],
+      "exit_code": 1
+    },
+    {
+      "name": "negative-zero",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23b-cli-02/scratch/negative-zero.json"
+      ],
+      "exit_code": 1
+    }
+  ],
+  "inputs": {
+    "/workspace/worktrees/builderbob/syson/rr23b-db-literals/porting/rust-parity-evidence/C01d/c01d-cli-02/native-stdout.txt": "f2d72b8ceb0d703df339d5a30d5d3c7867430af52da318722ac425d2ccb76990",
+    "/workspace/worktrees/builderbob/syson/rr23b-db-literals/rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json": "62dc261f15c200385fac1887c4f4e0fd1995d3996017e4321511dc9f8c024ef1",
+    "/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23b-cli-02/scratch/marker-oid.json": "579ec4d091819a016feb36fa1396e2423fe924351192a3e871ef26a00bb79f60",
+    "/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23b-cli-02/scratch/marker-capture.json": "b6b94459627aa491e255420fc4faf275f97b9ac0e3d0ef1a7d52f632da1272fd",
+    "/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23b-cli-02/scratch/negative-zero.json": "6909a68d5231b1ca58fa28e35a62082a8049da4bcdffa14a6bf0e32f729ab1c2"
+  },
+  "executable_sha256": "c1b6142e6cc2a6df9d5d14043838026019136d80e92157293bd62e0fb0d2503b",
+  "native_obligations": 164,
+  "native_migrations": 20,
+  "source_inputs_unchanged": true
+}

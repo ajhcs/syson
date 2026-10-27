@@ -1,0 +1,70 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Typed-slot literal oracles. Native DB descriptors have no opaque object slot.
+use serde_json::{Map, Value};
+use syson_native_db_contract::project;
+const NATIVE: &[u8] = include_bytes!("fixtures/native-01-catalog.json");
+fn input() -> Value { serde_json::from_slice(NATIVE).unwrap() }
+fn marker(key: &str, value: String) -> Value {
+    let mut fields = Map::new();
+    fields.insert(key.into(), Value::String(value));
+    Value::Object(fields)
+}
+fn bytes(input: &Value) -> Vec<u8> { serde_json::to_vec(input).unwrap() }
+#[test]
+fn private_number_object_is_not_an_unsigned_oid() {
+    let mut input = input();
+    let oid = input["tables"][0]["oid"].to_string();
+    input["tables"][0]["oid"] = marker("$serde_json::private::Number", oid);
+    let raw = bytes(&input);
+    let before = raw.clone();
+    assert!(project(&raw).is_err(), "literal marker object was accepted as a PostgreSQL OID");
+    assert_eq!(raw, before);
+}
+#[test]
+fn private_raw_object_is_not_a_capture_descriptor() {
+    let mut input = input();
+    let capture = serde_json::to_string(&input["capture"]).unwrap();
+    input["capture"] = marker("$serde_json::private::RawValue", capture);
+    let raw = bytes(&input);
+    assert!(project(&raw).is_err(), "literal marker object was reinterpreted as valid capture metadata");
+}
+fn raw_order(token: &str) -> Vec<u8> {
+    let mut input = input();
+    input["changelog"][0]["orderexecuted"] = Value::String("RR23B_INTEGER_TOKEN".into());
+    String::from_utf8(bytes(&input)).unwrap().replace("\"RR23B_INTEGER_TOKEN\"", token).into_bytes()
+}
+#[test]
+fn signed_negative_zero_retains_the_original_typed_integer_refusal() {
+    let error = project(&raw_order("-0")).unwrap_err();
+    assert!(error.contains("invalid migration execution order"), "{error}");
+}
+fn first_migration(output: &Value) -> &Value {
+    &output["obligations"].as_array().unwrap().iter()
+        .find(|row| row["kind"] == "migration" && row["observed"]["position"] == 0).unwrap()["observed"]
+}
+#[test]
+fn canonical_typed_integer_extremes_and_native_numeric_identities_survive() {
+    for token in ["-9223372036854775808", "0", "9223372036854775807"] {
+        let output = project(&raw_order(token)).unwrap();
+        let Value::Number(number) = &first_migration(&output)["orderexecuted"] else { panic!("number expected") };
+        assert_eq!(number.to_string(), token);
+        assert_eq!(output["migration_order"].as_array().unwrap().len(), 20);
+        assert_eq!(output["obligations"].as_array().unwrap().len(), 164);
+    }
+    let mut input = input();
+    input["capture"]["server_version_num"] = Value::from(u64::MAX);
+    let output = project(&bytes(&input)).unwrap();
+    assert_eq!(output["capture"]["server_version_num"].to_string(), "18446744073709551615");
+}
+#[test]
+fn marker_named_json_sql_and_unicode_stay_exact_literal_strings() {
+    let text = r#"雪😀\n SQL '{"$serde_json::private::Number":"123","$serde_json::private::RawValue":"{\"fake\":true}"}'::text -- literal only"#;
+    let mut input = input();
+    input["changelog"][0]["comments"] = Value::String(text.into());
+    input["columns"][0]["default_expr"] = Value::String(text.into());
+    let output = project(&bytes(&input)).unwrap();
+    assert_eq!(first_migration(&output)["comments"].as_str(), Some(text));
+    let column = output["obligations"].as_array().unwrap().iter()
+        .find(|row| row["kind"] == "column" && row["observed"]["default_expr"].as_str() == Some(text)).unwrap();
+    assert_eq!(column["observed"]["default_expr"], Value::String(text.into()));
+}

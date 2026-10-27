@@ -6,6 +6,10 @@ use std::io::{Read, Write};
 use std::path::Path;
 
 pub const MAX_BYTES: usize = 8 * 1024 * 1024;
+/// Selected physical-input admission, including overwritten duplicate members.
+/// Root values start at one; these are not PostgreSQL capacity assertions.
+pub const MAX_DEPTH: usize = 128;
+pub const MAX_VALUES: usize = 2_000_000;
 /// Candidate tool limit, not a PostgreSQL identifier-width assertion.
 pub const MAX_IDENTITY_BYTES: usize = 4096;
 type Result<T> = std::result::Result<T, String>;
@@ -169,7 +173,24 @@ pub fn read_file(path: &Path) -> Result<Vec<u8>> {
 /// stable named B05 obligations. Success is not native/Rust schema equivalence.
 pub fn project(bytes: &[u8]) -> Result<Value> {
     need(bytes.len() <= MAX_BYTES, "catalog byte limit")?;
-    let input: Value = serde_json::from_slice(bytes).map_err(|e| e.to_string())?;
+    let text = std::str::from_utf8(bytes).map_err(|e| e.to_string())?;
+    // Native JSONB has unique members, but preserve this reader's historical
+    // last-value behavior for supplied duplicates. Inspect every physical value
+    // before collapse; never reinterpret marker-named objects as typed scalars.
+    let admitted = syson_json_value::parse_with_duplicate_keys(
+        text,
+        syson_json_value::Limits {
+            bytes: MAX_BYTES,
+            depth: MAX_DEPTH,
+            values: MAX_VALUES,
+            keys: MAX_VALUES,
+            scalar_bytes: 2 * MAX_BYTES,
+        },
+        syson_json_value::DuplicateKeys::LastWins,
+        || false,
+    )
+    .map_err(|e| format!("catalog JSON admission: {e}"))?;
+    let (input, _) = admitted.into_value(|| false).map_err(|e| e.to_string())?;
     fields(
         &input,
         &[
@@ -470,7 +491,12 @@ pub fn project(bytes: &[u8]) -> Result<Value> {
             ],
         )?;
         need(
-            row["orderexecuted"].as_i64().is_some(),
+            // The original standalone serde numeric decoder classified -0 as
+            // floating point and refused it here. Literal AP numbers must not
+            // silently broaden that existing signed-integer contract.
+            row["orderexecuted"]
+                .as_number()
+                .is_some_and(|number| number.as_i64().is_some() && number.as_str() != "-0"),
             "invalid migration execution order",
         )?;
         let position = number(&row["position"])?;

@@ -1,0 +1,13 @@
+    Checking syson-json-value v0.1.0 (/workspace/worktrees/builderbob/syson/rr23b-db-literals/rust/crates/syson-json-value)
+    Checking syson-native-db-contract v0.1.0 (/workspace/worktrees/builderbob/syson/rr23b-db-literals/rust/tools/native-db-contract)
+error: this creates an owned instance just for comparison
+   --> src/lib.rs:497:56
+    |
+497 |             row["orderexecuted"].as_i64().is_some() && row["orderexecuted"].to_string() != "-0",
+    |                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try: `row["orderexecuted"]`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#cmp_owned
+    = note: `-D clippy::cmp-owned` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::cmp_owned)]`
+
+error: could not compile `syson-native-db-contract` (lib) due to 1 previous error
