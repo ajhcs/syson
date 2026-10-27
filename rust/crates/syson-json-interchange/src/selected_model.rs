@@ -185,6 +185,8 @@ fn convert(node: &mut Value, targets: &BTreeMap<String, Target>) -> Result<(), E
     }
     Ok(())
 }
+/// Serialized boundaries use Document::from_json through the literal-safe model
+/// authority; no generic Value pre-parse or identity-domain inference is used.
 /// Convert one caller-selected resource atomically, then run normal Bundle::load.
 /// Only FeatureTyping.type/typedFeature change. All node/semantic IDs, envelope
 /// fields and opaque unknown values remain intact. Input is immutable on failure

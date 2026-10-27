@@ -106,6 +106,8 @@ fn convert(node: &mut Value, targets: &BTreeMap<String, Target>) -> Result<(), E
     }
     Ok(())
 }
+/// Serialized boundaries use Document::from_json through the literal-safe model
+/// authority; no generic Value pre-parse or identity-domain inference is used.
 /// Atomically convert one native local-node-ID resource into the six-class F14
 /// selected representation. Only FeatureTyping.type/typedFeature are rewritten;
 /// both UUID domains and unknown JSON values are preserved. Input is immutable.
