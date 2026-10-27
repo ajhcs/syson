@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: EPL-2.0
 //! Bounded immutable JSON preparation matching selected native migration helpers.
 #![forbid(unsafe_code)]
-use serde::de::{Deserialize, Deserializer, IgnoredAny, MapAccess, Visitor};
-use serde_json::{Value, value::RawValue};
-use std::{collections::HashSet, fmt, io::Write};
+use serde_json::Value;
+use std::{collections::HashSet, io::Write};
+use syson_json_value::{DuplicateKeys, Literal, Node};
 use syson_metamodel::{Package, is_subtype, lookup};
 
 pub const MAX_BYTES: usize = 1024 * 1024;
@@ -105,77 +105,48 @@ impl Prepared {
         String::from_utf8(out.0).map_err(|e| Error::Input(e.to_string()))
     }
 }
-struct Namespace(Option<Box<RawValue>>);
-impl<'de> Deserialize<'de> for Namespace {
-    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
-        struct Root;
-        impl<'de> Visitor<'de> for Root {
-            type Value = Namespace;
-            fn expecting(&self, f: &mut fmt::Formatter) -> fmt::Result {
-                f.write_str("a resource object")
-            }
-            fn visit_map<A: MapAccess<'de>>(self, mut map: A) -> Result<Namespace, A::Error> {
-                let mut ns = None;
-                while let Some(key) = map.next_key::<String>()? {
-                    if key == "ns" {
-                        ns = Some(map.next_value()?);
-                    } else {
-                        map.next_value::<IgnoredAny>()?;
-                    }
-                }
-                Ok(Namespace(ns))
-            }
-        }
-        deserializer.deserialize_map(Root)
+// One literal authority for complete input and namespace inspection. Legacy
+// migrations use last values at first decoded-key positions, unlike the strict
+// default parser. Physical overwritten values still consume the input budget.
+fn literal(input: &str) -> Result<Literal<'_>, syson_json_value::Error> {
+    syson_json_value::parse_with_duplicate_keys(
+        input,
+        syson_json_value::Limits {
+            bytes: MAX_BYTES,
+            // Legacy bounded() starts the root at zero; RR01 starts at one.
+            depth: MAX_DEPTH + 1,
+            values: MAX_VALUES,
+            keys: MAX_VALUES,
+            scalar_bytes: 2 * MAX_BYTES,
+        },
+        DuplicateKeys::LastWins,
+        || false,
+    )
+}
+fn literal_error(error: syson_json_value::Error) -> Error {
+    match error {
+        syson_json_value::Error::Limit(_) => Error::Limit,
+        other => Error::Input(other.to_string()),
     }
 }
-struct First(Option<Value>, Vec<String>);
-impl<'de> Deserialize<'de> for First {
-    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
-        struct Entries;
-        impl<'de> Visitor<'de> for Entries {
-            type Value = First;
-            fn expecting(&self, f: &mut fmt::Formatter) -> fmt::Result {
-                f.write_str("a namespace object")
-            }
-            fn visit_map<A: MapAccess<'de>>(self, mut map: A) -> Result<First, A::Error> {
-                let mut first_key = None;
-                let mut first = None;
-                let mut order = Vec::new();
-                let mut seen = HashSet::new();
-                while let Some(key) = map.next_key::<String>()? {
-                    if seen.insert(key.clone()) {
-                        order.push(key.clone());
-                    }
-                    if first_key.is_none() {
-                        first_key = Some(key.clone());
-                    }
-                    if first_key.as_ref() == Some(&key) {
-                        first = Some(map.next_value()?);
-                    } else {
-                        map.next_value::<IgnoredAny>()?;
-                    }
-                }
-                Ok(First(first, order))
-            }
-        }
-        deserializer.deserialize_map(Entries)
-    }
-}
-fn sysml(input: &str) -> Result<(bool, Vec<String>), Error> {
-    let Namespace(ns) = serde_json::from_str(input).map_err(|e| Error::Input(e.to_string()))?;
-    let Some(ns) = ns.filter(|v| v.get().trim_start().starts_with('{')) else {
+fn sysml(root: &Node<'_>) -> Result<(bool, Vec<String>), Error> {
+    let Node::Object(root) = root else {
+        return Err(Error::Input("resource root must be an object".into()));
+    };
+    let Some(Node::Object(ns)) = root
+        .iter()
+        .find(|(key, _)| key == "ns")
+        .map(|(_, value)| value)
+    else {
         return Ok((false, Vec::new()));
     };
-    let First(first, order) =
-        serde_json::from_str(ns.get()).map_err(|e| Error::Input(e.to_string()))?;
-    let matched = match first {
+    let matched = match ns.first().map(|(_, value)| value) {
         None => false,
-        Some(Value::String(s)) => s == SYSML_URI,
-        Some(Value::Bool(_) | Value::Number(_)) => false,
+        Some(Node::String(s)) => s == SYSML_URI,
+        Some(Node::Boolean(_) | Node::Number(_)) => false,
         _ => return Err(Error::NamespaceShape),
     };
-    Ok((matched, order))
+    Ok((matched, ns.iter().map(|(key, _)| key.clone()).collect()))
 }
 fn bounded(value: &Value, depth: usize, count: &mut usize) -> Result<(), Error> {
     *count += 1;
@@ -262,12 +233,10 @@ pub fn prepare(input: &str, version: &'static str, passes: &[Removal]) -> Result
     if input.len() > MAX_BYTES {
         return Err(Error::Limit);
     }
-    let mut json: Value = serde_json::from_str(input).map_err(|e| Error::Input(e.to_string()))?;
-    if !json.is_object() {
-        return Err(Error::Input("resource root must be an object".into()));
-    }
+    let admitted = literal(input).map_err(literal_error)?;
+    let (matched_resource, namespace_order) = sysml(admitted.root())?;
+    let (mut json, _) = admitted.into_value(|| false).map_err(literal_error)?;
     bounded(&json, 0, &mut 0)?;
-    let (matched_resource, namespace_order) = sysml(input)?;
     if matched_resource {
         for pass in passes {
             let class = lookup(Package::Domain, pass.class)

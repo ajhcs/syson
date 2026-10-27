@@ -92,6 +92,12 @@ fn bounded(value: &Value, depth: usize, count: &mut usize) -> Result<(), Error> 
     }
     Ok(())
 }
+fn literal_error(error: syson_json_value::Error) -> Error {
+    match error {
+        syson_json_value::Error::Limit(_) => Error::Limit,
+        other => Error::Input(other.to_string()),
+    }
+}
 struct Counter(usize);
 impl Write for Counter {
     fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
@@ -167,7 +173,8 @@ pub fn prepare(
             participant_version.unwrap().into(),
         ));
     }
-    let mut json: Value = serde_json::from_str(input).map_err(|e| Error::Input(e.to_string()))?;
+    let admitted = crate::literal(input).map_err(literal_error)?;
+    let (mut json, _) = admitted.into_value(|| false).map_err(literal_error)?;
     bounded(&json, 0, &mut 0)?;
     let mut changed = false;
     if matched_kind {

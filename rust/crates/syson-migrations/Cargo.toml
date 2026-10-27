@@ -8,11 +8,14 @@ publish = false
 [workspace]
 
 [dependencies]
+syson-json-value = { path = "../syson-json-value" }
 serde = "=1.0.229"
 serde_json = { version = "=1.0.151", features = ["arbitrary_precision", "raw_value"] }
 syson-metamodel = { path = "../syson-metamodel" }
 
 [dev-dependencies]
+syson-project-preparation = { path = "../syson-project-preparation" }
+syson-project-wire = { path = "../syson-project-wire" }
 syson-model = { path = "../syson-model" }
 syson-migration-pipeline = { path = "../syson-migration-pipeline" }
 syson-persistence = { path = "../syson-persistence" }

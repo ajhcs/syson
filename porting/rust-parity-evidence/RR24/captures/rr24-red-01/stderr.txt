@@ -1,0 +1,33 @@
+   Compiling serde_core v1.0.229
+   Compiling serde_json v1.0.151
+   Compiling serde v1.0.229
+   Compiling syson-metamodel v0.1.0 (/workspace/build/builderbob/syson-rereview-batch5-20261027/rr24-red-01/source/rust/crates/syson-metamodel)
+   Compiling syson-domain v0.1.0 (/workspace/build/builderbob/syson-rereview-batch5-20261027/rr24-red-01/source/rust/crates/syson-domain)
+   Compiling syson-model v0.1.0 (/workspace/build/builderbob/syson-rereview-batch5-20261027/rr24-red-01/source/rust/crates/syson-model)
+   Compiling syson-persistence v0.1.0 (/workspace/build/builderbob/syson-rereview-batch5-20261027/rr24-red-01/source/rust/crates/syson-persistence)
+   Compiling syson-migration-pipeline v0.1.0 (/workspace/build/builderbob/syson-rereview-batch5-20261027/rr24-red-01/source/rust/crates/syson-migration-pipeline)
+   Compiling syson-migrations v0.1.0 (/workspace/build/builderbob/syson-rereview-batch5-20261027/rr24-red-01/source/rust/crates/syson-migrations)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.23s
+     Running tests/rr24_literal.rs (/workspace/build/builderbob/syson-rereview-batch5-20261027/build/target/debug/deps/rr24_literal-b0c539aed4bfbf69)
+
+thread 'action_control_participant_keeps_marker_objects_in_matching_foreign_and_replay_modes' (490393) panicked at tests/rr24_literal.rs:13:5:
+assertion `left == right` failed
+  left: Number(123)
+ right: Object {"$serde_json::private::Number": String("123")}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'all_four_participants_keep_exact_numeric_token_spelling' (490394) panicked at tests/rr24_literal.rs:78:13:
+assertion `left == right` failed
+  left: "0"
+ right: "-0"
+
+thread 'every_semantic_participant_keeps_private_marker_objects_through_ordered_reentry' (490395) panicked at tests/rr24_literal.rs:13:5:
+assertion `left == right` failed
+  left: Number(123)
+ right: Object {"$serde_json::private::Number": String("123")}
+
+thread 'namespace_first_value_is_literal_before_the_resource_predicate' (490396) panicked at tests/rr24_literal.rs:67:9:
+assertion `left == right` failed
+  left: Ok(Prepared { json: Object {"ns": Object {"a": String("http://www.eclipse.org/syson/sysml"), "z": Number(123)}}, namespace_order: ["z", "a"], participant_version: "inspection", matched_resource: false })
+ right: Err(NamespaceShape)
+error: test failed, to rerun pass `--test rr24_literal`
