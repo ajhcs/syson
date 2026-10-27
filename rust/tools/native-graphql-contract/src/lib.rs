@@ -4,6 +4,11 @@
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 pub const MAX_BYTES: usize = 32 * 1024 * 1024;
+/// Physical source values/keys, including overwritten duplicate occurrences.
+pub const MAX_LITERAL_VALUES: usize = 2_000_000;
+/// Whole-value depth (root is one), including opaque extensions.
+pub const MAX_LITERAL_DEPTH: usize = 128;
+pub const MAX_LITERAL_SCALAR_BYTES: usize = 2 * MAX_BYTES;
 pub const MAX_TYPES: usize = 20_000;
 pub const MAX_MEMBERS: usize = 200_000;
 pub const MAX_WRAPPERS: usize = 32;
@@ -150,7 +155,20 @@ fn input_values(rows: &[Value], types: &BTreeMap<&str, &str>) -> Result<()> {
 /// this function cannot prove the server omitted no inaccessible/unrequested data.
 pub fn inspect(input: &str) -> Result<Value> {
     need(input.len() <= MAX_BYTES, "response byte budget exceeded")?;
-    let response: Value = serde_json::from_str(input).map_err(|e| e.to_string())?;
+    let admitted = syson_json_value::parse_with_duplicate_keys(
+        input,
+        syson_json_value::Limits {
+            bytes: MAX_BYTES,
+            depth: MAX_LITERAL_DEPTH,
+            values: MAX_LITERAL_VALUES,
+            keys: MAX_LITERAL_VALUES,
+            scalar_bytes: MAX_LITERAL_SCALAR_BYTES,
+        },
+        syson_json_value::DuplicateKeys::LastWins,
+        || false,
+    )
+    .map_err(|e| format!("literal JSON refused: {e}"))?;
+    let (response, _) = admitted.into_value(|| false).map_err(|e| e.to_string())?;
     if let Some(errors) = response.get("errors") {
         need(
             errors.as_array().is_some_and(Vec::is_empty),
@@ -318,7 +336,8 @@ pub fn inspect(input: &str) -> Result<Value> {
             need(seen.insert(location), "duplicate directive location")?;
         }
     }
-    Ok(
-        json!({"C01":"OPEN","scope":"Observed standard full-introspection contract only; not source/artifact, resolver/auth, custom applied-directive usage or implicit __typename behavior parity.","wrapper_capture":"ALL_CHAINS_TERMINATE_AT_DECLARED_NAMED_TYPES","expected_operation":"C01cEffectiveSchema","counts":{"types":types.len(),"fields":count.fields,"arguments_including_directives":count.args,"input_fields":count.inputs,"enum_values":count.enums,"interface_edges":count.interfaces,"possible_type_edges":count.possible,"directives":directives.len(),"members":count.members},"schema":schema}),
-    )
+    let mut report = json!({"C01":"OPEN","scope":"Observed standard full-introspection contract only; not source/artifact, resolver/auth, custom applied-directive usage or implicit __typename behavior parity.","wrapper_capture":"ALL_CHAINS_TERMINATE_AT_DECLARED_NAMED_TYPES","expected_operation":"C01cEffectiveSchema","counts":{"types":types.len(),"fields":count.fields,"arguments_including_directives":count.args,"input_fields":count.inputs,"enum_values":count.enums,"interface_edges":count.interfaces,"possible_type_edges":count.possible,"directives":directives.len(),"members":count.members}});
+    // Keep literal numbers out of json!'s generic to_value serialization.
+    report["schema"] = schema.clone();
+    Ok(report)
 }

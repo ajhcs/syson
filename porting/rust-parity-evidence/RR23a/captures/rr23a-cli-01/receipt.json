@@ -1,0 +1,66 @@
+{
+  "unit": "RR23a",
+  "status": "PASS_ACTUAL_READER_CLI;_NO_FRESH_NATIVE_EPOCH",
+  "commands": [
+    {
+      "name": "native",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-graphql-contract",
+        "/workspace/worktrees/builderbob/syson/rr23a-graphql-literals/rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "query",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-graphql-contract",
+        "--query"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "capabilities",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-graphql-contract",
+        "--capabilities"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "badfaith",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-graphql-contract",
+        "/workspace/worktrees/builderbob/syson/rr23a-graphql-literals/rust/tools/native-graphql-contract/tests/fixtures/native-badfaith-introspection.json"
+      ],
+      "exit_code": 1
+    },
+    {
+      "name": "markers",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/build/target/debug/syson-native-graphql-contract",
+        "/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23a-cli-01/scratch/markers.json"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "inputs": {
+    "/workspace/worktrees/builderbob/syson/rr23a-graphql-literals/rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json": "eadaeae732417084c749148676df97fb645956c4f01a82afc1481a026d83300f",
+    "/workspace/worktrees/builderbob/syson/rr23a-graphql-literals/porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c",
+    "/workspace/worktrees/builderbob/syson/rr23a-graphql-literals/porting/rust-parity-evidence/C01c/capabilities-single.graphql": "c5d0536130c53740131aec76b5340df690cee6689a15bdc7229fbd6c6a1edece",
+    "/workspace/worktrees/builderbob/syson/rr23a-graphql-literals/rust/tools/native-graphql-contract/tests/fixtures/native-badfaith-introspection.json": "33cae53965a70dc4690ee4bd2d67aac8c40d6ac476bf5bd515a6c28fd623052f",
+    "/workspace/build/builderbob/syson-rereview-batch6-20261027/rr23a-cli-01/scratch/markers.json": "ead2e6464a6e38ab1f6a4a2a30aca264da9e659a4320d07e823eb0e5bd1319ea"
+  },
+  "executable_sha256": "e5edb7e9801324ace8b25e446a176a57b72ef53cb4ca75561ef865658af383c4",
+  "native_counts": {
+    "arguments_including_directives": 263,
+    "directives": 7,
+    "enum_values": 187,
+    "fields": 1418,
+    "input_fields": 809,
+    "interface_edges": 61,
+    "members": 3148,
+    "possible_type_edges": 386,
+    "types": 671
+  },
+  "source_inputs_unchanged": true
+}
