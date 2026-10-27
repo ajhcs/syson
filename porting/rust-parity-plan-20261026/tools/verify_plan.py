@@ -71,8 +71,8 @@ def validate(plan,root):
     for raw in repairs:
         require(raw['id'] in byid,'Missing repair unit '+raw['id'])
         unit=byid[raw['id']]
-        for key in ['dependencies','paths','tasks','verification','state','owner_plan_units','budget']:
-            require(raw[key]==unit[key],'Changed repair lane obligation '+raw['id']+':'+key)
+        for key in ['dependencies','paths','tasks','verification','state','owner_plan_units','budget']+(['coordinator_wiring'] if raw.get('coordinator_wiring') else []):
+            require(raw[key]==unit.get(key),'Changed repair lane obligation '+raw['id']+':'+key)
     for uid,unit in byid.items():
         expected={'implementation:'+dep for dep in unit.get('implementation_ready_dependencies',unit['dependencies'])}
         require(expected==set(stages['implementation:'+uid]),'Implementation readiness edges disagree '+uid)
@@ -155,6 +155,12 @@ def self_test(plan,root):
         try:validate(bad,root)
         except ValueError as e:require(expected in str(e),'Wrong rejection for omitted re-review '+change+': '+str(e))
         else:raise AssertionError('Omitted re-review '+change+' accepted')
+
+    bad=copy.deepcopy(plan)
+    next(u for u in bad['units'] if u['id']=='RR07').pop('coordinator_wiring')
+    try:validate(bad,root)
+    except ValueError as e:require('coordinator_wiring' in str(e),'Wrong rejection for omitted coordinator wiring')
+    else:raise AssertionError('Omitted coordinator wiring accepted')
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--plan-dir',type=Path,default=Path(__file__).resolve().parent.parent);parser.add_argument('--check-completion',action='store_true');parser.add_argument('--self-test',action='store_true');args=parser.parse_args()

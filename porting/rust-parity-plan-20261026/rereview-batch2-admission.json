@@ -1,0 +1,134 @@
+{
+  "plan_revision": "6e16b85e19ce73edc4e9648adc038747ebdbb3df",
+  "units": [
+    {
+      "id": "RR02",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr02-literal-adoption",
+      "branch": "codex/syson-rr02-literal-adoption",
+      "base_branch": "codex/syson-rr02-base",
+      "base": "58a1bbbd8244c7dd40acf0e8f5fa2041954109d9",
+      "original_prerequisite": "f4e951a74c2a1b2d32db4d397ad4bddae3bbd173",
+      "additional_source_prerequisite": "ca7029b2a6c08393b172033e7bd9a548c2a66484",
+      "write_scope": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-json-interchange/src/selected_model.rs",
+        "rust/crates/syson-json-interchange/src/native_model.rs",
+        "rust/crates/syson-model/tests/rr02_regression.rs",
+        "rust/crates/syson-json-interchange/tests/rr02_literal_bridge.rs",
+        "porting/rust-parity-evidence/RR02/",
+        "rust/crates/syson-json-interchange/src/lib.rs"
+      ]
+    },
+    {
+      "id": "RR03",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr03-catalogue-literal",
+      "branch": "codex/syson-rr03-catalogue-literal",
+      "base_branch": "codex/syson-rr03-base",
+      "base": "e234787259bb2a15c2ec5384b14f65b1a6e387de",
+      "original_prerequisite": "df588dc53ca55e3d04464c06dc798e594fdd7d66",
+      "additional_source_prerequisite": "ca7029b2a6c08393b172033e7bd9a548c2a66484",
+      "write_scope": [
+        "rust/tools/native-library-catalog/",
+        "porting/rust-parity-evidence/RR03/"
+      ]
+    },
+    {
+      "id": "RR07",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr07-keyword-quote",
+      "branch": "codex/syson-rr07-keyword-quote",
+      "base_branch": "codex/syson-rr06-text-bounds",
+      "base": "0b1ac2d72f131322939227876ab561c5dbef073d",
+      "original_prerequisite": "0b1ac2d72f131322939227876ab561c5dbef073d",
+      "additional_source_prerequisite": null,
+      "write_scope": [
+        "rust/crates/syson-text-export/src/lib.rs",
+        "rust/crates/syson-text-export/tests/rr07_regression.rs",
+        "porting/rust-parity-evidence/RR07/"
+      ]
+    }
+  ],
+  "snapshot_rr01_blobs": [
+    {
+      "path": "rust/crates/syson-json-value/Cargo.lock",
+      "mode": "100644",
+      "git_blob": "390dddaf1ea92f784b38a3a1f5b97e676b300ac3"
+    },
+    {
+      "path": "rust/crates/syson-json-value/Cargo.toml",
+      "mode": "100644",
+      "git_blob": "2d6d3bb080b0f7ff61f20395cec9da084137ce39"
+    },
+    {
+      "path": "rust/crates/syson-json-value/README.md",
+      "mode": "100644",
+      "git_blob": "2ed2edd104e8c592c9d2ae74097fb07446f90e72"
+    },
+    {
+      "path": "rust/crates/syson-json-value/src/lib.rs",
+      "mode": "100644",
+      "git_blob": "525f9e1874688c112bb11cb9838f39fa7c8f6a6c"
+    },
+    {
+      "path": "rust/crates/syson-json-value/tests/literal.rs",
+      "mode": "100644",
+      "git_blob": "161441ff639af36410a6ce223a6ee909ffe4652e"
+    }
+  ],
+  "held_leases_preserved": [
+    {
+      "id": "MODEL-FACTORY-REVIEW-01",
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "id": "MODEL-CONNECTION-DEFINITION-HELPER-01",
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "ownership_reconciliation": "Exact ACTIVE lease scopes have no intersection. Root explicitly grants RR02 only Document::from_json/error mapping region in lib.rs and listed new tests/bridge files in isolated snapshot; module exports, raw_admission, initializer graph, factory review, old helpers and canonical backlog remain untouched. Root alone owns model/interchange/tool Cargo manifests, locks and shared wiring. This is a new narrow lease, not release of any historical hold. RR02 narrow extension: private no-output canonical-size/depth admission helper and changed-commit publication guard in model lib.rs; Bundle::load typed limit-error mapping only in interchange/lib.rs, no module export or serializer rewrite. Required to keep newly bounded accepted models reloadable and retain bundle error families.",
+  "root_coordinator_additional_paths": {
+    "RR02": [
+      "rust/crates/syson-model/Cargo.toml",
+      "rust/crates/syson-model/Cargo.lock",
+      "rust/crates/syson-json-interchange/Cargo.toml",
+      "rust/crates/syson-json-interchange/Cargo.lock"
+    ],
+    "RR03": [
+      "rust/tools/native-library-catalog/Cargo.toml",
+      "rust/tools/native-library-catalog/Cargo.lock"
+    ],
+    "RR07": [
+      "rust/crates/syson-ast-adapter/src/lib.rs",
+      "rust/crates/syson-text-export/Cargo.toml",
+      "rust/crates/syson-text-export/Cargo.lock",
+      "rust/crates/syson-text-export/tests/export.rs",
+      "rust/crates/syson-text-export/tests/rr06_regression.rs",
+      "rust/crates/syson-ast-adapter/Cargo.lock"
+    ]
+  },
+  "source_authors_max": 3,
+  "compiler_jobs": 1,
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "execution_owner": "/root",
+  "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+  "coordinator_wiring_policy": "Shared parser predicate registration and earlier keyword-refusal expectations are coordinator-owned cohesive RR07 wiring. No lexer list, NameHelper policy or other author scope is changed. Exact new source remains in RR07 isolated branch."
+}

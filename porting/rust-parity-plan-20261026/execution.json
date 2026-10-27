@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "FIRST_REREVIEW_REPAIR_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
+  "status": "SECOND_REREVIEW_REPAIR_BATCH_PUBLISHED;_FULL_PROGRAM_OPEN",
   "candidate_revision": null,
   "full_parity_claimed": false,
   "closure": {
@@ -497,10 +497,111 @@
       "commits": 2,
       "evidence": "porting/rust-parity-evidence/RR11/RESULTS.md",
       "limits": "Local SQLite v2 candidate; v1 refuses unchanged; explicit offline restore renewal; unannounced same-epoch rewinds/live swaps unsupported; Python bridge provisional pending B07"
+    },
+    "RR02": {
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rr02-literal-adoption",
+      "head": "4e0b6dfd9688a64392a2ab91846761600c605a28",
+      "base": "58a1bbbd8244c7dd40acf0e8f5fa2041954109d9",
+      "base_branch": "codex/syson-rr02-base",
+      "external_prerequisites": [
+        90,
+        69,
+        63,
+        8
+      ],
+      "tests": 88,
+      "source_capture": "rr02-03",
+      "original_failures": [
+        "red-01 expected model counterexamples",
+        "rr02-01 root dependency section blocked interchange",
+        "rr02-02 root recursive formatter scope rejected; five files restored and rr02-03 requalified"
+      ],
+      "native_observation": "NOT_RUN; actual local Rust API/importer/bridge/file callers only",
+      "pull_request": "https://github.com/ajhcs/syson/pull/91",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2,
+      "evidence": "porting/rust-parity-evidence/RR02/RESULTS.md",
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-model/Cargo.toml",
+          "rust/crates/syson-model/Cargo.lock",
+          "rust/crates/syson-json-interchange/Cargo.toml",
+          "rust/crates/syson-json-interchange/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      }
+    },
+    "RR03": {
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rr03-catalogue-literal",
+      "head": "38f6d6f3a5157f286e70ddc6fef7b1c53a37a490",
+      "base": "e234787259bb2a15c2ec5384b14f65b1a6e387de",
+      "base_branch": "codex/syson-rr03-base",
+      "external_prerequisites": [
+        90,
+        85
+      ],
+      "tests": 17,
+      "source_capture": "rr03-03",
+      "original_failures": [
+        "red-01 expected phantom counterexample",
+        "rr03-01 malformed fixture format compile failure",
+        "rr03-02 missing root CLI fixture env; rr03-03 ran failed/unexecuted remainder"
+      ],
+      "native_observation": "Fresh Rust full94/109673 physical tuple comparison against retained hash-verified native capture; no new native epoch",
+      "pull_request": "https://github.com/ajhcs/syson/pull/92",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2,
+      "evidence": "porting/rust-parity-evidence/RR03/RESULTS.md",
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-library-catalog/Cargo.toml",
+          "rust/tools/native-library-catalog/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      }
+    },
+    "RR07": {
+      "implementation": "LOCALLY_VERIFIED_BOUNDED",
+      "feature_acceptance": "NOT_ACCEPTED",
+      "branch": "codex/syson-rr07-keyword-quote",
+      "head": "d705869afdc54104ff69bfee6a19f3982236c1c9",
+      "base": "0b1ac2d72f131322939227876ab561c5dbef073d",
+      "base_branch": "codex/syson-rr06-text-bounds",
+      "external_prerequisites": [
+        88,
+        56,
+        52,
+        40
+      ],
+      "tests": 41,
+      "source_capture": "rr07-01",
+      "original_failures": [
+        "red-01 expected keyword counterexample; peer self-shadowing fixture corrected before execution"
+      ],
+      "native_observation": "NOT_RUN; actual local AST-adapter/parser/export/import suites only",
+      "pull_request": "https://github.com/ajhcs/syson/pull/93",
+      "publication": "OPEN_UNMERGED_DRAFT",
+      "commits": 2,
+      "evidence": "porting/rust-parity-evidence/RR07/RESULTS.md",
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-ast-adapter/src/lib.rs",
+          "rust/crates/syson-text-export/Cargo.toml",
+          "rust/crates/syson-text-export/Cargo.lock",
+          "rust/crates/syson-text-export/tests/export.rs",
+          "rust/crates/syson-text-export/tests/rr06_regression.rs",
+          "rust/crates/syson-ast-adapter/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      }
     }
   },
   "rereview": {
-    "status": "FIRST_REPAIR_BATCH_LOCALLY_VERIFIED;_REMAINING_REPAIRS_AND_ACCEPTANCE_OPEN",
+    "status": "TWO_REPAIR_BATCHES_LOCALLY_VERIFIED;_REMAINING_ACCEPTANCE_OPEN",
     "report": "rereview-20261026/README.md",
     "repair_units": [
       "RR01",
@@ -534,7 +635,22 @@
     "published_repairs": [
       "RR01",
       "RR06",
-      "RR11"
-    ]
+      "RR11",
+      "RR02",
+      "RR03",
+      "RR07"
+    ],
+    "keyword_inventory_correction": {
+      "lexer": 170,
+      "name_helper": 117,
+      "overlap": 116,
+      "lexer_only": 54,
+      "native_only": [
+        "constant"
+      ],
+      "union": 171,
+      "historical_net_count": 53,
+      "original_sealed_report_unchanged": true
+    }
   }
 }

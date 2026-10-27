@@ -25604,7 +25604,7 @@
       "done_when": "Every required parity obligation is accepted on the same exact target/candidate closure and all release gates pass; otherwise the plan remains incomplete.",
       "state": "PLANNED_BLOCKED_ON_ALL_REMAINING_UNITS",
       "source_fragment": "tools/build_plan.py",
-      "source_fragment_sha256": "c9679f8e1181f35804ea1c9372ea9223f001ff7486b4cf90249fa0a5cd33ec49"
+      "source_fragment_sha256": "dc0c2dbf5b8dcedf551ed7a8b86e5e9b3c0e1ccedd4e19ac0b0211eea6eb3fd3"
     },
     {
       "id": "I01",
@@ -105635,7 +105635,7 @@
         8
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR02",
@@ -105657,6 +105657,7 @@
         "rust/crates/syson-json-interchange/src/native_model.rs",
         "rust/crates/syson-model/tests/rr02_regression.rs",
         "rust/crates/syson-json-interchange/tests/rr02_literal_bridge.rs",
+        "rust/crates/syson-json-interchange/src/lib.rs",
         "porting/rust-parity-evidence/RR02/"
       ],
       "source_refs": [
@@ -105667,7 +105668,8 @@
       ],
       "tasks": [
         "Route Document::from_json and both selected identity bridge boundaries through RR01; inventory pre-Document Value parses so reparsing cannot reintroduce the defect.",
-        "Preserve node/semantic/resource identity domains, opaque values and unrelated edit/save/reload; no model/factory rewrite."
+        "Preserve node/semantic/resource identity domains, opaque values and unrelated edit/save/reload; no model/factory rewrite.",
+        "Retain reloadable normal publication under explicit 4 MiB raw/canonical and value-depth-128 admission. Use the private no-output counter once at import/changed commit; preserve history/revision atomicity and Bundle limit-error family. Provisional staged clones remain outside this publication guarantee."
       ],
       "verification": [
         "Retain root observed vendor object\u2192123 counterexample red then green; actual Editor edit\u2192bridge\u2192save/reopen with both marker keys and unchanged surrounding data.",
@@ -105694,13 +105696,22 @@
         "I03",
         "I06"
       ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-model/Cargo.toml",
+          "rust/crates/syson-model/Cargo.lock",
+          "rust/crates/syson-json-interchange/Cargo.toml",
+          "rust/crates/syson-json-interchange/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      },
       "external_pr_details": [
         8,
         63,
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR03",
@@ -105751,11 +105762,18 @@
         "C01g",
         "M15"
       ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-library-catalog/Cargo.toml",
+          "rust/tools/native-library-catalog/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      },
       "external_pr_details": [
         85
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR04",
@@ -105783,7 +105801,8 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Expose a reusable bounded counting/writing API over authoritative document values. Charge before allocation; preserve serializer and identity contracts. Failure cannot publish partial owned output or mutate the document."
+        "Expose a reusable bounded counting/writing API over authoritative document values. Charge before allocation; preserve serializer and identity contracts. Failure cannot publish partial owned output or mutate the document.",
+        "Promote and reuse RR02\u2019s private canonical admission counter as the shared bounded writer/count API; do not introduce a second independent serializer or weaken normal-publication reloadability."
       ],
       "verification": [
         "Reject the dense 0.5 MiB, depth-60 fixture before a 16 MiB allocation. Verify encoded boundaries, Unicode/escape growth, cancellation and raw identity.",
@@ -105818,7 +105837,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR05",
@@ -105880,7 +105899,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR06",
@@ -105935,7 +105954,7 @@
         52
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR07",
@@ -105962,10 +105981,11 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Quote declarations and qualified references using the actual parser reserved-token contract. Keep standalone native NameHelper compatibility separate and document any intentional export improvement."
+        "Quote declarations and qualified references using the actual parser reserved-token contract. Keep standalone native NameHelper compatibility separate and document any intentional export improvement.",
+        "Use the actual set difference: 170 lexer words and 117 NameHelper words overlap in 116, giving 54 lexer-only words plus native-only constant (171 in the union). The historical 53 was a net count difference. Preserve original audit evidence; qualify all 54 extras."
       ],
       "verification": [
-        "Import package with quoted class name through F14, export and reimport successfully. Cover all 53 additional lexer keywords plus ordinary, Unicode and punctuation controls.",
+        "Import package with quoted class name through F14, export and reimport successfully. Cover all 54 additional lexer keywords plus ordinary, Unicode and punctuation controls.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
         "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
       ],
@@ -105988,13 +106008,24 @@
         "P170",
         "P171"
       ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-ast-adapter/src/lib.rs",
+          "rust/crates/syson-text-export/Cargo.toml",
+          "rust/crates/syson-text-export/Cargo.lock",
+          "rust/crates/syson-text-export/tests/export.rs",
+          "rust/crates/syson-text-export/tests/rr06_regression.rs",
+          "rust/crates/syson-ast-adapter/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      },
       "external_pr_details": [
         56,
         52,
         40
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR08",
@@ -106051,7 +106082,7 @@
         41
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR09",
@@ -106110,7 +106141,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR10",
@@ -106167,7 +106198,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR11",
@@ -106222,7 +106253,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR12",
@@ -106278,7 +106309,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR13",
@@ -106335,7 +106366,7 @@
         32
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR14",
@@ -106390,7 +106421,7 @@
         77
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR15",
@@ -106444,7 +106475,7 @@
         12
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR16",
@@ -106497,7 +106528,7 @@
         19
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR17",
@@ -106558,7 +106589,7 @@
         67
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR18",
@@ -106617,7 +106648,7 @@
         61
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR19",
@@ -106678,7 +106709,7 @@
         62
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR20",
@@ -106738,7 +106769,7 @@
         65
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR21",
@@ -106795,7 +106826,7 @@
         59
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR22",
@@ -106869,7 +106900,7 @@
         75
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR23",
@@ -106938,7 +106969,7 @@
         87
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "RR24",
@@ -107000,7 +107031,7 @@
         75
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "fafdb1e05cb516d0ef6997708d9c368f46d87150e74591d1b84a78beb82f6622"
+      "source_fragment_sha256": "2c869c3a1664a1ef48c6064eed295a6af0c6a1c7f2d1890c77c7a879bf676a75"
     },
     {
       "id": "U01",

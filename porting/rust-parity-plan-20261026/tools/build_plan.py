@@ -219,6 +219,9 @@ for u in result['units']:
      '## Completion',render(u.get('done_when',u.get('completion_criteria','Every task, source obligation and applicable execution gate must have independently reviewed evidence; otherwise remain open.'))),
      '## Source evidence',render(u.get('source_refs',[])),
      f"Original lane record: [{u['source_fragment']}]({ '../'+u['source_fragment'] }). Source snapshots stay immutable; plan.json adds the explicit coordinator dependency overlay."]
+    if u.get('coordinator_wiring'):
+        pos=sections.index('## Tasks')
+        sections[pos:pos]=['## Coordinator-owned wiring',render(u['coordinator_wiring'])]
     (briefs/(u['id']+'.md')).write_text('\n\n'.join(sections)+'\n')
 index=['# Remaining Rust parity PR index','The counts below are review units, not completed features. Prerequisites here describe source preparation; each linked brief and plan.json separately defines implementation readiness, child acceptance and joint gates. Read [execution and acceptance](README.md) before dispatch.','| ID | PR scope | Source prerequisites | Existing PRs |','|---|---|---|---|']
 for u in result['units']:
