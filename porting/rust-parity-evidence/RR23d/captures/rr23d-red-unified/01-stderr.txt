@@ -1,0 +1,27 @@
+   Compiling syson-json-value v0.1.0 (/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23d-red-unified/source/rust/crates/syson-json-value)
+   Compiling syson-native-project-templates v0.1.0 (/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23d-red-unified/source/rust/tools/native-project-templates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running tests/rr23d_literal.rs (/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/deps/rr23d_literal-81bb1dee2fa4d338)
+
+thread 'nested_private_number_object_cannot_be_a_typed_page_count' (1051145) panicked at tests/rr23d_literal.rs:61:5:
+assertion failed: Catalogue::from_capture(&bytes(&input)).is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'nested_private_raw_object_cannot_fabricate_an_empty_errors_array' (1051146) panicked at tests/rr23d_literal.rs:67:5:
+assertion failed: Catalogue::from_capture(&bytes(&input)).is_err()
+
+thread 'outer_private_number_object_stays_an_ordinary_object' (1051149) panicked at tests/rr23d_literal.rs:30:5:
+assertion `left == right` failed
+  left: Number(123)
+ right: Object {"$serde_json::private::Number": String("123")}
+
+thread 'outer_private_raw_object_keeps_its_literal_string' (1051150) panicked at tests/rr23d_literal.rs:39:5:
+assertion `left == right` failed
+  left: Object {"injected": Array [Bool(true)], "label": String("雪😀")}
+ right: Object {"$serde_json::private::RawValue": String("{\"injected\":[true],\"label\":\"雪😀\"}")}
+
+thread 'outer_projection_preserves_exact_numeric_token_spelling' (1051151) panicked at tests/rr23d_literal.rs:51:9:
+assertion `left == right` failed
+  left: "0"
+ right: "-0"
+error: test failed, to rerun pass `--test rr23d_literal`

@@ -7,6 +7,11 @@ use std::{
     path::Path,
 };
 pub const MAX_BYTES: usize = 8 * 1024 * 1024;
+/// Whole-value admission per outer capture, manifest or decoded response body.
+/// These are independent physical-input limits, not a global aggregate budget.
+pub const MAX_LITERAL_DEPTH: usize = 128;
+pub const MAX_LITERAL_VALUES: usize = 2_000_000;
+pub const MAX_LITERAL_SCALAR_BYTES: usize = 2 * MAX_BYTES;
 pub const QUERIES: &str =
     include_str!("../../../../porting/rust-parity-evidence/C01h/queries.json");
 type Result<T> = std::result::Result<T, String>;
@@ -29,6 +34,45 @@ fn digest(v: &Value, n: usize) -> Result<()> {
                 .all(|c| c.is_ascii_digit() || (b'a'..=b'f').contains(&c)),
         "invalid capture digest",
     )
+}
+fn literal(input: &str) -> Result<Value> {
+    let admitted = syson_json_value::parse_with_duplicate_keys(
+        input,
+        syson_json_value::Limits {
+            bytes: MAX_BYTES,
+            depth: MAX_LITERAL_DEPTH,
+            values: MAX_LITERAL_VALUES,
+            keys: MAX_LITERAL_VALUES,
+            scalar_bytes: MAX_LITERAL_SCALAR_BYTES,
+        },
+        syson_json_value::DuplicateKeys::LastWins,
+        || false,
+    )
+    .map_err(|e| format!("literal JSON refused: {e}"))?;
+    admitted
+        .into_value(|| false)
+        .map(|(value, _)| value)
+        .map_err(|e| e.to_string())
+}
+fn negative_zero(value: &Value) -> bool {
+    matches!(value, Value::Number(number) if number.as_str() == "-0")
+}
+// Used only for the canonical request gate. The original generic AP decoder
+// treated integer -0 as zero; retain that typed comparison without rewriting
+// captured values, coercing strings/objects or relaxing decimal/exponent forms.
+fn same_request(actual: &Value, expected: &Value) -> bool {
+    match (actual, expected) {
+        (Value::Object(a), Value::Object(b)) => {
+            a.len() == b.len()
+                && b.iter()
+                    .all(|(key, value)| a.get(key).is_some_and(|a| same_request(a, value)))
+        }
+        (Value::Array(a), Value::Array(b)) => {
+            a.len() == b.len() && a.iter().zip(b).all(|(a, b)| same_request(a, b))
+        }
+        (Value::Number(a), Value::Number(b)) => a == b || (a.as_str() == "-0" && b.as_str() == "0"),
+        _ => actual == expected,
+    }
 }
 struct Counter(usize);
 impl Write for Counter {
@@ -100,7 +144,10 @@ fn choice(node: &Value, browser: bool) -> Result<Choice> {
 }
 fn page_info(v: &Value) -> Result<()> {
     need(
-        v["count"].as_u64().is_some_and(|n| n <= i32::MAX as u64),
+        v["count"]
+            .as_u64()
+            .or_else(|| negative_zero(&v["count"]).then_some(0))
+            .is_some_and(|n| n <= i32::MAX as u64),
         "invalid PageInfo count",
     )?;
     for field in ["hasPreviousPage", "hasNextPage"] {
@@ -120,7 +167,7 @@ impl Catalogue {
     /// Raw body strings, unknown fields, numbers and every array remain untouched.
     pub fn from_capture(bytes: &[u8]) -> Result<Self> {
         need(bytes.len() <= MAX_BYTES, "capture byte limit")?;
-        let envelope: Value = serde_json::from_slice(bytes).map_err(|e| e.to_string())?;
+        let envelope = literal(std::str::from_utf8(bytes).map_err(|e| e.to_string())?)?;
         need(
             envelope["context"]["anonymous"] == true,
             "anonymous capture required",
@@ -131,7 +178,7 @@ impl Catalogue {
         for key in ["source_label_revision", "target_revision"] {
             digest(&envelope["context"][key], 40)?;
         }
-        let manifest: Value = serde_json::from_str(QUERIES).map_err(|e| e.to_string())?;
+        let manifest = literal(QUERIES)?;
         let specifications = array(&manifest["observations"], 32)?;
         let captures = array(&envelope["observations"], 32)?;
         need(
@@ -150,7 +197,7 @@ impl Catalogue {
             let id = text(&spec["id"])?;
             let row = by_id.remove(id).ok_or("missing canonical observation")?;
             need(
-                row["request"] == spec["request"],
+                same_request(&row["request"], &spec["request"]),
                 "request differs from canonical manifest",
             )?;
             let status = row["status"]
@@ -163,7 +210,7 @@ impl Catalogue {
                 text(&pair[0])?;
                 text(&pair[1])?;
             }
-            let body: Value = serde_json::from_str(text(&row["body_utf8"])?)
+            let body = literal(text(&row["body_utf8"])?)
                 .map_err(|e| format!("{id}: JSON response: {e}"))?;
             let errors = if body["errors"].is_null() {
                 false
@@ -234,7 +281,10 @@ impl Catalogue {
         let selection = selection
             .map(|(observation, id)| self.lookup(observation, id))
             .transpose()?;
-        let mut output = json!({"capture":self.envelope,"observations":[],"selection":selection.map(|c|c.json()),"C01":"OPEN","B23":"OPEN","U03":"OPEN","claim":"OBSERVED_TEMPLATE_CHOICES_ONLY"});
+        let mut output = json!({"observations":[],"selection":selection.map(|c|c.json()),"C01":"OPEN","B23":"OPEN","U03":"OPEN","claim":"OBSERVED_TEMPLATE_CHOICES_ONLY"});
+        // Generic to_value serialization of AP numbers can normalize -0.
+        // Structural cloning retains literal numbers/maps and exact body strings.
+        output["capture"] = self.envelope.clone();
         let mut budget = Counter(0);
         count(&mut budget, &output)?;
         let mut records = Vec::new();
