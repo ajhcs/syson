@@ -3,7 +3,7 @@
 #![forbid(unsafe_code)]
 use serde_json::Value;
 use std::sync::{Arc, atomic::AtomicBool};
-use syson_domain::names::printable_name;
+use syson_domain::names::KEYWORDS;
 use syson_model::{Document, Editor, NodeIds};
 use syson_text_import::Importer;
 
@@ -41,6 +41,7 @@ impl Default for Options {
 struct Declaration<'a> {
     value: &'a Value,
     name: &'a str,
+    quoted: bool,
     parent: Option<usize>,
     children: Vec<usize>,
     typing: Option<&'a str>,
@@ -103,6 +104,11 @@ fn collect<'a>(
         .as_str()
         .filter(|s| !s.is_empty())
         .ok_or(Error::NonRoundTripName)?;
+    // A raw name is a lower bound on its rendered bytes. Refuse before scanning
+    // or constructing any printable-name copy.
+    if name.len() > MAX_OUTPUT {
+        return Err(Error::Limit);
+    }
     if name
         .chars()
         .any(|c| c == '\'' || c == '\\' || c.is_control())
@@ -116,6 +122,7 @@ fn collect<'a>(
     rows.push(Declaration {
         value,
         name,
+        quoted: needs_quotes(name),
         parent,
         children: vec![],
         typing: None,
@@ -175,7 +182,11 @@ fn resolve(rows: &[Declaration<'_>], mut scope: Option<usize>, parts: &[&str]) -
     }
     Some(found)
 }
-fn type_name(rows: &[Declaration<'_>], usage: usize, target: &str) -> Result<String, Error> {
+fn type_path(
+    rows: &[Declaration<'_>],
+    usage: usize,
+    target: &str,
+) -> Result<(Vec<usize>, usize), Error> {
     // The selected-model API uses semantic elementIds, without node-ID fallback.
     let target = rows
         .iter()
@@ -187,66 +198,112 @@ fn type_name(rows: &[Declaration<'_>], usage: usize, target: &str) -> Result<Str
     let mut path = vec![];
     let mut next = Some(target);
     while let Some(i) = next {
-        path.push(rows[i].name);
+        path.push(i);
         next = rows[i].parent;
     }
     path.reverse();
-    let mut candidates = vec![];
+    let mut best = None;
     for start in 0..path.len() {
-        let suffix = &path[start..];
-        if resolve(rows, rows[usage].parent, suffix) == Some(target) {
-            candidates.push(
-                suffix
-                    .iter()
-                    .map(|s| printable_name(Some(s), true))
-                    .collect::<Vec<_>>()
-                    .join("::"),
-            );
+        let suffix: Vec<_> = path[start..].iter().map(|i| rows[*i].name).collect();
+        if resolve(rows, rows[usage].parent, &suffix) == Some(target) {
+            // Native resolver sorts by Java String.length; keep the first tie.
+            // Count borrowed segments; even rejected candidates allocate no names.
+            let length = path[start..]
+                .iter()
+                .map(|i| rows[*i].name.encode_utf16().count() + usize::from(rows[*i].quoted) * 2)
+                .sum::<usize>()
+                + (suffix.len() - 1) * 2;
+            if best.is_none_or(|(_, shortest)| length < shortest) {
+                best = Some((start, length));
+            }
         }
     }
-    // Native resolver sorts by Java String.length; preserve first candidate on ties.
-    candidates
-        .into_iter()
-        .min_by_key(|s| s.encode_utf16().count())
-        .ok_or(Error::UnresolvableType)
+    let start = best.ok_or(Error::UnresolvableType)?.0;
+    Ok((path, start))
 }
+const MAX_OUTPUT: usize = 65_536;
+fn needs_quotes(name: &str) -> bool {
+    // Exactly the existing NameHelper policy, including its narrower keywords.
+    // Apostrophes, backslashes and controls were already refused by collect.
+    let first = name.as_bytes()[0];
+    !name.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
+        || !(first.is_ascii_alphabetic() || first == b'_')
+        || KEYWORDS.contains(&name)
+}
+struct Output {
+    bytes: usize,
+    text: Option<String>,
+}
+impl Output {
+    fn push(&mut self, text: &str) -> Result<(), Error> {
+        let next = self.bytes.checked_add(text.len()).ok_or(Error::Limit)?;
+        if next > MAX_OUTPUT {
+            return Err(Error::Limit);
+        }
+        if let Some(out) = &mut self.text {
+            out.push_str(text);
+        }
+        self.bytes = next;
+        Ok(())
+    }
+    fn name(&mut self, row: &Declaration<'_>) -> Result<(), Error> {
+        if row.quoted {
+            self.push("'")?;
+        }
+        self.push(row.name)?;
+        if row.quoted {
+            self.push("'")?;
+        }
+        Ok(())
+    }
+    fn indent(&mut self, indentation: &str, depth: usize) -> Result<(), Error> {
+        for _ in 0..depth {
+            self.push(indentation)?;
+        }
+        Ok(())
+    }
+}
+
 fn render(
     rows: &[Declaration<'_>],
     index: usize,
     depth: usize,
     options: Options,
-    out: &mut String,
+    out: &mut Output,
 ) -> Result<(), Error> {
     let nl = match options.newline {
         Newline::Lf => "\n",
         Newline::CrLf => "\r\n",
     };
     let row = &rows[index];
-    out.push_str(&options.indentation.repeat(depth));
-    out.push_str(match row.value["eClass"].as_str() {
+    out.indent(options.indentation, depth)?;
+    out.push(match row.value["eClass"].as_str() {
         Some("sysml:Package") => "package ",
         Some("sysml:PartDefinition") => "part def ",
         _ => "part ",
-    });
-    out.push_str(&printable_name(Some(row.name), true));
+    })?;
+    out.name(row)?;
     if let Some(target) = row.typing {
-        out.push_str(" : ");
-        out.push_str(&type_name(rows, index, target)?);
+        out.push(" : ")?;
+        let (path, start) = type_path(rows, index, target)?;
+        for (ordinal, i) in path[start..].iter().enumerate() {
+            if ordinal != 0 {
+                out.push("::")?;
+            }
+            out.name(&rows[*i])?;
+        }
     }
     if row.children.is_empty() {
-        out.push(';');
+        out.push(";")?;
     } else {
-        out.push_str(" {");
+        out.push(" {")?;
         for child in &row.children {
-            out.push_str(nl);
+            out.push(nl)?;
             render(rows, *child, depth + 1, options, out)?;
         }
-        out.push_str(nl);
-        out.push_str(&options.indentation.repeat(depth));
-        out.push('}');
-    }
-    if out.len() > 65_536 {
-        return Err(Error::Limit);
+        out.push(nl)?;
+        out.indent(options.indentation, depth)?;
+        out.push("}")?;
     }
     Ok(())
 }
@@ -270,17 +327,31 @@ pub fn export(document: &Document, options: Options) -> Result<String, Error> {
     for root in array(document.value(), "content")? {
         roots.push(collect(root, None, 0, &mut rows)?);
     }
-    let mut out = String::new();
     let nl = match options.newline {
         Newline::Lf => "\n",
         Newline::CrLf => "\r\n",
     };
-    for root in roots {
-        if !out.is_empty() {
-            out.push_str(nl);
+    let render_all = |out: &mut Output| -> Result<(), Error> {
+        for (ordinal, root) in roots.iter().enumerate() {
+            if ordinal != 0 {
+                out.push(nl)?;
+            }
+            render(&rows, *root, 0, options, out)?;
         }
-        render(&rows, root, 0, options, &mut out)?;
-    }
+        Ok(())
+    };
+    // Validate the entire projection before reserving any rendered output.
+    let mut count = Output {
+        bytes: 0,
+        text: None,
+    };
+    render_all(&mut count)?;
+    let mut rendered = Output {
+        bytes: 0,
+        text: Some(String::with_capacity(count.bytes)),
+    };
+    render_all(&mut rendered)?;
+    let out = rendered.text.unwrap();
     let importer = Importer::pinned().map_err(Error::NotImportable)?;
     let editor = Editor::new(Document::empty());
     let ids = (1..=1024).map(|n| {
