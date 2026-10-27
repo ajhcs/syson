@@ -1827,17 +1827,15 @@
       "lane": "rereview-repairs",
       "state": "PLANNED_NOT_IMPLEMENTED",
       "dependencies": [
-        "RR18a"
+        "RR18b1",
+        "RR18b2",
+        "RR18b3"
       ],
       "external_prs": [
         65,
         61
       ],
       "paths": [
-        "rust/crates/syson-web/src/lib.rs",
-        "rust/crates/syson-web/src/layout_controller.rs",
-        "rust/crates/syson-web/web/loader.js",
-        "rust/crates/syson-web/tests/rr18b_regression.rs",
         "porting/rust-parity-evidence/RR18b/"
       ],
       "source_refs": [
@@ -1848,7 +1846,8 @@
       ],
       "tasks": [
         "Replace full-render-then-length-check and independently allocating helpers with bounded HTML/escaping/model/geometry sinks or counted admission before materialization. Cover navigation/options/SVG/scalar inspectors/export and all fallback paths without weakening atomic import recovery.",
-        "Preserve unrelated unsubmitted form drafts across recovery-shell removal and restoration using bounded presentation-only loader storage, with focus/caret restored. RR18a preserves drafts on normal refused-import DOM only; its fallback shell lacks prior form fields."
+        "Preserve unrelated unsubmitted form drafts across recovery-shell removal and restoration using bounded presentation-only loader storage, with focus/caret restored. RR18a preserves drafts on normal refused-import DOM only; its fallback shell lacks prior form fields.",
+        "Integrate all three children on one exact candidate. Original allocation, draft isolation, recovery, actual UI and <50 ms performance gates remain required."
       ],
       "verification": [
         "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
@@ -1857,6 +1856,189 @@
         "Prove pre-copy refusal/high-water allocation bounds, escaped exact-fit and +1 boundaries and independently observed actual browser responsiveness. RR18a lifecycle-only success cannot close this child.",
         "Actual WASM fallback -> recover must retain permitted prior form drafts/caret, bound stored draft bytes, and make explicit discard clear model and presentation drafts with keyboard confirmation.",
         "Use the exact RR18a browser fixtures:700258-byte escaped import and900381-byte committed export/2701179-byte URI. Current same-host Chromium observation has longtasks up to111ms at320px and71ms at1440px. Rendering responsiveness remains OPEN. On the pinned owned reference profile, target no main-thread task >=50ms in these journeys through pre-admission/counting/chunking; record phase timing and any unmet budget explicitly, and do not claim performance acceptance while this required budget fails. Physical mobile/other-browser acceptance remains separate."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ],
+      "acceptance_children": [
+        "RR18b1",
+        "RR18b2",
+        "RR18b3"
+      ]
+    },
+    {
+      "id": "RR18b1",
+      "title": "Bound canvas JSON transport and avoid eager committed-model serialization",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18a"
+      ],
+      "external_prs": [
+        61,
+        65,
+        112
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/src/layout_transport.rs",
+        "rust/crates/syson-web/tests/rr18b1_regression.rs",
+        "porting/rust-parity-evidence/RR18b1/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Count and emit borrowed canvas/model JSON before materializing output; enforce both existing raw and quoted ABI transport limits, exact wire order/float/model binding, and atomic refusal. Reuse an immutable cache only after admission.",
+        "Remove eager committed-model serialization in the closed command mutation dispatch, preserving exact semantic/canvas invalidation behavior. Use the existing model writer for allocation-free frame comparisons. Full HTML/helper rendering remains RR18b3."
+      ],
+      "verification": [
+        "Reproduce oversized canvas transport allocation before refusal; verify measured allocation/counting boundaries, exact-fit/+1 quoted envelope, no partial state/history publication and actual canvas import/export/layout/rotation controls on final default WASM.",
+        "Freeze original wire bytes and typed model comparison oracles; preserve numeric/string/Unicode distinctions, no model mutation from presentation, affected final Rust/Clippy/WASM suites and independent exact-source review.",
+        "Observe actual desktop/mobile phase timings and long tasks on fixed RR18a fixtures. This foundation cannot close full HTML allocation or the parent <50 ms gate."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ]
+    },
+    {
+      "id": "RR18b2",
+      "title": "Retain bounded presentation drafts across recovery without crossing document contexts",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18a"
+      ],
+      "external_prs": [
+        61,
+        65,
+        112
+      ],
+      "paths": [
+        "rust/crates/syson-web/web/loader.js",
+        "porting/rust-parity-evidence/RR18b2/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Implement bounded in-tab presentation draft retention through fallback/recover using the frozen #112 action/status protocol. Dedicated loader document epochs distinguish successful import/confirmed discard; stable selected-element/property scopes protect inspector values. Canvas revision is never document identity.",
+        "Admit bounded field/disclosure/UTF-8/UTF-16 content and metadata before retaining or replacing DOM. Preserve permitted unrelated creation/import/geometry drafts, focus/caret and stable disclosure keys; exclude submitted pending edits and purge cancelled inspector edits. Refusal/overflow must be explicit and prevent silent loss.",
+        "Clear prior document drafts only on acknowledged successful import/confirmed discard; preserve on refusals/Keep/recovery. Geometry drafts use the frozen action-scoped model/frame binding without cloning readonly exports or introducing a model engine."
+      ],
+      "verification": [
+        "Actual default WASM mobile/desktop fallback/recover, refused import, Keep, successful import/same IDs and confirmed discard; verify exact drafts, backward caret, focus, disclosure state, model/geometry/download bytes and undo/redo.",
+        "Test exact/+1 UTF-8/UTF-16/count/metadata bounds including Unicode, empty fields, repeated/background paints, selection/property changes and exceptions. Oversize handling must be visible and must not silently replace valid cached state or cross contexts.",
+        "Capture actual browser identity, screenshots, console warnings/errors, network and long-task/phase observations. Full renderer and required joint <50 ms acceptance remain RR18b3 OPEN."
+      ],
+      "commit_plan": [
+        "Initial bounded recovery implementation and regressions",
+        "Focused long-ID context repair found by independent actual UI review",
+        "Exact final-source verification evidence and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 3,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ]
+    },
+    {
+      "id": "RR18b3",
+      "title": "Bound complete HTML rendering and qualify composed recovery responsiveness",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18b1",
+        "RR18b2"
+      ],
+      "external_prs": [
+        61,
+        65,
+        112
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/src/bounded_render.rs",
+        "rust/crates/syson-web/web/loader.js",
+        "rust/crates/syson-web/web/style.css",
+        "rust/crates/syson-web/tests/rr18b3_regression.rs",
+        "porting/rust-parity-evidence/RR18b3/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace full-render-then-length-check and independently allocating helpers with bounded HTML/escaping/model/geometry sinks or counted admission before materialization. Cover navigation/options/SVG/scalar inspectors/export and all fallback paths without weakening atomic import recovery.",
+        "Preserve unrelated unsubmitted form drafts across recovery-shell removal and restoration using bounded presentation-only loader storage, with focus/caret restored. RR18a preserves drafts on normal refused-import DOM only; its fallback shell lacks prior form fields.",
+        "Compose exact RR18b1/RR18b2 with complete bounded HTML/helper emission and actual performance qualification. Any request-transfer/chunk scheduler change needs explicit request ownership, cancellation and stale callback gates before mutation. Partial sibling success never closes this child or parent.",
+        "Use the recorded phase baseline to address the whole browser task, including native text/DOM/layout work, rather than treating Rust dispatch alone as latency. Changes to large JSON/rename field wrapping or local scrolling must preserve accessible text, exact whitespace and keyboard navigation, with bounded body overflow. Source-only phase inference is insufficient.",
+        "Replace the inherited user-facing canvas refusal jargon (file/ABI byte budget) with an actionable explanation of the reached limit, unchanged model data and currently available safe export/recovery. Do not suggest unsupported view-selection features. Preserve typed admission guards and separately verify user-facing copy.",
+        "Verify Unicode glyph rendering on the pinned actual browser/native font baseline: the batch10 mobile screenshot renders a CJK draft glyph as tofu although exact DOM-string assertions pass. Provide adequate application font fallback or explicitly record an unmet visual gate; byte preservation alone cannot close visual Unicode usability."
+      ],
+      "verification": [
+        "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Prove pre-copy refusal/high-water allocation bounds, escaped exact-fit and +1 boundaries and independently observed actual browser responsiveness. RR18a lifecycle-only success cannot close this child.",
+        "Actual WASM fallback -> recover must retain permitted prior form drafts/caret, bound stored draft bytes, and make explicit discard clear model and presentation drafts with keyboard confirmation.",
+        "Use the exact RR18a browser fixtures:700258-byte escaped import and900381-byte committed export/2701179-byte URI. Current same-host Chromium observation has longtasks up to111ms at320px and71ms at1440px. Rendering responsiveness remains OPEN. On the pinned owned reference profile, target no main-thread task >=50ms in these journeys through pre-admission/counting/chunking; record phase timing and any unmet budget explicitly, and do not claim performance acceptance while this required budget fails. Physical mobile/other-browser acceptance remains separate.",
+        "Retain both instrumented and ordinary browser observations. The batch10 baseline reaches111/69ms whole tasks while measured Rust dispatch peaks40.8/43ms and full-journey ABI byte transfer maxima8.0/10.3ms at320/1440 (expanding-import-only7.7/7.9ms); wrapper overhead and unmeasured native work prevent exact causal attribution. Run trace/layout evidence before choosing a fix; required final whole-task budget remains unchanged."
       ],
       "commit_plan": [
         "Focused implementation and meaningful regression/caller fixtures",

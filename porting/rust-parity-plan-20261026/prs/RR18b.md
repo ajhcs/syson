@@ -4,33 +4,36 @@ Lane: rereview-repairs. State: PLANNED_NOT_IMPLEMENTED.
 
 ## Source preparation prerequisites
 
-- RR18a
+- RR18b1
+- RR18b2
+- RR18b3
 
 Existing PR prerequisites: [#65](https://github.com/ajhcs/syson/pull/65), [#61](https://github.com/ajhcs/syson/pull/61)
 
 ## Implementation readiness
 
-- RR18a
+- RR18b1
+- RR18b2
+- RR18b3
 
 ## Feature acceptance dependencies
 
 - **joint gates:** None declared.
-- **children:** None declared.
+- **children:** - RR18b1
+- RR18b2
+- RR18b3
 - **joint implementation inputs:** None declared.
 - **expanded implementation inputs:** None declared.
 
 ## Write scope
 
-- rust/crates/syson-web/src/lib.rs
-- rust/crates/syson-web/src/layout_controller.rs
-- rust/crates/syson-web/web/loader.js
-- rust/crates/syson-web/tests/rr18b_regression.rs
 - porting/rust-parity-evidence/RR18b/
 
 ## Tasks
 
 - Replace full-render-then-length-check and independently allocating helpers with bounded HTML/escaping/model/geometry sinks or counted admission before materialization. Cover navigation/options/SVG/scalar inspectors/export and all fallback paths without weakening atomic import recovery.
 - Preserve unrelated unsubmitted form drafts across recovery-shell removal and restoration using bounded presentation-only loader storage, with focus/caret restored. RR18a preserves drafts on normal refused-import DOM only; its fallback shell lacks prior form fields.
+- Integrate all three children on one exact candidate. Original allocation, draft isolation, recovery, actual UI and <50 ms performance gates remain required.
 
 ## Verification
 
