@@ -1,0 +1,26 @@
+
+#[cfg(test)]
+#[test]
+fn rr18b3c_capture_baseline() {
+    let mut cases=Vec::new();
+    for (class,data,active) in [
+        ("Package",serde_json::json!({"elementId":"element","declaredName":"\n\n\r&<>\"'\0雪🧭","aliasIds":["a&","b<"],"isLibraryElement":true}),"declaredName"),
+        ("PartUsage",serde_json::json!({"elementId":"element","declaredName":null,"isComposite":true,"isAbstract":false,"declaredShortName":"s'"}),"isAbstract"),
+        ("PortUsage",serde_json::json!({"elementId":"element","direction":"inout"}),"direction"),
+        ("Comment",serde_json::json!({"elementId":"element","body":"\r\nfirst\rsecond\n&<>\"'\0雪🧭"}),"body"),
+        ("LiteralInteger",serde_json::json!({"elementId":"element","value":-2147483648_i64}),"value"),
+        ("LiteralString",serde_json::json!({"elementId":"element","value":"\nraw\r\n&<>\"'"}),"value"),
+        ("LiteralBoolean",serde_json::json!({"elementId":"element","value":false}),"value"),
+        ("LiteralRational",serde_json::json!({"elementId":"element","value":-0.0}),"value"),
+        ("Package",serde_json::json!({"elementId":"element","declaredName":{"$serde_json::private::Number":"123"}}),"declaredName"),
+        ("PartUsage",serde_json::json!({"elementId":"element"}),"unknown"),
+    ] {
+        let raw=serde_json::json!({"json":{"version":"1.0","encoding":"utf-8"},"ns":{"sysml":"http://www.eclipse.org/syson/sysml"},"content":[{"id":"resource","eClass":format!("sysml:{class}"),"data":data}]}).to_string();
+        let doc=Document::from_json(&raw).unwrap();
+        let fields=doc.inspect_node("element").unwrap().attributes.iter().filter(|a|a.writable()).map(|a|serde_json::json!({"name":a.name,"html":render_scalar_field(a)})).collect::<Vec<_>>();
+        cases.push(serde_json::json!({"class":class,"model":raw,"active":active,"fields":fields,"inspector":render_scalar_inspector(&doc,"element",active)}));
+    }
+    let strings=["","&<>\"'","\n\n\r\n\r\0雪🧭","&#13;&amp;", "tab\t leading trailing "];
+    let escapes=strings.iter().map(|text|serde_json::json!({"text":text,"escaped":escape(text),"textarea":escape_textarea(text)})).collect::<Vec<_>>();
+    println!("RR18B3C_BASELINE_JSON={}",serde_json::json!({"source":"acf6707ba4104e61d47639ecf088376e19a48f79","cases":cases,"escapes":escapes}));
+}
