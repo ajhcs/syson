@@ -831,13 +831,14 @@
       "title": "Bind integration receipts to a complete unchanged executed source closure",
       "lane": "rereview-repairs",
       "state": "PLANNED_NOT_IMPLEMENTED",
-      "dependencies": [],
+      "dependencies": [
+        "RR16a",
+        "RR16b"
+      ],
       "external_prs": [
         19
       ],
       "paths": [
-        "porting/run_integration_checks.py",
-        "porting/tests/test_rr16_integration_receipts.py",
         "porting/rust-parity-evidence/RR16/"
       ],
       "source_refs": [
@@ -847,7 +848,7 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Replace the fixed integration list with complete standalone-crate, tool, Cargo, fixture and transitive-input inventory. Bind committed candidates and before/after hashes. Record each command, selected test scope and status."
+        "Integrate RR16a mechanism and RR16b complete qualification without weakening original source/command/fixture closure obligations. Selected safe checks cannot close this parent or RR17; current held scopes block full execution."
       ],
       "verification": [
         "Inject source mutation, omitted crate/fixture, stale generated files and command failure; each must block broad PASS. Qualify a fresh composed run with exact hashes and teardown.",
@@ -872,6 +873,10 @@
       "owner_plan_units": [
         "C02",
         "C03"
+      ],
+      "acceptance_children": [
+        "RR16a",
+        "RR16b"
       ]
     },
     {
@@ -1241,7 +1246,12 @@
         79,
         80,
         83,
-        87
+        87,
+        100,
+        105,
+        106,
+        107,
+        108
       ],
       "paths": [
         "porting/rust-parity-evidence/RR23/"
@@ -1259,7 +1269,7 @@
         "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
         "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
-        "Require all RR23a/b/c/d child gates; HTTP/template readers remain OPEN until implemented."
+        "Require all four child sources, full suites and actual consuming CLI gates on ONE exact composed candidate, plus a Rust caller linking all four libraries in one process. Prior per-child PASS does not qualify the new composition."
       ],
       "commit_plan": [
         "Focused implementation and meaningful regression/caller fixtures",
@@ -1287,7 +1297,14 @@
         "RR23b",
         "RR23c",
         "RR23d"
-      ]
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "porting/rust-parity-evidence/RR23/consumer/Cargo.toml",
+          "porting/rust-parity-evidence/RR23/consumer/Cargo.lock"
+        ],
+        "policy": "Root owns evidence-only joint consumer manifest/lock and all compiler/runtime execution; four selected reader trees stay exact qualified donor bytes."
+      }
     },
     {
       "id": "RR24",
@@ -1645,6 +1662,104 @@
         ],
         "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
       }
+    },
+    {
+      "id": "RR16a",
+      "title": "Bind explicitly selected integration checks to immutable candidate source inventories",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        19
+      ],
+      "paths": [
+        "porting/run_integration_checks.py",
+        "porting/tests/test_rr16_integration_receipts.py",
+        "porting/rust-parity-evidence/RR16a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace fixed lists/partial generic PASS with complete candidate Cargo/input inventory, committed blob+disk before/after binding, explicit selected/held/notselected matrix, exact command scope and immutable failure logs. This foundation NEVER emits broad/full PASS. Bound known Git generator inputs and declared external/toolchain dependencies; unresolved closure remains explicit."
+      ],
+      "verification": [
+        "Adversarial owned Git/stub fixtures must catch missing tool/fixture/manifests/locks/localdeps/pins, source drift, stale generation/check failure, dirty/untracked/mode/target mismatch, command failure/timeout and unsafe resume. Run fresh admitted real subset with HELD_NOT_RUN/NOT_SELECTED scopes and full_qualification=false.",
+        "One root-owned serialized offline execution lease; no held initializer-graph/default or raw-factory/factory validator execution. Preserve original counterexamples and independently review exact source/evidence."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Isolated source author; root alone executes all Git/test/fixture/Cargo jobs. Historical held paths are read-only, not implicit test admission.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-05"
+      ],
+      "owner_plan_units": [
+        "RR16"
+      ]
+    },
+    {
+      "id": "RR16b",
+      "title": "Qualify the complete integration command and input closure after held scopes are admitted",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR16a",
+        "RR23"
+      ],
+      "external_prs": [
+        19,
+        109
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/RR16b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Compose completed repairs on one exact candidate and enumerate every default/feature/target/generator/runtime input and required command. Require explicit owner admission for all held initializer/raw/factory scopes before execution; inventory is never admission. Bind external registry/toolchain/source inputs, generated freshness and all consuming fixtures.",
+        "Run full fresh serialized offline Cargo/WASM/native/browser/fixture matrix and teardown where required; all omissions/held/unrun/stale/failing cases block full integration qualification and RR17 acceptance.",
+        "Consume RR23 joint one-candidate reader evidence as an explicit implementation input; recompose/requalify on the full candidate rather than treating #109 subset results as full integration acceptance."
+      ],
+      "verification": [
+        "Inject source mutation, omitted crate/fixture, stale generated files and command failure; each must block broad PASS. Qualify a fresh composed run with exact hashes and teardown.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "RR16a selected checks/partial receipt is insufficient. Complete owner-admitted matrix and independent exact closure review are required; current held scopes keep this child OPEN."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-05"
+      ],
+      "owner_plan_units": [
+        "RR16"
+      ]
     }
   ]
 }

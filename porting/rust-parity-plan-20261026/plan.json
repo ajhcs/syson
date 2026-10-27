@@ -2,7 +2,7 @@
   "schema": 1,
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "state": "ADOPTED_REVIEWABLE_PLAN;_IMPLEMENTATION_AND_NATIVE_CLOSURE_REMAIN_OPEN",
-  "unit_count": 762,
+  "unit_count": 764,
   "full_parity_claimed": false,
   "count_meaning": "Named review units, including verification and explicitly generated source batches; discovery may add bounded children. Not a feature count, percentage or guaranteed final PR count.",
   "lane_counts": {
@@ -14,7 +14,7 @@
     "lanes/model.json": 408,
     "lanes/parser.json": 184,
     "lanes/platform.json": 45,
-    "lanes/rereview.json": 29,
+    "lanes/rereview.json": 31,
     "lanes/ui.json": 82,
     "tools/build_plan.py": 1
   },
@@ -7227,8 +7227,13 @@
     "accepted:RR15": [
       "implementation:RR15"
     ],
-    "implementation:RR16": [],
+    "implementation:RR16": [
+      "implementation:RR16a",
+      "implementation:RR16b"
+    ],
     "accepted:RR16": [
+      "accepted:RR16a",
+      "accepted:RR16b",
       "implementation:RR16"
     ],
     "implementation:RR17": [
@@ -7332,6 +7337,17 @@
     ],
     "accepted:RR23d": [
       "implementation:RR23d"
+    ],
+    "implementation:RR16a": [],
+    "accepted:RR16a": [
+      "implementation:RR16a"
+    ],
+    "implementation:RR16b": [
+      "implementation:RR16a",
+      "implementation:RR23"
+    ],
+    "accepted:RR16b": [
+      "implementation:RR16b"
     ],
     "implementation:C01": [],
     "accepted:C01": [
@@ -7886,6 +7902,8 @@
       "implementation:RR14",
       "implementation:RR15",
       "implementation:RR16",
+      "implementation:RR16a",
+      "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
       "implementation:RR19",
@@ -8475,6 +8493,8 @@
       "implementation:RR14",
       "implementation:RR15",
       "implementation:RR16",
+      "implementation:RR16a",
+      "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
       "implementation:RR19",
@@ -8981,6 +9001,8 @@
       "implementation:RR14",
       "implementation:RR15",
       "implementation:RR16",
+      "implementation:RR16a",
+      "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
       "implementation:RR19",
@@ -9488,6 +9510,8 @@
       "implementation:RR14",
       "implementation:RR15",
       "implementation:RR16",
+      "implementation:RR16a",
+      "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
       "implementation:RR19",
@@ -10017,6 +10041,8 @@
       "implementation:RR14",
       "implementation:RR15",
       "implementation:RR16",
+      "implementation:RR16a",
+      "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
       "implementation:RR19",
@@ -10619,6 +10645,8 @@
       "implementation:RR14",
       "implementation:RR15",
       "implementation:RR16",
+      "implementation:RR16a",
+      "implementation:RR16b",
       "implementation:RR17",
       "implementation:RR18",
       "implementation:RR19",
@@ -12051,6 +12079,8 @@
       "implementation:RR23b",
       "implementation:RR23c",
       "implementation:RR23d",
+      "implementation:RR16a",
+      "implementation:RR16b",
       "implementation:C01",
       "implementation:C02",
       "implementation:C03",
@@ -12810,6 +12840,8 @@
       "accepted:RR14",
       "accepted:RR15",
       "accepted:RR16",
+      "accepted:RR16a",
+      "accepted:RR16b",
       "accepted:RR17",
       "accepted:RR18",
       "accepted:RR19",
@@ -12979,7 +13011,7 @@
     ],
     [
       "B06",
-      "RR16",
+      "RR16a",
       "RR18"
     ],
     [
@@ -13015,11 +13047,16 @@
     [
       "B27",
       "B29",
-      "C02"
+      "RR20"
     ],
     [
+      "B17",
       "B28",
-      "B36",
+      "B36"
+    ],
+    [
+      "B18",
+      "B31",
       "B37"
     ],
     [
@@ -13029,73 +13066,784 @@
     ],
     [
       "B41",
-      "C05",
-      "C06"
+      "M03",
+      "RR19"
     ],
     [
-      "C07",
-      "C08",
-      "C09"
+      "M04",
+      "M05",
+      "RR21"
     ],
     [
-      "M02",
-      "P02",
-      "P03"
+      "M06",
+      "M40",
+      "RR24a"
     ],
     [
-      "P04",
-      "P05",
-      "P155"
+      "M07",
+      "M17",
+      "RR23a"
     ],
     [
-      "P06",
-      "P156",
-      "P157"
+      "M08",
+      "M10",
+      "M18"
     ],
     [
-      "P07",
-      "P158",
-      "P159"
+      "I03",
+      "M11",
+      "M19"
     ],
     [
-      "P08",
-      "P160",
-      "P161"
+      "M12",
+      "M14",
+      "M15"
     ],
     [
-      "P09",
-      "P162",
-      "P163"
+      "I02",
+      "I04",
+      "M09"
     ],
     [
-      "P10",
-      "P164",
-      "P165"
+      "I05",
+      "M13",
+      "M16"
     ],
     [
-      "P11",
-      "P166",
-      "P167"
+      "M20",
+      "RR23b",
+      "RR23c"
     ],
     [
-      "P12",
-      "P168",
-      "P169"
+      "M21",
+      "RR23d",
+      "RR24"
     ],
     [
-      "P13",
-      "P170",
-      "P171"
+      "I09",
+      "M22",
+      "RR22"
     ],
     [
-      "P14",
-      "P20",
+      "M32",
+      "M39",
+      "RR23"
+    ],
+    [
+      "I07",
+      "M33",
+      "RR16b"
+    ],
+    [
+      "RR16"
+    ],
+    [
+      "C02",
       "RR17"
     ],
     [
       "C03",
       "C04",
-      "P15"
+      "C05"
+    ],
+    [
+      "B32",
+      "C06",
+      "C07"
+    ],
+    [
+      "B33",
+      "B34",
+      "C08"
+    ],
+    [
+      "B35",
+      "C09",
+      "M02"
+    ],
+    [
+      "M100",
+      "M101",
+      "M102"
+    ],
+    [
+      "M103",
+      "M104",
+      "M105"
+    ],
+    [
+      "M106",
+      "M107",
+      "M108"
+    ],
+    [
+      "M109",
+      "M110",
+      "M111"
+    ],
+    [
+      "M112",
+      "M113",
+      "M114"
+    ],
+    [
+      "M115",
+      "M116",
+      "M117"
+    ],
+    [
+      "M118",
+      "M119",
+      "M120"
+    ],
+    [
+      "M121",
+      "M122",
+      "M123"
+    ],
+    [
+      "M124",
+      "M125",
+      "M126"
+    ],
+    [
+      "M127",
+      "M128",
+      "M129"
+    ],
+    [
+      "M130",
+      "M131",
+      "M132"
+    ],
+    [
+      "M133",
+      "M134",
+      "M135"
+    ],
+    [
+      "M136",
+      "M137",
+      "M138"
+    ],
+    [
+      "M139",
+      "M140",
+      "M141"
+    ],
+    [
+      "M142",
+      "M143",
+      "M144"
+    ],
+    [
+      "M145",
+      "M146",
+      "M147"
+    ],
+    [
+      "M148",
+      "M149",
+      "M150"
+    ],
+    [
+      "M151",
+      "M152",
+      "M153"
+    ],
+    [
+      "M154",
+      "M155",
+      "M156"
+    ],
+    [
+      "M157",
+      "M158",
+      "M159"
+    ],
+    [
+      "M160",
+      "M161",
+      "M162"
+    ],
+    [
+      "M163",
+      "M164",
+      "M165"
+    ],
+    [
+      "M166",
+      "M167",
+      "M168"
+    ],
+    [
+      "M169",
+      "M170",
+      "M171"
+    ],
+    [
+      "M172",
+      "M173",
+      "M174"
+    ],
+    [
+      "M175",
+      "M176",
+      "M177"
+    ],
+    [
+      "M178",
+      "M179",
+      "M180"
+    ],
+    [
+      "M181",
+      "M182",
+      "M183"
+    ],
+    [
+      "M184",
+      "M185",
+      "M186"
+    ],
+    [
+      "M187",
+      "M188",
+      "M189"
+    ],
+    [
+      "M190",
+      "M191",
+      "M192"
+    ],
+    [
+      "M193",
+      "M194",
+      "M195"
+    ],
+    [
+      "M196",
+      "M197",
+      "M198"
+    ],
+    [
+      "M199",
+      "M200",
+      "M201"
+    ],
+    [
+      "M202",
+      "M203",
+      "M204"
+    ],
+    [
+      "M205",
+      "M206",
+      "M207"
+    ],
+    [
+      "M208",
+      "M209",
+      "M210"
+    ],
+    [
+      "M211",
+      "M212",
+      "M213"
+    ],
+    [
+      "M214",
+      "M215",
+      "M216"
+    ],
+    [
+      "M217",
+      "M218",
+      "M219"
+    ],
+    [
+      "M220",
+      "M221",
+      "M222"
+    ],
+    [
+      "M223",
+      "M224",
+      "M225"
+    ],
+    [
+      "M226",
+      "M227",
+      "M228"
+    ],
+    [
+      "M229",
+      "M23",
+      "M230"
+    ],
+    [
+      "M231",
+      "M232",
+      "M233"
+    ],
+    [
+      "M234",
+      "M235",
+      "M236"
+    ],
+    [
+      "M237",
+      "M238",
+      "M239"
+    ],
+    [
+      "M24",
+      "M240",
+      "M241"
+    ],
+    [
+      "M242",
+      "M243",
+      "M244"
+    ],
+    [
+      "M245",
+      "M246",
+      "M247"
+    ],
+    [
+      "M248",
+      "M249",
+      "M25"
+    ],
+    [
+      "M250",
+      "M251",
+      "M252"
+    ],
+    [
+      "M253",
+      "M254",
+      "M255"
+    ],
+    [
+      "M256",
+      "M257",
+      "M258"
+    ],
+    [
+      "M259",
+      "M26",
+      "M260"
+    ],
+    [
+      "M261",
+      "M262",
+      "M263"
+    ],
+    [
+      "M264",
+      "M265",
+      "M266"
+    ],
+    [
+      "M267",
+      "M268",
+      "M269"
+    ],
+    [
+      "M27",
+      "M270",
+      "M271"
+    ],
+    [
+      "M272",
+      "M273",
+      "M274"
+    ],
+    [
+      "M275",
+      "M276",
+      "M277"
+    ],
+    [
+      "M278",
+      "M279",
+      "M28"
+    ],
+    [
+      "M280",
+      "M281",
+      "M282"
+    ],
+    [
+      "M283",
+      "M284",
+      "M285"
+    ],
+    [
+      "M286",
+      "M287",
+      "M288"
+    ],
+    [
+      "M289",
+      "M29",
+      "M290"
+    ],
+    [
+      "M291",
+      "M292",
+      "M293"
+    ],
+    [
+      "M294",
+      "M295",
+      "M296"
+    ],
+    [
+      "M297",
+      "M298",
+      "M299"
+    ],
+    [
+      "M30",
+      "M300",
+      "M301"
+    ],
+    [
+      "M302",
+      "M303",
+      "M304"
+    ],
+    [
+      "M305",
+      "M306",
+      "M307"
+    ],
+    [
+      "M308",
+      "M309",
+      "M31"
+    ],
+    [
+      "M310",
+      "M311",
+      "M312"
+    ],
+    [
+      "M313",
+      "M314",
+      "M315"
+    ],
+    [
+      "M316",
+      "M317",
+      "M318"
+    ],
+    [
+      "M319",
+      "M320",
+      "M321"
+    ],
+    [
+      "M322",
+      "M323",
+      "M324"
+    ],
+    [
+      "M325",
+      "M326",
+      "M327"
+    ],
+    [
+      "M328",
+      "M329",
+      "M330"
+    ],
+    [
+      "M331",
+      "M332",
+      "M333"
+    ],
+    [
+      "M334",
+      "M335",
+      "M336"
+    ],
+    [
+      "M337",
+      "M338",
+      "M339"
+    ],
+    [
+      "M34",
+      "M340",
+      "M341"
+    ],
+    [
+      "M342",
+      "M343",
+      "M344"
+    ],
+    [
+      "M345",
+      "M346",
+      "M347"
+    ],
+    [
+      "M348",
+      "M349",
+      "M35"
+    ],
+    [
+      "M350",
+      "M351",
+      "M352"
+    ],
+    [
+      "M353",
+      "M354",
+      "M355"
+    ],
+    [
+      "M356",
+      "M357",
+      "M358"
+    ],
+    [
+      "M359",
+      "M36",
+      "M360"
+    ],
+    [
+      "M361",
+      "M362",
+      "M363"
+    ],
+    [
+      "M364",
+      "M365",
+      "M366"
+    ],
+    [
+      "M367",
+      "M368",
+      "M369"
+    ],
+    [
+      "M37",
+      "M370",
+      "M371"
+    ],
+    [
+      "M372",
+      "M373",
+      "M374"
+    ],
+    [
+      "M375",
+      "M376",
+      "M377"
+    ],
+    [
+      "M378",
+      "M379",
+      "M38"
+    ],
+    [
+      "I06",
+      "I08",
+      "M380"
+    ],
+    [
+      "M381",
+      "M382",
+      "M383"
+    ],
+    [
+      "M384",
+      "M385",
+      "M386"
+    ],
+    [
+      "M387",
+      "M388",
+      "M389"
+    ],
+    [
+      "M390",
+      "M391",
+      "M392"
+    ],
+    [
+      "M393",
+      "M394",
+      "M395"
+    ],
+    [
+      "M396",
+      "M397",
+      "M398"
+    ],
+    [
+      "M399",
+      "M400",
+      "M41"
+    ],
+    [
+      "M42",
+      "M43",
+      "M44"
+    ],
+    [
+      "M45",
+      "M46",
+      "M47"
+    ],
+    [
+      "M48",
+      "M50",
+      "M51"
+    ],
+    [
+      "M52",
+      "M53",
+      "M54"
+    ],
+    [
+      "M55",
+      "M56",
+      "M57"
+    ],
+    [
+      "M58",
+      "M59",
+      "M60"
+    ],
+    [
+      "M61",
+      "M62",
+      "M63"
+    ],
+    [
+      "M64",
+      "M65",
+      "M66"
+    ],
+    [
+      "M67",
+      "M68",
+      "M69"
+    ],
+    [
+      "M70",
+      "M71",
+      "M72"
+    ],
+    [
+      "M73",
+      "M74",
+      "M75"
+    ],
+    [
+      "M76",
+      "M77",
+      "M78"
+    ],
+    [
+      "M79",
+      "M80",
+      "M81"
+    ],
+    [
+      "M82",
+      "M83",
+      "M84"
+    ],
+    [
+      "M85",
+      "M86",
+      "M87"
+    ],
+    [
+      "M88",
+      "M89",
+      "M90"
+    ],
+    [
+      "M91",
+      "M92",
+      "M93"
+    ],
+    [
+      "M94",
+      "M95",
+      "M96"
+    ],
+    [
+      "M97",
+      "M98",
+      "M99"
+    ],
+    [
+      "P02",
+      "P03",
+      "P04"
+    ],
+    [
+      "P05",
+      "P155",
+      "P156"
+    ],
+    [
+      "P06",
+      "P157",
+      "P158"
+    ],
+    [
+      "P07",
+      "P159",
+      "P160"
+    ],
+    [
+      "P08",
+      "P161",
+      "P162"
+    ],
+    [
+      "P09",
+      "P163",
+      "P164"
+    ],
+    [
+      "P10",
+      "P165",
+      "P166"
+    ],
+    [
+      "P11",
+      "P167",
+      "P168"
+    ],
+    [
+      "P12",
+      "P169",
+      "P170"
+    ],
+    [
+      "P13",
+      "P171",
+      "P20"
+    ],
+    [
+      "P14",
+      "U01"
+    ],
+    [
+      "P15",
+      "U02",
+      "U03"
     ],
     [
       "P100",
@@ -13349,716 +14097,6 @@
     ],
     [
       "P184",
-      "RR20",
-      "RR21"
-    ],
-    [
-      "B17",
-      "M03",
-      "RR19"
-    ],
-    [
-      "B18",
-      "B31",
-      "M04"
-    ],
-    [
-      "B32",
-      "M05",
-      "RR24a"
-    ],
-    [
-      "B33",
-      "B34",
-      "M06"
-    ],
-    [
-      "B35",
-      "M07",
-      "M100"
-    ],
-    [
-      "M08",
-      "M10",
-      "M101"
-    ],
-    [
-      "I03",
-      "M102",
-      "M103"
-    ],
-    [
-      "M104",
-      "M105",
-      "M106"
-    ],
-    [
-      "M107",
-      "M108",
-      "M109"
-    ],
-    [
-      "M11",
-      "M110",
-      "M111"
-    ],
-    [
-      "M112",
-      "M113",
-      "M114"
-    ],
-    [
-      "M115",
-      "M116",
-      "M117"
-    ],
-    [
-      "M118",
-      "M119",
-      "M12"
-    ],
-    [
-      "M120",
-      "M121",
-      "M122"
-    ],
-    [
-      "M123",
-      "M124",
-      "M125"
-    ],
-    [
-      "M126",
-      "M127",
-      "M128"
-    ],
-    [
-      "M129",
-      "M130",
-      "M131"
-    ],
-    [
-      "M132",
-      "M133",
-      "M134"
-    ],
-    [
-      "M135",
-      "M136",
-      "M137"
-    ],
-    [
-      "M138",
-      "M139",
-      "M14"
-    ],
-    [
-      "M09",
-      "M140",
-      "M141"
-    ],
-    [
-      "M142",
-      "M143",
-      "M144"
-    ],
-    [
-      "M145",
-      "M146",
-      "M147"
-    ],
-    [
-      "M148",
-      "M149",
-      "M15"
-    ],
-    [
-      "I02",
-      "I04",
-      "I05"
-    ],
-    [
-      "M150",
-      "M151",
-      "M152"
-    ],
-    [
-      "M153",
-      "M154",
-      "M155"
-    ],
-    [
-      "M156",
-      "M157",
-      "M158"
-    ],
-    [
-      "M159",
-      "M160",
-      "M161"
-    ],
-    [
-      "M162",
-      "M163",
-      "M164"
-    ],
-    [
-      "M165",
-      "M166",
-      "M167"
-    ],
-    [
-      "M168",
-      "M169",
-      "M17"
-    ],
-    [
-      "M13",
-      "M170",
-      "M171"
-    ],
-    [
-      "M172",
-      "M173",
-      "M174"
-    ],
-    [
-      "M175",
-      "M176",
-      "M177"
-    ],
-    [
-      "M178",
-      "M179",
-      "M18"
-    ],
-    [
-      "M16",
-      "M180",
-      "M181"
-    ],
-    [
-      "M182",
-      "M183",
-      "M184"
-    ],
-    [
-      "M185",
-      "M186",
-      "M187"
-    ],
-    [
-      "M188",
-      "M189",
-      "M19"
-    ],
-    [
-      "M190",
-      "M191",
-      "M192"
-    ],
-    [
-      "M193",
-      "M194",
-      "M195"
-    ],
-    [
-      "M196",
-      "M197",
-      "M198"
-    ],
-    [
-      "M199",
-      "M20",
-      "M200"
-    ],
-    [
-      "M201",
-      "M202",
-      "M203"
-    ],
-    [
-      "M204",
-      "M205",
-      "M206"
-    ],
-    [
-      "M207",
-      "M208",
-      "M209"
-    ],
-    [
-      "M21",
-      "M210",
-      "M211"
-    ],
-    [
-      "I09",
-      "M212",
-      "M213"
-    ],
-    [
-      "M214",
-      "M215",
-      "M216"
-    ],
-    [
-      "M217",
-      "M218",
-      "M219"
-    ],
-    [
-      "M22",
-      "M220",
-      "M221"
-    ],
-    [
-      "M222",
-      "M223",
-      "M224"
-    ],
-    [
-      "M225",
-      "M226",
-      "M227"
-    ],
-    [
-      "M228",
-      "M229",
-      "M23"
-    ],
-    [
-      "M230",
-      "M231",
-      "M232"
-    ],
-    [
-      "M233",
-      "M234",
-      "M235"
-    ],
-    [
-      "M236",
-      "M237",
-      "M238"
-    ],
-    [
-      "M239",
-      "M24",
-      "M240"
-    ],
-    [
-      "M241",
-      "M242",
-      "M243"
-    ],
-    [
-      "M244",
-      "M245",
-      "M246"
-    ],
-    [
-      "M247",
-      "M248",
-      "M249"
-    ],
-    [
-      "M25",
-      "M250",
-      "M251"
-    ],
-    [
-      "M252",
-      "M253",
-      "M254"
-    ],
-    [
-      "M255",
-      "M256",
-      "M257"
-    ],
-    [
-      "M258",
-      "M259",
-      "M26"
-    ],
-    [
-      "M260",
-      "M261",
-      "M262"
-    ],
-    [
-      "M263",
-      "M264",
-      "M265"
-    ],
-    [
-      "M266",
-      "M267",
-      "M268"
-    ],
-    [
-      "M269",
-      "M27",
-      "M270"
-    ],
-    [
-      "M271",
-      "M272",
-      "M273"
-    ],
-    [
-      "M274",
-      "M275",
-      "M276"
-    ],
-    [
-      "M277",
-      "M278",
-      "M279"
-    ],
-    [
-      "M28",
-      "M280",
-      "M281"
-    ],
-    [
-      "M282",
-      "M283",
-      "M284"
-    ],
-    [
-      "M285",
-      "M286",
-      "M287"
-    ],
-    [
-      "M288",
-      "M289",
-      "M29"
-    ],
-    [
-      "M290",
-      "M291",
-      "M292"
-    ],
-    [
-      "M293",
-      "M294",
-      "M295"
-    ],
-    [
-      "M296",
-      "M297",
-      "M298"
-    ],
-    [
-      "M299",
-      "M30",
-      "M300"
-    ],
-    [
-      "M301",
-      "M302",
-      "M303"
-    ],
-    [
-      "M304",
-      "M305",
-      "M306"
-    ],
-    [
-      "M307",
-      "M308",
-      "M309"
-    ],
-    [
-      "M31",
-      "M310",
-      "M311"
-    ],
-    [
-      "M312",
-      "M313",
-      "M314"
-    ],
-    [
-      "M315",
-      "M316",
-      "M317"
-    ],
-    [
-      "M318",
-      "M319",
-      "M32"
-    ],
-    [
-      "M320",
-      "M321",
-      "M322"
-    ],
-    [
-      "M323",
-      "M324",
-      "M325"
-    ],
-    [
-      "M326",
-      "M327",
-      "M328"
-    ],
-    [
-      "M329",
-      "M33",
-      "M330"
-    ],
-    [
-      "M331",
-      "M332",
-      "M333"
-    ],
-    [
-      "M334",
-      "M335",
-      "M336"
-    ],
-    [
-      "M337",
-      "M338",
-      "M339"
-    ],
-    [
-      "M34",
-      "M340",
-      "M341"
-    ],
-    [
-      "M342",
-      "M343",
-      "M344"
-    ],
-    [
-      "M345",
-      "M346",
-      "M347"
-    ],
-    [
-      "M348",
-      "M349",
-      "M35"
-    ],
-    [
-      "M350",
-      "M351",
-      "M352"
-    ],
-    [
-      "M353",
-      "M354",
-      "M355"
-    ],
-    [
-      "M356",
-      "M357",
-      "M358"
-    ],
-    [
-      "M359",
-      "M36",
-      "M360"
-    ],
-    [
-      "M361",
-      "M362",
-      "M363"
-    ],
-    [
-      "M364",
-      "M365",
-      "M366"
-    ],
-    [
-      "M367",
-      "M368",
-      "M369"
-    ],
-    [
-      "M37",
-      "M370",
-      "M371"
-    ],
-    [
-      "M372",
-      "M373",
-      "M374"
-    ],
-    [
-      "M375",
-      "M376",
-      "M377"
-    ],
-    [
-      "M378",
-      "M379",
-      "M38"
-    ],
-    [
-      "I08",
-      "M380",
-      "M381"
-    ],
-    [
-      "M382",
-      "M383",
-      "M384"
-    ],
-    [
-      "M385",
-      "M386",
-      "M387"
-    ],
-    [
-      "M388",
-      "M389",
-      "M39"
-    ],
-    [
-      "I07",
-      "M390",
-      "M391"
-    ],
-    [
-      "M392",
-      "M393",
-      "M394"
-    ],
-    [
-      "M395",
-      "M396",
-      "M397"
-    ],
-    [
-      "M398",
-      "M399",
-      "M40"
-    ],
-    [
-      "M400",
-      "M41",
-      "M42"
-    ],
-    [
-      "M43",
-      "M44",
-      "M45"
-    ],
-    [
-      "M46",
-      "M47",
-      "M48"
-    ],
-    [
-      "M50",
-      "M51",
-      "M52"
-    ],
-    [
-      "M53",
-      "M54",
-      "M55"
-    ],
-    [
-      "M56",
-      "M57",
-      "M58"
-    ],
-    [
-      "M59",
-      "M60",
-      "M61"
-    ],
-    [
-      "M62",
-      "M63",
-      "M64"
-    ],
-    [
-      "M65",
-      "M66",
-      "M67"
-    ],
-    [
-      "M68",
-      "M69",
-      "M70"
-    ],
-    [
-      "M71",
-      "M72",
-      "M73"
-    ],
-    [
-      "M74",
-      "M75",
-      "M76"
-    ],
-    [
-      "M77",
-      "M78",
-      "M79"
-    ],
-    [
-      "M80",
-      "M81",
-      "M82"
-    ],
-    [
-      "M83",
-      "M84",
-      "M85"
-    ],
-    [
-      "M86",
-      "M87",
-      "M88"
-    ],
-    [
-      "M89",
-      "M90",
-      "M91"
-    ],
-    [
-      "M92",
-      "M93",
-      "M94"
-    ],
-    [
-      "M95",
-      "M96",
-      "M97"
-    ],
-    [
-      "M98",
-      "M99",
-      "RR23a"
-    ],
-    [
-      "RR23b",
-      "RR23c",
-      "RR23d"
-    ],
-    [
-      "RR23",
-      "RR24",
-      "U01"
-    ],
-    [
-      "RR22",
-      "U02",
-      "U03"
-    ],
-    [
-      "I06",
       "U04",
       "U08"
     ],
@@ -21809,6 +21847,8 @@
         "RR14",
         "RR15",
         "RR16",
+        "RR16a",
+        "RR16b",
         "RR17",
         "RR18",
         "RR19",
@@ -22442,6 +22482,8 @@
         "RR14",
         "RR15",
         "RR16",
+        "RR16a",
+        "RR16b",
         "RR17",
         "RR18",
         "RR19",
@@ -22994,6 +23036,8 @@
         "RR14",
         "RR15",
         "RR16",
+        "RR16a",
+        "RR16b",
         "RR17",
         "RR18",
         "RR19",
@@ -23556,6 +23600,8 @@
         "RR14",
         "RR15",
         "RR16",
+        "RR16a",
+        "RR16b",
         "RR17",
         "RR18",
         "RR19",
@@ -24197,6 +24243,8 @@
         "RR14",
         "RR15",
         "RR16",
+        "RR16a",
+        "RR16b",
         "RR17",
         "RR18",
         "RR19",
@@ -24850,6 +24898,8 @@
         "RR14",
         "RR15",
         "RR16",
+        "RR16a",
+        "RR16b",
         "RR17",
         "RR18",
         "RR19",
@@ -25617,6 +25667,8 @@
         "RR23b",
         "RR23c",
         "RR23d",
+        "RR16a",
+        "RR16b",
         "C01",
         "C02",
         "C03",
@@ -105760,7 +105812,7 @@
         8
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR02",
@@ -105836,7 +105888,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR03",
@@ -105898,7 +105950,7 @@
         85
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR04",
@@ -105962,7 +106014,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR05",
@@ -106024,7 +106076,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR06",
@@ -106079,7 +106131,7 @@
         52
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR07",
@@ -106150,7 +106202,7 @@
         40
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR08",
@@ -106216,7 +106268,7 @@
         41
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR09",
@@ -106275,7 +106327,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR10",
@@ -106332,7 +106384,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR11",
@@ -106387,7 +106439,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR12",
@@ -106449,7 +106501,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR13",
@@ -106514,7 +106566,7 @@
         32
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR14",
@@ -106569,7 +106621,7 @@
         77
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR15",
@@ -106623,20 +106675,21 @@
         12
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR16",
       "title": "Bind integration receipts to a complete unchanged executed source closure",
       "lane": "rereview-repairs",
       "state": "PLANNED_NOT_IMPLEMENTED",
-      "dependencies": [],
+      "dependencies": [
+        "RR16a",
+        "RR16b"
+      ],
       "external_prs": [
         19
       ],
       "paths": [
-        "porting/run_integration_checks.py",
-        "porting/tests/test_rr16_integration_receipts.py",
         "porting/rust-parity-evidence/RR16/"
       ],
       "source_refs": [
@@ -106646,7 +106699,7 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Replace the fixed integration list with complete standalone-crate, tool, Cargo, fixture and transitive-input inventory. Bind committed candidates and before/after hashes. Record each command, selected test scope and status."
+        "Integrate RR16a mechanism and RR16b complete qualification without weakening original source/command/fixture closure obligations. Selected safe checks cannot close this parent or RR17; current held scopes block full execution."
       ],
       "verification": [
         "Inject source mutation, omitted crate/fixture, stale generated files and command failure; each must block broad PASS. Qualify a fresh composed run with exact hashes and teardown.",
@@ -106672,11 +106725,124 @@
         "C02",
         "C03"
       ],
+      "acceptance_children": [
+        "RR16a",
+        "RR16b"
+      ],
       "external_pr_details": [
         19
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+    },
+    {
+      "id": "RR16a",
+      "title": "Bind explicitly selected integration checks to immutable candidate source inventories",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        19
+      ],
+      "paths": [
+        "porting/run_integration_checks.py",
+        "porting/tests/test_rr16_integration_receipts.py",
+        "porting/rust-parity-evidence/RR16a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace fixed lists/partial generic PASS with complete candidate Cargo/input inventory, committed blob+disk before/after binding, explicit selected/held/notselected matrix, exact command scope and immutable failure logs. This foundation NEVER emits broad/full PASS. Bound known Git generator inputs and declared external/toolchain dependencies; unresolved closure remains explicit."
+      ],
+      "verification": [
+        "Adversarial owned Git/stub fixtures must catch missing tool/fixture/manifests/locks/localdeps/pins, source drift, stale generation/check failure, dirty/untracked/mode/target mismatch, command failure/timeout and unsafe resume. Run fresh admitted real subset with HELD_NOT_RUN/NOT_SELECTED scopes and full_qualification=false.",
+        "One root-owned serialized offline execution lease; no held initializer-graph/default or raw-factory/factory validator execution. Preserve original counterexamples and independently review exact source/evidence."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Isolated source author; root alone executes all Git/test/fixture/Cargo jobs. Historical held paths are read-only, not implicit test admission.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-05"
+      ],
+      "owner_plan_units": [
+        "RR16"
+      ],
+      "external_pr_details": [
+        19
+      ],
+      "source_fragment": "lanes/rereview.json",
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
+    },
+    {
+      "id": "RR16b",
+      "title": "Qualify the complete integration command and input closure after held scopes are admitted",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR16a",
+        "RR23"
+      ],
+      "external_prs": [
+        19,
+        109
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/RR16b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Compose completed repairs on one exact candidate and enumerate every default/feature/target/generator/runtime input and required command. Require explicit owner admission for all held initializer/raw/factory scopes before execution; inventory is never admission. Bind external registry/toolchain/source inputs, generated freshness and all consuming fixtures.",
+        "Run full fresh serialized offline Cargo/WASM/native/browser/fixture matrix and teardown where required; all omissions/held/unrun/stale/failing cases block full integration qualification and RR17 acceptance.",
+        "Consume RR23 joint one-candidate reader evidence as an explicit implementation input; recompose/requalify on the full candidate rather than treating #109 subset results as full integration acceptance."
+      ],
+      "verification": [
+        "Inject source mutation, omitted crate/fixture, stale generated files and command failure; each must block broad PASS. Qualify a fresh composed run with exact hashes and teardown.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "RR16a selected checks/partial receipt is insufficient. Complete owner-admitted matrix and independent exact closure review are required; current held scopes keep this child OPEN."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-05"
+      ],
+      "owner_plan_units": [
+        "RR16"
+      ],
+      "external_pr_details": [
+        19,
+        109
+      ],
+      "source_fragment": "lanes/rereview.json",
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR17",
@@ -106737,7 +106903,7 @@
         67
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR18",
@@ -106796,7 +106962,7 @@
         61
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR19",
@@ -106857,7 +107023,7 @@
         62
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR20",
@@ -106917,7 +107083,7 @@
         65
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR21",
@@ -106981,7 +107147,7 @@
         59
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR22",
@@ -107076,7 +107242,7 @@
         103
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR23",
@@ -107093,7 +107259,12 @@
         79,
         80,
         83,
-        87
+        87,
+        100,
+        105,
+        106,
+        107,
+        108
       ],
       "paths": [
         "porting/rust-parity-evidence/RR23/"
@@ -107111,7 +107282,7 @@
         "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
         "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
-        "Require all RR23a/b/c/d child gates; HTTP/template readers remain OPEN until implemented."
+        "Require all four child sources, full suites and actual consuming CLI gates on ONE exact composed candidate, plus a Rust caller linking all four libraries in one process. Prior per-child PASS does not qualify the new composition."
       ],
       "commit_plan": [
         "Focused implementation and meaningful regression/caller fixtures",
@@ -107140,14 +107311,26 @@
         "RR23c",
         "RR23d"
       ],
+      "coordinator_wiring": {
+        "paths": [
+          "porting/rust-parity-evidence/RR23/consumer/Cargo.toml",
+          "porting/rust-parity-evidence/RR23/consumer/Cargo.lock"
+        ],
+        "policy": "Root owns evidence-only joint consumer manifest/lock and all compiler/runtime execution; four selected reader trees stay exact qualified donor bytes."
+      },
       "external_pr_details": [
         79,
         80,
         83,
-        87
+        87,
+        100,
+        105,
+        106,
+        107,
+        108
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR23a",
@@ -107214,7 +107397,7 @@
         100
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR23b",
@@ -107281,7 +107464,7 @@
         100
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR23c",
@@ -107348,7 +107531,7 @@
         100
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR23d",
@@ -107415,7 +107598,7 @@
         100
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR24",
@@ -107490,7 +107673,7 @@
         82
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "RR24a",
@@ -107544,7 +107727,7 @@
         90
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+      "source_fragment_sha256": "b97a0a73b61e30c01222c8353d9c4754e9e0ddc36b0fddbba8d078ec6af825bc"
     },
     {
       "id": "U01",
