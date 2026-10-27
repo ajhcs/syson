@@ -11,8 +11,8 @@
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 use syson_domain::model::{Element, ElementId, Model};
-mod scalar;
 mod containment;
+mod scalar;
 pub use containment::ContainmentFeature;
 pub use scalar::*;
 
@@ -20,6 +20,11 @@ pub use scalar::*;
 pub enum ModelError {
     Attribute(AttributeError),
     Json(String),
+    JsonAdmission(syson_json_value::Error),
+    JsonOutputIo {
+        kind: std::io::ErrorKind,
+        written: usize,
+    },
     Shape(String),
     InvalidId(String),
     DuplicateId(String),
@@ -43,6 +48,74 @@ impl std::fmt::Display for ModelError {
 }
 impl std::error::Error for ModelError {}
 type Result<T> = std::result::Result<T, ModelError>;
+const JSON_BYTES_LIMIT: usize = 4 * 1024 * 1024;
+const JSON_DEPTH_LIMIT: usize = 128;
+
+fn json_cancelled(cancelled: &mut impl FnMut() -> bool) -> Result<()> {
+    if cancelled() {
+        Err(ModelError::JsonAdmission(
+            syson_json_value::Error::Cancelled,
+        ))
+    } else {
+        Ok(())
+    }
+}
+struct JsonWriter<'a, W: ?Sized, F> {
+    target: &'a mut W,
+    cancelled: &'a mut F,
+    limit: usize,
+    written: usize,
+    failure: Option<ModelError>,
+}
+impl<W: std::io::Write + ?Sized, F: FnMut() -> bool> std::io::Write for JsonWriter<'_, W, F> {
+    fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+        if self.failure.is_some() {
+            return Err(std::io::Error::other("JSON writer already refused"));
+        }
+        if let Err(error) = json_cancelled(self.cancelled) {
+            self.failure = Some(error);
+            return Err(std::io::Error::other("JSON output cancelled"));
+        }
+        if bytes.len() > self.limit.saturating_sub(self.written) {
+            self.failure = Some(ModelError::JsonAdmission(syson_json_value::Error::Limit(
+                syson_json_value::Limit::Bytes,
+            )));
+            return Err(std::io::Error::other("JSON output byte limit"));
+        }
+        match self.target.write(bytes) {
+            Ok(count) if count <= bytes.len() && (count != 0 || bytes.is_empty()) => {
+                self.written += count;
+                Ok(count)
+            }
+            Ok(count) => {
+                let kind = if count == 0 {
+                    std::io::ErrorKind::WriteZero
+                } else {
+                    std::io::ErrorKind::InvalidData
+                };
+                self.failure = Some(ModelError::JsonOutputIo {
+                    kind,
+                    written: self.written,
+                });
+                Err(std::io::Error::new(kind, "invalid JSON sink write count"))
+            }
+            // serde's write_all retries Interrupted. The retry re-enters this
+            // wrapper and polls cancellation again instead of hiding the loop.
+            Err(error) if error.kind() == std::io::ErrorKind::Interrupted => Err(error),
+            Err(error) => {
+                self.failure = Some(ModelError::JsonOutputIo {
+                    kind: error.kind(),
+                    written: self.written,
+                });
+                Err(error)
+            }
+        }
+    }
+    // This API never flushes the caller's writer or promises durability.
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
 
 /// Separate UUIDs: EMF resource identity must not overwrite SysML elementId.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -96,14 +169,130 @@ impl Document {
             "ns":{"sysml":"http://www.eclipse.org/syson/sysml"},"content":[]}),
         }
     }
+    /// Parse literal JSON before model validation. Decoded duplicate keys refuse;
+    /// opaque objects and exact numeric tokens are never serde metadata.
+    /// This selected model admits at most 4 MiB, value-depth 128, two million
+    /// values/keys and 8 MiB scalar-copy charge. Bridge byte limits remain lower.
+    /// The Value view is canonical; upload whitespace/member order is not retained.
     pub fn from_json(input: &str) -> Result<Self> {
-        let value = serde_json::from_str(input).map_err(|e| ModelError::Json(e.to_string()))?;
+        let limits = syson_json_value::Limits {
+            bytes: JSON_BYTES_LIMIT,
+            depth: JSON_DEPTH_LIMIT,
+            values: 2_000_000,
+            keys: 2_000_000,
+            scalar_bytes: 8 * 1024 * 1024,
+        };
+        let (value, _) = syson_json_value::parse(input, limits, || false)
+            .and_then(|literal| literal.into_value(|| false))
+            .map_err(|error| match error {
+                syson_json_value::Error::Syntax { .. }
+                | syson_json_value::Error::StringEncoding => ModelError::Json(error.to_string()),
+                other => ModelError::JsonAdmission(other),
+            })?;
         let document = Self { value };
         document.validate()?;
+        document.check_json_budget()?;
         Ok(document)
     }
+    fn check_json_budget(&self) -> Result<()> {
+        self.json_size(JSON_BYTES_LIMIT, || false).map(|_| ())
+    }
+    /// Count canonical pretty JSON without allocating its output. Limits above
+    /// 4 MiB refuse; provisional values must also fit the publication depth128.
+    /// This is serialization admission, not validation of provisional semantics.
+    pub fn json_size(
+        &self,
+        max_bytes: usize,
+        mut cancelled: impl FnMut() -> bool,
+    ) -> Result<usize> {
+        if max_bytes > JSON_BYTES_LIMIT {
+            return Err(ModelError::JsonAdmission(
+                syson_json_value::Error::InvalidLimits,
+            ));
+        }
+        fn depth(value: &Value, level: usize, cancelled: &mut impl FnMut() -> bool) -> Result<()> {
+            json_cancelled(cancelled)?;
+            if level > JSON_DEPTH_LIMIT {
+                return Err(ModelError::JsonAdmission(syson_json_value::Error::Limit(
+                    syson_json_value::Limit::Depth,
+                )));
+            }
+            match value {
+                Value::Array(rows) => {
+                    for row in rows {
+                        depth(row, level + 1, cancelled)?;
+                    }
+                }
+                Value::Object(rows) => {
+                    for row in rows.values() {
+                        depth(row, level + 1, cancelled)?;
+                    }
+                }
+                _ => (),
+            }
+            Ok(())
+        }
+        depth(&self.value, 1, &mut cancelled)?;
+        self.emit_json(&mut std::io::sink(), max_bytes, &mut cancelled)
+    }
+    // One serializer and bounded/cancellable writer serve counting and emission.
+    // Callers admit/count first; the exact admitted size bounds the second pass.
+    fn emit_json<W: std::io::Write + ?Sized>(
+        &self,
+        target: &mut W,
+        limit: usize,
+        cancelled: &mut impl FnMut() -> bool,
+    ) -> Result<usize> {
+        let mut writer = JsonWriter {
+            target,
+            cancelled,
+            limit,
+            written: 0,
+            failure: None,
+        };
+        let encoded = serde_json::to_writer_pretty(&mut writer, &self.value);
+        if let Some(error) = writer.failure.take() {
+            return Err(error);
+        }
+        encoded.map_err(|error| ModelError::Json(error.to_string()))?;
+        json_cancelled(writer.cancelled)?;
+        Ok(writer.written)
+    }
+    /// Write after a complete counting/depth pass, with no owned output buffer.
+    /// Admission/early cancellation touches no writer. Later I/O/cancellation can
+    /// leave a prefix or complete output: the caller owns transport rollback.
+    /// JsonOutputIo.written counts acknowledged bytes, not actual side effects
+    /// of a writer that mutates before returning Err. No flush/durability promise.
+    /// Cancellation is cooperative between value/write steps; library and caller
+    /// writer calls are not internally preemptible or wall-clock bounded.
+    pub fn write_json<W: std::io::Write + ?Sized>(
+        &self,
+        target: &mut W,
+        max_bytes: usize,
+        mut cancelled: impl FnMut() -> bool,
+    ) -> Result<usize> {
+        let size = self.json_size(max_bytes, &mut cancelled)?;
+        self.emit_json(target, size, &mut cancelled)
+    }
+    /// Return complete canonical output or an error; no partial String escapes.
+    /// Count/depth admission precedes the fallible exact-size buffer reservation.
+    /// Provisional staged values do not bypass the same 4MiB/depth128 ceilings.
+    pub fn to_json_bounded(
+        &self,
+        max_bytes: usize,
+        mut cancelled: impl FnMut() -> bool,
+    ) -> Result<String> {
+        let size = self.json_size(max_bytes, &mut cancelled)?;
+        json_cancelled(&mut cancelled)?;
+        let mut output = Vec::new();
+        output
+            .try_reserve_exact(size)
+            .map_err(|_| ModelError::JsonAdmission(syson_json_value::Error::Allocation))?;
+        self.emit_json(&mut output, size, &mut cancelled)?;
+        String::from_utf8(output).map_err(|error| ModelError::Json(error.to_string()))
+    }
     pub fn to_json(&self) -> Result<String> {
-        serde_json::to_string_pretty(&self.value).map_err(|e| ModelError::Json(e.to_string()))
+        self.to_json_bounded(JSON_BYTES_LIMIT, || false)
     }
     pub fn value(&self) -> &Value {
         &self.value
@@ -373,6 +562,7 @@ impl Editor {
         if transaction.staged == self.document {
             return Ok(false);
         }
+        transaction.staged.check_json_budget()?;
         self.undo
             .push(std::mem::replace(&mut self.document, transaction.staged));
         self.redo.clear();
@@ -556,9 +746,9 @@ pub mod factory;
 #[cfg(feature = "raw-factory-candidate")]
 mod raw_admission;
 #[cfg(feature = "raw-factory-candidate")]
-pub use raw_admission::{attach_raw_selected, RawAdmissionReport, RawAdmissionError};
+pub use raw_admission::{RawAdmissionError, RawAdmissionReport, attach_raw_selected};
 
-#[cfg(feature="raw-factory-candidate")]
+#[cfg(feature = "raw-factory-candidate")]
 mod port_definition_refs;
-#[cfg(feature="raw-factory-candidate")]
+#[cfg(feature = "raw-factory-candidate")]
 pub use port_definition_refs::PortDefinitionReference;
