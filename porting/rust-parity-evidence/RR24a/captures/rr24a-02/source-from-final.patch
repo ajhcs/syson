@@ -1,0 +1,8 @@
+--- a/rust/crates/syson-json-value/README.md
++++ b/rust/crates/syson-json-value/README.md
+@@ -13,5 +13,3 @@
+ Cancellation is checked initially, at most1024source bytes apart in this utility's long token/whitespace scans, between tree nodes and conversion steps, and around library string-decoding/syntax-validation/map-sorting calls. Those bounded library calls are not internally preemptible; this API is not a wall-clock deadline or UI latency guarantee. Fallible Vec reservations return allocation errors, while ordinary standard-library/String/map allocations retain Rust's allocator failure behavior. No output serializer, filesystem, model, library loader or semantic engine is provided.
+ 
+ RR01 is the reusable authority only. Actual model and catalogue adoption belong to RR02/RR03. Tests compare marker objects to manually constructed maps, numeric spelling to source tokens, ordered-tree/raw identity separately from sorted Value order, and exact budget/cancellation/syntax boundaries. No native parser, UI, persistence or full feature parity is claimed here.
+-
+-For native callers that require duplicate-key compatibility, `parse_with_duplicate_keys` opts into `DuplicateKeys::LastWins`. It retains each decoded key at its first insertion position with its final value; `raw()` retains every original byte. All physical key, value and scalar occurrences consume admission budgets before collapse. The existing `parse` API remains strict.
