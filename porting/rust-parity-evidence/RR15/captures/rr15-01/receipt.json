@@ -1,0 +1,245 @@
+{
+  "unit": "RR15",
+  "base": "ca80c1960620f87b940bd1e2040597efd7842052",
+  "status": "PASS_BOUNDED_FINAL_SOURCE_LOCAL_CHECKS;_FEATURE_ACCEPTANCE_OPEN",
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--config",
+        "skip_children=true",
+        "/workspace/worktrees/builderbob/syson/rr15-syntax-files/rust/tools/syntax-observe/src/main.rs",
+        "/workspace/worktrees/builderbob/syson/rr15-syntax-files/rust/tools/syntax-observe/tests/rr15_regression.rs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--config",
+        "skip_children=true",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/rr15-syntax-files/rust/tools/syntax-observe/src/main.rs",
+        "/workspace/worktrees/builderbob/syson/rr15-syntax-files/rust/tools/syntax-observe/tests/rr15_regression.rs"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr15-syntax-files/rust/tools/syntax-observe/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr15-syntax-files/rust/tools/syntax-observe/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "source_review": "Root reviews fixed code and regression actions before execution; defaultfeatures only, owned workspace temp files/SQLite/Git/FIFO fixtures. No held raw-factory executor, service or native/browser epoch.",
+  "source_before": {
+    "porting/runs/parser-corpus-rust-01/fixtures/pc01.stdout.txt": "66228d7394f4c84c8a4c45c1f3b9a1da4a0337c0a03731e4cd601d7a5ea48acb",
+    "porting/runs/parser-corpus-rust-01/fixtures/pc08.stdout.txt": "c0cb2d0d9ba06590f2bc44e81ff107d7cd00281af707971d38d02c1fe74a9c1e",
+    "porting/runs/parser-corpus-rust-01/fixtures/pc12.stdout.txt": "83e5e23fc88a65ef54b3cb16b2d38a4ba2c77d9200fa6339368b5589e7d18bad",
+    "porting/validation/fixtures/parser-oracle.sysml": "ebe5c225b064119eb2584a9a7d4f268b0a10e8de0e15df77a9240c12f05cbdf8",
+    "porting/validation/fixtures/syntax-terminal-base.json": "35eb99175e3d96cd3c34357b44046b4aba8f12937e77e0db8204b3250a214675",
+    "porting/validation/parser-corpus/fixtures/datatype-reference.kerml": "9c513dc026484e77faf1b01fb65e59bb9afe331db9281bed0862b63dd502f230",
+    "porting/validation/parser-corpus/fixtures/raw-names-strings.sysml": "303b81eae8d120244fa9c32e7765bb81b1b72c7e6f59d887693e821d5bffd22d",
+    "porting/validation/parser-corpus/fixtures/unterminated-string.sysml": "deb7603600bab0c23bdc4fe2282e4b1ebda4f9038b46620635804d33088580d4",
+    "rust/.gitignore": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b",
+    "rust/THIRD-PARTY-NOTICES.md": "49beb0bc6391d39b01247f0eeafde224744338be63e3a8748e1ea5a17d3e638d",
+    "rust/crates/syson-syntax/Cargo.lock": "3c502e5b101871a47182b7318f3cead8f47c608edff308c63fc5c262b17d192c",
+    "rust/crates/syson-syntax/Cargo.toml": "2c78bec4ac2cc446eacdde0cfe14c3fb45554cbafd445deedff2027e6500adc6",
+    "rust/crates/syson-syntax/NOTICE": "ef3a4ec6c8fe10c0210e9ffec6f7f9ef15db1bdf78354d8d9280a038014117d3",
+    "rust/crates/syson-syntax/data/LICENSE-SYSIDE": "a45f8d69f0cc2aa98b879a8aaea133d220e737ccc43e62c2f8662546657cc70f",
+    "rust/crates/syson-syntax/data/PROVENANCE.json": "a0c4d62dac6c9d91df317c34bd91cac27861f9b46802d0020d7932515512400e",
+    "rust/crates/syson-syntax/data/kerml.json": "ddbc07f673e2be095931c3f5a059ecdd75ec51be474184a80577ebdcbd14a0c6",
+    "rust/crates/syson-syntax/data/sysml.json": "d00a3a2afe891974ead47e3a36d9540d461cac015c66d7977d0d1eecd6301620",
+    "rust/crates/syson-syntax/data/terminals.json": "a8a5ef42b7bcb05b29851d874fccd2c9c150a2eaf190ec2d0964cfeca821a87e",
+    "rust/crates/syson-syntax/src/grammar.rs": "246f7c7b91780bf5d4a7eb9d8154bb5a840d3b81735c08c5e1782bbb46435233",
+    "rust/crates/syson-syntax/src/lexer.rs": "8f41bd9f64380e67986aea9047ca4d2653f1549017bccebbd90d95c24c31485c",
+    "rust/crates/syson-syntax/src/lib.rs": "5bedf0a6c347453a61187e34a329ac9c107b07ec16cef58995b4a34d276ba5c5",
+    "rust/crates/syson-syntax/src/recognizer.rs": "bd04b781148e45e37a1c6c6428e456d36abddad34967e44ec38efa18e8c0f103",
+    "rust/crates/syson-syntax/tests/fixtures/camera.sysml": "4836a0416b9f07ee8f7595daad3db9ec1f308f1721b7e187087832f5867c6444",
+    "rust/crates/syson-syntax/tests/fixtures/incomplete.sysml": "4be0e59c68c0032838116a84f617fa09b2e69b7e0ae7327f3df30dd124b94c33",
+    "rust/crates/syson-syntax/tests/fixtures/namespace.kerml": "991d8710d85080009593a0911ff02ae6a385ca061ce94a728b91c4d231a2169e",
+    "rust/crates/syson-syntax/tests/syntax_contracts.rs": "9ba901f2dd8e0ae2c89e3da9a683b300b3c1dc3f36e707b0b4c5984ca167cf41",
+    "rust/third-party/itoa-1.0.18/LICENSE-APACHE": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+    "rust/third-party/itoa-1.0.18/LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+    "rust/third-party/manifest.json": "5936f1376bc42d8192588207c6f4ac7b25e97215b6b7ee6a2846f1de54a87bd0",
+    "rust/third-party/memchr-2.8.3/COPYING": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+    "rust/third-party/memchr-2.8.3/LICENSE-MIT": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f",
+    "rust/third-party/memchr-2.8.3/UNLICENSE": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c",
+    "rust/third-party/serde_core-1.0.229/LICENSE-APACHE": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+    "rust/third-party/serde_core-1.0.229/LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+    "rust/third-party/serde_json-1.0.151/LICENSE-APACHE": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+    "rust/third-party/serde_json-1.0.151/LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+    "rust/third-party/zmij-1.0.23/LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+    "rust/tools/syntax-observe/Cargo.lock": "c00e75e058a0b16da173ef7aa837e0b1de1efad5ccd72b3b9a572a3d69c63991",
+    "rust/tools/syntax-observe/Cargo.toml": "5b90b6c69cce21cdd1e3ed097a8fb079ed8e2028fc5d531221bef519e77fa8af",
+    "rust/tools/syntax-observe/README.md": "1772d0a0eeb6c0b27a92640f6057497ae4ffc88ffc1883a216bdf2540ad030c4",
+    "rust/tools/syntax-observe/src/main.rs": "420fc9c3c805094b86a143cf03a20bf4634ecbacba0ca07ba715b0904cd2ca93",
+    "rust/tools/syntax-observe/tests/rr15_regression.rs": "d63fdb8d079360b52ba66de90bc72077e3e0794858304bb0caeb18bd996edfcd",
+    "rust/validation/syntax/Cargo.lock": "e889f7e06fa76840f0126f8313ebc6d281ae11440b00005f7052009e4a1abf58",
+    "rust/validation/syntax/Cargo.toml": "caa1222594497e70e20cb8cbc3a07bd889fac9197edc54570bf77a366f5a7d7e",
+    "rust/validation/syntax/README.md": "744b7b4d4be038c4d334c16e0cebd87aaed3a62039abb7e15226c4bf508d914c",
+    "rust/validation/syntax/examples/oracle_receipt.rs": "11d538a3c114b66c134c386171af48644e3b7ac212c7e7cba9e78ed11733df0a",
+    "rust/validation/syntax/src/lib.rs": "c6ef32d9869ed0ac7f4bc779ae6f9b091629bdf16eaa5d2e614a91afb57e57be",
+    "rust/validation/syntax/tests/recognizer_regressions.rs": "793a2acb4192712fd7357ace142adce62d7e20b8b474dd00fd6418700e9c5b23"
+  },
+  "registry_tuples": [
+    [
+      "itoa",
+      "1.0.18",
+      "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
+    ],
+    [
+      "memchr",
+      "2.8.3",
+      "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
+    ],
+    [
+      "proc-macro2",
+      "1.0.107",
+      "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9"
+    ],
+    [
+      "quote",
+      "1.0.47",
+      "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001"
+    ],
+    [
+      "serde",
+      "1.0.229",
+      "4148590afebada386688f18773da617792bf2ef03ffc1e4cbd2b1d45b023e0ba"
+    ],
+    [
+      "serde_core",
+      "1.0.229",
+      "67dca2c9c51e58a4791a4b1ed58308b39c64224d349a935ab5039aa360942a48"
+    ],
+    [
+      "serde_derive",
+      "1.0.229",
+      "e7a5d71263a5a7d47b41f6b3f06ba276f10cc18b0931f1799f710578e2309348"
+    ],
+    [
+      "serde_json",
+      "1.0.151",
+      "c841b55ecdae098c80dcae9cf767f6f8a0c2cdb3416bbef72181df4d0fe73f14"
+    ],
+    [
+      "syn",
+      "3.0.6",
+      "8593e8e72159ed2257d083c7a454a85cbf854f37a0966d8d483aff8c8a3ebcee"
+    ],
+    [
+      "unicode-ident",
+      "1.0.26",
+      "d245f478577f809a851594d02313b640fb437e0bb33866753cff937863096954"
+    ],
+    [
+      "zmij",
+      "1.0.23",
+      "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b"
+    ]
+  ],
+  "source_after": {
+    "porting/runs/parser-corpus-rust-01/fixtures/pc01.stdout.txt": "66228d7394f4c84c8a4c45c1f3b9a1da4a0337c0a03731e4cd601d7a5ea48acb",
+    "porting/runs/parser-corpus-rust-01/fixtures/pc08.stdout.txt": "c0cb2d0d9ba06590f2bc44e81ff107d7cd00281af707971d38d02c1fe74a9c1e",
+    "porting/runs/parser-corpus-rust-01/fixtures/pc12.stdout.txt": "83e5e23fc88a65ef54b3cb16b2d38a4ba2c77d9200fa6339368b5589e7d18bad",
+    "porting/validation/fixtures/parser-oracle.sysml": "ebe5c225b064119eb2584a9a7d4f268b0a10e8de0e15df77a9240c12f05cbdf8",
+    "porting/validation/fixtures/syntax-terminal-base.json": "35eb99175e3d96cd3c34357b44046b4aba8f12937e77e0db8204b3250a214675",
+    "porting/validation/parser-corpus/fixtures/datatype-reference.kerml": "9c513dc026484e77faf1b01fb65e59bb9afe331db9281bed0862b63dd502f230",
+    "porting/validation/parser-corpus/fixtures/raw-names-strings.sysml": "303b81eae8d120244fa9c32e7765bb81b1b72c7e6f59d887693e821d5bffd22d",
+    "porting/validation/parser-corpus/fixtures/unterminated-string.sysml": "deb7603600bab0c23bdc4fe2282e4b1ebda4f9038b46620635804d33088580d4",
+    "rust/.gitignore": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b",
+    "rust/THIRD-PARTY-NOTICES.md": "49beb0bc6391d39b01247f0eeafde224744338be63e3a8748e1ea5a17d3e638d",
+    "rust/crates/syson-syntax/Cargo.lock": "3c502e5b101871a47182b7318f3cead8f47c608edff308c63fc5c262b17d192c",
+    "rust/crates/syson-syntax/Cargo.toml": "2c78bec4ac2cc446eacdde0cfe14c3fb45554cbafd445deedff2027e6500adc6",
+    "rust/crates/syson-syntax/NOTICE": "ef3a4ec6c8fe10c0210e9ffec6f7f9ef15db1bdf78354d8d9280a038014117d3",
+    "rust/crates/syson-syntax/data/LICENSE-SYSIDE": "a45f8d69f0cc2aa98b879a8aaea133d220e737ccc43e62c2f8662546657cc70f",
+    "rust/crates/syson-syntax/data/PROVENANCE.json": "a0c4d62dac6c9d91df317c34bd91cac27861f9b46802d0020d7932515512400e",
+    "rust/crates/syson-syntax/data/kerml.json": "ddbc07f673e2be095931c3f5a059ecdd75ec51be474184a80577ebdcbd14a0c6",
+    "rust/crates/syson-syntax/data/sysml.json": "d00a3a2afe891974ead47e3a36d9540d461cac015c66d7977d0d1eecd6301620",
+    "rust/crates/syson-syntax/data/terminals.json": "a8a5ef42b7bcb05b29851d874fccd2c9c150a2eaf190ec2d0964cfeca821a87e",
+    "rust/crates/syson-syntax/src/grammar.rs": "246f7c7b91780bf5d4a7eb9d8154bb5a840d3b81735c08c5e1782bbb46435233",
+    "rust/crates/syson-syntax/src/lexer.rs": "8f41bd9f64380e67986aea9047ca4d2653f1549017bccebbd90d95c24c31485c",
+    "rust/crates/syson-syntax/src/lib.rs": "5bedf0a6c347453a61187e34a329ac9c107b07ec16cef58995b4a34d276ba5c5",
+    "rust/crates/syson-syntax/src/recognizer.rs": "bd04b781148e45e37a1c6c6428e456d36abddad34967e44ec38efa18e8c0f103",
+    "rust/crates/syson-syntax/tests/fixtures/camera.sysml": "4836a0416b9f07ee8f7595daad3db9ec1f308f1721b7e187087832f5867c6444",
+    "rust/crates/syson-syntax/tests/fixtures/incomplete.sysml": "4be0e59c68c0032838116a84f617fa09b2e69b7e0ae7327f3df30dd124b94c33",
+    "rust/crates/syson-syntax/tests/fixtures/namespace.kerml": "991d8710d85080009593a0911ff02ae6a385ca061ce94a728b91c4d231a2169e",
+    "rust/crates/syson-syntax/tests/syntax_contracts.rs": "9ba901f2dd8e0ae2c89e3da9a683b300b3c1dc3f36e707b0b4c5984ca167cf41",
+    "rust/third-party/itoa-1.0.18/LICENSE-APACHE": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+    "rust/third-party/itoa-1.0.18/LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+    "rust/third-party/manifest.json": "5936f1376bc42d8192588207c6f4ac7b25e97215b6b7ee6a2846f1de54a87bd0",
+    "rust/third-party/memchr-2.8.3/COPYING": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+    "rust/third-party/memchr-2.8.3/LICENSE-MIT": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f",
+    "rust/third-party/memchr-2.8.3/UNLICENSE": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c",
+    "rust/third-party/serde_core-1.0.229/LICENSE-APACHE": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+    "rust/third-party/serde_core-1.0.229/LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+    "rust/third-party/serde_json-1.0.151/LICENSE-APACHE": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+    "rust/third-party/serde_json-1.0.151/LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+    "rust/third-party/zmij-1.0.23/LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+    "rust/tools/syntax-observe/Cargo.lock": "c00e75e058a0b16da173ef7aa837e0b1de1efad5ccd72b3b9a572a3d69c63991",
+    "rust/tools/syntax-observe/Cargo.toml": "5b90b6c69cce21cdd1e3ed097a8fb079ed8e2028fc5d531221bef519e77fa8af",
+    "rust/tools/syntax-observe/README.md": "1772d0a0eeb6c0b27a92640f6057497ae4ffc88ffc1883a216bdf2540ad030c4",
+    "rust/tools/syntax-observe/src/main.rs": "420fc9c3c805094b86a143cf03a20bf4634ecbacba0ca07ba715b0904cd2ca93",
+    "rust/tools/syntax-observe/tests/rr15_regression.rs": "d63fdb8d079360b52ba66de90bc72077e3e0794858304bb0caeb18bd996edfcd",
+    "rust/validation/syntax/Cargo.lock": "e889f7e06fa76840f0126f8313ebc6d281ae11440b00005f7052009e4a1abf58",
+    "rust/validation/syntax/Cargo.toml": "caa1222594497e70e20cb8cbc3a07bd889fac9197edc54570bf77a366f5a7d7e",
+    "rust/validation/syntax/README.md": "744b7b4d4be038c4d334c16e0cebd87aaed3a62039abb7e15226c4bf508d914c",
+    "rust/validation/syntax/examples/oracle_receipt.rs": "11d538a3c114b66c134c386171af48644e3b7ac212c7e7cba9e78ed11733df0a",
+    "rust/validation/syntax/src/lib.rs": "c6ef32d9869ed0ac7f4bc779ae6f9b091629bdf16eaa5d2e614a91afb57e57be",
+    "rust/validation/syntax/tests/recognizer_regressions.rs": "793a2acb4192712fd7357ace142adce62d7e20b8b474dd00fd6418700e9c5b23"
+  },
+  "source_unchanged": true,
+  "changed_paths": [
+    "porting/rust-parity-evidence/RR15/PREPARATION.md",
+    "porting/rust-parity-evidence/RR15/SOURCE-FREEZE.json",
+    "rust/tools/syntax-observe/src/main.rs",
+    "rust/tools/syntax-observe/tests/rr15_regression.rs"
+  ],
+  "owned_runtime_artifacts": {
+    "scratch/rr15-496158-2/link.kerml": "9c513dc026484e77faf1b01fb65e59bb9afe331db9281bed0862b63dd502f230",
+    "scratch/rr15-496158-2/target.kerml": "9c513dc026484e77faf1b01fb65e59bb9afe331db9281bed0862b63dd502f230",
+    "scratch/rr15-races-496155/retired-3": "d1952e184c72077931d97de925104366aeffe52957f4ba4de8305227cccfc5bd",
+    "scratch/rr15-races-496155/retired-0": "d1952e184c72077931d97de925104366aeffe52957f4ba4de8305227cccfc5bd",
+    "scratch/rr15-races-496155/other.sysml": "b4d58d0f7d20e5987932998b62019b61d8f852844186ceadeaa96f218a1f7d99",
+    "scratch/rr15-races-496155/retired-1": "d1952e184c72077931d97de925104366aeffe52957f4ba4de8305227cccfc5bd",
+    "scratch/rr15-races-496155/retired-2": "d1952e184c72077931d97de925104366aeffe52957f4ba4de8305227cccfc5bd",
+    "scratch/rr15-496158-3/invalid.sysml": "a8100ae6aa1940d0b663bb31cd466142ebbdbd5187131b92d93818987832eb89",
+    "scratch/rr15-496158-3/fixture.txt": "d1952e184c72077931d97de925104366aeffe52957f4ba4de8305227cccfc5bd",
+    "scratch/rr15-496158-3/fixture.SYSML": "d1952e184c72077931d97de925104366aeffe52957f4ba4de8305227cccfc5bd",
+    "scratch/rr15-496158-3/fixture.sysml.json": "d1952e184c72077931d97de925104366aeffe52957f4ba4de8305227cccfc5bd",
+    "scratch/rr15-496158-0/boundary.sysml": "6635fe13c690f09164b387cb5f8eaf9dace791a80786b8cac89378eab92fa63d",
+    "scratch/rr15-496158-4/names.sysml": "303b81eae8d120244fa9c32e7765bb81b1b72c7e6f59d887693e821d5bffd22d",
+    "scratch/rr15-496158-4/types.kerml": "9c513dc026484e77faf1b01fb65e59bb9afe331db9281bed0862b63dd502f230",
+    "scratch/rr15-496158-4/malformed.sysml": "deb7603600bab0c23bdc4fe2282e4b1ebda4f9038b46620635804d33088580d4",
+    "scratch/rr15-races-496155/first/input.sysml": "d1952e184c72077931d97de925104366aeffe52957f4ba4de8305227cccfc5bd",
+    "scratch/rr15-races-496155/second/input.sysml": "b4d58d0f7d20e5987932998b62019b61d8f852844186ceadeaa96f218a1f7d99"
+  }
+}

@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: EPL-2.0
+#![cfg(all(target_os = "linux", target_arch = "x86_64"))]
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::{Command, Output, Stdio},
+    sync::atomic::{AtomicU64, Ordering},
+    thread,
+    time::{Duration, Instant},
+};
+static NEXT: AtomicU64 = AtomicU64::new(0);
+fn directory() -> PathBuf {
+    let base = PathBuf::from(std::env::var_os("SYSON_TEST_DIR").expect("owned workspace root required")).canonicalize().unwrap();
+    assert!(base.starts_with("/workspace"));
+    let dir = base.join(format!("rr15-{}-{}", std::process::id(), NEXT.fetch_add(1, Ordering::Relaxed)));
+    fs::create_dir(&dir).unwrap();
+    dir
+}
+fn run(path: &Path) -> Output {
+    assert!(path.is_absolute() && path.starts_with("/workspace"));
+    let mut child = Command::new(env!("CARGO_BIN_EXE_syson-syntax-observe"))
+        .arg(path).env_clear().stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::piped()).spawn().unwrap();
+    let start = Instant::now();
+    let mut timed_out = false;
+    loop {
+        if child.try_wait().unwrap().is_some() { break; }
+        if start.elapsed() >= Duration::from_secs(3) {
+            timed_out = true;
+            let _ = child.kill();
+            break;
+        }
+        thread::sleep(Duration::from_millis(10));
+    }
+    let output = child.wait_with_output().unwrap();
+    if timed_out {
+        assert!(output.stdout.is_empty(), "timed-out CLI printed an observation");
+        panic!("syntax CLI exceeded the3-second owned child deadline; killed and waited: {}", output.status);
+    }
+    output
+}
+#[test]
+fn fifo_fixture_refuses_without_blocking_or_printing_an_observation() {
+    let file = directory().join("input.sysml");
+    assert!(Command::new("/usr/bin/mkfifo").arg("--").arg(&file).env_clear().status().unwrap().success());
+    let output = run(&file);
+    assert!(!output.status.success(), "FIFO admitted");
+    assert!(output.stdout.is_empty(), "refusal printed an observation");
+}
