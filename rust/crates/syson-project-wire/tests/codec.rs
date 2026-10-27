@@ -344,3 +344,36 @@ fn exact_payload_aggregate_item_metadata_and_envelope_byte_caps_are_enforced() {
         Err(Error::Limit("envelope bytes"))
     ));
 }
+
+#[test]
+fn literal_payload_transport_prepares_and_replays_without_private_marker_coercion() {
+    let payload = r#"{"number":{"$serde_json::private::Number":"not numeric"},"raw":{"$serde_json::private::RawValue":"{\"future\":true}"},"n":1E+000,"duplicate":1,"duplicate":2}"#;
+    let decoded = decode(&packet(payload, 1)).unwrap();
+    assert_eq!(decoded.representations[0].json, payload);
+    let input_before = decoded.clone();
+    let prepared = prepare(&decoded, &ids(), &mut Snapshot::default()).unwrap();
+    let mut number = serde_json::Map::new();
+    number.insert(
+        "$serde_json::private::Number".into(),
+        Value::String("not numeric".into()),
+    );
+    let mut raw = serde_json::Map::new();
+    raw.insert(
+        "$serde_json::private::RawValue".into(),
+        Value::String(r#"{"future":true}"#.into()),
+    );
+    let value = &prepared.project().representations[0].content;
+    assert_eq!(value["number"], Value::Object(number));
+    assert_eq!(value["raw"], Value::Object(raw));
+    assert_eq!(value["n"].to_string(), "1E+000");
+    assert_eq!(value["duplicate"], 2);
+    let wire = encode(&prepared).unwrap();
+    let replay_input = decode(&wire).unwrap();
+    assert_eq!(&replay_input, prepared.wire());
+    let mut resolver = Snapshot::default();
+    let replay = prepare(&replay_input, &ids(), &mut resolver).unwrap();
+    assert_eq!(replay, prepared);
+    assert_eq!(resolver.0, 0);
+    assert_eq!(encode(&replay).unwrap(), wire);
+    assert_eq!(decoded, input_before);
+}
