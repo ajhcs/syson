@@ -1,0 +1,91 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Development-only observer: largest requested allocation, not RSS/live memory.
+use serde_json::{Value, json};
+use std::{alloc::{GlobalAlloc, Layout, System}, cell::Cell};
+use syson_json_interchange::{Bundle, Error, Input, MAX_RESOURCE_BYTES, native_model, selected_model};
+use syson_model::Document;
+use syson_references::FragmentIdentity;
+
+thread_local! {
+    static TRACK: Cell<bool> = const { Cell::new(false) };
+    static LARGEST: Cell<usize> = const { Cell::new(0) };
+}
+fn requested(size: usize) {
+    if TRACK.try_with(Cell::get).unwrap_or(false) {
+        let _ = LARGEST.try_with(|cell| cell.set(cell.get().max(size)));
+    }
+}
+struct Observer;
+// SAFETY: Original pointer/layout arguments always reach System unchanged;
+// constant TLS bookkeeping does not allocate or own allocation metadata.
+unsafe impl GlobalAlloc for Observer {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc(layout) };
+        if !pointer.is_null() { requested(layout.size()); }
+        pointer
+    }
+    unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc_zeroed(layout) };
+        if !pointer.is_null() { requested(layout.size()); }
+        pointer
+    }
+    unsafe fn dealloc(&self, pointer: *mut u8, layout: Layout) {
+        unsafe { System.dealloc(pointer, layout) };
+    }
+    unsafe fn realloc(&self, pointer: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        let next = unsafe { System.realloc(pointer, layout, size) };
+        if !next.is_null() { requested(size); }
+        next
+    }
+}
+#[global_allocator]
+static ALLOCATOR: Observer = Observer;
+fn observed<T>(action: impl FnOnce() -> T) -> (T, usize) {
+    LARGEST.set(0);
+    TRACK.set(true);
+    let result = action();
+    TRACK.set(false);
+    (result, LARGEST.get())
+}
+const KEY: &str = "rr05-resource";
+fn envelope() -> Value {
+    json!({"json":{"version":"1.0","encoding":"utf-8"},"ns":{"sysml":"http://www.eclipse.org/syson/sysml"},"content":[{
+        "id":"10000000-0000-4000-8000-000000000001","eClass":"sysml:Package",
+        "data":{"elementId":"20000000-0000-4000-8000-000000000001","declaredName":"Root","opaque":""}
+    }]})
+}
+fn over_canonical_input() -> Input {
+    let mut value = envelope();
+    let overhead = value.to_string().len();
+    value["content"][0]["data"]["opaque"] = Value::String("x".repeat(MAX_RESOURCE_BYTES-overhead));
+    let json = value.to_string();
+    assert_eq!(json.len(), MAX_RESOURCE_BYTES);
+    Input { key: KEY.into(), json, fragments: FragmentIdentity::JsonNodeId }
+}
+#[test]
+fn bundle_one_mib_admission_refuses_without_allocating_over_budget_pretty_output() {
+    let input = over_canonical_input();
+    let document = Document::from_json(&input.json).unwrap();
+    assert!(document.json_size(4*1024*1024, || false).unwrap() > MAX_RESOURCE_BYTES);
+    let inputs = vec![input]; // All caller input construction precedes tracking.
+    let (result, largest) = observed(|| Bundle::load(inputs));
+    eprintln!("bundle canonical-limit refusal: largest_requested={largest}");
+    assert!(matches!(result, Err(Error::Limit)));
+    // Parsing may own one admitted scalar. It must not own a >1MiB pretty output.
+    assert!(largest <= MAX_RESOURCE_BYTES, "largest_requested={largest}");
+}
+#[test]
+fn both_borrowed_bridge_entries_refuse_before_any_large_serialized_copy() {
+    let input = over_canonical_input();
+    let document = Document::from_json(&input.json).unwrap();
+    let before = document.clone();
+    let (forward, largest) = observed(|| selected_model::load(KEY, &document, selected_model::SourceEncoding::LocalSemanticElementIds));
+    eprintln!("forward canonical-limit refusal: largest_requested={largest}");
+    assert!(matches!(forward, Err(selected_model::Error::Limit)));
+    assert!(largest <= 65_536, "largest_requested={largest}");
+    let (reverse, largest) = observed(|| native_model::load(KEY, &document, native_model::SourceEncoding::LocalJsonNodeIds));
+    eprintln!("reverse canonical-limit refusal: largest_requested={largest}");
+    assert!(matches!(reverse, Err(native_model::Error::Limit)));
+    assert!(largest <= 65_536, "largest_requested={largest}");
+    assert_eq!(document, before);
+}

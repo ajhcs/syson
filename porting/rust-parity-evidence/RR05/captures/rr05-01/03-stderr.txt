@@ -1,0 +1,37 @@
+    Checking serde_core v1.0.229
+    Checking zmij v1.0.23
+    Checking memchr v2.8.3
+    Checking itoa v1.0.18
+    Checking serde_json v1.0.151
+    Checking serde v1.0.229
+    Checking syson-metamodel v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-metamodel)
+    Checking syson-json-value v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-json-value)
+    Checking syson-domain v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-domain)
+    Checking syson-model v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-model)
+    Checking syson-references v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-references)
+    Checking syson-initializer v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-initializer)
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+  --> /workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-initializer/src/planner.rs:21:34
+   |
+21 |         engine.owner = NEXT_PLAN.fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+   |                                  ^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+   |
+21 -         engine.owner = NEXT_PLAN.fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+21 +         engine.owner = NEXT_PLAN.try_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+   |
+
+warning: `syson-initializer` (lib) generated 1 warning (run `cargo clippy --fix --lib -p syson-initializer -- -D warnings` to apply 1 suggestion)
+    Checking syson-reflection v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-reflection)
+    Checking syson-ast-values v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-ast-values)
+    Checking syson-ast v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-ast)
+    Checking syson-ast-adapter v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-ast-adapter)
+    Checking syson-initializer-graph v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-initializer-graph)
+    Checking syson-general-view v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-general-view)
+    Checking syson-linker v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-linker)
+    Checking syson-text-import v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-text-import)
+    Checking syson-view-usage v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-view-usage)
+    Checking syson-json-interchange v0.1.0 (/workspace/worktrees/builderbob/syson/rr05-interchange-budget/rust/crates/syson-json-interchange)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.15s
