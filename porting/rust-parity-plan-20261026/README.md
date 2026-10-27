@@ -327,3 +327,52 @@ The near-budget long-ID case also records 66 ms isolated and 59 ms joint at 320 
 RR18b3 retains complete HTML/escaping/helper admission before materialization and the original dense/escaped fixtures and required performance gate. Its tasks now also require trace-guided native text/DOM/layout investigation, accessible scrolling/text behavior, actionable canvas-limit wording, and Unicode font coverage: a mobile CJK draft glyph renders as tofu despite exact DOM text preservation. Full UI polish remains open, including RR19's generic status and disabled-command behavior. Physical mobile, other browsers, maximum scale, native SysON comparison and full feature parity remain open. No new native SysON, database or server-build epoch ran in this batch.
 
 All prior 45 ledger objects and nine sealed batch-validation receipts remain unchanged. The 47 implementation entries remain LOCALLY_VERIFIED_BOUNDED/NOT_ACCEPTED. The 769 review units, 1538 readiness nodes and zero unordered write conflicts are planning counts, not feature acceptance. Both new attachment calls reached the app's 100-identity limit; direct PR links work and historical attachments are preserved. Canonical dirty work and old holds remain intact. Nothing was merged or deployed.
+
+## Eleventh independent re-review batch and GitHub landing
+
+[RR18b3a #115](https://github.com/ajhcs/syson/pull/115) and [RR18b3b #116](https://github.com/ajhcs/syson/pull/116) are pushed as separate, independently reviewed, three-commit drafts. Their exact review base is joint snapshot `40b3c1b3e6d86fb9ba082864dda4d17e6be8ee5b`. Do not merge into this temporary snapshot. Main landing still requires actual source prerequisites, held-owner gates and an appropriate composed landing-tree qualification. Current A does not adopt RR20 history changes.
+
+Two source subagents authored in parallel in isolated worktrees. Root owned shared-file integration, nonrecursive formatting, serialized offline compilation, browser execution, Git and publication. A third read-only agent independently reviewed source, raw results, compressed captures and every committed packet blob; authors cross-reviewed the opposite behavior family and joint provenance. Only these selected source leases were explicitly released after publication. Both older raw/graph/factory holds remain ACTIVE/EXPLICIT_ONLY.
+
+RR18b3a adds borrowed element summary views over the same traversal as the existing owned API, then adopts them in the actual renderer/navigation. A valid 192,234-byte document with a long owner ID and 512 children caused 98,945,638 requested allocation bytes during real ABI import/render. The repaired window requests 31,268,710 bytes with the same exact export and 1,344,417 HTML bytes; the largest request remains 2,637,648 bytes. These are finite aggregate allocation requests, not live heap/RSS or global renderer bounds. Borrowed collection requests 327,360 bytes for 1,025 rows. The owned API and its other callers remain unchanged.
+
+All 124 default Rust cases (62 model and 62 web), scoped formatting, Clippy and fresh release WASM pass. Five actual browser scripts verify dense ownership/relationship navigation, selection/edit/history, recovery, canvas, download and identity at mobile/desktop widths. The initial UI oracle read a closed identity disclosure as visible text; its test-only continuation clicks the real disclosure open and preserves exact text assertions. Compiled Rust inputs remained identical, so those 124 cases were retained without replay.
+
+RR18b3b changes eleven CSS lines in four JSON textareas and the rename field. Literal LF/CRLF/tab/Unicode values, local horizontal/vertical scrolling, keyboard selection, backward caret, focus styling, native AX properties and model edit/history behavior pass at 320/1440 px. Four focused/trace/ordinary/identity scripts and six affected recovery/boundary/cancellation/long-ID/canvas recipes pass. CSS-only qualification explicitly reuses the prior WASM; no fresh Rust suite/build is claimed for this child.
+
+The [exact a+b snapshot](https://github.com/ajhcs/syson/tree/codex/syson-rr18b3ab-joint-snapshot), `acf6707ba4104e61d47639ecf088376e19a48f79`, starts from A implementation and grafts three exact B blobs. All 4,798 committed inputs, donor modes/blobs/hashes and runtime before/after maps match; eleven fresh browser recipes pass with owned cleanup complete. The immediate artifact predecessor is named, and the qualified Rust WASM is reused without relabelling a fresh build. Each packet retains exact external trace/identity recipes and the escaped fixture. Large raw traces/receipts are losslessly compressed with raw/stored hashes in CAPTURE-MANIFEST.json.
+
+| Named observation | 320 px | 1440 px |
+| --- | ---: | ---: |
+| Baseline native Layout maximum | 86.880 ms | 47.513 ms |
+| Isolated CSS native Layout maximum | 25.960 ms | 25.287 ms |
+| Joint native Layout maximum | 26.376 ms | 25.117 ms |
+| Joint phase-journey long task | 62 ms | 61 ms |
+| Joint ordinary-recovery long task | 94 ms | 104 ms |
+| Joint dense ownership long task | 165 ms | 178 ms |
+
+These are individual named measurements with CDP/instrumentation overhead, not statistical improvement, portable latency guarantees or SysON ratios. The required whole-task budget below 50 ms remains unmet. A smaller phase observation cannot replace the dense-workload evidence.
+
+Visual review also found a 4096-character navigation label expanding into a many-screen button and a logically focused import control outside the captured viewport after repaint. Cropped element screenshots and caret equality do not establish viewport visibility. Missing CJK/emoji glyphs remain visible on the pinned font baseline. Those are explicit remaining usability gates, not a polished-UI pass.
+
+RR18b3 was split before mutation; the remaining review units are:
+
+| Unit | Scope and dependency gate |
+| --- | --- |
+| [RR18b3a](prs/RR18b3a.md) | Borrowed renderer summary foundation; published #115; main/RR20 composition still pending. |
+| [RR18b3b](prs/RR18b3b.md) | Targeted native-text layout; published #116; full responsiveness remains open. |
+| [RR18b3c](prs/RR18b3c.md) | Bounded scalar/escaped HTML helpers after A, preserving exact accepted bytes. |
+| [RR18b3e](prs/RR18b3e.md) | Bounded readable navigation and visible focus after C/B; full semantic/accessible text and no automation-masked visibility check. |
+| [RR18b3d](prs/RR18b3d.md) | Complete bounded navigation/options/SVG/export/geometry composition after all prior children, remaining owned-summary callers, glyph coverage and original required performance gates. |
+
+The shared model lib.rs adapter was prepared by the author under the original root grant, then reviewed and integrated serially with root's module/export registration after RR20's prior source lease had been explicitly released. The original grant and actual writes are preserved. The planner now treats this as a declared coordinator integration boundary, not parallel author scope. Zero unordered parallel-author path conflicts does not mechanically prove coordinator scheduling. Actual admission/freeze/release/commit records are the manual proof; future RR20+A main composition and affected checks remain required.
+
+Publication review caught eight ignored HTTP logs missing from the first local evidence commits. Third data-only commits add their exact sealed bytes, preserving the earlier heads as parents. Every one of A's 166 packet files and B's 198 packet files, including seal files, now matches committed Git blobs; 4,795/4,788 executed input bindings also match. The packets have 165/197 sealed entries. Later exact-byte reconstruction of two preparation metadata files is explicitly identified as reconstruction rather than an original-time archive. No source or runtime replay followed these data corrections.
+
+The same audit found sixteen missing logs in older #113/#114. [RR16c #117](https://github.com/ajhcs/syson/pull/117) is a separately reviewed data-only supplement, now merged into main at `93c013b3c9ba6e6e652a2cf4a40840c8551a2b74`. All sixteen copies match their historical committed seals: 16,368 bytes and 528 strict static GET/status records. Original feature heads and seals remain unchanged and are still directly incomplete; artifact consumers must explicitly declare the committed supplement. RR16b gains a negative ignored-file gate and must check every sealed artifact, not only source bindings, before release/archive qualification.
+
+GitHub landing is now active rather than draft-only: #22 planning, #66 audit, #67 prior plan, #2 source inventory and #3 notices were independently reviewed and merged in dependency order, followed by #117's supplement. Exact main trees and live heads/checks/review-thread state were checked. These metadata PRs had no registered CI checks; no CI pass is claimed. No product source, deployment or branch deletion followed those merges, and no pre-existing hold was released. S02 adds two scoped Python-cache ignores and transcript/license whitespace allowances; HTTP-log ignore rules remain unchanged. #115/#116 remain unmerged until actual prerequisites and owner gates permit a qualified main landing.
+
+An automatic review initially held the evidence push for possible log sensitivity. Read-only inspection of every outgoing text/decompressed blob, strict static-GET logs and synthetic test origins established the bounded evidence scope; the same authorized push then succeeded. No alternate destination or bypass was used. App attachment calls for new PRs still hit the 100-identity limit; direct links work and historical attachments were preserved.
+
+All prior 47 ledger objects, ten sealed batch-validation receipts and the original audit remain unchanged. The 50 entries remain LOCALLY_VERIFIED_BOUNDED/NOT_ACCEPTED; planning counts are not feature acceptance. Canonical dirty work, exact source heads and older holds remain preserved. Full rendering, global performance/usability, physical devices, other browsers, native SysON comparison and full feature parity remain OPEN.

@@ -30,6 +30,7 @@ Existing PR prerequisites: [#19](https://github.com/ajhcs/syson/pull/19), [#109]
 - Compose completed repairs on one exact candidate and enumerate every default/feature/target/generator/runtime input and required command. Require explicit owner admission for all held initializer/raw/factory scopes before execution; inventory is never admission. Bind external registry/toolchain/source inputs, generated freshness and all consuming fixtures.
 - Run full fresh serialized offline Cargo/WASM/native/browser/fixture matrix and teardown where required; all omissions/held/unrun/stale/failing cases block full integration qualification and RR17 acceptance.
 - Consume RR23 joint one-candidate reader evidence as an explicit implementation input; recompose/requalify on the full candidate rather than treating #109 subset results as full integration acceptance.
+- Before any release/archive qualification, check EVERY sealed artifact entry against committed Git blobs, including ignored files, or an explicitly declared committed supplement with exact original-head/path/hash binding. Source-input closure alone is not artifact closure. Preserve old packet heads/receipts and refuse unavailable or unbound bytes.
 
 ## Verification
 
@@ -37,6 +38,7 @@ Existing PR prerequisites: [#19](https://github.com/ajhcs/syson/pull/19), [#109]
 - Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.
 - Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.
 - RR16a selected checks/partial receipt is insufficient. Complete owner-admitted matrix and independent exact closure review are required; current held scopes keep this child OPEN.
+- Negative case: a sealed http.log present on disk but ignored by Git must block publication. Positive declared-supplement case must resolve exact bytes and report original-head incompleteness honestly, without replaying the original runtime.
 
 ## Commit plan
 
@@ -60,5 +62,6 @@ All named counterexamples/regressions and actual consuming caller gates pass on 
 - rereview-20261026/parser-review/findings.json
 - rereview-20261026/platform-review/findings.json
 - rereview-20261026/ui-findings.json
+- rereview-batch11-findings.json
 
 Original lane record: [lanes/rereview.json](../lanes/rereview.json). Source snapshots stay immutable; plan.json adds the explicit coordinator dependency overlay.
