@@ -1,0 +1,423 @@
+{
+  "schema": "syson-platform-findings/1",
+  "review_only": true,
+  "runtime_reproduction": false,
+  "findings": [
+    {
+      "id": "PLAT-01",
+      "severity": "P2",
+      "title": "Bind observations to the actual database generation",
+      "pr": 64,
+      "head": "6dc96e2cb4ef548656f4c9ac3a24f6e37ff9c194",
+      "location": {
+        "path": "rust/crates/syson-storage/src/lib.rs",
+        "line": 82,
+        "end_line": 85
+      },
+      "related_locations": [
+        {
+          "path": "rust/crates/syson-storage/src/lib.rs",
+          "line": 175,
+          "end_line": 177
+        },
+        {
+          "path": "rust/crates/syson-storage/src/lib.rs",
+          "line": 320,
+          "end_line": 324
+        },
+        {
+          "path": "rust/crates/syson-storage/src/bridge.py",
+          "line": 27,
+          "end_line": 29
+        },
+        {
+          "path": "rust/crates/syson-storage/src/bridge.py",
+          "line": 64,
+          "end_line": 78
+        },
+        {
+          "path": "rust/crates/syson-storage/tests/storage.rs",
+          "line": 317,
+          "end_line": 335
+        }
+      ],
+      "trigger": "Create two independent valid-format stores A and B with equal key and first revision. Load an observation from A, replace A pathname with B, then update/delete using the original A Store and observation.",
+      "expected": "Refuse a stale/foreign database generation before mutation; a handle-local token must not authorize an observation against a different persistent store.",
+      "actual": "Store retains only pathname and Arc token. Every bridge invocation reopens the pathname; require() only checks Arc identity and SQL checks only key/revision. The replacement B row passes when revisions coincide. Existing foreign-handle and same-DB delete/recreate tests do not cover a replaced file.",
+      "confidence": "high",
+      "evidence_type": "static code proof; no runtime reproduction in this pass",
+      "future_pr": {
+        "existing_plan_units": [
+          "B06"
+        ],
+        "dependency_gates": [
+          "B05",
+          "B01"
+        ],
+        "production_budget_max": 400,
+        "authored_budget_max": 900,
+        "commit_plan": [
+          "Focused implementation and meaningful regression coverage",
+          "Fresh exact-input verification evidence and independent disposition"
+        ],
+        "tasks": [
+          "Define persistent store identity and observation/generation binding, checked inside the transaction before any write. Distinguish fresh DB replacement from legitimate reopen; define backup/restore epoch behavior explicitly.",
+          "Do not rely only on a pre-open path stat; require identity of the database actually used for the transaction.",
+          "Keep SQL batch rollback and project isolation semantics; do not claim SQLite/native-schema equivalence."
+        ],
+        "verification": [
+          "Two independent fresh stores with identical key/revision but different content: stale A observation cannot update or delete B after replacement; verify byte/row state unchanged.",
+          "Healthy reopen and ordinary stale-row CAS remain valid; injected replacement between admission and operation must fail safely.",
+          "Exercise before/within-transaction identity failures and inspect clock plus all rows through fresh connections."
+        ]
+      },
+      "disposition": "OPEN_FUTURE_FIX_ONLY; no production changes made"
+    },
+    {
+      "id": "PLAT-02",
+      "severity": "P2",
+      "title": "Apply storage metadata bounds before read allocation and update cloning",
+      "pr": 64,
+      "head": "6dc96e2cb4ef548656f4c9ac3a24f6e37ff9c194",
+      "location": {
+        "path": "rust/crates/syson-storage/src/lib.rs",
+        "line": 268,
+        "end_line": 271
+      },
+      "related_locations": [
+        {
+          "path": "rust/crates/syson-storage/src/lib.rs",
+          "line": 303,
+          "end_line": 305
+        },
+        {
+          "path": "rust/crates/syson-storage/src/bridge.py",
+          "line": 10,
+          "end_line": 10
+        },
+        {
+          "path": "rust/crates/syson-storage/src/bridge.py",
+          "line": 53,
+          "end_line": 54
+        },
+        {
+          "path": "rust/crates/syson-storage/src/bridge.py",
+          "line": 94,
+          "end_line": 95
+        }
+      ],
+      "trigger": "Two independent cases: supply an oversized borrowed update name; or open an otherwise accepted-format candidate DB containing an oversized name inserted by an external writer (the exact DDL permits it), then load that row.",
+      "expected": "Refuse before cloning or materializing oversized metadata, with bounded process memory and no SQL change. Existing API-generated names remain supported.",
+      "actual": "Update copies the entire name into next.name before the 4096-byte check at 303. On reads the DDL does not constrain name length; fetchone materializes the full row, then json.dumps(...).encode() allocates the full output before the 8MiB comparison. The #64 request streaming repair remains effective for its measured document-batch workload, but these metadata paths bypass pre-allocation bounds.",
+      "confidence": "high",
+      "evidence_type": "static code proof; no runtime reproduction in this pass",
+      "future_pr": {
+        "existing_plan_units": [
+          "B05",
+          "B06"
+        ],
+        "dependency_gates": [
+          "B05 schema/driver review before any format change"
+        ],
+        "production_budget_max": 400,
+        "authored_budget_max": 900,
+        "commit_plan": [
+          "Focused implementation and meaningful regression coverage",
+          "Fresh exact-input verification evidence and independent disposition"
+        ],
+        "tasks": [
+          "Validate update name length before any owned copy or planner construction.",
+          "Define accepted on-disk name constraints and safe admission of already-created files; enforce connection/value/read limits before fetching oversized fields.",
+          "Keep output serialization and child lifecycle bounded; if the candidate bridge remains, explicitly account for Python memory and timeout behavior."
+        ],
+        "verification": [
+          "Borrow an oversized name and instrument allocation/RSS or a bounded allocator to show refusal occurs without a proportional duplicate; confirm DB bytes unchanged.",
+          "Insert a large name through an owned test SQLite connection retaining exact accepted schema, then assert bounded refusal before full row/output allocation.",
+          "Keep 4096-byte names, multibyte UTF-8, escaping, ordinary load and late SQL rollback regressions."
+        ]
+      },
+      "disposition": "OPEN_FUTURE_FIX_ONLY; no production changes made"
+    },
+    {
+      "id": "PLAT-03",
+      "severity": "P2",
+      "title": "Refuse nonregular snapshot inputs before opening them",
+      "pr": 32,
+      "head": "762217dd56e6a0c4cd2aa2a01bfb62454bb8b6e9",
+      "location": {
+        "path": "rust/crates/syson-workflow/src/lib.rs",
+        "line": 71,
+        "end_line": 81
+      },
+      "related_locations": [
+        {
+          "pr": 16,
+          "head": "81b4cd04e4e02eaf24e36770307bc9397bf49b81",
+          "path": "rust/crates/syson-workflow/src/lib.rs",
+          "line": 86,
+          "end_line": 96
+        }
+      ],
+      "trigger": "In the caller-owned snapshot directory, an existing valid-key .emf.json path is a FIFO with no writer, or a symlink to another file.",
+      "expected": "Prompt typed refusal for unsupported entries; immutable snapshot loading should admit a bounded regular file from its owned storage boundary.",
+      "actual": "File::open executes before file-type admission. A FIFO blocks before take(LIMIT+1) can bound anything; symlink targets are followed. The key syntax prevents lexical traversal but does not establish the actual filesystem object type.",
+      "confidence": "high",
+      "evidence_type": "static code proof; no runtime reproduction in this pass",
+      "future_pr": {
+        "existing_plan_units": [
+          "B06",
+          "C03"
+        ],
+        "dependency_gates": [
+          "Snapshot adapter scope review; independent from PostgreSQL implementation"
+        ],
+        "production_budget_max": 400,
+        "authored_budget_max": 900,
+        "commit_plan": [
+          "Focused implementation and meaningful regression coverage",
+          "Fresh exact-input verification evidence and independent disposition"
+        ],
+        "tasks": [
+          "Define final-file and root/ancestor identity/symlink policy for the local development snapshot adapter.",
+          "Admit regular files before blocking open; compare opened-handle metadata where platform APIs permit. Retain explicit race limitations.",
+          "Keep save publication/retained staged-file semantics unchanged unless separately reviewed."
+        ],
+        "verification": [
+          "Owned FIFO with no writer refuses under an external deadline; directory and final symlink refuse according to the documented policy.",
+          "Regular valid file and exact/over-limit files retain correct behavior; no side effects on failed reads.",
+          "Save/reopen and injected publication failures remain verified on the actual consuming adapter."
+        ]
+      },
+      "disposition": "OPEN_FUTURE_FIX_ONLY; no production changes made"
+    },
+    {
+      "id": "PLAT-04",
+      "severity": "P2",
+      "title": "Admit a regular composition manifest before opening it",
+      "pr": 77,
+      "head": "9d244f04e76ae0ec3291416b733ae1e35b470905",
+      "location": {
+        "path": "rust/tools/verify-composition/src/lib.rs",
+        "line": 20,
+        "end_line": 27
+      },
+      "related_locations": [
+        {
+          "path": "rust/tools/verify-composition/src/main.rs",
+          "line": 5,
+          "end_line": 7
+        }
+      ],
+      "trigger": "Invoke the composition CLI with an existing FIFO as its manifest path, without a writer.",
+      "expected": "Bounded immediate refusal without hanging or emitting a partial verification report.",
+      "actual": "The public read_file helper opens the path immediately. CLI main.rs 5\u20137 calls it directly, so the selected-candidate regular-file guards never apply to the manifest. A byte cap cannot bound blocking File::open.",
+      "confidence": "high",
+      "evidence_type": "static code proof; no runtime reproduction in this pass",
+      "future_pr": {
+        "existing_plan_units": [
+          "C03a"
+        ],
+        "dependency_gates": [
+          "Existing #77 source composition prerequisite only"
+        ],
+        "production_budget_max": 400,
+        "authored_budget_max": 900,
+        "commit_plan": [
+          "Focused implementation and meaningful regression coverage",
+          "Fresh exact-input verification evidence and independent disposition"
+        ],
+        "tasks": [
+          "Add nonsymlink/regular-file admission before manifest open, with explicit ancestor/race policy consistent with the existing owned-candidate assumptions.",
+          "Keep this a small C03a repair; do not broaden the selected-file composition claim into full-tree/build verification."
+        ],
+        "verification": [
+          "Actual CLI against owned FIFO, directory and symlink under an external process deadline; nonzero refusal and empty stdout.",
+          "Ordinary bounded manifest still yields the same actual composed result; over-limit input refuses."
+        ]
+      },
+      "disposition": "OPEN_FUTURE_FIX_ONLY; no production changes made"
+    },
+    {
+      "id": "PLAT-05",
+      "severity": "P2",
+      "title": "Make the general integration receipt bind the executed complete source closure",
+      "pr": 19,
+      "head": "af4587008df81a3c16ab15fcb5b799a6f0d7438c",
+      "location": {
+        "path": "porting/run_integration_checks.py",
+        "line": 21,
+        "end_line": 30
+      },
+      "related_locations": [
+        {
+          "path": "porting/run_integration_checks.py",
+          "line": 50,
+          "end_line": 52
+        },
+        {
+          "head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+          "path": "porting/run_integration_checks.py",
+          "sha256": "5a341a468a3b262e713886d375805cb6fd5d62cccbd31c30c0b52c306f69fa1d"
+        }
+      ],
+      "trigger": "An input changes after the initial source hash scan but before/during a Cargo command; or a new crate/tool/include_str resource outside rust/crates and rust/validation is changed.",
+      "expected": "PASS must identify the exact executed inputs, refuse source drift, and declare the complete selected manifest/dependency/resource verification matrix.",
+      "actual": "The runner hashes rust/crates and rust/validation once before execution, never rechecks them, and sets PASS solely from command exit codes. Its fixed matrix covers five crates, validation and one WASM build; newer standalone tools and included porting resources are absent. The same runner bytes remain at integration ad814. New per-unit root captures contain stronger freezes, but do not repair this published general runner.",
+      "confidence": "high",
+      "evidence_type": "static code proof; no runtime reproduction in this pass",
+      "future_pr": {
+        "existing_plan_units": [
+          "C02",
+          "C03"
+        ],
+        "dependency_gates": [
+          "Exact composed prerequisite snapshot and coordinator Cargo ownership"
+        ],
+        "production_budget_max": 400,
+        "authored_budget_max": 900,
+        "commit_plan": [
+          "Focused implementation and meaningful regression coverage",
+          "Fresh exact-input verification evidence and independent disposition"
+        ],
+        "tasks": [
+          "Define an explicit manifest/target/feature matrix for the actual composed candidate and enumerate local dependency and include_str/build input closure.",
+          "Capture immutable Git blob identities plus disk hashes before execution and verify unchanged inputs afterwards, including runner/manifest/fixtures.",
+          "Record precise subset/resume status: --start-at must not imply previous stages ran in the same epoch. Preserve original failures and exact raw streams."
+        ],
+        "verification": [
+          "Use owned fixture commands that deterministically mutate an included input during execution: final result must refuse or fail, never PASS with the initial hash.",
+          "Add a selected tool and external included resource to the matrix and prove omission is detected.",
+          "Run actual composed compilation once at an admitted frozen head, with all required crate/tool checks and unchanged sources afterwards."
+        ]
+      },
+      "disposition": "OPEN_FUTURE_FIX_ONLY; no production changes made"
+    },
+    {
+      "id": "PLAT-06",
+      "severity": "P2",
+      "title": "Add a repository CI gate for the composed Rust source and tools",
+      "pr": 19,
+      "head": "af4587008df81a3c16ab15fcb5b799a6f0d7438c",
+      "location": {
+        "path": ".github/workflows/build.yml",
+        "line": 55,
+        "end_line": 110
+      },
+      "related_locations": [
+        {
+          "head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+          "path": ".github/workflows/build.yml",
+          "line": 29,
+          "end_line": 38
+        }
+      ],
+      "trigger": "Open or update a Rust-only parity PR: the repository workflow offers no Cargo/Rust verification of the changed implementation.",
+      "expected": "An ordinary candidate PR should receive an automatic exact-head Rust check matrix, with relevant product/tool prerequisites and portable evidence.",
+      "actual": "The integration base workflow sets up Node/Java and runs npm/Maven; no Rust setup or Cargo stage exists in the checked workflow set, and none of the 87 inventoried PRs changes .github paths. The manually retained unit PASS receipts provide historical evidence only, without automatic regression protection for subsequent composition/retargeting.",
+      "confidence": "high",
+      "evidence_type": "static code proof; no runtime reproduction in this pass",
+      "future_pr": {
+        "existing_plan_units": [
+          "C03",
+          "C04"
+        ],
+        "dependency_gates": [
+          "PLAT-05 reproducible matrix; C01/C02 production acceptance gates remain open"
+        ],
+        "production_budget_max": 400,
+        "authored_budget_max": 900,
+        "commit_plan": [
+          "Focused implementation and meaningful regression coverage",
+          "Fresh exact-input verification evidence and independent disposition"
+        ],
+        "tasks": [
+          "Under C03 coordinator ownership, create a dedicated Rust workflow for reviewed manifest/feature/target matrix and declared prerequisites.",
+          "Pin reviewed toolchain/target/dependency cache inputs; ensure checks run for intended same-repository PR events and actual PR head.",
+          "Separate unit/tool checks from native PostgreSQL/browser gates; surface unavailable product acceptance rather than green placeholders."
+        ],
+        "verification": [
+          "A deliberately failing Rust-only change must fail the intended CI job; healthy composed candidate passes the complete declared matrix.",
+          "Changing a relevant fixture or included porting resource triggers the gate.",
+          "Verify fork and same-repository event conditions and keep native secrets/services outside untrusted contexts."
+        ]
+      },
+      "disposition": "OPEN_FUTURE_FIX_ONLY; no production changes made",
+      "attribution": "Repository integration gap associated with #19 and subsequent Rust PRs; workflow is inherited at integration base, not introduced by #19."
+    }
+  ],
+  "claim_boundaries": [
+    {
+      "id": "PLAT-GAP-01",
+      "kind": "existing acceptance gap, not newly discovered implementation defect",
+      "units": [
+        "B05",
+        "B06",
+        "C04",
+        "C07",
+        "C09"
+      ],
+      "facts": [
+        "#53/#64 implement a Python subprocess SQLite selected-JSON candidate, not a pure Rust PostgreSQL host.",
+        "#79 native catalog is actual 15-table/87-column/26-constraint/16-index/20-history observation; no Rust DB comparison.",
+        "#81 private preparation and #82 local RawValue wire format do not atomically persist semantic/representation metadata and watermarks."
+      ],
+      "required_progress": "Implement the existing B05 reviewed Rust driver/schema/cancellation foundation, then B06 actual atomic host publication and failure recovery; consume C01d descriptors as obligations rather than counting their tool projection as implemented persistence.",
+      "verification": "Fresh owned PostgreSQL application/driver journey with real semantic and representation writes, stale/refused/canceled/late-failure rollback, close/reopen, migration watermark integrity and process/artifact closure."
+    },
+    {
+      "id": "PLAT-GAP-02",
+      "kind": "existing source/artifact correspondence gap",
+      "units": [
+        "C01",
+        "C04"
+      ],
+      "facts": [
+        "#76/#78 selected four-class source/receipt inspection is explicitly bounded.",
+        "#84 derives a seven-class/114-SVG comparison artifact from pinned original JAR; unchanged 309 nested JAR payloads are not independently source-built.",
+        "#80/#83/#85/#87 effective schema/routes/physical libraries/template choices do not close inherited SNAPSHOT source, frontend, build profiles and full executable source provenance."
+      ],
+      "required_progress": "Keep parent C01 and production Rust artifact gate open; finish effective source/build/dependency/runtime closure using the existing units.",
+      "verification": "Whole declared build inputs and production process tree captured at exact source and target; no Java/Node/Python application runtime hidden behind Rust CLI success."
+    },
+    {
+      "id": "PLAT-GAP-03",
+      "kind": "existing host/API/template usability gap",
+      "units": [
+        "B07",
+        "B09",
+        "B23",
+        "U03",
+        "C07",
+        "C08"
+      ],
+      "facts": [
+        "#30 maps caller-observed REST branches without implementing a server.",
+        "#46 validates unresolved policy scenarios, not authorization/session enforcement.",
+        "#83 inspects diagnostic mappings/fixed HTTP probes; #87 reads observed template choices and has no instantiation/registry/UI journey.",
+        "Actual C01h fixture retains four GraphQL-error observations among ten; browser-small page errors remain observable and unresolved rather than synthesized successes."
+      ],
+      "required_progress": "Implement existing transport/context/security/template instantiation/UI units and verify connected user journeys.",
+      "verification": "Actual host request through context-bound model/storage, anonymous/forbidden/cross-project cases, template create/save/reopen, keyboard/focus/error recovery/rendered browser evidence and measured response budgets."
+    }
+  ],
+  "negative_findings_not_reported": [
+    "C03a deliberately checks selected/generated changed files only; separate root full compiler-input freeze is required and receipts explicitly say so. This is not silently promoted to whole-program verification.",
+    "C02a ordered-tree comparator reports incomplete MISMATCH at its cap; it does not claim semantic equivalence or ignore mismatch.",
+    "C01d native capture overall PARTIAL and C01h four GraphQL errors are preserved in committed raw receipts, not relabeled full success.",
+    "C01e original provider failures and 14-case original remainder remain distinct from 26-case derived success."
+  ],
+  "followup_parallelization": [
+    [
+      "PLAT-01 database identity",
+      "PLAT-03 snapshot read admission",
+      "PLAT-04 C03a manifest read admission"
+    ],
+    [
+      "PLAT-02 metadata bounds serialized with PLAT-01 if same storage files; do not write those scopes concurrently"
+    ],
+    [
+      "PLAT-05 runner matrix/freeze first, then PLAT-06 CI workflow consumes it under one coordinator"
+    ]
+  ],
+  "production_changes_made": false
+}

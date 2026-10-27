@@ -1,0 +1,1104 @@
+{
+  "inventory_sha256": "7c21230035bd26dcea1fb8eb927c95165bb486b99262f03a0b252bc60173a342",
+  "reviewer": "/root/audit_model_query",
+  "review_mode": "SOURCE_ONLY; no code changes",
+  "assigned_prs": [
+    {
+      "pr": 4,
+      "url": "https://github.com/ajhcs/syson/pull/4",
+      "head": "391376fdec9e2fe5164a2bf2059e78aa8e8900e8",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-domain/src/lib.rs",
+          "git_blob": "a8149013724de75e716b860717c52ab581f86b62",
+          "sha256": "b61a2458613465b321c622d5fbc471dccf9b3347b65c2158878c1f77fad27f5b",
+          "bytes": 671,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-domain/src/model.rs",
+          "git_blob": "d4339b645c8523b3c22fee4bff52853097686ade",
+          "sha256": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+          "bytes": 6965,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-domain/src/names.rs",
+          "git_blob": "bc34cb904208f91cec0cda0a315af93d8a8d8dea",
+          "sha256": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+          "bytes": 6706,
+          "review_depth": "PARTIAL_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Naming/splitting/escaping/keyword logic read; exact runtime Unicode table not rerun."
+        },
+        {
+          "path": "rust/crates/syson-domain/src/query.rs",
+          "git_blob": "4277e8b014d0e27466683fab8424e75ffa528ffc",
+          "sha256": "ef3515e88721df2fe35c5dc67e37675bc8cfe0b469b5303b8195c464e71f1e0c",
+          "bytes": 5647,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-domain/src/uuid.rs",
+          "git_blob": "aae387c6ab6ad8013100c66af2bb0df33234f31d",
+          "sha256": "63f34e679acc05cbec751d93abb62103d211a70a9481ee3bd704a9c481248d5a",
+          "bytes": 3911,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-domain/tests/compatibility.rs",
+          "git_blob": "c13b6680c0193056a19882a851b313b57c8a10c8",
+          "sha256": "d6190421e348a8125b63d9fd19b3f9cfd52764d592a2f1b80f50c5c2ff687851",
+          "bytes": 10715,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-domain/tests/query_graph.rs",
+          "git_blob": "a9b44b627b4446884fda2370534fc7909cb21c3d",
+          "sha256": "5a3f838943e44f2535fe32e9e4e92da47327e3946d4795aae01e80b8ddb3057a",
+          "bytes": 6755,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 5,
+      "url": "https://github.com/ajhcs/syson/pull/5",
+      "head": "1486f28278031d079aabb2fa719cd3ce5e8dbeb3",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-editor/src/lib.rs",
+          "git_blob": "10800d083d3e2535b57fdbee2868f59de87535c9",
+          "sha256": "7b003258448bacc1bcfff3319139ddac8dc2595c9e3a3530c345d61f7de19c01",
+          "bytes": 7342,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-editor/tests/editor_contracts.rs",
+          "git_blob": "eda8136ea2a5a811f4c81ef04454306229c97dcd",
+          "sha256": "1440f70fb70de410a34370a5f264e3ee9889c37d5b8858825f8c1919a64fd40a",
+          "bytes": 8212,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 7,
+      "url": "https://github.com/ajhcs/syson/pull/7",
+      "head": "c1db41050c70be7f3142c6f001f0d3e84649afb9",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-metamodel/src/generated.rs",
+          "git_blob": "b58b6797c60e3fa84440ffc220b7d2882e49c724",
+          "sha256": "02d68b123460a89590d4c3d62a6421e94d0b8d933ad9a80cc67fbcd816158aab",
+          "bytes": 258037,
+          "review_depth": "GENERATED_DATA_HASH_BOUND_ONLY",
+          "limits_or_not_checked_reason": "Exact table identity and source purpose bound; no independent per-entry native behavior proof in this re-review."
+        },
+        {
+          "path": "rust/crates/syson-metamodel/src/lib.rs",
+          "git_blob": "bd42cefe71889fb111dc455cb89c13df07c94761",
+          "sha256": "f5755e0e1b7910389cce955280f1424cdc75b9e33e0dde99a7cb6386613cf61c",
+          "bytes": 11688,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-metamodel/tests/registry.rs",
+          "git_blob": "2d38d782fec71fe40abeab271b2a61910e9bd1f2",
+          "sha256": "bcda1c594260f03f32d577d6a33e48381ed0865aa4b904bbfb820b0a3d38de48",
+          "bytes": 9314,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 8,
+      "url": "https://github.com/ajhcs/syson/pull/8",
+      "head": "a5c87ec50b542fc550c54486743ba9320994f1fa",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "AFFECTED_BY_CONFIRMED_OPAQUE_JSON_MATERIALIZATION_DEFECT",
+      "files": [
+        {
+          "path": "rust/crates/syson-model/src/lib.rs",
+          "git_blob": "92f7df2e28429ee7547fa24e093d8e987bdd8d25",
+          "sha256": "56f36bdd29b6b2403756def16d69848c55ef97d5c58b4f3164182bf336bc6ea6",
+          "bytes": 19764,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-model/src/scalar.rs",
+          "git_blob": "85bf9fb3b3e4cc241daca9197ad9ea10fbc04ccf",
+          "sha256": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+          "bytes": 11740,
+          "review_depth": "PARTIAL_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Capability/type/feature admission and setter path read; not every normalization branch independently checked."
+        },
+        {
+          "path": "rust/crates/syson-model/tests/creation_capabilities.rs",
+          "git_blob": "a1f36dca15b016da42995cbbf9d5b93cd17ac708",
+          "sha256": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+          "bytes": 3399,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-model/tests/model.rs",
+          "git_blob": "46cf95de086ed2a679015721070d50ad27ea2130",
+          "sha256": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+          "bytes": 9783,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-model/tests/scalars.rs",
+          "git_blob": "c0b9ef8c8494a5542982c17f2592079384206903",
+          "sha256": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d",
+          "bytes": 11599,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 9,
+      "url": "https://github.com/ajhcs/syson/pull/9",
+      "head": "6a6114ce8516f156903f9006c4a5d03771459f72",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "HELD_OR_DEFAULT_OFF_ACCEPTANCE_GATES_REMAIN;_SOURCE_ONLY",
+      "files": [
+        {
+          "path": "rust/crates/syson-model/src/containment.rs",
+          "git_blob": "17d48ebfd26b3d998f3473fcd87f7f371f801e23",
+          "sha256": "039ab16703a2a04dbe5f41b3a4a6f1ee13dbb0e87485842fb079510d3f923159",
+          "bytes": 5423,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-model/src/factory.rs",
+          "git_blob": "35164813b3541c486ca26fc15216964aef625267",
+          "sha256": "23d10256b4d12f6eb119dc68c7ed4f91138da490c11875ab3417496c9dee7b6d",
+          "bytes": 299037,
+          "review_depth": "PARTIAL_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Allocator, identity provider, cached getter/setter/unset dispatch read; generated method/field records not individually requalified."
+        },
+        {
+          "path": "rust/crates/syson-model/src/lib.rs",
+          "git_blob": "98fa7a96a59b7a2a76337820f5e3feebe29d0fc2",
+          "sha256": "dd77aaa4b5015b2ee9900559003557377d49465b6a419f91a6a692ac0523981b",
+          "bytes": 20232,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-model/src/port_definition_refs.rs",
+          "git_blob": "5712652088e939cbd876725e8cb2c5ce88ce80ab",
+          "sha256": "af4e9adf193300f7bf320549ac036189ad0d7036aea2820617688b24eeb59af6",
+          "bytes": 5564,
+          "review_depth": "NOT_CHECKED_FULL_SOURCE",
+          "limits_or_not_checked_reason": "Hash/inventory reconciled; this specific file body not fully reviewed in the allocated pass. Do not infer PASS."
+        },
+        {
+          "path": "rust/crates/syson-model/src/raw_admission.rs",
+          "git_blob": "4d6ef3205bf1eec0b172abee2d90f3a91e2a9ef7",
+          "sha256": "8a2be62daccfbf02d62f4753da86c54459b4086114edc87e2105f7205e1dee96",
+          "bytes": 8356,
+          "review_depth": "PARTIAL_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Selected projection and sufficient setters read; no native eIsSet/cache/notification acceptance."
+        },
+        {
+          "path": "rust/crates/syson-model/tests/containment.rs",
+          "git_blob": "5205ff020b1e8fe46883d081d378e9b8a1987497",
+          "sha256": "35b46f57371eb8e194f85c28e074a08c2dabf7369611c750da94cb065d4f670e",
+          "bytes": 6372,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-model/tests/port_definition_refs.rs",
+          "git_blob": "936ad9042706c932311cbbed91041141f9fd6c45",
+          "sha256": "f56c6ab59f48deabbd9da76035931e24a068889f0aadccda2b139087c58cafbb",
+          "bytes": 5885,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 13,
+      "url": "https://github.com/ajhcs/syson/pull/13",
+      "head": "71783b1ad93ba477ef7450a7be4d68bda873bb51",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "HELD_OR_DEFAULT_OFF_ACCEPTANCE_GATES_REMAIN;_SOURCE_ONLY",
+      "files": [
+        {
+          "path": "rust/crates/syson-initializer/src/generated.rs",
+          "git_blob": "94b43a6750f800c6c667793dde6a0766a0f9e075",
+          "sha256": "c4c5fdddbd19f624c95ef05db0b1086f5a8abff7d90013547018a11e2883726c",
+          "bytes": 49371,
+          "review_depth": "GENERATED_DATA_HASH_BOUND_ONLY",
+          "limits_or_not_checked_reason": "Exact table identity and source purpose bound; no independent per-entry native behavior proof in this re-review."
+        },
+        {
+          "path": "rust/crates/syson-initializer/src/lib.rs",
+          "git_blob": "576711a329774bdd1ebd60ee1a149f9eaf05f5f9",
+          "sha256": "2f42493edfe22d1d154cf313874d21226081df8fb1bb3b12ed88cde87ed97e19",
+          "bytes": 4777,
+          "review_depth": "NOT_CHECKED_FULL_SOURCE",
+          "limits_or_not_checked_reason": "Hash/inventory reconciled; this specific file body not fully reviewed in the allocated pass. Do not infer PASS."
+        },
+        {
+          "path": "rust/crates/syson-initializer/src/planner.rs",
+          "git_blob": "5d28340db068b9b6674bc4daf457424d048a3561",
+          "sha256": "bb1a00cdcd958e7680aa6487d7a0ba7199c8460235151c13e0f847d2fd25fcac",
+          "bytes": 18243,
+          "review_depth": "PARTIAL_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Planning engine, identity/cancellation/count/usage/helper scheduling inspected; not every case branch independently requalified."
+        },
+        {
+          "path": "rust/crates/syson-initializer/tests/dispatch.rs",
+          "git_blob": "1a73c8994605781f05df074c569ef285d4bb704e",
+          "sha256": "67b9e46ec5c73570e937ec9021be0a19b2007e67dc0254c13c0d47777fab6e72",
+          "bytes": 936,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-initializer/tests/ordered.rs",
+          "git_blob": "474809bb1126d6107916313ae9ea501d2cd8f07e",
+          "sha256": "f9f4cb4484e1abd77c143760391a4fc9d32594e1b3154e9e520ad0a5d9bc4ad9",
+          "bytes": 16762,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 14,
+      "url": "https://github.com/ajhcs/syson/pull/14",
+      "head": "ef38748d88a59e71dcf8a2895ac5e8b76af411eb",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "HELD_OR_DEFAULT_OFF_ACCEPTANCE_GATES_REMAIN;_SOURCE_ONLY",
+      "files": [
+        {
+          "path": "rust/crates/syson-initializer-graph/src/accept_action.rs",
+          "git_blob": "cdc303e79f95c40c791692d6b1f79f180d0651a7",
+          "sha256": "744f3ed957999704100d48b199ef667982ac6cd4dfde33f2ff871cb33d817574",
+          "bytes": 11844,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/src/connection_definition.rs",
+          "git_blob": "31fcd636b01bb2b84ebfa242ff68a19628fc6df6",
+          "sha256": "f04f78316770db1be45cdcec3060a116280ca8a00482d4859ceb1b3a828d2619",
+          "bytes": 12316,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/src/interface_definition.rs",
+          "git_blob": "6fb213d5986d7587b3cd6040ce81b8f97b270a49",
+          "sha256": "2fafae9ecee5fcb2c40173bd1fbd9ce9450116b00064cf02c7272acfcd24ef15",
+          "bytes": 12571,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/src/lib.rs",
+          "git_blob": "93f08368a8a89b03659f4f97b3dd7561607e2f73",
+          "sha256": "7f12ed06e2366ea8dae99548f0f03bfa3182c299b363ae855d4f02f610b21a4c",
+          "bytes": 11644,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/src/local_names.rs",
+          "git_blob": "df01ac3da5b91fdb000f0e552168a4e1a7f7b386",
+          "sha256": "dc7db08d105408aa6bfeaa46d4b6909e6d2c2df994a9afa765c588f7e2dcb298",
+          "bytes": 3565,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/src/port_definition.rs",
+          "git_blob": "f8d318879bd50a7b285d413a79be3916ae16f9bd",
+          "sha256": "3d3c081b706b2743f11dfec5ebfe9994f956816c04742861bd15c134a3dd8abf",
+          "bytes": 11309,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/src/staged.rs",
+          "git_blob": "16c0065fa03711e5f70e00d9faf77e42b05eefbd",
+          "sha256": "d8d81af87618087484972afa707d916f0e9b4d622e5735294f1b786fb3ba5b5a",
+          "bytes": 1774,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/accept_action.rs",
+          "git_blob": "e02d119046f4e63a252c124133e3b94a40c0a4c2",
+          "sha256": "cbb776dd3cd63eff6cd8fe39316a02cb442f82fd4ed290c64a7e74a048cc2a8b",
+          "bytes": 12012,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/connection_definition.rs",
+          "git_blob": "eb0be30c8c79dba31e981330ffa9b6b5448d077b",
+          "sha256": "6b07a14f34c69c021bcedebad40057d182b693a85d316a7ecc04e64ddfcb2ef4",
+          "bytes": 12668,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/interface_definition.rs",
+          "git_blob": "8cfb6b6b40b2c129c329a84dce2149d17584269d",
+          "sha256": "452da5428cf5eb7828175274caca427f22b912b99fc18a6062f64f1b88c3adc6",
+          "bytes": 13884,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/local_names.rs",
+          "git_blob": "88c778765c1d6db061d623e0070ff60a39f7a27d",
+          "sha256": "c31ebf93478351ca56a0f56c757d7108ee31c16f496ffc23385255e90c169f90",
+          "bytes": 5483,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/native_graph.rs",
+          "git_blob": "888d961bb5e37d987bf34442935d485ae06689ff",
+          "sha256": "cba5067ce7080019912b9f2abccb69b1052ec38d9c2950079b4208d025659425",
+          "bytes": 6593,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/port_definition.rs",
+          "git_blob": "cbc2a1a57909fe5c7cde48bee72f464b0b6de80c",
+          "sha256": "0da325d8717c444772ed56c343409a956a1024e54b824b84feb3781461243f73",
+          "bytes": 12937,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/raw_admission.rs",
+          "git_blob": "8cf37d54eef357ce54d68968569b75d70932c0e4",
+          "sha256": "011e51e38ec90bf3713ff34a57b646f36312eb5ec1d73278aa6a24d0f1f3856e",
+          "bytes": 6876,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/staged.rs",
+          "git_blob": "8e3eecad5422822c77a431842f56989d3fe0c155",
+          "sha256": "487305c60bf52f0a2210164daea3fb8baa7e23d032b856507b5ee616e82d3add",
+          "bytes": 4549,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 15,
+      "url": "https://github.com/ajhcs/syson/pull/15",
+      "head": "6d7319337b7927a66bbf8ba5b9be3d5a3778a0c1",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "SOURCE_BOUNDS_DEFECT_AND_PERFORMANCE_GAPS",
+      "files": [
+        {
+          "path": "rust/crates/syson-initializer-graph/src/lib.rs",
+          "git_blob": "d7340cafb42ad8720ce90bff18dde3b87edf7a6e",
+          "sha256": "7fe65f53a2e9000060226f446290fe5c1e080dc011915cbe962e93bf828dd322",
+          "bytes": 11666,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/src/native_query.rs",
+          "git_blob": "e4a9eed8507c9bceb1c4dadd821677e8c1708012",
+          "sha256": "e05c5858a0ec8e81bf504ee666c97ce8665605375a2aad5005a8ead1974f5f64",
+          "bytes": 17839,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-initializer-graph/tests/native_query.rs",
+          "git_blob": "35f36bf7f79662890f52b50f8192f31daee27733",
+          "sha256": "43e45e1e1447e39454950f1c7b6ea2463bc969a155d22c33ed325d44759907e2",
+          "bytes": 25702,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 19,
+      "url": "https://github.com/ajhcs/syson/pull/19",
+      "head": "af4587008df81a3c16ab15fcb5b799a6f0d7438c",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/validation/examples/export_metamodel.rs",
+          "git_blob": "e140dac9465289d16a00a6ce83d2c6497f13a6b7",
+          "sha256": "daa4834a563f8abdbad162331d7b93544c1a2866683574b24ae4b6b20fe3745a",
+          "bytes": 3030,
+          "review_depth": "NOT_CHECKED_FULL_SOURCE",
+          "limits_or_not_checked_reason": "Hash/inventory reconciled; this specific file body not fully reviewed in the allocated pass. Do not infer PASS."
+        },
+        {
+          "path": "rust/validation/tests/creation_regressions.rs",
+          "git_blob": "4701750f5af4c8c6d1e052d167076f92df4d38c1",
+          "sha256": "b989327d0a4a13eb3f7b4727ee73a37fced115c73dc229824632b8d9ff497b59",
+          "bytes": 5098,
+          "review_depth": "NOT_CHECKED_TEST_BODY",
+          "limits_or_not_checked_reason": "Integrated model/UI/scalar harness bodies not exhaustively revisited in this pass; original receipts are not fresh acceptance. UI/platform sections belong to other reviewers."
+        },
+        {
+          "path": "rust/validation/tests/ledger_fixtures.rs",
+          "git_blob": "d4015adb1829e1d90c866a4c2e90a36fb43a1977",
+          "sha256": "c9bfc9ab54a022344848f97ff82dd2e547f4cbbaa65095d8c7accd56674386fb",
+          "bytes": 3576,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/validation/tests/model_workflow_regressions.rs",
+          "git_blob": "242a01384bac0cbd9e73fc86ead61e128e9c5ba0",
+          "sha256": "26f1463ef81765405cb93c64bc71ff9aaf384ba509725a9fecb2016a17b27c6a",
+          "bytes": 4988,
+          "review_depth": "NOT_CHECKED_TEST_BODY",
+          "limits_or_not_checked_reason": "Integrated model/UI/scalar harness bodies not exhaustively revisited in this pass; original receipts are not fresh acceptance. UI/platform sections belong to other reviewers."
+        },
+        {
+          "path": "rust/validation/tests/scalar_regressions.rs",
+          "git_blob": "4480f513a1dccb1345b7ff39bda4069e1dd907f7",
+          "sha256": "e8425b57dead250c3431d2f2d03ba78282afcc1dcc4b8ef44c6e00a7393e9ab4",
+          "bytes": 8641,
+          "review_depth": "NOT_CHECKED_TEST_BODY",
+          "limits_or_not_checked_reason": "Integrated model/UI/scalar harness bodies not exhaustively revisited in this pass; original receipts are not fresh acceptance. UI/platform sections belong to other reviewers."
+        },
+        {
+          "path": "rust/validation/tests/source_regressions.rs",
+          "git_blob": "ac87242e1255877017f0059894a870b093362cad",
+          "sha256": "4490a7fb361cf5cb2eac09abd0571a2477c3c34c7b0b09bb50935cb4fbb993e9",
+          "bytes": 3540,
+          "review_depth": "NOT_CHECKED_TEST_BODY",
+          "limits_or_not_checked_reason": "Integrated model/UI/scalar harness bodies not exhaustively revisited in this pass; original receipts are not fresh acceptance. UI/platform sections belong to other reviewers."
+        },
+        {
+          "path": "rust/validation/tests/web_contract_regressions.rs",
+          "git_blob": "ae6f6e256c7eb7f2f95912ef784b0236703b95a9",
+          "sha256": "8072b3bd3b55f0a255f16433891830d3ba3234c2f788e448329b226fe5dba265",
+          "bytes": 5444,
+          "review_depth": "NOT_CHECKED_TEST_BODY",
+          "limits_or_not_checked_reason": "Integrated model/UI/scalar harness bodies not exhaustively revisited in this pass; original receipts are not fresh acceptance. UI/platform sections belong to other reviewers."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 23,
+      "url": "https://github.com/ajhcs/syson/pull/23",
+      "head": "7d1eb8a1a05c292c78ca27482158c6dfe5196c3b",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-reflection/src/generated.rs",
+          "git_blob": "1e75f88d555979d6b309a64aa663082e5e3e0542",
+          "sha256": "39651ef2b972a3628747a24f9aff5e13ca95eec70cbec7e50165518f9737ffb1",
+          "bytes": 18388,
+          "review_depth": "GENERATED_DATA_HASH_BOUND_ONLY",
+          "limits_or_not_checked_reason": "Exact table identity and source purpose bound; no independent per-entry native behavior proof in this re-review."
+        },
+        {
+          "path": "rust/crates/syson-reflection/src/lib.rs",
+          "git_blob": "82f8788f718d6b96c0070394e1720d45c276c828",
+          "sha256": "73ead0b106d3fb1186fcaed5050225af2eb36897401795901f7df735265dea20",
+          "bytes": 12460,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-reflection/tests/reflection.rs",
+          "git_blob": "a5e53c6d033a87d0d0cf7739b6ab2101d6f740b2",
+          "sha256": "59c546b327587e0d5d5771190c8f502c81e721969eff3fdd8db71d87432ab7ff",
+          "bytes": 9925,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 25,
+      "url": "https://github.com/ajhcs/syson/pull/25",
+      "head": "48ee69e41c4f29346f1d95075278d84aefc48057",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-ast-values/src/lib.rs",
+          "git_blob": "dbc4a288746469e4980e6f7819a9100cb4c41f0a",
+          "sha256": "a41deb4952e4f7fb5e8bdd1718af745bbfecf17b9080cce2433d2e30644c1a58",
+          "bytes": 12618,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-ast-values/tests/conversion.rs",
+          "git_blob": "0493f91fc935c00ed3e4e0fe2757d53be44df71c",
+          "sha256": "ed40405b16e3d2418319b1d8d05d4da1b9d773c170c4eeb8aef7aee7da71ec86",
+          "bytes": 10754,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 26,
+      "url": "https://github.com/ajhcs/syson/pull/26",
+      "head": "4160e7566f0ca250669e2e44aeeda15a9be0e200",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-domain/tests/name_unicode.rs",
+          "git_blob": "617911af28c6e8da40466c81d4b8626ba153f041",
+          "sha256": "07ce76ca75c96baf32dc0d730cd3ffee6ed541574caffaf028c7d4e4f7f9f9e4",
+          "bytes": 9744,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 31,
+      "url": "https://github.com/ajhcs/syson/pull/31",
+      "head": "7200b3c7583e6c3bd7a474030344323e3fcb93e2",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-domain/src/identity_context.rs",
+          "git_blob": "7731e02c260d00c26ff68d14659507b1029f66bd",
+          "sha256": "512b6bd710783370dbfa9e6068b98a6c4f36bc489ae19052a64b03ebd1d77388",
+          "bytes": 9985,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-domain/src/lib.rs",
+          "git_blob": "f73403c9bed7875441480355aa8baa8a4f5d1332",
+          "sha256": "17e42444fab2b2968a5dbe48695eee5d3e7b3ae0ddd303885b373abf809a3c11",
+          "bytes": 697,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-domain/tests/identity_context.rs",
+          "git_blob": "21caf4073a5a9739c68d95640fa4b05ec4685a3d",
+          "sha256": "e6102721c76371099fc8414d9ac1a5576ba84c20fadefa5cc35c45c50d9d2755",
+          "bytes": 14193,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 34,
+      "url": "https://github.com/ajhcs/syson/pull/34",
+      "head": "15501a5ff2459cd1056809b70f23d0d2ae895b8a",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "porting/area-inventories/DOMAIN-QUERY/imports/README.md",
+          "git_blob": "2cfaa3101f152f12da8cb092d9244aa10065879a",
+          "sha256": "5c0ac9b326b71ee965f9ff09368fe77fca4149319ac5c3aabb7b2c21ddad25b2",
+          "bytes": 6058,
+          "review_depth": "CONTRACT_AND_FIXTURE_SCOPE_REVIEW",
+          "limits_or_not_checked_reason": "Synthetic contract/fixture classification reviewed via README/F03 tests; checker source was not completely re-audited and is not a native oracle."
+        },
+        {
+          "path": "porting/area-inventories/DOMAIN-QUERY/imports/contract.json",
+          "git_blob": "5785f030f3901d1820ae2afd3a70053d19544354",
+          "sha256": "5fb08937c225e3e13a75d167754e1cdd23f82b85360d83e0880a9607f2a74265",
+          "bytes": 4913,
+          "review_depth": "CONTRACT_AND_FIXTURE_SCOPE_REVIEW",
+          "limits_or_not_checked_reason": "Synthetic contract/fixture classification reviewed via README/F03 tests; checker source was not completely re-audited and is not a native oracle."
+        },
+        {
+          "path": "porting/area-inventories/DOMAIN-QUERY/imports/fixtures.json",
+          "git_blob": "280a6a77e0ff3e5a557ac2333f10d09749c18602",
+          "sha256": "9105f54c8e560dd8b31f5a020d58c6eea3b54a51a387439f3bc1fc89c44636c1",
+          "bytes": 16109,
+          "review_depth": "CONTRACT_AND_FIXTURE_SCOPE_REVIEW",
+          "limits_or_not_checked_reason": "Synthetic contract/fixture classification reviewed via README/F03 tests; checker source was not completely re-audited and is not a native oracle."
+        },
+        {
+          "path": "porting/area-inventories/DOMAIN-QUERY/imports/test_validate.py",
+          "git_blob": "37e45272070ca846a388fbde747769b27abcdc8a",
+          "sha256": "3e1b142f531f225b034f382adeeef715921136421886829f7fa467928d90f0aa",
+          "bytes": 4373,
+          "review_depth": "CONTRACT_AND_FIXTURE_SCOPE_REVIEW",
+          "limits_or_not_checked_reason": "Synthetic contract/fixture classification reviewed via README/F03 tests; checker source was not completely re-audited and is not a native oracle."
+        },
+        {
+          "path": "porting/area-inventories/DOMAIN-QUERY/imports/validate.py",
+          "git_blob": "28764e7b7699015205729bef73552104c98d0509",
+          "sha256": "1585e5096245a329184477a000e6152b8a3bee6870911c7b0021de81cbe6e800",
+          "bytes": 8668,
+          "review_depth": "CONTRACT_AND_FIXTURE_SCOPE_REVIEW",
+          "limits_or_not_checked_reason": "Synthetic contract/fixture classification reviewed via README/F03 tests; checker source was not completely re-audited and is not a native oracle."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 35,
+      "url": "https://github.com/ajhcs/syson/pull/35",
+      "head": "98d888365ba344fa513c03e652ab8ff1d95082a6",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-ast-dispatch/src/lib.rs",
+          "git_blob": "0c40354178f3dd40d2e96be6b87a5afccbd6838a",
+          "sha256": "5d7ff68a4a1580fc71df734e1b82a6dbe23bc4b9503c671fe40bc38eedab1ce0",
+          "bytes": 6515,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-ast-dispatch/tests/dispatch.rs",
+          "git_blob": "5fd492e331208c72166cd096218cd2c573e736c0",
+          "sha256": "3fc744649b49ae82fa04adb9112aabcbd77c3383ab8ac15776c2e7dc9b503186",
+          "bytes": 10513,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 37,
+      "url": "https://github.com/ajhcs/syson/pull/37",
+      "head": "1fd1ea5a45240a6c078620e6ac4b3cf25e67071e",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-imports/src/lib.rs",
+          "git_blob": "50fee050414412b1c3dfb5d9bc7af19bb0a05752",
+          "sha256": "eeb477277528ec07285dfa6f512ef1dd3c2f30438629d6505d9c2e1233cbcf9e",
+          "bytes": 13117,
+          "review_depth": "NOT_CHECKED_FULL_SOURCE",
+          "limits_or_not_checked_reason": "Hash/inventory reconciled; this specific file body not fully reviewed in the allocated pass. Do not infer PASS."
+        },
+        {
+          "path": "rust/crates/syson-imports/tests/data/f02_cases.rs",
+          "git_blob": "db57e59aee90caf1efbebece960007b856e836d0",
+          "sha256": "6456570ccffd759b9303768c6898f976d156329de11b470d354c954165e4ee54",
+          "bytes": 20002,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        },
+        {
+          "path": "rust/crates/syson-imports/tests/imports.rs",
+          "git_blob": "959013ba55525a44af3ac761dcf835a411ea76d7",
+          "sha256": "c6d5647ed7067c7028811ed6256679b9134b35f7ba0ae9a520b28ee0a3760812",
+          "bytes": 12261,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 47,
+      "url": "https://github.com/ajhcs/syson/pull/47",
+      "head": "034670a48296ba154e7fea3ddaa9f0f5524f008b",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-references/src/lib.rs",
+          "git_blob": "1a65a077a46f22bf61ff0b23f772b0629e52b9fa",
+          "sha256": "947e97042e8f22922f404675068b86485173da430587e403387bb3aabee079b7",
+          "bytes": 8307,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-references/tests/references.rs",
+          "git_blob": "8e233fb4b239ea71e18420d7f11789a0464c9fd6",
+          "sha256": "de8cd7f7ae85938f59e396577c17c30dc8b135ad6ef6672017178f80ec964611",
+          "bytes": 12426,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 48,
+      "url": "https://github.com/ajhcs/syson/pull/48",
+      "head": "ffe50e7f53acef1263167388454f22452f08dda1",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-general-view/src/lib.rs",
+          "git_blob": "2707c629ac47a521c13302ee0e80ce9aa9da3edf",
+          "sha256": "aaa42aa3ba2aeb538272445d7782fb5473385517a42b5e0cc0ca0453796e0fad",
+          "bytes": 15092,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-general-view/tests/binding.rs",
+          "git_blob": "36dedf5f992027973c095a2efaeccaab0e8ff4f6",
+          "sha256": "84f88080c5cc463ad278768eb010286e2031169f43f17dd37f800dbc2960eeff",
+          "bytes": 14736,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 49,
+      "url": "https://github.com/ajhcs/syson/pull/49",
+      "head": "1cf521c107eabd75aeec658264017bf72b381b0b",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-semantic-names/src/lib.rs",
+          "git_blob": "f2ead2d799941eefcca0ab089b8f71726ada45a4",
+          "sha256": "236a58425b066821921472a394e6755de21b52158cfc5e02de77e18b41f5fc19",
+          "bytes": 8747,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-semantic-names/tests/operations.rs",
+          "git_blob": "27761f7b16ab760558c2c30c35b884cc27f0bd5e",
+          "sha256": "e947d62414209b106282a0ba3f3899d8b510d754bc3e2b36b067d248762eb6f1",
+          "bytes": 11371,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 50,
+      "url": "https://github.com/ajhcs/syson/pull/50",
+      "head": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-linker/src/lib.rs",
+          "git_blob": "ad1f3bb276dc428e1ae5ba28536d68852ce1cbb4",
+          "sha256": "6ebba197984e5151f7fbca5fbefa468a73401ad65cae919bd3a293c4d405023e",
+          "bytes": 12145,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-linker/tests/linking.rs",
+          "git_blob": "01e339a200a3b31d8cb29a898962b03b35c11a5e",
+          "sha256": "fad874799393a1c9176ce5df5e7622eaf1e35115f825d2543048eebc38198844",
+          "bytes": 13846,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 54,
+      "url": "https://github.com/ajhcs/syson/pull/54",
+      "head": "80261b68e5e7ec2f2fe7f0d638050faca9800670",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-view-usage/src/lib.rs",
+          "git_blob": "68014b2f805240782c9ecf734455ec7c6fea37c1",
+          "sha256": "6ceb249fc7537624152602e7114b8c1ca751585d95e9f33c936624b77e1ab074",
+          "bytes": 13351,
+          "review_depth": "PARTIAL_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Projection/materialization/wire and admission paths read; selected prefix-provider body reviewed structurally, not executed."
+        },
+        {
+          "path": "rust/crates/syson-view-usage/tests/construction.rs",
+          "git_blob": "9b1695de65fe414c60917ae6181b9f16d6ec48b6",
+          "sha256": "eb6e244a6931874c46b9f77b49af851f45ccc8f6ea515c816e571ec6aba6a49d",
+          "bytes": 12069,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 57,
+      "url": "https://github.com/ajhcs/syson/pull/57",
+      "head": "37d1800cb9858f5d62ac244963dad031ffe3b410",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "BOUNDED_SOURCE_REVIEW_NO_FULL_NATIVE_ACCEPTANCE",
+      "files": [
+        {
+          "path": "rust/crates/syson-semantic-validation/src/lib.rs",
+          "git_blob": "2cb0735b891c107e7efca930a4a3c76829a7ad0d",
+          "sha256": "c797aa7449afc0047fb7f9e2bde9acf38e4c0e525ad3dc4a45ed46134e387dde",
+          "bytes": 14582,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-semantic-validation/tests/rules.rs",
+          "git_blob": "97d29e352df45b6004e9b51cd2763a6de4251fa7",
+          "sha256": "cd187dc6e6e79e61f165c7132134812fd2265310d46d866e744814d081d723d8",
+          "bytes": 11859,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 58,
+      "url": "https://github.com/ajhcs/syson/pull/58",
+      "head": "6fe12e6bd256f9fcb2284b60b8d6d97ab53100fc",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "TARGETED_FIX_READ;ORIGINAL_DEFECT_NOT_REOPENED",
+      "files": [
+        {
+          "path": "rust/crates/syson-linker/src/lib.rs",
+          "git_blob": "3de8c241ab1a657d18cd3002efafe36c8c68b008",
+          "sha256": "ad28199c2a512d00048e8326c89ad7e91c0aa647508a1a8a394fd547fb9b8510",
+          "bytes": 12572,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-linker/tests/linking.rs",
+          "git_blob": "ee056c039a8d56933edcf9f2340a8c9084deaa24",
+          "sha256": "cff91b466cc114dfbabca9d5636f46b7896dad39943406a42612eecc7f757177",
+          "bytes": 17244,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 59,
+      "url": "https://github.com/ajhcs/syson/pull/59",
+      "head": "f55c13f1bf96760ebd8c6d7906525273acd88fc8",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "TARGETED_FIX_READ;ORIGINAL_DEFECT_NOT_REOPENED",
+      "files": [
+        {
+          "path": "rust/crates/syson-semantic-validation/src/lib.rs",
+          "git_blob": "5f72edd201e5582397b197f570b0d9823e2863ef",
+          "sha256": "39eae55f3f4a12ff775c9f56d69d13e4f93d3618e6ea17279188d2c0fe4d854d",
+          "bytes": 15038,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-semantic-validation/tests/rules.rs",
+          "git_blob": "9b8e821ee44d09595f30aed93152885206caa178",
+          "sha256": "ed53b5923b9099fa539ad7ddb2c8f9c84f46b82eb21b5426fb9188f490bce991",
+          "bytes": 13730,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 63,
+      "url": "https://github.com/ajhcs/syson/pull/63",
+      "head": "d8fc0876714a0fcecb5548e9658ab0acf5cf1e53",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "AFFECTED_BY_CONFIRMED_OPAQUE_JSON_MATERIALIZATION_DEFECT",
+      "files": [
+        {
+          "path": "rust/crates/syson-json-interchange/src/lib.rs",
+          "git_blob": "67b5140b54cc0e709662f0db9cf6b21a29efbb75",
+          "sha256": "2293e9115b8bff75f0c286993bb07f283bb151a90e1d9cc5d882fda58ca22b2d",
+          "bytes": 7015,
+          "review_depth": "PARTIAL_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Shared Value-backed boundary and bridge export inspected; full generic interchange audit delegated parser/interchange reviewer."
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/src/selected_model.rs",
+          "git_blob": "6d985d59c13c980eaf53941d71f8e4eb1be8a71a",
+          "sha256": "10a9d000e123e0ba0721dbc28b2fe14001abe893621c644cfaf2403d5acd38d2",
+          "bytes": 8364,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/tests/selected_model.rs",
+          "git_blob": "d8896ab0a312dbe7419cbc5792299f51cd7cfea6",
+          "sha256": "35269e3cb1623f869b9e0502bb50ac21a9288e5c47df2e7d8aa458fbb3843b2c",
+          "bytes": 13554,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    },
+    {
+      "pr": 69,
+      "url": "https://github.com/ajhcs/syson/pull/69",
+      "head": "f4e951a74c2a1b2d32db4d397ad4bddae3bbd173",
+      "local_immutable_commit_available": true,
+      "head_source": "Root current connector inventory plus Git object checks; absent/prunable legacy worktrees not used",
+      "verdict": "AFFECTED_BY_CONFIRMED_OPAQUE_JSON_MATERIALIZATION_DEFECT",
+      "files": [
+        {
+          "path": "rust/crates/syson-json-interchange/src/lib.rs",
+          "git_blob": "cc106f7600c50c25de643bd3f89126a8e60be43b",
+          "sha256": "1186e9460310dec4d183567aede62136e1860b4bcd259b0814bb135a521f5ea1",
+          "bytes": 7037,
+          "review_depth": "PARTIAL_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Shared Value-backed boundary and bridge export inspected; full generic interchange audit delegated parser/interchange reviewer."
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/src/native_model.rs",
+          "git_blob": "8821b946c228edcff184d555dd2c383f84cd1987",
+          "sha256": "8f9320b66fd11f8fae505d25f9e5ea59f405f132261ce7c0af209863b23b2fe1",
+          "bytes": 5336,
+          "review_depth": "ALGORITHM_SOURCE_REVIEW",
+          "limits_or_not_checked_reason": "Actual immutable implementation read; not execution or full native acceptance."
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/tests/native_model.rs",
+          "git_blob": "6b68a099d46027503c6b558e80d30d579621b9ca",
+          "sha256": "c97b5c5e9566832bf410929167a33cf4bf828f97a97821de32576826bcfe1db9",
+          "bytes": 11126,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_ASSERTIONS",
+          "limits_or_not_checked_reason": "Static test names and selected relevant bodies reviewed; not an exhaustive assertion-by-assertion audit and no reviewer test execution."
+        }
+      ],
+      "not_checked": "No compiler/runtime/browser/native/DB/network by this reviewer. Source-correspondence claims require separate matched-native and caller gates."
+    }
+  ],
+  "cross_references_and_delegation": [
+    {
+      "pr": 1,
+      "head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "status": "CROSS_REFERENCE_ONLY",
+      "reason": "#1 rollup overlaps component heads; no independent feature count. #85 inspected only for shared reserved-token counterexample; broader coordination review belongs to root."
+    },
+    {
+      "pr": 2,
+      "head": "9246ef6e1382265f499f0a1d770702869cf9fa67",
+      "status": "DELEGATED_OR_OUTSIDE_LANE",
+      "reason": "Provenance/notices/platform/UI/planning owned by other reviewers, not claimed audited here."
+    },
+    {
+      "pr": 3,
+      "head": "fc920f3dacf04d07a5655eacd78049220ac40929",
+      "status": "DELEGATED_OR_OUTSIDE_LANE",
+      "reason": "Provenance/notices/platform/UI/planning owned by other reviewers, not claimed audited here."
+    },
+    {
+      "pr": 16,
+      "head": "81b4cd04e4e02eaf24e36770307bc9397bf49b81",
+      "status": "DELEGATED_OR_OUTSIDE_LANE",
+      "reason": "Provenance/notices/platform/UI/planning owned by other reviewers, not claimed audited here."
+    },
+    {
+      "pr": 17,
+      "head": "f9e3633d707159a2a577d59c90baf132d23e5424",
+      "status": "DELEGATED_OR_OUTSIDE_LANE",
+      "reason": "Provenance/notices/platform/UI/planning owned by other reviewers, not claimed audited here."
+    },
+    {
+      "pr": 18,
+      "head": "81fc74e8572e91130ae5838c3f01d9bab3d20e55",
+      "status": "DELEGATED_OR_OUTSIDE_LANE",
+      "reason": "Provenance/notices/platform/UI/planning owned by other reviewers, not claimed audited here."
+    },
+    {
+      "pr": 22,
+      "head": "79ef6b217fa4d6e33d019d63cbf509072a814224",
+      "status": "DELEGATED_OR_OUTSIDE_LANE",
+      "reason": "Provenance/notices/platform/UI/planning owned by other reviewers, not claimed audited here."
+    },
+    {
+      "pr": 85,
+      "head": "df588dc53ca55e3d04464c06dc798e594fdd7d66",
+      "status": "CROSS_REFERENCE_ONLY",
+      "reason": "#1 rollup overlaps component heads; no independent feature count. #85 inspected only for shared reserved-token counterexample; broader coordination review belongs to root."
+    }
+  ],
+  "overall_limit": "Per-file depth is explicit: reading/inventory is not execution, source truth, native parity or feature acceptance."
+}

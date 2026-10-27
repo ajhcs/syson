@@ -1,0 +1,450 @@
+{
+  "review_mode": "No implementation fixes; this reviewer ran no compilers/runtime/native/browser/network.",
+  "findings": [
+    {
+      "id": "MODEL-RR-001",
+      "severity": "P2",
+      "kind": "FUNCTIONAL_DATA_PRESERVATION_BUG",
+      "title": "Opaque JSON objects with serde private Number keys are silently changed into numbers",
+      "confidence": "HIGH",
+      "evidence_type": "ROOT_RUNTIME_REPRODUCED_SHARED_MODEL_BOUNDARY_PLUS_IMMUTABLE_SOURCE",
+      "sources": [
+        {
+          "pr": 8,
+          "url": "https://github.com/ajhcs/syson/pull/8",
+          "head": "a5c87ec50b542fc550c54486743ba9320994f1fa",
+          "path": "rust/crates/syson-model/src/lib.rs",
+          "line": 97,
+          "end_line": 102,
+          "sha256": "56f36bdd29b6b2403756def16d69848c55ef97d5c58b4f3164182bf336bc6ea6"
+        },
+        {
+          "pr": 8,
+          "url": "https://github.com/ajhcs/syson/pull/8",
+          "head": "a5c87ec50b542fc550c54486743ba9320994f1fa",
+          "path": "rust/crates/syson-model/Cargo.toml",
+          "line": 12,
+          "end_line": 12,
+          "sha256": "68c7f1c3cc086c7c47ef4fe8d501b6529487949bd032e7ba870f5d5dfdc4430d"
+        },
+        {
+          "pr": 63,
+          "url": "https://github.com/ajhcs/syson/pull/63",
+          "head": "d8fc0876714a0fcecb5548e9658ab0acf5cf1e53",
+          "path": "rust/crates/syson-json-interchange/src/selected_model.rs",
+          "line": 218,
+          "end_line": 226,
+          "sha256": "10a9d000e123e0ba0721dbc28b2fe14001abe893621c644cfaf2403d5acd38d2"
+        }
+      ],
+      "trigger": {
+        "input": "Valid selected Package envelope with data.vendor={\"$serde_json::private::Number\":\"123\"}; the reserved name is literal application JSON, not serde internal data.",
+        "operation": "Document::from_json, then unrelated edit/save/reload."
+      },
+      "expected": "The vendor field remains an object with that exact member, or admission explicitly refuses; it must not silently become numeric data.",
+      "actual": "Direct Value deserialization with arbitrary_precision recognizes the first private key and creates Value::Number(123). Root observed actual_vendor=123 and preserved_object=false.",
+      "why_existing_tests_missed": "model.rs exact-value fixtures parse expected JSON through the same serde Value path. Existing opaque/large-number tests use ordinary keys and cannot expose common-mode private-key reinterpretation.",
+      "runtime_artifacts": [
+        {
+          "path": "/workspace/build/builderbob/syson-rereview-20261026/counterexamples-02/receipt.json",
+          "sha256": "11f62289924206c0a5ed7ac920ed5a56fa02bfe63c44360f62753518fe26e3ac",
+          "bytes": 29569
+        },
+        {
+          "path": "/workspace/build/builderbob/syson-rereview-20261026/counterexamples-02/model-marker-runtime-stdout.json",
+          "sha256": "bbd864feca83736984cafd37c0524aaadfb0c5b134c18291d4e1262be951415e",
+          "bytes": 102
+        }
+      ],
+      "runtime_scope": "Root executed an immutable exported F33/F34 dependency copy sharing this exact Document::from_json boundary; this reviewer did not execute anything and does not claim a separate build of component #8.",
+      "dependency_evidence": {
+        "path": "/workspace/cache/builderbob/mbse-craft/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.151/src/value/de.rs",
+        "sha256": "ceda1bf415aafde89caa83bf275811b70d393717d4e1038e0c61822d2da02993",
+        "lines": [
+          127,
+          130,
+          1363,
+          1365
+        ],
+        "meaning": "ValueVisitor/KeyClassifier recognizes Number and, when enabled, RawValue marker keys."
+      },
+      "plan_action": {
+        "augment_existing": [
+          "M06",
+          "I03",
+          "I06"
+        ],
+        "new_bounded_children": [
+          "SAFE_LITERAL_JSON",
+          "MODEL_SAFE_JSON_ADOPTION"
+        ],
+        "avoid_duplicate": "Parser/interchange reviewer cross-references this cause for F33 and C03b/C03c; do not create a separate global repair per downstream PR."
+      }
+    },
+    {
+      "id": "MODEL-RR-002",
+      "shared_cause": "MODEL-RR-001",
+      "severity": "P2",
+      "kind": "FUNCTIONAL_IDENTITY_INDEX_BUG",
+      "title": "C01g indexes a phantom node reified from an opaque vendor string",
+      "confidence": "HIGH",
+      "evidence_type": "ROOT_RUNTIME_REPRODUCED_EXACT_RETAINED_C01G_BINARY",
+      "sources": [
+        {
+          "pr": 85,
+          "url": "https://github.com/ajhcs/syson/pull/85",
+          "head": "df588dc53ca55e3d04464c06dc798e594fdd7d66",
+          "path": "rust/tools/native-library-catalog/src/lib.rs",
+          "line": 298,
+          "end_line": 308,
+          "sha256": "47dfdc7306d144ff494902cc795e9aa649cd140cb043209b7ee4cfc9b653873b"
+        },
+        {
+          "pr": 85,
+          "url": "https://github.com/ajhcs/syson/pull/85",
+          "head": "df588dc53ca55e3d04464c06dc798e594fdd7d66",
+          "path": "rust/tools/native-library-catalog/src/lib.rs",
+          "line": 213,
+          "end_line": 259,
+          "sha256": "47dfdc7306d144ff494902cc795e9aa649cd140cb043209b7ee4cfc9b653873b"
+        }
+      ],
+      "trigger": {
+        "input": "Literal content=[] plus vendor={\"$serde_json::private::RawValue\":\"{\\\"id\\\":\\\"UUID-A\\\",\\\"eClass\\\":\\\"sysml:Namespace\\\",\\\"data\\\":{\\\"elementId\\\":\\\"UUID-B\\\"}}\"}.",
+        "operation": "Run frozen C01g catalogue CLI with this owned JSON file and explicit manifest."
+      },
+      "expected": "Zero physical node records. An ordinary JSON string must never be parsed into a model node by the catalogue.",
+      "actual": "Streaming first pass sees a string, but the second serde Value pass reifies it into an object; root observed one indexed Namespace at /vendor although literal physical content nodes=0.",
+      "why_existing_tests_missed": "Real 94-resource comparison covers shipped bytes, while synthetic opaque tests do not include dependency-reserved marker names. Raw byte preservation alone does not prove the physical index used those bytes literally.",
+      "runtime_artifacts": [
+        {
+          "path": "/workspace/build/builderbob/syson-rereview-20261026/catalogue-private-token-01/receipt.json",
+          "sha256": "cc3fb2db73620fa59fc74493d18d8c5e5ca64134bd372cddf6bddc260bf480f5",
+          "bytes": 1721
+        },
+        {
+          "path": "/workspace/build/builderbob/syson-rereview-20261026/catalogue-private-token-01/stdout.json",
+          "sha256": "bbf210f53644ebdf0c85208e47c044c1b20f57ffc0ec2333b4eb78f053e26b32",
+          "bytes": 361
+        }
+      ],
+      "runtime_scope": "Exact release binary SHA891c7721ebd9fe6a0672daf8d2aa30a61baede4bdafb3e15b4a8239618d6ba34, input and binary hashes unchanged; reviewer performed no runtime.",
+      "plan_action": {
+        "augment_existing": [
+          "C01g",
+          "M15"
+        ],
+        "new_bounded_children": [
+          "CATALOGUE_SAFE_JSON_ADOPTION"
+        ],
+        "dependency": "SAFE_LITERAL_JSON",
+        "acceptance": "Repeat exact zero-node counterexample plus full94 genuine corpus; compare stored tuples and raw bytes, preserving original native12162-error qualification."
+      }
+    },
+    {
+      "id": "MODEL-RR-003",
+      "severity": "P2",
+      "kind": "SOURCE_CONFIRMED_UNBOUNDED_RECURSION_RISK",
+      "title": "Legacy ResourceSet name resolution has no bound on flat conjugation reference chains",
+      "confidence": "HIGH_SOURCE; STACK_THRESHOLD_NOT_MEASURED",
+      "evidence_type": "IMMUTABLE_SOURCE_CONTROL_FLOW_ONLY",
+      "sources": [
+        {
+          "pr": 15,
+          "url": "https://github.com/ajhcs/syson/pull/15",
+          "head": "6d7319337b7927a66bbf8ba5b9be3d5a3778a0c1",
+          "path": "rust/crates/syson-initializer-graph/src/native_query.rs",
+          "line": 173,
+          "end_line": 217,
+          "sha256": "e05c5858a0ec8e81bf504ee666c97ce8665605375a2aad5005a8ead1974f5f64"
+        },
+        {
+          "pr": 49,
+          "url": "https://github.com/ajhcs/syson/pull/49",
+          "head": "1cf521c107eabd75aeec658264017bf72b381b0b",
+          "path": "rust/crates/syson-semantic-names/src/lib.rs",
+          "line": 156,
+          "end_line": 173,
+          "sha256": "236a58425b066821921472a394e6755de21b52158cfc5e02de77e18b41f5fc19"
+        }
+      ],
+      "trigger": {
+        "input": "One flat admitted document with arbitrarily many ConjugatedPortDefinition roots; each owns a PortConjugation whose originalPortDefinition references the next root, ending in an ordinary named PortDefinition. Raw JSON nesting stays shallow.",
+        "operation": "ResourceSet::effective_name(...Name,SemanticElementIds), or qualified-root lookup which asks is_unnamed."
+      },
+      "expected": "An explicit bounded failure/cancellation or iterative traversal; no process-stack dependence for admitted reference graphs.",
+      "actual": "name_inner recursively follows each acyclic reference with only a seen-set cycle check. F46 has a separate 128-step iterative bound, which does not change this legacy path.",
+      "why_existing_tests_missed": "Cycle and small naming examples do not exercise long acyclic cross-reference chains; JSON-depth tests cannot bound a flat reference graph.",
+      "not_observed": "No crash, timing or threshold was executed by this reviewer.",
+      "plan_action": {
+        "augment_existing": [
+          "M10",
+          "M07"
+        ],
+        "new_bounded_children": [
+          "BOUNDED_LEGACY_NAME_AUTHORITY"
+        ],
+        "regressions": [
+          "Normal conjugation naming unchanged",
+          "Cycle refusal",
+          "Explicit boundary and over-bound flat chains",
+          "Large flat8192-edge chain returns bounded result/error without stack exhaustion",
+          "Cancellation during traversal",
+          "Old and F46 callers share an explicit identity/encoding authority"
+        ]
+      }
+    },
+    {
+      "id": "MODEL-RR-004",
+      "severity": "P2",
+      "kind": "SOURCE_COMPLEXITY_AND_PERFORMANCE_ACCEPTANCE_GAP",
+      "title": "Graph indexes recursively duplicate subtrees and peer counts rescan the full node map",
+      "confidence": "HIGH_COMPLEXITY; LATENCY_UNMEASURED",
+      "evidence_type": "IMMUTABLE_SOURCE_COMPLEXITY",
+      "sources": [
+        {
+          "pr": 14,
+          "url": "https://github.com/ajhcs/syson/pull/14",
+          "head": "ef38748d88a59e71dcf8a2895ac5e8b76af411eb",
+          "path": "rust/crates/syson-initializer-graph/src/lib.rs",
+          "line": 41,
+          "end_line": 55,
+          "sha256": "7f12ed06e2366ea8dae99548f0f03bfa3182c299b363ae855d4f02f610b21a4c"
+        },
+        {
+          "pr": 14,
+          "url": "https://github.com/ajhcs/syson/pull/14",
+          "head": "ef38748d88a59e71dcf8a2895ac5e8b76af411eb",
+          "path": "rust/crates/syson-initializer-graph/src/lib.rs",
+          "line": 91,
+          "end_line": 98,
+          "sha256": "7f12ed06e2366ea8dae99548f0f03bfa3182c299b363ae855d4f02f610b21a4c"
+        },
+        {
+          "pr": 14,
+          "url": "https://github.com/ajhcs/syson/pull/14",
+          "head": "ef38748d88a59e71dcf8a2895ac5e8b76af411eb",
+          "path": "rust/crates/syson-initializer-graph/src/lib.rs",
+          "line": 163,
+          "end_line": 178,
+          "sha256": "7f12ed06e2366ea8dae99548f0f03bfa3182c299b363ae855d4f02f610b21a4c"
+        },
+        {
+          "pr": 49,
+          "url": "https://github.com/ajhcs/syson/pull/49",
+          "head": "1cf521c107eabd75aeec658264017bf72b381b0b",
+          "path": "rust/crates/syson-semantic-names/src/lib.rs",
+          "line": 54,
+          "end_line": 76,
+          "sha256": "236a58425b066821921472a394e6755de21b52158cfc5e02de77e18b41f5fc19"
+        }
+      ],
+      "trigger": {
+        "input": "Wide namespaces with K Memberships and N objects, plus deep containment and realistic large leaf bodies.",
+        "operation": "Initialize a new element / ask exact-class peer count / build F46 naming snapshots."
+      },
+      "expected": "Measured bounded interactive behavior and snapshot memory, with responsive cancellation and no avoidable repeated full-subtree retention.",
+      "actual": "Each Index node stores a clone of its complete data subtree; nested data are copied repeatedly. Peer-count implementation performs a full node-map scan for every membership (O(K*N)). NativeContext replays/clones the document and builds indexes again per query prefix. F46 additionally owns several document/index copies.",
+      "why_existing_tests_missed": "Small synthetic fixtures establish ordering and failure atomicity but do not measure wide/deep scaling, allocation, or cancellation latency.",
+      "not_observed": "No numeric latency/RSS regression is asserted; actual benchmarks are required before optimizing.",
+      "plan_action": {
+        "augment_existing": [
+          "M07",
+          "M21",
+          "M23",
+          "M38"
+        ],
+        "new_bounded_children": [
+          "BOUNDED_INDEX_AND_PEER_COUNT"
+        ],
+        "gates": [
+          "Source-frozen 256/1024/4096 wide and deep fixtures; equal output/counts before any optimization",
+          "Median/p95/RSS and cancellation measurements including actual creation caller",
+          "Keep exact source ordering and identity domains",
+          "Retain old outcomes/failures; qualify actual native workload rather than compare unequal coverage"
+        ]
+      }
+    },
+    {
+      "id": "MODEL-RR-005",
+      "severity": "P2",
+      "kind": "KNOWN_INTEGRATION_CAPACITY_GAP_NOT_NEW_FUNCTIONAL_BUG",
+      "title": "Selected GeneralView/ViewUsage APIs do not admit the effective full standard-library closure",
+      "confidence": "HIGH",
+      "evidence_type": "SOURCE_LIMITS_PLUS_PRIOR_REAL_CORPUS_OBSERVATION",
+      "sources": [
+        {
+          "pr": 54,
+          "url": "https://github.com/ajhcs/syson/pull/54",
+          "head": "80261b68e5e7ec2f2fe7f0d638050faca9800670",
+          "path": "rust/crates/syson-view-usage/src/lib.rs",
+          "line": 296,
+          "end_line": 303,
+          "sha256": "6ceb249fc7537624152602e7114b8c1ca751585d95e9f33c936624b77e1ab074"
+        },
+        {
+          "pr": 8,
+          "url": "https://github.com/ajhcs/syson/pull/8",
+          "head": "a5c87ec50b542fc550c54486743ba9320994f1fa",
+          "path": "rust/crates/syson-model/src/lib.rs",
+          "line": 97,
+          "end_line": 102,
+          "sha256": "56f36bdd29b6b2403756def16d69848c55ef97d5c58b4f3164182bf336bc6ea6"
+        }
+      ],
+      "trigger": {
+        "input": "Actual94-resource bundle:36KerML+58SysML,20,874,941bytes,max JSONdepth208,largestfile1,867,174bytes.",
+        "operation": "Connect C01g effective resource catalogue directly to F05/F01 semantic GeneralView initialization."
+      },
+      "expected": "A planned complete-bundle loader/binding route with explicit admissible resource/content limits and actual caller coverage.",
+      "actual": "F05 rejects more than32 libraries; Document::from_json retains serde default recursion depth rather than the C01g depth256 admission. Existing selected references/bridges also have smaller byte/shape domains. Physical catalogue completion does not bridge these gaps.",
+      "why_existing_tests_missed": "F04/F05 use small explicit/synthetic library registries, not an actual94-resource loaded bundle.",
+      "plan_action": {
+        "augment_existing": [
+          "M15",
+          "M30",
+          "M38",
+          "I06"
+        ],
+        "new_bounded_children": [],
+        "avoid_duplicate": "M15 already covers actual library loading/versioning. Add this exact observed corpus and selectedAPI incompatibility to its acceptance gates; do not add another synthetic manifest validator.",
+        "gates": [
+          "Bind actual94 resources, native metadata and classpath URI order",
+          "Resolve GeneralView from the real bundle or retain explicit unresolved/error dispositions",
+          "Preserve native12162-package-diagnostic boundary until separately fixed/qualified",
+          "Actual create/open/type-picker/save UI journeys; no completion promotion from physical index success"
+        ]
+      }
+    },
+    {
+      "id": "MODEL-RR-006",
+      "severity": "P2",
+      "kind": "PERFORMANCE_AND_HISTORY_ACCEPTANCE_GAP",
+      "title": "Local editor history retains an unbounded full document per committed edit",
+      "confidence": "HIGH_STORAGE_COMPLEXITY; USER_IMPACT_UNMEASURED",
+      "evidence_type": "IMMUTABLE_SOURCE",
+      "sources": [
+        {
+          "pr": 8,
+          "url": "https://github.com/ajhcs/syson/pull/8",
+          "head": "a5c87ec50b542fc550c54486743ba9320994f1fa",
+          "path": "rust/crates/syson-model/src/lib.rs",
+          "line": 350,
+          "end_line": 392,
+          "sha256": "56f36bdd29b6b2403756def16d69848c55ef97d5c58b4f3164182bf336bc6ea6"
+        },
+        {
+          "pr": 8,
+          "url": "https://github.com/ajhcs/syson/pull/8",
+          "head": "a5c87ec50b542fc550c54486743ba9320994f1fa",
+          "path": "rust/crates/syson-model/src/lib.rs",
+          "line": 534,
+          "end_line": 548,
+          "sha256": "56f36bdd29b6b2403756def16d69848c55ef97d5c58b4f3164182bf336bc6ea6"
+        }
+      ],
+      "trigger": {
+        "input": "A realistically large document followed by many scalar/name commits.",
+        "operation": "Editor::begin, Transaction::apply, commit, and undo/redo from the actual UI."
+      },
+      "expected": "A measured retention/budget policy and responsive undo/redo; failed/cancelled edits remain atomic.",
+      "actual": "begin clones base/staged snapshots, apply clones the staged document, and each successful commit appends a full prior Document to an uncapped Vec. Retained history scales with edits times document size.",
+      "why_existing_tests_missed": "Atomicity/undo tests use small fixtures and a few edits; storage byte-budget fixes do not bound this in-memory Editor history.",
+      "plan_action": {
+        "augment_existing": [
+          "M03",
+          "B17",
+          "U08"
+        ],
+        "new_bounded_children": [],
+        "gates": [
+          "Actual UI edit/undo/redo stress at1000/4096 model elements and64/256commits",
+          "Record per-edit latency, retained RSS, cancellation and recovery",
+          "Define reviewable history retention/compaction policy before changing behavior",
+          "Preserve transaction revision/foreign-owner checks and undo atomicity"
+        ]
+      }
+    },
+    {
+      "id": "MODEL-RR-007",
+      "severity": "P2",
+      "kind": "CROSS_REFERENCED_PREALLOCATION_GAP",
+      "title": "F47 serializes and reparses the full document before rejecting unrelated oversized opaque data",
+      "confidence": "HIGH_SOURCE",
+      "evidence_type": "SOURCE_ONLY; RELATED_TO_PARSER_F33_PRIMARY",
+      "sources": [
+        {
+          "pr": 59,
+          "url": "https://github.com/ajhcs/syson/pull/59",
+          "head": "f55c13f1bf96760ebd8c6d7906525273acd88fc8",
+          "path": "rust/crates/syson-semantic-validation/src/lib.rs",
+          "line": 137,
+          "end_line": 150,
+          "sha256": "39eae55f3f4a12ff775c9f56d69d13e4f93d3618e6ea17279188d2c0fe4d854d"
+        }
+      ],
+      "trigger": {
+        "input": "Source empty/finite and a valid Document with few or zero model nodes but a large wide/deep opaque envelope payload.",
+        "operation": "validate with an explicit rule selection."
+      },
+      "expected": "Bound/inspect the existing admitted document without creating an unbounded pretty JSON copy and another DOM before shape/rule admission.",
+      "actual": "2048 model-row bound is followed by document.to_json() (pretty serialization) and serde_json::from_str of the full result. Model count does not bound opaque payload size or pretty indentation amplification.",
+      "plan_action": {
+        "augment_existing": [
+          "M32",
+          "I09"
+        ],
+        "new_bounded_children": [],
+        "cross_reference": "Parser/interchange reviewer owns F33/F34 allocation-before-guard findings and runtime probes. Attach this additional consumer to the same bounded-materialization family, not a duplicate global finding."
+      }
+    },
+    {
+      "id": "MODEL-RR-008",
+      "severity": "P3",
+      "kind": "CANCELLATION_LATENCY_ACCEPTANCE_GAP",
+      "title": "Name conversion output loops only poll cancellation at their endpoints",
+      "confidence": "HIGH_SOURCE; LATENCY_UNMEASURED",
+      "evidence_type": "IMMUTABLE_SOURCE",
+      "sources": [
+        {
+          "pr": 25,
+          "url": "https://github.com/ajhcs/syson/pull/25",
+          "head": "48ee69e41c4f29346f1d95075278d84aefc48057",
+          "path": "rust/crates/syson-ast-values/src/lib.rs",
+          "line": 191,
+          "end_line": 223,
+          "sha256": "a41deb4952e4f7fb5e8bdd1718af745bbfecf17b9080cce2433d2e30644c1a58"
+        },
+        {
+          "pr": 25,
+          "url": "https://github.com/ajhcs/syson/pull/25",
+          "head": "48ee69e41c4f29346f1d95075278d84aefc48057",
+          "path": "rust/crates/syson-ast-values/src/lib.rs",
+          "line": 225,
+          "end_line": 266,
+          "sha256": "a41deb4952e4f7fb5e8bdd1718af745bbfecf17b9080cce2433d2e30644c1a58"
+        }
+      ],
+      "trigger": {
+        "input": "Caller selects a large UTF16-unit allowance and supplies a long quoted/escaped name.",
+        "operation": "sanitize_name or unsanitize_name while another thread requests cancellation."
+      },
+      "expected": "Documented bounded cancellation latency across every long conversion pass.",
+      "actual": "units() polls periodically, but sanitation/escaping loops and the simple-name all() scan have only before/after cancellation checks. Numeric parsing is documented nonpreemptible; these extra loops lack an equivalent explicit bound/policy.",
+      "plan_action": {
+        "augment_existing": [
+          "P08",
+          "P14",
+          "M19"
+        ],
+        "new_bounded_children": [],
+        "gates": [
+          "Input/output UTF16 budget edges",
+          "Mid-loop cancellation on ordinary and escape-expanding names",
+          "Actual browser/import worker cancellation latency at declared maximum",
+          "No numeric/string/name spelling regressions"
+        ]
+      }
+    }
+  ]
+}
