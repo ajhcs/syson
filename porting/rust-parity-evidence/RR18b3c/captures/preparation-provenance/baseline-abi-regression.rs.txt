@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Actual accepted ABI import; fixture construction and transfer are unmeasured.
+use std::{alloc::{GlobalAlloc, Layout, System}, cell::Cell};
+use syson_model::Document;
+use syson_web::{dispatch, initialize, input_byte, input_reset, output_len, output_ptr};
+#[derive(Clone, Copy, Default, Debug)]
+struct Stats { requested: usize, largest: usize }
+thread_local! {
+    static TRACK: Cell<bool> = const { Cell::new(false) };
+    static STATS: Cell<Stats> = const { Cell::new(Stats { requested: 0, largest: 0 }) };
+}
+fn record(size: usize) {
+    if TRACK.try_with(Cell::get).unwrap_or(false) {
+        let _ = STATS.try_with(|value| { let mut stats=value.get();
+            stats.requested=stats.requested.saturating_add(size);
+            stats.largest=stats.largest.max(size); value.set(stats); });
+    }
+}
+struct Observed;
+// SAFETY: System receives the original pointers/layouts; constant TLS never
+// allocates. Count successful requests, charging full new realloc size. These
+// are aggregate Rust allocation requests, not retained/live memory or RSS.
+unsafe impl GlobalAlloc for Observed {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        let p=unsafe { System.alloc(layout) }; if !p.is_null() { record(layout.size()); } p
+    }
+    unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
+        let p=unsafe { System.alloc_zeroed(layout) }; if !p.is_null() { record(layout.size()); } p
+    }
+    unsafe fn realloc(&self, p: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        let next=unsafe { System.realloc(p,layout,size) }; if !next.is_null() { record(size); } next
+    }
+    unsafe fn dealloc(&self, p: *mut u8, layout: Layout) { unsafe { System.dealloc(p,layout) } }
+}
+#[global_allocator]
+static ALLOCATOR: Observed = Observed;
+fn observed(operation: impl FnOnce()) -> Stats {
+    struct Reset;
+    impl Drop for Reset { fn drop(&mut self) { TRACK.with(|v|v.set(false)); } }
+    STATS.with(|v|v.set(Stats::default()));TRACK.with(|v|v.set(true));
+    let reset=Reset;operation();drop(reset);STATS.with(Cell::get)
+}
+fn html() -> String {
+    // SAFETY: copy synchronous public output before any subsequent ABI dispatch.
+    let bytes=unsafe {std::slice::from_raw_parts(output_ptr() as *const u8,output_len())};
+    String::from_utf8(bytes.to_vec()).unwrap()
+}
+#[test]
+fn accepted_opaque_escaped_export_avoids_repeated_full_escaped_copies() {
+    let mut raw=Document::empty().value().clone();raw["opaque"]=serde_json::json!("&".repeat(700_000));
+    let fixture=raw.to_string();assert!(fixture.len()<1_048_576);
+    let expected=Document::from_json(&fixture).unwrap().to_json().unwrap();
+    let input=serde_json::to_vec(&serde_json::json!({"action":"import","fields":{"json":fixture}})).unwrap();
+    assert!(input.len()<1_048_576);
+    initialize();input_reset();for byte in input {input_byte(byte.into());}
+    let stats=observed(||dispatch());
+    let result=html();
+    eprintln!("RR18B3C accepted opaque export: {stats:?}; html_bytes={}",result.len());
+    assert!(result.len()>3_500_000&&result.len()<16*1_048_576);
+    assert!(result.contains("Imported a new document."));
+    assert!(!result.contains("id=\"recovery-export\""));
+    let exported=result.split_once("<textarea id=\"export-json\"").unwrap().1
+        .split_once('>').unwrap().1.split_once("</textarea>").unwrap().0
+        .replace("&quot;","\"").replace("&#39;","'").replace("&lt;","<").replace("&gt;",">").replace("&amp;","&");
+    assert_eq!(exported,expected);
+    assert!(stats.requested<=32*1_048_576,"repeated escaped copies: requested {} bytes",stats.requested);
+}
