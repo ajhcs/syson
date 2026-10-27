@@ -1,0 +1,348 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Independent raw/manual oracles, not generic parsing of expected marker maps.
+use serde_json::{Map, Value};
+use syson_native_http_contract::{inspect_mappings, inspect_probes};
+const MAPPINGS: &str = include_str!("fixtures/native-mappings.json");
+const PROBES: &str = include_str!("fixtures/native-probes.json");
+type Inspect = fn(&str) -> Result<Value, String>;
+fn inject(source: &str, member: &str) -> String {
+    format!("{{{member},{}", source.strip_prefix('{').unwrap())
+}
+fn object(key: &str, text: &str) -> Value {
+    let mut map = Map::new();
+    map.insert(key.into(), Value::String(text.into()));
+    Value::Object(map)
+}
+fn marker(inspect: Inspect, source: &str, lane: &str, raw: &str, key: &str, text: &str) {
+    let input = inject(source, &(r#""vendor":"#.to_owned() + raw));
+    let before = input.clone();
+    let output = inspect(&input).unwrap();
+    assert_eq!(output[lane]["vendor"], object(key, text));
+    assert_eq!(input, before);
+}
+#[test]
+fn mapping_number_marker_remains_an_object() {
+    marker(
+        inspect_mappings,
+        MAPPINGS,
+        "mappings",
+        r#"{"$serde_json::private::Number":"123"}"#,
+        "$serde_json::private::Number",
+        "123",
+    );
+}
+#[test]
+fn probe_number_marker_remains_an_object() {
+    marker(
+        inspect_probes,
+        PROBES,
+        "capture",
+        r#"{"$serde_json::private::Number":"123"}"#,
+        "$serde_json::private::Number",
+        "123",
+    );
+}
+#[test]
+fn mapping_raw_marker_keeps_its_string_without_injecting_content() {
+    marker(
+        inspect_mappings,
+        MAPPINGS,
+        "mappings",
+        r#"{"$serde_json::private::RawValue":"{\"trap\":[true],\"text\":\"雪😀\"}"}"#,
+        "$serde_json::private::RawValue",
+        r#"{"trap":[true],"text":"雪😀"}"#,
+    );
+}
+#[test]
+fn probe_raw_marker_keeps_its_string_without_injecting_content() {
+    marker(
+        inspect_probes,
+        PROBES,
+        "capture",
+        r#"{"$serde_json::private::RawValue":"{\"trap\":[true],\"text\":\"雪😀\"}"}"#,
+        "$serde_json::private::RawValue",
+        r#"{"trap":[true],"text":"雪😀"}"#,
+    );
+}
+fn numbers(inspect: Inspect, source: &str, lane: &str) {
+    let huge = "9".repeat(4096);
+    for token in ["-0", "0.00", "1E+000", "1e-99999", "1e99999", huge.as_str()] {
+        let output = inspect(&inject(source, &(r#""vendor":"#.to_owned() + token))).unwrap();
+        let Value::Number(number) = &output[lane]["vendor"] else {
+            panic!("not a number")
+        };
+        assert_eq!(number.to_string(), token);
+    }
+}
+#[test]
+fn mapping_numeric_tokens_keep_exact_source_spelling() {
+    numbers(inspect_mappings, MAPPINGS, "mappings");
+}
+#[test]
+fn probe_numeric_tokens_keep_exact_source_spelling() {
+    numbers(inspect_probes, PROBES, "capture");
+}
+fn ordinary_probes() -> String {
+    // The unchanged native fixture has no manufactured private objects/-0.
+    serde_json::from_str::<Value>(PROBES).unwrap().to_string()
+}
+#[test]
+fn typed_negative_zero_body_count_with_empty_body_is_accepted() {
+    let source = ordinary_probes();
+    let needle = r#""body_bytes":0"#;
+    assert!(source.contains(needle));
+    let input = source.replacen(needle, r#""body_bytes":-0"#, 1);
+    let before = input.clone();
+    assert_eq!(inspect_probes(&input).unwrap()["summary"]["probes"], 22);
+    assert_eq!(input, before);
+}
+#[test]
+fn typed_negative_zero_status_is_rejected_by_the_existing_status_range() {
+    let source = ordinary_probes();
+    let needle = r#""status":200"#;
+    assert!(source.contains(needle));
+    let input = source.replacen(needle, r#""status":-0"#, 1);
+    assert!(
+        inspect_probes(&input)
+            .unwrap_err()
+            .contains("invalid status")
+    );
+}
+
+fn lanes() -> [(Inspect, &'static str, &'static str); 2] {
+    [
+        (inspect_mappings, MAPPINGS, "mappings"),
+        (inspect_probes, PROBES, "capture"),
+    ]
+}
+#[test]
+fn nested_markers_other_members_escaped_keys_and_strings_stay_literal() {
+    let member = r#""vendor":{"first":{"$serde_json::private::Number":"not numeric","after":true},"later":{"before":false,"$serde_json::private::RawValue":"quoted text"},"dup":0,"\u0064up":{"$serde_json::private::Number":"final"},"text":"{\"$serde_json::private::RawValue\":\"null\"} 雪😀\n\u0041"}"#;
+    for (inspect, source, lane) in lanes() {
+        let output = inspect(&inject(source, member)).unwrap();
+        let vendor = &output[lane]["vendor"];
+        let mut first = Map::new();
+        first.insert(
+            "$serde_json::private::Number".into(),
+            Value::String("not numeric".into()),
+        );
+        first.insert("after".into(), Value::Bool(true));
+        let mut later = Map::new();
+        later.insert("before".into(), Value::Bool(false));
+        later.insert(
+            "$serde_json::private::RawValue".into(),
+            Value::String("quoted text".into()),
+        );
+        assert_eq!(vendor["first"], Value::Object(first));
+        assert_eq!(vendor["later"], Value::Object(later));
+        assert_eq!(
+            vendor["dup"],
+            object("$serde_json::private::Number", "final")
+        );
+        assert_eq!(
+            vendor["text"].as_str(),
+            Some("{\"$serde_json::private::RawValue\":\"null\"} 雪😀\nA")
+        );
+    }
+}
+#[test]
+fn typed_fields_refuse_marker_objects_and_noninteger_byte_counts() {
+    let mut input: Value = serde_json::from_str(PROBES).unwrap();
+    input["context"]["anonymous"] = object("$serde_json::private::RawValue", "true");
+    assert!(inspect_probes(&input.to_string()).is_err());
+    let mut input: Value = serde_json::from_str(PROBES).unwrap();
+    input["observations"][0]["response"]["headers"] = Value::Array(vec![Value::Array(vec![
+        Value::String("X-Test".into()),
+        object("$serde_json::private::RawValue", r#""header""#),
+    ])]);
+    assert!(inspect_probes(&input.to_string()).is_err());
+    let mut input: Value = serde_json::from_str(MAPPINGS).unwrap();
+    let context = input["contexts"]
+        .as_object_mut()
+        .unwrap()
+        .values_mut()
+        .next()
+        .unwrap();
+    let servlets = context["mappings"]["dispatcherServlets"]
+        .as_object_mut()
+        .unwrap();
+    let entries = servlets
+        .values_mut()
+        .find(|v| v.as_array().is_some_and(|a| !a.is_empty()))
+        .unwrap();
+    entries[0]["handler"] = object("$serde_json::private::RawValue", r#""handler""#);
+    assert!(inspect_mappings(&input.to_string()).is_err());
+    let mut input: Value = serde_json::from_str(PROBES).unwrap();
+    let opaque = r#"{"$serde_json::private::Number":"123","nested":{"$serde_json::private::RawValue":"null"}}"#;
+    input["observations"][0]["response"]["body_utf8"] = Value::String(opaque.into());
+    input["observations"][0]["response"]["body_bytes"] = Value::from(opaque.len());
+    assert_eq!(inspect_probes(&input.to_string()).unwrap()["capture"]["observations"][0]["response"]["body_utf8"].as_str(), Some(opaque));
+    let source = ordinary_probes();
+    for raw in [
+        r#"{"$serde_json::private::Number":"0"}"#,
+        "0.0",
+        "0e0",
+        "-0.0",
+        "18446744073709551616",
+    ] {
+        let input = source.replacen(
+            r#""body_bytes":0"#,
+            &(r#""body_bytes":"#.to_owned() + raw),
+            1,
+        );
+        assert!(
+            inspect_probes(&input).is_err(),
+            "typed body count admitted {raw}"
+        );
+    }
+    for raw in [r#"{"$serde_json::private::Number":"200"}"#, "200.0", "2e2"] {
+        let input = source.replacen(r#""status":200"#, &(r#""status":"#.to_owned() + raw), 1);
+        assert!(
+            inspect_probes(&input).is_err(),
+            "typed status admitted {raw}"
+        );
+    }
+    // Alter one known elapsed field via its exact original serialized spelling.
+    let original: Value = serde_json::from_str(PROBES).unwrap();
+    let old = original["observations"][0]["elapsed_ms"].to_string();
+    let needle = format!(r#""elapsed_ms":{old}"#);
+    assert!(source.contains(&needle));
+    for raw in [r#"{"$serde_json::private::Number":"0"}"#, "-1", "1e99999"] {
+        let input = source.replacen(&needle, &(r#""elapsed_ms":"#.to_owned() + raw), 1);
+        assert!(inspect_probes(&input).is_err());
+    }
+    let input = source.replacen(&needle, r#""elapsed_ms":-0"#, 1);
+    let output = inspect_probes(&input).unwrap();
+    assert_eq!(
+        output["capture"]["observations"][0]["elapsed_ms"].to_string(),
+        "-0"
+    );
+    let input = source.replacen(r#""body_bytes":0"#, r#""body_bytes":-0"#, 1);
+    let output = inspect_probes(&input).unwrap();
+    assert!(
+        output["capture"]["observations"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|v| v["response"]["body_bytes"]
+                .as_number()
+                .is_some_and(|number| number.as_str() == "-0"))
+    );
+}
+fn values(value: &Value) -> usize {
+    1 + match value {
+        Value::Object(map) => map.values().map(values).sum(),
+        Value::Array(rows) => rows.iter().map(values).sum(),
+        _ => 0,
+    }
+}
+fn decoded_bytes(value: &Value) -> usize {
+    match value {
+        Value::Object(map) => map
+            .iter()
+            .map(|(key, value)| key.len() + decoded_bytes(value))
+            .sum(),
+        Value::Array(rows) => rows.iter().map(decoded_bytes).sum(),
+        Value::String(s) => s.len(),
+        _ => 0,
+    }
+}
+#[test]
+fn physical_duplicates_and_whole_value_depth_have_exact_edges() {
+    use syson_native_http_contract::{MAX_DEPTH, MAX_VALUES};
+    for (inspect, source, lane) in lanes() {
+        // Ordinary captured corpus has no artificial marker/duplicate keys;
+        // count it independently, then add known overwritten source occurrences.
+        let ordinary: Value = serde_json::from_str(source).unwrap();
+        let n = MAX_VALUES - values(&ordinary) - 1;
+        for extra in [0, 1] {
+            let member =
+                r#""vendor":{"#.to_owned() + &vec![r#""x":null"#; n + extra].join(",") + "}";
+            let output = inspect(&inject(source, &member));
+            assert_eq!(output.is_ok(), extra == 0);
+            if let Ok(output) = output {
+                assert_eq!(output[lane]["vendor"].as_object().unwrap().len(), 1);
+            }
+            let n = MAX_DEPTH - 2 + extra;
+            let member = r#""vendor":"#.to_owned() + &"[".repeat(n) + "null" + &"]".repeat(n);
+            assert_eq!(inspect(&inject(source, &member)).is_ok(), extra == 0);
+        }
+        for member in [r#""vendor":{"x":tru,"x":null}"#, r#""vendor":"\uD800""#] {
+            assert!(inspect(&inject(source, member)).is_err());
+        }
+    }
+}
+#[test]
+fn decoded_key_string_and_aggregate_caps_are_preserved() {
+    use syson_native_http_contract::{MAX_KEY_BYTES, MAX_STRING_BYTES, MAX_TEXT_BYTES};
+    for (inspect, source, _) in lanes() {
+        let mut key = "雪".repeat(MAX_KEY_BYTES / 3) + &"x".repeat(MAX_KEY_BYTES % 3);
+        for extra in [0, 1] {
+            if extra != 0 {
+                key.push('x');
+            }
+            let member =
+                r#""vendor":{"#.to_owned() + &serde_json::to_string(&key).unwrap() + ":null}";
+            assert_eq!(inspect(&inject(source, &member)).is_ok(), extra == 0);
+        }
+        let mut text = "雪".repeat(MAX_STRING_BYTES / 3) + &"x".repeat(MAX_STRING_BYTES % 3);
+        for extra in [0, 1] {
+            if extra != 0 {
+                text.push('x');
+            }
+            let member = r#""vendor":"#.to_owned() + &serde_json::to_string(&text).unwrap();
+            assert_eq!(inspect(&inject(source, &member)).is_ok(), extra == 0);
+        }
+        let original: Value = serde_json::from_str(source).unwrap();
+        let mut remaining = MAX_TEXT_BYTES - decoded_bytes(&original) - "vendor".len();
+        let mut chunks = Vec::new();
+        while remaining != 0 {
+            let n = remaining.min(MAX_STRING_BYTES);
+            chunks.push("x".repeat(n));
+            remaining -= n;
+        }
+        assert!(chunks.last().unwrap().len() < MAX_STRING_BYTES);
+        for extra in [0, 1] {
+            if extra != 0 {
+                chunks.last_mut().unwrap().push('x');
+            }
+            let member = r#""vendor":"#.to_owned() + &serde_json::to_string(&chunks).unwrap();
+            assert_eq!(inspect(&inject(source, &member)).is_ok(), extra == 0);
+        }
+    }
+}
+#[test]
+fn raw_byte_cap_and_unchanged_native_observations_are_rechecked() {
+    use syson_native_http_contract::MAX_INPUT;
+    for (inspect, source, lane) in lanes() {
+        let ordinary: Value = serde_json::from_str(source).unwrap();
+        let output = inspect(source).unwrap();
+        assert_eq!(output[lane], ordinary);
+        assert_eq!(output["C01"], "OPEN");
+        let mut input = source.to_owned();
+        input.push_str(&" ".repeat(MAX_INPUT - input.len()));
+        assert!(inspect(&input).is_ok());
+        input.push(' ');
+        assert!(inspect(&input).is_err());
+    }
+    let output = inspect_mappings(MAPPINGS).unwrap();
+    assert_eq!(output["summary"]["handlers"], 54);
+    assert_eq!(output["summary"]["mvc_handlers"], 33);
+    let output = inspect_probes(PROBES).unwrap();
+    let observations = output["capture"]["observations"].as_array().unwrap();
+    let shell = observations
+        .iter()
+        .find(|v| v["id"] == "graphql-get")
+        .unwrap()["response"]["body_utf8"]
+        .as_str()
+        .unwrap();
+    assert_eq!(shell.len(), 504);
+    assert_eq!(
+        observations
+            .iter()
+            .filter(|v| v["response"]["body_utf8"].as_str() == Some(shell))
+            .count(),
+        9
+    );
+    // These nine status200 frontend bodies are observations, not API successes.
+}
