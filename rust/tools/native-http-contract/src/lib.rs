@@ -3,6 +3,12 @@
 use serde_json::{Map, Value, json};
 
 pub const MAX_INPUT: usize = 32 * 1024 * 1024;
+pub const MAX_VALUES: usize = 200_000;
+pub const MAX_DEPTH: usize = 128;
+pub const MAX_SCALAR_BYTES: usize = 2 * MAX_INPUT;
+pub const MAX_KEY_BYTES: usize = 8192;
+pub const MAX_STRING_BYTES: usize = 4 * 1024 * 1024;
+pub const MAX_TEXT_BYTES: usize = 24 * 1024 * 1024;
 pub const PROBES: &str = include_str!("../../../../porting/rust-parity-evidence/C01f/probes.json");
 type Result<T> = std::result::Result<T, String>;
 fn need(ok: bool, message: &str) -> Result<()> {
@@ -27,35 +33,51 @@ fn string<'a>(value: &'a Value, key: &str) -> Result<&'a str> {
 }
 fn parse(input: &str) -> Result<Value> {
     need(input.len() <= MAX_INPUT, "input byte limit")?;
-    let value: Value = serde_json::from_str(input).map_err(|e| e.to_string())?;
+    let admitted = syson_json_value::parse_with_duplicate_keys(
+        input,
+        syson_json_value::Limits {
+            bytes: MAX_INPUT,
+            depth: MAX_DEPTH,
+            values: MAX_VALUES,
+            keys: MAX_VALUES,
+            scalar_bytes: MAX_SCALAR_BYTES,
+        },
+        syson_json_value::DuplicateKeys::LastWins,
+        || false,
+    )
+    .map_err(|e| format!("literal JSON refused: {e}"))?;
+    let (value, _) = admitted.into_value(|| false).map_err(|e| e.to_string())?;
     let mut pending = vec![&value];
     let (mut nodes, mut bytes) = (0usize, 0usize);
     while let Some(item) = pending.pop() {
         nodes += 1;
         match item {
             Value::Object(map) => {
-                need(nodes + pending.len() + map.len() <= 200_000, "value budget")?;
+                need(
+                    nodes + pending.len() + map.len() <= MAX_VALUES,
+                    "value budget",
+                )?;
                 for (key, child) in map {
                     bytes += key.len();
-                    need(key.len() <= 8192, "object key limit")?;
+                    need(key.len() <= MAX_KEY_BYTES, "object key limit")?;
                     pending.push(child);
                 }
             }
             Value::Array(items) => {
                 need(
-                    nodes + pending.len() + items.len() <= 200_000,
+                    nodes + pending.len() + items.len() <= MAX_VALUES,
                     "value budget",
                 )?;
                 pending.extend(items);
             }
             Value::String(s) => {
-                need(s.len() <= 4 * 1024 * 1024, "string byte limit")?;
+                need(s.len() <= MAX_STRING_BYTES, "string byte limit")?;
                 bytes += s.len();
             }
             _ => {}
         }
         need(
-            nodes + pending.len() <= 200_000 && bytes <= 24 * 1024 * 1024,
+            nodes + pending.len() <= MAX_VALUES && bytes <= MAX_TEXT_BYTES,
             "value budget",
         )?;
     }
@@ -147,9 +169,10 @@ pub fn inspect_mappings(input: &str) -> Result<Value> {
         }
     }
     need(handlers > 0 && mvc > 0, "no structured MVC handlers")?;
-    Ok(
-        json!({"C01":"OPEN", "scope":"observed diagnostic handler mappings", "summary":{"contexts":contexts.len(),"handlers":handlers,"mvc_handlers":mvc},"mappings":raw}),
-    )
+    let mut report = json!({"C01":"OPEN", "scope":"observed diagnostic handler mappings", "summary":{"contexts":contexts.len(),"handlers":handlers,"mvc_handlers":mvc}});
+    // Literal Value numbers must not re-enter json!'s generic to_value.
+    report["mappings"] = raw;
+    Ok(report)
 }
 fn origin(value: &str) -> Result<&str> {
     let host = value
@@ -182,6 +205,13 @@ fn headers(value: &Value) -> Result<Vec<(&str, &str)>> {
             Ok((name, value))
         })
         .collect()
+}
+// Legacy arbitrary-precision deserialization canonicalized integer -0 to0.
+// Preserve that typed unsigned acceptance while retaining the literal capture.
+fn unsigned(value: &Value) -> Option<u64> {
+    value
+        .as_u64()
+        .or_else(|| value.as_number().filter(|n| n.as_str() == "-0").map(|_| 0))
 }
 fn body_bytes(value: &Value) -> Result<usize> {
     let map = object(value)?;
@@ -274,7 +304,7 @@ pub fn inspect_probes(input: &str) -> Result<Value> {
         app != management && field(context, "diagnostic_mappings")? == true,
         "diagnostic context required",
     )?;
-    let manifest: Value = serde_json::from_str(PROBES).map_err(|e| e.to_string())?;
+    let manifest = parse(PROBES)?;
     let expected = array(field(&manifest, "cases")?)?;
     let observations = array(field(&raw, "observations")?)?;
     need(
@@ -292,16 +322,14 @@ pub fn inspect_probes(input: &str) -> Result<Value> {
             .ok_or("unknown probe id")?;
         request(field(observation, "request")?, case, app)?;
         let response = field(observation, "response")?;
-        let status = field(response, "status")?
-            .as_u64()
-            .ok_or("invalid status")?;
+        let status = unsigned(field(response, "status")?).ok_or("invalid status")?;
         need((100..=599).contains(&status), "invalid status")?;
         statuses.insert(id.into(), json!(status));
         headers(field(response, "headers")?)?;
         let bytes = body_bytes(response)?;
         need(
             bytes <= 2 * 1024 * 1024
-                && field(response, "body_bytes")?.as_u64() == Some(bytes as u64),
+                && unsigned(field(response, "body_bytes")?) == Some(bytes as u64),
             "response body byte count",
         )?;
         let elapsed = field(observation, "elapsed_ms")?
@@ -309,7 +337,7 @@ pub fn inspect_probes(input: &str) -> Result<Value> {
             .ok_or("invalid elapsed time")?;
         need(elapsed.is_finite() && elapsed >= 0., "invalid elapsed time")?;
     }
-    Ok(
-        json!({"C01":"OPEN","scope":"observed fixed anonymous HTTP probes; diagnostic mappings enabled","summary":{"probes":observations.len(),"statuses":statuses},"capture":raw}),
-    )
+    let mut report = json!({"C01":"OPEN","scope":"observed fixed anonymous HTTP probes; diagnostic mappings enabled","summary":{"probes":observations.len(),"statuses":statuses}});
+    report["capture"] = raw;
+    Ok(report)
 }
