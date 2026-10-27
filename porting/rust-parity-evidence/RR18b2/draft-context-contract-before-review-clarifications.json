@@ -1,0 +1,13 @@
+{
+  "schema": "RR18-DRAFT-CONTEXT/1",
+  "source_commit": "b304b6df8711062cece3e2a557a3f73d3f9dc462",
+  "authority": "Rust owns model/history/HTML. Loader owns only bounded transient presentation state. No model JSON clone/hash or semantic engine.",
+  "normal_ack": "Known request action plus actual normal #export-json and [data-editor-status].status without .error. Never human status text; never treat fallback alert as success.",
+  "document_identity": "Loader monotonic document epoch advances only after acknowledged successful import or confirm_discard. New initialization starts an empty cache. Distinct documents with identical stable IDs cannot share drafts.",
+  "inspector_scope": "Selected stable element ID and matching property/control IDs; unknown/mismatched scope refuses restoration. Creation/import controls remain document-scoped.",
+  "geometry_scope": "Preserve across stage/rename/attribute/cancel/recover_preview only, whose fixed #112 branches preserve committed document/current frame. Invalidate on acknowledged commit/undo/redo/import/confirm_discard or canvas publication/import/history and on ambiguous fallback transitions. Do not use canvas epoch as document identity.",
+  "submitted_forms": "Exclude pending submitted edit form from fallback retention; never restore a cancelled huge rename/attribute or re-trigger fallback. Normal refused-form preservation remains separate and must retain its text/caret.",
+  "bounds": "Explicit field/disclosure counts, UTF8 and UTF16 content plus ID/metadata limits before retention; refuse visibly before losing valid drafts. No silent truncation or overflow replacement.",
+  "focus": "Only matching cached control id/tag/type and permitted scope can receive caret. Otherwise honor Rust focus request. Stable disclosure IDs/form-action keys, never array position.",
+  "scheduler": "No new async input transfer or reorder in this child. Existing input_reset/byte/dispatch ownership remains synchronous. Any later chunking requires separately admitted queue/cancel/stale callback protocol."
+}
