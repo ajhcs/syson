@@ -39,6 +39,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4148590afebada386688f18773da617792bf2ef03ffc1e4cbd2b1d45b023e0ba"
 dependencies = [
  "serde_core",
+ "serde_derive",
 ]
 
 [[package]]
@@ -127,6 +128,7 @@ version = "0.1.0"
 dependencies = [
  "serde_json",
  "syson-domain",
+ "syson-json-value",
  "syson-metamodel",
 ]
 
@@ -139,10 +141,21 @@ name = "syson-project-preparation"
 version = "0.1.0"
 dependencies = [
  "serde_json",
+ "syson-json-value",
  "syson-migration-pipeline",
  "syson-migrations",
  "syson-model",
  "syson-persistence",
+ "syson-project-wire",
+]
+
+[[package]]
+name = "syson-project-wire"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "syson-project-preparation",
 ]
 
 [[package]]

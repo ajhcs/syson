@@ -4,6 +4,7 @@
 use std::collections::HashMap;
 
 use serde_json::Value;
+use syson_json_value::{DuplicateKeys, Literal};
 use syson_migration_pipeline::{self as library, Resolver};
 use syson_migrations::{self as migrations, b25a, b25b, b25c, b25d};
 use syson_model::Document;
@@ -95,34 +96,40 @@ fn version(value: &Option<String>, expected: &'static str) -> Result<(), Error> 
     }
     Ok(())
 }
-fn value_budget(value: &Value, depth: usize, count: &mut usize) -> Result<(), Error> {
-    *count += 1;
-    if depth > migrations::MAX_DEPTH || *count > migrations::MAX_VALUES {
-        return Err(Error::Limit);
+fn literal_error(error: syson_json_value::Error, kind: &'static str, index: usize) -> Error {
+    match error {
+        syson_json_value::Error::Limit(_) => Error::Limit,
+        other => Error::Admission {
+            kind,
+            index,
+            detail: format!("JSON input: {other}"),
+        },
     }
-    match value {
-        Value::Object(o) => {
-            for v in o.values() {
-                value_budget(v, depth + 1, count)?;
-            }
-        }
-        Value::Array(a) => {
-            for v in a {
-                value_budget(v, depth + 1, count)?;
-            }
-        }
-        _ => (),
-    }
-    Ok(())
+}
+// Match the migration authority, including native last-value/first-key-position
+// duplicate handling. Physical overwritten values/keys consume budgets before
+// collapse: explicit tightening from the previous collapsed-Value preflight.
+fn literal<'a>(text: &'a str, kind: &'static str, index: usize) -> Result<Literal<'a>, Error> {
+    syson_json_value::parse_with_duplicate_keys(
+        text,
+        syson_json_value::Limits {
+            bytes: migrations::MAX_BYTES,
+            // Legacy root-zero depth64 is literal root-one depth65.
+            depth: migrations::MAX_DEPTH + 1,
+            values: migrations::MAX_VALUES,
+            keys: migrations::MAX_VALUES,
+            scalar_bytes: 2 * migrations::MAX_BYTES,
+        },
+        DuplicateKeys::LastWins,
+        || false,
+    )
+    .map_err(|e| literal_error(e, kind, index))
 }
 fn parse(text: &str, kind: &'static str, index: usize) -> Result<Value, Error> {
-    let value = serde_json::from_str(text).map_err(|e| Error::Admission {
-        kind,
-        index,
-        detail: format!("JSON input: {e}"),
-    })?;
-    value_budget(&value, 0, &mut 0)?;
-    Ok(value)
+    literal(text, kind, index)?
+        .into_value(|| false)
+        .map(|(value, _)| value)
+        .map_err(|e| literal_error(e, kind, index))
 }
 fn preflight(input: &ProjectInput, ids: &HashMap<String, String>) -> Result<(), Error> {
     if input
@@ -155,7 +162,8 @@ fn preflight(input: &ProjectInput, ids: &HashMap<String, String>) -> Result<(), 
             .checked_add(text.len())
             .filter(|n| *n <= MAX_PROJECT_BYTES)
             .ok_or(Error::Limit)?;
-        parse(text, kind, index)?;
+        // Preflight needs admission only, not a second materialized DOM.
+        literal(text, kind, index)?;
     }
     let mut map_size = 0usize;
     for (old, new) in ids {
