@@ -16,14 +16,74 @@ type Result<T> = std::result::Result<T, String>;
 fn need(ok: bool, message: impl Into<String>) -> Result<()> {
     if ok { Ok(()) } else { Err(message.into()) }
 }
-/// Bounded raw read used by the CLI and selected candidate checks.
+/// Read a bounded regular file without a blocking FIFO open. Final symlinks
+/// refuse; ancestor symlinks may name an admitted regular target. The opened
+/// descriptor must match pre-admission identity and stable post-read metadata.
+/// This is not a hostile-writer snapshot or a regular-disk-I/O deadline.
+/// Fixed Linux x86_64 flags are required; other targets refuse explicitly.
 pub fn read_file(path: &Path) -> Result<Vec<u8>> {
-    let file = fs::File::open(path).map_err(|e| e.to_string())?;
+    #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
+    {
+        read_regular(path, || {})
+    }
+    #[cfg(not(all(target_os = "linux", target_arch = "x86_64")))]
+    {
+        let _ = path;
+        Err("nonblocking regular-file admission requires Linux x86_64".into())
+    }
+}
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
+fn read_regular(path: &Path, before_open: impl FnOnce()) -> Result<Vec<u8>> {
+    use std::os::unix::fs::{MetadataExt, OpenOptionsExt};
+    // Linux x86_64 bits/fcntl-linux.h: O_NONBLOCK=04000, O_NOFOLLOW=0400000.
+    // Never substitute platform-specific numeric flags on an unadmitted target.
+    const NONBLOCK_NOFOLLOW: i32 = 0x800 | 0x20000;
+    let regular = |meta: &fs::Metadata| -> Result<()> {
+        need(
+            meta.is_file(),
+            "regular file required; symlinks and special files refuse",
+        )?;
+        need(meta.len() <= MAX_BYTES as u64, "file byte limit")
+    };
+    let same = |a: &fs::Metadata, b: &fs::Metadata| {
+        a.dev() == b.dev()
+            && a.ino() == b.ino()
+            && a.len() == b.len()
+            && a.mtime() == b.mtime()
+            && a.mtime_nsec() == b.mtime_nsec()
+            && a.ctime() == b.ctime()
+            && a.ctime_nsec() == b.ctime_nsec()
+    };
+    let admitted = fs::symlink_metadata(path).map_err(|e| e.to_string())?;
+    regular(&admitted)?;
+    // Private seam for deterministic unit races. Production always supplies a
+    // no-op and the fixed opener below; no public callback or runtime flag exists.
+    before_open();
+    let file = fs::OpenOptions::new()
+        .read(true)
+        .custom_flags(NONBLOCK_NOFOLLOW)
+        .open(path)
+        .map_err(|e| e.to_string())?;
+    let opened = file.metadata().map_err(|e| e.to_string())?;
+    regular(&opened)?;
+    need(
+        same(&admitted, &opened),
+        "file identity or metadata changed during admission",
+    )?;
     let mut bytes = Vec::new();
-    file.take((MAX_BYTES + 1) as u64)
+    (&file)
+        .take((MAX_BYTES + 1) as u64)
         .read_to_end(&mut bytes)
         .map_err(|e| e.to_string())?;
     need(bytes.len() <= MAX_BYTES, "file byte limit")?;
+    let descriptor_after = file.metadata().map_err(|e| e.to_string())?;
+    let path_after = fs::symlink_metadata(path).map_err(|e| e.to_string())?;
+    regular(&descriptor_after)?;
+    regular(&path_after)?;
+    need(
+        same(&opened, &descriptor_after) && same(&descriptor_after, &path_after),
+        "file identity or metadata changed during read",
+    )?;
     Ok(bytes)
 }
 fn object<'a>(v: &'a Value, keys: &[&str]) -> Result<&'a serde_json::Map<String, Value>> {
@@ -461,4 +521,128 @@ pub fn verify(repo: &Path, bytes: &[u8]) -> Result<Value> {
     Ok(
         serde_json::json!({"status":"VERIFIED_EXPLICIT_SOURCE_COMPOSITION","base":base,"candidate":candidate,"sources":units.len(),"selected_files":files.len(),"generated_files":generated_names.len(),"whole_program_acceptance":false}),
     )
+}
+
+#[cfg(all(test, target_os = "linux", target_arch = "x86_64"))]
+mod rr14_open_races {
+    use super::read_regular;
+    use std::{
+        fs,
+        path::PathBuf,
+        process::{Command, Stdio},
+        thread,
+        time::{Duration, Instant},
+    };
+    fn fixture() -> PathBuf {
+        let root = PathBuf::from(
+            std::env::var_os("SYSON_COMPOSITION_TEST_ROOT").expect("owned fixture root required"),
+        );
+        assert!(root.is_absolute() && root.starts_with("/workspace") && root.is_dir());
+        assert!(
+            !root
+                .components()
+                .any(|p| p == std::path::Component::ParentDir)
+        );
+        let dir = root.join(format!("rr14-race-{}", std::process::id()));
+        fs::create_dir(&dir).unwrap();
+        dir
+    }
+    fn run(name: &str, case: impl FnOnce()) {
+        if std::env::var("RR14_PRIVATE_RACE_CHILD").ok().as_deref() == Some(name) {
+            case();
+            return;
+        }
+        let mut child = Command::new(std::env::current_exe().unwrap())
+            .args(["--exact", name, "--nocapture", "--test-threads=1"])
+            .env("RR14_PRIVATE_RACE_CHILD", name)
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap();
+        let start = Instant::now();
+        let mut timed_out = false;
+        loop {
+            if child.try_wait().unwrap().is_some() {
+                break;
+            }
+            if start.elapsed() >= Duration::from_secs(2) {
+                timed_out = true;
+                let _ = child.kill();
+                break;
+            }
+            thread::sleep(Duration::from_millis(5));
+        }
+        let output = child.wait_with_output().unwrap();
+        assert!(
+            !timed_out,
+            "private admission race blocked; child killed and waited"
+        );
+        assert!(
+            output.status.success(),
+            "{}{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        assert!(
+            stdout.contains("running 1 test") && stdout.contains("1 passed"),
+            "race child did not execute its exact case: {stdout}"
+        );
+    }
+    fn replace(kind: &str) {
+        let dir = fixture();
+        let target = dir.join("manifest.json");
+        let replacement = dir.join("replacement");
+        fs::write(&target, b"original regular bytes").unwrap();
+        match kind {
+            "fifo" => {
+                let output = Command::new("/usr/bin/mkfifo")
+                    .arg("--")
+                    .arg(&replacement)
+                    .env_clear()
+                    .output()
+                    .unwrap();
+                assert!(output.status.success());
+            }
+            "symlink" => {
+                fs::write(dir.join("referent.json"), b"replacement bytes").unwrap();
+                std::os::unix::fs::symlink("referent.json", &replacement).unwrap();
+            }
+            "regular" => {
+                fs::write(&replacement, b"replacement bytes").unwrap();
+            }
+            _ => unreachable!(),
+        }
+        let result = read_regular(&target, || {
+            fs::rename(&target, dir.join("retained-original.json")).unwrap();
+            fs::rename(&replacement, &target).unwrap();
+        });
+        assert!(result.is_err(), "changed admitted target was accepted");
+        assert_eq!(
+            fs::read(dir.join("retained-original.json")).unwrap(),
+            b"original regular bytes"
+        );
+    }
+    #[test]
+    fn regular_to_fifo_after_admission_refuses_without_blocking() {
+        run(
+            "rr14_open_races::regular_to_fifo_after_admission_refuses_without_blocking",
+            || replace("fifo"),
+        );
+    }
+    #[test]
+    fn regular_to_symlink_after_admission_refuses() {
+        run(
+            "rr14_open_races::regular_to_symlink_after_admission_refuses",
+            || replace("symlink"),
+        );
+    }
+    #[test]
+    fn regular_to_another_inode_after_admission_refuses() {
+        run(
+            "rr14_open_races::regular_to_another_inode_after_admission_refuses",
+            || replace("regular"),
+        );
+    }
 }
