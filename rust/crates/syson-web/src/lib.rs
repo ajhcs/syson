@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: EPL-2.0
 //! Bounded browser authoring UI. Model semantics remain in syson-model.
 #![deny(unsafe_op_in_unsafe_fn)]
+mod bounded_render;
 mod inspector_accessibility;
+use bounded_render::Result as RenderResult;
 pub mod layout_controller;
 pub mod layout_geometry;
 use serde_json::Value;
@@ -9,8 +11,8 @@ use std::cell::RefCell;
 use std::collections::{BTreeMap, BTreeSet};
 use syson_metamodel::ClassifierId;
 use syson_model::{
-    AttributeBlock, AttributeDescriptor, AttributeError, Document, Editor, ElementSummaryRef,
-    NodeIds, ScalarType, Transaction,
+    AttributeBlock, AttributeDescriptor, Document, Editor, ElementSummaryRef, NodeIds, ScalarType,
+    Transaction,
 };
 
 const LIMIT: usize = 1_048_576;
@@ -147,7 +149,7 @@ impl App {
         Ok(candidate)
     }
     fn preview_fits(&self, limit: usize) -> bool {
-        self.render().len() <= limit
+        self.try_render().is_ok_and(|html| html.len() <= limit)
     }
     fn handle(&mut self, request: &Value) -> Result<String, String> {
         self.accessibility.begin();
@@ -458,7 +460,11 @@ impl App {
             _ => Err("Unsupported action.".into()),
         }
     }
+    #[cfg(test)]
     fn render(&self) -> String {
+        self.try_render().expect("finite renderer test fixture")
+    }
+    fn try_render(&self) -> RenderResult<String> {
         let doc = self
             .pending
             .as_ref()
@@ -467,7 +473,7 @@ impl App {
         // Every imported element remains selectable, including literal values and
         // relationship objects. Only the existing bounded kinds get SVG previews.
         let elements = doc.element_summaries();
-        let tree = render_model_navigation(&elements, &self.selected);
+        let tree = render_model_navigation(&elements, &self.selected)?;
         let mut parent_options =
             String::from("<option value=\"\">Document root (package only)</option>");
         let mut definitions = String::from("<option value=\"\">No explicit definition</option>");
@@ -497,14 +503,14 @@ impl App {
                     .map(|p| format!("{},{}", p.x, p.y))
                     .collect::<Vec<_>>()
                     .join(" ");
-                routes.push_str(&format!("<polyline data-canvas-edge=\"{}\" points=\"{route}\" fill=\"none\" stroke=\"#465b6d\" stroke-width=\"2\"/>",escape(&edge.id)));
+                routes.push_str(&format!("<polyline data-canvas-edge=\"{}\" points=\"{route}\" fill=\"none\" stroke=\"#465b6d\" stroke-width=\"2\"/>",escape(&edge.id)?));
             }
         }
         let mut y = 24.;
         for (index, element) in elements.iter().enumerate() {
-            let id = escape(element.element_id);
-            let name = escape(element.name.unwrap_or("(unnamed)"));
-            let class = escape(element.class);
+            let id = escape(element.element_id)?;
+            let name = escape(element.name.unwrap_or("(unnamed)"))?;
+            let class = escape(element.class)?;
             if doc.can_create_in(element.element_id) {
                 parent_options
                     .push_str(&format!("<option value=\"{id}\">{name} · {class}</option>"));
@@ -545,16 +551,17 @@ impl App {
         }
         diagram.push_str(&routes);
         let selected = elements.iter().find(|e| e.element_id == self.selected);
-        let selected_name = escape_textarea(selected.and_then(|e| e.name).unwrap_or(""));
+        let selected_name = escape_textarea(selected.and_then(|e| e.name).unwrap_or(""))?;
         let scalar_inspector = if selected.is_some() {
-            render_scalar_inspector(
+            bounded_render::scalar_inspector(
                 doc,
                 &self.selected,
                 self.accessibility
                     .focus()
                     .strip_prefix("scalar-")
                     .unwrap_or(&self.active_property),
-            )
+                PREVIEW_BYTES,
+            )?
         } else {
             String::new()
         };
@@ -573,8 +580,8 @@ impl App {
             };
             format!(
                 "<h3>{}</h3><details id=\"element-identity\" class=\"identity-details\"><summary>Element identifier</summary><p class=\"element-id\">{}</p></details>{rename_form}{rotate_control}{scalar_inspector}",
-                escape(element.class),
-                escape(element.element_id)
+                escape(element.class)?,
+                escape(element.element_id)?
             )
         } else {
             "<p>Select an element in the model list.</p>".into()
@@ -590,7 +597,7 @@ impl App {
                 .document()
                 .to_json()
                 .unwrap_or_else(|e| e.to_string()),
-        );
+        )?;
         let kinds = creation_kinds();
         if scene.is_none() {
             bottom = bottom.max(y);
@@ -604,33 +611,36 @@ impl App {
             })
             .unwrap_or_default();
         let revision = self.canvas.revision();
-        let geometry = escape_textarea(&self.canvas.export(self.editor.document()));
+        let geometry = escape_textarea(&self.canvas.export(self.editor.document()))?;
         let focus = escape(if self.recovery_focus {
             "name"
         } else {
             self.accessibility.focus()
-        });
-        format!(
+        })?;
+        Ok(format!(
             "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button id=\"model-undo\" type=\"button\" data-action=\"undo\">Undo</button><button id=\"model-redo\" type=\"button\" data-action=\"redo\">Redo</button></nav></header><p id=\"editor-status\" data-editor-status class=\"status {}\" role=\"{}\" aria-live=\"{}\" aria-atomic=\"true\">{}</p><div class=\"layout\" data-inspector-focus=\"{focus}\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2>{tree}</section><section class=\"canvas\" data-canvas-revision=\"{revision}\" {phase}><h2>Diagram preview</h2><p><small>Arrange packages and parts with Layout canvas. Select an element in the model to edit its properties.</small></p><p><button type=\"button\" data-action=\"layout\">Layout canvas</button> <button type=\"button\" data-action=\"canvas_cancel\">Cancel canvas work</button></p><p><button type=\"button\" data-action=\"canvas_undo\">Canvas undo</button> <button type=\"button\" data-action=\"canvas_redo\">Canvas redo</button></p><div class=\"canvas-view-controls\" role=\"group\" aria-label=\"Diagram view\"><button id=\"canvas-actual-size\" type=\"button\" data-canvas-view=\"actual\" aria-pressed=\"true\">Actual size</button><button id=\"canvas-fit\" type=\"button\" data-canvas-view=\"fit\" aria-pressed=\"false\">Fit overview</button></div><p id=\"canvas-view-help\" class=\"canvas-view-help\">Actual size keeps labels readable. Focus the diagram and use arrow keys or scroll to move around. Fit overview shows the whole diagram.</p><div id=\"canvas-viewport\" class=\"canvas-viewport\" data-canvas-viewport data-canvas-view=\"actual\" tabindex=\"0\" role=\"region\" aria-label=\"Diagram viewport\" aria-describedby=\"canvas-view-help\"><svg viewBox=\"{view}\" preserveAspectRatio=\"xMidYMid meet\" aria-hidden=\"true\">{diagram}</svg></div></section><section class=\"panel inspector\" aria-label=\"Element inspector\"><h2 id=\"create-heading\">Create element</h2><form data-action=\"stage\" aria-labelledby=\"create-heading\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button id=\"stage-create\" class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2 id=\"selection-heading\" tabindex=\"-1\">Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details><label for=\"export-geometry\">Canvas geometry export (separate from model)</label><textarea id=\"export-geometry\" readonly spellcheck=\"false\">{geometry}</textarea><details id=\"geometry-details\"><summary>Import canvas geometry</summary><form data-action=\"geometry_import\"><label for=\"import-geometry\">Canvas companion JSON for this exact document</label><textarea id=\"import-geometry\" name=\"json\" required spellcheck=\"false\"></textarea><button type=\"submit\">Import canvas geometry</button></form></details></section>",
             if self.error { "error" } else { "" },
             if self.error { "alert" } else { "status" },
             if self.error { "assertive" } else { "polite" },
-            escape(&self.message)
-        )
+            escape(&self.message)?
+        ))
     }
 }
-fn navigation_button(element: &ElementSummaryRef<'_>, selected: &str) -> String {
-    let id = escape(element.element_id);
-    let name = escape(element.name.unwrap_or("(unnamed)"));
-    let class = escape(element.class);
-    format!(
+fn navigation_button(element: &ElementSummaryRef<'_>, selected: &str) -> RenderResult<String> {
+    let id = escape(element.element_id)?;
+    let name = escape(element.name.unwrap_or("(unnamed)"))?;
+    let class = escape(element.class)?;
+    Ok(format!(
         "<button id=\"select-{id}\" type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button>",
         selected == element.element_id
-    )
+    ))
 }
 /// Nested native lists expose semantic ownership without pretending to implement
 /// ARIA tree arrow-key behavior. Relationship objects remain available separately.
-fn render_model_navigation(elements: &[ElementSummaryRef<'_>], selected: &str) -> String {
+fn render_model_navigation(
+    elements: &[ElementSummaryRef<'_>],
+    selected: &str,
+) -> RenderResult<String> {
     let by_id: BTreeMap<_, _> = elements.iter().map(|e| (e.element_id, e)).collect();
     let relationships: BTreeSet<_> = elements
         .iter()
@@ -681,7 +691,7 @@ fn render_model_navigation(elements: &[ElementSummaryRef<'_>], selected: &str) -
         };
         html.push_str(&format!(
             "<li style=\"--model-depth:{depth}\">{}",
-            navigation_button(element, selected)
+            navigation_button(element, selected)?
         ));
         if let Some(nested) = children.get(&Some(element.element_id)) {
             html.push_str("<ul class=\"tree-children\">");
@@ -705,12 +715,12 @@ fn render_model_navigation(elements: &[ElementSummaryRef<'_>], selected: &str) -
         {
             html.push_str(&format!(
                 "<li>{}</li>",
-                navigation_button(element, selected)
+                navigation_button(element, selected)?
             ));
         }
         html.push_str("</ul></details>");
     }
-    html
+    Ok(html)
 }
 fn common_property(name: &str) -> bool {
     matches!(
@@ -736,13 +746,8 @@ fn preserve_unchanged_text(original: Option<&str>, input: &str) -> String {
 /// original leading LF survives. Encode CR to avoid parser preprocessing;
 /// display HTML's NUL replacement explicitly, retaining original saved bytes
 /// when the unchanged displayed value is submitted.
-fn escape_textarea(input: &str) -> String {
-    format!(
-        "\n{}",
-        escape(input)
-            .replace('\r', "&#13;")
-            .replace('\0', "\u{fffd}")
-    )
+fn escape_textarea(input: &str) -> RenderResult<String> {
+    bounded_render::escaped(input, true, PREVIEW_BYTES)
 }
 fn can_rename(document: &Document, element: &str) -> bool {
     document
@@ -797,119 +802,6 @@ fn parse_scalar(attribute: &AttributeDescriptor, mode: &str, input: &str) -> Res
         None => Err("This property type cannot be edited here.".into()),
     }
 }
-fn property_label(name: &str) -> String {
-    let mut label = String::new();
-    for (index, ch) in name.chars().enumerate() {
-        if index == 0 {
-            label.extend(ch.to_uppercase());
-        } else {
-            if ch.is_uppercase() {
-                label.push(' ');
-            }
-            label.extend(ch.to_lowercase());
-        }
-    }
-    label
-}
-fn stored_state(attribute: &AttributeDescriptor) -> String {
-    match &attribute.value {
-        None => "Not set (no saved value).".into(),
-        Some(Value::Null) => "Explicitly empty (null).".into(),
-        Some(value) => format!("Saved value: {}", escape(&value.to_string())),
-    }
-}
-fn render_scalar_field(attribute: &AttributeDescriptor) -> String {
-    let name = escape(attribute.name);
-    let label = escape(&property_label(attribute.name));
-    let input_id = format!("scalar-{name}");
-    let description = format!("scalar-state-{name}");
-    let text = escape_textarea(
-        attribute
-            .value
-            .as_ref()
-            .and_then(Value::as_str)
-            .unwrap_or(""),
-    );
-    let control = match attribute.value_type.as_ref() {
-        Some(ScalarType::String) => {
-            let rows = if attribute.name == "declaredShortName" {
-                1
-            } else {
-                3
-            };
-            format!(
-                "<textarea id=\"{input_id}\" name=\"value\" rows=\"{rows}\" aria-describedby=\"{description}\">{text}</textarea>"
-            )
-        }
-        Some(ScalarType::Boolean) => {
-            let current = attribute.value.as_ref().and_then(Value::as_bool);
-            format!(
-                "<select id=\"{input_id}\" name=\"value\" aria-describedby=\"{description}\" required><option value=\"\" disabled {}>Choose true or false</option><option value=\"true\" {}>True</option><option value=\"false\" {}>False</option></select>",
-                if current.is_none() { "selected" } else { "" },
-                if current == Some(true) {
-                    "selected"
-                } else {
-                    ""
-                },
-                if current == Some(false) {
-                    "selected"
-                } else {
-                    ""
-                }
-            )
-        }
-        Some(ScalarType::Integer32) | Some(ScalarType::Double) => {
-            let value = attribute
-                .value
-                .as_ref()
-                .filter(|v| v.is_number())
-                .map(Value::to_string)
-                .unwrap_or_default();
-            let bounds = if attribute.value_type == Some(ScalarType::Integer32) {
-                "step=\"1\" min=\"-2147483648\" max=\"2147483647\""
-            } else {
-                "step=\"any\""
-            };
-            format!(
-                "<input type=\"number\" id=\"{input_id}\" name=\"value\" value=\"{}\" {bounds} aria-describedby=\"{description}\" required>",
-                escape(&value)
-            )
-        }
-        Some(ScalarType::Enumeration { literals, .. }) => {
-            let current = attribute.value.as_ref().and_then(Value::as_str);
-            let recognized = current.is_some_and(|value| literals.contains(&value));
-            let mut options = format!(
-                "<option value=\"\" disabled {}>Choose a value</option>",
-                if recognized { "" } else { "selected" }
-            );
-            for literal in literals {
-                options.push_str(&format!(
-                    "<option value=\"{}\" {}>{}</option>",
-                    escape(literal),
-                    if current == Some(*literal) {
-                        "selected"
-                    } else {
-                        ""
-                    },
-                    escape(literal)
-                ));
-            }
-            format!(
-                "<select id=\"{input_id}\" name=\"value\" aria-describedby=\"{description}\" required>{options}</select>"
-            )
-        }
-        None => return String::new(),
-    };
-    let null_option = if attribute.accepts_null() {
-        "<option value=\"null\">Clear value (null)</option>"
-    } else {
-        ""
-    };
-    format!(
-        "<form class=\"scalar-property\" data-action=\"attribute\" data-attribute=\"{name}\" aria-label=\"Edit {label}\"><input type=\"hidden\" name=\"attribute\" value=\"{name}\"><label for=\"{input_id}\">{label}</label><p id=\"{description}\" class=\"property-state\">{}</p>{control}<label for=\"scalar-mode-{name}\">Change for {label}</label><select id=\"scalar-mode-{name}\" name=\"mode\"><option value=\"value\">Set a value</option>{null_option}</select><div class=\"form-actions\"><button id=\"stage-attribute-{name}\" type=\"submit\">Stage {label}</button></div></form>",
-        stored_state(attribute)
-    )
-}
 fn blocked_label(reason: &AttributeBlock) -> &'static str {
     match reason {
         AttributeBlock::Derived => "Calculated value; read only.",
@@ -919,80 +811,14 @@ fn blocked_label(reason: &AttributeBlock) -> &'static str {
         AttributeBlock::UnsupportedType(_) => "This value type cannot be edited here.",
     }
 }
-fn render_scalar_inspector(document: &Document, selected: &str, active_property: &str) -> String {
-    let Ok(inspection) = document.inspect_node(selected) else {
-        return "<p>Properties are unavailable for this element type.</p>".into();
-    };
-    let mut editable = String::new();
-    let mut advanced = String::new();
-    let mut advanced_count = 0;
-    let mut unavailable = String::new();
-    let mut count = 0;
-    for attribute in &inspection.attributes {
-        if let Some(reason) = &attribute.blocked {
-            unavailable.push_str(&format!(
-                "<dt>{}</dt><dd>{} {}</dd>",
-                escape(&property_label(attribute.name)),
-                blocked_label(reason),
-                stored_state(attribute)
-            ));
-            count += 1;
-        } else if common_property(attribute.name) {
-            editable.push_str(&render_scalar_field(attribute));
-        } else {
-            advanced.push_str(&render_scalar_field(attribute));
-            advanced_count += 1;
-        }
-    }
-    for diagnostic in &inspection.diagnostics {
-        let reason = match diagnostic.issue {
-            AttributeError::ReferenceEditUnsupported {
-                containment: true, ..
-            } => "Contains other elements; editing is unavailable.",
-            AttributeError::ReferenceEditUnsupported {
-                containment: false, ..
-            } => "Links to other elements; editing is unavailable.",
-            _ => "This property is unavailable for editing.",
-        };
-        unavailable.push_str(&format!(
-            "<dt>{}</dt><dd>{reason}</dd>",
-            escape(&property_label(&diagnostic.name))
-        ));
-        count += 1;
-    }
-    let advanced = if advanced_count == 0 {
-        String::new()
-    } else {
-        let open = if !common_property(active_property)
-            && inspection
-                .writable_attributes()
-                .any(|a| a.name == active_property)
-        {
-            " open"
-        } else {
-            ""
-        };
-        format!(
-            "<details id=\"advanced-properties\"{open}><summary>More properties ({advanced_count})</summary>{advanced}</details>"
-        )
-    };
-    let inherited_note = if inspection.unresolved_supertypes.is_empty() {
-        ""
-    } else {
-        "<p>Some inherited properties are unavailable.</p>"
-    };
-    format!(
-        "<section aria-label=\"Element properties\"><h3>Properties</h3><p>Stage a property change, then commit or cancel it above.</p>{editable}{advanced}<details id=\"unavailable-properties\"><summary>Read-only and unavailable properties ({count})</summary><dl>{unavailable}</dl></details>{inherited_note}</section>"
-    )
+fn escape(input: &str) -> RenderResult<String> {
+    bounded_render::escaped(input, false, PREVIEW_BYTES)
 }
-fn escape(input: &str) -> String {
-    input
-        .replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-        .replace('"', "&quot;")
-        .replace('\'', "&#39;")
+#[cfg(test)]
+fn render_scalar_field(attribute: &AttributeDescriptor) -> String {
+    bounded_render::scalar_field(attribute, PREVIEW_BYTES).expect("finite scalar test fixture")
 }
+
 thread_local! {static STATE:RefCell<App>=RefCell::new(App::default());static INPUT:RefCell<Vec<u8>>=const{RefCell::new(Vec::new())};static OUTPUT:RefCell<String>=const{RefCell::new(String::new())};}
 // A native download link needs no loader/model substitute. Count canonical model
 // bytes first, then percent-encode directly into one exactly reserved HTML buffer.
@@ -1076,12 +902,13 @@ fn paint() {
     STATE.with(|s| {
         OUTPUT.with(|o| {
             let app = s.borrow();
-            let html = app.render();
-            *o.borrow_mut() = if html.len() > PREVIEW_BYTES {
-                drop(html);
-                recovery_html(&app).unwrap_or_else(|_| recovery_unavailable(&app))
-            } else {
-                html
+            *o.borrow_mut() = match app.try_render() {
+                Ok(html) if html.len() <= PREVIEW_BYTES => html,
+                Ok(html) => {
+                    drop(html);
+                    recovery_html(&app).unwrap_or_else(|_| recovery_unavailable(&app))
+                }
+                Err(_) => recovery_html(&app).unwrap_or_else(|_| recovery_unavailable(&app)),
             };
         })
     });
@@ -1383,7 +1210,7 @@ mod tests {
     }
     #[test]
     fn html_is_escaped_before_model_names_enter_dom_and_export_text() {
-        assert_eq!(escape("<&\"'>"), "&lt;&amp;&quot;&#39;&gt;");
+        assert_eq!(escape("<&\"'>").unwrap(), "&lt;&amp;&quot;&#39;&gt;");
         let mut app = App::default();
         app.handle(&create(0, "<script>alert(1)</script>")).unwrap();
         app.handle(&json!({"action":"commit"})).unwrap();
@@ -2017,7 +1844,7 @@ mod tests {
             .find(|e| e.class == "OwningMembership")
             .unwrap();
         let child = elements.iter().find(|e| e.class == "PartUsage").unwrap();
-        let html = render_model_navigation(&elements, "");
+        let html = render_model_navigation(&elements, "").unwrap();
         let (hierarchy, advanced) = html
             .split_once("<details id=\"model-relationships\"")
             .unwrap();
