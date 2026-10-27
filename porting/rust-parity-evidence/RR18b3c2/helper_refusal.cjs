@@ -70,6 +70,7 @@ assert.ok(inspectorLowerBound > inspectorLimit);
           intersectsViewport: rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth,
           displayed: style.display !== 'none' && style.visibility !== 'hidden'};
       });
+      try {
       await page.goto(url);
       await page.getByRole('heading', {name: 'SysON model editor', exact: true}).waitFor();
       const model = () => page.locator('#export-json').inputValue();
@@ -178,6 +179,38 @@ assert.ok(inspectorLowerBound > inspectorLimit);
         selectedFocus, scalarFocus, bodyTabs, refusalFocus, recoveredFocus, confirmFocus, phases, requests: observed.requests, longTasks: observed.tasks, longTaskSupported: observed.longTaskSupported, errors, warnings,
         scope: 'Expected pending model is a fixture oracle; helper branch inferred from immutable producer and17M inspector lower bound. Whole rendering, viewport focus/glyph and<50ms acceptance remain OPEN.'});
       await session.detach(); await page.close();
+      } catch (error) {
+        // Failure-only native diagnostics; never replace the original assertion.
+        try {
+          const diagnostic = await page.evaluate(() => {
+            const summary = text => {
+              if (typeof text !== 'string') return null;
+              let cr = 0, lf = 0;
+              for (let i = 0; i < text.length; i++) { if (text.charCodeAt(i) === 13) cr++; if (text.charCodeAt(i) === 10) lf++; }
+              return {utf16Units: text.length, carriageReturns: cr, lineFeeds: lf};
+            };
+            const fields = ['scalar-body', 'scalar-declaredShortName', 'name', 'import-json', 'import-geometry'].map(id => {
+              const element = document.getElementById(id);
+              return element ? {id, value: summary(element.value), defaultValue: summary(element.defaultValue),
+                differsFromDefault: element.value !== element.defaultValue,
+                matchesNormalizedDefault: typeof element.defaultValue === 'string' && element.value === element.defaultValue.replace(/\r\n?/g, '\n')} : {id, absent: true};
+            });
+            const status = document.querySelector('#editor-status')?.textContent ?? '';
+            const platformStatus = document.querySelector('[data-platform-error]')?.textContent ?? '';
+            return {fields, status: status.slice(0, 4096), statusTruncated: status.length > 4096,
+              platformStatus: platformStatus.slice(0, 4096), platformStatusTruncated: platformStatus.length > 4096,
+              requests: window.__helperRequests ?? [], requestOverflow: window.__helperRequestOverflow};
+          });
+          diagnostic.focus = await focused(); diagnostic.width = width;
+          diagnostic.originalFailure = String(error).slice(0, 8192); diagnostic.phases = phases;
+          diagnostic.errors = errors; diagnostic.warnings = warnings;
+          diagnostic.requestCounts = diagnostic.requests.reduce((counts, request) => { counts[request.action] = (counts[request.action] ?? 0) + 1; return counts; }, {});
+          try { await page.screenshot({path: path.join(output, `helper-failure-${width}.png`)}); }
+          catch (screenshotError) { diagnostic.screenshotFailure = String(screenshotError).slice(0, 4096); }
+          fs.writeFileSync(path.join(output, `helper-failure-${width}.json`), JSON.stringify(diagnostic, null, 2));
+        } catch (diagnosticError) { console.error('Failure diagnostics unavailable:', diagnosticError); }
+        throw error;
+      }
     }
     assert.equal(results.length, 2);
     fs.writeFileSync(path.join(output, 'helper-refusal.json'), JSON.stringify({status: 'PASS_SELECTED_ACTUAL_HELPER_REFUSAL_CONSUMER', results}, null, 2));
