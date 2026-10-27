@@ -14,6 +14,9 @@ use syson_model::{
 };
 
 const LIMIT: usize = 1_048_576;
+const MODEL_BYTES: usize = 4 * LIMIT;
+const PREVIEW_BYTES: usize = 16 * LIMIT;
+const IMPORTED: &str = "Imported a new document. Previous document history was cleared.";
 #[cfg(test)]
 mod initialized_creation_tests;
 const CREATION_ENTROPY_BYTES: usize = if cfg!(feature = "raw-factory-candidate") {
@@ -68,6 +71,8 @@ struct App {
     error: bool,
     canvas: layout_controller::Canvas,
     accessibility: inspector_accessibility::InspectorAccessibility,
+    discard_confirm: bool,
+    recovery_focus: bool,
 }
 impl Default for App {
     fn default() -> Self {
@@ -80,6 +85,8 @@ impl Default for App {
             error: false,
             canvas: layout_controller::Canvas::default(),
             accessibility: inspector_accessibility::InspectorAccessibility::default(),
+            discard_confirm: false,
+            recovery_focus: false,
         }
     }
 }
@@ -129,8 +136,28 @@ fn ids(request: &Value) -> Result<Vec<NodeIds>, String> {
         .collect()
 }
 impl App {
+    fn imported_candidate(&self, doc: Document) -> Result<Self, String> {
+        let mut candidate = Self {
+            editor: Editor::new(doc),
+            canvas: self.canvas.preview_after_model_change()?,
+            message: IMPORTED.into(),
+            ..Self::default()
+        };
+        candidate.accessibility.finish("import", true, "", false);
+        Ok(candidate)
+    }
+    fn preview_fits(&self, limit: usize) -> bool {
+        self.render().len() <= limit
+    }
     fn handle(&mut self, request: &Value) -> Result<String, String> {
         self.accessibility.begin();
+        self.recovery_focus = false;
+        if !matches!(
+            request["action"].as_str(),
+            Some("discard_document" | "confirm_discard" | "cancel_discard")
+        ) {
+            self.discard_confirm = false;
+        }
         if request["action"].as_str() == Some("attribute") && self.pending.is_none() {
             self.active_property = field(request, "attribute").into();
         }
@@ -145,7 +172,7 @@ impl App {
             if matches!(action, "select" | "import") {
                 self.active_property.clear();
             }
-            if matches!(action, "commit" | "import")
+            if matches!(action, "commit" | "import" | "confirm_discard")
                 || (matches!(action, "undo" | "redo")
                     && result.as_deref() == Ok("History applied."))
                 || self
@@ -337,9 +364,48 @@ impl App {
                     return Err("Commit or cancel the staged change first.".into());
                 }
                 let doc = Document::from_json(field(request, "json")).map_err(|e| e.to_string())?;
-                self.editor = Editor::new(doc);
+                let candidate = self.imported_candidate(doc)?;
+                // RR18a lifecycle admission only. This still renders fully;
+                // RR18b must bound normal HTML allocation before construction.
+                if !candidate.preview_fits(PREVIEW_BYTES) {
+                    return Err("Import preview exceeds 16 MiB. Current document, history and canvas were retained.".into());
+                }
+                self.editor = candidate.editor;
                 self.selected.clear();
-                Ok("Imported a new document. Previous document history was cleared.".into())
+                Ok(IMPORTED.into())
+            }
+            "recover_preview" => {
+                self.canvas.cancel()?;
+                if let Some(tx) = self.pending.take() {
+                    tx.cancel();
+                }
+                self.selected.clear();
+                self.active_property.clear();
+                self.recovery_focus = true;
+                Ok("Committed view recovered. Staged change was discarded; model history remains available.".into())
+            }
+            "discard_document" => {
+                self.discard_confirm = true;
+                Ok("Confirm discard in the recovery controls; this cannot be undone.".into())
+            }
+            "cancel_discard" => {
+                self.discard_confirm = false;
+                Ok("Discard cancelled. Committed data remains unchanged.".into())
+            }
+            "confirm_discard" => {
+                if !self.discard_confirm {
+                    return Err("Choose Discard current document first.".into());
+                }
+                self.canvas.preview_after_model_change()?;
+                if let Some(tx) = self.pending.take() {
+                    tx.cancel();
+                }
+                self.editor = Editor::new(Document::empty());
+                self.selected.clear();
+                self.active_property.clear();
+                self.discard_confirm = false;
+                self.recovery_focus = true;
+                Ok("Document and history discarded. Create or import a new document.".into())
             }
             "layout" | "rotate" => {
                 if self.pending.is_some() {
@@ -548,7 +614,11 @@ impl App {
             .unwrap_or_default();
         let revision = self.canvas.revision();
         let geometry = escape_textarea(&self.canvas.export(self.editor.document()));
-        let focus = escape(self.accessibility.focus());
+        let focus = escape(if self.recovery_focus {
+            "name"
+        } else {
+            self.accessibility.focus()
+        });
         format!(
             "<header><h1>SysON model editor</h1><nav class=\"toolbar\" aria-label=\"Model history\"><button id=\"model-undo\" type=\"button\" data-action=\"undo\">Undo</button><button id=\"model-redo\" type=\"button\" data-action=\"redo\">Redo</button></nav></header><p id=\"editor-status\" data-editor-status class=\"status {}\" role=\"{}\" aria-live=\"{}\" aria-atomic=\"true\">{}</p><div class=\"layout\" data-inspector-focus=\"{focus}\"><section class=\"panel\" aria-label=\"Model elements\"><h2>Model</h2>{tree}</section><section class=\"canvas\" data-canvas-revision=\"{revision}\" {phase}><h2>Diagram preview</h2><p><small>Arrange packages and parts with Layout canvas. Select an element in the model to edit its properties.</small></p><p><button type=\"button\" data-action=\"layout\">Layout canvas</button> <button type=\"button\" data-action=\"canvas_cancel\">Cancel canvas work</button></p><p><button type=\"button\" data-action=\"canvas_undo\">Canvas undo</button> <button type=\"button\" data-action=\"canvas_redo\">Canvas redo</button></p><div class=\"canvas-view-controls\" role=\"group\" aria-label=\"Diagram view\"><button id=\"canvas-actual-size\" type=\"button\" data-canvas-view=\"actual\" aria-pressed=\"true\">Actual size</button><button id=\"canvas-fit\" type=\"button\" data-canvas-view=\"fit\" aria-pressed=\"false\">Fit overview</button></div><p id=\"canvas-view-help\" class=\"canvas-view-help\">Actual size keeps labels readable. Focus the diagram and use arrow keys or scroll to move around. Fit overview shows the whole diagram.</p><div id=\"canvas-viewport\" class=\"canvas-viewport\" data-canvas-viewport data-canvas-view=\"actual\" tabindex=\"0\" role=\"region\" aria-label=\"Diagram viewport\" aria-describedby=\"canvas-view-help\"><svg viewBox=\"{view}\" preserveAspectRatio=\"xMidYMid meet\" aria-hidden=\"true\">{diagram}</svg></div></section><section class=\"panel inspector\" aria-label=\"Element inspector\"><h2 id=\"create-heading\">Create element</h2><form data-action=\"stage\" aria-labelledby=\"create-heading\"><label for=\"kind\">Element kind</label><select id=\"kind\" name=\"kind\">{kinds}</select><label for=\"parent\">Parent</label><select id=\"parent\" name=\"parent\">{parent_options}</select><label for=\"name\">Name</label><input id=\"name\" name=\"name\" required><label for=\"definition\">Definition for part usage</label><select id=\"definition\" name=\"definition\">{definitions}</select><div class=\"form-actions\"><button id=\"stage-create\" class=\"primary\" type=\"submit\">Stage creation</button></div></form>{pending}<hr><h2 id=\"selection-heading\" tabindex=\"-1\">Selection</h2>{inspector}</section></div><section class=\"file-panel\"><h2>Document JSON</h2><p>Copy the committed EMF JSON below to export. Import opens a new document and clears the current history.</p><label for=\"export-json\">Committed document export</label><textarea id=\"export-json\" readonly spellcheck=\"false\">{json}</textarea><details><summary>Import another document</summary><form data-action=\"import\"><label for=\"import-json\">EMF JSON document</label><textarea id=\"import-json\" name=\"json\" required spellcheck=\"false\"></textarea><div class=\"form-actions\"><button type=\"submit\">Import as new document and clear history</button></div></form></details><label for=\"export-geometry\">Canvas geometry export (separate from model)</label><textarea id=\"export-geometry\" readonly spellcheck=\"false\">{geometry}</textarea><details id=\"geometry-details\"><summary>Import canvas geometry</summary><form data-action=\"geometry_import\"><label for=\"import-geometry\">Canvas companion JSON for this exact document</label><textarea id=\"import-geometry\" name=\"json\" required spellcheck=\"false\"></textarea><button type=\"submit\">Import canvas geometry</button></form></details></section>",
             if self.error { "error" } else { "" },
@@ -936,13 +1006,97 @@ fn escape(input: &str) -> String {
         .replace('\'', "&#39;")
 }
 thread_local! {static STATE:RefCell<App>=RefCell::new(App::default());static INPUT:RefCell<Vec<u8>>=const{RefCell::new(Vec::new())};static OUTPUT:RefCell<String>=const{RefCell::new(String::new())};}
+// A native download link needs no loader/model substitute. Count canonical model
+// bytes first, then percent-encode directly into one exactly reserved HTML buffer.
+fn recovery_controls(app: &App) -> String {
+    let confirm = if app.discard_confirm {
+        "<p>Discard this document and all history? This cannot be undone.</p><button id=\"confirm-discard\" type=\"button\" data-action=\"confirm_discard\">Confirm discard document</button><button type=\"button\" data-action=\"cancel_discard\">Keep document</button>"
+    } else {
+        "<button type=\"button\" data-action=\"discard_document\">Discard current document</button>"
+    };
+    let focus = if app.discard_confirm {
+        "confirm-discard"
+    } else {
+        "recover-preview"
+    };
+    format!(
+        "<p>Export excludes staged changes. Recovering discards the staged change and selection.</p><section data-inspector-focus=\"{focus}\"><button id=\"recover-preview\" type=\"button\" data-action=\"recover_preview\">Recover committed view (discard staged change)</button><button type=\"button\" data-action=\"undo\">Undo last committed edit</button>{confirm}</section>"
+    )
+}
+fn recovery_unavailable(app: &App) -> String {
+    format!(
+        "<h1>SysON model editor</h1><p id=\"editor-status\" data-editor-status class=\"error\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">Preview/export unavailable. Recover or explicitly discard this document.</p>{}",
+        recovery_controls(app)
+    )
+}
+fn recovery_html(app: &App) -> Result<String, String> {
+    use std::io::Write;
+    let prefix = "<h1>SysON model editor</h1><p id=\"editor-status\" data-editor-status class=\"error\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">Preview exceeds the 16 MiB limit. Committed model data remains in this tab.</p><a id=\"recovery-export\" style=\"display:inline-block;min-height:44px;padding:12px;box-sizing:border-box\" download=\"model.json\" href=\"data:application/json;charset=utf-8,";
+    let suffix = format!(
+        "\">Download committed model JSON</a>{}",
+        recovery_controls(app)
+    );
+    let doc = app.editor.document();
+    let size = doc
+        .json_size(MODEL_BYTES, || false)
+        .map_err(|e| e.to_string())?;
+    let capacity = size
+        .checked_mul(3)
+        .and_then(|n| n.checked_add(prefix.len() + suffix.len()))
+        .filter(|n| *n <= PREVIEW_BYTES)
+        .ok_or("Recovery export exceeds preview limit")?;
+    let mut output = String::new();
+    output
+        .try_reserve_exact(capacity)
+        .map_err(|_| "Recovery export allocation refused")?;
+    output.push_str(prefix);
+    struct Encoded<'a> {
+        output: &'a mut String,
+        remaining: usize,
+    }
+    impl Write for Encoded<'_> {
+        fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+            if bytes.len() > self.remaining {
+                return Err(std::io::Error::other("Recovery export size changed"));
+            }
+            self.remaining -= bytes.len();
+            const HEX: &[u8; 16] = b"0123456789ABCDEF";
+            for byte in bytes {
+                self.output.push('%');
+                self.output.push(HEX[(byte >> 4) as usize] as char);
+                self.output.push(HEX[(byte & 15) as usize] as char);
+            }
+            Ok(bytes.len())
+        }
+        fn flush(&mut self) -> std::io::Result<()> {
+            Ok(())
+        }
+    }
+    doc.write_json(
+        &mut Encoded {
+            output: &mut output,
+            remaining: size,
+        },
+        MODEL_BYTES,
+        || false,
+    )
+    .map_err(|e| e.to_string())?;
+    output.push_str(&suffix);
+    Ok(output)
+}
 fn paint() {
-    STATE.with(|s| OUTPUT.with(|o| {
-        let html=s.borrow().render();
-        *o.borrow_mut()=if html.len() > 16 * LIMIT {
-            "<h1>SysON model editor</h1><p id=\"editor-status\" data-editor-status role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">This model exceeds the 16 MiB preview output limit. Model data remains in tab memory.</p><button type=\"button\" data-action=\"undo\">Undo last edit</button>".into()
-        } else {html};
-    }));
+    STATE.with(|s| {
+        OUTPUT.with(|o| {
+            let app = s.borrow();
+            let html = app.render();
+            *o.borrow_mut() = if html.len() > PREVIEW_BYTES {
+                drop(html);
+                recovery_html(&app).unwrap_or_else(|_| recovery_unavailable(&app))
+            } else {
+                html
+            };
+        })
+    });
 }
 #[unsafe(no_mangle)]
 pub extern "C" fn initialize() {
@@ -1018,6 +1172,91 @@ mod tests {
     use serde_json::json;
     fn create(seed: u8, name: &str) -> Value {
         json!({"action":"stage","fields":{"kind":"package","name":name,"parent":""},"entropy":(0..96).map(|i|(i as u8).wrapping_add(seed)).collect::<Vec<_>>()})
+    }
+    #[test]
+    fn recovery_uri_retains_model_bytes_unicode_cr_lf_and_literal_numbers() {
+        let empty = Document::empty().to_json().unwrap();
+        let raw = r#"{"opaque":{"n":-0,"text":"雪\n\r&<","number":{"$serde_json::private::Number":"123"}},"#.to_owned() + empty.strip_prefix('{').unwrap();
+        let app = App {
+            editor: Editor::new(Document::from_json(&raw).unwrap()),
+            ..App::default()
+        };
+        let expected = app.editor.document().to_json().unwrap();
+        let html = recovery_html(&app).unwrap();
+        assert!(html.len() <= PREVIEW_BYTES);
+        let uri = html
+            .split("charset=utf-8,")
+            .nth(1)
+            .unwrap()
+            .split('"')
+            .next()
+            .unwrap();
+        assert_eq!(uri.len() % 3, 0);
+        let bytes: Vec<u8> = uri
+            .as_bytes()
+            .as_chunks::<3>()
+            .0
+            .iter()
+            .map(|chunk| {
+                assert_eq!(chunk[0], b'%');
+                u8::from_str_radix(std::str::from_utf8(&chunk[1..]).unwrap(), 16).unwrap()
+            })
+            .collect();
+        assert_eq!(bytes, expected.as_bytes());
+        assert!(expected.contains("\"n\": -0"));
+        assert!(expected.contains("\\n\\r"));
+    }
+    #[test]
+    fn import_candidate_matches_final_presentation_and_inclusive_admission() {
+        let mut app = App::default();
+        app.canvas.cancel().unwrap();
+        let candidate = app.imported_candidate(Document::empty()).unwrap();
+        let expected = candidate.render();
+        assert!(candidate.preview_fits(expected.len()));
+        assert!(!candidate.preview_fits(expected.len() - 1));
+        app.message = app
+            .handle(
+                &json!({"action":"import","fields":{"json":Document::empty().to_json().unwrap()}}),
+            )
+            .unwrap();
+        assert_eq!(app.render(), expected);
+    }
+    #[test]
+    fn exhausted_canvas_refuses_import_and_discard_before_editor_or_history_changes() {
+        let mut app = App::default();
+        app.handle(&create(0, "Before")).unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        app.selected = app.editor.document().elements()[0].element_id.clone();
+        let selected = app.selected.clone();
+        let before = app.editor.document().clone();
+        app.canvas = layout_controller::Canvas::with_epoch_for_test(u64::MAX);
+        assert!(
+            app.handle(
+                &json!({"action":"import","fields":{"json":Document::empty().to_json().unwrap()}})
+            )
+            .is_err()
+        );
+        assert_eq!(app.editor.document(), &before);
+        assert_eq!(app.selected, selected);
+        assert_eq!(app.canvas.revision(), u64::MAX.to_string());
+        app.discard_confirm = true;
+        assert!(app.handle(&json!({"action":"confirm_discard"})).is_err());
+        assert_eq!(app.editor.document(), &before);
+        assert!(app.editor.undo());
+        assert_ne!(app.editor.document(), &before);
+    }
+    #[test]
+    fn export_error_recovery_keeps_discard_confirmation_and_cancel_reachable() {
+        let mut app = App {
+            discard_confirm: true,
+            ..App::default()
+        };
+        let html = recovery_unavailable(&app);
+        assert!(html.contains("data-action=\"confirm_discard\""));
+        assert!(html.contains("data-action=\"cancel_discard\""));
+        app.handle(&json!({"action":"cancel_discard"})).unwrap();
+        assert!(!recovery_unavailable(&app).contains("data-action=\"confirm_discard\""));
+        assert!(app.handle(&json!({"action":"confirm_discard"})).is_err());
     }
     #[test]
     fn inspector_focus_follows_real_staging_without_changing_committed_data() {

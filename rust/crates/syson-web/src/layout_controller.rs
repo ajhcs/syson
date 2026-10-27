@@ -35,6 +35,22 @@ impl Canvas {
             .ok_or("Canvas request identity exhausted.")?;
         Ok(())
     }
+    pub(crate) fn preview_after_model_change(&self) -> Result<Self, String> {
+        Ok(Self {
+            epoch: self
+                .epoch
+                .checked_add(1)
+                .ok_or("Canvas request identity exhausted.")?,
+            ..Self::default()
+        })
+    }
+    #[cfg(test)]
+    pub(super) fn with_epoch_for_test(epoch: u64) -> Self {
+        Self {
+            epoch,
+            ..Self::default()
+        }
+    }
     pub fn revision(&self) -> String {
         self.epoch.to_string()
     }
@@ -51,11 +67,9 @@ impl Canvas {
         })
     }
     pub fn scene(&self, doc: &Document) -> Option<&Scene> {
-        let model = doc.to_json().ok()?;
-        self.current
-            .as_ref()
-            .filter(|f| f.model == model)
-            .map(|f| &f.scene)
+        let frame = self.current.as_ref()?;
+        let model = doc.to_json_bounded(BYTE_LIMIT, || false).ok()?;
+        (frame.model == model).then_some(&frame.scene)
     }
     pub fn cancel(&mut self) -> Result<(), String> {
         self.bump()?;
@@ -83,7 +97,9 @@ impl Canvas {
         if revision != self.revision() {
             return Err("The document or selection changed before label measurement completed. Request layout again.".into());
         }
-        let model = doc.to_json().map_err(|e| e.to_string())?;
+        let model = doc
+            .to_json_bounded(BYTE_LIMIT, || false)
+            .map_err(|e| e.to_string())?;
         if model.len() > BYTE_LIMIT {
             return Err("This canvas request exceeds its document or selection limit.".into());
         }
@@ -170,7 +186,11 @@ impl Canvas {
         else {
             return Ok(false);
         };
-        if p.frame.model != doc.to_json().map_err(|e| e.to_string())? {
+        if p.frame.model
+            != doc
+                .to_json_bounded(BYTE_LIMIT, || false)
+                .map_err(|e| e.to_string())?
+        {
             self.cancel()?;
             return Ok(false);
         }
@@ -195,7 +215,9 @@ impl Canvas {
         Ok(true)
     }
     pub fn history(&mut self, redo: bool, doc: &Document) -> Result<bool, String> {
-        let model = doc.to_json().map_err(|e| e.to_string())?;
+        let model = doc
+            .to_json_bounded(BYTE_LIMIT, || false)
+            .map_err(|e| e.to_string())?;
         let next = if redo {
             self.redo.last()
         } else {
@@ -222,14 +244,17 @@ impl Canvas {
         Ok(true)
     }
     pub fn export(&self, doc: &Document) -> String {
-        let Ok(model) = doc.to_json() else {
+        let Some(frame) = self.current.as_ref() else {
             return String::new();
         };
-        self.current
-            .as_ref()
-            .filter(|f| f.model == model)
-            .map(encode)
-            .unwrap_or_default()
+        let Ok(model) = doc.to_json_bounded(BYTE_LIMIT, || false) else {
+            return String::new();
+        };
+        if frame.model == model {
+            encode(frame)
+        } else {
+            String::new()
+        }
     }
     pub fn import(&mut self, doc: &Document, input: &str) -> Result<(), String> {
         if input.len() > BYTE_LIMIT {
@@ -237,7 +262,9 @@ impl Canvas {
         }
         let raw: Value = serde_json::from_str(input).map_err(|_| "Canvas JSON is invalid.")?;
         fields(&raw, &["version", "model", "nodes", "edges"])?;
-        let model = doc.to_json().map_err(|e| e.to_string())?;
+        let model = doc
+            .to_json_bounded(BYTE_LIMIT, || false)
+            .map_err(|e| e.to_string())?;
         if raw["version"].as_u64() != Some(1) || raw["model"].as_str() != Some(&model) {
             return Err("Canvas JSON belongs to a different committed document or version.".into());
         }
