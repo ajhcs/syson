@@ -1,0 +1,97 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Manual literal oracles through the real preparation and wire consumers.
+use serde_json::{Map, Value};
+use std::collections::HashMap;
+use syson_migration_pipeline::Resolver;
+use syson_migrations::{b25a, b25b, b25c, b25d};
+use syson_persistence::{DIAGRAM_VERSION, REFERENCES_VERSION, ResolvedElement};
+use syson_project_preparation::{
+    PreparedProject, ProjectInput, RepresentationInput, SemanticInput, SemanticVersions, prepare,
+};
+use syson_project_wire::{decode, encode};
+#[derive(Default)]
+struct Snapshot(Vec<String>);
+impl Resolver for Snapshot {
+    fn resolve(&mut self, id: &str) -> Result<Option<ResolvedElement>, String> {
+        self.0.push(id.into());
+        Ok(None)
+    }
+}
+fn input(case: &str) -> ProjectInput {
+    // Only the unchanged ordinary fixture wrapper crosses a generic parser.
+    // Expected marker objects below are constructed manually, never parsed.
+    let packet: Value = serde_json::from_str(include_str!(
+        "../../../../porting/rust-parity-evidence/C03b/project-fixtures.json"
+    )).unwrap();
+    let rows = packet["cases"].as_array().unwrap();
+    let value = &rows.iter().find(|row| row["id"] == case).unwrap()["input"];
+    ProjectInput {
+        documents: value["documents"].as_array().unwrap().iter().map(|d| SemanticInput {
+            json: d["json"].as_str().unwrap().into(),
+            versions: SemanticVersions::default(), references_version: None,
+        }).collect(),
+        representations: value["representations"].as_array().unwrap().iter().map(|r| RepresentationInput {
+            kind: r["kind"].as_str().unwrap().into(), json: r["json"].as_str().unwrap().into(),
+            control_version: r["control_version"].as_str().map(str::to_owned),
+            diagram_version: r["diagram_version"].as_str().map(str::to_owned),
+        }).collect(),
+    }
+}
+fn object(key: &str, text: &str) -> Value {
+    let mut map = Map::new();
+    map.insert(key.into(), Value::String(text.into()));
+    Value::Object(map)
+}
+fn inject(raw: &str, members: &str) -> String {
+    format!("{{{members},{}", raw.strip_prefix('{').unwrap())
+}
+fn ids() -> HashMap<String, String> {
+    HashMap::from([("old".into(), "new".into()), ("new".into(), "must-not-replay".into())])
+}
+fn roundtrip(input: &ProjectInput) -> PreparedProject {
+    let before = input.clone();
+    let mut resolver = Snapshot::default();
+    let prepared = prepare(input, &ids(), &mut resolver).unwrap();
+    assert_eq!(resolver.0, ["sysmllibrary:/Types#old", "old"]);
+    let wire = encode(&prepared).unwrap();
+    let decoded = decode(&wire).unwrap();
+    assert_eq!(&decoded, prepared.wire());
+    let mut replay_resolver = Snapshot::default();
+    let replay = prepare(&decoded, &ids(), &mut replay_resolver).unwrap();
+    assert_eq!(replay, prepared);
+    assert!(replay_resolver.0.is_empty());
+    assert_eq!(encode(&replay).unwrap(), wire);
+    assert_eq!(input, &before);
+    let doc = &prepared.wire().documents[0];
+    assert_eq!(doc.versions.connector.as_deref(), Some(b25b::VERSION));
+    assert_eq!(doc.versions.annotation.as_deref(), Some(b25a::VERSION));
+    assert_eq!(doc.versions.view.as_deref(), Some(b25c::VERSION));
+    assert_eq!(doc.references_version.as_deref(), Some(REFERENCES_VERSION));
+    let rep = &prepared.wire().representations[0];
+    assert_eq!(rep.control_version.as_deref(), Some(b25d::VERSION));
+    assert_eq!(rep.diagram_version.as_deref(), Some(DIAGRAM_VERSION));
+    let doc = &prepared.project().documents[0].document;
+    assert_eq!(doc.element("typing-semantic").unwrap()["data"]["type"], "sysml:Type sysmllibrary:/Types#new");
+    assert_eq!(doc.element("typing-semantic").unwrap()["data"]["typedFeature"], "usage-node");
+    prepared
+}
+#[test]
+fn semantic_preflight_accepts_non_numeric_private_number_object_through_wire_replay() {
+    let mut input = input("combined");
+    input.documents[0].json = inject(&input.documents[0].json,
+        r#""literal":{"$serde_json::private::Number":"literal text, not a number"},"nested":{"literal":{"$serde_json::private::RawValue":"{\"trap\":true}"}}"#);
+    let prepared = roundtrip(&input);
+    let value = prepared.project().documents[0].document.value();
+    assert_eq!(value["literal"], object("$serde_json::private::Number", "literal text, not a number"));
+    assert_eq!(value["nested"]["literal"], object("$serde_json::private::RawValue", r#"{"trap":true}"#));
+}
+#[test]
+fn representation_literal_numeric_lookalike_stays_an_object_through_wire_replay() {
+    let mut input = input("combined");
+    input.representations[0].json = inject(&input.representations[0].json,
+        r#""literal":{"$serde_json::private::Number":"123"},"nested":{"literal":{"$serde_json::private::RawValue":"{\"trap\":true}"}}"#);
+    let prepared = roundtrip(&input);
+    let value = &prepared.project().representations[0].content;
+    assert_eq!(value["literal"], object("$serde_json::private::Number", "123"));
+    assert_eq!(value["nested"]["literal"], object("$serde_json::private::RawValue", r#"{"trap":true}"#));
+}
