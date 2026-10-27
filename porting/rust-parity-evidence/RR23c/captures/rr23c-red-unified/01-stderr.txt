@@ -1,0 +1,39 @@
+   Compiling serde_core v1.0.229
+   Compiling serde v1.0.229
+   Compiling serde_json v1.0.151
+   Compiling syson-json-value v0.1.0 (/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-red-unified/source/rust/crates/syson-json-value)
+   Compiling syson-native-http-contract v0.1.0 (/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-red-unified/source/rust/tools/native-http-contract)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.68s
+     Running tests/rr23c_literal.rs (/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/deps/rr23c_literal-fde6f1a65492f1a8)
+
+thread 'mapping_number_marker_remains_an_object' (1049086) panicked at tests/rr23c_literal.rs:20:5:
+assertion `left == right` failed
+  left: Number(123)
+ right: Object {"$serde_json::private::Number": String("123")}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'mapping_numeric_tokens_keep_exact_source_spelling' (1049087) panicked at tests/rr23c_literal.rs:44:9:
+assertion `left == right` failed
+  left: "0"
+ right: "-0"
+
+thread 'mapping_raw_marker_keeps_its_string_without_injecting_content' (1049088) panicked at tests/rr23c_literal.rs:20:5:
+assertion `left == right` failed
+  left: Object {"text": String("雪😀"), "trap": Array [Bool(true)]}
+ right: Object {"$serde_json::private::RawValue": String("{\"trap\":[true],\"text\":\"雪😀\"}")}
+
+thread 'probe_number_marker_remains_an_object' (1049089) panicked at tests/rr23c_literal.rs:20:5:
+assertion `left == right` failed
+  left: Number(123)
+ right: Object {"$serde_json::private::Number": String("123")}
+
+thread 'probe_numeric_tokens_keep_exact_source_spelling' (1049090) panicked at tests/rr23c_literal.rs:44:9:
+assertion `left == right` failed
+  left: "0"
+ right: "-0"
+
+thread 'probe_raw_marker_keeps_its_string_without_injecting_content' (1049091) panicked at tests/rr23c_literal.rs:20:5:
+assertion `left == right` failed
+  left: Object {"text": String("雪😀"), "trap": Array [Bool(true)]}
+ right: Object {"$serde_json::private::RawValue": String("{\"trap\":[true],\"text\":\"雪😀\"}")}
+error: test failed, to rerun pass `--test rr23c_literal`

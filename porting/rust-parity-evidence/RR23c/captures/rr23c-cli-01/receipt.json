@@ -1,0 +1,123 @@
+{
+  "unit": "RR23c",
+  "status": "PASS_ACTUAL_READER_CLI;_NO_FRESH_NATIVE_EPOCH",
+  "commands": [
+    {
+      "name": "native-mappings",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/syson-native-http-contract",
+        "mappings",
+        "/workspace/worktrees/builderbob/syson/rr23c-http-literals/rust/tools/native-http-contract/tests/fixtures/native-mappings.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "native-probes",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/syson-native-http-contract",
+        "probes",
+        "/workspace/worktrees/builderbob/syson/rr23c-http-literals/rust/tools/native-http-contract/tests/fixtures/native-probes.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "manifest",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/syson-native-http-contract",
+        "--probes"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "mappings-literals",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/syson-native-http-contract",
+        "mappings",
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/mappings-literals.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "probes-literals",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/syson-native-http-contract",
+        "probes",
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/probes-literals.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "zero-body",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/syson-native-http-contract",
+        "probes",
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/zero-body.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "typed-handler-marker",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/syson-native-http-contract",
+        "mappings",
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/handler-marker.json"
+      ],
+      "exit_code": 1
+    },
+    {
+      "name": "typed-context-marker",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/build/target/debug/syson-native-http-contract",
+        "probes",
+        "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/context-marker.json"
+      ],
+      "exit_code": 1
+    }
+  ],
+  "inputs": {
+    "/workspace/worktrees/builderbob/syson/rr23c-http-literals/rust/tools/native-http-contract/tests/fixtures/native-mappings.json": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+    "/workspace/worktrees/builderbob/syson/rr23c-http-literals/rust/tools/native-http-contract/tests/fixtures/native-probes.json": "236e82df3cdb421fe4acee8bf36ce032aad7ae106ab2f208c1b6b0f5f827ddbf",
+    "/workspace/worktrees/builderbob/syson/rr23c-http-literals/porting/rust-parity-evidence/C01f/probes.json": "ea79840be51da54a668d560615bd235673466f71bdfd3e015c92a03e459ab400",
+    "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/mappings-literals.json": "ed111a9b02f631cac7be34d96079b7aaf6c1ae3106919bc09ec4b2f7e640125b",
+    "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/probes-literals.json": "d254c27d4fb7c137de5816fb27cc69bbbc2d18359a9c7025e345ca65ecec0dcc",
+    "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/zero-body.json": "f5138ee2a0d24c8790f5088a74f76cbc4d3eca60170e3cf7fec6906c09e954cd",
+    "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/handler-marker.json": "a345ca95bf4fa03da242434cbba87e1f82c9e1aaa210d95d5b7fac7a38012a0a",
+    "/workspace/build/builderbob/syson-rereview-batch7-20261027/rr23c-cli-01/scratch/context-marker.json": "e4ed1f5059dd75f9de251772352e0762c66e60a51670e7eed00b9f4446012151"
+  },
+  "native_epoch": "NOT_RUN;PRESERVED_CAPTURE_ONLY",
+  "executable_sha256": "e2d6bf128f2054b8cbba5e1c5053ebe9e88e356f59d6914b7c3fdea217ad00e8",
+  "native_mappings_summary": {
+    "contexts": 1,
+    "handlers": 54,
+    "mvc_handlers": 33
+  },
+  "native_probes_summary": {
+    "probes": 22,
+    "statuses": {
+      "absent-element": 404,
+      "absent-elements": 404,
+      "absent-project": 404,
+      "cors-allowed": 200,
+      "cors-denied": 403,
+      "empty-body": 200,
+      "graphql-get": 200,
+      "graphql-head": 200,
+      "graphql-options": 200,
+      "invalid-commit": 200,
+      "invalid-field-graphql-json": 200,
+      "invalid-field-json": 200,
+      "invalid-syntax-html": 200,
+      "invalid-syntax-json": 200,
+      "malformed-json": 200,
+      "missing-html": 200,
+      "missing-json": 200,
+      "missing-query": 200,
+      "projects-get": 200,
+      "projects-head": 200,
+      "projects-options": 200,
+      "wrong-content-type": 200
+    }
+  },
+  "observed_status_200_frontend_shells": 9,
+  "source_inputs_unchanged": true
+}

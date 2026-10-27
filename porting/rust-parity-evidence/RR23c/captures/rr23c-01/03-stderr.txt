@@ -1,0 +1,19 @@
+    Checking serde_core v1.0.229
+    Checking zmij v1.0.23
+    Checking itoa v1.0.18
+    Checking memchr v2.8.3
+    Checking serde_json v1.0.151
+    Checking serde v1.0.229
+    Checking syson-json-value v0.1.0 (/workspace/worktrees/builderbob/syson/rr23c-http-literals/rust/crates/syson-json-value)
+    Checking syson-native-http-contract v0.1.0 (/workspace/worktrees/builderbob/syson/rr23c-http-literals/rust/tools/native-http-contract)
+error: this creates an owned instance just for comparison
+   --> tests/rr23c_literal.rs:227:22
+    |
+227 |             .any(|v| v["response"]["body_bytes"].to_string() == "-0")
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try: `v["response"]["body_bytes"]`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#cmp_owned
+    = note: `-D clippy::cmp-owned` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::cmp_owned)]`
+
+error: could not compile `syson-native-http-contract` (test "rr23c_literal") due to 1 previous error
