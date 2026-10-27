@@ -71,8 +71,25 @@ try {
     }
     return bytes;
   }
+  // Native textarea values normalize CRLF and lone CR to LF; defaultValue
+  // retains CR decoded from character references. Compare without allocating
+  // another model-sized normalized String before the draft quota is checked.
+  function sameTextareaDefault(value, initial) {
+    if (value === initial) return true;
+    let current = 0;
+    for (let index = 0; index < initial.length; index++) {
+      let unit = initial.charCodeAt(index);
+      if (unit === 13) {
+        if (initial.charCodeAt(index + 1) === 10) index++;
+        unit = 10;
+      }
+      if (value.charCodeAt(current++) !== unit) return false;
+    }
+    return current === value.length;
+  }
   function rememberField(element) {
     if (element === document.activeElement) return true;
+    if (element.tagName === 'TEXTAREA') return !sameTextareaDefault(element.value, element.defaultValue);
     if (element.tagName !== 'SELECT') return element.value !== element.defaultValue
       || ('checked' in element && element.checked !== element.defaultChecked);
     // Creation selections remain presentation choices even when native defaults
