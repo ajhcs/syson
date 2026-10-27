@@ -1,0 +1,11 @@
+   Compiling syson-json-value v0.1.0 (/workspace/worktrees/builderbob/syson/rr03-catalogue-literal/rust/crates/syson-json-value)
+   Compiling syson-native-library-catalog v0.1.0 (/workspace/worktrees/builderbob/syson/rr03-catalogue-literal/rust/tools/native-library-catalog)
+error: invalid format string: unmatched `}` found
+  --> tests/rr03_regression.rs:52:57
+   |
+52 |             format!(r#"{{"other":false,"{marker}":{node}}"#),
+   |                                                         ^ unmatched `}` in format string
+   |
+   = note: if you intended to print `}`, you can escape it using `}}`
+
+error: could not compile `syson-native-library-catalog` (test "rr03_regression") due to 1 previous error
