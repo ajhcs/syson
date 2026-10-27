@@ -1,0 +1,20 @@
+[package]
+name = "syson-rr23-joint-consumer"
+version = "0.1.0"
+edition = "2024"
+license = "EPL-2.0"
+publish = false
+
+[workspace]
+
+[dependencies]
+serde_json = { version = "=1.0.151", features = ["arbitrary_precision", "raw_value"] }
+syson-json-value = { path = "../../../../rust/crates/syson-json-value" }
+syson-native-graphql-contract = { path = "../../../../rust/tools/native-graphql-contract" }
+syson-native-db-contract = { path = "../../../../rust/tools/native-db-contract" }
+syson-native-http-contract = { path = "../../../../rust/tools/native-http-contract" }
+syson-native-project-templates = { path = "../../../../rust/tools/native-project-templates" }
+
+[[test]]
+name = "joint"
+path = "tests/joint.rs"
