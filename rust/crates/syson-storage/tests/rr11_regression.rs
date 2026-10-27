@@ -245,6 +245,7 @@ signal.signal(signal.SIGALRM,deadline); signal.alarm(10)
 original=sqlite3.connect
 class Connection:
     def __init__(self,db): self.db=db
+    def setlimit(self,*args): return self.db.setlimit(*args)
     def __enter__(self): self.db.__enter__(); return self
     def __exit__(self,*args): return self.db.__exit__(*args)
     def execute(self,statement,*args):

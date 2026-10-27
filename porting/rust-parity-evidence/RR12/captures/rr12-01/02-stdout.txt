@@ -1,0 +1,39 @@
+
+running 2 tests
+test budget_tests::json_escaping_and_the_final_delimiter_count_toward_the_byte_budget ... ok
+test budget_tests::writer_capacity_and_failed_append_respect_the_declared_budget ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 8 tests
+test failed_epoch_renewal_rolls_back_and_does_not_invalidate_existing_observations ... ok
+test healthy_reopen_keeps_epoch_and_existing_handle_but_not_foreign_observations ... ok
+test load_returns_generation_and_row_from_one_snapshot_during_concurrent_renewal ... ok
+test offline_restored_snapshot_requires_new_epoch_and_invalidates_create_only_batches ... ok
+test old_format_is_refused_without_implicit_upgrade_or_epoch_renewal ... ok
+test replaced_database_refuses_stale_delete_and_rolls_back_earlier_create ... ok
+test replaced_database_refuses_stale_update_and_rolls_back_earlier_create ... ok
+test replacement_between_path_admission_and_actual_connect_refuses_without_mutation ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.45s
+
+
+running 8 tests
+test exact_utf8_name_bound_roundtrips_while_one_extra_byte_refuses_atomically ... ok
+test external_utf16_v2_database_refuses_unchanged_including_epoch_renewal ... ok
+test fresh_connection_refuses_an_oversized_stored_name_without_mutation ... ok
+test generation_and_schema_strings_are_bounded_before_crossing_the_driver_boundary ... FAILED
+test maximal_json_escape_response_stays_below_protocol_limit_with_bounded_python_allocations ... ok
+test maximum_valid_document_and_name_fit_the_connection_record_limit ... ok
+test oversized_borrowed_update_name_refuses_before_a_proportional_copy ... ok
+test row_type_and_byte_preflight_refuses_before_returning_large_fields_to_python ... FAILED
+
+failures:
+
+failures:
+    generation_and_schema_strings_are_bounded_before_crossing_the_driver_boundary
+    row_type_and_byte_preflight_refuses_before_returning_large_fields_to_python
+
+test result: FAILED. 6 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.25s
+

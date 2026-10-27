@@ -1,0 +1,13 @@
+from pathlib import Path
+import subprocess,tarfile,io,json,hashlib,os,fcntl,shutil,tomllib
+b=Path(__file__).parent;root=Path('/workspace/repos/builderbob/syson');o=b/'red-01';o.mkdir(exist_ok=False);a=json.loads((b/'batch-admission.json').read_text());lock=open(a['compiler_lock'],'a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);target=b/'build/target';target.mkdir(parents=True,exist_ok=True);sha=lambda f:hashlib.sha256(f.read_bytes()).hexdigest();receipt={'status':'FAILED_ATTEMPT','source_review':'Root read dev allocator System/TLS, actual transaction/storage APIs, fixed owned SQL, and FIFO CLI child kill+wait deadline. No native/production/shared state.','cases':[]};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes())
+specs=[('RR04','crates/syson-model',1),('RR12','crates/syson-storage',2),('RR14','tools/verify-composition',1)]
+try:
+ for uid,crate,fails in specs:
+  unit=next(u for u in a['units'] if u['id']==uid);case=o/uid;case.mkdir();export=case/'source';export.mkdir();raw=subprocess.check_output(['git','archive',unit['base'],'rust'],cwd=root)
+  with tarfile.open(fileobj=io.BytesIO(raw)) as archive:archive.extractall(export,filter='data')
+  shutil.copy2(b/'red-tests'/(uid.lower()+'_regression.rs'),export/'rust'/crate/'tests'/(uid.lower()+'_regression.rs'));files=[f for f in export.rglob('*') if f.is_file()];before={str(f.relative_to(export)):sha(f) for f in files};scratch=case/'scratch';scratch.mkdir();env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',RUST_TEST_THREADS='1',CARGO_TARGET_DIR=str(target),TMPDIR=str(scratch),SYSON_COMPOSITION_TEST_ROOT=str(scratch))
+  args=['cargo','test','--offline','--locked','--manifest-path',str(export/'rust'/crate/'Cargo.toml'),'--test',uid.lower()+'_regression','--','--test-threads=1','--nocapture'];r=subprocess.run(args,cwd=export,env=env,capture_output=True,timeout=180);(case/'stdout.txt').write_bytes(r.stdout);(case/'stderr.txt').write_bytes(r.stderr);after={str(f.relative_to(export)):sha(f) for f in files};row={'unit':uid,'baseline':unit['base'],'argv':args,'exit_code':r.returncode,'source_before':before,'source_after':after,'source_unchanged':before==after,'expected_failed_tests':fails};receipt['cases'].append(row);assert before==after;assert r.returncode==101 and f'{fails} failed;'.encode() in r.stdout and b'test result: FAILED' in r.stdout,(uid,r.stderr.decode()[-1000:]);row['status']='EXPECTED_RED_REAL_COUNTEREXAMPLE'
+ receipt['status']='EXPECTED_RED_ALL_FOUR_COUNTEREXAMPLES_REPRODUCED'
+finally:(o/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps({'status':receipt['status'],'cases':[{'unit':r['unit'],'status':r.get('status')} for r in receipt['cases']]}))

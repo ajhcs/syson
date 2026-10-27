@@ -1,0 +1,111 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Allocation accounting is confined to this development-only test executable.
+use std::{
+    alloc::{GlobalAlloc, Layout, System},
+    cell::Cell,
+    fs,
+    path::{Path, PathBuf},
+    process::Command,
+    sync::atomic::{AtomicU64, Ordering},
+};
+use syson_model::Document;
+use syson_storage::{Change, Error, Key, Store};
+
+#[derive(Clone, Copy, Debug, Default)]
+struct Allocations { live: isize, peak: isize, largest: usize }
+thread_local! {
+    static TRACK: Cell<bool> = const { Cell::new(false) };
+    static STATS: Cell<Allocations> = const { Cell::new(Allocations { live: 0, peak: 0, largest: 0 }) };
+}
+fn record(change: isize, requested: usize) {
+    if TRACK.try_with(Cell::get).unwrap_or(false) {
+        let _ = STATS.try_with(|cell| {
+            let mut stats = cell.get();
+            stats.live += change;
+            stats.peak = stats.peak.max(stats.live);
+            stats.largest = stats.largest.max(requested);
+            cell.set(stats);
+        });
+    }
+}
+struct TrackingAllocator;
+// SAFETY: All allocation operations preserve System's pointer/layout contract;
+// constant thread-local bookkeeping allocates nothing and tolerates teardown.
+unsafe impl GlobalAlloc for TrackingAllocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc(layout) };
+        if !pointer.is_null() { record(layout.size() as isize, layout.size()); }
+        pointer
+    }
+    unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc_zeroed(layout) };
+        if !pointer.is_null() { record(layout.size() as isize, layout.size()); }
+        pointer
+    }
+    unsafe fn dealloc(&self, pointer: *mut u8, layout: Layout) {
+        record(-(layout.size() as isize), 0);
+        unsafe { System.dealloc(pointer, layout) };
+    }
+    unsafe fn realloc(&self, pointer: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        let next = unsafe { System.realloc(pointer, layout, size) };
+        if !next.is_null() { record(size as isize - layout.size() as isize, size); }
+        next
+    }
+}
+#[global_allocator]
+static ALLOCATOR: TrackingAllocator = TrackingAllocator;
+static NEXT: AtomicU64 = AtomicU64::new(0);
+fn path() -> PathBuf {
+    let root = PathBuf::from(std::env::var_os("TMPDIR").expect("owned workspace TMPDIR required"));
+    assert!(root.is_absolute() && root.starts_with("/workspace"));
+    let directory = root.join(format!("rr12-{}-{}", std::process::id(), NEXT.fetch_add(1, Ordering::Relaxed)));
+    fs::create_dir(&directory).unwrap();
+    directory.join("store.sqlite3")
+}
+fn key(id: u8) -> Key { Key { project: [1; 16], document: [id; 16] } }
+fn create(store: &Store, name: &str) {
+    store.transact(&[Change::Create { key: key(1), name, document: &Document::empty(), read_only: false }], 1_048_576).unwrap();
+}
+fn oversized_name(path: &Path) {
+    let script = r#"
+import pathlib,signal,sqlite3,sys
+signal.alarm(10)
+p=pathlib.Path(sys.argv[1])
+assert p.is_absolute() and p.is_relative_to('/workspace') and '..' not in p.parts
+assert p.is_file() and not p.is_symlink()
+with sqlite3.connect(p.as_uri()+'?mode=rw',uri=True) as db:
+    db.execute('UPDATE f27_documents SET name=? WHERE project=? AND document=?', ['X'*(2*1024*1024),'01'*16,'01'*16])
+"#;
+    assert!(Command::new("/usr/bin/python3").args(["-I", "-S", "-B", "-c", script]).arg(path).env_clear().status().unwrap().success());
+}
+#[test]
+fn oversized_borrowed_update_name_refuses_before_a_proportional_copy() {
+    let file = path();
+    let store = Store::create(&file).unwrap();
+    create(&store, "original");
+    let before = store.load(key(1)).unwrap().unwrap();
+    let oversized = "X".repeat(2 * 1024 * 1024);
+    let document = Document::empty();
+    let bytes = fs::read(&file).unwrap();
+    let changes = [Change::Update { before: &before, name: &oversized, document: &document }];
+    STATS.set(Allocations::default());
+    TRACK.set(true);
+    let result = store.transact(&changes, 1_048_576);
+    TRACK.set(false);
+    let stats = STATS.get();
+    assert_eq!(result, Err(Error::Limit));
+    assert!(stats.largest <= 65_536 && stats.peak <= 65_536, "{stats:?}");
+    assert_eq!(stats.live, 0, "{stats:?}");
+    assert_eq!(fs::read(&file).unwrap(), bytes);
+}
+#[test]
+fn fresh_connection_refuses_an_oversized_stored_name_without_mutation() {
+    let file = path();
+    let store = Store::create(&file).unwrap();
+    create(&store, "original");
+    oversized_name(&file);
+    let bytes = fs::read(&file).unwrap();
+    let reopened = Store::open(&file).unwrap();
+    assert!(matches!(reopened.load(key(1)), Err(Error::Refused(_))), "oversized persisted metadata was admitted");
+    assert_eq!(fs::read(&file).unwrap(), bytes);
+}
