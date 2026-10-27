@@ -1,0 +1,18 @@
+   Compiling serde_core v1.0.229
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.151
+   Compiling serde v1.0.229
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling syson-json-value v0.1.0 (/workspace/build/builderbob/syson-rereview-batch3-20261027/red-01/RR04/source/rust/crates/syson-json-value)
+   Compiling syson-domain v0.1.0 (/workspace/build/builderbob/syson-rereview-batch3-20261027/red-01/RR04/source/rust/crates/syson-domain)
+   Compiling syson-metamodel v0.1.0 (/workspace/build/builderbob/syson-rereview-batch3-20261027/red-01/RR04/source/rust/crates/syson-metamodel)
+   Compiling syson-model v0.1.0 (/workspace/build/builderbob/syson-rereview-batch3-20261027/red-01/RR04/source/rust/crates/syson-model)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.46s
+     Running tests/rr04_regression.rs (/workspace/build/builderbob/syson-rereview-batch3-20261027/build/target/debug/deps/rr04_regression-42411748b1964382)
+dense provisional export: Allocations { live: 16777216, peak: 16777216, largest: 16777216 }; success_bytes=Some(14209894)
+
+thread 'dense_provisional_export_refuses_before_the_old_16mib_output_allocation' (390473) panicked at tests/rr04_regression.rs:77:5:
+provisional output must obey the normal4MiB bound
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `--test rr04_regression`

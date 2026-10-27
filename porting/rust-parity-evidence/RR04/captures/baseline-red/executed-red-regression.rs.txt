@@ -1,0 +1,83 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Allocation bookkeeping belongs only to this development test executable.
+use serde_json::{Value, json};
+use std::{alloc::{GlobalAlloc, Layout, System}, cell::Cell};
+use syson_model::{ContainmentFeature, Document, Editor};
+
+#[derive(Clone, Copy, Default, Debug)]
+struct Allocations { live: isize, peak: isize, largest: usize }
+thread_local! {
+    static TRACK: Cell<bool> = const { Cell::new(false) };
+    static STATS: Cell<Allocations> = const { Cell::new(Allocations { live: 0, peak: 0, largest: 0 }) };
+}
+fn record(delta: isize, requested: usize) {
+    if TRACK.try_with(Cell::get).unwrap_or(false) {
+        let _ = STATS.try_with(|cell| {
+            let mut stats = cell.get();
+            stats.live += delta;
+            stats.peak = stats.peak.max(stats.live);
+            stats.largest = stats.largest.max(requested);
+            cell.set(stats);
+        });
+    }
+}
+struct ObservedAllocator;
+// SAFETY: Identical pointers/layouts are delegated to System. Constant TLS
+// bookkeeping allocates nothing and does not change memory ownership.
+unsafe impl GlobalAlloc for ObservedAllocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc(layout) };
+        if !pointer.is_null() { record(layout.size() as isize, layout.size()); }
+        pointer
+    }
+    unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc_zeroed(layout) };
+        if !pointer.is_null() { record(layout.size() as isize, layout.size()); }
+        pointer
+    }
+    unsafe fn dealloc(&self, pointer: *mut u8, layout: Layout) {
+        record(-(layout.size() as isize), 0);
+        unsafe { System.dealloc(pointer, layout) };
+    }
+    unsafe fn realloc(&self, pointer: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        let next = unsafe { System.realloc(pointer, layout, size) };
+        if !next.is_null() { record(size as isize - layout.size() as isize, size); }
+        next
+    }
+}
+#[global_allocator]
+static ALLOCATOR: ObservedAllocator = ObservedAllocator;
+fn id(n: u32) -> String { format!("a0000000-0000-4000-8000-{n:012x}") }
+fn node(n: u32, class: &str, extra: Value) -> Value {
+    let mut data = extra.as_object().unwrap().clone();
+    data.insert("elementId".into(), Value::String(id(n)));
+    json!({"id":id(n+100),"eClass":format!("sysml:{class}"),"data":data})
+}
+fn base() -> Document {
+    Document::from_json(&json!({"json":{"version":"1.0"},"ns":{"sysml":"http://www.eclipse.org/syson/sysml"},"content":[node(1,"Package",json!({"declaredName":"base"}))]}).to_string()).unwrap()
+}
+#[test]
+fn dense_provisional_export_refuses_before_the_old_16mib_output_allocation() {
+    let editor = Editor::new(base());
+    let original = editor.document().clone();
+    let mut opaque = Value::Array(vec![Value::Null; 100_000]);
+    for _ in 0..60 { opaque = Value::Array(vec![opaque]); }
+    let fragment = node(2, "OwningMembership", json!({"opaque":opaque}));
+    let mut tx = editor.begin();
+    tx.attach_preallocated_subtree(&id(1), ContainmentFeature::OwnedRelationship, fragment).unwrap();
+    assert!(serde_json::to_vec(tx.document().value()).unwrap().len() < 1_048_576);
+    // Constructing the actual provisional transaction and all input values is
+    // outside tracking. Old to_json grows a roughly16MiB pretty String here.
+    STATS.set(Allocations::default());
+    TRACK.set(true);
+    let result = tx.document().to_json();
+    TRACK.set(false);
+    let stats = STATS.get();
+    eprintln!("dense provisional export: {stats:?}; success_bytes={:?}", result.as_ref().ok().map(String::len));
+    assert!(result.is_err(), "provisional output must obey the normal4MiB bound");
+    assert!(stats.largest <= 1_048_576, "{stats:?}");
+    assert!(stats.peak <= 2_097_152, "{stats:?}");
+    assert_eq!(stats.live, 0, "{stats:?}");
+    assert_eq!(editor.document(), &original);
+    tx.cancel();
+}
