@@ -1,0 +1,2065 @@
+{
+  "schema": 1,
+  "status": "PLANNED_REPAIRS_ONLY_NO_IMPLEMENTATION",
+  "units": [
+    {
+      "id": "RR01",
+      "title": "Introduce bounded literal JSON materialization without private-token reinterpretation",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        8
+      ],
+      "paths": [
+        "rust/crates/syson-json-value/",
+        "porting/rust-parity-evidence/RR01/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Interpret literal private Number and RawValue keys as ordinary object keys. Preserve numeric lexemes and nested strings. Expose explicit byte, depth, value, duplicate-key, ordering and cancellation policies; retain raw carriers where byte identity matters."
+      ],
+      "verification": [
+        "Use an independent raw-token or manually constructed object oracle for both marker keys, numeric extremes, nesting, duplicate/order cases and rejection before copying.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001",
+        "MODEL-RR-002"
+      ],
+      "owner_plan_units": [
+        "M06",
+        "I03"
+      ]
+    },
+    {
+      "id": "RR02",
+      "title": "Adopt literal-safe parsing at model and selected identity-bridge entry points",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_REQUIRES_LEASE_RECONCILIATION",
+      "dependencies": [
+        "RR01",
+        "I01"
+      ],
+      "external_prs": [
+        8,
+        63,
+        69
+      ],
+      "paths": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-json-interchange/src/selected_model.rs",
+        "rust/crates/syson-json-interchange/src/native_model.rs",
+        "rust/crates/syson-model/tests/rr02_regression.rs",
+        "rust/crates/syson-json-interchange/tests/rr02_literal_bridge.rs",
+        "rust/crates/syson-json-interchange/src/lib.rs",
+        "porting/rust-parity-evidence/RR02/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Route Document::from_json and both selected identity bridge boundaries through RR01; inventory pre-Document Value parses so reparsing cannot reintroduce the defect.",
+        "Preserve node/semantic/resource identity domains, opaque values and unrelated edit/save/reload; no model/factory rewrite.",
+        "Retain reloadable normal publication under explicit 4 MiB raw/canonical and value-depth-128 admission. Use the private no-output counter once at import/changed commit; preserve history/revision atomicity and Bundle limit-error family. Provisional staged clones remain outside this publication guarantee."
+      ],
+      "verification": [
+        "Retain root observed vendor object\u2192123 counterexample red then green; actual Editor edit\u2192bridge\u2192save/reopen with both marker keys and unchanged surrounding data.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. One author per exact scope; root owns shared Cargo/locks/exports and serial execution. Existing model/factory/initializer holds must be reconciled explicitly before any writer lease. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "M06",
+        "I03",
+        "I06"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-model/Cargo.toml",
+          "rust/crates/syson-model/Cargo.lock",
+          "rust/crates/syson-json-interchange/Cargo.toml",
+          "rust/crates/syson-json-interchange/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      }
+    },
+    {
+      "id": "RR03",
+      "title": "Keep the library catalogue physical under reserved JSON keys",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01g"
+      ],
+      "external_prs": [
+        85
+      ],
+      "paths": [
+        "rust/tools/native-library-catalog/",
+        "porting/rust-parity-evidence/RR03/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Use RR01 for catalogue materialization while retaining authoritative source bytes and independent physical, node-ID and semantic-ID indexes. Strings containing node-shaped JSON must never become physical nodes."
+      ],
+      "verification": [
+        "The reproduced empty-content/RawValue-string fixture must index zero nodes. Repeat the actual 94-resource, 109673-tuple comparison, depth-208 input and collision/allocation boundaries.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-002"
+      ],
+      "owner_plan_units": [
+        "C01g",
+        "M15"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-library-catalog/Cargo.toml",
+          "rust/tools/native-library-catalog/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      }
+    },
+    {
+      "id": "RR04",
+      "title": "Expose bounded model JSON counting/writing before owned output allocation",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_REQUIRES_LEASE_RECONCILIATION",
+      "dependencies": [
+        "RR02"
+      ],
+      "external_prs": [
+        8,
+        55,
+        59,
+        64
+      ],
+      "paths": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/tests/rr04_regression.rs",
+        "porting/rust-parity-evidence/RR04/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Expose a reusable bounded counting/writing API over authoritative document values. Charge before allocation; preserve serializer and identity contracts. Failure cannot publish partial owned output or mutate the document.",
+        "Promote and reuse RR02\u2019s private canonical admission counter as the shared bounded writer/count API; do not introduce a second independent serializer or weaken normal-publication reloadability."
+      ],
+      "verification": [
+        "Reject the dense 0.5 MiB, depth-60 fixture before a 16 MiB allocation. Verify encoded boundaries, Unicode/escape growth, cancellation and raw identity.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. One author per exact scope; root owns shared Cargo/locks/exports and serial execution. Existing model/factory/initializer holds must be reconciled explicitly before any writer lease. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PARSER-RR-01",
+        "MODEL-RR-007",
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "I09",
+        "I03"
+      ]
+    },
+    {
+      "id": "RR05",
+      "title": "Enforce interchange and bridge serialized budgets before allocation",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR04",
+        "I01"
+      ],
+      "external_prs": [
+        55,
+        63,
+        69
+      ],
+      "paths": [
+        "rust/crates/syson-json-interchange/src/lib.rs",
+        "rust/crates/syson-json-interchange/src/selected_model.rs",
+        "rust/crates/syson-json-interchange/src/native_model.rs",
+        "rust/crates/syson-json-interchange/tests/rr05_regression.rs",
+        "porting/rust-parity-evidence/RR05/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Use RR04 in bundle load/save and selected bridge admission before pretty-string allocation. Preserve identity domains, aggregate limits, reloadability and atomic failure. Split bridge siblings before exceeding review limits."
+      ],
+      "verification": [
+        "Reproduce the 500481-byte input and 16777216-byte allocation, then verify the same Limit with bounded allocation. Exercise near-limit accepted save/reload and both actual bridges.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PARSER-RR-01"
+      ],
+      "owner_plan_units": [
+        "I09",
+        "I06"
+      ]
+    },
+    {
+      "id": "RR06",
+      "title": "Preflight rendered names and text output before copies",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        56,
+        52
+      ],
+      "paths": [
+        "rust/crates/syson-text-export/src/lib.rs",
+        "rust/crates/syson-text-export/tests/rr06_regression.rs",
+        "porting/rust-parity-evidence/RR06/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Check name, candidate and qualified-segment expansions before copying or appending. Bound the entire 64 KiB output while preserving Unicode, indentation and shortest-reference rules. No truncated success."
+      ],
+      "verification": [
+        "A 2 MiB name must return Limit without a 4 MiB output allocation. Check exact 65536-byte and escape boundaries through actual F14 import, export and reimport.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PARSER-RR-02"
+      ],
+      "owner_plan_units": [
+        "P170",
+        "I09"
+      ]
+    },
+    {
+      "id": "RR07",
+      "title": "Quote export names against the actual parser keyword contract",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR06"
+      ],
+      "external_prs": [
+        56,
+        52,
+        40
+      ],
+      "paths": [
+        "rust/crates/syson-text-export/src/lib.rs",
+        "rust/crates/syson-text-export/tests/rr07_regression.rs",
+        "porting/rust-parity-evidence/RR07/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Quote declarations and qualified references using the actual parser reserved-token contract. Keep standalone native NameHelper compatibility separate and document any intentional export improvement.",
+        "Use the actual set difference: 170 lexer words and 117 NameHelper words overlap in 116, giving 54 lexer-only words plus native-only constant (171 in the union). The historical 53 was a net count difference. Preserve original audit evidence; qualify all 54 extras."
+      ],
+      "verification": [
+        "Import package with quoted class name through F14, export and reimport successfully. Cover all 54 additional lexer keywords plus ordinary, Unicode and punctuation controls.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PARSER-RR-03"
+      ],
+      "owner_plan_units": [
+        "P170",
+        "P171"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-ast-adapter/src/lib.rs",
+          "rust/crates/syson-text-export/Cargo.toml",
+          "rust/crates/syson-text-export/Cargo.lock",
+          "rust/crates/syson-text-export/tests/export.rs",
+          "rust/crates/syson-text-export/tests/rr06_regression.rs",
+          "rust/crates/syson-ast-adapter/Cargo.lock"
+        ],
+        "policy": "Coordinator-only shared registration/dependency/expectation writes after source-author freeze. Reconcile existing writers (including P01 for the shared parser lib), serialize these edits, preserve frozen branches and requalify after prerequisite landing. These are not parallel source-author leases."
+      }
+    },
+    {
+      "id": "RR08",
+      "title": "Bound AST rollback snapshot work and cancellation",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        11,
+        41
+      ],
+      "paths": [
+        "rust/crates/syson-ast/src/lib.rs",
+        "rust/crates/syson-ast/tests/rr08_regression.rs",
+        "porting/rust-parity-evidence/RR08/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace repeated whole-State transaction snapshots with bounded journaling or changed-node snapshots, or charge copied work before cloning. Preserve nested rollback, owner identity and non-reuse of spent IDs. Poll inside scalar-copy work."
+      ],
+      "verification": [
+        "Measure copies/allocations for 100, 1000 and 5000-node construction and F12 postprocessing. Exercise nested failure, cancellation, foreign handles, CST restoration and an actual parser caller.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PARSER-RR-04"
+      ],
+      "owner_plan_units": [
+        "P12",
+        "P14",
+        "P18",
+        "P184"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-ast/Cargo.toml",
+          "rust/crates/syson-ast/Cargo.lock",
+          "rust/crates/syson-ast-adapter/Cargo.lock",
+          "rust/crates/syson-ast/tests/construction.rs"
+        ],
+        "policy": "Coordinator-only existing caller dependency registration/lock reconciliation after ownership admission. For RR08, update the single inherited copied-work expectation from3 to17 without weakening spent-ID checks. Serialize these shared edits and requalify affected suites; these are not author leases."
+      }
+    },
+    {
+      "id": "RR09",
+      "title": "Bound native graph indexing and owned-peer counting costs",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_REQUIRES_LEASE_RECONCILIATION",
+      "dependencies": [],
+      "external_prs": [
+        14,
+        48,
+        54,
+        49
+      ],
+      "paths": [
+        "rust/crates/syson-initializer-graph/src/lib.rs",
+        "rust/crates/syson-initializer-graph/tests/rr09_regression.rs",
+        "porting/rust-parity-evidence/RR09/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Measure recursive subtree retention and K by N ownedMembership rescans. Use borrowed/indexed slots and precomputed peer counts while preserving traversal order, first-name-before-type failure and actual F01/F05/F46 queries."
+      ],
+      "verification": [
+        "Use 256, 1024 and 4096-node wide/deep graphs, copy/work counters, RSS and cancellation through actual query callers. Timing alone cannot prove native parity.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. One author per exact scope; root owns shared Cargo/locks/exports and serial execution. Existing model/factory/initializer holds must be reconciled explicitly before any writer lease. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-004"
+      ],
+      "owner_plan_units": [
+        "M07",
+        "M11"
+      ]
+    },
+    {
+      "id": "RR10",
+      "title": "Bound legacy conjugated-name traversal through one authority",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_REQUIRES_LEASE_RECONCILIATION",
+      "dependencies": [
+        "RR09"
+      ],
+      "external_prs": [
+        15,
+        49
+      ],
+      "paths": [
+        "rust/crates/syson-initializer-graph/src/native_query.rs",
+        "rust/crates/syson-initializer-graph/tests/rr10_regression.rs",
+        "porting/rust-parity-evidence/RR10/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Make originalPortDefinition naming traversal iterative with work, depth and cancellation limits. Use one resource-scoped authority while preserving identity roles and ordinary/qualified names."
+      ],
+      "verification": [
+        "Exercise an 8192-reference flat chain, cycles, exact/over-limit boundaries and cancellation through effective_name and the real qualified-name caller.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. One author per exact scope; root owns shared Cargo/locks/exports and serial execution. Existing model/factory/initializer holds must be reconciled explicitly before any writer lease. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-003"
+      ],
+      "owner_plan_units": [
+        "M10",
+        "M07"
+      ]
+    },
+    {
+      "id": "RR11",
+      "title": "Fence SQLite observations by actual database generation",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        53,
+        64
+      ],
+      "paths": [
+        "rust/crates/syson-storage/src/lib.rs",
+        "rust/crates/syson-storage/src/bridge.py",
+        "rust/crates/syson-storage/tests/rr11_regression.rs",
+        "porting/rust-parity-evidence/RR11/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Bind observations to the database generation actually opened for the mutation transaction. Define replacement, restore and reopen epochs while preserving CAS, project isolation and batch rollback. A pre-open stat alone is insufficient."
+      ],
+      "verification": [
+        "Replace owned database A with B having identical keys/revisions and different content. Stale A update/delete must refuse without changing B, including race/fault injection and healthy reopen controls.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-01"
+      ],
+      "owner_plan_units": [
+        "B06"
+      ]
+    },
+    {
+      "id": "RR12",
+      "title": "Bound storage names and read metadata before cloning/encoding",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR11"
+      ],
+      "external_prs": [
+        64
+      ],
+      "paths": [
+        "rust/crates/syson-storage/src/lib.rs",
+        "rust/crates/syson-storage/src/bridge.py",
+        "rust/crates/syson-storage/tests/rr12_regression.rs",
+        "porting/rust-parity-evidence/RR12/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Validate borrowed names before conversion and enforce read-side field bounds before fetching, materializing or encoding. Bound legacy/corrupt rows and aggregate responses with no partial success or mutation."
+      ],
+      "verification": [
+        "Check exact/over-4096-byte names, oversized stored names through a fresh connection and allocation-bounded responses. Keep earlier RSS measurements attributed to their original workloads.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-02"
+      ],
+      "owner_plan_units": [
+        "B05",
+        "B06"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-storage/tests/rr11_regression.rs"
+        ],
+        "policy": "Coordinator-only inherited RR11 test proxy setlimit forwarding to the actual SQLite connection after author freeze; preserve every production guard. Serialize this exact shared test edit and requalify the RR11 cases. This path is not a parallel source-author lease."
+      }
+    },
+    {
+      "id": "RR13",
+      "title": "Refuse nonregular snapshot inputs and bound serialization before writing",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR04"
+      ],
+      "external_prs": [
+        16,
+        32
+      ],
+      "paths": [
+        "rust/crates/syson-workflow/src/lib.rs",
+        "rust/crates/syson-workflow/src/snapshot_io.rs",
+        "rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "porting/rust-parity-evidence/RR13/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Admit the actual opened regular bounded input with an explicit symlink/root policy. Prevent FIFO/device blocking and path-swap races. Use RR04 before snapshot output allocation and preserve atomic publication.",
+        "The inherited F31 save implementation is in snapshot_io.rs, explicitly included in this same-behavior author scope. Preserve its trusted SnapshotIo failure sequence and may-have-published error semantics; root/ancestor/final-file policy and effective model limits must be explicit."
+      ],
+      "verification": [
+        "Use owned FIFO, directory, symlink and race fixtures with short deadlines, normal reopen and injected write/rename failure. These tests do not establish physical power-loss durability.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-03"
+      ],
+      "owner_plan_units": [
+        "B06",
+        "C03"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-workflow/Cargo.lock"
+        ],
+        "policy": "Coordinator-only dependency registration/lock reconciliation for exact RR04 model plus existing literal-value prerequisite after ownership admission. Serialize shared Cargo edits and requalify final affected suites; these are not parallel author leases."
+      }
+    },
+    {
+      "id": "RR14",
+      "title": "Admit regular composition manifests before opening",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "C03a"
+      ],
+      "external_prs": [
+        77
+      ],
+      "paths": [
+        "rust/tools/verify-composition/src/lib.rs",
+        "rust/tools/verify-composition/tests/rr14_regression.rs",
+        "porting/rust-parity-evidence/RR14/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Apply regular-file admission to the CLI manifest before blocking open, with explicit symlink/race policy. Preserve exact blob, mode and global-delta checks without hidden fetch or executable selection."
+      ],
+      "verification": [
+        "Owned FIFO, symlink and directory manifests must refuse promptly. Verify a normal real-Git composition with immutable input/output receipts.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-04"
+      ],
+      "owner_plan_units": [
+        "C03a",
+        "C03"
+      ]
+    },
+    {
+      "id": "RR15",
+      "title": "Bound legacy syntax-observer input file admission",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        12
+      ],
+      "paths": [
+        "rust/tools/syntax-observe/src/main.rs",
+        "rust/tools/syntax-observe/tests/rr15_regression.rs",
+        "porting/rust-parity-evidence/RR15/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Admit actual regular files before blocking syntax-observer reads. Preserve UTF-8, suffix and byte limits with explicit symlink/race policy. Do not add parser fallback or special-file interpretation."
+      ],
+      "verification": [
+        "Use FIFO, directory and symlink refusals under process deadlines with no observation output, plus valid same-byte, invalid-suffix and oversized controls.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PARSER-RR-05"
+      ],
+      "owner_plan_units": [
+        "P08",
+        "C09",
+        "C02"
+      ]
+    },
+    {
+      "id": "RR16",
+      "title": "Bind integration receipts to a complete unchanged executed source closure",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR16a",
+        "RR16b"
+      ],
+      "external_prs": [
+        19
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/RR16/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Integrate RR16a mechanism and RR16b complete qualification without weakening original source/command/fixture closure obligations. Selected safe checks cannot close this parent or RR17; current held scopes block full execution."
+      ],
+      "verification": [
+        "Inject source mutation, omitted crate/fixture, stale generated files and command failure; each must block broad PASS. Qualify a fresh composed run with exact hashes and teardown.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-05"
+      ],
+      "owner_plan_units": [
+        "C02",
+        "C03"
+      ],
+      "acceptance_children": [
+        "RR16a",
+        "RR16b"
+      ]
+    },
+    {
+      "id": "RR17",
+      "title": "Add complete Rust CI and final-source affected-suite gates",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR16"
+      ],
+      "external_prs": [
+        19,
+        28,
+        67
+      ],
+      "paths": [
+        ".github/workflows/rust-parity.yml",
+        "porting/rust-ci-matrix.json",
+        "porting/check_rust_ci.py",
+        "porting/tests/test_rr17_rust_ci.py",
+        "porting/rust-parity-evidence/RR17/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Add a complete explicit Rust CI matrix for locked formatting, tests, Clippy and applicable WASM/browser/fixture checks. Reject unlisted manifests and require affected suites on final changed source. Preserve resource, native, DB and held-owner gates."
+      ],
+      "verification": [
+        "Negative cases omit a new tool, changed test or build input. A fresh branch job must show every required check on current Git bytes; CI success alone is not product acceptance.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-06"
+      ],
+      "owner_plan_units": [
+        "C03",
+        "C04"
+      ]
+    },
+    {
+      "id": "RR18",
+      "title": "Bound preview generation and keep import/export recovery reachable",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18a",
+        "RR18b"
+      ],
+      "external_prs": [
+        65,
+        61
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/RR18/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Integrate RR18a recovery and RR18b before-allocation rendering on one exact source candidate. Original preview/import/export, allocation, real UI and performance obligations remain required."
+      ],
+      "verification": [
+        "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ],
+      "acceptance_children": [
+        "RR18a",
+        "RR18b"
+      ]
+    },
+    {
+      "id": "RR19",
+      "title": "Expose real command availability and kind-specific editing affordances",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18",
+        "RR20"
+      ],
+      "external_prs": [
+        65,
+        51,
+        62
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/web/style.css",
+        "rust/crates/syson-web/tests/rr19_regression.rs",
+        "porting/rust-parity-evidence/RR19/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Derive typed Rust availability for semantic/canvas undo, redo, cancel and pending commands. Render disabled, busy and applicable states consistently. Hide or explain irrelevant definition/parent controls while retaining focus and drafts."
+      ],
+      "verification": [
+        "Inspect empty, staged, committed, undone, redone, exhausted and cancelled states with keyboard/AX checks and mobile contrast/target sizes. Availability must not require destructive trial actions.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-03"
+      ],
+      "owner_plan_units": [
+        "U08",
+        "U05"
+      ]
+    },
+    {
+      "id": "RR20",
+      "title": "Bound retained local model history without breaking revision/rollback semantics",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_REQUIRES_LEASE_RECONCILIATION",
+      "dependencies": [
+        "RR04"
+      ],
+      "external_prs": [
+        8,
+        17,
+        65
+      ],
+      "paths": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/tests/rr20_regression.rs",
+        "porting/rust-parity-evidence/RR20/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Define explicit history byte/entry budgets, retention and compaction with typed availability. Bound whole-Document retention per commit. Preserve owner/revision refusal, redo invalidation, transaction atomicity and visible truncation policy."
+      ],
+      "verification": [
+        "Measure retained bytes, copy work, RSS and cancellation for 1000/4096-element documents with 64/256 commits. Exercise actual UI undo/redo without data loss or implied durable history.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. One author per exact scope; root owns shared Cargo/locks/exports and serial execution. Existing model/factory/initializer holds must be reconciled explicitly before any writer lease. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-006"
+      ],
+      "owner_plan_units": [
+        "M03",
+        "B17",
+        "U08"
+      ]
+    },
+    {
+      "id": "RR21",
+      "title": "Admit bounded semantic-validation projections before serialization",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR04"
+      ],
+      "external_prs": [
+        57,
+        59
+      ],
+      "paths": [
+        "rust/crates/syson-semantic-validation/src/lib.rs",
+        "rust/crates/syson-semantic-validation/tests/rr21_regression.rs",
+        "porting/rust-parity-evidence/RR21/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Project only admitted bounded data, or use RR04 before serialization/reparse. Unrelated opaque payload must not cause unbounded allocation. Preserve source association, UTF-16 locations and the selected-rule contract."
+      ],
+      "verification": [
+        "Exercise dense/deep opaque data, late bad source and exact budget boundaries. Check bounded allocations and actual F14/F46 consumers, including warnings and locations.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-007"
+      ],
+      "owner_plan_units": [
+        "M32",
+        "I09"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-semantic-validation/Cargo.lock",
+          "rust/crates/syson-semantic-validation/Cargo.toml"
+        ],
+        "policy": "Coordinator-only dependency registration/lock reconciliation for exact RR04 model plus existing literal-value prerequisite after ownership admission. Serialize shared Cargo edits and requalify final affected suites; these are not parallel author leases."
+      }
+    },
+    {
+      "id": "RR22",
+      "title": "Adopt literal-safe JSON through actual migration and project-preparation carriers",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "RR02",
+        "C03b",
+        "C03c",
+        "RR24",
+        "RR04"
+      ],
+      "external_prs": [
+        81,
+        82,
+        71,
+        72,
+        73,
+        74,
+        75,
+        91,
+        94,
+        100,
+        103
+      ],
+      "paths": [
+        "rust/crates/syson-project-preparation/src/lib.rs",
+        "rust/crates/syson-project-wire/tests/codec.rs",
+        "rust/crates/syson-project-preparation/tests/rr22_regression.rs",
+        "porting/rust-parity-evidence/RR22/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Inventory Value-backed parsing throughout migration/project preparation and adopt RR01 where needed. Preserve participant order, independent stamps, ordered namespace carriers and opaque raw payloads. Split newly discovered participant repairs before mutation.",
+        "The already identified shared-support and b25d parse sites are explicitly repaired in prerequisite RR24; inventory additional consumers without treating those known fixes as unspecified discovery.",
+        "Fresh RR24 #103 semantic and representation gates fail after actual prepare/encode/decode/reprepare because preparation and the old model still generically materialize Value. Repair those owned sites on the exact RR02/model plus RR24/RR24a composition; ordinary provider/wire success is not literal caller acceptance."
+      ],
+      "verification": [
+        "Run actual prepare, encode, decode and replay with both marker keys, nested marker strings, huge numeric lexemes, namespace ordering and late failures. Use an independent literal oracle and verify prior output remains unchanged.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Make both named rr22_semantic_preparation_wire_literal_gate and rr22_representation_preparation_wire_literal_gate pass on the final composed source, with manual marker objects, numeric tokens, independent stamps and prior-output preservation; retain their original fresh failures."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C03b",
+        "C03c",
+        "I06"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-project-preparation/Cargo.toml",
+          "rust/crates/syson-project-preparation/Cargo.lock",
+          "rust/crates/syson-project-wire/Cargo.lock",
+          "rust/crates/syson-migrations/Cargo.lock",
+          "rust/crates/syson-migration-pipeline/Cargo.lock"
+        ],
+        "policy": "Root-only shared dependency and transitive locks. Exact latest RR04 model graft supersedes RR02 provider while raw_admission remains unchanged/read-only."
+      }
+    },
+    {
+      "id": "RR23",
+      "title": "Adopt literal-safe JSON at observed-contract readers without changing evidence",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d"
+      ],
+      "external_prs": [
+        79,
+        80,
+        83,
+        87,
+        100,
+        105,
+        106,
+        107,
+        108
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/RR23/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Integrate the four separately reviewed reader children on one exact candidate. Preserve native captures and require all original RR23 obligations across each reader; partial child completion does not close RR23."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Require all four child sources, full suites and actual consuming CLI gates on ONE exact composed candidate, plus a Rust caller linking all four libraries in one process. Prior per-child PASS does not qualify the new composition."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01c",
+        "C01d",
+        "C01f",
+        "C01h"
+      ],
+      "acceptance_children": [
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "porting/rust-parity-evidence/RR23/consumer/Cargo.toml",
+          "porting/rust-parity-evidence/RR23/consumer/Cargo.lock"
+        ],
+        "policy": "Root owns evidence-only joint consumer manifest/lock and all compiler/runtime execution; four selected reader trees stay exact qualified donor bytes."
+      }
+    },
+    {
+      "id": "RR24",
+      "title": "Preserve literal JSON through shared migration support and action/control migration",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "B25S",
+        "B25d",
+        "RR24a"
+      ],
+      "external_prs": [
+        71,
+        75,
+        82
+      ],
+      "paths": [
+        "rust/crates/syson-migrations/src/lib.rs",
+        "rust/crates/syson-migrations/b25d.rs",
+        "rust/crates/syson-migrations/tests/rr24_literal.rs",
+        "porting/rust-parity-evidence/RR24/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace known generic Value materialization in migration support and b25d with RR01, preserving participant order, original raw JSON, independent stamps and all failure atomicity. No key-based token guessing or normalization of opaque objects.",
+        "Use RR24a explicit LastWins compatibility so adopting the shared literal authority preserves native duplicate namespace behavior. RR22 preparation/model materialization remains a separate caller acceptance gate; execute and retain its fresh counterexamples rather than treating provider tests as closure."
+      ],
+      "verification": [
+        "Exercise both private-token marker objects before and after each selected participant, unchanged unknown payloads, huge numeric lexemes, namespace order and late-failure rollback. Run the actual four-migration composition and the final RR22 preparation/wire caller gate.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "B25S",
+        "B25d",
+        "C03b",
+        "I06"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-migrations/Cargo.toml",
+          "rust/crates/syson-migrations/Cargo.lock",
+          "rust/crates/syson-project-preparation/Cargo.lock",
+          "rust/crates/syson-project-wire/Cargo.lock"
+        ],
+        "policy": "Coordinator-only registration of the qualified literal dependency and existing preparation/wire dev callers, plus all three locks. No RR22/model production changes or author lease; actual caller failures remain OPEN."
+      }
+    },
+    {
+      "id": "RR24a",
+      "title": "Add explicit literal duplicate-key compatibility without weakening strict callers",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01"
+      ],
+      "external_prs": [
+        90
+      ],
+      "paths": [
+        "rust/crates/syson-json-value/src/lib.rs",
+        "rust/crates/syson-json-value/tests/rr24a_duplicates.rs",
+        "porting/rust-parity-evidence/RR24a/",
+        "rust/crates/syson-json-value/README.md"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Keep parse strict by default and add an explicit shared LastWins policy for migration callers. Preserve first decoded-key insertion position and final value, raw bytes, original number lexemes and ordinary marker-named objects. Charge every physical occurrence before collapse; never add a second parser."
+      ],
+      "verification": [
+        "Run all strict RR01 regressions plus manual ordered/literal oracles, escaped/nested duplicate keys, overwritten malformed data, exact physical byte/depth/value/key/scalar budgets and cancellation. Verify the actual migration adopter uses only the explicit opt-in policy.",
+        "Freeze exact source, preserve original failed attempts, independently review, and bind executed inputs to committed blobs. A new compatibility API is not a claim that the old strict policy was a bug."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Root is the sole author of this shared parser prerequisite; isolated exact #90 worktree, independent source review and serialized offline execution. RR24 adopter has no shared-parser write lease.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "RR24"
+      ]
+    },
+    {
+      "id": "RR23a",
+      "title": "Preserve literal JSON at native-graphql-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01c",
+        "RR24a"
+      ],
+      "external_prs": [
+        80,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-graphql-contract/src/lib.rs",
+        "rust/tools/native-graphql-contract/tests/rr23a_literal.rs",
+        "porting/rust-parity-evidence/RR23a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-graphql-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01c"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-graphql-contract/Cargo.toml",
+          "rust/tools/native-graphql-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      }
+    },
+    {
+      "id": "RR23b",
+      "title": "Preserve literal JSON at native-db-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01d",
+        "RR24a"
+      ],
+      "external_prs": [
+        79,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-db-contract/src/lib.rs",
+        "rust/tools/native-db-contract/tests/rr23b_literal.rs",
+        "porting/rust-parity-evidence/RR23b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-db-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01d"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-db-contract/Cargo.toml",
+          "rust/tools/native-db-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      }
+    },
+    {
+      "id": "RR23c",
+      "title": "Preserve literal JSON at native-http-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01f",
+        "RR24a"
+      ],
+      "external_prs": [
+        83,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-http-contract/src/lib.rs",
+        "rust/tools/native-http-contract/tests/rr23c_literal.rs",
+        "porting/rust-parity-evidence/RR23c/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-http-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01f"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-http-contract/Cargo.toml",
+          "rust/tools/native-http-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      }
+    },
+    {
+      "id": "RR23d",
+      "title": "Preserve literal JSON at native-project-templates observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01h",
+        "RR24a"
+      ],
+      "external_prs": [
+        87,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-project-templates/src/lib.rs",
+        "rust/tools/native-project-templates/tests/rr23d_literal.rs",
+        "porting/rust-parity-evidence/RR23d/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-project-templates parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01h"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-project-templates/Cargo.toml",
+          "rust/tools/native-project-templates/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      }
+    },
+    {
+      "id": "RR16a",
+      "title": "Bind explicitly selected integration checks to immutable candidate source inventories",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        19
+      ],
+      "paths": [
+        "porting/run_integration_checks.py",
+        "porting/tests/test_rr16_integration_receipts.py",
+        "porting/rust-parity-evidence/RR16a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace fixed lists/partial generic PASS with complete candidate Cargo/input inventory, committed blob+disk before/after binding, explicit selected/held/notselected matrix, exact command scope and immutable failure logs. This foundation NEVER emits broad/full PASS. Bound known Git generator inputs and declared external/toolchain dependencies; unresolved closure remains explicit."
+      ],
+      "verification": [
+        "Adversarial owned Git/stub fixtures must catch missing tool/fixture/manifests/locks/localdeps/pins, source drift, stale generation/check failure, dirty/untracked/mode/target mismatch, command failure/timeout and unsafe resume. Run fresh admitted real subset with HELD_NOT_RUN/NOT_SELECTED scopes and full_qualification=false.",
+        "One root-owned serialized offline execution lease; no held initializer-graph/default or raw-factory/factory validator execution. Preserve original counterexamples and independently review exact source/evidence."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Isolated source author; root alone executes all Git/test/fixture/Cargo jobs. Historical held paths are read-only, not implicit test admission.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-05"
+      ],
+      "owner_plan_units": [
+        "RR16"
+      ]
+    },
+    {
+      "id": "RR16b",
+      "title": "Qualify the complete integration command and input closure after held scopes are admitted",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR16a",
+        "RR23"
+      ],
+      "external_prs": [
+        19,
+        109
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/RR16b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Compose completed repairs on one exact candidate and enumerate every default/feature/target/generator/runtime input and required command. Require explicit owner admission for all held initializer/raw/factory scopes before execution; inventory is never admission. Bind external registry/toolchain/source inputs, generated freshness and all consuming fixtures.",
+        "Run full fresh serialized offline Cargo/WASM/native/browser/fixture matrix and teardown where required; all omissions/held/unrun/stale/failing cases block full integration qualification and RR17 acceptance.",
+        "Consume RR23 joint one-candidate reader evidence as an explicit implementation input; recompose/requalify on the full candidate rather than treating #109 subset results as full integration acceptance."
+      ],
+      "verification": [
+        "Inject source mutation, omitted crate/fixture, stale generated files and command failure; each must block broad PASS. Qualify a fresh composed run with exact hashes and teardown.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "RR16a selected checks/partial receipt is insufficient. Complete owner-admitted matrix and independent exact closure review are required; current held scopes keep this child OPEN."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "PLAT-05"
+      ],
+      "owner_plan_units": [
+        "RR16"
+      ]
+    },
+    {
+      "id": "RR18a",
+      "title": "Preserve active editing state on refused preview and keep recovery reachable",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR04"
+      ],
+      "external_prs": [
+        65,
+        61
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/tests/rr18_regression.rs",
+        "porting/rust-parity-evidence/RR18a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Admit imported document preview on a private candidate before replacing active Editor/history/canvas/selection. Keep export, recover and explicit discard reachable when preview is refused. Use bounded RR04 model output and avoid serialization when canvas frame is absent. Full HTML before-allocation rendering remains RR18b."
+      ],
+      "verification": [
+        "Reproduce actual <=1MiB escaped-name destructive-import counterexample on exact baseline, then demonstrate prior document/history/selection/drafts survive refusal in real default WASM UI at desktop/mobile with keyboard/console/long-task observations. Verify fallback model download and recover/discard actions.",
+        "Freeze exact prerequisite/source/input hashes, preserve failing attempts and final-source tests with independent review; no held raw/graph/factory execution."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-web/web/loader.js"
+        ],
+        "policy": "Root-only same-focused-control caret restoration on draft-preserving repaint, after actual baseline reproduction. Author does not edit loader. Generic recovery-shell draft storage remains RR18b."
+      }
+    },
+    {
+      "id": "RR18b",
+      "title": "Bound HTML preview and intermediate rendering before materialization",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18b1",
+        "RR18b2",
+        "RR18b3"
+      ],
+      "external_prs": [
+        65,
+        61
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/RR18b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace full-render-then-length-check and independently allocating helpers with bounded HTML/escaping/model/geometry sinks or counted admission before materialization. Cover navigation/options/SVG/scalar inspectors/export and all fallback paths without weakening atomic import recovery.",
+        "Preserve unrelated unsubmitted form drafts across recovery-shell removal and restoration using bounded presentation-only loader storage, with focus/caret restored. RR18a preserves drafts on normal refused-import DOM only; its fallback shell lacks prior form fields.",
+        "Integrate all three children on one exact candidate. Original allocation, draft isolation, recovery, actual UI and <50 ms performance gates remain required."
+      ],
+      "verification": [
+        "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Prove pre-copy refusal/high-water allocation bounds, escaped exact-fit and +1 boundaries and independently observed actual browser responsiveness. RR18a lifecycle-only success cannot close this child.",
+        "Actual WASM fallback -> recover must retain permitted prior form drafts/caret, bound stored draft bytes, and make explicit discard clear model and presentation drafts with keyboard confirmation.",
+        "Use the exact RR18a browser fixtures:700258-byte escaped import and900381-byte committed export/2701179-byte URI. Current same-host Chromium observation has longtasks up to111ms at320px and71ms at1440px. Rendering responsiveness remains OPEN. On the pinned owned reference profile, target no main-thread task >=50ms in these journeys through pre-admission/counting/chunking; record phase timing and any unmet budget explicitly, and do not claim performance acceptance while this required budget fails. Physical mobile/other-browser acceptance remains separate."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ],
+      "acceptance_children": [
+        "RR18b1",
+        "RR18b2",
+        "RR18b3"
+      ]
+    },
+    {
+      "id": "RR18b1",
+      "title": "Bound canvas JSON transport and avoid eager committed-model serialization",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18a"
+      ],
+      "external_prs": [
+        61,
+        65,
+        112
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/src/layout_transport.rs",
+        "rust/crates/syson-web/tests/rr18b1_regression.rs",
+        "porting/rust-parity-evidence/RR18b1/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Count and emit borrowed canvas/model JSON before materializing output; enforce both existing raw and quoted ABI transport limits, exact wire order/float/model binding, and atomic refusal. Reuse an immutable cache only after admission.",
+        "Remove eager committed-model serialization in the closed command mutation dispatch, preserving exact semantic/canvas invalidation behavior. Use the existing model writer for allocation-free frame comparisons. Full HTML/helper rendering remains RR18b3."
+      ],
+      "verification": [
+        "Reproduce oversized canvas transport allocation before refusal; verify measured allocation/counting boundaries, exact-fit/+1 quoted envelope, no partial state/history publication and actual canvas import/export/layout/rotation controls on final default WASM.",
+        "Freeze original wire bytes and typed model comparison oracles; preserve numeric/string/Unicode distinctions, no model mutation from presentation, affected final Rust/Clippy/WASM suites and independent exact-source review.",
+        "Observe actual desktop/mobile phase timings and long tasks on fixed RR18a fixtures. This foundation cannot close full HTML allocation or the parent <50 ms gate."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ]
+    },
+    {
+      "id": "RR18b2",
+      "title": "Retain bounded presentation drafts across recovery without crossing document contexts",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18a"
+      ],
+      "external_prs": [
+        61,
+        65,
+        112
+      ],
+      "paths": [
+        "rust/crates/syson-web/web/loader.js",
+        "porting/rust-parity-evidence/RR18b2/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Implement bounded in-tab presentation draft retention through fallback/recover using the frozen #112 action/status protocol. Dedicated loader document epochs distinguish successful import/confirmed discard; stable selected-element/property scopes protect inspector values. Canvas revision is never document identity.",
+        "Admit bounded field/disclosure/UTF-8/UTF-16 content and metadata before retaining or replacing DOM. Preserve permitted unrelated creation/import/geometry drafts, focus/caret and stable disclosure keys; exclude submitted pending edits and purge cancelled inspector edits. Refusal/overflow must be explicit and prevent silent loss.",
+        "Clear prior document drafts only on acknowledged successful import/confirmed discard; preserve on refusals/Keep/recovery. Geometry drafts use the frozen action-scoped model/frame binding without cloning readonly exports or introducing a model engine."
+      ],
+      "verification": [
+        "Actual default WASM mobile/desktop fallback/recover, refused import, Keep, successful import/same IDs and confirmed discard; verify exact drafts, backward caret, focus, disclosure state, model/geometry/download bytes and undo/redo.",
+        "Test exact/+1 UTF-8/UTF-16/count/metadata bounds including Unicode, empty fields, repeated/background paints, selection/property changes and exceptions. Oversize handling must be visible and must not silently replace valid cached state or cross contexts.",
+        "Capture actual browser identity, screenshots, console warnings/errors, network and long-task/phase observations. Full renderer and required joint <50 ms acceptance remain RR18b3 OPEN."
+      ],
+      "commit_plan": [
+        "Initial bounded recovery implementation and regressions",
+        "Focused long-ID context repair found by independent actual UI review",
+        "Exact final-source verification evidence and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 3,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ]
+    },
+    {
+      "id": "RR18b3",
+      "title": "Bound complete HTML rendering and qualify composed recovery responsiveness",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR18b1",
+        "RR18b2"
+      ],
+      "external_prs": [
+        61,
+        65,
+        112
+      ],
+      "paths": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/src/bounded_render.rs",
+        "rust/crates/syson-web/web/loader.js",
+        "rust/crates/syson-web/web/style.css",
+        "rust/crates/syson-web/tests/rr18b3_regression.rs",
+        "porting/rust-parity-evidence/RR18b3/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Replace full-render-then-length-check and independently allocating helpers with bounded HTML/escaping/model/geometry sinks or counted admission before materialization. Cover navigation/options/SVG/scalar inspectors/export and all fallback paths without weakening atomic import recovery.",
+        "Preserve unrelated unsubmitted form drafts across recovery-shell removal and restoration using bounded presentation-only loader storage, with focus/caret restored. RR18a preserves drafts on normal refused-import DOM only; its fallback shell lacks prior form fields.",
+        "Compose exact RR18b1/RR18b2 with complete bounded HTML/helper emission and actual performance qualification. Any request-transfer/chunk scheduler change needs explicit request ownership, cancellation and stale callback gates before mutation. Partial sibling success never closes this child or parent.",
+        "Use the recorded phase baseline to address the whole browser task, including native text/DOM/layout work, rather than treating Rust dispatch alone as latency. Changes to large JSON/rename field wrapping or local scrolling must preserve accessible text, exact whitespace and keyboard navigation, with bounded body overflow. Source-only phase inference is insufficient.",
+        "Replace the inherited user-facing canvas refusal jargon (file/ABI byte budget) with an actionable explanation of the reached limit, unchanged model data and currently available safe export/recovery. Do not suggest unsupported view-selection features. Preserve typed admission guards and separately verify user-facing copy.",
+        "Verify Unicode glyph rendering on the pinned actual browser/native font baseline: the batch10 mobile screenshot renders a CJK draft glyph as tofu although exact DOM-string assertions pass. Provide adequate application font fallback or explicitly record an unmet visual gate; byte preservation alone cannot close visual Unicode usability."
+      ],
+      "verification": [
+        "Use under-1 MiB dense/deep/escaped inputs that expand beyond 16 MiB. Verify bounded rejection and retained prior state/drafts through actual WASM UI at desktop/mobile widths, keyboard access, console and long-task observation.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Prove pre-copy refusal/high-water allocation bounds, escaped exact-fit and +1 boundaries and independently observed actual browser responsiveness. RR18a lifecycle-only success cannot close this child.",
+        "Actual WASM fallback -> recover must retain permitted prior form drafts/caret, bound stored draft bytes, and make explicit discard clear model and presentation drafts with keyboard confirmation.",
+        "Use the exact RR18a browser fixtures:700258-byte escaped import and900381-byte committed export/2701179-byte URI. Current same-host Chromium observation has longtasks up to111ms at320px and71ms at1440px. Rendering responsiveness remains OPEN. On the pinned owned reference profile, target no main-thread task >=50ms in these journeys through pre-admission/counting/chunking; record phase timing and any unmet budget explicitly, and do not claim performance acceptance while this required budget fails. Physical mobile/other-browser acceptance remains separate.",
+        "Retain both instrumented and ordinary browser observations. The batch10 baseline reaches111/69ms whole tasks while measured Rust dispatch peaks40.8/43ms and full-journey ABI byte transfer maxima8.0/10.3ms at320/1440 (expanding-import-only7.7/7.9ms); wrapper overhead and unmeasured native work prevent exact causal attribution. Run trace/layout evidence before choosing a fix; required final whole-task budget remains unchanged."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released. Regression files are explicitly leased; any additional shared test/manifest/module change requires coordinator ordering before dispatch.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ]
+    }
+  ]
+}

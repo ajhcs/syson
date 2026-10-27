@@ -1,0 +1,139 @@
+{
+  "scope": "Fresh Chrome DevTools interactions on retained PR65-bound WASM and three Git-bound assets. Browser plugin unavailable; no Playwright invoked. No fresh native SysON browser comparison in this pass.",
+  "steps": [
+    {
+      "step": 1,
+      "description": "Desktop empty editor entry",
+      "health": "Usable; inactive commands still enabled",
+      "screenshot": "ui/01-desktop-start.png"
+    },
+    {
+      "step": 2,
+      "description": "Stage package and inspect preview/commit controls",
+      "health": "Selected creation staging and focus work",
+      "screenshot": "ui/02-staged-package.png"
+    },
+    {
+      "step": 3,
+      "description": "Commit and inspect mobile viewport",
+      "health": "Commit works; primary editing controls below initial viewport",
+      "screenshot": "ui/03-mobile-after-commit.png"
+    },
+    {
+      "step": 4,
+      "description": "Reload tab-local committed document",
+      "health": "Delivery gap: tab-local document cleared on reload, no effective exit guard",
+      "screenshot": "ui/04-reload-cleared-model.png"
+    }
+  ],
+  "console": "Only a favicon.ico 404 observed. App HTML/CSS/loader/WASM loaded without observed WASM runtime errors in these journeys. This is not a complete accessibility or usability study.",
+  "findings": [
+    {
+      "id": "UI-RR-01",
+      "severity": "P1",
+      "classification": "REPRODUCED_DELIVERY_GAP_NOT_NEW_PERSISTENCE_CLAIM",
+      "title": "Committed tab-local work is lost on reload with no effective exit guard",
+      "pr": 65,
+      "head": "394b82a808f1650b63eeb2ef32516cc7ce99d4a8",
+      "path": "rust/crates/syson-web/web/loader.js",
+      "line": 1,
+      "evidence": [
+        "ui/before-refresh-dom.json",
+        "ui/after-refresh-dom.json",
+        "ui/04-reload-cleared-model.png"
+      ],
+      "observed": "Create/stage/commit ReviewVehicle, reload with beforeunload=dismiss; committed content1\u21920, no durable storage integration. Initial copy says tab-local; this is a product-delivery gap, not a broken advertised durable store.",
+      "owners": [
+        "U03",
+        "B08",
+        "B06"
+      ],
+      "tasks": [
+        "Add an explicit dirty/durable-save state and unsaved-edit navigation guard before production use. Transaction commit must not imply durable save.",
+        "Wire actual durable project save/reopen and recovery; do not introduce a second model/store engine."
+      ],
+      "verification": [
+        "Real create/edit/save/reload plus reload-before-save, new tab, browser back, interrupted persistence and reopen preserve the intended document/canvas/IDs or visibly refuse navigation."
+      ]
+    },
+    {
+      "id": "UI-RR-02",
+      "severity": "P2",
+      "classification": "REPRODUCED_USABILITY_GAP",
+      "title": "Mobile creation controls are more than one viewport below the primary screen",
+      "pr": 65,
+      "head": "394b82a808f1650b63eeb2ef32516cc7ce99d4a8",
+      "path": "rust/crates/syson-web/web/style.css",
+      "line": 2,
+      "evidence": [
+        "ui/03-mobile-after-commit.png"
+      ],
+      "observed": "At390\u00d7844 aftercommit, creationform starts y1216 and Stagecreation y1542; canvas/secondary controls occupy firstscreen. No horizontal overflow observed.",
+      "owners": [
+        "U01",
+        "U03",
+        "U04",
+        "U05"
+      ],
+      "tasks": [
+        "Design task-first responsive navigation with discoverable model/create/inspector access; preserve viewport and draft context.",
+        "Hide/disable inapplicable kind-specific creation controls; retain accessible labels and keyboard operation."
+      ],
+      "verification": [
+        "390\u00d7844,320px,desktop,200%zoom: create/select/edit/commit/cancel can be reached and completed with visible state/focus, no scroll trap or lost drafts."
+      ]
+    },
+    {
+      "id": "UI-RR-03",
+      "severity": "P2",
+      "classification": "REPRODUCED_AFFORDANCE_DEFECT",
+      "title": "Unavailable history and canvas commands remain enabled",
+      "pr": 65,
+      "head": "394b82a808f1650b63eeb2ef32516cc7ce99d4a8",
+      "path": "rust/crates/syson-web/src/lib.rs",
+      "line": 553,
+      "evidence": [
+        "ui/01-desktop-start.png",
+        "ui/03-mobile-after-commit.png"
+      ],
+      "observed": "Empty-start Undo/Redo and canvas undo/redo/cancel are visually enabled; after firstcommit Redo remains disabled=false despite empty redo history. States rely on error/no-op feedback.",
+      "owners": [
+        "U08",
+        "U05"
+      ],
+      "tasks": [
+        "Derive command availability from typed Rust state and expose disabled/busy/selection requirements consistently; do not infer by destructive trial actions."
+      ],
+      "verification": [
+        "Initial/pending/committed/undo/redo/exhausted/stale/cancel states have correct enabled/disabled semantics and focus behavior; inapplicable actions do not produce misleading errors."
+      ]
+    },
+    {
+      "id": "UI-RR-04",
+      "severity": "P2",
+      "classification": "STATIC_OUTPUT_BOUND_AND_RECOVERY_RISK_NOT_FRESH_LARGE_BROWSER_RUN",
+      "title": "Preview cap is checked after full rendering and fallback offers no export/recovery path",
+      "pr": 65,
+      "head": "394b82a808f1650b63eeb2ef32516cc7ce99d4a8",
+      "path": "rust/crates/syson-web/src/lib.rs",
+      "line": 939,
+      "evidence": [
+        "Source render\u2192html.len check at939-945; import replaces Editor and clears history at332-342; Canvas.scene serializes whole model even when current=None."
+      ],
+      "observed": "Input1MiB guard does not bound pretty/escaped HTML expansion. Full render allocates before16MiB check; fallback has only Undo. Import clears history before fallback, so an accepted expanding document can lose normal editing/export affordances. Large-browser trigger is proposed, not executed in this pass.",
+      "owners": [
+        "B31",
+        "U03",
+        "U18",
+        "I09"
+      ],
+      "tasks": [
+        "Bound serialization/render allocation before construction and admit new documents before replacing the active recoverable state.",
+        "Keep a non-rendering export/recover/discard route reachable after preview refusal."
+      ],
+      "verification": [
+        "Dense/deep opaque metadata and escaped text below inputcap can never allocate unbounded preview or strand the session; refusal preserves prior model/drafts and export/recovery controls."
+      ]
+    }
+  ]
+}

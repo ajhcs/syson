@@ -1,0 +1,104 @@
+{
+  "plan_revision": "ef3ed0f430c6f7b1a4acb5a3beefbac048470978",
+  "canonical_head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+  "held_leases_preserved": [
+    {
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "execution_owner": "/root",
+  "compiler_jobs": 1,
+  "format_policy": "Root-only exact changed Rust files with rustfmt skip_children=true; never recursive formatter.",
+  "units": [
+    {
+      "id": "RR18b1",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr18b1-canvas-transport",
+      "branch": "codex/syson-rr18b1-canvas-transport",
+      "base": "b304b6df8711062cece3e2a557a3f73d3f9dc462",
+      "base_branch": "codex/syson-rr18-preview-recovery",
+      "prerequisite": {
+        "pr": 112,
+        "head": "b304b6df8711062cece3e2a557a3f73d3f9dc462"
+      },
+      "author": "/root/batch2_view_migration",
+      "write_scope": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/src/layout_transport.rs",
+        "rust/crates/syson-web/tests/rr18b1_regression.rs",
+        "porting/rust-parity-evidence/RR18b1/"
+      ],
+      "source_scope_detail": "RR18b1 lib edits cover committed-change dispatch/private regression; private transport registration is in layout_controller.rs. Full normal renderer unchanged. RR18b2 owns loader only."
+    },
+    {
+      "id": "RR18b2",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr18b2-recovery-drafts",
+      "branch": "codex/syson-rr18b2-recovery-drafts",
+      "base": "b304b6df8711062cece3e2a557a3f73d3f9dc462",
+      "base_branch": "codex/syson-rr18-preview-recovery",
+      "prerequisite": {
+        "pr": 112,
+        "head": "b304b6df8711062cece3e2a557a3f73d3f9dc462"
+      },
+      "author": "/root/rr07_keywords",
+      "write_scope": [
+        "rust/crates/syson-web/web/loader.js",
+        "porting/rust-parity-evidence/RR18b2/"
+      ],
+      "source_scope_detail": "RR18b1 lib edits cover committed-change dispatch/private regression; private transport registration is in layout_controller.rs. Full normal renderer unchanged. RR18b2 owns loader only."
+    }
+  ],
+  "root_coordinator_additional_paths": {
+    "RR18b1": [
+      "rust/crates/syson-web/src/layout_controller.rs"
+    ],
+    "RR18b2": []
+  },
+  "root_wiring": "Root added only the private layout_transport module hook in layout_controller.rs after author freeze, then performed admitted exact-file nonrecursive formatting; no Cargo/lock changes. lib.rs dispatch/private-regression changes belong to the author.",
+  "draft_context_contract_sha256": "9d9e7fbeb20d46d0d3109f92b7898132467097c80f39167c1a74fa4e5711800f",
+  "split_before_source_mutation": {
+    "parent": "RR18b",
+    "children": [
+      "RR18b1",
+      "RR18b2",
+      "RR18b3"
+    ],
+    "this_batch": [
+      "RR18b1",
+      "RR18b2"
+    ],
+    "remaining": "RR18b3 complete HTML/allocation/composed UI +required <50ms task gate"
+  },
+  "source_leases": "Root explicitly grants listed source-only leases; authors may edit only those paths. No author formatter/compiler/runtime/Git operations; old holds unchanged; release only after publication.",
+  "draft_context_contract_original_sha256": "cc35c1b2c0a72350e6a7f9bb95dedc1b653e9cc4081d26b7776f28cf7672cbee",
+  "contract_clarification": "Observed cancellation race adds narrow source-specific deferred mandatory invalidation/callback ownership; no asynchronous input transfer or new source path. Long-ID review correction separates model identity payload from bounded DOM metadata and requires scope-free document escape.",
+  "prior_contract_sha256": [
+    "bbb3822f06773328d1b000e7f42b0984afd5bd302b6ad5da349fdab431b66ebe",
+    "28b2e1eed48872e6ff86c1cf928d091fddee3b71ba35f813350b1c6491268b04"
+  ]
+}

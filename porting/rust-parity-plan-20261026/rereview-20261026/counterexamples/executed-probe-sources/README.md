@@ -1,0 +1,3 @@
+# Executed development-only counterexample sources
+
+These are the source copies present for the focused successful model-marker run and both allocation cases. The proposed-probes folder preserves the earlier proposal; its model probe lacked an unwrap and did not compile in the first aggregate attempt. Allocation sources did not change between attempts. Cargo paths refer to immutable source exports in the original workspace evidence root; runner copies retain those paths. Reconstruct exact exports from published-inventory.json and match the receipt source hashes before any new execution. This folder is evidence, not production application code or an independently portable test suite.

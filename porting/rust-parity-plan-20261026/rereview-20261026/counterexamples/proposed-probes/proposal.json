@@ -1,0 +1,206 @@
+{
+  "status": "SOURCE_ONLY_REPRODUCTION_PROPOSAL_NOT_EXECUTED",
+  "cases": [
+    {
+      "case": "f33",
+      "pull_request": 55,
+      "head": "92aaccaf5cd5b69b44839f77dff7723e078a60fa",
+      "entry_crate": "rust/crates/syson-json-interchange",
+      "export_root": "/workspace/build/builderbob/syson-rereview-20261026/exports/f33",
+      "source_dependency_closure": {
+        "rust/crates/syson-json-interchange": "syson-json-interchange",
+        "rust/crates/syson-references": "syson-references",
+        "rust/crates/syson-metamodel": "syson-metamodel",
+        "rust/crates/syson-model": "syson-model",
+        "rust/crates/syson-domain": "syson-domain"
+      },
+      "files_to_export_exactly": [
+        "rust/crates/syson-domain/Cargo.lock",
+        "rust/crates/syson-domain/Cargo.toml",
+        "rust/crates/syson-domain/src/lib.rs",
+        "rust/crates/syson-domain/src/model.rs",
+        "rust/crates/syson-domain/src/names.rs",
+        "rust/crates/syson-domain/src/query.rs",
+        "rust/crates/syson-domain/src/uuid.rs",
+        "rust/crates/syson-json-interchange/Cargo.lock",
+        "rust/crates/syson-json-interchange/Cargo.toml",
+        "rust/crates/syson-json-interchange/src/lib.rs",
+        "rust/crates/syson-metamodel/Cargo.lock",
+        "rust/crates/syson-metamodel/Cargo.toml",
+        "rust/crates/syson-metamodel/src/generated.rs",
+        "rust/crates/syson-metamodel/src/lib.rs",
+        "rust/crates/syson-model/Cargo.lock",
+        "rust/crates/syson-model/Cargo.toml",
+        "rust/crates/syson-model/src/containment.rs",
+        "rust/crates/syson-model/src/factory.rs",
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/src/port_definition_refs.rs",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "rust/crates/syson-model/src/scalar.rs",
+        "rust/crates/syson-references/Cargo.lock",
+        "rust/crates/syson-references/Cargo.toml",
+        "rust/crates/syson-references/src/lib.rs"
+      ],
+      "probe_manifest": "/workspace/build/builderbob/syson-rereview-20261026/parser-review/probes/f33/Cargo.toml",
+      "expected": "Error::Limit; record allocation metrics without dumping input/output. No exception text equality, timing SLA or native comparison claimed.",
+      "tracking": "Global System allocator shim counts requested live layout bytes and max single requested allocation only during exported API call. It is not total RSS and cannot measure allocator internal realloc overlap. Source-only shim contains explicit unsafe System delegation; root review required before linking.",
+      "proposed_commands": [
+        [
+          "cargo",
+          "generate-lockfile",
+          "--offline",
+          "--manifest-path",
+          "/workspace/build/builderbob/syson-rereview-20261026/parser-review/probes/f33/Cargo.toml"
+        ],
+        [
+          "cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--manifest-path",
+          "/workspace/build/builderbob/syson-rereview-20261026/parser-review/probes/f33/Cargo.toml"
+        ],
+        [
+          "/usr/bin/time",
+          "-v",
+          "/workspace/build/builderbob/syson-rereview-20261026/probe-target/debug/rereview-f33-pretty-probe"
+        ]
+      ],
+      "execution_environment": {
+        "CARGO_TARGET_DIR": "/workspace/build/builderbob/syson-rereview-20261026/probe-target",
+        "allocation": "one serial offline job; fixed bounded inputs; optional512MiB/15second process cap; root reviews commands/source/lock before execution",
+        "registry": "Existing serde_json1.0.151 closure only; root must compare registry(version,checksum) tuples against exported original lock and refuse new tuples."
+      },
+      "future_plan_primary": "I09",
+      "future_plan_related": [
+        "I03",
+        "I06",
+        "C03"
+      ]
+    },
+    {
+      "case": "f34",
+      "pull_request": 56,
+      "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+      "entry_crate": "rust/crates/syson-text-export",
+      "export_root": "/workspace/build/builderbob/syson-rereview-20261026/exports/f34",
+      "source_dependency_closure": {
+        "rust/crates/syson-text-export": "syson-text-export",
+        "rust/crates/syson-text-import": "syson-text-import",
+        "rust/crates/syson-metamodel": "syson-metamodel",
+        "rust/crates/syson-references": "syson-references",
+        "rust/crates/syson-model": "syson-model",
+        "rust/crates/syson-domain": "syson-domain",
+        "rust/crates/syson-ast": "syson-ast",
+        "rust/crates/syson-linker": "syson-linker",
+        "rust/crates/syson-ast-adapter": "syson-ast-adapter",
+        "rust/crates/syson-ast-values": "syson-ast-values",
+        "rust/crates/syson-reflection": "syson-reflection"
+      },
+      "files_to_export_exactly": [
+        "rust/crates/syson-ast/Cargo.lock",
+        "rust/crates/syson-ast/Cargo.toml",
+        "rust/crates/syson-ast/src/lib.rs",
+        "rust/crates/syson-ast-adapter/Cargo.lock",
+        "rust/crates/syson-ast-adapter/Cargo.toml",
+        "rust/crates/syson-ast-adapter/src/lib.rs",
+        "rust/crates/syson-ast-adapter/src/reserved.rs",
+        "rust/crates/syson-ast-values/Cargo.lock",
+        "rust/crates/syson-ast-values/Cargo.toml",
+        "rust/crates/syson-ast-values/src/lib.rs",
+        "rust/crates/syson-domain/Cargo.lock",
+        "rust/crates/syson-domain/Cargo.toml",
+        "rust/crates/syson-domain/src/lib.rs",
+        "rust/crates/syson-domain/src/model.rs",
+        "rust/crates/syson-domain/src/names.rs",
+        "rust/crates/syson-domain/src/query.rs",
+        "rust/crates/syson-domain/src/uuid.rs",
+        "rust/crates/syson-linker/Cargo.lock",
+        "rust/crates/syson-linker/Cargo.toml",
+        "rust/crates/syson-linker/src/lib.rs",
+        "rust/crates/syson-metamodel/Cargo.lock",
+        "rust/crates/syson-metamodel/Cargo.toml",
+        "rust/crates/syson-metamodel/src/generated.rs",
+        "rust/crates/syson-metamodel/src/lib.rs",
+        "rust/crates/syson-model/Cargo.lock",
+        "rust/crates/syson-model/Cargo.toml",
+        "rust/crates/syson-model/src/containment.rs",
+        "rust/crates/syson-model/src/factory.rs",
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/src/port_definition_refs.rs",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "rust/crates/syson-model/src/scalar.rs",
+        "rust/crates/syson-references/Cargo.lock",
+        "rust/crates/syson-references/Cargo.toml",
+        "rust/crates/syson-references/src/lib.rs",
+        "rust/crates/syson-reflection/Cargo.lock",
+        "rust/crates/syson-reflection/Cargo.toml",
+        "rust/crates/syson-reflection/src/generated.rs",
+        "rust/crates/syson-reflection/src/lib.rs",
+        "rust/crates/syson-text-export/Cargo.lock",
+        "rust/crates/syson-text-export/Cargo.toml",
+        "rust/crates/syson-text-export/src/lib.rs",
+        "rust/crates/syson-text-import/Cargo.lock",
+        "rust/crates/syson-text-import/Cargo.toml",
+        "rust/crates/syson-text-import/src/lib.rs"
+      ],
+      "probe_manifest": "/workspace/build/builderbob/syson-rereview-20261026/parser-review/probes/f34/Cargo.toml",
+      "expected": "Error::Limit; record allocation metrics without dumping input/output. No exception text equality, timing SLA or native comparison claimed.",
+      "tracking": "Global System allocator shim counts requested live layout bytes and max single requested allocation only during exported API call. It is not total RSS and cannot measure allocator internal realloc overlap. Source-only shim contains explicit unsafe System delegation; root review required before linking.",
+      "proposed_commands": [
+        [
+          "cargo",
+          "generate-lockfile",
+          "--offline",
+          "--manifest-path",
+          "/workspace/build/builderbob/syson-rereview-20261026/parser-review/probes/f34/Cargo.toml"
+        ],
+        [
+          "cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--manifest-path",
+          "/workspace/build/builderbob/syson-rereview-20261026/parser-review/probes/f34/Cargo.toml"
+        ],
+        [
+          "/usr/bin/time",
+          "-v",
+          "/workspace/build/builderbob/syson-rereview-20261026/probe-target/debug/rereview-f34-name-probe"
+        ]
+      ],
+      "execution_environment": {
+        "CARGO_TARGET_DIR": "/workspace/build/builderbob/syson-rereview-20261026/probe-target",
+        "allocation": "one serial offline job; fixed bounded inputs; optional512MiB/15second process cap; root reviews commands/source/lock before execution",
+        "registry": "Existing serde_json1.0.151 closure only; root must compare registry(version,checksum) tuples against exported original lock and refuse new tuples."
+      },
+      "future_plan_primary": "P170",
+      "future_plan_related": [
+        "P171",
+        "P183",
+        "I09"
+      ]
+    }
+  ],
+  "fixed_inputs": {
+    "f33": {
+      "nested_objects": 60,
+      "null_array_items": 100000,
+      "raw_bytes_approx": 501000,
+      "mathematical_pretty_growth": "At least roughly120indent bytes per null row => >12MiB string, exceeding1MiBserialized admission cap before code checks .len()."
+    },
+    "f34": {
+      "name_bytes": 2097152,
+      "shape": "one valid named rootPackage with exactvalidseparateUUIDs",
+      "output_limit": 65536,
+      "source_path": "printable_name returns ownedcopy of2MiB name, render pushes it before output limit check."
+    }
+  },
+  "probe_file_sha256": {
+    "allocation.rs": "afa33c57e4ab49ae23236791e3671c11946186c052c9d230372621651f042c77",
+    "f33/Cargo.toml": "6352641a3c20f0a79bf03e773efb98c10584487ae04c8953af89e8cb3a689346",
+    "f33/src/main.rs": "0b859cca86f68cf58071e61eb11358947a6d3576e3fce198ae49911e90920353",
+    "f34/Cargo.toml": "a7d9b8eb4ca64e59e2ad0a9d8939b83c44128dc87f4fd6c165c135d0fe34bd52",
+    "f34/src/main.rs": "1fe9af6c1503a51e1965d3ce2dd5dc396b3f1453e637074cf417e1b03d4fa35d"
+  }
+}

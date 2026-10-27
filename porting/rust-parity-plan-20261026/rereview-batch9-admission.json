@@ -1,0 +1,81 @@
+{
+  "held_leases_preserved": [
+    {
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "execution_owner": "/root",
+  "compiler_jobs": 1,
+  "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+  "format_policy": "Nonrecursive rustfmt skip_children=true only on exact leased changed Rust files after path admission.",
+  "plan_revision": "9cf0691d142118b836180ea1bcb785727605bdd2",
+  "units": [
+    {
+      "id": "RR18a",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr18-preview-recovery",
+      "branch": "codex/syson-rr18-preview-recovery",
+      "base": "b1951bbaf15a1abcfb855702dc06f4230fb5263b",
+      "base_branch": "codex/syson-rr-batch9-base",
+      "write_scope": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/tests/rr18_regression.rs",
+        "porting/rust-parity-evidence/RR18a/"
+      ]
+    },
+    {
+      "id": "RR20",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr20-history-budgets",
+      "branch": "codex/syson-rr20-history-budgets",
+      "base": "b1951bbaf15a1abcfb855702dc06f4230fb5263b",
+      "base_branch": "codex/syson-rr-batch9-base",
+      "write_scope": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/tests/rr20_regression.rs",
+        "porting/rust-parity-evidence/RR20/"
+      ]
+    }
+  ],
+  "source_leases": "Root explicitly grants only listed lib/test paths; raw_admission.rs and other held paths remain immutable. Authors source-only, root execution and shared wiring.",
+  "root_coordinator_additional_paths": {
+    "RR20": [],
+    "RR18a": [
+      "rust/crates/syson-web/web/loader.js"
+    ]
+  },
+  "snapshot_manifest": "/workspace/worktrees/builderbob/syson/rr-batch9-base/porting/rust-parity-prerequisites/BATCH9/source-manifest.json",
+  "split_before_source_mutation": {
+    "parent": "RR18",
+    "children": [
+      "RR18a",
+      "RR18b"
+    ],
+    "reason": "Lifecycle atomicity/recovery separate from complete before-allocation HTML writer; original gate remains open",
+    "RR18b": "NOT_STARTED;dependentRR18a"
+  },
+  "caret_wiring": "One root-owned same-control caret restoration after refused normal-DOM submit; generic fallback draft storage remains RR18b"
+}
