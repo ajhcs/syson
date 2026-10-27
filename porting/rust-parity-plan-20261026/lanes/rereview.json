@@ -449,7 +449,16 @@
         "P14",
         "P18",
         "P184"
-      ]
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-ast/Cargo.toml",
+          "rust/crates/syson-ast/Cargo.lock",
+          "rust/crates/syson-ast-adapter/Cargo.lock",
+          "rust/crates/syson-ast/tests/construction.rs"
+        ],
+        "policy": "Coordinator-only existing caller dependency registration/lock reconciliation after ownership admission. For RR08, update the single inherited copied-work expectation from3 to17 without weakening spent-ID checks. Serialize these shared edits and requalify affected suites; these are not author leases."
+      }
     },
     {
       "id": "RR09",
@@ -1172,12 +1181,14 @@
       ],
       "tasks": [
         "Inventory Value-backed parsing throughout migration/project preparation and adopt RR01 where needed. Preserve participant order, independent stamps, ordered namespace carriers and opaque raw payloads. Split newly discovered participant repairs before mutation.",
-        "The already identified shared-support and b25d parse sites are explicitly repaired in prerequisite RR24; inventory additional consumers without treating those known fixes as unspecified discovery."
+        "The already identified shared-support and b25d parse sites are explicitly repaired in prerequisite RR24; inventory additional consumers without treating those known fixes as unspecified discovery.",
+        "Fresh RR24 #103 semantic and representation gates fail after actual prepare/encode/decode/reprepare because preparation and the old model still generically materialize Value. Repair those owned sites on the exact RR02/model plus RR24/RR24a composition; ordinary provider/wire success is not literal caller acceptance."
       ],
       "verification": [
         "Run actual prepare, encode, decode and replay with both marker keys, nested marker strings, huge numeric lexemes, namespace ordering and late failures. Use an independent literal oracle and verify prior output remains unchanged.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
-        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Make both named rr22_semantic_preparation_wire_literal_gate and rr22_representation_preparation_wire_literal_gate pass on the final composed source, with manual marker objects, numeric tokens, independent stamps and prior-output preservation; retain their original fresh failures."
       ],
       "commit_plan": [
         "Focused implementation and meaningful regression/caller fixtures",
@@ -1269,11 +1280,13 @@
       "dependencies": [
         "RR01",
         "B25S",
-        "B25d"
+        "B25d",
+        "RR24a"
       ],
       "external_prs": [
         71,
-        75
+        75,
+        82
       ],
       "paths": [
         "rust/crates/syson-migrations/src/lib.rs",
@@ -1288,7 +1301,8 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Replace known generic Value materialization in migration support and b25d with RR01, preserving participant order, original raw JSON, independent stamps and all failure atomicity. No key-based token guessing or normalization of opaque objects."
+        "Replace known generic Value materialization in migration support and b25d with RR01, preserving participant order, original raw JSON, independent stamps and all failure atomicity. No key-based token guessing or normalization of opaque objects.",
+        "Use RR24a explicit LastWins compatibility so adopting the shared literal authority preserves native duplicate namespace behavior. RR22 preparation/model materialization remains a separate caller acceptance gate; execute and retain its fresh counterexamples rather than treating provider tests as closure."
       ],
       "verification": [
         "Exercise both private-token marker objects before and after each selected participant, unchanged unknown payloads, huge numeric lexemes, namespace order and late-failure rollback. Run the actual four-migration composition and the final RR22 preparation/wire caller gate.",
@@ -1315,6 +1329,64 @@
         "B25d",
         "C03b",
         "I06"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-migrations/Cargo.toml",
+          "rust/crates/syson-migrations/Cargo.lock",
+          "rust/crates/syson-project-preparation/Cargo.lock",
+          "rust/crates/syson-project-wire/Cargo.lock"
+        ],
+        "policy": "Coordinator-only registration of the qualified literal dependency and existing preparation/wire dev callers, plus all three locks. No RR22/model production changes or author lease; actual caller failures remain OPEN."
+      }
+    },
+    {
+      "id": "RR24a",
+      "title": "Add explicit literal duplicate-key compatibility without weakening strict callers",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01"
+      ],
+      "external_prs": [
+        90
+      ],
+      "paths": [
+        "rust/crates/syson-json-value/src/lib.rs",
+        "rust/crates/syson-json-value/tests/rr24a_duplicates.rs",
+        "porting/rust-parity-evidence/RR24a/",
+        "rust/crates/syson-json-value/README.md"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Keep parse strict by default and add an explicit shared LastWins policy for migration callers. Preserve first decoded-key insertion position and final value, raw bytes, original number lexemes and ordinary marker-named objects. Charge every physical occurrence before collapse; never add a second parser."
+      ],
+      "verification": [
+        "Run all strict RR01 regressions plus manual ordered/literal oracles, escaped/nested duplicate keys, overwritten malformed data, exact physical byte/depth/value/key/scalar budgets and cancellation. Verify the actual migration adopter uses only the explicit opt-in policy.",
+        "Freeze exact source, preserve original failed attempts, independently review, and bind executed inputs to committed blobs. A new compatibility API is not a claim that the old strict policy was a bug."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Root is the sole author of this shared parser prerequisite; isolated exact #90 worktree, independent source review and serialized offline execution. RR24 adopter has no shared-parser write lease.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "RR24"
       ]
     }
   ]

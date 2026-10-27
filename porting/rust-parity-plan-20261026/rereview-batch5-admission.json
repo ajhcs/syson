@@ -1,0 +1,165 @@
+{
+  "plan_revision": "1e4395cd9ed2250d2c04c1ce9b6fe9814223ae6c",
+  "units": [
+    {
+      "id": "RR08",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr08-ast-rollback",
+      "branch": "codex/syson-rr08-ast-rollback",
+      "base": "25acfaa6f3059685f133be034355f11104aad16f",
+      "base_branch": "codex/syson-f12",
+      "original_prerequisite": 41,
+      "original_base": "25acfaa6f3059685f133be034355f11104aad16f",
+      "original_branch": "codex/syson-f12",
+      "snapshot_blobs": [],
+      "write_scope": [
+        "rust/crates/syson-ast/src/lib.rs",
+        "rust/crates/syson-ast/tests/rr08_regression.rs",
+        "porting/rust-parity-evidence/RR08/"
+      ]
+    },
+    {
+      "id": "RR15",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr15-syntax-files",
+      "branch": "codex/syson-rr15-syntax-files",
+      "base": "ca80c1960620f87b940bd1e2040597efd7842052",
+      "base_branch": "codex/syson-split-s11-20261024",
+      "original_prerequisite": 12,
+      "original_base": "ca80c1960620f87b940bd1e2040597efd7842052",
+      "original_branch": "codex/syson-split-s11-20261024",
+      "snapshot_blobs": [],
+      "write_scope": [
+        "rust/tools/syntax-observe/src/main.rs",
+        "rust/tools/syntax-observe/tests/rr15_regression.rs",
+        "porting/rust-parity-evidence/RR15/"
+      ]
+    },
+    {
+      "id": "RR24",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr24-migration-literals",
+      "branch": "codex/syson-rr24-migration-literals",
+      "base": "1c3dbf782ccfc3884f95c7c7ed9019b1e613135b",
+      "base_branch": "codex/syson-rr24-base",
+      "original_prerequisite": 82,
+      "original_base": "606b169def89d2b4dabf6a48e03d16f3d024277b",
+      "original_branch": "codex/syson-rp-c03c-project-wire",
+      "snapshot_blobs": [
+        {
+          "path": "rust/crates/syson-json-value/Cargo.lock",
+          "git_blob": "390dddaf1ea92f784b38a3a1f5b97e676b300ac3",
+          "sha256": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e"
+        },
+        {
+          "path": "rust/crates/syson-json-value/Cargo.toml",
+          "git_blob": "2d6d3bb080b0f7ff61f20395cec9da084137ce39",
+          "sha256": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5"
+        },
+        {
+          "path": "rust/crates/syson-json-value/README.md",
+          "git_blob": "0e63720efb3557fdcf6f5ca81e9bda06ed386235",
+          "sha256": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f"
+        },
+        {
+          "path": "rust/crates/syson-json-value/src/lib.rs",
+          "git_blob": "fef6e09e335f075e174ece6364694d18d1a5abeb",
+          "sha256": "fb83a0daad8b57c43109651b5d6a8aa1ab4220b8e09c825faf3d05f94862efea"
+        },
+        {
+          "path": "rust/crates/syson-json-value/tests/literal.rs",
+          "git_blob": "161441ff639af36410a6ce223a6ee909ffe4652e",
+          "sha256": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c"
+        },
+        {
+          "path": "rust/crates/syson-json-value/tests/rr24a_duplicates.rs",
+          "git_blob": "f49f8e50ae50ca77b92c542994a5a5509801ba17",
+          "sha256": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a"
+        }
+      ],
+      "write_scope": [
+        "rust/crates/syson-migrations/src/lib.rs",
+        "rust/crates/syson-migrations/b25d.rs",
+        "rust/crates/syson-migrations/tests/rr24_literal.rs",
+        "porting/rust-parity-evidence/RR24/"
+      ],
+      "initial_red_base": "9a29e46738905de830f3842dabeb7dca24928d79",
+      "additional_source_prerequisite": "RR24a",
+      "qualified_dependency_implementation": "d16f6436ec5c133a7b5819c7e4198b57fe88f0e8"
+    },
+    {
+      "id": "RR24a",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr24a-literal-duplicates",
+      "branch": "codex/syson-rr24a-literal-duplicates",
+      "base": "ca7029b2a6c08393b172033e7bd9a548c2a66484",
+      "base_branch": "codex/syson-rr01-json-value",
+      "original_prerequisite": 90,
+      "original_base": "ca7029b2a6c08393b172033e7bd9a548c2a66484",
+      "original_branch": "codex/syson-rr01-json-value",
+      "snapshot_blobs": [],
+      "write_scope": [
+        "rust/crates/syson-json-value/src/lib.rs",
+        "rust/crates/syson-json-value/tests/rr24a_duplicates.rs",
+        "porting/rust-parity-evidence/RR24a/",
+        "rust/crates/syson-json-value/README.md"
+      ]
+    }
+  ],
+  "held_leases_preserved": [
+    {
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "ownership_reconciliation": "Disjoint source authors; held factory/initializer graph/raw-admission paths remain read-only. Prior selected prerequisite authors released their scopes. No historical hold is released.",
+  "root_coordinator_additional_paths": {
+    "RR08": [
+      "rust/crates/syson-ast/Cargo.toml",
+      "rust/crates/syson-ast/Cargo.lock",
+      "rust/crates/syson-ast-adapter/Cargo.lock",
+      "rust/crates/syson-ast/tests/construction.rs"
+    ],
+    "RR15": [],
+    "RR24": [
+      "rust/crates/syson-migrations/Cargo.toml",
+      "rust/crates/syson-migrations/Cargo.lock",
+      "rust/crates/syson-project-preparation/Cargo.lock",
+      "rust/crates/syson-project-wire/Cargo.lock"
+    ],
+    "RR24a": []
+  },
+  "format_policy": "Nonrecursive rustfmt skip_children=true only on exact leased changed Rust files after path admission.",
+  "execution_owner": "/root",
+  "compiler_jobs": 1,
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+  "snapshot_policy": "Final RR24 base1c3dbf782ccfc3884f95c7c7ed9019b1e613135b preserves exact #82 plus six qualified RR24a/#100 crate blobs from implementation d16f6436ec5c133a7b5819c7e4198b57fe88f0e8. Initial red base9a29e46738905de830f3842dabeb7dca24928d79 remains recorded separately. Land prerequisites, retarget and requalify; never merge into feature/snapshot bases.",
+  "dependency_refinement": "RR24a opt-in duplicate-key policy is a separate root-authored prerequisite to preserve native migration semantics; strict RR01 API unchanged. RR24 final snapshot must contain exact qualified RR24a source; initial red baseline retained separately.",
+  "admission_policy_correction": {
+    "reason": "The top-level snapshot_policy sentence retained initial five-blob #90 wording after final dependency graft. Unit base, six snapshot blobs and executed-source bindings were already correct.",
+    "superseded_snapshot_policy": "RR24 preserves exact #82 existing four-migration/preparation/wire composition and five unchanged #90 crate blobs. Shared support/B25d bytes remain exact prerequisites until scoped repair. Land dependencies and retarget/requalify; never merge into snapshot/feature bases.",
+    "sealed_source_evidence_packets_preserved": true,
+    "source_binding_fields_and_compiled_inputs_unchanged": true,
+    "final_plan_policy_corrected": true,
+    "scope": "Metadata wording only; no test replay or source-head rewrite."
+  }
+}
