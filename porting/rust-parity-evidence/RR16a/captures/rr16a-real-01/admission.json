@@ -1,0 +1,104 @@
+{
+  "schema": "RR16a/1",
+  "candidate": "a32fdc5b793ccd1edce454864991f5b017db432f",
+  "commands": [
+    {
+      "id": "metamodel-generation",
+      "kind": "generated-check",
+      "argv": [
+        "/usr/bin/python3.12",
+        "rust/crates/syson-metamodel/tools/generate.py",
+        "--check"
+      ],
+      "manifest": null,
+      "required_inputs": [
+        "rust/crates/syson-metamodel/tools/generate.py",
+        "rust/crates/syson-metamodel/src/generated.rs"
+      ],
+      "required_pins": [
+        "sysml",
+        "customnodes"
+      ],
+      "timeout_s": 90
+    },
+    {
+      "id": "metamodel-default",
+      "kind": "cargo-test",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "rust/crates/syson-metamodel/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "manifest": "rust/crates/syson-metamodel/Cargo.toml",
+      "required_inputs": [
+        "rust/crates/syson-metamodel/Cargo.toml",
+        "rust/crates/syson-metamodel/Cargo.lock",
+        "rust/crates/syson-metamodel/src/generated.rs",
+        "rust/crates/syson-metamodel/src/lib.rs",
+        "rust/crates/syson-metamodel/tests/registry.rs"
+      ],
+      "required_pins": [
+        "sysml",
+        "customnodes"
+      ],
+      "timeout_s": 180
+    }
+  ],
+  "held_manifests": {
+    "rust/crates/syson-initializer-graph/Cargo.toml": "ACTIVE historical initializer-graph source hold; inventory only",
+    "rust/crates/syson-model/Cargo.toml": "Conservative omission: held raw_admission feature source; default scope not selected here"
+  },
+  "historical_pins": [
+    {
+      "id": "sysml",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/resources/model/sysml.ecore",
+      "sha256": "82463c8f21d1a688603866ec02c6d4880b4e9224e34e9833a464aed0bd8f5440"
+    },
+    {
+      "id": "customnodes",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "path": "backend/metamodel/syson-siriusweb-customnodes-metamodel/src/main/resources/model/sysml-customnodes.ecore",
+      "sha256": "80006ba6cf30c146c1a8050ab7218adf52bdca92e04cbb45dd839b727790b266"
+    }
+  ],
+  "external_inputs": [],
+  "tools": [
+    {
+      "path": "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+      "sha256": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af"
+    },
+    {
+      "path": "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc",
+      "sha256": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853"
+    },
+    {
+      "path": "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustdoc",
+      "sha256": "832e53ca262db3d3fcaca659dc6e71f0f5a924a48adc580ee4278acac75f3e80"
+    },
+    {
+      "path": "/usr/bin/python3.12",
+      "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+    },
+    {
+      "path": "/usr/bin/git",
+      "sha256": "eb54b535467e0975c1284d4c4d08eea779aeb248a5d34b02e2ee171382e22201"
+    }
+  ],
+  "env": {
+    "PATH": "/usr/bin:/bin",
+    "CARGO_HOME": "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-real-01/build/cargo-home",
+    "RUSTC": "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc",
+    "RUSTDOC": "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustdoc",
+    "TMPDIR": "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-real-01/build/scratch",
+    "SYSON_TEST_DIR": "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-real-01/build/scratch",
+    "SYSON_BUILD_DIR": "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-real-01/build"
+  }
+}

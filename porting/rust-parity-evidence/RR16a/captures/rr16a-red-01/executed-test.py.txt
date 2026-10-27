@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+"""Owned stub-process receipt regressions; never execute Cargo or Rust code."""
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+
+RUNNER = Path(__file__).resolve().parents[1] / "run_integration_checks.py"
+STUB = r'''#!/usr/bin/python3
+import os
+from pathlib import Path
+import sys
+if os.environ.get("RR16_MUTATE"):
+    Path(os.environ["RR16_MUTATE"]).write_text("// persistent injected drift\n")
+print("owned cargo stub; no compiler executed", flush=True)
+print("test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out", flush=True)
+sys.exit(int(os.environ.get("RR16_EXIT", "0")))
+'''
+
+class Receipts(unittest.TestCase):
+    def setUp(self):
+        base = Path(os.environ["SYSON_RR16_TEST_ROOT"]).resolve(strict=True)
+        self.assertTrue(base.is_dir() and base.is_absolute() and base.is_relative_to("/workspace"))
+        self.directory = Path(tempfile.mkdtemp(prefix="rr16-fixture-", dir=base))
+        self.root = self.directory / "source"
+        self.root.mkdir()
+        self.build = self.directory / "build"
+        self.build.mkdir()
+        self.bin = self.directory / "bin"
+        self.bin.mkdir()
+        self.stub = self.bin / "cargo"
+        self.stub.write_text(STUB)
+        self.stub.chmod(0o755)
+        self.env = dict(os.environ, PATH=str(self.bin) + os.pathsep + os.defpath,
+                        PYTHONDONTWRITEBYTECODE="1", GIT_CONFIG_GLOBAL=os.devnull,
+                        GIT_CONFIG_SYSTEM=os.devnull)
+        self.write("porting/run_integration_checks.py", RUNNER.read_bytes())
+        for name in ["syson-metamodel", "syson-model", "syson-web", "syson-workflow", "syson-syntax"]:
+            self.write(f"rust/crates/{name}/Cargo.toml", f'[package]\nname="{name}"\nversion="0.1.0"\n')
+            self.write(f"rust/crates/{name}/src/lib.rs", "// stub fixture only\n")
+        self.write("rust/validation/Cargo.toml", '[package]\nname="fixture-validation"\nversion="0.1.0"\n')
+        self.write("rust/tools/new-observer/Cargo.toml", '[package]\nname="new-observer"\nversion="0.1.0"\n')
+        self.write("rust/tools/new-observer/src/main.rs", "// not executed\n")
+        self.write("backend/native-fixture.sql", "-- independently consumed fixture\n")
+        self.git("init", "-q")
+        self.git("add", ".")
+        self.git("-c", "user.name=RR16 owned fixture", "-c", "user.email=rr16-fixture@example.invalid", "commit", "-qm", "immutable test candidate")
+        self.candidate = self.git("rev-parse", "HEAD").strip()
+
+    def write(self, relative, value):
+        path = self.root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(value if isinstance(value, bytes) else value.encode())
+        return path
+
+    def git(self, *argv):
+        result = subprocess.run([shutil.which("git"), "-C", str(self.root), *argv],
+                                env=self.env, capture_output=True, text=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return result.stdout
+
+    def run_receipt(self, start="syson-metamodel", **environment):
+        evidence = self.directory / "evidence"
+        result = subprocess.run([sys.executable, str(self.root / "porting/run_integration_checks.py"),
+                                 "--build-dir", str(self.build), "--evidence-dir", str(evidence),
+                                 "--start-at", start], cwd=self.root,
+                                env=dict(self.env, **environment), capture_output=True, timeout=20)
+        return result, json.loads((evidence / "receipt.json").read_text())
+
+    def test_tool_manifest_is_part_of_the_receipt_input_inventory(self):
+        _, receipt = self.run_receipt()
+        self.assertIn("rust/tools/new-observer/Cargo.toml", receipt["source_sha256"])
+
+    def test_backend_fixture_is_part_of_the_receipt_input_inventory(self):
+        _, receipt = self.run_receipt()
+        self.assertIn("backend/native-fixture.sql", receipt["source_sha256"])
+
+    def test_source_drift_cannot_return_a_successful_receipt(self):
+        result, receipt = self.run_receipt(RR16_MUTATE=str(self.root / "rust/crates/syson-model/src/lib.rs"))
+        self.assertNotEqual(receipt["status"], "PASS")
+        self.assertNotEqual(result.returncode, 0)
+
+    def test_resume_suffix_is_never_a_broad_pass(self):
+        _, receipt = self.run_receipt(start="wasm")
+        self.assertNotEqual(receipt["status"], "PASS")
+
+    def test_nonzero_command_remains_a_recorded_failure(self):
+        result, receipt = self.run_receipt(RR16_EXIT="7")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertNotEqual(receipt["status"], "PASS")
+        self.assertEqual(receipt["commands"][0]["exit_code"], 7)
+
+if __name__ == "__main__":
+    unittest.main()

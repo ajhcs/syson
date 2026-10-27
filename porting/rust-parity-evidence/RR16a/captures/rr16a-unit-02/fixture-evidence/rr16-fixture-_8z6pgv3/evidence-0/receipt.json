@@ -1,0 +1,406 @@
+{
+  "schema": "RR16a/1",
+  "status": "FAILED_SCOPED",
+  "full_qualification": false,
+  "limitations": [
+    "RR16b full composed qualification remains OPEN",
+    "Historical/external/toolchain completeness is declaration-only",
+    "Before/after hashes do not detect hostile change then restoration",
+    "Isolated candidate requires no other writer; no whole-host I/O proof"
+  ],
+  "started_at_utc": "2026-10-27T15:18:04.453668Z",
+  "commands": [
+    {
+      "id": "syson-metamodel",
+      "kind": "cargo-test",
+      "manifest": "rust/crates/syson-metamodel/Cargo.toml",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-unit-02/scratch/rr16-fixture-_8z6pgv3/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "rust/crates/syson-metamodel/Cargo.toml"
+      ],
+      "required_inputs": [
+        "rust/crates/syson-metamodel/Cargo.toml"
+      ],
+      "required_pins": [],
+      "timeout_s": 5,
+      "process_group": 1342007,
+      "started_at_utc": "2026-10-27T15:18:04.477767Z",
+      "ended_at_utc": "2026-10-27T15:18:04.492508Z",
+      "exit_code": 0,
+      "signal": null,
+      "timed_out": false,
+      "streams": {
+        "stdout": {
+          "path": "000-syson-metamodel-stdout.txt",
+          "sha256": "d22596be0da8f2128bb630480b1eef378d94f9301891bd386a07d57b85754d41",
+          "portable_sha256": "d22596be0da8f2128bb630480b1eef378d94f9301891bd386a07d57b85754d41"
+        },
+        "stderr": {
+          "path": "000-syson-metamodel-stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "portable_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "reported_passed_tests": 1,
+      "test_result_lines": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out"
+      ],
+      "before": {
+        "repository": {
+          "backend/native-fixture.sql": {
+            "sha256": "fbde66768153d1679af3b2f2cbb818ba177688d23fc56a097b1a8405af23e3d9",
+            "mode": "100644",
+            "git_blob": "cea0da2aa685d58e1c7a082e2a9d798b438334b4"
+          },
+          "porting/run_integration_checks.py": {
+            "sha256": "b3f706fe14559eacc9f1b74137b166da949a6e992bbe762b3928c9d947701704",
+            "mode": "100644",
+            "git_blob": "2c481ca29be00c4cff9f7b213d84b0698e83add6"
+          },
+          "rust/crates/syson-metamodel/Cargo.lock": {
+            "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+            "mode": "100644",
+            "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+          },
+          "rust/crates/syson-metamodel/Cargo.toml": {
+            "sha256": "c5e4b50277d9f0916a76b9d5de6242f088239fdcc95fb84794018cabe8036e24",
+            "mode": "100644",
+            "git_blob": "c1c9dd19aa377c2179153f11d5c9671f44779c0c"
+          },
+          "rust/crates/syson-metamodel/src/lib.rs": {
+            "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+            "mode": "100644",
+            "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+          },
+          "rust/crates/syson-model/Cargo.lock": {
+            "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+            "mode": "100644",
+            "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+          },
+          "rust/crates/syson-model/Cargo.toml": {
+            "sha256": "76e8b751ac12256a010bf5e0b94e82b3511735c9a16bf55fde137ad7e21f7c63",
+            "mode": "100644",
+            "git_blob": "b061299f662b00f264cf2303ee89bd948ed6c39b"
+          },
+          "rust/crates/syson-model/src/lib.rs": {
+            "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+            "mode": "100644",
+            "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+          },
+          "rust/crates/syson-syntax/Cargo.lock": {
+            "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+            "mode": "100644",
+            "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+          },
+          "rust/crates/syson-syntax/Cargo.toml": {
+            "sha256": "b92e655770acb0928a47742f82bed2569b2ed3f917d6c363ba089bd5926b8b08",
+            "mode": "100644",
+            "git_blob": "2a35eadbf536f1586eecc09b80108f13404446f7"
+          },
+          "rust/crates/syson-syntax/src/lib.rs": {
+            "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+            "mode": "100644",
+            "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+          },
+          "rust/crates/syson-web/Cargo.lock": {
+            "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+            "mode": "100644",
+            "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+          },
+          "rust/crates/syson-web/Cargo.toml": {
+            "sha256": "55c7e509c325be883cb936886a6a1c84f5dc8b254665acd23177223d1f4aedbb",
+            "mode": "100644",
+            "git_blob": "bfbed1274d0ab15dc75dd9167617203fb983dc20"
+          },
+          "rust/crates/syson-web/src/lib.rs": {
+            "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+            "mode": "100644",
+            "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+          },
+          "rust/crates/syson-workflow/Cargo.lock": {
+            "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+            "mode": "100644",
+            "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+          },
+          "rust/crates/syson-workflow/Cargo.toml": {
+            "sha256": "a8df18c37d475966d7a3cbae2b9328ab43277a6d12cc883dbd3a9d9545b5041c",
+            "mode": "100644",
+            "git_blob": "9b5f227379eca6310db6581beb0bae985d0efa14"
+          },
+          "rust/crates/syson-workflow/src/lib.rs": {
+            "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+            "mode": "100644",
+            "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+          },
+          "rust/tools/new-observer/Cargo.lock": {
+            "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+            "mode": "100644",
+            "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+          },
+          "rust/tools/new-observer/Cargo.toml": {
+            "sha256": "cda810551d07716b8c233755394b402049e0a080925722929d7ab2e074e854e4",
+            "mode": "100644",
+            "git_blob": "e3e3f50936b3deafbd65235aaf644bbf59b7d8ac"
+          },
+          "rust/tools/new-observer/src/main.rs": {
+            "sha256": "3ab2dd6b7ca92bdeb5ea6ee58b8d92a680fec04ef3fdb57c47ad8e16afddedf9",
+            "mode": "100644",
+            "git_blob": "e5ffe0d770637ea2a27e2b73e6cda916d9785c4f"
+          },
+          "rust/validation/Cargo.lock": {
+            "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+            "mode": "100644",
+            "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+          },
+          "rust/validation/Cargo.toml": {
+            "sha256": "993bcfb2e821ec892c7a48fb509b2dcf795d63945424c4911fb708b44706c8e0",
+            "mode": "100644",
+            "git_blob": "a50811f8b964f1998f9e80fd5658eecbd7072f13"
+          }
+        },
+        "external": {
+          "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-unit-02/scratch/rr16-fixture-_8z6pgv3/admission-0.json": {
+            "sha256": "ccd943cc06ece9f4558a19969358b51ed8b959acecc891f6e76e6e805a7a92bb",
+            "mode": "100644"
+          },
+          "/usr/bin/git": {
+            "sha256": "eb54b535467e0975c1284d4c4d08eea779aeb248a5d34b02e2ee171382e22201",
+            "mode": "100755"
+          },
+          "/usr/bin/python3.12": {
+            "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+            "mode": "100755"
+          },
+          "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-unit-02/scratch/rr16-fixture-_8z6pgv3/bin/cargo": {
+            "sha256": "9df26c6d73e4ef00a81a5a17a83fe2732b0c8e74e8eb49c69da1e790b0126f5e",
+            "mode": "100755"
+          }
+        },
+        "historical": {}
+      },
+      "closure_error": "candidate byte/mode drift: rust/crates/syson-model/src/lib.rs actual={'sha256': '3246f8313941b83debfc926c2bceb986d256ca254564df0626fe9460e323e376', 'mode': '100644'}"
+    }
+  ],
+  "candidate": "117b6821163afdea5753844e39319e7afaef1a21",
+  "admission_sha256": "ccd943cc06ece9f4558a19969358b51ed8b959acecc891f6e76e6e805a7a92bb",
+  "source_sha256": {
+    "backend/native-fixture.sql": "fbde66768153d1679af3b2f2cbb818ba177688d23fc56a097b1a8405af23e3d9",
+    "porting/run_integration_checks.py": "b3f706fe14559eacc9f1b74137b166da949a6e992bbe762b3928c9d947701704",
+    "rust/crates/syson-metamodel/Cargo.lock": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+    "rust/crates/syson-metamodel/Cargo.toml": "c5e4b50277d9f0916a76b9d5de6242f088239fdcc95fb84794018cabe8036e24",
+    "rust/crates/syson-metamodel/src/lib.rs": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+    "rust/crates/syson-model/Cargo.lock": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+    "rust/crates/syson-model/Cargo.toml": "76e8b751ac12256a010bf5e0b94e82b3511735c9a16bf55fde137ad7e21f7c63",
+    "rust/crates/syson-model/src/lib.rs": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+    "rust/crates/syson-syntax/Cargo.lock": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+    "rust/crates/syson-syntax/Cargo.toml": "b92e655770acb0928a47742f82bed2569b2ed3f917d6c363ba089bd5926b8b08",
+    "rust/crates/syson-syntax/src/lib.rs": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+    "rust/crates/syson-web/Cargo.lock": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+    "rust/crates/syson-web/Cargo.toml": "55c7e509c325be883cb936886a6a1c84f5dc8b254665acd23177223d1f4aedbb",
+    "rust/crates/syson-web/src/lib.rs": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+    "rust/crates/syson-workflow/Cargo.lock": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+    "rust/crates/syson-workflow/Cargo.toml": "a8df18c37d475966d7a3cbae2b9328ab43277a6d12cc883dbd3a9d9545b5041c",
+    "rust/crates/syson-workflow/src/lib.rs": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+    "rust/tools/new-observer/Cargo.lock": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+    "rust/tools/new-observer/Cargo.toml": "cda810551d07716b8c233755394b402049e0a080925722929d7ab2e074e854e4",
+    "rust/tools/new-observer/src/main.rs": "3ab2dd6b7ca92bdeb5ea6ee58b8d92a680fec04ef3fdb57c47ad8e16afddedf9",
+    "rust/validation/Cargo.lock": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+    "rust/validation/Cargo.toml": "993bcfb2e821ec892c7a48fb509b2dcf795d63945424c4911fb708b44706c8e0"
+  },
+  "before": {
+    "repository": {
+      "backend/native-fixture.sql": {
+        "sha256": "fbde66768153d1679af3b2f2cbb818ba177688d23fc56a097b1a8405af23e3d9",
+        "mode": "100644",
+        "git_blob": "cea0da2aa685d58e1c7a082e2a9d798b438334b4"
+      },
+      "porting/run_integration_checks.py": {
+        "sha256": "b3f706fe14559eacc9f1b74137b166da949a6e992bbe762b3928c9d947701704",
+        "mode": "100644",
+        "git_blob": "2c481ca29be00c4cff9f7b213d84b0698e83add6"
+      },
+      "rust/crates/syson-metamodel/Cargo.lock": {
+        "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+        "mode": "100644",
+        "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+      },
+      "rust/crates/syson-metamodel/Cargo.toml": {
+        "sha256": "c5e4b50277d9f0916a76b9d5de6242f088239fdcc95fb84794018cabe8036e24",
+        "mode": "100644",
+        "git_blob": "c1c9dd19aa377c2179153f11d5c9671f44779c0c"
+      },
+      "rust/crates/syson-metamodel/src/lib.rs": {
+        "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+        "mode": "100644",
+        "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+      },
+      "rust/crates/syson-model/Cargo.lock": {
+        "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+        "mode": "100644",
+        "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+      },
+      "rust/crates/syson-model/Cargo.toml": {
+        "sha256": "76e8b751ac12256a010bf5e0b94e82b3511735c9a16bf55fde137ad7e21f7c63",
+        "mode": "100644",
+        "git_blob": "b061299f662b00f264cf2303ee89bd948ed6c39b"
+      },
+      "rust/crates/syson-model/src/lib.rs": {
+        "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+        "mode": "100644",
+        "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+      },
+      "rust/crates/syson-syntax/Cargo.lock": {
+        "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+        "mode": "100644",
+        "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+      },
+      "rust/crates/syson-syntax/Cargo.toml": {
+        "sha256": "b92e655770acb0928a47742f82bed2569b2ed3f917d6c363ba089bd5926b8b08",
+        "mode": "100644",
+        "git_blob": "2a35eadbf536f1586eecc09b80108f13404446f7"
+      },
+      "rust/crates/syson-syntax/src/lib.rs": {
+        "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+        "mode": "100644",
+        "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+      },
+      "rust/crates/syson-web/Cargo.lock": {
+        "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+        "mode": "100644",
+        "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+      },
+      "rust/crates/syson-web/Cargo.toml": {
+        "sha256": "55c7e509c325be883cb936886a6a1c84f5dc8b254665acd23177223d1f4aedbb",
+        "mode": "100644",
+        "git_blob": "bfbed1274d0ab15dc75dd9167617203fb983dc20"
+      },
+      "rust/crates/syson-web/src/lib.rs": {
+        "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+        "mode": "100644",
+        "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+      },
+      "rust/crates/syson-workflow/Cargo.lock": {
+        "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+        "mode": "100644",
+        "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+      },
+      "rust/crates/syson-workflow/Cargo.toml": {
+        "sha256": "a8df18c37d475966d7a3cbae2b9328ab43277a6d12cc883dbd3a9d9545b5041c",
+        "mode": "100644",
+        "git_blob": "9b5f227379eca6310db6581beb0bae985d0efa14"
+      },
+      "rust/crates/syson-workflow/src/lib.rs": {
+        "sha256": "3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720",
+        "mode": "100644",
+        "git_blob": "3028089fc7f87c112e0657f18a20c903e3bdf3bc"
+      },
+      "rust/tools/new-observer/Cargo.lock": {
+        "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+        "mode": "100644",
+        "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+      },
+      "rust/tools/new-observer/Cargo.toml": {
+        "sha256": "cda810551d07716b8c233755394b402049e0a080925722929d7ab2e074e854e4",
+        "mode": "100644",
+        "git_blob": "e3e3f50936b3deafbd65235aaf644bbf59b7d8ac"
+      },
+      "rust/tools/new-observer/src/main.rs": {
+        "sha256": "3ab2dd6b7ca92bdeb5ea6ee58b8d92a680fec04ef3fdb57c47ad8e16afddedf9",
+        "mode": "100644",
+        "git_blob": "e5ffe0d770637ea2a27e2b73e6cda916d9785c4f"
+      },
+      "rust/validation/Cargo.lock": {
+        "sha256": "083791b01c1a67ae66aca99070c9ee48082d04307473d494376e6de7cf9a654a",
+        "mode": "100644",
+        "git_blob": "8b7c362149892ab72701c6e237242ba87a47328b"
+      },
+      "rust/validation/Cargo.toml": {
+        "sha256": "993bcfb2e821ec892c7a48fb509b2dcf795d63945424c4911fb708b44706c8e0",
+        "mode": "100644",
+        "git_blob": "a50811f8b964f1998f9e80fd5658eecbd7072f13"
+      }
+    },
+    "external": {
+      "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-unit-02/scratch/rr16-fixture-_8z6pgv3/admission-0.json": {
+        "sha256": "ccd943cc06ece9f4558a19969358b51ed8b959acecc891f6e76e6e805a7a92bb",
+        "mode": "100644"
+      },
+      "/usr/bin/git": {
+        "sha256": "eb54b535467e0975c1284d4c4d08eea779aeb248a5d34b02e2ee171382e22201",
+        "mode": "100755"
+      },
+      "/usr/bin/python3.12": {
+        "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+        "mode": "100755"
+      },
+      "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-unit-02/scratch/rr16-fixture-_8z6pgv3/bin/cargo": {
+        "sha256": "9df26c6d73e4ef00a81a5a17a83fe2732b0c8e74e8eb49c69da1e790b0126f5e",
+        "mode": "100755"
+      }
+    },
+    "historical": {}
+  },
+  "inventory": {
+    "rust/crates/syson-metamodel/Cargo.toml": {
+      "package": "syson-metamodel",
+      "local_dependencies": [],
+      "unsupported": null,
+      "disposition": "SELECTED"
+    },
+    "rust/crates/syson-model/Cargo.toml": {
+      "package": "syson-model",
+      "local_dependencies": [],
+      "unsupported": null,
+      "disposition": "NOT_SELECTED"
+    },
+    "rust/crates/syson-syntax/Cargo.toml": {
+      "package": "syson-syntax",
+      "local_dependencies": [],
+      "unsupported": null,
+      "disposition": "NOT_SELECTED"
+    },
+    "rust/crates/syson-web/Cargo.toml": {
+      "package": "syson-web",
+      "local_dependencies": [],
+      "unsupported": null,
+      "disposition": "NOT_SELECTED"
+    },
+    "rust/crates/syson-workflow/Cargo.toml": {
+      "package": "syson-workflow",
+      "local_dependencies": [],
+      "unsupported": null,
+      "disposition": "NOT_SELECTED"
+    },
+    "rust/tools/new-observer/Cargo.toml": {
+      "package": "new-observer",
+      "local_dependencies": [],
+      "unsupported": null,
+      "disposition": "NOT_SELECTED"
+    },
+    "rust/validation/Cargo.toml": {
+      "package": "fixture-validation",
+      "local_dependencies": [],
+      "unsupported": null,
+      "disposition": "NOT_SELECTED"
+    }
+  },
+  "held_manifests": {
+    "rust/crates/syson-initializer-graph/Cargo.toml": "active historical initializer ownership hold"
+  },
+  "unexecuted_prefix": [],
+  "selected_scope": [
+    "syson-metamodel",
+    "wasm"
+  ],
+  "error": "candidate byte/mode drift: rust/crates/syson-model/src/lib.rs actual={'sha256': '3246f8313941b83debfc926c2bceb986d256ca254564df0626fe9460e323e376', 'mode': '100644'}",
+  "not_run_commands": [
+    "wasm"
+  ],
+  "ended_at_utc": "2026-10-27T15:18:04.495261Z"
+}

@@ -1,0 +1,42 @@
+test_backend_fixture_is_part_of_the_receipt_input_inventory (__main__.Receipts.test_backend_fixture_is_part_of_the_receipt_input_inventory) ... FAIL
+test_nonzero_command_remains_a_recorded_failure (__main__.Receipts.test_nonzero_command_remains_a_recorded_failure) ... ok
+test_resume_suffix_is_never_a_broad_pass (__main__.Receipts.test_resume_suffix_is_never_a_broad_pass) ... FAIL
+test_source_drift_cannot_return_a_successful_receipt (__main__.Receipts.test_source_drift_cannot_return_a_successful_receipt) ... FAIL
+test_tool_manifest_is_part_of_the_receipt_input_inventory (__main__.Receipts.test_tool_manifest_is_part_of_the_receipt_input_inventory) ... FAIL
+
+======================================================================
+FAIL: test_backend_fixture_is_part_of_the_receipt_input_inventory (__main__.Receipts.test_backend_fixture_is_part_of_the_receipt_input_inventory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-red-01/source/porting/tests/test_rr16_integration_receipts.py", line 80, in test_backend_fixture_is_part_of_the_receipt_input_inventory
+    self.assertIn("backend/native-fixture.sql", receipt["source_sha256"])
+AssertionError: 'backend/native-fixture.sql' not found in {'rust/crates/syson-metamodel/Cargo.toml': 'c5e4b50277d9f0916a76b9d5de6242f088239fdcc95fb84794018cabe8036e24', 'rust/crates/syson-metamodel/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/crates/syson-model/Cargo.toml': '76e8b751ac12256a010bf5e0b94e82b3511735c9a16bf55fde137ad7e21f7c63', 'rust/crates/syson-model/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/crates/syson-syntax/Cargo.toml': 'b92e655770acb0928a47742f82bed2569b2ed3f917d6c363ba089bd5926b8b08', 'rust/crates/syson-syntax/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/crates/syson-web/Cargo.toml': '55c7e509c325be883cb936886a6a1c84f5dc8b254665acd23177223d1f4aedbb', 'rust/crates/syson-web/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/crates/syson-workflow/Cargo.toml': 'a8df18c37d475966d7a3cbae2b9328ab43277a6d12cc883dbd3a9d9545b5041c', 'rust/crates/syson-workflow/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/validation/Cargo.toml': '993bcfb2e821ec892c7a48fb509b2dcf795d63945424c4911fb708b44706c8e0'}
+
+======================================================================
+FAIL: test_resume_suffix_is_never_a_broad_pass (__main__.Receipts.test_resume_suffix_is_never_a_broad_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-red-01/source/porting/tests/test_rr16_integration_receipts.py", line 89, in test_resume_suffix_is_never_a_broad_pass
+    self.assertNotEqual(receipt["status"], "PASS")
+AssertionError: 'PASS' == 'PASS'
+
+======================================================================
+FAIL: test_source_drift_cannot_return_a_successful_receipt (__main__.Receipts.test_source_drift_cannot_return_a_successful_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-red-01/source/porting/tests/test_rr16_integration_receipts.py", line 84, in test_source_drift_cannot_return_a_successful_receipt
+    self.assertNotEqual(receipt["status"], "PASS")
+AssertionError: 'PASS' == 'PASS'
+
+======================================================================
+FAIL: test_tool_manifest_is_part_of_the_receipt_input_inventory (__main__.Receipts.test_tool_manifest_is_part_of_the_receipt_input_inventory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr16a-red-01/source/porting/tests/test_rr16_integration_receipts.py", line 76, in test_tool_manifest_is_part_of_the_receipt_input_inventory
+    self.assertIn("rust/tools/new-observer/Cargo.toml", receipt["source_sha256"])
+AssertionError: 'rust/tools/new-observer/Cargo.toml' not found in {'rust/crates/syson-metamodel/Cargo.toml': 'c5e4b50277d9f0916a76b9d5de6242f088239fdcc95fb84794018cabe8036e24', 'rust/crates/syson-metamodel/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/crates/syson-model/Cargo.toml': '76e8b751ac12256a010bf5e0b94e82b3511735c9a16bf55fde137ad7e21f7c63', 'rust/crates/syson-model/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/crates/syson-syntax/Cargo.toml': 'b92e655770acb0928a47742f82bed2569b2ed3f917d6c363ba089bd5926b8b08', 'rust/crates/syson-syntax/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/crates/syson-web/Cargo.toml': '55c7e509c325be883cb936886a6a1c84f5dc8b254665acd23177223d1f4aedbb', 'rust/crates/syson-web/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/crates/syson-workflow/Cargo.toml': 'a8df18c37d475966d7a3cbae2b9328ab43277a6d12cc883dbd3a9d9545b5041c', 'rust/crates/syson-workflow/src/lib.rs': '3994318407845f90b77d88cb8e110f6bf06cb25547d73ec17fbe80a70bf19720', 'rust/validation/Cargo.toml': '993bcfb2e821ec892c7a48fb509b2dcf795d63945424c4911fb708b44706c8e0'}
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.410s
+
+FAILED (failures=4)
