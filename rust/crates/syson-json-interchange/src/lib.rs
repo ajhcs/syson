@@ -84,8 +84,12 @@ impl Bundle {
             {
                 return Err(Error::Identity);
             }
-            let document =
-                Document::from_json(&input.json).map_err(|e| Error::Model(e.to_string()))?;
+            let document = Document::from_json(&input.json).map_err(|error| match error {
+                syson_model::ModelError::JsonAdmission(syson_json_value::Error::Limit(_)) => {
+                    Error::Limit
+                }
+                other => Error::Model(other.to_string()),
+            })?;
             if document
                 .to_json()
                 .map_err(|e| Error::Model(e.to_string()))?

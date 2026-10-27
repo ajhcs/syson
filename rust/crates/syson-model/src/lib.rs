@@ -11,8 +11,8 @@
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 use syson_domain::model::{Element, ElementId, Model};
-mod scalar;
 mod containment;
+mod scalar;
 pub use containment::ContainmentFeature;
 pub use scalar::*;
 
@@ -20,6 +20,7 @@ pub use scalar::*;
 pub enum ModelError {
     Attribute(AttributeError),
     Json(String),
+    JsonAdmission(syson_json_value::Error),
     Shape(String),
     InvalidId(String),
     DuplicateId(String),
@@ -43,6 +44,8 @@ impl std::fmt::Display for ModelError {
 }
 impl std::error::Error for ModelError {}
 type Result<T> = std::result::Result<T, ModelError>;
+const JSON_BYTES_LIMIT: usize = 4 * 1024 * 1024;
+const JSON_DEPTH_LIMIT: usize = 128;
 
 /// Separate UUIDs: EMF resource identity must not overwrite SysML elementId.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -96,11 +99,87 @@ impl Document {
             "ns":{"sysml":"http://www.eclipse.org/syson/sysml"},"content":[]}),
         }
     }
+    /// Parse literal JSON before model validation. Decoded duplicate keys refuse;
+    /// opaque objects and exact numeric tokens are never serde metadata.
+    /// This selected model admits at most 4 MiB, value-depth 128, two million
+    /// values/keys and 8 MiB scalar-copy charge. Bridge byte limits remain lower.
+    /// The Value view is canonical; upload whitespace/member order is not retained.
     pub fn from_json(input: &str) -> Result<Self> {
-        let value = serde_json::from_str(input).map_err(|e| ModelError::Json(e.to_string()))?;
+        let limits = syson_json_value::Limits {
+            bytes: JSON_BYTES_LIMIT,
+            depth: JSON_DEPTH_LIMIT,
+            values: 2_000_000,
+            keys: 2_000_000,
+            scalar_bytes: 8 * 1024 * 1024,
+        };
+        let (value, _) = syson_json_value::parse(input, limits, || false)
+            .and_then(|literal| literal.into_value(|| false))
+            .map_err(|error| match error {
+                syson_json_value::Error::Syntax { .. }
+                | syson_json_value::Error::StringEncoding => ModelError::Json(error.to_string()),
+                other => ModelError::JsonAdmission(other),
+            })?;
         let document = Self { value };
         document.validate()?;
+        document.check_json_budget()?;
         Ok(document)
+    }
+    // The raw-input cap alone cannot guarantee that pretty save is reloadable.
+    // Count without constructing output; run once at load or changed publication,
+    // never in per-operation validate. RR04 can promote this private primitive.
+    fn check_json_budget(&self) -> Result<()> {
+        fn depth(value: &Value, level: usize) -> Result<()> {
+            if level > JSON_DEPTH_LIMIT {
+                return Err(ModelError::JsonAdmission(syson_json_value::Error::Limit(
+                    syson_json_value::Limit::Depth,
+                )));
+            }
+            match value {
+                Value::Array(rows) => {
+                    for row in rows {
+                        depth(row, level + 1)?;
+                    }
+                }
+                Value::Object(rows) => {
+                    for row in rows.values() {
+                        depth(row, level + 1)?;
+                    }
+                }
+                _ => (),
+            }
+            Ok(())
+        }
+        struct Count {
+            bytes: usize,
+            exceeded: bool,
+        }
+        impl std::io::Write for Count {
+            fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+                if bytes.len() > JSON_BYTES_LIMIT.saturating_sub(self.bytes) {
+                    self.exceeded = true;
+                    return Err(std::io::Error::other("model canonical JSON byte limit"));
+                }
+                self.bytes += bytes.len();
+                Ok(bytes.len())
+            }
+            fn flush(&mut self) -> std::io::Result<()> {
+                Ok(())
+            }
+        }
+        depth(&self.value, 1)?;
+        let mut count = Count {
+            bytes: 0,
+            exceeded: false,
+        };
+        serde_json::to_writer_pretty(&mut count, &self.value).map_err(|error| {
+            if count.exceeded {
+                ModelError::JsonAdmission(syson_json_value::Error::Limit(
+                    syson_json_value::Limit::Bytes,
+                ))
+            } else {
+                ModelError::Json(error.to_string())
+            }
+        })
     }
     pub fn to_json(&self) -> Result<String> {
         serde_json::to_string_pretty(&self.value).map_err(|e| ModelError::Json(e.to_string()))
@@ -373,6 +452,7 @@ impl Editor {
         if transaction.staged == self.document {
             return Ok(false);
         }
+        transaction.staged.check_json_budget()?;
         self.undo
             .push(std::mem::replace(&mut self.document, transaction.staged));
         self.redo.clear();
@@ -556,9 +636,9 @@ pub mod factory;
 #[cfg(feature = "raw-factory-candidate")]
 mod raw_admission;
 #[cfg(feature = "raw-factory-candidate")]
-pub use raw_admission::{attach_raw_selected, RawAdmissionReport, RawAdmissionError};
+pub use raw_admission::{RawAdmissionError, RawAdmissionReport, attach_raw_selected};
 
-#[cfg(feature="raw-factory-candidate")]
+#[cfg(feature = "raw-factory-candidate")]
 mod port_definition_refs;
-#[cfg(feature="raw-factory-candidate")]
+#[cfg(feature = "raw-factory-candidate")]
 pub use port_definition_refs::PortDefinitionReference;

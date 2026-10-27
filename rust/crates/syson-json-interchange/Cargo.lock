@@ -141,11 +141,20 @@ name = "syson-json-interchange"
 version = "0.1.0"
 dependencies = [
  "serde_json",
+ "syson-json-value",
  "syson-metamodel",
  "syson-model",
  "syson-references",
  "syson-text-import",
  "syson-view-usage",
+]
+
+[[package]]
+name = "syson-json-value"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -170,6 +179,7 @@ version = "0.1.0"
 dependencies = [
  "serde_json",
  "syson-domain",
+ "syson-json-value",
  "syson-metamodel",
 ]
 
