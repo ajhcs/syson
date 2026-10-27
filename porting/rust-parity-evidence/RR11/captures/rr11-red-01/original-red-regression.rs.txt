@@ -1,0 +1,77 @@
+// SPDX-License-Identifier: EPL-2.0
+use serde_json::json;
+use std::{
+    fs,
+    path::PathBuf,
+    sync::atomic::{AtomicU64, Ordering},
+};
+use syson_model::Document;
+use syson_storage::{Change, Key, Store};
+
+static NEXT: AtomicU64 = AtomicU64::new(0);
+fn directory() -> PathBuf {
+    let root = PathBuf::from(std::env::var_os("TMPDIR").expect("workspace TMPDIR required"));
+    assert!(root.is_absolute() && root.starts_with("/workspace"));
+    let path = root.join(format!(
+        "rr11-{}-{}",
+        std::process::id(),
+        NEXT.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir(&path).unwrap();
+    path
+}
+fn key(id: u8) -> Key {
+    Key { project: [1; 16], document: [id; 16] }
+}
+fn document(name: &str) -> Document {
+    Document::from_json(&json!({
+        "json":{"version":"1.0"},
+        "ns":{"sysml":"http://www.eclipse.org/syson/sysml"},
+        "content":[{"id":"10000000-0000-4000-8000-000000000001", "eClass":"sysml:Package",
+            "data":{"elementId":"20000000-0000-4000-8000-000000000001", "declaredName":name}}]
+    }).to_string()).unwrap()
+}
+fn create(store: &Store, id: u8, content: &Document) {
+    store.transact(&[Change::Create {
+        key: key(id), name: "document", document: content, read_only: false,
+    }], 1_048_576).unwrap();
+}
+fn replacement_refuses(delete: bool) {
+    let dir = directory();
+    let a = dir.join("a.sqlite3");
+    let b = dir.join("b.sqlite3");
+    let store_a = Store::create(&a).unwrap();
+    let store_b = Store::create(&b).unwrap();
+    let content_a = document("original A");
+    let content_b = document("replacement B");
+    create(&store_a, 1, &content_a);
+    create(&store_b, 1, &content_b);
+    let before = store_a.load(key(1)).unwrap().unwrap();
+    assert_eq!(before.revision(), store_b.load(key(1)).unwrap().unwrap().revision());
+    // Preserve both valid databases; only replace this owned pathname.
+    fs::rename(&a, dir.join("retained-a.sqlite3")).unwrap();
+    fs::rename(&b, &a).unwrap();
+    let replacement_bytes = fs::read(&a).unwrap();
+    let stale = if delete {
+        Change::Delete { before: &before }
+    } else {
+        Change::Update { before: &before, name: "wrong database", document: &content_a }
+    };
+    let result = store_a.transact(&[
+        Change::Create { key: key(2), name: "must not commit", document: &content_a, read_only: false },
+        stale,
+    ], 1_048_576);
+    assert!(result.is_err(), "an observation from A authorized mutation of replacement B");
+    assert_eq!(fs::read(&a).unwrap(), replacement_bytes);
+    let reopened = Store::open(&a).unwrap();
+    assert_eq!(reopened.load(key(1)).unwrap().unwrap().document().value(), content_b.value());
+    assert!(reopened.load(key(2)).unwrap().is_none());
+}
+#[test]
+fn replaced_database_refuses_stale_update_and_rolls_back_earlier_create() {
+    replacement_refuses(false);
+}
+#[test]
+fn replaced_database_refuses_stale_delete_and_rolls_back_earlier_create() {
+    replacement_refuses(true);
+}
