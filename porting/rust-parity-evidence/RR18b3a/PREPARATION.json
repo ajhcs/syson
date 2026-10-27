@@ -1,0 +1,62 @@
+{
+  "unit": "RR18b3a",
+  "state": "SOURCE_PREPARED_NOT_EXECUTED_BY_AUTHOR",
+  "base": "40b3c1b3e6d86fb9ba082864dda4d17e6be8ee5b",
+  "scope": "Borrowed element summaries with actual App.render/navigation adoption; owned API remains unchanged. No renderer/sink/CSS/loader policy rewrite.",
+  "root_hook": {
+    "path": "rust/crates/syson-model/src/lib.rs",
+    "exact_addition": "mod element_summary; pub use element_summary::ElementSummaryRef;",
+    "timing": "Root only, after this source freeze. No new dependency or manifest change required."
+  },
+  "api": {
+    "borrowed": "Document::element_summaries(&self) -> Vec<ElementSummaryRef<'_>>",
+    "fields": "resource_id,element_id,class:&str;name,owner:Option<&str>",
+    "authority": "Single shared traversal in element_summary::visit serves both APIs. Existing collect_summaries is an owned adapter with no intermediate Vec. No parallel containment/owner engine."
+  },
+  "semantics": "Preorder; direct ownedRelatedElement before ownedRelationship; direct related nodes inherit incoming owner; relationship row owner=None; relationship descendants receive the existing propagated owner. Class strips sysml: only; absent/nonstring names remain None. References borrow existing document strings; no new identity or size policy.",
+  "renderer_adoption": "App.render collects fixed-size borrowed records; navigation indexes hold borrowed IDs/owners and borrowed row references. All escaping, markup, capability checks and model/history semantics remain the prior implementation. One existing navigation test changes only its collection API.",
+  "baseline": {
+    "capture": "/workspace/build/builderbob/syson-rereview-batch11-20261027/summary-baseline-red-01",
+    "original_test_sha256": "0f266fcd302a34b3fe2a64b59e9f440f64554806f9c0d9f662c84a31c6557882",
+    "fixture_sha256": "9a1b3e8d49618aa27c6a553519441380ade9d9b93e9024dcccc118e5cce78e7c",
+    "fixture_bytes": 192234,
+    "root_reported_requested_bytes": 98945638,
+    "largest_allocation_bytes": 2637648,
+    "allocation_calls": 117198,
+    "html_bytes": 1344417,
+    "attribution": "Actual public ABI dispatch reached intended32MiB aggregate assertion on frozen original source. Root retained initial classifier mismatch and corrected classification without changing raw streams. No author execution."
+  },
+  "regressions": [
+    "Original actual import aggregate allocator oracle preserved, followed by separate actual navigation/edit/undo/redo/long-owner selection case. Fixture setup/canonical expectation/input transfer outside window.",
+    "Manual model tuple oracle covers explicit preorder/owner quirks, relationship-under-relationship, unknown and unprefixed classes, Unicode/nonstring/empty names and opaque literal retention. Existing owned API compared outside borrowing measurement.",
+    "Pointer identity ties borrowed fields/owner to actual document strings. Dense1025row allocation window <=512KiB aggregate and <=256KiB largest; empty view allocates0. These are finite Rust allocator fixture bounds, not live/RSS guarantees.",
+    "Root actual default WASM borrowed_summaries.cjs:320/1440,192234byte fixture import,512semantic-child/512relationship controls, actual relationship/child/long-owner selection, rename+commit+undo+redo, exact export and refused-import draft preservation. Viewport screenshots only."
+  ],
+  "root_commands": [
+    "cargo test --offline --locked --jobs 1 --manifest-path rust/crates/syson-model/Cargo.toml -- --test-threads=1 --nocapture",
+    "cargo test --offline --locked --jobs 1 --manifest-path rust/crates/syson-web/Cargo.toml -- --test-threads=1 --nocapture",
+    "cargo clippy --offline --locked --jobs 1 --manifest-path rust/crates/syson-model/Cargo.toml --all-targets -- -D warnings",
+    "cargo clippy --offline --locked --jobs 1 --manifest-path rust/crates/syson-web/Cargo.toml --all-targets -- -D warnings",
+    "SYSON_PREVIEW_URL=<owned-loopback> SYSON_BROWSER_ARTIFACT_DIR=<fresh-workspace-output> SYSON_PLAYWRIGHT_MODULE=<root-pinned-module> node porting/rust-parity-evidence/RR18b3a/borrowed_summaries.cjs"
+  ],
+  "budget": {
+    "production_changed_max": 400,
+    "authored_changed_max": 900,
+    "state": "Unformatted source under preparation; root calculates final formatted changed counts. Fixture JSON is separately reviewed data, not hand-written production."
+  },
+  "open": [
+    "App.render/preview_fits/paint still fully allocate before16MiB checks; all complete HTML/scalar/sink and <50ms performance acceptance remain RR18b3c/d.",
+    "Existing Document.elements owns/clones fields by contract. Layout measurement/import and other consumers not adopted here; later finite preflight/adoption required before general model/geometry-memory claims.",
+    "Borrowed Vec/index entries still allocate linearly with row count. Inspection/HTML escaping/exports/model history may allocate other bounded/unbounded fragments as before; no process RSS/global-memory/deadline claim.",
+    "CSS/native text wrapping/font/glyph visual work belongs sibling RR18b3b. No full SysON/UI/production parity or other-browser/physical-mobile acceptance.",
+    "All old raw/graph/factory holds remain active; author did not format/build/run/Git/network or touch held sources. Root owns shared hook, runtime, independent review, commits and publication."
+  ],
+  "verification_history": {
+    "root_Rust_gates": "Root reports124uniqueRustcases,Clippy,defaultWASMpassed on unchanged Rust source; no replay requested for this CJS-only correction.",
+    "browser01": "Actual first browser attempt reached320px fixture import/navigation/relationship+child+Owner selection and exact model/history checks, then identity innerText was empty because its native details disclosure was closed. No product failure inferred. No full320/1440 browser PASS or later gates attributed to this run; remaining four scripts had not run.",
+    "preserved_old_recipe_sha256": "8c87a87601c10e4e77f00257933557afa78753a28487f997ce8d07f4c639df16",
+    "root_preserved_recipe": "summary-browser01/executed-borrowed_summaries.cjs (root actual capture; original raw streams retained)",
+    "only_repair": "Actual click on #element-identity > summary, assert native open state and visible identity paragraph, then retain exact full innerText comparison. No Rust/CSS/product logic or other gate changes.",
+    "continuation": "Root owns fresh failed-journey replay and previously unexecuted scripts, with explicit noncompiled-input WASM reuse and frozen Rust-byte proof."
+  }
+}
