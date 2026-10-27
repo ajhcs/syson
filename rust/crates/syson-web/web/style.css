@@ -8,3 +8,14 @@
 
 /* Readable diagram units by default; overview scaling is an explicit choice. */
 .canvas-view-controls{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}.canvas-view-controls button{min-width:44px;min-height:44px}.canvas-view-controls button[aria-pressed=true]{border-color:#1c5ea0;background:#edf5ff}.canvas-view-help{font-size:13px;color:#465b6d;max-width:65ch}.canvas-viewport{width:100%;max-width:100%;min-width:0;height:clamp(250px,55vh,600px);overflow:auto;border:1px solid #cbd4dd;background:white;overscroll-behavior:contain}.canvas-viewport:focus-visible{outline:3px solid #1768b5;outline-offset:2px}.canvas-viewport svg{display:block;width:100%;height:auto}.canvas-viewport[data-canvas-view=fit] svg{height:100%}
+
+/* Keep literal text intact and scroll long lines inside their native controls.
+   Soft-wrapping large JSON/name values repeatedly lays out thousands of lines. */
+#export-json,#export-geometry,#import-json,#import-geometry,#rename{
+  white-space:pre;
+  overflow-wrap:normal;
+  word-break:normal;
+  overflow:auto;
+  min-width:0;
+  max-width:100%;
+}
