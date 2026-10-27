@@ -1,0 +1,209 @@
+{
+  "plan_revision": "bc1ce25f1cdad729bb5774ea6e28b5842880ffd3",
+  "units": [
+    {
+      "id": "RR05",
+      "name": "rr05-interchange-budget",
+      "original_base": "26d3b2e82bc4b66de518872c4a620a84619e773b",
+      "original_prerequisite": 94,
+      "original_branch": "codex/syson-rr04-json-writer",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr05-interchange-budget",
+      "branch": "codex/syson-rr05-interchange-budget",
+      "write_scope": [
+        "rust/crates/syson-json-interchange/src/lib.rs",
+        "rust/crates/syson-json-interchange/src/selected_model.rs",
+        "rust/crates/syson-json-interchange/src/native_model.rs",
+        "rust/crates/syson-json-interchange/tests/rr05_regression.rs",
+        "porting/rust-parity-evidence/RR05/"
+      ],
+      "additional_source_prerequisite": 94,
+      "snapshot_blobs": [],
+      "base": "26d3b2e82bc4b66de518872c4a620a84619e773b",
+      "base_branch": "codex/syson-rr04-json-writer"
+    },
+    {
+      "id": "RR13",
+      "name": "rr13-snapshot-admission",
+      "original_base": "762217dd56e6a0c4cd2aa2a01bfb62454bb8b6e9",
+      "original_prerequisite": 32,
+      "original_branch": "codex/syson-f31",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr13-snapshot-admission",
+      "branch": "codex/syson-rr13-snapshot-admission",
+      "write_scope": [
+        "rust/crates/syson-workflow/src/lib.rs",
+        "rust/crates/syson-workflow/src/snapshot_io.rs",
+        "rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "porting/rust-parity-evidence/RR13/"
+      ],
+      "additional_source_prerequisite": 94,
+      "snapshot_blobs": [
+        {
+          "path": "rust/crates/syson-model/Cargo.lock",
+          "git_blob": "782068f269becba03461d4f5d4524286bfd812ac",
+          "sha256": "4242272f5f97f1e96b3f0f2607c3a4bce56488785674092ae7398c9d9d4bd842"
+        },
+        {
+          "path": "rust/crates/syson-model/Cargo.toml",
+          "git_blob": "6e54a73beb864b825c18f5fa4197b08d0777cbe1",
+          "sha256": "b4cb4434016186b7efa85fcfc9b77aad97d917cc10885f89e9fc0fd1de165211"
+        },
+        {
+          "path": "rust/crates/syson-model/src/lib.rs",
+          "git_blob": "b188576adb5fa7dc7a4e87d68b467b8b21c5b986",
+          "sha256": "358b38211c8f613695237d5f09fd248966ea7d08bd96a9df85779306fb5f0d65"
+        },
+        {
+          "path": "rust/crates/syson-model/tests/rr02_regression.rs",
+          "git_blob": "35a9df0da1e32e2113e912fc32e62d41bcfdc496",
+          "sha256": "e63d533a7643b33faadbb9dbaf54463ac8bc0d10406ce4cde355af01389d4349"
+        },
+        {
+          "path": "rust/crates/syson-model/tests/rr04_regression.rs",
+          "git_blob": "096c031483f670e7291351e8163ba90b004ee674",
+          "sha256": "e974bc3ab219c1a25ab12840384379fe2b583fd9f91f76503ce82c4fa988a0ee"
+        },
+        {
+          "path": "rust/crates/syson-json-value/Cargo.lock",
+          "git_blob": "390dddaf1ea92f784b38a3a1f5b97e676b300ac3",
+          "sha256": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e"
+        },
+        {
+          "path": "rust/crates/syson-json-value/Cargo.toml",
+          "git_blob": "2d6d3bb080b0f7ff61f20395cec9da084137ce39",
+          "sha256": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5"
+        },
+        {
+          "path": "rust/crates/syson-json-value/README.md",
+          "git_blob": "2ed2edd104e8c592c9d2ae74097fb07446f90e72",
+          "sha256": "6388604a5b592197587c702c953e3b0d85570510693d3ec7a64f9a074d907d91"
+        },
+        {
+          "path": "rust/crates/syson-json-value/src/lib.rs",
+          "git_blob": "525f9e1874688c112bb11cb9838f39fa7c8f6a6c",
+          "sha256": "9a46411e63a77f8e7ad50bb7450665ba28e3cc58c26c0954fc326c9e6d59a3c6"
+        },
+        {
+          "path": "rust/crates/syson-json-value/tests/literal.rs",
+          "git_blob": "161441ff639af36410a6ce223a6ee909ffe4652e",
+          "sha256": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c"
+        }
+      ],
+      "base": "0c2cfb9764337f3d3b3730743c912e646be09c9e",
+      "base_branch": "codex/syson-rr13-base"
+    },
+    {
+      "id": "RR21",
+      "name": "rr21-validation-projection",
+      "original_base": "f55c13f1bf96760ebd8c6d7906525273acd88fc8",
+      "original_prerequisite": 59,
+      "original_branch": "codex/syson-audit-source-lines",
+      "worktree": "/workspace/worktrees/builderbob/syson/rr21-validation-projection",
+      "branch": "codex/syson-rr21-validation-projection",
+      "write_scope": [
+        "rust/crates/syson-semantic-validation/src/lib.rs",
+        "rust/crates/syson-semantic-validation/tests/rr21_regression.rs",
+        "porting/rust-parity-evidence/RR21/"
+      ],
+      "additional_source_prerequisite": 94,
+      "snapshot_blobs": [
+        {
+          "path": "rust/crates/syson-model/Cargo.lock",
+          "git_blob": "782068f269becba03461d4f5d4524286bfd812ac",
+          "sha256": "4242272f5f97f1e96b3f0f2607c3a4bce56488785674092ae7398c9d9d4bd842"
+        },
+        {
+          "path": "rust/crates/syson-model/Cargo.toml",
+          "git_blob": "6e54a73beb864b825c18f5fa4197b08d0777cbe1",
+          "sha256": "b4cb4434016186b7efa85fcfc9b77aad97d917cc10885f89e9fc0fd1de165211"
+        },
+        {
+          "path": "rust/crates/syson-model/src/lib.rs",
+          "git_blob": "b188576adb5fa7dc7a4e87d68b467b8b21c5b986",
+          "sha256": "358b38211c8f613695237d5f09fd248966ea7d08bd96a9df85779306fb5f0d65"
+        },
+        {
+          "path": "rust/crates/syson-model/tests/rr02_regression.rs",
+          "git_blob": "35a9df0da1e32e2113e912fc32e62d41bcfdc496",
+          "sha256": "e63d533a7643b33faadbb9dbaf54463ac8bc0d10406ce4cde355af01389d4349"
+        },
+        {
+          "path": "rust/crates/syson-model/tests/rr04_regression.rs",
+          "git_blob": "096c031483f670e7291351e8163ba90b004ee674",
+          "sha256": "e974bc3ab219c1a25ab12840384379fe2b583fd9f91f76503ce82c4fa988a0ee"
+        },
+        {
+          "path": "rust/crates/syson-json-value/Cargo.lock",
+          "git_blob": "390dddaf1ea92f784b38a3a1f5b97e676b300ac3",
+          "sha256": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e"
+        },
+        {
+          "path": "rust/crates/syson-json-value/Cargo.toml",
+          "git_blob": "2d6d3bb080b0f7ff61f20395cec9da084137ce39",
+          "sha256": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5"
+        },
+        {
+          "path": "rust/crates/syson-json-value/README.md",
+          "git_blob": "2ed2edd104e8c592c9d2ae74097fb07446f90e72",
+          "sha256": "6388604a5b592197587c702c953e3b0d85570510693d3ec7a64f9a074d907d91"
+        },
+        {
+          "path": "rust/crates/syson-json-value/src/lib.rs",
+          "git_blob": "525f9e1874688c112bb11cb9838f39fa7c8f6a6c",
+          "sha256": "9a46411e63a77f8e7ad50bb7450665ba28e3cc58c26c0954fc326c9e6d59a3c6"
+        },
+        {
+          "path": "rust/crates/syson-json-value/tests/literal.rs",
+          "git_blob": "161441ff639af36410a6ce223a6ee909ffe4652e",
+          "sha256": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c"
+        }
+      ],
+      "base": "3cc8784e00dc31715a30986ab97bcbfc68b57305",
+      "base_branch": "codex/syson-rr21-base"
+    }
+  ],
+  "held_leases_preserved": [
+    {
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "ownership_reconciliation": "Parallel source scopes are disjoint and do not intersect active holds; RR13 explicitly adds snapshot_io.rs as same-behavior save helper. Prior batch authors released selected prerequisite paths. No held factory/graph/raw-admission scope is released.",
+  "root_coordinator_additional_paths": {
+    "RR05": [],
+    "RR13": [
+      "rust/crates/syson-workflow/Cargo.lock"
+    ],
+    "RR21": [
+      "rust/crates/syson-semantic-validation/Cargo.lock",
+      "rust/crates/syson-semantic-validation/Cargo.toml"
+    ]
+  },
+  "format_policy": "Nonrecursive rustfmt skip_children=true only on exact leased changed Rust files after scope admission.",
+  "execution_owner": "/root",
+  "compiler_jobs": 1,
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+  "snapshot_policy": "Two temporary bases graft only exact RR04 changed model blobs plus unchanged RR01 crate blobs over #32/#59; no merge/rewrite or held path changes. Land prerequisites, retarget and requalify; never merge into temporary bases."
+}

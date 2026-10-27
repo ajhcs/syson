@@ -27,6 +27,12 @@ pub enum Error {
     Native(Box<crate::Error>),
     Selected(Box<selected_model::Error>),
 }
+fn model_error(error: syson_model::ModelError) -> Error {
+    match error {
+        syson_model::ModelError::JsonAdmission(syson_json_value::Error::Limit(_)) => Error::Limit,
+        other => Error::Model(other.to_string()),
+    }
+}
 struct Target {
     semantic: String,
     class: String,
@@ -122,11 +128,9 @@ pub fn load(key: &str, document: &Document, encoding: SourceEncoding) -> Result<
         SourceEncoding::LocalJsonNodeIds => (),
     }
     let json = document
-        .to_json()
-        .map_err(|e| Error::Model(e.to_string()))?;
-    if json.len() > MAX_RESOURCE_BYTES {
-        return Err(Error::Limit);
-    }
+        .to_json_bounded(MAX_RESOURCE_BYTES, || false)
+        .map_err(model_error)?;
+    let admitted_size = json.len();
     let mut targets = BTreeMap::new();
     for node in document.value()["content"].as_array().unwrap() {
         index(node, 0, &mut targets)?;
@@ -141,8 +145,10 @@ pub fn load(key: &str, document: &Document, encoding: SourceEncoding) -> Result<
     for node in converted["content"].as_array_mut().unwrap() {
         convert(node, &targets)?;
     }
-    let result =
-        Document::from_json(&converted.to_string()).map_err(|e| Error::Model(e.to_string()))?;
+    // Bundle validation plus LocalNode decoding admits only bare 36-byte UUIDs;
+    // replacing them with validated 36-byte semantic IDs cannot grow canonical JSON.
+    let json = crate::converted_json(&converted, admitted_size).map_err(model_error)?;
+    let result = Document::from_json(&json).map_err(model_error)?;
     selected_model::load(
         key,
         &result,

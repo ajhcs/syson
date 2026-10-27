@@ -66,6 +66,58 @@ fn class(node: &Value) -> Result<C, Error> {
         .filter(|c| admitted(*c))
         .ok_or_else(|| Error::UnsupportedClass(name.into()))
 }
+fn model_error(error: syson_model::ModelError) -> Error {
+    match error {
+        syson_model::ModelError::JsonAdmission(syson_json_value::Error::Limit(_)) => Error::Limit,
+        other => Error::Model(other.to_string()),
+    }
+}
+// Conversion changes only validated 36-byte UUID strings. RR04 has already
+// counted canonical size; compact JSON cannot require more bytes. Reserve that
+// exact admission once and keep every append bounded even if conversion evolves.
+fn converted_json(value: &Value, admitted_size: usize) -> Result<String, syson_model::ModelError> {
+    use syson_model::ModelError;
+    if admitted_size > MAX_RESOURCE_BYTES {
+        return Err(ModelError::JsonAdmission(
+            syson_json_value::Error::InvalidLimits,
+        ));
+    }
+    struct Output {
+        bytes: Vec<u8>,
+        limit: usize,
+        exceeded: bool,
+    }
+    impl std::io::Write for Output {
+        fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+            if bytes.len() > self.limit.saturating_sub(self.bytes.len()) {
+                self.exceeded = true;
+                return Err(std::io::Error::other("converted JSON byte limit"));
+            }
+            self.bytes.extend_from_slice(bytes);
+            Ok(bytes.len())
+        }
+        fn flush(&mut self) -> std::io::Result<()> {
+            Ok(())
+        }
+    }
+    let mut output = Output {
+        bytes: Vec::new(),
+        limit: admitted_size,
+        exceeded: false,
+    };
+    output
+        .bytes
+        .try_reserve_exact(admitted_size)
+        .map_err(|_| ModelError::JsonAdmission(syson_json_value::Error::Allocation))?;
+    let encoded = serde_json::to_writer(&mut output, value);
+    if output.exceeded {
+        return Err(ModelError::JsonAdmission(syson_json_value::Error::Limit(
+            syson_json_value::Limit::Bytes,
+        )));
+    }
+    encoded.map_err(|error| ModelError::Json(error.to_string()))?;
+    String::from_utf8(output.bytes).map_err(|error| ModelError::Json(error.to_string()))
+}
 impl Bundle {
     pub fn load(inputs: Vec<Input>) -> Result<Self, Error> {
         if inputs.is_empty() || inputs.len() > MAX_RESOURCES {
@@ -84,20 +136,10 @@ impl Bundle {
             {
                 return Err(Error::Identity);
             }
-            let document = Document::from_json(&input.json).map_err(|error| match error {
-                syson_model::ModelError::JsonAdmission(syson_json_value::Error::Limit(_)) => {
-                    Error::Limit
-                }
-                other => Error::Model(other.to_string()),
-            })?;
-            if document
-                .to_json()
-                .map_err(|e| Error::Model(e.to_string()))?
-                .len()
-                > MAX_RESOURCE_BYTES
-            {
-                return Err(Error::Limit);
-            }
+            let document = Document::from_json(&input.json).map_err(model_error)?;
+            document
+                .json_size(MAX_RESOURCE_BYTES, || false)
+                .map_err(model_error)?;
             let nodes = document.elements();
             count += nodes.len();
             if count > MAX_NODES {
@@ -180,8 +222,8 @@ impl Bundle {
                     key: key.clone(),
                     fragments: *fragments,
                     json: document
-                        .to_json()
-                        .map_err(|e| Error::Model(e.to_string()))?,
+                        .to_json_bounded(MAX_RESOURCE_BYTES, || false)
+                        .map_err(model_error)?,
                 })
             })
             .collect()
@@ -196,5 +238,30 @@ impl Bundle {
     }
     pub fn target(&self, target: &Target) -> Result<&Value, syson_references::Error> {
         self.registry.target(target)
+    }
+}
+
+#[cfg(test)]
+mod rr05_transport_bounds {
+    use super::{MAX_RESOURCE_BYTES, converted_json};
+    #[test]
+    fn conversion_transport_refuses_a_broken_size_proof_before_growing_output() {
+        let value = serde_json::json!({"large":"x".repeat(1024)});
+        assert!(matches!(
+            converted_json(&value, 16),
+            Err(syson_model::ModelError::JsonAdmission(
+                syson_json_value::Error::Limit(syson_json_value::Limit::Bytes)
+            ))
+        ));
+        assert!(matches!(
+            converted_json(&value, MAX_RESOURCE_BYTES + 1),
+            Err(syson_model::ModelError::JsonAdmission(
+                syson_json_value::Error::InvalidLimits
+            ))
+        ));
+        assert_eq!(
+            converted_json(&serde_json::json!({"x":1}), 7).unwrap(),
+            "{\"x\":1}"
+        );
     }
 }
