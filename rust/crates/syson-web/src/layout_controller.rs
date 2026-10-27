@@ -1,16 +1,22 @@
 // SPDX-License-Identifier: EPL-2.0
 //! Cooperative ticket/history/geometry publication; no worker thread.
 use super::layout_geometry::{Payload, Scene, computed, fail, identity, measured, number};
-use serde_json::{Value, json};
+use serde_json::Value;
+#[cfg(test)]
+use serde_json::json;
 use std::collections::BTreeSet;
+use std::sync::Arc;
 use syson_editor::{Edge, EdgeData, Node};
 use syson_editor::{Point, finish_rotation, prepare_rotation};
 use syson_model::Document;
+#[path = "layout_transport.rs"]
+mod transport;
 const BYTE_LIMIT: usize = 1_048_576;
 #[derive(Clone)]
 struct Frame {
-    model: String,
+    model: Arc<String>,
     scene: Scene,
+    wire: Option<Arc<String>>,
 }
 #[derive(Clone)]
 struct Pending {
@@ -68,8 +74,9 @@ impl Canvas {
     }
     pub fn scene(&self, doc: &Document) -> Option<&Scene> {
         let frame = self.current.as_ref()?;
-        let model = doc.to_json_bounded(BYTE_LIMIT, || false).ok()?;
-        (frame.model == model).then_some(&frame.scene)
+        transport::matches_model(doc, &frame.model)
+            .ok()?
+            .then_some(&frame.scene)
     }
     pub fn cancel(&mut self) -> Result<(), String> {
         self.bump()?;
@@ -107,7 +114,7 @@ impl Canvas {
             let frame = self
                 .current
                 .as_ref()
-                .filter(|f| f.model == model)
+                .filter(|f| f.model.as_str() == model)
                 .ok_or("Layout the canvas before rotating.")?;
             if selected.is_empty()
                 || selected
@@ -136,7 +143,7 @@ impl Canvas {
                 self.epoch,
                 self.current
                     .as_ref()
-                    .filter(|f| f.model == model)
+                    .filter(|f| f.model.as_str() == model)
                     .map(|f| &f.scene),
             )?
         };
@@ -144,7 +151,11 @@ impl Canvas {
         let ticket = self.revision();
         self.pending = Some(Pending {
             ticket: ticket.clone(),
-            frame: Frame { model, scene },
+            frame: Frame {
+                model: Arc::new(model),
+                scene,
+                wire: None,
+            },
             selected: if rotation { selected } else { vec![] },
             result: None,
         });
@@ -186,11 +197,7 @@ impl Canvas {
         else {
             return Ok(false);
         };
-        if p.frame.model
-            != doc
-                .to_json_bounded(BYTE_LIMIT, || false)
-                .map_err(|e| e.to_string())?
-        {
+        if !transport::matches_model(doc, &p.frame.model)? {
             self.cancel()?;
             return Ok(false);
         }
@@ -202,11 +209,12 @@ impl Canvas {
         } else {
             finish_rotation(&p.frame.scene, &result, &p.selected)
         };
-        let frame = Frame {
+        let mut frame = Frame {
             model: p.frame.model,
             scene,
+            wire: None,
         };
-        if let Err(error) = admit(&frame) {
+        if let Err(error) = admit(&mut frame) {
             self.cancel()?;
             return Err(error);
         }
@@ -215,20 +223,18 @@ impl Canvas {
         Ok(true)
     }
     pub fn history(&mut self, redo: bool, doc: &Document) -> Result<bool, String> {
-        let model = doc
-            .to_json_bounded(BYTE_LIMIT, || false)
-            .map_err(|e| e.to_string())?;
         let next = if redo {
             self.redo.last()
         } else {
             self.undo.last()
         };
-        if self.current.as_ref().is_some_and(|f| f.model != model)
-            || next
-                .and_then(|f| f.as_ref())
-                .is_some_and(|f| f.model != model)
+        for frame in [self.current.as_ref(), next.and_then(|f| f.as_ref())]
+            .into_iter()
+            .flatten()
         {
-            return Err("Canvas history belongs to a different committed document.".into());
+            if !transport::matches_model(doc, &frame.model)? {
+                return Err("Canvas history belongs to a different committed document.".into());
+            }
         }
         self.cancel()?;
         let (source, target) = if redo {
@@ -247,11 +253,12 @@ impl Canvas {
         let Some(frame) = self.current.as_ref() else {
             return String::new();
         };
-        let Ok(model) = doc.to_json_bounded(BYTE_LIMIT, || false) else {
-            return String::new();
-        };
-        if frame.model == model {
-            encode(frame)
+        if transport::matches_model(doc, &frame.model) == Ok(true) {
+            frame
+                .wire
+                .as_ref()
+                .map(|wire| wire.as_ref().clone())
+                .unwrap_or_default()
         } else {
             String::new()
         }
@@ -260,12 +267,12 @@ impl Canvas {
         if input.len() > BYTE_LIMIT {
             return Err(fail());
         }
-        let raw: Value = serde_json::from_str(input).map_err(|_| "Canvas JSON is invalid.")?;
+        let mut raw: Value = serde_json::from_str(input).map_err(|_| "Canvas JSON is invalid.")?;
         fields(&raw, &["version", "model", "nodes", "edges"])?;
-        let model = doc
-            .to_json_bounded(BYTE_LIMIT, || false)
-            .map_err(|e| e.to_string())?;
-        if raw["version"].as_u64() != Some(1) || raw["model"].as_str() != Some(&model) {
+        let model = raw["model"]
+            .as_str()
+            .ok_or("Canvas JSON belongs to a different committed document or version.")?;
+        if !transport::matches_model(doc, model)? || raw["version"].as_u64() != Some(1) {
             return Err("Canvas JSON belongs to a different committed document or version.".into());
         }
         let elements = doc.elements();
@@ -422,29 +429,30 @@ impl Canvas {
                 }),
             });
         }
-        let frame = Frame {
-            model,
-            scene: Scene { nodes, edges },
+        // The admitted protocol already owns this exact canonical key. Move it
+        // into the immutable frame instead of allocating a second model copy.
+        let Value::String(model) = raw["model"].take() else {
+            return Err(fail());
         };
-        admit(&frame)?;
+        let mut frame = Frame {
+            model: Arc::new(model),
+            scene: Scene { nodes, edges },
+            wire: None,
+        };
+        admit(&mut frame)?;
         self.cancel()?;
         self.publish(frame);
         Ok(())
     }
 }
+#[cfg(test)]
 fn encode(f: &Frame) -> String {
-    json!({"version":1,"model":f.model,
+    json!({"version":1,"model":f.model.as_str(),
             "nodes":f.scene.nodes.iter().map(|n| json!({"id":n.id,"parent":n.payload.parent,"header":n.payload.header,"x":n.position.x,"y":n.position.y,"width":n.width,"height":n.height,"resized":n.resized_by_user})).collect::<Vec<_>>(),
             "edges":f.scene.edges.iter().map(|e| json!({"id":e.id,"source":e.source,"target":e.target,"points":e.data.as_ref().and_then(|d| d.bending_points.as_ref()).map(|p|p.iter().map(|p|json!([p.x,p.y])).collect::<Vec<_>>())})).collect::<Vec<_>>() }).to_string()
 }
-fn admit(frame: &Frame) -> Result<(), String> {
-    let encoded = encode(frame);
-    // The loader submits this file as a JSON string inside the default 1MiB ABI.
-    if encoded.len() > BYTE_LIMIT
-        || serde_json::to_string(&encoded).map_err(|_| fail())?.len() + 2048 > BYTE_LIMIT
-    {
-        return Err("Canvas JSON exceeds the default file/ABI byte budget.".into());
-    }
+fn admit(frame: &mut Frame) -> Result<(), String> {
+    frame.wire = Some(Arc::new(transport::prepare(frame)?));
     Ok(())
 }
 fn fields(value: &Value, expected: &[&str]) -> Result<(), String> {
@@ -501,6 +509,77 @@ mod tests {
         assert_eq!(c.phase(), Some((ticket.as_str(), "apply")));
         assert!(c.apply(&ticket, d).unwrap());
         assert!(c.phase().is_none());
+    }
+    #[test]
+    fn counted_transport_matches_legacy_bytes_for_routes_options_and_escaping() {
+        let doc = document();
+        let mut canvas = Canvas::default();
+        layout(&mut canvas, &doc);
+        let frame = canvas.current.as_ref().unwrap();
+        assert_eq!(transport::prepare(frame).unwrap(), encode(frame));
+        assert_eq!(canvas.export(&doc), encode(frame));
+        let mut escaped = frame.clone();
+        escaped.model = Arc::new("雪\n\r\t\\\"\u{0001}".into());
+        escaped.scene.nodes[0].id = "quote\"slash\\雪".into();
+        escaped.scene.nodes[0].width = None;
+        escaped.scene.nodes[0].resized_by_user = true;
+        escaped.scene.edges[0].data = None;
+        assert_eq!(transport::prepare(&escaped).unwrap(), encode(&escaped));
+        let canonical = doc.to_json().unwrap();
+        let raw = r#"{"opaque":{"n":-0,"big":123456789012345678901234567890,"marker":{"$serde_json::private::Number":"7"}},"#.to_owned() + canonical.strip_prefix('{').unwrap();
+        let opaque = Document::from_json(&raw).unwrap();
+        let encoded = opaque.to_json().unwrap();
+        assert!(encoded.contains("\"n\": -0"));
+        assert!(encoded.contains("123456789012345678901234567890"));
+        assert!(encoded.contains("$serde_json::private::Number"));
+        assert!(transport::matches_model(&opaque, &encoded).unwrap());
+        assert!(!transport::matches_model(&opaque, &doc.to_json().unwrap()).unwrap());
+    }
+    #[test]
+    fn quoted_transport_exact_fit_and_one_byte_over_have_no_partial_admission() {
+        let mut frame = Frame {
+            model: Arc::new(String::new()),
+            scene: Scene {
+                nodes: vec![],
+                edges: vec![],
+            },
+            wire: None,
+        };
+        let overhead = serde_json::to_string(&encode(&frame)).unwrap().len() + 2048;
+        frame.model = Arc::new("x".repeat(BYTE_LIMIT - overhead));
+        let expected = encode(&frame);
+        assert_eq!(
+            serde_json::to_string(&expected).unwrap().len() + 2048,
+            BYTE_LIMIT
+        );
+        assert_eq!(transport::prepare(&frame).unwrap(), expected);
+        admit(&mut frame).unwrap();
+        let admitted = frame.wire.clone().unwrap();
+        frame.model = Arc::new(frame.model.as_str().to_owned() + "x");
+        assert!(transport::prepare(&frame).is_err());
+        assert!(admit(&mut frame).is_err());
+        assert!(Arc::ptr_eq(frame.wire.as_ref().unwrap(), &admitted));
+    }
+    #[test]
+    fn published_history_shares_immutable_model_and_wire_buffers() {
+        let doc = document();
+        let mut canvas = Canvas::default();
+        layout(&mut canvas, &doc);
+        let prior = canvas.current.clone().unwrap();
+        let ticket = request(&mut canvas, &doc, vec![], false);
+        canvas.compute(&ticket).unwrap();
+        canvas.apply(&ticket, &doc).unwrap();
+        let saved = canvas.undo.last().unwrap().as_ref().unwrap();
+        assert!(Arc::ptr_eq(&prior.model, &saved.model));
+        assert!(Arc::ptr_eq(
+            prior.wire.as_ref().unwrap(),
+            saved.wire.as_ref().unwrap()
+        ));
+        canvas.history(false, &doc).unwrap();
+        assert!(Arc::ptr_eq(
+            &prior.model,
+            &canvas.current.as_ref().unwrap().model
+        ));
     }
     #[test]
     fn publication_is_separate_from_real_computation_and_preserves_model_bytes() {
@@ -735,6 +814,7 @@ mod tests {
         let candidate = Frame {
             model: pending.frame.model.clone(),
             scene: pending.result.clone().unwrap(),
+            wire: None,
         };
         let file = encode(&candidate);
         assert!(file.len() < BYTE_LIMIT);
