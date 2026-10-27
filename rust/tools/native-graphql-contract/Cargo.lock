@@ -86,6 +86,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "syson-json-value"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "syson-native-graphql-contract"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "syson-json-value",
+]
+
+[[package]]
 name = "unicode-ident"
 version = "1.0.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -96,9 +112,3 @@ name = "zmij"
 version = "1.0.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b"
-[[package]]
-name = "syson-native-graphql-contract"
-version = "0.1.0"
-dependencies = [
- "serde_json",
-]
