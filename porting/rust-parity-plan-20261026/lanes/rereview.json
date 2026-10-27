@@ -673,6 +673,7 @@
       ],
       "paths": [
         "rust/crates/syson-workflow/src/lib.rs",
+        "rust/crates/syson-workflow/src/snapshot_io.rs",
         "rust/crates/syson-workflow/tests/rr13_regression.rs",
         "porting/rust-parity-evidence/RR13/"
       ],
@@ -683,7 +684,8 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Admit the actual opened regular bounded input with an explicit symlink/root policy. Prevent FIFO/device blocking and path-swap races. Use RR04 before snapshot output allocation and preserve atomic publication."
+        "Admit the actual opened regular bounded input with an explicit symlink/root policy. Prevent FIFO/device blocking and path-swap races. Use RR04 before snapshot output allocation and preserve atomic publication.",
+        "The inherited F31 save implementation is in snapshot_io.rs, explicitly included in this same-behavior author scope. Preserve its trusted SnapshotIo failure sequence and may-have-published error semantics; root/ancestor/final-file policy and effective model limits must be explicit."
       ],
       "verification": [
         "Use owned FIFO, directory, symlink and race fixtures with short deadlines, normal reopen and injected write/rename failure. These tests do not establish physical power-loss durability.",
@@ -708,7 +710,13 @@
       "owner_plan_units": [
         "B06",
         "C03"
-      ]
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-workflow/Cargo.lock"
+        ],
+        "policy": "Coordinator-only dependency registration/lock reconciliation for exact RR04 model plus existing literal-value prerequisite after ownership admission. Serialize shared Cargo edits and requalify final affected suites; these are not parallel author leases."
+      }
     },
     {
       "id": "RR14",
@@ -1120,7 +1128,14 @@
       "owner_plan_units": [
         "M32",
         "I09"
-      ]
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-semantic-validation/Cargo.lock",
+          "rust/crates/syson-semantic-validation/Cargo.toml"
+        ],
+        "policy": "Coordinator-only dependency registration/lock reconciliation for exact RR04 model plus existing literal-value prerequisite after ownership admission. Serialize shared Cargo edits and requalify final affected suites; these are not parallel author leases."
+      }
     },
     {
       "id": "RR22",

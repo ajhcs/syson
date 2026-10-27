@@ -105635,7 +105635,7 @@
         8
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR02",
@@ -105711,7 +105711,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR03",
@@ -105773,7 +105773,7 @@
         85
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR04",
@@ -105837,7 +105837,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR05",
@@ -105899,7 +105899,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR06",
@@ -105954,7 +105954,7 @@
         52
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR07",
@@ -106025,7 +106025,7 @@
         40
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR08",
@@ -106082,7 +106082,7 @@
         41
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR09",
@@ -106141,7 +106141,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR10",
@@ -106198,7 +106198,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR11",
@@ -106253,7 +106253,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR12",
@@ -106315,7 +106315,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR13",
@@ -106331,6 +106331,7 @@
       ],
       "paths": [
         "rust/crates/syson-workflow/src/lib.rs",
+        "rust/crates/syson-workflow/src/snapshot_io.rs",
         "rust/crates/syson-workflow/tests/rr13_regression.rs",
         "porting/rust-parity-evidence/RR13/"
       ],
@@ -106341,7 +106342,8 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Admit the actual opened regular bounded input with an explicit symlink/root policy. Prevent FIFO/device blocking and path-swap races. Use RR04 before snapshot output allocation and preserve atomic publication."
+        "Admit the actual opened regular bounded input with an explicit symlink/root policy. Prevent FIFO/device blocking and path-swap races. Use RR04 before snapshot output allocation and preserve atomic publication.",
+        "The inherited F31 save implementation is in snapshot_io.rs, explicitly included in this same-behavior author scope. Preserve its trusted SnapshotIo failure sequence and may-have-published error semantics; root/ancestor/final-file policy and effective model limits must be explicit."
       ],
       "verification": [
         "Use owned FIFO, directory, symlink and race fixtures with short deadlines, normal reopen and injected write/rename failure. These tests do not establish physical power-loss durability.",
@@ -106367,12 +106369,18 @@
         "B06",
         "C03"
       ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-workflow/Cargo.lock"
+        ],
+        "policy": "Coordinator-only dependency registration/lock reconciliation for exact RR04 model plus existing literal-value prerequisite after ownership admission. Serialize shared Cargo edits and requalify final affected suites; these are not parallel author leases."
+      },
       "external_pr_details": [
         16,
         32
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR14",
@@ -106427,7 +106435,7 @@
         77
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR15",
@@ -106481,7 +106489,7 @@
         12
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR16",
@@ -106534,7 +106542,7 @@
         19
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR17",
@@ -106595,7 +106603,7 @@
         67
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR18",
@@ -106654,7 +106662,7 @@
         61
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR19",
@@ -106715,7 +106723,7 @@
         62
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR20",
@@ -106775,7 +106783,7 @@
         65
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR21",
@@ -106827,12 +106835,19 @@
         "M32",
         "I09"
       ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-semantic-validation/Cargo.lock",
+          "rust/crates/syson-semantic-validation/Cargo.toml"
+        ],
+        "policy": "Coordinator-only dependency registration/lock reconciliation for exact RR04 model plus existing literal-value prerequisite after ownership admission. Serialize shared Cargo edits and requalify final affected suites; these are not parallel author leases."
+      },
       "external_pr_details": [
         57,
         59
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR22",
@@ -106906,7 +106921,7 @@
         75
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR23",
@@ -106975,7 +106990,7 @@
         87
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "RR24",
@@ -107037,7 +107052,7 @@
         75
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "0f7f4d48b05373d5db1e271173ae53c43394e60a04401cce606812e513caf48f"
+      "source_fragment_sha256": "bdb200c4689e5952221a6704dfd3120142eeb80463e0bd14e26bbddf85ff7716"
     },
     {
       "id": "U01",
