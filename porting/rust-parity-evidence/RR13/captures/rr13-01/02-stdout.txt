@@ -1,0 +1,69 @@
+
+running 3 tests
+test rr13_open_races::regular_to_fifo_between_admission_and_open_refuses ... ok
+test rr13_open_races::regular_to_new_inode_between_admission_and_open_refuses ... ok
+test rr13_open_races::regular_to_symlink_between_admission_and_open_refuses ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 2 tests
+test corrupt_partial_and_invalid_keys_do_not_replace_snapshot ... ok
+test create_type_cancel_undo_save_restart_and_rotate ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 8 tests
+test directory_replacement_invalidates_existing_load_and_save_handles ... ok
+test directory_socket_symlink_and_invalid_utf8_files_refuse_without_following ... ok
+test exact_four_mib_raw_input_loads_and_one_extra_byte_refuses ... ok
+test fifo_load_refuses_without_a_blocking_open ... ok
+test provisional_output_limit_refuses_before_any_injected_io ... ok
+test regular_reopen_preserves_canonical_bytes_and_never_overwrites_a_destination ... ok
+test root_and_ancestor_symlinks_and_parent_components_refuse_before_creation ... ok
+test root_to_fifo_at_directory_sync_refuses_after_publication_without_blocking ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+
+running 13 tests
+test create_failure_leaves_no_candidate ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-before-Create-454165-1793068310539376716-0 (unpublished; original preserved; any staged bytes retained)
+ok
+test directory_sync_error_is_a_published_but_unconfirmed_outcome ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-directory-sync-454165-1793068310549857079-1 (published despite Io error; fresh load succeeds; durability unproven; retry collides; staging retained)
+ok
+test existing_published_snapshot_is_not_replaced_by_retry ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-existing-destination-454165-1793068310564840944-2 (existing destination preserved; new complete staged bytes retained after no-replace collision)
+ok
+test existing_staging_is_preserved_and_not_used_as_a_snapshot ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-existing-staging-454165-1793068310591200324-3 (existing staging preserved byte-for-byte; candidate unpublished)
+ok
+test file_sync_failure_retains_complete_staging_without_publishing ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-before-SyncFile-454165-1793068310601665559-4 (unpublished; original preserved; any staged bytes retained)
+ok
+test invalid_keys_are_rejected_before_any_injected_io ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-invalid-keys-454165-1793068310612455964-5 (invalid keys rejected without snapshot I/O)
+ok
+test partial_write_is_retained_and_never_loaded_as_a_snapshot ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-partial-write-454165-1793068310622860923-6 (unpublished; exact partial-write prefix retained)
+ok
+test publication_failure_retains_complete_staging_without_publishing ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-before-Publish-454165-1793068310633709250-7 (unpublished; original preserved; any staged bytes retained)
+ok
+test publish_side_effect_then_error_makes_failure_ambiguous ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-after-publish-454165-1793068310648702002-8 (published despite Io error; fresh load succeeds; durability unproven; retry collides; staging retained)
+ok
+test removal_side_effect_then_error_leaves_no_staging_but_a_published_snapshot ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-after-remove-454165-1793068310665172831-9 (published despite Io after removal; original staging absent; retry collision preserves destination and new staging; durability unproven)
+ok
+test staging_removal_error_retains_published_snapshot_and_staging ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-remove-staged-454165-1793068310690607102-10 (published despite Io error; fresh load succeeds; durability unproven; retry collides; staging retained)
+ok
+test successful_sequence_loads_from_fresh_store_and_removes_staging ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-success-454165-1793068310712035773-11 (published; full sequence returned success; fresh load matches; no staging)
+ok
+test write_failure_retains_empty_staging ... F31 retained fixture: /workspace/build/builderbob/syson-rereview-batch4-20261027/rr13-01/scratch/f31-before-Write-454165-1793068310732800545-12 (unpublished; original preserved; any staged bytes retained)
+ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
