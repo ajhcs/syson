@@ -1,0 +1,55 @@
+// SPDX-License-Identifier: EPL-2.0
+use serde_json::{Map, Value};
+use syson_model::{Document, Editor};
+
+const NODE: &str = "10000000-0000-4000-8000-000000000001";
+const ELEMENT: &str = "20000000-0000-4000-8000-000000000001";
+const NUMBER: &str = "$serde_json::private::Number";
+const RAW: &str = "$serde_json::private::RawValue";
+fn envelope(vendor: &str) -> String {
+    format!(r#"{{"json":{{"version":"1.0","encoding":"utf-8"}},"ns":{{"sysml":"http://www.eclipse.org/syson/sysml"}},"content":[{{"id":"{NODE}","eClass":"sysml:Package","data":{{"elementId":"{ELEMENT}","declaredName":"Original","vendor":{vendor}}}}}]}}"#)
+}
+fn object(pairs: Vec<(&str, Value)>) -> Value {
+    let mut fields = Map::new();
+    for (key, value) in pairs { fields.insert(key.into(), value); }
+    Value::Object(fields)
+}
+fn vendor(document: &Document) -> &Value {
+    &document.element(ELEMENT).unwrap()["data"]["vendor"]
+}
+#[test]
+fn literal_marker_objects_survive_every_member_position_with_manual_oracles() {
+    for marker in [NUMBER, RAW] {
+        for raw in [
+            format!(r#"{{"{marker}":"123","a":false,"z":null}}"#),
+            format!(r#"{{"a":false,"{marker}":"123","z":null}}"#),
+            format!(r#"{{"a":false,"z":null,"{marker}":"123"}}"#),
+        ] {
+            let expected = object(vec![(marker, Value::String("123".into())), ("a", Value::Bool(false)), ("z", Value::Null)]);
+            let document = Document::from_json(&envelope(&raw)).unwrap();
+            assert_eq!(vendor(&document), &expected);
+            let reopened = Document::from_json(&document.to_json().unwrap()).unwrap();
+            assert_eq!(vendor(&reopened), &expected);
+        }
+    }
+}
+#[test]
+fn unrelated_editor_rename_and_save_reopen_preserve_nested_literal_objects() {
+    let raw = r#"{"nested":[{"$serde_json::private::Number":"123"},{"$serde_json::private::RawValue":"{\"id\":\"not-a-physical-node\",\"eClass\":\"sysml:Namespace\"}"}]}"#;
+    let expected = object(vec![("nested", Value::Array(vec![
+        object(vec![(NUMBER, Value::String("123".into()))]),
+        object(vec![(RAW, Value::String(r#"{"id":"not-a-physical-node","eClass":"sysml:Namespace"}"#.into()))]),
+    ]))]);
+    let original = Document::from_json(&envelope(raw)).unwrap();
+    let before = original.clone();
+    let mut editor = Editor::new(original.clone());
+    let mut transaction = editor.begin();
+    transaction.rename(ELEMENT, "Renamed").unwrap();
+    assert!(editor.commit(transaction).unwrap());
+    let reopened = Document::from_json(&editor.document().to_json().unwrap()).unwrap();
+    assert_eq!(vendor(&reopened), &expected);
+    assert_eq!(reopened.element(ELEMENT).unwrap()["id"], NODE);
+    assert_eq!(reopened.element(ELEMENT).unwrap()["data"]["elementId"], ELEMENT);
+    assert_eq!(reopened.element(ELEMENT).unwrap()["data"]["declaredName"], "Renamed");
+    assert_eq!(original, before);
+}

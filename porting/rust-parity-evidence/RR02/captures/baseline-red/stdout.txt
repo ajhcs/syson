@@ -1,0 +1,27 @@
+
+running 2 tests
+test literal_marker_objects_survive_every_member_position_with_manual_oracles ... FAILED
+test unrelated_editor_rename_and_save_reopen_preserve_nested_literal_objects ... FAILED
+
+failures:
+
+---- literal_marker_objects_survive_every_member_position_with_manual_oracles stdout ----
+
+thread 'literal_marker_objects_survive_every_member_position_with_manual_oracles' (343950) panicked at tests/rr02_regression.rs:29:65:
+called `Result::unwrap()` on an `Err` value: Json("trailing comma at line 1 column 310")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- unrelated_editor_rename_and_save_reopen_preserve_nested_literal_objects stdout ----
+
+thread 'unrelated_editor_rename_and_save_reopen_preserve_nested_literal_objects' (343951) panicked at tests/rr02_regression.rs:50:5:
+assertion `left == right` failed
+  left: Object {"nested": Array [Number(123), Object {"$serde_json::private::RawValue": String("{\"id\":\"not-a-physical-node\",\"eClass\":\"sysml:Namespace\"}")}]}
+ right: Object {"nested": Array [Object {"$serde_json::private::Number": String("123")}, Object {"$serde_json::private::RawValue": String("{\"id\":\"not-a-physical-node\",\"eClass\":\"sysml:Namespace\"}")}]}
+
+
+failures:
+    literal_marker_objects_survive_every_member_position_with_manual_oracles
+    unrelated_editor_rename_and_save_reopen_preserve_nested_literal_objects
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
