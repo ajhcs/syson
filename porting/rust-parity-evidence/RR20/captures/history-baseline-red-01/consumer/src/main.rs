@@ -1,0 +1,2 @@
+use syson_model::{Document,Editor,NodeIds};
+fn main(){let mut e=Editor::new(Document::empty());let mut t=e.begin();t.create_package(None,NodeIds::new("resource","package").unwrap(),None,"start").unwrap();e.commit(t).unwrap();for i in 0..256{let mut t=e.begin();t.rename("package",&format!("revision-{i}")).unwrap();e.commit(t).unwrap();}let mut undo=0;while e.undo(){undo+=1;}println!("undo_entries={undo}; expected<=64");assert!(undo<=64,"RR20 baseline retains more than the admitted default64 entries");}
