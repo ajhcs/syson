@@ -8,8 +8,8 @@ The counts below are review units, not completed features. Prerequisites here de
 | [B02](prs/B02.md) | Rust HTTP host, request lifecycle and wire error envelope | C01 |  |
 | [B03](prs/B03.md) | GraphQL root execution, coercion and dispatch foundation | B02, C01 |  |
 | [B04](prs/B04.md) | Session, CSRF, CORS and WebSocket admission | B02, C01 |  |
-| [B05](prs/B05.md) | Effective PostgreSQL schema and Rust connection foundation | C01 |  |
-| [B06](prs/B06.md) | Atomic semantic, representation and migration persistence | B01, B05 |  |
+| [B05](prs/B05.md) | Effective PostgreSQL schema and Rust connection foundation | C01, RR12 |  |
+| [B06](prs/B06.md) | Atomic semantic, representation and migration persistence | B01, B05, RR11, RR12, RR13 |  |
 | [B07](prs/B07.md) | Rust local-store replacement and SQLite import | B06 |  |
 | [B08](prs/B08.md) | Project list, create, rename and delete service | B03, B06 |  |
 | [B09](prs/B09.md) | REST project and element read endpoints | B02, B06 |  |
@@ -20,7 +20,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [B14](prs/B14.md) | Textual expression and SysML insertion endpoints | B13 |  |
 | [B15](prs/B15.md) | Editing-context actor lifecycle and collaboration ordering | B13, B04 |  |
 | [B16](prs/B16.md) | GraphQL WebSocket protocol and subscriptions | B15, B04 |  |
-| [B17](prs/B17.md) | Semantic history, canUndo/canRedo and durable revision boundaries | B15 |  |
+| [B17](prs/B17.md) | Semantic history, canUndo/canRedo and durable revision boundaries | B15, RR20 |  |
 | [B18](prs/B18.md) | Diagram layout history and cross-view undo events | B17 |  |
 | [B19](prs/B19.md) | Explorer, selection dialog and object search services | B16 |  |
 | [B20](prs/B20.md) | Diagram runtime query, mutation and refresh transport | B16 |  |
@@ -39,7 +39,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [B28](prs/B28.md) | Crash/restart and failure recovery qualification | B15, B27 |  |
 | [B29](prs/B29.md) | Extension/provider invocation and module composition | B03, B15 |  |
 | [B30](prs/B30.md) | Images, localization and active ancillary HTTP APIs | B02, B04 |  |
-| [B31](prs/B31.md) | Connected project author/save/close/reopen workflow | B08, B11, B12, B17, B20, B21, B24, B27 |  |
+| [B31](prs/B31.md) | Connected project author/save/close/reopen workflow | B08, B11, B12, B17, B20, B21, B24, B27, RR18 |  |
 | [B32](prs/B32.md) | Rust native/WASM builds, packaging and process closure | C03, B07, B31 |  |
 | [B33](prs/B33.md) | Notices, source distribution, upgrade and rollback | B32, B27 |  |
 | [B34](prs/B34.md) | Strict seed and Vehicle runtime differentials | C02, B31, B32 |  |
@@ -59,38 +59,38 @@ The counts below are review units, not completed features. Prerequisites here de
 | [C01f](prs/C01f.md) | Capture actual native HTTP handler and wire-observation contracts | C01c | #80 |
 | [C01g](prs/C01g.md) | Index actual standard-library payload and native identity contracts | C01e | #84 |
 | [C01h](prs/C01h.md) | Capture native project-template discovery and typed choices | C01c, C01f | #80, #83 |
-| [C02](prs/C02.md) | Build reproducible differential and connected-workflow harnesses | C01 | #41 |
+| [C02](prs/C02.md) | Build reproducible differential and connected-workflow harnesses | C01, RR15, RR16 | #41 |
 | [C02a](prs/C02a.md) | Compare complete JSON trees without hiding identity or ordering differences | C01c, C01d, C01f | #79, #80, #83 |
-| [C03](prs/C03.md) | Compose reviewed branches and serialize integration ownership |  | #22, #66 |
+| [C03](prs/C03.md) | Compose reviewed branches and serialize integration ownership | RR13, RR14, RR16, RR17 | #22, #66 |
 | [C03a](prs/C03a.md) | Verify explicit committed source-blob compositions | B25S, B25a, B25b, B25c | #71, #72, #73, #74 |
 | [C03b](prs/C03b.md) | Compose private project migration preparation through actual callers | B01, B25S, B25a, B25b, B25c, B25d, C03a | #70, #71, #72, #73, #74, #75, #77 |
 | [C03c](prs/C03c.md) | Losslessly transport authoritative prepared-project wire payloads | C03b | #81 |
-| [C04](prs/C04.md) | Verify Rust production artifact and process closure | C01, C02 |  |
+| [C04](prs/C04.md) | Verify Rust production artifact and process closure | C01, C02, RR17 |  |
 | [C05](prs/C05.md) | Compare AST, CST and diagnostic observations | C01, C02 |  |
 | [C06](prs/C06.md) | Compare model identities, references and query outputs | C01, C02 |  |
 | [C07](prs/C07.md) | Compare API, database and migration observations | C01, C02 |  |
 | [C08](prs/C08.md) | Compare geometry and browser task observations | C01, C02 |  |
-| [C09](prs/C09.md) | Run isolated differential runtime lifecycle | C01, C02 |  |
-| [C99](prs/C99.md) | Accept complete matched SysON parity and Rust release closure | C01c, C01d, C03b, C01e, C01f, C03c, C01g, C01h, C02a, C01a, C01b, C03a, B25S, I01, M01, M02, M03, M04, M05, M06, M07, M08, M09, M10, M11, M12, M13, M14, M15, M16, M17, M18, M19, M20, M21, M22, M23, M24, M25, M26, M27, M28, M29, M30, M31, M32, M33, M34, M35, M36, M37, M38, M39, M40, I02, I03, I04, I05, I06, I07, I08, I09, M41, M42, M43, M44, M45, M46, M47, M48, M50, M51, M52, M53, M54, M55, M56, M57, M58, M59, M60, M61, M62, M63, M64, M65, M66, M67, M68, M69, M70, M71, M72, M73, M74, M75, M76, M77, M78, M79, M80, M81, M82, M83, M84, M85, M86, M87, M88, M89, M90, M91, M92, M93, M94, M95, M96, M97, M98, M99, M100, M101, M102, M103, M104, M105, M106, M107, M108, M109, M110, M111, M112, M113, M114, M115, M116, M117, M118, M119, M120, M121, M122, M123, M124, M125, M126, M127, M128, M129, M130, M131, M132, M133, M134, M135, M136, M137, M138, M139, M140, M141, M142, M143, M144, M145, M146, M147, M148, M149, M150, M151, M152, M153, M154, M155, M156, M157, M158, M159, M160, M161, M162, M163, M164, M165, M166, M167, M168, M169, M170, M171, M172, M173, M174, M175, M176, M177, M178, M179, M180, M181, M182, M183, M184, M185, M186, M187, M188, M189, M190, M191, M192, M193, M194, M195, M196, M197, M198, M199, M200, M201, M202, M203, M204, M205, M206, M207, M208, M209, M210, M211, M212, M213, M214, M215, M216, M217, M218, M219, M220, M221, M222, M223, M224, M225, M226, M227, M228, M229, M230, M231, M232, M233, M234, M235, M236, M237, M238, M239, M240, M241, M242, M243, M244, M245, M246, M247, M248, M249, M250, M251, M252, M253, M254, M255, M256, M257, M258, M259, M260, M261, M262, M263, M264, M265, M266, M267, M268, M269, M270, M271, M272, M273, M274, M275, M276, M277, M278, M279, M280, M281, M282, M283, M284, M285, M286, M287, M288, M289, M290, M291, M292, M293, M294, M295, M296, M297, M298, M299, M300, M301, M302, M303, M304, M305, M306, M307, M308, M309, M310, M311, M312, M313, M314, M315, M316, M317, M318, M319, M320, M321, M322, M323, M324, M325, M326, M327, M328, M329, M330, M331, M332, M333, M334, M335, M336, M337, M338, M339, M340, M341, M342, M343, M344, M345, M346, M347, M348, M349, M350, M351, M352, M353, M354, M355, M356, M357, M358, M359, M360, M361, M362, M363, M364, M365, M366, M367, M368, M369, M370, M371, M372, M373, M374, M375, M376, M377, M378, M379, M380, M381, M382, M383, M384, M385, M386, M387, M388, M389, M390, M391, M392, M393, M394, M395, M396, M397, M398, M399, M400, P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50, P51, P52, P53, P54, P55, P56, P57, P58, P59, P60, P61, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P89, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P103, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P125, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137, P138, P139, P140, P141, P142, P143, P144, P145, P146, P147, P148, P149, P150, P151, P152, P153, P154, P155, P156, P157, P158, P159, P160, P161, P162, P163, P164, P165, P166, P167, P168, P169, P170, P171, P172, P173, P174, P175, P176, P177, P178, P179, P180, P181, P182, P183, P184, B01, B02, B03, B04, B05, B06, B07, B08, B09, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25a, B25b, B25c, B25d, B26a, B26b, B27, B28, B29, B30, B31, B32, B33, B34, B35, B36, B37, B38, B39, B40, B41, C01, C02, C03, C04, C05, C06, C07, C08, C09, U01, U02, U03, U04, U05, U06, U07, U08, U09, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011, V012, V013, V014, V015, V016, V017, V018, V019, V020, V021, V022, V023, V024, V025, V026, V027, V028, V029, V030, V031, V032, V033, V034, V035, V036, V037, V038, V039, V040, V041, V042, V043, V044 | #66 |
+| [C09](prs/C09.md) | Run isolated differential runtime lifecycle | C01, C02, RR15 |  |
+| [C99](prs/C99.md) | Accept complete matched SysON parity and Rust release closure | C01c, C01d, C03b, C01e, C01f, C03c, C01g, C01h, C02a, C01a, C01b, C03a, B25S, I01, M01, M02, M03, M04, M05, M06, M07, M08, M09, M10, M11, M12, M13, M14, M15, M16, M17, M18, M19, M20, M21, M22, M23, M24, M25, M26, M27, M28, M29, M30, M31, M32, M33, M34, M35, M36, M37, M38, M39, M40, I02, I03, I04, I05, I06, I07, I08, I09, M41, M42, M43, M44, M45, M46, M47, M48, M50, M51, M52, M53, M54, M55, M56, M57, M58, M59, M60, M61, M62, M63, M64, M65, M66, M67, M68, M69, M70, M71, M72, M73, M74, M75, M76, M77, M78, M79, M80, M81, M82, M83, M84, M85, M86, M87, M88, M89, M90, M91, M92, M93, M94, M95, M96, M97, M98, M99, M100, M101, M102, M103, M104, M105, M106, M107, M108, M109, M110, M111, M112, M113, M114, M115, M116, M117, M118, M119, M120, M121, M122, M123, M124, M125, M126, M127, M128, M129, M130, M131, M132, M133, M134, M135, M136, M137, M138, M139, M140, M141, M142, M143, M144, M145, M146, M147, M148, M149, M150, M151, M152, M153, M154, M155, M156, M157, M158, M159, M160, M161, M162, M163, M164, M165, M166, M167, M168, M169, M170, M171, M172, M173, M174, M175, M176, M177, M178, M179, M180, M181, M182, M183, M184, M185, M186, M187, M188, M189, M190, M191, M192, M193, M194, M195, M196, M197, M198, M199, M200, M201, M202, M203, M204, M205, M206, M207, M208, M209, M210, M211, M212, M213, M214, M215, M216, M217, M218, M219, M220, M221, M222, M223, M224, M225, M226, M227, M228, M229, M230, M231, M232, M233, M234, M235, M236, M237, M238, M239, M240, M241, M242, M243, M244, M245, M246, M247, M248, M249, M250, M251, M252, M253, M254, M255, M256, M257, M258, M259, M260, M261, M262, M263, M264, M265, M266, M267, M268, M269, M270, M271, M272, M273, M274, M275, M276, M277, M278, M279, M280, M281, M282, M283, M284, M285, M286, M287, M288, M289, M290, M291, M292, M293, M294, M295, M296, M297, M298, M299, M300, M301, M302, M303, M304, M305, M306, M307, M308, M309, M310, M311, M312, M313, M314, M315, M316, M317, M318, M319, M320, M321, M322, M323, M324, M325, M326, M327, M328, M329, M330, M331, M332, M333, M334, M335, M336, M337, M338, M339, M340, M341, M342, M343, M344, M345, M346, M347, M348, M349, M350, M351, M352, M353, M354, M355, M356, M357, M358, M359, M360, M361, M362, M363, M364, M365, M366, M367, M368, M369, M370, M371, M372, M373, M374, M375, M376, M377, M378, M379, M380, M381, M382, M383, M384, M385, M386, M387, M388, M389, M390, M391, M392, M393, M394, M395, M396, M397, M398, M399, M400, P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50, P51, P52, P53, P54, P55, P56, P57, P58, P59, P60, P61, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P89, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P103, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P125, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137, P138, P139, P140, P141, P142, P143, P144, P145, P146, P147, P148, P149, P150, P151, P152, P153, P154, P155, P156, P157, P158, P159, P160, P161, P162, P163, P164, P165, P166, P167, P168, P169, P170, P171, P172, P173, P174, P175, P176, P177, P178, P179, P180, P181, P182, P183, P184, B01, B02, B03, B04, B05, B06, B07, B08, B09, B10, B11, B12, B13, B14, B15, B16, B17, B18, B19, B20, B21, B22, B23, B24, B25a, B25b, B25c, B25d, B26a, B26b, B27, B28, B29, B30, B31, B32, B33, B34, B35, B36, B37, B38, B39, B40, B41, RR01, RR02, RR03, RR04, RR05, RR06, RR07, RR08, RR09, RR10, RR11, RR12, RR13, RR14, RR15, RR16, RR17, RR18, RR19, RR20, RR21, RR22, RR23, RR24, C01, C02, C03, C04, C05, C06, C07, C08, C09, U01, U02, U03, U04, U05, U06, U07, U08, U09, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011, V012, V013, V014, V015, V016, V017, V018, V019, V020, V021, V022, V023, V024, V025, V026, V027, V028, V029, V030, V031, V032, V033, V034, V035, V036, V037, V038, V039, V040, V041, V042, V043, V044 | #66 |
 | [I01](prs/I01.md) | Reverse the finite local node-ID bridge into editable semantic-ID documents |  | #63 |
 | [I02](prs/I02.md) | Extend explicit identity bridges to port/view and external library typing | I01, M07, M08, M15 | #55, #63 |
-| [I03](prs/I03.md) | Generate full native EMF JSON feature/schema adapters | M01, M04, M05, M06, M08 |  |
+| [I03](prs/I03.md) | Generate full native EMF JSON feature/schema adapters | M01, M04, M05, M06, M08, RR01, RR02, RR04 |  |
 | [I04](prs/I04.md) | Qualify identity-service reference serialization policy | I03, M06, M15 |  |
 | [I05](prs/I05.md) | Implement capability-scoped external resource loading | M08, M09, M15 |  |
-| [I06](prs/I06.md) | Close native-edit-save-reload application journeys for every schema family | I03, I04, M38, M39 |  |
+| [I06](prs/I06.md) | Close native-edit-save-reload application journeys for every schema family | I03, I04, M38, M39, RR02, RR05, RR22, RR24 |  |
 | [I07](prs/I07.md) | Port native library/reference/document identity migrations | I04, M06, M39 |  |
 | [I08](prs/I08.md) | Integrate text-linking and external resource references across entry points | M09, M14, I04, M38 |  |
-| [I09](prs/I09.md) | Qualify large model/library resource bounds and streaming import | I03, M07, M15, M21 |  |
+| [I09](prs/I09.md) | Qualify large model/library resource bounds and streaming import | I03, M07, M15, M21, RR04, RR05, RR06, RR21 |  |
 | [M01](prs/M01.md) | Freeze complete model schema and effective Java behavior assignment | C01 |  |
 | [M02](prs/M02.md) | Independently qualify held raw factory and admission candidates | C01, C02 | #1 |
-| [M03](prs/M03.md) | Define the fully Rust typed graph and owned transaction boundary | M01 |  |
+| [M03](prs/M03.md) | Define the fully Rust typed graph and owned transaction boundary | M01, RR20 |  |
 | [M04](prs/M04.md) | Implement Element/Relationship containment and inverse ownership | M03 |  |
 | [M05](prs/M05.md) | Implement scalar defaults, unset/null state and enum families | M03, M01 |  |
-| [M06](prs/M06.md) | Bind semantic/resource identities to the Rust resource lifecycle | M03, M05 | #31 |
-| [M07](prs/M07.md) | Index immutable resource lookup and exact scoped reference handles | M03, M06 | #47 |
+| [M06](prs/M06.md) | Bind semantic/resource identities to the Rust resource lifecycle | M03, M05, RR01, RR02 | #31 |
+| [M07](prs/M07.md) | Index immutable resource lookup and exact scoped reference handles | M03, M06, RR09, RR10 | #47 |
 | [M08](prs/M08.md) | Normalize ordinary and relative EMF resource addresses explicitly | M07, C01 |  |
 | [M09](prs/M09.md) | Resolve lazy syson-import and cross-resource proxies without fallback | M08, M14 |  |
-| [M10](prs/M10.md) | Integrate owner/effective/qualified names on live Rust snapshots | M04, M06, M07 | #49 |
+| [M10](prs/M10.md) | Integrate owner/effective/qualified names on live Rust snapshots | M04, M06, M07, RR10 | #49 |
 | [M100](prs/M100.md) | Disjoining: disjoiningType, typeDisjoined feature contract | C01, C02, M03, M04, M05 |  |
 | [M101](prs/M101.md) | Disjoining: owningType feature contract | C01, C02, M03, M04, M05 |  |
 | [M102](prs/M102.md) | Documentation: documentedElement feature contract | C01, C02, M03, M04, M05 |  |
@@ -101,7 +101,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [M107](prs/M107.md) | Element: owningMembership, owningNamespace, textualRepresentation feature contract | C01, C02, M03, M04, M05 |  |
 | [M108](prs/M108.md) | Element: ownedRelationship, owningRelationship feature contract | C01, C02, M03, M04, M05 |  |
 | [M109](prs/M109.md) | ElementFilterMembership: condition feature contract | C01, C02, M03, M04, M05 |  |
-| [M11](prs/M11.md) | Evaluate public namespace imports from actual resource graph facts | M04, M10, M07 | #34, #37 |
+| [M11](prs/M11.md) | Evaluate public namespace imports from actual resource graph facts | M04, M07, M10, RR09 | #34, #37 |
 | [M110](prs/M110.md) | EnumerationDefinition: enumeratedValue feature contract | C01, C02, M03, M04, M05 |  |
 | [M111](prs/M111.md) | EnumerationUsage: enumerationDefinition feature contract | C01, C02, M03, M04, M05 |  |
 | [M112](prs/M112.md) | EventOccurrenceUsage: eventOccurrence feature contract | C01, C02, M03, M04, M05 |  |
@@ -145,7 +145,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [M147](prs/M147.md) | Import: importOwningNamespace feature contract | C01, C02, M03, M04, M05 |  |
 | [M148](prs/M148.md) | IncludeUseCaseUsage: useCaseIncluded feature contract | C01, C02, M03, M04, M05 |  |
 | [M149](prs/M149.md) | InstantiationExpression: argument, instantiatedType feature contract | C01, C02, M03, M04, M05 |  |
-| [M15](prs/M15.md) | Load and version pinned SysML/KerML standard libraries in Rust | M06, M08, M11, C01g |  |
+| [M15](prs/M15.md) | Load and version pinned SysML/KerML standard libraries in Rust | C01g, M06, M08, M11, RR03 |  |
 | [M150](prs/M150.md) | InterfaceDefinition: interfaceEnd feature contract | C01, C02, M03, M04, M05 |  |
 | [M151](prs/M151.md) | InterfaceUsage: interfaceDefinition feature contract | C01, C02, M03, M04, M05 |  |
 | [M152](prs/M152.md) | Intersecting: intersectingType feature contract | C01, C02, M03, M04, M05 |  |
@@ -310,7 +310,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [M297](prs/M297.md) | MultiplicityRange: hasBounds, valueOf operation contract | C01, C02, M03, M04, M05 |  |
 | [M298](prs/M298.md) | Namespace: importedMemberships, membershipsOfVisibility operation contract | C01, C02, M03, M04, M05 |  |
 | [M299](prs/M299.md) | Namespace: visibleMemberships operation contract | C01, C02, M03, M04, M05 |  |
-| [M30](prs/M30.md) | Complete view/rendering/exposure initializer families | M23, M15, M14 | #48, #54 |
+| [M30](prs/M30.md) | Complete view/rendering/exposure initializer families | M14, M15, M23 | #48, #54 |
 | [M300](prs/M300.md) | Namespace: namesOf, qualificationOf operation contract | C01, C02, M03, M04, M05 |  |
 | [M301](prs/M301.md) | Namespace: resolve, resolveGlobal operation contract | C01, C02, M03, M04, M05 |  |
 | [M302](prs/M302.md) | Namespace: resolveLocal, resolveVisible operation contract | C01, C02, M03, M04, M05 |  |
@@ -332,7 +332,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [M317](prs/M317.md) | AcceptActionUsage: exact caseAcceptActionUsage initializer schedule | C01, C02, M02, M03, M04, M05 |  |
 | [M318](prs/M318.md) | AttributeUsage: exact caseAttributeUsage initializer schedule | C01, C02, M02, M03, M04, M05 |  |
 | [M319](prs/M319.md) | BindingConnectorAsUsage: exact caseBindingConnectorAsUsage initializer schedule | C01, C02, M02, M03, M04, M05 |  |
-| [M32](prs/M32.md) | Port foundational namespace/membership/containment rule families | M04, M10, M11, M22 | #57 |
+| [M32](prs/M32.md) | Port foundational namespace/membership/containment rule families | M04, M10, M11, M22, RR21 | #57 |
 | [M320](prs/M320.md) | Comment: exact caseComment initializer schedule | C01, C02, M02, M03, M04, M05 |  |
 | [M321](prs/M321.md) | ConnectionDefinition: exact caseConnectionDefinition initializer schedule | C01, C02, M02, M03, M04, M05 |  |
 | [M322](prs/M322.md) | InterfaceDefinition: exact caseInterfaceDefinition initializer schedule | C01, C02, M02, M03, M04, M05 |  |
@@ -398,7 +398,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [M377](prs/M377.md) | Construction admission: Subclassification, Subsetting, TypeFeaturing, Unioning | C01, C02, M02, M23 |  |
 | [M378](prs/M378.md) | Construction admission: VariantMembership | C01, C02, M02, M23 |  |
 | [M379](prs/M379.md) | Construction admission: AttributeDefinition, AttributeUsage, EnumerationDefinition, EnumerationUsage | C01, C02, M02, M23 |  |
-| [M38](prs/M38.md) | Integrate metamodel query/mutation service APIs with actual callers | M20, M22, M23, M14 |  |
+| [M38](prs/M38.md) | Integrate metamodel query/mutation service APIs with actual callers | M14, M20, M22, M23 |  |
 | [M380](prs/M380.md) | Construction admission: EventOccurrenceUsage, ItemDefinition, ItemUsage, MetadataDefinition | C01, C02, M02, M23 |  |
 | [M381](prs/M381.md) | Construction admission: MetadataFeature, MetadataUsage, OccurrenceDefinition, OccurrenceUsage | C01, C02, M02, M23 |  |
 | [M382](prs/M382.md) | Construction admission: PartDefinition, PartUsage, ReferenceUsage | C01, C02, M02, M23 |  |
@@ -487,7 +487,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [P05](prs/P05.md) | Tokenize regular block comments as semantic input, never hidden trivia | C01, C02 | #40, #25 |
 | [P06](prs/P06.md) | Compile pinned keyword/terminal priority tables in bounded review batches | P01, P02, P03, P04, P05 | #23, #25, #35, #40, #41 |
 | [P07](prs/P07.md) | Preserve CST token/trivia ranges and UTF-16 source mapping | P06 | #23, #25, #35, #40, #41 |
-| [P08](prs/P08.md) | Add bounded token checkpoints and deterministic parse failure state | P07 | #23, #25, #35, #40, #41 |
+| [P08](prs/P08.md) | Add bounded token checkpoints and deterministic parse failure state | P07, RR15 | #23, #25, #35, #40, #41 |
 | [P09](prs/P09.md) | Implement sequence and ordered-alternative CST execution | P08 | #23, #25, #35, #40, #41 |
 | [P10](prs/P10.md) | Implement cardinality and repetition with non-progress guards | P09 | #23, #25, #35, #40, #41 |
 | [P100](prs/P100.md) | KerML features typing multiplicity branch batch 3: References, Crosses, Redefinitions and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
@@ -511,7 +511,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [P117](prs/P117.md) | SysML kernel types relationships branch batch 1: OwnedSubclassification, FeatureSpecialization, TypedBy and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P118](prs/P118.md) | KerML names prefixes modifiers branch batch 1: Succession, SuccessionDeclaration, FunctionBody and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P119](prs/P119.md) | KerML names prefixes modifiers branch batch 2: SpecializesToken, VisibilityKind, Abstract and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
-| [P12](prs/P12.md) | Bridge CST assignment events into the existing AST operation kernel | P11 | #23, #25, #35, #40, #41 |
+| [P12](prs/P12.md) | Bridge CST assignment events into the existing AST operation kernel | P11, RR08 | #23, #25, #35, #40, #41 |
 | [P120](prs/P120.md) | KerML names prefixes modifiers branch batch 3: Standard | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P121](prs/P121.md) | SysML names prefixes modifiers branch batch 1: DefinedByToken, RefPrefix, EmptySuccession and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P122](prs/P122.md) | SysML names prefixes modifiers branch batch 2: VisibilityKind, Abstract, Visibility and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
@@ -533,7 +533,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [P137](prs/P137.md) | SysML states transitions branch batch 4: EntryActionMember, DoActionMember, ExitActionMember and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P138](prs/P138.md) | SysML states transitions branch batch 5: StateActionUsage_5, StateActionUsage, TransitionUsageMember and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P139](prs/P139.md) | SysML states transitions branch batch 6: TargetTransitionUsage, TransitionSourceMember | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
-| [P14](prs/P14.md) | Qualify native mandatory defaults, reflection ordering and child-cache projection | P13 | #23, #25, #35, #40, #41 |
+| [P14](prs/P14.md) | Qualify native mandatory defaults, reflection ordering and child-cache projection | P13, RR08 | #23, #25, #35, #40, #41 |
 | [P140](prs/P140.md) | SysML states transitions branch batch 7: TriggerActionMember, TriggerAction, GuardExpressionMember and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P141](prs/P141.md) | SysML states transitions branch batch 8: EffectBehaviorUsage_4, EffectBehaviorUsage_5, EffectBehaviorUsage and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P142](prs/P142.md) | SysML views viewpoints rendering branch batch 1: ViewDefinition, ViewDefinitionBody, ViewDefinitionBodyItems and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
@@ -567,8 +567,8 @@ The counts below are review units, not completed features. Prerequisites here de
 | [P168](prs/P168.md) | Text export dispatch batch 14: caseUseCaseUsage, caseVerificationCaseUsage | C01, C02 | #56, #52, #49 |
 | [P169](prs/P169.md) | Complete native textual name deresolution and escaping | C01, C02 | #56 |
 | [P17](prs/P17.md) | Recover missing delimiters and resynchronize bounded incomplete input | P16 | #23, #25, #35, #40, #41 |
-| [P170](prs/P170.md) | Close non-dispatch textual helpers and residual exporters | C01, C02 | #56 |
-| [P171](prs/P171.md) | Qualify complete textual import/export corpus and residual differences | C01, C02, P155, P156, P157, P158, P159, P160, P161, P162, P163, P164, P165, P166, P167, P168 | #56 |
+| [P170](prs/P170.md) | Close non-dispatch textual helpers and residual exporters | C01, C02, RR06, RR07 | #56 |
+| [P171](prs/P171.md) | Qualify complete textual import/export corpus and residual differences | C01, C02, P155, P156, P157, P158, P159, P160, P161, P162, P163, P164, P165, P166, P167, P168, RR07 | #56 |
 | [P172](prs/P172.md) | Freeze all standard-library packages, source/artifact bytes and dependencies | C01, C02, P18 | #37, #47, #49 |
 | [P173](prs/P173.md) | Load selected libraries into explicit immutable resource registries | C01, C02, P18, P172 | #37, #47, #49 |
 | [P174](prs/P174.md) | Resolve implicit base features and standard-library names | C01, C02, P18, P173 | #37, #47, #49 |
@@ -577,12 +577,12 @@ The counts below are review units, not completed features. Prerequisites here de
 | [P177](prs/P177.md) | Complete names, members and import-context suggestions | C01, C02, P18, P175 | #51, #52, #56, #57 |
 | [P178](prs/P178.md) | Show scoped semantic hover and documentation | C01, C02, P18, P175 | #51, #52, #56, #57 |
 | [P179](prs/P179.md) | Navigate to declaration and enumerate scoped references | C01, C02, P18, P175 | #51, #52, #56, #57 |
-| [P18](prs/P18.md) | Version incremental document edits and invalidate stale CST/AST snapshots | P07, P17 | #23, #25, #35, #40, #41 |
+| [P18](prs/P18.md) | Version incremental document edits and invalidate stale CST/AST snapshots | P07, P17, RR08 | #23, #25, #35, #40, #41 |
 | [P180](prs/P180.md) | Apply atomic multi-reference symbol renames | C01, C02, P18, P175 | #51, #52, #56, #57 |
 | [P181](prs/P181.md) | Produce native-compatible semantic token classifications | C01, C02, P18, P175 | #51, #52, #56, #57 |
 | [P182](prs/P182.md) | Format admitted syntax without semantic or comment loss | C01, C02, P18, P175 | #51, #52, #56, #57 |
 | [P183](prs/P183.md) | Bind text import/export/expression edits to actual UI state | C01, C02, P18, P175 | #51, #52, #56, #57 |
-| [P184](prs/P184.md) | Close every grammar/AST/native-caller obligation with an evidence matrix | C01, C02, C03, P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50, P51, P52, P53, P54, P55, P56, P57, P58, P59, P60, P61, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P89, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P103, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P120, P121, P122, P123, P124, P125, P126, P127, P128, P129, P130, P131, P132, P133, P134, P135, P136, P137, P138, P139, P140, P141, P142, P143, P144, P145, P146, P147, P148, P149, P150, P151, P152, P153, P154, P155, P156, P157, P158, P159, P160, P161, P162, P163, P164, P165, P166, P167, P168, P169, P170, P171, P172, P173, P174, P175, P176, P177, P178, P179, P180, P181, P182, P183 |  |
+| [P184](prs/P184.md) | Close every grammar/AST/native-caller obligation with an evidence matrix | C01, C02, C03, P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P100, P101, P102, P103, P104, P105, P106, P107, P108, P109, P11, P110, P111, P112, P113, P114, P115, P116, P117, P118, P119, P12, P120, P121, P122, P123, P124, P125, P126, P127, P128, P129, P13, P130, P131, P132, P133, P134, P135, P136, P137, P138, P139, P14, P140, P141, P142, P143, P144, P145, P146, P147, P148, P149, P15, P150, P151, P152, P153, P154, P155, P156, P157, P158, P159, P16, P160, P161, P162, P163, P164, P165, P166, P167, P168, P169, P17, P170, P171, P172, P173, P174, P175, P176, P177, P178, P179, P18, P180, P181, P182, P183, P19, P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30, P31, P32, P33, P34, P35, P36, P37, P38, P39, P40, P41, P42, P43, P44, P45, P46, P47, P48, P49, P50, P51, P52, P53, P54, P55, P56, P57, P58, P59, P60, P61, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P89, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, RR08 |  |
 | [P19](prs/P19.md) | Attach hidden trivia and semantic Comment CST to user-visible source maps | P02, P05, P07, P15 | #23, #25, #35, #40, #41 |
 | [P20](prs/P20.md) | Expand the finite caller to untyped usages and usage bodies | C01, C02 | #23, #25, #35, #40, #41 |
 | [P21](prs/P21.md) | Run the actual loop-member postprocessor through parsed loop fixtures | P15 | #23, #25, #35, #40, #41 |
@@ -664,14 +664,38 @@ The counts below are review units, not completed features. Prerequisites here de
 | [P97](prs/P97.md) | SysML expressions literals operators branch batch 16: FeatureChain, FeatureChainPrefix, OwnedFeatureChaining and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P98](prs/P98.md) | KerML features typing multiplicity branch batch 1: NonFeatureMember, NamespaceFeatureMember, ImportedReference and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
 | [P99](prs/P99.md) | KerML features typing multiplicity branch batch 2: FeaturePrefix, Feature, OwnedCrossingFeatureMember and siblings | C01, C02, P12, P13, P15 | #40, #41, #50, #52 |
+| [RR01](prs/RR01.md) | Introduce bounded literal JSON materialization without private-token reinterpretation |  | #8 |
+| [RR02](prs/RR02.md) | Adopt literal-safe parsing at model and selected identity-bridge entry points | RR01, I01 | #8, #63, #69 |
+| [RR03](prs/RR03.md) | Keep the library catalogue physical under reserved JSON keys | RR01, C01g | #85 |
+| [RR04](prs/RR04.md) | Expose bounded model JSON counting/writing before owned output allocation | RR02 | #8, #55, #59, #64 |
+| [RR05](prs/RR05.md) | Enforce interchange and bridge serialized budgets before allocation | RR04, I01 | #55, #63, #69 |
+| [RR06](prs/RR06.md) | Preflight rendered names and text output before copies |  | #56, #52 |
+| [RR07](prs/RR07.md) | Quote export names against the actual parser keyword contract | RR06 | #56, #52, #40 |
+| [RR08](prs/RR08.md) | Bound AST rollback snapshot work and cancellation |  | #11, #41 |
+| [RR09](prs/RR09.md) | Bound native graph indexing and owned-peer counting costs |  | #14, #48, #54, #49 |
+| [RR10](prs/RR10.md) | Bound legacy conjugated-name traversal through one authority | RR09 | #15, #49 |
+| [RR11](prs/RR11.md) | Fence SQLite observations by actual database generation |  | #53, #64 |
+| [RR12](prs/RR12.md) | Bound storage names and read metadata before cloning/encoding | RR11 | #64 |
+| [RR13](prs/RR13.md) | Refuse nonregular snapshot inputs and bound serialization before writing | RR04 | #16, #32 |
+| [RR14](prs/RR14.md) | Admit regular composition manifests before opening | C03a | #77 |
+| [RR15](prs/RR15.md) | Bound legacy syntax-observer input file admission |  | #12 |
+| [RR16](prs/RR16.md) | Bind integration receipts to a complete unchanged executed source closure |  | #19 |
+| [RR17](prs/RR17.md) | Add complete Rust CI and final-source affected-suite gates | RR16 | #19, #28, #67 |
+| [RR18](prs/RR18.md) | Bound preview generation and keep import/export recovery reachable | RR04 | #65, #61 |
+| [RR19](prs/RR19.md) | Expose real command availability and kind-specific editing affordances | RR18, RR20 | #65, #51, #62 |
+| [RR20](prs/RR20.md) | Bound retained local model history without breaking revision/rollback semantics | RR04 | #8, #17, #65 |
+| [RR21](prs/RR21.md) | Admit bounded semantic-validation projections before serialization | RR04 | #57, #59 |
+| [RR22](prs/RR22.md) | Adopt literal-safe JSON through actual migration and project-preparation carriers | RR01, RR02, C03b, C03c, RR24 | #81, #82, #71, #72, #73, #74, #75 |
+| [RR23](prs/RR23.md) | Adopt literal-safe JSON at observed-contract readers without changing evidence | RR01, C01c, C01d, C01f, C01h | #79, #80, #83, #87 |
+| [RR24](prs/RR24.md) | Preserve literal JSON through shared migration support and action/control migration | RR01, B25S, B25d | #71, #75 |
 | [U01](prs/U01.md) | Move DOM binding and browser event dispatch into Rust/WASM | C03 | #65 |
 | [U02](prs/U02.md) | Move canvas scheduling, measurements and viewport state into Rust | U01 | #65 |
-| [U03](prs/U03.md) | Project home, templates and application routing | U01, B08, B23 |  |
+| [U03](prs/U03.md) | Project home, templates and application routing | B08, B23, RR18, U01 |  |
 | [U04](prs/U04.md) | Explorer navigation, document actions and search | U03, B19 |  |
-| [U05](prs/U05.md) | Details forms, typed references and feature help | U04, B21 | #61, #62 |
+| [U05](prs/U05.md) | Details forms, typed references and feature help | B21, RR19, U04 | #61, #62 |
 | [U06](prs/U06.md) | Connected text import and positioned validation | U05 | #52, #59, #63 |
 | [U07](prs/U07.md) | Real file download/upload and archive reload | U06, B11, B12 | #55, #56, #63 |
-| [U08](prs/U08.md) | Client history and remote command result integration | U03, B13, B17, B18 |  |
+| [U08](prs/U08.md) | Client history and remote command result integration | B13, B17, B18, RR19, RR20, U03 |  |
 | [U09](prs/U09.md) | Diagram representation lifecycle and selection | U02, U04, B20 |  |
 | [U10](prs/U10.md) | Rust layered layout execution and worker lifecycle | U02, U09 |  |
 | [U11](prs/U11.md) | Ports, edge routing and reconnect interactions | U10 |  |
@@ -681,7 +705,7 @@ The counts below are review units, not completed features. Prerequisites here de
 | [U15](prs/U15.md) | Rust imported package custom node appearance and interactions | U09, U10 |  |
 | [U16](prs/U16.md) | Direct-edit labels and expression modal | U05, U09, B14 |  |
 | [U17](prs/U17.md) | General View node/edge/tool registry and source assignment | U09, U11 | #48, #54 |
-| [U18](prs/U18.md) | Interconnection View and connection endpoint workflows | U17, V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011, V012, V013, V014, V015, V016, V017, V018, V019, V020, V021, V022, V023, V024, V025, V026, V027, V028, V029, V030, V031, V032, V033, V034, V035, V036, V037, V038, V039, V040, V041, V042, V043, V044 |  |
+| [U18](prs/U18.md) | Interconnection View and connection endpoint workflows | RR18, U17, V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011, V012, V013, V014, V015, V016, V017, V018, V019, V020, V021, V022, V023, V024, V025, V026, V027, V028, V029, V030, V031, V032, V033, V034, V035, V036, V037, V038, V039, V040, V041, V042, V043, V044 |  |
 | [U19](prs/U19.md) | Action Flow View and control-flow tools | U17, V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011, V012, V013, V014, V015, V016, V017, V018, V019, V020, V021, V022, V023, V024, V025, V026, V027, V028, V029, V030, V031, V032, V033, V034, V035, V036, V037, V038, V039, V040, V041, V042, V043, V044 |  |
 | [U20](prs/U20.md) | State Transition View and transition tools | U17, U16, V001, V002, V003, V004, V005, V006, V007, V008, V009, V010, V011, V012, V013, V014, V015, V016, V017, V018, V019, V020, V021, V022, V023, V024, V025, V026, V027, V028, V029, V030, V031, V032, V033, V034, V035, V036, V037, V038, V039, V040, V041, V042, V043, V044 |  |
 | [U21](prs/U21.md) | Requirements table and requirement authoring | U05, U09, B22 |  |

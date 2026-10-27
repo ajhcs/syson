@@ -35,6 +35,10 @@ def validate(plan,root):
         require(fragment.is_file(),'Missing source fragment '+str(fragment))
         if fragment not in fragments:fragments[fragment]=hashlib.sha256(fragment.read_bytes()).hexdigest()
         require(fragments[fragment]==u['source_fragment_sha256'],'Changed source fragment '+str(fragment))
+        overlay=u.get('rereview_overlay')
+        if overlay:
+            path=root/overlay['path']
+            require(path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest()==overlay['sha256'],'Changed re-review overlay '+u['id'])
         require((root/'prs'/(u['id']+'.md')).is_file(),'Missing PR brief '+u['id'])
         if u.get('acceptance_implementation_inputs'):
             pending=list(u['acceptance_implementation_inputs']);needed=set()
@@ -45,6 +49,33 @@ def validate(plan,root):
                 pending.extend(record.get('implementation_ready_dependencies',record['dependencies']))
                 pending.extend(record.get('acceptance_children',[]))
             require({'implementation:'+child for child in needed}<=set(stages['accepted:'+u['id']]),'Joint gate skips semantic child implementations: '+u['id'])
+    # Reconcile normalized obligations against the authoritative overlay and lane.
+    review_path=root/'rereview-overlay.json'
+    review=json.loads(review_path.read_text())
+    review_sha=hashlib.sha256(review_path.read_bytes()).hexdigest()
+    executed=json.loads((root/'execution.json').read_text()).get('units',{})
+    for uid,item in review['units'].items():
+        require(uid in byid,'Missing re-review owner '+uid)
+        unit=byid[uid]
+        require(unit.get('rereview_overlay')=={'path':'rereview-overlay.json','sha256':review_sha},'Missing/changed re-review annotation '+uid)
+        repairs=set(item['repair_units'])
+        require(repairs<=set(unit.get('acceptance_children',[])),'Missing re-review acceptance child '+uid)
+        require({'accepted:'+child for child in repairs}<=set(stages['accepted:'+uid]),'Missing re-review accepted edge '+uid)
+        if uid not in executed:
+            require(repairs<=set(unit['dependencies']),'Missing re-review source prerequisite '+uid)
+            require({'implementation:'+child for child in repairs}<=set(stages['implementation:'+uid]),'Missing re-review implementation edge '+uid)
+        require(set(item['finding_ids'])<=set(unit.get('rereview_findings',[])),'Missing re-review finding '+uid)
+        require(all(task in unit['tasks'] for task in item['tasks']),'Missing re-review task '+uid)
+        require(all(check in unit['verification'] for check in item['verification']),'Missing re-review verification '+uid)
+    repairs=json.loads((root/'lanes/rereview.json').read_text())['units']
+    for raw in repairs:
+        require(raw['id'] in byid,'Missing repair unit '+raw['id'])
+        unit=byid[raw['id']]
+        for key in ['dependencies','paths','tasks','verification','state','owner_plan_units','budget']:
+            require(raw[key]==unit[key],'Changed repair lane obligation '+raw['id']+':'+key)
+    for uid,unit in byid.items():
+        expected={'implementation:'+dep for dep in unit.get('implementation_ready_dependencies',unit['dependencies'])}
+        require(expected==set(stages['implementation:'+uid]),'Implementation readiness edges disagree '+uid)
     require(set('accepted:'+uid for uid in ids-{'C99'})<=set(stages['accepted:C99']),'Final gate skips units')
     require(not plan['unordered_write_conflicts'],'Unordered shared writes remain')
     require(len(plan['old_remaining_brief_mapping'])==14,'Missing original remaining brief')
@@ -105,6 +136,25 @@ def self_test(plan,root):
     try:validate(bad,root)
     except ValueError as e:require('semantic child' in str(e),'Wrong rejection for missing semantic child')
     else:raise AssertionError('Verifier accepted an adapter without its concrete semantic child')
+
+    bad=copy.deepcopy(plan)
+    annotated=next(u for u in bad['units'] if u.get('rereview_overlay'))
+    annotated['rereview_overlay']['sha256']='0'*64
+    try:validate(bad,root)
+    except ValueError as e:require('re-review overlay' in str(e),'Wrong rejection for changed re-review overlay')
+    else:raise AssertionError('Stale re-review overlay accepted')
+
+    for change,expected in [('annotation','annotation'),('child','acceptance child'),('source','source prerequisite'),('edge','implementation edge')]:
+        bad=copy.deepcopy(plan);unit=next(u for u in bad['units'] if u['id']=='P170')
+        if change=='annotation':unit.pop('rereview_overlay')
+        elif change=='child':
+            unit['acceptance_children'].remove('RR07')
+            bad['readiness_graph']['accepted:P170'].remove('accepted:RR07')
+        elif change=='source':unit['dependencies'].remove('RR07')
+        else:bad['readiness_graph']['implementation:P170'].remove('implementation:RR07')
+        try:validate(bad,root)
+        except ValueError as e:require(expected in str(e),'Wrong rejection for omitted re-review '+change+': '+str(e))
+        else:raise AssertionError('Omitted re-review '+change+' accepted')
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--plan-dir',type=Path,default=Path(__file__).resolve().parent.parent);parser.add_argument('--check-completion',action='store_true');parser.add_argument('--self-test',action='store_true');args=parser.parse_args()

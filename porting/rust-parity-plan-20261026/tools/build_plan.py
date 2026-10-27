@@ -86,6 +86,26 @@ for uid, gate in overlay['joint_acceptance_gates'].items():
     byid[uid]['acceptance_implementation_inputs']=gate['inputs']
     byid[uid]['joint_acceptance_meaning']=gate['meaning']
 
+# Re-review repairs reopen acceptance without rewriting historical implementation evidence.
+rereview_overlay_path=PLAN/'rereview-overlay.json'
+rereview_overlay=json.loads(rereview_overlay_path.read_text())
+rereview_sha=hashlib.sha256(rereview_overlay_path.read_bytes()).hexdigest()
+implemented=json.loads((PLAN/'execution.json').read_text()).get('units',{})
+for uid,item in rereview_overlay['units'].items():
+    u=byid[uid]
+    u['rereview_overlay']={'path':'rereview-overlay.json','sha256':rereview_sha}
+    u['rereview_findings']=item['finding_ids']
+    u['tasks']=(u['tasks'] if isinstance(u['tasks'],list) else [u['tasks']])+item['tasks']
+    u['verification']=(u['verification'] if isinstance(u['verification'],list) else [u['verification']])+item['verification']
+    repairs=item['repair_units']
+    u['acceptance_children']=sorted(set(u.get('acceptance_children',[])+repairs))
+    # Completed bounded slices retain the prerequisite/evidence snapshot they used.
+    if uid not in implemented:
+        u['dependencies']=sorted(set(u['dependencies']+repairs))
+        if 'implementation_ready_dependencies' in u:
+            u['implementation_ready_dependencies']=sorted(set(u['implementation_ready_dependencies']+repairs))
+    u['rereview_policy']='Required future repair acceptance; original local evidence is not acceptance of repaired source.'
+
 def ancestors(uid, trail=()):
     assert uid not in trail, 'Dependency cycle: '+' -> '.join(trail+(uid,))
     result=set()
