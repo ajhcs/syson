@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: EPL-2.0
+use syson_native_library_catalog::{Catalog, LibrarySource, NodeId, SemanticId};
+
+const URI: &str = "sysmllibrary:///00000000-0000-4000-8000-000000000001";
+const NODE: &str = "00000000-0000-4000-8000-000000000002";
+const SEMANTIC: &str = "00000000-0000-4000-8000-000000000003";
+fn source(raw: &str) -> LibrarySource<'_> {
+    LibrarySource { classpath_path: "sysml.libraries/Literal.json", resource_uri: URI, json: raw }
+}
+#[test]
+fn encoded_node_in_literal_rawvalue_string_never_becomes_a_physical_node() {
+    let text = format!(r#"{{"id":"{NODE}","eClass":"sysml:Namespace","data":{{"elementId":"{SEMANTIC}"}}}}"#);
+    // Independent oracle: content is empty and the only node-shaped text is a
+    // String. String serialization cannot invoke generic Value materialization.
+    let encoded = serde_json::to_string(&text).unwrap();
+    let raw = format!(r#"{{"ns":{{"sysml":"http://www.eclipse.org/syson/sysml"}},"content":[],"vendor":{{"$serde_json::private::RawValue":{encoded}}}}}"#);
+    let catalog = Catalog::from_resources(&[source(&raw)]).unwrap();
+    assert_eq!(catalog.resource(URI).unwrap().json(), raw);
+    assert_eq!(catalog.resource(URI).unwrap().nodes().len(), 0);
+    assert!(catalog.by_node_id(URI, NodeId(NODE)).is_none());
+    assert!(catalog.by_semantic_id(URI, SemanticId(SEMANTIC)).is_none());
+}
