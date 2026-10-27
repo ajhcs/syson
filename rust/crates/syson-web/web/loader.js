@@ -9,6 +9,10 @@ try {
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
   const queued = new Set();
+  let canvasGeneration = {};
+  // A required cancellation is an invalidation barrier, never a queued edit.
+  // `flushed` means attempted once, NOT acknowledged successful cancellation.
+  let requiredCancellation = null;
   // Presentation state lives only in this page, outside model/canvas history.
   let canvasView = 'actual';
   let actualPan = {left: 0, top: 0};
@@ -33,19 +37,143 @@ try {
     viewport.scrollLeft = canvasView === 'actual' ? actualPan.left : 0;
     viewport.scrollTop = canvasView === 'actual' ? actualPan.top : 0;
   }
-  function paint(background = false) {
+  // One page-local presentation cache; no document JSON, model or history copy.
+  const draftLimits = {fields: 64, details: 32, utf8: 1048576, utf16: 2097152, id: 128};
+  let documentEpoch = 0;
+  let recoveryDrafts = null;
+  let presentationTrusted = true;
+  const normal = host => !!host.querySelector('#export-json');
+  const selected = host => host.querySelector('.tree button[aria-pressed="true"]')?.dataset.value ?? '';
+  function formKey(element) {
+    const form = element.closest('form');
+    return form ? `${form.dataset.action ?? ''}/${form.dataset.attribute ?? ''}` : '';
+  }
+  function scope(element) {
+    const owner = element.closest('form')?.dataset.action;
+    return owner === 'rename' || owner === 'attribute' ? 'inspector'
+      : owner === 'geometry_import' ? 'geometry' : 'document';
+  }
+  function detailKey(element) {
+    return element.id ? `id:${element.id}`
+      : element.querySelector('form[data-action]') ? `form:${formKey(element.querySelector('form[data-action]'))}` : '';
+  }
+  function utf8Size(text) {
+    let bytes = 0;
+    for (let i = 0; i < text.length; i++) {
+      const unit = text.charCodeAt(i);
+      if (unit < 128) bytes++;
+      else if (unit < 2048) bytes += 2;
+      else if (unit >= 0xd800 && unit <= 0xdbff && i + 1 < text.length
+        && text.charCodeAt(i + 1) >= 0xdc00 && text.charCodeAt(i + 1) <= 0xdfff) { bytes += 4; i++; }
+      else bytes += 3; // Includes TextEncoder's replacement for a lone surrogate.
+      if (bytes > draftLimits.utf8) break;
+    }
+    return bytes;
+  }
+  function rememberField(element) {
+    if (element === document.activeElement) return true;
+    if (element.tagName !== 'SELECT') return element.value !== element.defaultValue
+      || ('checked' in element && element.checked !== element.defaultChecked);
+    // Creation selections remain presentation choices even when native defaults
+    // were derived from the current Rust selection; recovery clears selection.
+    if (['kind', 'parent', 'definition'].includes(element.id) && formKey(element) === 'stage/') return true;
+    let initial = element.options[0]?.value ?? '';
+    for (const option of element.options) if (option.defaultSelected) initial = option.value;
+    return element.value !== initial;
+  }
+  function captureDrafts() {
+    if (!normal(root) || !presentationTrusted) return null;
+    const snapshot = {epoch: documentEpoch, selected: selected(root), fields: [], details: [], focus: null};
+    let bytes = 0, units = 0;
+    const ids = new Set(), detailIds = new Set();
+    const refuse = () => { throw new Error('Draft preservation limit exceeded (64 fields, 32 disclosures, 1 MiB UTF-8 / 2 MiB UTF-16). No action was sent; shorten or clear drafts first.'); };
+    const charge = text => {
+      // Check length before scanning/copying into retained records or encoding.
+      if (text.length > draftLimits.utf16 / 2) refuse();
+      units += text.length * 2; bytes += utf8Size(text);
+      if (units > draftLimits.utf16 || bytes > draftLimits.utf8) refuse();
+    };
+    if (snapshot.selected.length > draftLimits.id) refuse();
+    charge(snapshot.selected);
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT);
+    for (let element = walker.nextNode(); element; element = walker.nextNode()) {
+      if (element.matches('input[id],select[id],textarea[id]') && !element.readOnly && !element.disabled) {
+        if (!rememberField(element)) continue;
+        if (snapshot.fields.length === draftLimits.fields || element.id.length > draftLimits.id || ids.has(element.id) || document.getElementById(element.id) !== element) refuse();
+        const owner = formKey(element), type = element.type ?? '', value = element.value;
+        if (owner.length > draftLimits.id || type.length > draftLimits.id) refuse();
+        charge(element.id); charge(owner); charge(type); charge(value);
+        ids.add(element.id);
+        const record = {id: element.id, tag: element.tagName, type, owner, scope: scope(element), value, checked: element.checked};
+        snapshot.fields.push(record);
+        if (element === document.activeElement) snapshot.focus = {id: record.id,
+          caret: typeof element.selectionStart === 'number' ? [element.selectionStart, element.selectionEnd, element.selectionDirection] : null};
+      } else if (element.tagName === 'DETAILS') {
+        const key = detailKey(element);
+        if (!key) continue; // Unkeyed disclosures have no stable restoration contract.
+        if (snapshot.details.length === draftLimits.details || key.length > draftLimits.id || detailIds.has(key)) refuse();
+        charge(key); detailIds.add(key);
+        snapshot.details.push({key, open: element.open, scope: element.closest('.inspector') ? 'inspector' : 'document'});
+      }
+    }
+    return snapshot;
+  }
+  function restoreDrafts(snapshot, inspector, geometry) {
+    if (!snapshot || snapshot.epoch !== documentEpoch) return null;
+    const permitted = record => (record.scope !== 'inspector' || inspector && snapshot.selected === selected(root))
+      && (record.scope !== 'geometry' || geometry);
+    let focus = null;
+    for (const record of snapshot.fields) {
+      const element = document.getElementById(record.id);
+      if (!permitted(record) || !element || !root.contains(element) || element.readOnly
+        || element.tagName !== record.tag || element.type !== record.type || formKey(element) !== record.owner) continue;
+      if (element.tagName === 'SELECT' && !Array.prototype.some.call(element.options, option => option.value === record.value)) continue;
+      element.value = record.value;
+      if ('checked' in element) element.checked = record.checked;
+      if (snapshot.focus?.id === record.id) focus = {element, caret: snapshot.focus.caret};
+    }
+    const disclosures = new Map(snapshot.details.filter(permitted).map(record => [record.key, record]));
+    if (disclosures.size) {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT);
+      for (let element = walker.nextNode(); element; element = walker.nextNode()) {
+        if (element.tagName !== 'DETAILS') continue;
+        const key = detailKey(element), record = disclosures.get(key);
+        if (record) { element.open = record.open; disclosures.delete(key); }
+        if (!disclosures.size) break;
+      }
+    }
+    return focus;
+  }
+  function paint(background = false, context = null) {
     rememberCanvasPan();
     const focused = document.activeElement;
-    const caret = focused && typeof focused.selectionStart === 'number'
-      ? [focused.selectionStart, focused.selectionEnd, focused.selectionDirection] : null;
-    const drafts = [...root.querySelectorAll('input[id],select[id],textarea[id]')]
-      .filter(e => !e.readOnly).map(e => [e.id, e.value, e.checked]);
-    const details = [...root.querySelectorAll('details')].map(e => e.open);
     const template = document.createElement('template');
     template.innerHTML = decoder.decode(new Uint8Array(api.memory.buffer, api.output_ptr(), api.output_len()));
     const previousStatus = root.querySelector('[data-editor-status]');
     const nextStatus = template.content.querySelector('[data-editor-status]');
-    const preserveDrafts = background || nextStatus?.classList.contains('error');
+    const wasNormal = normal(root), isNormal = normal(template.content);
+    const acknowledged = isNormal && nextStatus?.classList.contains('status') && !nextStatus.classList.contains('error');
+    const action = context?.action;
+    const reset = acknowledged && ['import', 'confirm_discard'].includes(action);
+    if (reset) { documentEpoch++; recoveryDrafts = null; }
+    const preserveDrafts = !reset && (background || nextStatus?.classList.contains('error'));
+    if (wasNormal && !isNormal && context?.snapshot) {
+      recoveryDrafts = context.snapshot;
+      // A submitted edit is represented by Rust pending state, not a latent draft.
+      recoveryDrafts.fields = recoveryDrafts.fields.filter(record => record.owner !== context.submitted);
+      if (!recoveryDrafts.fields.some(record => record.id === recoveryDrafts.focus?.id)) recoveryDrafts.focus = null;
+    }
+    const recovered = !wasNormal && isNormal && recoveryDrafts;
+    const geometryActions = ['stage', 'rename', 'attribute', 'cancel', 'recover_preview', 'discard_document', 'cancel_discard', 'select', 'canvas_cancel', 'import', 'confirm_discard'];
+    if (action && !geometryActions.includes(action)) {
+      for (const snapshot of [recoveryDrafts, context?.snapshot]) {
+        if (snapshot) snapshot.fields = snapshot.fields.filter(record => record.scope !== 'geometry');
+      }
+    }
+    if (action === 'recover_preview' && recoveryDrafts) {
+      recoveryDrafts.fields = recoveryDrafts.fields.filter(record => record.scope !== 'inspector');
+      recoveryDrafts.details = recoveryDrafts.details.filter(record => record.scope !== 'inspector');
+    }
     if (previousStatus?.parentElement === root && nextStatus?.parentNode === template.content) {
       // The live region stays connected while its surrounding editor is repainted.
       for (const node of [...root.childNodes]) if (node !== previousStatus) node.remove();
@@ -62,14 +190,12 @@ try {
       }
       if (previousStatus.textContent !== nextStatus.textContent) previousStatus.textContent = nextStatus.textContent;
     } else root.replaceChildren(template.content);
-    for (const [id, value, checked] of preserveDrafts ? drafts : []) {
-      const e = document.getElementById(id);
-      if (e) { e.value = value; if ('checked' in e) e.checked = checked; }
-    }
-    if (preserveDrafts) root.querySelectorAll('details').forEach((e, i) => { e.open = details[i]; });
+    const snapshot = recovered ? recoveryDrafts : preserveDrafts ? context?.snapshot : null;
+    const restoredFocus = restoreDrafts(snapshot, !recovered, true);
+    if (isNormal) recoveryDrafts = null;
     applyCanvasView();
     const requested = !background && root.querySelector('[data-inspector-focus]')?.dataset.inspectorFocus;
-    const next = (requested && (document.getElementById(requested) ?? document.getElementById('selection-heading')))
+    const next = restoredFocus?.element || (requested && (document.getElementById(requested) ?? document.getElementById('selection-heading')))
       || (focused?.id && document.getElementById(focused.id));
     if (next) {
       // Returning focus must remain reachable even if a restored disclosure closed it.
@@ -77,29 +203,54 @@ try {
         if (ancestor.tagName === 'DETAILS') ancestor.open = true;
       }
       next.focus({preventScroll: background});
-      if (preserveDrafts && caret && next.id === focused?.id && next.tagName === focused?.tagName && next.type === focused?.type) next.setSelectionRange(...caret);
+      if (restoredFocus?.caret && next === restoredFocus.element) next.setSelectionRange(...restoredFocus.caret);
     }
+    presentationTrusted = true;
     const canvas = root.querySelector('[data-canvas-revision]');
     const {canvasTicket: ticket, canvasPhase: phase} = canvas?.dataset ?? {};
     const key = `${ticket}/${phase}`;
-    if (ticket && phase && !queued.has(key)) {
+    if (!requiredCancellation && ticket && phase && !queued.has(key)) {
       queued.add(key);
+      const generation = canvasGeneration;
       setTimeout(() => {
+        if (generation !== canvasGeneration || requiredCancellation) return;
         queued.delete(key);
         const current = root.querySelector('[data-canvas-ticket]');
         if (current?.dataset.canvasTicket !== ticket || current.dataset.canvasPhase !== phase) return;
         try { send(`canvas_${phase}`, {ticket}, true); } catch (error) { report(error); }
       }, 0);
     }
+    return acknowledged;
   }
-  function send(action, fields, background = false) {
+  function send(action, fields, background = false, submitted = '') {
+    // Refuse before dispatch/repaint when any valid draft cannot fit; old DOM is
+    // still connected and its data remains available for explicit correction.
+    if (normal(root)) recoveryDrafts = null;
+    const snapshot = captureDrafts();
+    if (['import', 'confirm_discard'].includes(action) && documentEpoch === Number.MAX_SAFE_INTEGER) throw new Error('Presentation document identity exhausted; reload before replacing the document.');
     const input = encoder.encode(JSON.stringify({action, fields,
       entropy: Array.from(crypto.getRandomValues(new Uint8Array(api.creation_entropy_bytes())))}));
     if (input.length > 1048576) throw new Error('Input exceeds the 1 MiB editor limit.');
+    if (requiredCancellation && action !== 'canvas_cancel') {
+      const recoveryControl = ['recover_preview', 'discard_document', 'cancel_discard', 'confirm_discard'].includes(action);
+      if (!requiredCancellation.flushed && (normal(root) || !recoveryControl)) send('canvas_cancel', {}, true);
+      // Fallback hides Rust's action status. Keep its controls reachable without
+      // repeated cancel dispatches, which would reset discard confirmation.
+      if (requiredCancellation && !recoveryControl) {
+        throw new Error('Canvas cancellation is pending. Drafts were retained. Use Cancel canvas work or the recovery controls before editing.');
+      }
+    }
     api.input_reset();
     for (const byte of input) api.input_byte(byte);
-    api.dispatch();
-    paint(background || ['canvas_undo', 'canvas_redo', 'canvas_cancel'].includes(action));
+    try {
+      if (action === 'canvas_cancel' && requiredCancellation) requiredCancellation.flushed = true;
+      api.dispatch();
+      const acknowledged = paint(background || ['canvas_undo', 'canvas_redo', 'canvas_cancel'].includes(action), {action, snapshot, submitted});
+      if (acknowledged && ['canvas_cancel', 'recover_preview', 'confirm_discard'].includes(action)) requiredCancellation = null;
+    } catch (error) {
+      recoveryDrafts = null; presentationTrusted = false;
+      throw new Error(`Editor output became uncertain; cached drafts were cleared. ${error.message}`);
+    }
   }
   async function requestCanvas(action) {
     const revision = root.querySelector('[data-canvas-revision]').dataset.canvasRevision;
@@ -131,7 +282,7 @@ try {
   root.addEventListener('submit', event => {
     event.preventDefault();
     const form = event.target;
-    try { send(form.dataset.action, Object.fromEntries(new FormData(form))); } catch (error) { report(error); }
+    try { send(form.dataset.action, Object.fromEntries(new FormData(form)), false, formKey(form)); } catch (error) { report(error); }
   });
   root.addEventListener('click', event => {
     const viewButton = event.target.closest('button[data-canvas-view]');
@@ -150,7 +301,13 @@ try {
   });
   for (const event of ['loading', 'loadingdone', 'loadingerror']) {
     document.fonts.addEventListener(event, () => {
-      try { send('canvas_cancel', {}, true); } catch (error) { report(error); }
+      canvasGeneration = {}; queued.clear(); requiredCancellation = {flushed: false};
+      if (!normal(root)) {
+        report(new Error('Canvas work was invalidated; cancellation is pending until recovery or confirmed discard. Drafts were retained.'));
+        return; // Do not reset Rust's armed fallback discard confirmation.
+      }
+      try { send('canvas_cancel', {}, true); }
+      catch (error) { report(new Error(`Canvas work was invalidated; cancellation is pending. ${error.message}`)); }
     });
   }
   api.initialize();
