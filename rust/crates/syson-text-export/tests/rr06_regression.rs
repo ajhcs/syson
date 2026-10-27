@@ -277,13 +277,15 @@ fn borrowed_qualified_names_keep_shortest_selection_and_unicode() {
     );
 }
 #[test]
-fn rr07_reserved_word_and_lossy_escape_policy_remain_unchanged() {
+fn parser_keywords_quote_while_lossy_escapes_still_refuse() {
     let document = import("package P;");
     for name in ["class", "true"] {
-        assert!(matches!(
-            export(&replace_name(&document, "P", name), Options::default()),
-            Err(Error::NotImportable(_))
-        ));
+        let output = export(&replace_name(&document, "P", name), Options::default()).unwrap();
+        assert_eq!(output, format!("package '{name}';"));
+        assert_eq!(
+            export(&import(&output), Options::default()).unwrap(),
+            output
+        );
     }
     for name in ["a'b", "a\\b", "a\nb"] {
         assert_eq!(

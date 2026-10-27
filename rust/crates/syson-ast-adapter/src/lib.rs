@@ -445,3 +445,8 @@ fn emit(
     }
     Ok(id)
 }
+
+/// Whether the selected lexer treats the exact spelling as a reserved token.
+pub fn is_reserved_word(name: &str) -> bool {
+    RESERVED.contains(&name)
+}
