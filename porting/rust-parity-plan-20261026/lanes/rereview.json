@@ -1156,7 +1156,8 @@
         "RR02",
         "C03b",
         "C03c",
-        "RR24"
+        "RR24",
+        "RR04"
       ],
       "external_prs": [
         81,
@@ -1165,7 +1166,11 @@
         72,
         73,
         74,
-        75
+        75,
+        91,
+        94,
+        100,
+        103
       ],
       "paths": [
         "rust/crates/syson-project-preparation/src/lib.rs",
@@ -1209,7 +1214,17 @@
         "C03b",
         "C03c",
         "I06"
-      ]
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-project-preparation/Cargo.toml",
+          "rust/crates/syson-project-preparation/Cargo.lock",
+          "rust/crates/syson-project-wire/Cargo.lock",
+          "rust/crates/syson-migrations/Cargo.lock",
+          "rust/crates/syson-migration-pipeline/Cargo.lock"
+        ],
+        "policy": "Root-only shared dependency and transitive locks. Exact latest RR04 model graft supersedes RR02 provider while raw_admission remains unchanged/read-only."
+      }
     },
     {
       "id": "RR23",
@@ -1217,11 +1232,10 @@
       "lane": "rereview-repairs",
       "state": "PLANNED_NOT_IMPLEMENTED",
       "dependencies": [
-        "RR01",
-        "C01c",
-        "C01d",
-        "C01f",
-        "C01h"
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d"
       ],
       "external_prs": [
         79,
@@ -1230,10 +1244,6 @@
         87
       ],
       "paths": [
-        "rust/tools/native-graphql-contract/",
-        "rust/tools/native-db-contract/",
-        "rust/tools/native-http-contract/",
-        "rust/tools/native-project-templates/",
         "porting/rust-parity-evidence/RR23/"
       ],
       "source_refs": [
@@ -1243,12 +1253,13 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Adopt RR01 at each affected observed-contract reader without reinterpreting unknown marker-named objects. Preserve native captures, failed receipts and comparison policies. Split by reader if the authored budget would exceed 900 lines."
+        "Integrate the four separately reviewed reader children on one exact candidate. Preserve native captures and require all original RR23 obligations across each reader; partial child completion does not close RR23."
       ],
       "verification": [
         "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
-        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Require all RR23a/b/c/d child gates; HTTP/template readers remain OPEN until implemented."
       ],
       "commit_plan": [
         "Focused implementation and meaningful regression/caller fixtures",
@@ -1270,6 +1281,12 @@
         "C01d",
         "C01f",
         "C01h"
+      ],
+      "acceptance_children": [
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d"
       ]
     },
     {
@@ -1388,6 +1405,246 @@
       "owner_plan_units": [
         "RR24"
       ]
+    },
+    {
+      "id": "RR23a",
+      "title": "Preserve literal JSON at native-graphql-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01c",
+        "RR24a"
+      ],
+      "external_prs": [
+        80,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-graphql-contract/src/lib.rs",
+        "rust/tools/native-graphql-contract/tests/rr23a_literal.rs",
+        "porting/rust-parity-evidence/RR23a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-graphql-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01c"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-graphql-contract/Cargo.toml",
+          "rust/tools/native-graphql-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      }
+    },
+    {
+      "id": "RR23b",
+      "title": "Preserve literal JSON at native-db-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01d",
+        "RR24a"
+      ],
+      "external_prs": [
+        79,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-db-contract/src/lib.rs",
+        "rust/tools/native-db-contract/tests/rr23b_literal.rs",
+        "porting/rust-parity-evidence/RR23b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-db-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01d"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-db-contract/Cargo.toml",
+          "rust/tools/native-db-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      }
+    },
+    {
+      "id": "RR23c",
+      "title": "Preserve literal JSON at native-http-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01f",
+        "RR24a"
+      ],
+      "external_prs": [
+        83,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-http-contract/src/lib.rs",
+        "rust/tools/native-http-contract/tests/rr23c_literal.rs",
+        "porting/rust-parity-evidence/RR23c/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-http-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01f"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-http-contract/Cargo.toml",
+          "rust/tools/native-http-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      }
+    },
+    {
+      "id": "RR23d",
+      "title": "Preserve literal JSON at native-project-templates observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01h",
+        "RR24a"
+      ],
+      "external_prs": [
+        87,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-project-templates/src/lib.rs",
+        "rust/tools/native-project-templates/tests/rr23d_literal.rs",
+        "porting/rust-parity-evidence/RR23d/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-project-templates parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01h"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-project-templates/Cargo.toml",
+          "rust/tools/native-project-templates/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      }
     }
   ]
 }

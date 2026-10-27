@@ -2,7 +2,7 @@
   "schema": 1,
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "state": "ADOPTED_REVIEWABLE_PLAN;_IMPLEMENTATION_AND_NATIVE_CLOSURE_REMAIN_OPEN",
-  "unit_count": 758,
+  "unit_count": 762,
   "full_parity_claimed": false,
   "count_meaning": "Named review units, including verification and explicitly generated source batches; discovery may add bounded children. Not a feature count, percentage or guaranteed final PR count.",
   "lane_counts": {
@@ -14,7 +14,7 @@
     "lanes/model.json": 408,
     "lanes/parser.json": 184,
     "lanes/platform.json": 45,
-    "lanes/rereview.json": 25,
+    "lanes/rereview.json": 29,
     "lanes/ui.json": 82,
     "tools/build_plan.py": 1
   },
@@ -7267,19 +7267,23 @@
       "implementation:RR02",
       "implementation:C03b",
       "implementation:C03c",
-      "implementation:RR24"
+      "implementation:RR24",
+      "implementation:RR04"
     ],
     "accepted:RR22": [
       "implementation:RR22"
     ],
     "implementation:RR23": [
-      "implementation:RR01",
-      "implementation:C01c",
-      "implementation:C01d",
-      "implementation:C01f",
-      "implementation:C01h"
+      "implementation:RR23a",
+      "implementation:RR23b",
+      "implementation:RR23c",
+      "implementation:RR23d"
     ],
     "accepted:RR23": [
+      "accepted:RR23a",
+      "accepted:RR23b",
+      "accepted:RR23c",
+      "accepted:RR23d",
       "implementation:RR23"
     ],
     "implementation:RR24": [
@@ -7296,6 +7300,38 @@
     ],
     "accepted:RR24a": [
       "implementation:RR24a"
+    ],
+    "implementation:RR23a": [
+      "implementation:RR01",
+      "implementation:C01c",
+      "implementation:RR24a"
+    ],
+    "accepted:RR23a": [
+      "implementation:RR23a"
+    ],
+    "implementation:RR23b": [
+      "implementation:RR01",
+      "implementation:C01d",
+      "implementation:RR24a"
+    ],
+    "accepted:RR23b": [
+      "implementation:RR23b"
+    ],
+    "implementation:RR23c": [
+      "implementation:RR01",
+      "implementation:C01f",
+      "implementation:RR24a"
+    ],
+    "accepted:RR23c": [
+      "implementation:RR23c"
+    ],
+    "implementation:RR23d": [
+      "implementation:RR01",
+      "implementation:C01h",
+      "implementation:RR24a"
+    ],
+    "accepted:RR23d": [
+      "implementation:RR23d"
     ],
     "implementation:C01": [],
     "accepted:C01": [
@@ -7857,6 +7893,10 @@
       "implementation:RR21",
       "implementation:RR22",
       "implementation:RR23",
+      "implementation:RR23a",
+      "implementation:RR23b",
+      "implementation:RR23c",
+      "implementation:RR23d",
       "implementation:RR24",
       "implementation:RR24a",
       "implementation:U01",
@@ -8442,6 +8482,10 @@
       "implementation:RR21",
       "implementation:RR22",
       "implementation:RR23",
+      "implementation:RR23a",
+      "implementation:RR23b",
+      "implementation:RR23c",
+      "implementation:RR23d",
       "implementation:RR24",
       "implementation:RR24a",
       "implementation:U01",
@@ -8944,6 +8988,10 @@
       "implementation:RR21",
       "implementation:RR22",
       "implementation:RR23",
+      "implementation:RR23a",
+      "implementation:RR23b",
+      "implementation:RR23c",
+      "implementation:RR23d",
       "implementation:RR24",
       "implementation:RR24a",
       "implementation:U01",
@@ -9447,6 +9495,10 @@
       "implementation:RR21",
       "implementation:RR22",
       "implementation:RR23",
+      "implementation:RR23a",
+      "implementation:RR23b",
+      "implementation:RR23c",
+      "implementation:RR23d",
       "implementation:RR24",
       "implementation:RR24a",
       "implementation:U01",
@@ -9972,6 +10024,10 @@
       "implementation:RR21",
       "implementation:RR22",
       "implementation:RR23",
+      "implementation:RR23a",
+      "implementation:RR23b",
+      "implementation:RR23c",
+      "implementation:RR23d",
       "implementation:RR24",
       "implementation:RR24a",
       "implementation:U01",
@@ -10570,6 +10626,10 @@
       "implementation:RR21",
       "implementation:RR22",
       "implementation:RR23",
+      "implementation:RR23a",
+      "implementation:RR23b",
+      "implementation:RR23c",
+      "implementation:RR23d",
       "implementation:RR24",
       "implementation:RR24a",
       "implementation:U01",
@@ -11987,6 +12047,10 @@
       "implementation:RR23",
       "implementation:RR24",
       "implementation:RR24a",
+      "implementation:RR23a",
+      "implementation:RR23b",
+      "implementation:RR23c",
+      "implementation:RR23d",
       "implementation:C01",
       "implementation:C02",
       "implementation:C03",
@@ -12753,6 +12817,10 @@
       "accepted:RR21",
       "accepted:RR22",
       "accepted:RR23",
+      "accepted:RR23a",
+      "accepted:RR23b",
+      "accepted:RR23c",
+      "accepted:RR23d",
       "accepted:RR24",
       "accepted:RR24a",
       "accepted:U01",
@@ -13297,7 +13365,7 @@
     [
       "B32",
       "M05",
-      "RR23"
+      "RR24a"
     ],
     [
       "B33",
@@ -13972,9 +14040,15 @@
     [
       "M98",
       "M99",
-      "RR24a"
+      "RR23a"
     ],
     [
+      "RR23b",
+      "RR23c",
+      "RR23d"
+    ],
+    [
+      "RR23",
       "RR24",
       "U01"
     ],
@@ -21742,6 +21816,10 @@
         "RR21",
         "RR22",
         "RR23",
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d",
         "RR24",
         "RR24a",
         "U01",
@@ -22371,6 +22449,10 @@
         "RR21",
         "RR22",
         "RR23",
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d",
         "RR24",
         "RR24a",
         "U01",
@@ -22919,6 +23001,10 @@
         "RR21",
         "RR22",
         "RR23",
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d",
         "RR24",
         "RR24a",
         "U01",
@@ -23477,6 +23563,10 @@
         "RR21",
         "RR22",
         "RR23",
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d",
         "RR24",
         "RR24a",
         "U01",
@@ -24114,6 +24204,10 @@
         "RR21",
         "RR22",
         "RR23",
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d",
         "RR24",
         "RR24a",
         "U01",
@@ -24763,6 +24857,10 @@
         "RR21",
         "RR22",
         "RR23",
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d",
         "RR24",
         "RR24a",
         "U01",
@@ -25515,6 +25613,10 @@
         "RR23",
         "RR24",
         "RR24a",
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d",
         "C01",
         "C02",
         "C03",
@@ -105658,7 +105760,7 @@
         8
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR02",
@@ -105734,7 +105836,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR03",
@@ -105796,7 +105898,7 @@
         85
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR04",
@@ -105860,7 +105962,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR05",
@@ -105922,7 +106024,7 @@
         69
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR06",
@@ -105977,7 +106079,7 @@
         52
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR07",
@@ -106048,7 +106150,7 @@
         40
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR08",
@@ -106114,7 +106216,7 @@
         41
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR09",
@@ -106173,7 +106275,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR10",
@@ -106230,7 +106332,7 @@
         49
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR11",
@@ -106285,7 +106387,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR12",
@@ -106347,7 +106449,7 @@
         64
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR13",
@@ -106412,7 +106514,7 @@
         32
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR14",
@@ -106467,7 +106569,7 @@
         77
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR15",
@@ -106521,7 +106623,7 @@
         12
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR16",
@@ -106574,7 +106676,7 @@
         19
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR17",
@@ -106635,7 +106737,7 @@
         67
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR18",
@@ -106694,7 +106796,7 @@
         61
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR19",
@@ -106755,7 +106857,7 @@
         62
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR20",
@@ -106815,7 +106917,7 @@
         65
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR21",
@@ -106879,7 +106981,7 @@
         59
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR22",
@@ -106891,7 +106993,8 @@
         "RR02",
         "C03b",
         "C03c",
-        "RR24"
+        "RR24",
+        "RR04"
       ],
       "external_prs": [
         81,
@@ -106900,7 +107003,11 @@
         72,
         73,
         74,
-        75
+        75,
+        91,
+        94,
+        100,
+        103
       ],
       "paths": [
         "rust/crates/syson-project-preparation/src/lib.rs",
@@ -106945,6 +107052,16 @@
         "C03c",
         "I06"
       ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/crates/syson-project-preparation/Cargo.toml",
+          "rust/crates/syson-project-preparation/Cargo.lock",
+          "rust/crates/syson-project-wire/Cargo.lock",
+          "rust/crates/syson-migrations/Cargo.lock",
+          "rust/crates/syson-migration-pipeline/Cargo.lock"
+        ],
+        "policy": "Root-only shared dependency and transitive locks. Exact latest RR04 model graft supersedes RR02 provider while raw_admission remains unchanged/read-only."
+      },
       "external_pr_details": [
         81,
         82,
@@ -106952,10 +107069,14 @@
         72,
         73,
         74,
-        75
+        75,
+        91,
+        94,
+        100,
+        103
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR23",
@@ -106963,11 +107084,10 @@
       "lane": "rereview-repairs",
       "state": "PLANNED_NOT_IMPLEMENTED",
       "dependencies": [
-        "RR01",
-        "C01c",
-        "C01d",
-        "C01f",
-        "C01h"
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d"
       ],
       "external_prs": [
         79,
@@ -106976,10 +107096,6 @@
         87
       ],
       "paths": [
-        "rust/tools/native-graphql-contract/",
-        "rust/tools/native-db-contract/",
-        "rust/tools/native-http-contract/",
-        "rust/tools/native-project-templates/",
         "porting/rust-parity-evidence/RR23/"
       ],
       "source_refs": [
@@ -106989,12 +107105,13 @@
         "rereview-20261026/ui-findings.json"
       ],
       "tasks": [
-        "Adopt RR01 at each affected observed-contract reader without reinterpreting unknown marker-named objects. Preserve native captures, failed receipts and comparison policies. Split by reader if the authored budget would exceed 900 lines."
+        "Integrate the four separately reviewed reader children on one exact candidate. Preserve native captures and require all original RR23 obligations across each reader; partial child completion does not close RR23."
       ],
       "verification": [
         "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
-        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.",
+        "Require all RR23a/b/c/d child gates; HTTP/template readers remain OPEN until implemented."
       ],
       "commit_plan": [
         "Focused implementation and meaningful regression/caller fixtures",
@@ -107017,6 +107134,12 @@
         "C01f",
         "C01h"
       ],
+      "acceptance_children": [
+        "RR23a",
+        "RR23b",
+        "RR23c",
+        "RR23d"
+      ],
       "external_pr_details": [
         79,
         80,
@@ -107024,7 +107147,275 @@
         87
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+    },
+    {
+      "id": "RR23a",
+      "title": "Preserve literal JSON at native-graphql-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01c",
+        "RR24a"
+      ],
+      "external_prs": [
+        80,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-graphql-contract/src/lib.rs",
+        "rust/tools/native-graphql-contract/tests/rr23a_literal.rs",
+        "porting/rust-parity-evidence/RR23a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-graphql-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01c"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-graphql-contract/Cargo.toml",
+          "rust/tools/native-graphql-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      },
+      "external_pr_details": [
+        80,
+        90,
+        100
+      ],
+      "source_fragment": "lanes/rereview.json",
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+    },
+    {
+      "id": "RR23b",
+      "title": "Preserve literal JSON at native-db-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01d",
+        "RR24a"
+      ],
+      "external_prs": [
+        79,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-db-contract/src/lib.rs",
+        "rust/tools/native-db-contract/tests/rr23b_literal.rs",
+        "porting/rust-parity-evidence/RR23b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-db-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01d"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-db-contract/Cargo.toml",
+          "rust/tools/native-db-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      },
+      "external_pr_details": [
+        79,
+        90,
+        100
+      ],
+      "source_fragment": "lanes/rereview.json",
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+    },
+    {
+      "id": "RR23c",
+      "title": "Preserve literal JSON at native-http-contract observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01f",
+        "RR24a"
+      ],
+      "external_prs": [
+        83,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-http-contract/src/lib.rs",
+        "rust/tools/native-http-contract/tests/rr23c_literal.rs",
+        "porting/rust-parity-evidence/RR23c/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-http-contract parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01f"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-http-contract/Cargo.toml",
+          "rust/tools/native-http-contract/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      },
+      "external_pr_details": [
+        83,
+        90,
+        100
+      ],
+      "source_fragment": "lanes/rereview.json",
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
+    },
+    {
+      "id": "RR23d",
+      "title": "Preserve literal JSON at native-project-templates observed-contract boundary",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR01",
+        "C01h",
+        "RR24a"
+      ],
+      "external_prs": [
+        87,
+        90,
+        100
+      ],
+      "paths": [
+        "rust/tools/native-project-templates/src/lib.rs",
+        "rust/tools/native-project-templates/tests/rr23d_literal.rs",
+        "porting/rust-parity-evidence/RR23d/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json"
+      ],
+      "tasks": [
+        "Adopt RR01 at the native-project-templates parse boundary using one shared literal authority. Preserve existing captures, typed shape and comparison policies; reject malformed/private-marker-shaped objects in scalar slots without token magic. Physical depth/value/key/scalar admission must be explicit and tested. Use qualified RR24a LastWins to preserve generic-parser duplicate compatibility, charging all physical occurrences before collapse."
+      ],
+      "verification": [
+        "Use independent raw/manual-object expectations for both marker keys, numeric extremes and strings at every reader. Recheck the actual captured corpus, typed shapes, budgets and refusal behavior.",
+        "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
+        "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
+      ],
+      "commit_plan": [
+        "Focused implementation and meaningful regression/caller fixtures",
+        "Exact verification evidence, independent review and remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "ownership": "Future work only. Isolated author scope; root owns shared manifests/locks/exports and serial execution; no inference that held writers are released.",
+      "done_when": "All named counterexamples/regressions and actual consuming caller gates pass on exact reviewed source; unsupported or unrun acceptance remains OPEN.",
+      "rereview_findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01h"
+      ],
+      "coordinator_wiring": {
+        "paths": [
+          "rust/tools/native-project-templates/Cargo.toml",
+          "rust/tools/native-project-templates/Cargo.lock"
+        ],
+        "policy": "Root-only local dependency and existing registry tuple lock wiring; source author does not edit manifests/locks."
+      },
+      "external_pr_details": [
+        87,
+        90,
+        100
+      ],
+      "source_fragment": "lanes/rereview.json",
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR24",
@@ -107099,7 +107490,7 @@
         82
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "RR24a",
@@ -107153,7 +107544,7 @@
         90
       ],
       "source_fragment": "lanes/rereview.json",
-      "source_fragment_sha256": "d24016b0afb4faeb04087a72542412b21469682aa8e07e00cdcc0f87a179eccc"
+      "source_fragment_sha256": "b08a47872c7a27e502fa90fab89524c48c66235022c6e1d228cc49b1b6222a31"
     },
     {
       "id": "U01",
