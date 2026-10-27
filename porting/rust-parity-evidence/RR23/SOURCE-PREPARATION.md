@@ -1,0 +1,93 @@
+# RR23 joint-reader evidence preparation
+
+Status: SOURCE_PREPARED_NOT_EXECUTED_BY_AUTHOR. Base snapshot
+979c7742f8e5d6d4f02959143612c2ea82a13930 contains the common
+ad814c232ee24109639c1d52239cbeec6f4a3e92 tree plus 44 exact selected donor
+files: 43 executable-source closure inputs and one historical DB projection
+oracle. The root-owned prerequisite manifest records every donor PR/commit,
+Git blob, regular-file mode and SHA256. Donors are #105, #106, #107, #108 and
+common #100. This is selected reader closure, not a whole inherited-tree,
+registry source rebuild or native artifact/source attestation.
+
+Only evidence/RR23 is writable by this author; consumer Cargo.toml/Cargo.lock
+are root-owned. No reader, shared crate, original test, fixture, query, manifest,
+CLI main, held initializer/raw_admission/factory source or old receipt is edited.
+No production code is introduced. New code is six Rust consumer tests, one
+root-executable Python recipe and a fixed 30-case specification. Budgets are
+400 production/900 authored lines; root will measure formatted authored code.
+Generated hashes/lock data and retained raw evidence are separate review data.
+
+The consumer depends on all four reader libraries, qualified syson-json-value
+and pinned serde_json1.0.151 in one test process. It uses all six actual capture
+fixtures and the separately declared historical DB projection oracle. Expected
+marker objects are manually built maps; numeric oracles require actual Number
+and compare its borrowed lexical text. Generic Value parsing is used only for
+unchanged ordinary captures/oracle data, never injected marker/numeric oracles.
+The historical DB output is a regression projection oracle, not another direct
+PostgreSQL execution or independent proof of all database behavior.
+
+Six gates cover complete native captured projections; manual opaque marker,
+number and string preservation in GraphQL/HTTP/template extension slots; DB
+strict descriptor/object refusals plus opaque SQL strings; differing typed-zero
+policies; reader LastWins versus the shared strict default; and BadFaith,
+nine status200/504-byte frontend shells, four template GraphQL errors and a
+successful empty page. No cross-format conversion pipeline is invented. DB
+signed migration -0 refuses; HTTP empty-body count -0 accepts while status0
+refuses; template request/PageInfo integer -0 accepts while decimal/exponent,
+string and object neighbors remain typed refusals. Raw captured tokens/body
+strings remain authoritative. Existing provider tests supply full per-reader
+budget/shape edge coverage on the same new candidate.
+
+The runner requires --candidate, --target, --output and --compiler-lock paths.
+Candidate must resolve under /workspace; target/output/lock resolve under
+/workspace/build and outside the candidate. Output must be a new directory.
+Root supplies its existing compiler lock. The runner requires the snapshot as
+an ancestor, records actual HEAD, and admits only evidence/RR23 changes relative
+to that base including untracked paths. It checks all44 donor bytes/owner-exec
+modes and hashes provenance plus every evidence/consumer input before commands.
+It accepts no unselected production diff and does not modify Git/config/hooks.
+
+Root formats only new joint.rs before execution. The runner checks formatting
+without mutation and qualifies four complete reader suites (19+20+24+23), the
+shared provider16 and the joint consumer6:108 cases if all gates pass. It runs
+applicable Clippy/build for selected five libraries plus the consumer only.
+All Cargo commands are offline/locked with one job and one test thread. It
+sets both DB and template owned-fixture roots explicitly. Cargo compilation,
+provider CLI subprocess tests and shared provider tests are new candidate
+qualification; old child PASS records are background and never current proof.
+
+Thirty fresh CLI families reproduce five GraphQL, four DB, eight HTTP and
+thirteen template gates with exact native projection, query/probe bytes,
+manual marker/numeric values, typed-zero and no-output refusals. Python's
+stdlib decoder uses a distinct immutable NumberToken type for both integer
+and float lexemes; it does not conflate numbers with strings or round floats.
+Its output/input oracle rejects duplicate keys/non-JSON constants. A small
+recursive encoder preserves only validated/controlled numeric tokens during
+fixture generation; neither helper is a production JSON engine. All generated
+fixtures are owned scratch files and their hashes survive failed attempts.
+
+Each launched command starts an owned process group. Timeouts kill that group
+and wait for its direct leader, covering normal Cargo compiler descendants;
+no arbitrary process-name kill or service action occurs. Read-only Git object
+inspection is local. The runner is Linux-specific through fcntl/process-group
+handling. These are controlled, quiescent, nonhostile sources/parents and
+processes; no coherent hostile-writer snapshot or arbitrary daemon escape
+proof is claimed. Runtime/std/registry/toolchain authenticity remains root's
+existing trusted environment and recorded pins, not a new whole-build proof.
+
+The runner hash is captured before command execution; its exact copy is retained
+in finally alongside the receipt. Raw stdout/stderr, argv,
+exit/timeout, executable hashes, generated-input hashes and source-before/after
+are retained. Failure stays FAILED_ATTEMPT; no success is inferred from an
+unfinished suite. Root alone executes the runner, reviews failures, binds final
+committed inputs, packages evidence and publishes. A final implementation HEAD
+is proved after qualification, never hardcoded as a future hash. Source freeze
+is preparation evidence; root formatting and final bindings remain distinct.
+
+No fresh native HTTP/GraphQL/PostgreSQL epoch, server, network, browser, UI,
+instantiation, pagination fix, latency/RSS/capacity or full C01/product parity
+is claimed. Existing native captures, child failures and all historical holds
+remain unchanged. Any new product gap requires a separately scoped repair
+before changes; this joint evidence package cannot silently fix a provider.
+Author has run no formatter, compiler, tests, runner, CLI, native process,
+network, Git fixture, commit or publication action.

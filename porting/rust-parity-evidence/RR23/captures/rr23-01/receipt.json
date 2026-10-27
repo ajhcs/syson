@@ -1,0 +1,898 @@
+{
+  "status": "PASS_SELECTED_JOINT_CONSUMERS_AND_30_CLI;FULL_ACCEPTANCE_OPEN",
+  "commands": [
+    {
+      "name": "format",
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--config",
+        "skip_children=true",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/porting/rust-parity-evidence/RR23/consumer/tests/joint.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/crates/syson-json-value/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/crates/syson-json-value/tests/literal.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/crates/syson-json-value/tests/rr24a_duplicates.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-db-contract/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-db-contract/src/main.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-db-contract/tests/catalog.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-db-contract/tests/rr23b_literal.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/src/main.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/tests/contract.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/tests/rr23a_literal.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/src/main.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/tests/contract.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/tests/rr23c_literal.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/src/main.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/catalogue.rs",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/rr23d_literal.rs"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "native-graphql-contract-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "6dc054a9093d3fa56b6ad1251f1ab98152fda77885c9e2f3d4e06295588ef40a",
+      "stderr_sha256": "f574f8258a65451d7589531dfbb95ac0379add92ace00ada43d994f1917374ed"
+    },
+    {
+      "name": "native-graphql-contract-clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "d0fbd2716dfdc367a9bf08f607ce419af85baebc385febf24cc63e538097f73f"
+    },
+    {
+      "name": "native-graphql-contract-build",
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/Cargo.toml"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e"
+    },
+    {
+      "name": "native-db-contract-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-db-contract/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "9da044af29b7f35d552d4a1c1a243af69b41a29e72d988424628f97c832f508f",
+      "stderr_sha256": "f085d067858c1e9711cd53f7c7eb505e79142b92760b0418ba3eedee04ec06aa"
+    },
+    {
+      "name": "native-db-contract-clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-db-contract/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "368ee3bf5ac1e7a62cc068887f4159d5646635f379012fb8573bd19e62d2b638"
+    },
+    {
+      "name": "native-db-contract-build",
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-db-contract/Cargo.toml"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a13905646e2aed93ec6ea9ed6ac91490a4e01f91af0215c3965279a910612149"
+    },
+    {
+      "name": "native-http-contract-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "a16dcfdd79625c6172e5caf526531c88b55c1732c9fbf8ca1c529c48e94f22ff",
+      "stderr_sha256": "83068dec951761928831ee92f880af100378a652b46c07bbd4a83df73dacef0d"
+    },
+    {
+      "name": "native-http-contract-clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "92c9b335090008dd96af7a3edcd14cfd1e713695fefe93dcf87df896095cfe23"
+    },
+    {
+      "name": "native-http-contract-build",
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/Cargo.toml"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e"
+    },
+    {
+      "name": "native-project-templates-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "c9124121aa3a0f7a98216b222227690a6f1719545500ca2560ed0b53ccaab42a",
+      "stderr_sha256": "37790194bee6d6ffb2ae499dbb6550975e6aa99ba7937b139200c99d6a4d5cc3"
+    },
+    {
+      "name": "native-project-templates-clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1cd71f4a0e69d6f09ecb84ec69e884755b75b9e0bff37fd448a9d07ee5f2a03c"
+    },
+    {
+      "name": "native-project-templates-build",
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/Cargo.toml"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e"
+    },
+    {
+      "name": "syson-json-value-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/crates/syson-json-value/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "011f7419a85f67cc07e0bdb13c721c3b00bd4cf840251ccfaad6da40270fd2f6",
+      "stderr_sha256": "a434bf1c0e6015a91ea56e08c42508048c02efdfb1256b7670f10af548313e21"
+    },
+    {
+      "name": "syson-json-value-clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/crates/syson-json-value/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3aba1a93fe1166c5b145064f33fa25220c37364ae3f17ff271aad400ad99e9e6"
+    },
+    {
+      "name": "syson-json-value-build",
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/crates/syson-json-value/Cargo.toml"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e"
+    },
+    {
+      "name": "consumer-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/porting/rust-parity-evidence/RR23/consumer/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "4117b8416ddb9a6b5d56a28d8ad00c6cbbe88be97c4839e5fafe03743a16aed1",
+      "stderr_sha256": "48690d1049671040b346974b22f65f175f2c4e83141fe102738d4c981630d642"
+    },
+    {
+      "name": "consumer-clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/porting/rust-parity-evidence/RR23/consumer/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "f7b8766e35e0ded62cbe71658474ccb99b86d7fc39b732528353dc76bd5af444"
+    },
+    {
+      "name": "consumer-build",
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/porting/rust-parity-evidence/RR23/consumer/Cargo.toml",
+        "--tests"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6d77f64dfc8c5325b90fdbe05d8be367bdd578bcccec24f275c5ffee7d03dd6e"
+    },
+    {
+      "name": "cli-graphql-native",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-graphql-contract",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "7ef24a1b713fb5c28d47fb4c3c25da686058ec8f92a8bad2436f13312d222cad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-graphql-query",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-graphql-contract",
+        "--query"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-graphql-capabilities",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-graphql-contract",
+        "--capabilities"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "c5d0536130c53740131aec76b5340df690cee6689a15bdc7229fbd6c6a1edece",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-graphql-badfaith",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-graphql-contract",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-graphql-contract/tests/fixtures/native-badfaith-introspection.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "9a60b8b54520214181993ca89da1b863335bb10d9a9aa1af78689f8efb32548f"
+    },
+    {
+      "name": "cli-graphql-markers",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-graphql-contract",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/graphql-markers.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "0b2da40df8c8766a434f6274f00b6826a4727dfe9932a08c05b695d2dfd70659",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-db-native",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-db-contract",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "f2d72b8ceb0d703df339d5a30d5d3c7867430af52da318722ac425d2ccb76990",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-db-marker-oid",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/db-marker-oid.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "2a3790f3081b22f7e7906886d7808f67f3babdbd320e142e7b3c59b0d26bc895"
+    },
+    {
+      "name": "cli-db-marker-capture",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/db-marker-capture.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "32e36afa668a3374a5ecfa2859a2359084ea08198f7be330455ee0de938acc16"
+    },
+    {
+      "name": "cli-db-negative-zero",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-db-contract",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/db-negative-zero.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "77aef22023f237a56a134abfcc0b5d5299b93d5b6db2ffeea2cc8f031e7e63bf"
+    },
+    {
+      "name": "cli-http-native-mappings",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-http-contract",
+        "mappings",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/tests/fixtures/native-mappings.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "440a76c6fdbdfb0d0d99c951ee372488cfc2338464a1d7888dca2086f81da822",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-http-native-probes",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-http-contract",
+        "probes",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-http-contract/tests/fixtures/native-probes.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "717ca57233a0aaa185de973d41bc943c175bc0a5c392c27fc0141a96c111e6ef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-http-manifest",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-http-contract",
+        "--probes"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "ea79840be51da54a668d560615bd235673466f71bdfd3e015c92a03e459ab400",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-http-mappings-literals",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-http-contract",
+        "mappings",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/mappings-literals.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "66a9a773e23b0879e565b1d87e975e7fa5dea3ac7fd64201c2253d4df6d495bd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-http-probes-literals",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-http-contract",
+        "probes",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/probes-literals.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "78b3dc99fe820cf8b92f1b387c9ddd82274f5e4a8ddd2fb28bfb012fa0e6e507",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-http-zero-body",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-http-contract",
+        "probes",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/zero-body.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "dc7d723d36f174f438229c1dcbb8857b083140527248d831cb974af1f6416384",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-http-typed-handler-marker",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-http-contract",
+        "mappings",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/handler-marker.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "138952879a16ff3e6043064ea385b5824b0cf3bf1d34dca768c70ac7c926fc54"
+    },
+    {
+      "name": "cli-http-typed-context-marker",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-http-contract",
+        "probes",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/context-marker.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "95121a087b7d99452233db8be2ec7ddf632f2f0ce8a98242f77bb5ecc00cef36"
+    },
+    {
+      "name": "cli-templates-all",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "17818ea9f5ad274db8c883b9e19e86e9a94cead77ec9279bdf8eacbf08e508e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-templates-template",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json",
+        "all-templates",
+        "sysmlv2-template"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "81f4f6234ec4d4d9d75ae431532c1bf0e90d4ab04b1481f81892db452514d97a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-templates-blank",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json",
+        "browser-large",
+        "blank-project"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "c5cafd6916a7198f72d091e4bc0cf783511b58c62554e62de88b45b59a9fc45a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-templates-upload",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json",
+        "browser-large",
+        "upload-project"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "4d0620c1bd21d5e2c268724a96207ea6c72497caf4ff41bd635d2287c26abd70",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-templates-browse",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json",
+        "browser-large",
+        "browse-all-project-templates"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "dee71549dcdfa5d9fe9d63f26980dba45b4f202ff58693582be0e3c92278bd71",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-templates-usage",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "d8255d13e8c0452a6b105cad0dafaf0e0213ed1ec9b4b701c4fe654540afbd31"
+    },
+    {
+      "name": "cli-templates-invalid",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/invalid.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "9e184ff8f96b35d7bcd2f1e01d65bffe318bee52ce1e9465311f37662b805c26"
+    },
+    {
+      "name": "cli-templates-symlink",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/symlink.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "fb45f29abc645461e244a88e52df2c2dbc529145e233e538935d787717e312db"
+    },
+    {
+      "name": "cli-templates-unknown",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json",
+        "all-templates",
+        "missing"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0652de388a9985ce99246095ca61ee05a2ba3e499df322fbfc12093c86d74be6"
+    },
+    {
+      "name": "cli-templates-failed-context",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json",
+        "browser-small-first",
+        "blank-project"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "177ad2c3c2806fa68e7d0cc6691e2ffac6142a0245124c1f551e2aa2f9f88829"
+    },
+    {
+      "name": "cli-templates-wrong-control",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json",
+        "modal-large",
+        "upload-project"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0652de388a9985ce99246095ca61ee05a2ba3e499df322fbfc12093c86d74be6"
+    },
+    {
+      "name": "cli-templates-literal-and-typed-zero",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/template-literals.json",
+        "all-templates",
+        "sysmlv2-template"
+      ],
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "stdout_sha256": "e3516cb1c6f67d4e49b3de4d3399d3cb5e12003d26ac88a3e79ed4588ae448bf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "cli-templates-nested-id-marker",
+      "argv": [
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-target/debug/syson-native-project-templates",
+        "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/nested-id-marker.json"
+      ],
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "04d0e89198f24a215ba51384ca25f4ab28417dee3956b7cd7dc9f1eea4983287"
+    }
+  ],
+  "native_epoch": "NOT_RUN",
+  "scope": "Selected joint reader source/captured-contract qualification; full C01/UI/parity OPEN",
+  "generated_inputs": {
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/graphql-markers.json": "589e9cc266ba9d4481a9f6b5c8fa5026c7373d09470b029aad9d7f1b2c3cd149",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/db-marker-oid.json": "7e5bcec70b121340238d897022c7a5f97277cd2958de16c0029a82a05c0a777e",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/db-marker-capture.json": "0ca81bb2e4ee86a38217b0ad6451f1a2e711442aa12e947b52fdfbb693ca4c46",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/db-negative-zero.json": "34d782862351452f077e12429a4fbd1d39568ae46281d5564863cbfe040fb276",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/mappings-literals.json": "52fa324c07866fb9e07b6609bd858371c1a5fb0abbe9ec7a5b24ef7b5aa1e91a",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/probes-literals.json": "7e453dc4232d787ec8050208171a478169746751ae75477f7b0101e4480f0d9e",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/zero-body.json": "6bfff615d7dcbba9b430351744313c7c8b7ad1beb033e180e6ab695992538c37",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/handler-marker.json": "49485fda321e6518e7d9dfabf8aa9b9036b76ce40d610b8ec06e491804a97219",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/context-marker.json": "d20bf48f3a280884a6f855a5c715b843878401d0ffc541da40f7e701e1632ff2",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/invalid.json": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/template-literals.json": "0f1aaff4ee413bd5298a6bba0a097c7732babce8e15ec5fce339967c2e75577c",
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/nested-id-marker.json": "be14b3b4d43ffe88a254103d93b92c97346939303926c3c6a06d98ceb2154e0b"
+  },
+  "generated_symlinks": {
+    "/workspace/build/builderbob/syson-rereview-batch8-20261027/rr23-01/scratch/symlink.json": "/workspace/worktrees/builderbob/syson/rr23-joint-integration/rust/tools/native-project-templates/tests/fixtures/native-templates.json"
+  },
+  "candidate_base": "979c7742f8e5d6d4f02959143612c2ea82a13930",
+  "candidate_head": "979c7742f8e5d6d4f02959143612c2ea82a13930",
+  "source_before": {
+    "porting/rust-parity-evidence/C01c/capabilities-single.graphql": "c5d0536130c53740131aec76b5340df690cee6689a15bdc7229fbd6c6a1edece",
+    "porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c",
+    "porting/rust-parity-evidence/C01d/c01d-cli-02/native-stdout.txt": "f2d72b8ceb0d703df339d5a30d5d3c7867430af52da318722ac425d2ccb76990",
+    "porting/rust-parity-evidence/C01f/probes.json": "ea79840be51da54a668d560615bd235673466f71bdfd3e015c92a03e459ab400",
+    "porting/rust-parity-evidence/C01h/queries.json": "2b99399483bd56e9fd6548d423936393b8d8911362eae89834d3dd61c427befa",
+    "porting/rust-parity-evidence/RR23/SOURCE-FREEZE.json": "062a652274d1dfe823a82084809d853c0ceda7f2ccb21cd212efd920f0520172",
+    "porting/rust-parity-evidence/RR23/SOURCE-PREPARATION.md": "48f97a708ca942af1c37f89a4de3b6e103c3f1563a86c204bb9447e631f10f8b",
+    "porting/rust-parity-evidence/RR23/cases.json": "3c5206e528cb26796f8779fdeb64da5648d23152649425b17527a228505c9dae",
+    "porting/rust-parity-evidence/RR23/consumer/Cargo.lock": "4bf0b2c05956fe4e91eeef54ed5a8c994ed1d94269f5d46eedb5a92f41bd187c",
+    "porting/rust-parity-evidence/RR23/consumer/Cargo.toml": "169f3d0f492963ce9e08c43b08efaa5e5dc48d6fdcdc11fc458215c0a2368ac3",
+    "porting/rust-parity-evidence/RR23/consumer/tests/joint.rs": "f5284b94eba6c71ff428918ad4a0f78f03f87fbb3cbff055fd5e10cc59e3b12f",
+    "porting/rust-parity-evidence/RR23/run_joint.py": "81a77ad07faa40e0bc7336b697b7a75d81a095677786f92a60ea2901a7d57656",
+    "porting/rust-parity-prerequisites/RR23/source-manifest.json": "69a4cec7e39cf7c11d8f4237c48cbb4ef387b2ca45b7eb20ce1a6bd9606466d7",
+    "rust/crates/syson-json-value/Cargo.lock": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e",
+    "rust/crates/syson-json-value/Cargo.toml": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5",
+    "rust/crates/syson-json-value/README.md": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f",
+    "rust/crates/syson-json-value/src/lib.rs": "fb83a0daad8b57c43109651b5d6a8aa1ab4220b8e09c825faf3d05f94862efea",
+    "rust/crates/syson-json-value/tests/literal.rs": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c",
+    "rust/crates/syson-json-value/tests/rr24a_duplicates.rs": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a",
+    "rust/tools/native-db-contract/Cargo.lock": "94d8bb6264ee9db485601e3f2100ae748f5066228540a727faec64b118c3f4a1",
+    "rust/tools/native-db-contract/Cargo.toml": "60c183128b3ddaf27c59d4e17f50cbcff36dcf957428438cad7e0e42d85341d8",
+    "rust/tools/native-db-contract/README.md": "62badac0d189f3b414c6401983691cfd0bbaef79158b0c2bc4edc18e7026fb9b",
+    "rust/tools/native-db-contract/src/lib.rs": "3984cb077abfb9cf99a2556aef4e138eff73bd429a34135c314165ce593dcf4b",
+    "rust/tools/native-db-contract/src/main.rs": "29cfa942956d149c95c476800c79b7ddc3445e5bd3212cc74c7df205c8c5fcb0",
+    "rust/tools/native-db-contract/tests/catalog.rs": "f7ece7d83aec9b47a06e4b8de725f03ecbd8d34d93b670d3dea1f8d7fc56be15",
+    "rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json": "62dc261f15c200385fac1887c4f4e0fd1995d3996017e4321511dc9f8c024ef1",
+    "rust/tools/native-db-contract/tests/rr23b_literal.rs": "e91aaa32faefd99d0bdbbcf2b24824e4d037e2e7e4e3a3f79eb98208565f1b40",
+    "rust/tools/native-graphql-contract/Cargo.lock": "4c054397350f482502fe825442ac1f9f2cbbc71f2c73d82ed0f0e38dedac7994",
+    "rust/tools/native-graphql-contract/Cargo.toml": "391a6042f67497ae3b71e6f79931c4b1750ba95ace8c26250fac6aa968c8a109",
+    "rust/tools/native-graphql-contract/src/lib.rs": "a3652f56ba20bf71fa55b52f33778d9cc649e9b30f5907dd898ebe637e9f154b",
+    "rust/tools/native-graphql-contract/src/main.rs": "ef893699703dfb9ea08d24907008f54b119c52d69d132ef25f00ab9d29eaf0a3",
+    "rust/tools/native-graphql-contract/tests/contract.rs": "62a04231c305aeceab8e2d9b18e05a4e11dc579778ebba925f516aa53b795f70",
+    "rust/tools/native-graphql-contract/tests/fixtures/native-badfaith-introspection.json": "33cae53965a70dc4690ee4bd2d67aac8c40d6ac476bf5bd515a6c28fd623052f",
+    "rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json": "eadaeae732417084c749148676df97fb645956c4f01a82afc1481a026d83300f",
+    "rust/tools/native-graphql-contract/tests/rr23a_literal.rs": "a7c6dc71445efb636b401a083da66ade0196936033b466519c52f008b6d88967",
+    "rust/tools/native-http-contract/Cargo.lock": "de4d5f7de8d29db584e1f69ab89c5f5f53c6dd0ad257062dac07bcc96ed13cc0",
+    "rust/tools/native-http-contract/Cargo.toml": "9bd37d51e3f4aa8acf8a91a8f67093284f900e79a5e095bd06f62ba6c3c86aa4",
+    "rust/tools/native-http-contract/README.md": "b31baa9807db5775772be1e31188b61006ba86417f091be64f7752bff75fc03a",
+    "rust/tools/native-http-contract/src/lib.rs": "a69a56aaedfe044f41a769115a5509a507c4134d2967f0f8701b24f246300f0d",
+    "rust/tools/native-http-contract/src/main.rs": "3e00fd895df47ddaa2ad8315a59d6c0b8437f16ceb3f07e74857ff9fdfa794b3",
+    "rust/tools/native-http-contract/tests/contract.rs": "2a83ad89a8b51d41bcf29a7e0e3d7b97acdf3df8fd052edc56d1993028f9585e",
+    "rust/tools/native-http-contract/tests/fixtures/native-mappings.json": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+    "rust/tools/native-http-contract/tests/fixtures/native-probes.json": "236e82df3cdb421fe4acee8bf36ce032aad7ae106ab2f208c1b6b0f5f827ddbf",
+    "rust/tools/native-http-contract/tests/rr23c_literal.rs": "d80826738062e06673033e93b141a280776b4c42d5ccb444ebaceb25b67ab2ae",
+    "rust/tools/native-project-templates/Cargo.lock": "a739161e95f99fd797e1d66c5c7970760207acc2c010d01e44fdedd97cc7b7dc",
+    "rust/tools/native-project-templates/Cargo.toml": "2bd660ecee9ff8deff88fafb1ad34576c638af4038966a34a25d7a871b5cb73b",
+    "rust/tools/native-project-templates/README.md": "dffc992b0377a0da8c001c01311d72016e164953ea41f44e6c0d1ea999c42117",
+    "rust/tools/native-project-templates/src/lib.rs": "853b01c3c9576ed12c04a82ca062177daf73c4f10c9d23a91152ed1c87cbe233",
+    "rust/tools/native-project-templates/src/main.rs": "f1826dfe1f93c47d7d7b8d72125dcfbcd2d3d16717a3ac2020519971be95cc3e",
+    "rust/tools/native-project-templates/tests/catalogue.rs": "099225c91621f43edc19ebe65a2274f23f14188cb6a178dcf53259db61d86b65",
+    "rust/tools/native-project-templates/tests/fixtures/native-templates.json": "9544d4b38698ab018957acd1ef7c7ec980ff3df9bbf7233e4f905c3e2818e64f",
+    "rust/tools/native-project-templates/tests/rr23d_literal.rs": "7372c6ee689bcbd67b565d6ded8c9f64e805bab5cd02ee1a8bfd2afc8cc047a1"
+  },
+  "registry_tuples": [
+    [
+      "itoa",
+      "1.0.18",
+      "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
+    ],
+    [
+      "memchr",
+      "2.8.3",
+      "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
+    ],
+    [
+      "proc-macro2",
+      "1.0.107",
+      "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9"
+    ],
+    [
+      "quote",
+      "1.0.47",
+      "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001"
+    ],
+    [
+      "serde",
+      "1.0.229",
+      "4148590afebada386688f18773da617792bf2ef03ffc1e4cbd2b1d45b023e0ba"
+    ],
+    [
+      "serde_core",
+      "1.0.229",
+      "67dca2c9c51e58a4791a4b1ed58308b39c64224d349a935ab5039aa360942a48"
+    ],
+    [
+      "serde_derive",
+      "1.0.229",
+      "e7a5d71263a5a7d47b41f6b3f06ba276f10cc18b0931f1799f710578e2309348"
+    ],
+    [
+      "serde_json",
+      "1.0.151",
+      "c841b55ecdae098c80dcae9cf767f6f8a0c2cdb3416bbef72181df4d0fe73f14"
+    ],
+    [
+      "syn",
+      "3.0.6",
+      "8593e8e72159ed2257d083c7a454a85cbf854f37a0966d8d483aff8c8a3ebcee"
+    ],
+    [
+      "unicode-ident",
+      "1.0.26",
+      "d245f478577f809a851594d02313b640fb437e0bb33866753cff937863096954"
+    ],
+    [
+      "zmij",
+      "1.0.23",
+      "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b"
+    ]
+  ],
+  "executables": {
+    "native-graphql-contract": "58c55590de5e5316141be7001889bedac7c08fce1954828079da131ef02336f8",
+    "native-db-contract": "d7cd82572a4b61e85108d561bf9a8b71abf6710855a65cd204e048ff3ad41bd4",
+    "native-http-contract": "76a0bc94b5c16cb36b0f124cf87cf589b21f3c81e5890b56ce1d619bfbe91c7b",
+    "native-project-templates": "b8f12f8439fa371cd6ff3e577d794137293874e1144c701c580df16ef8d25970"
+  },
+  "source_after": {
+    "porting/rust-parity-evidence/C01c/capabilities-single.graphql": "c5d0536130c53740131aec76b5340df690cee6689a15bdc7229fbd6c6a1edece",
+    "porting/rust-parity-evidence/C01c/introspection.graphql": "6c46f84764bc90ff7b73f5d81aabf0d930ff2e4dec46f6033052d88e790d8c5c",
+    "porting/rust-parity-evidence/C01d/c01d-cli-02/native-stdout.txt": "f2d72b8ceb0d703df339d5a30d5d3c7867430af52da318722ac425d2ccb76990",
+    "porting/rust-parity-evidence/C01f/probes.json": "ea79840be51da54a668d560615bd235673466f71bdfd3e015c92a03e459ab400",
+    "porting/rust-parity-evidence/C01h/queries.json": "2b99399483bd56e9fd6548d423936393b8d8911362eae89834d3dd61c427befa",
+    "porting/rust-parity-evidence/RR23/SOURCE-FREEZE.json": "062a652274d1dfe823a82084809d853c0ceda7f2ccb21cd212efd920f0520172",
+    "porting/rust-parity-evidence/RR23/SOURCE-PREPARATION.md": "48f97a708ca942af1c37f89a4de3b6e103c3f1563a86c204bb9447e631f10f8b",
+    "porting/rust-parity-evidence/RR23/cases.json": "3c5206e528cb26796f8779fdeb64da5648d23152649425b17527a228505c9dae",
+    "porting/rust-parity-evidence/RR23/consumer/Cargo.lock": "4bf0b2c05956fe4e91eeef54ed5a8c994ed1d94269f5d46eedb5a92f41bd187c",
+    "porting/rust-parity-evidence/RR23/consumer/Cargo.toml": "169f3d0f492963ce9e08c43b08efaa5e5dc48d6fdcdc11fc458215c0a2368ac3",
+    "porting/rust-parity-evidence/RR23/consumer/tests/joint.rs": "f5284b94eba6c71ff428918ad4a0f78f03f87fbb3cbff055fd5e10cc59e3b12f",
+    "porting/rust-parity-evidence/RR23/run_joint.py": "81a77ad07faa40e0bc7336b697b7a75d81a095677786f92a60ea2901a7d57656",
+    "porting/rust-parity-prerequisites/RR23/source-manifest.json": "69a4cec7e39cf7c11d8f4237c48cbb4ef387b2ca45b7eb20ce1a6bd9606466d7",
+    "rust/crates/syson-json-value/Cargo.lock": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e",
+    "rust/crates/syson-json-value/Cargo.toml": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5",
+    "rust/crates/syson-json-value/README.md": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f",
+    "rust/crates/syson-json-value/src/lib.rs": "fb83a0daad8b57c43109651b5d6a8aa1ab4220b8e09c825faf3d05f94862efea",
+    "rust/crates/syson-json-value/tests/literal.rs": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c",
+    "rust/crates/syson-json-value/tests/rr24a_duplicates.rs": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a",
+    "rust/tools/native-db-contract/Cargo.lock": "94d8bb6264ee9db485601e3f2100ae748f5066228540a727faec64b118c3f4a1",
+    "rust/tools/native-db-contract/Cargo.toml": "60c183128b3ddaf27c59d4e17f50cbcff36dcf957428438cad7e0e42d85341d8",
+    "rust/tools/native-db-contract/README.md": "62badac0d189f3b414c6401983691cfd0bbaef79158b0c2bc4edc18e7026fb9b",
+    "rust/tools/native-db-contract/src/lib.rs": "3984cb077abfb9cf99a2556aef4e138eff73bd429a34135c314165ce593dcf4b",
+    "rust/tools/native-db-contract/src/main.rs": "29cfa942956d149c95c476800c79b7ddc3445e5bd3212cc74c7df205c8c5fcb0",
+    "rust/tools/native-db-contract/tests/catalog.rs": "f7ece7d83aec9b47a06e4b8de725f03ecbd8d34d93b670d3dea1f8d7fc56be15",
+    "rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json": "62dc261f15c200385fac1887c4f4e0fd1995d3996017e4321511dc9f8c024ef1",
+    "rust/tools/native-db-contract/tests/rr23b_literal.rs": "e91aaa32faefd99d0bdbbcf2b24824e4d037e2e7e4e3a3f79eb98208565f1b40",
+    "rust/tools/native-graphql-contract/Cargo.lock": "4c054397350f482502fe825442ac1f9f2cbbc71f2c73d82ed0f0e38dedac7994",
+    "rust/tools/native-graphql-contract/Cargo.toml": "391a6042f67497ae3b71e6f79931c4b1750ba95ace8c26250fac6aa968c8a109",
+    "rust/tools/native-graphql-contract/src/lib.rs": "a3652f56ba20bf71fa55b52f33778d9cc649e9b30f5907dd898ebe637e9f154b",
+    "rust/tools/native-graphql-contract/src/main.rs": "ef893699703dfb9ea08d24907008f54b119c52d69d132ef25f00ab9d29eaf0a3",
+    "rust/tools/native-graphql-contract/tests/contract.rs": "62a04231c305aeceab8e2d9b18e05a4e11dc579778ebba925f516aa53b795f70",
+    "rust/tools/native-graphql-contract/tests/fixtures/native-badfaith-introspection.json": "33cae53965a70dc4690ee4bd2d67aac8c40d6ac476bf5bd515a6c28fd623052f",
+    "rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json": "eadaeae732417084c749148676df97fb645956c4f01a82afc1481a026d83300f",
+    "rust/tools/native-graphql-contract/tests/rr23a_literal.rs": "a7c6dc71445efb636b401a083da66ade0196936033b466519c52f008b6d88967",
+    "rust/tools/native-http-contract/Cargo.lock": "de4d5f7de8d29db584e1f69ab89c5f5f53c6dd0ad257062dac07bcc96ed13cc0",
+    "rust/tools/native-http-contract/Cargo.toml": "9bd37d51e3f4aa8acf8a91a8f67093284f900e79a5e095bd06f62ba6c3c86aa4",
+    "rust/tools/native-http-contract/README.md": "b31baa9807db5775772be1e31188b61006ba86417f091be64f7752bff75fc03a",
+    "rust/tools/native-http-contract/src/lib.rs": "a69a56aaedfe044f41a769115a5509a507c4134d2967f0f8701b24f246300f0d",
+    "rust/tools/native-http-contract/src/main.rs": "3e00fd895df47ddaa2ad8315a59d6c0b8437f16ceb3f07e74857ff9fdfa794b3",
+    "rust/tools/native-http-contract/tests/contract.rs": "2a83ad89a8b51d41bcf29a7e0e3d7b97acdf3df8fd052edc56d1993028f9585e",
+    "rust/tools/native-http-contract/tests/fixtures/native-mappings.json": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f",
+    "rust/tools/native-http-contract/tests/fixtures/native-probes.json": "236e82df3cdb421fe4acee8bf36ce032aad7ae106ab2f208c1b6b0f5f827ddbf",
+    "rust/tools/native-http-contract/tests/rr23c_literal.rs": "d80826738062e06673033e93b141a280776b4c42d5ccb444ebaceb25b67ab2ae",
+    "rust/tools/native-project-templates/Cargo.lock": "a739161e95f99fd797e1d66c5c7970760207acc2c010d01e44fdedd97cc7b7dc",
+    "rust/tools/native-project-templates/Cargo.toml": "2bd660ecee9ff8deff88fafb1ad34576c638af4038966a34a25d7a871b5cb73b",
+    "rust/tools/native-project-templates/README.md": "dffc992b0377a0da8c001c01311d72016e164953ea41f44e6c0d1ea999c42117",
+    "rust/tools/native-project-templates/src/lib.rs": "853b01c3c9576ed12c04a82ca062177daf73c4f10c9d23a91152ed1c87cbe233",
+    "rust/tools/native-project-templates/src/main.rs": "f1826dfe1f93c47d7d7b8d72125dcfbcd2d3d16717a3ac2020519971be95cc3e",
+    "rust/tools/native-project-templates/tests/catalogue.rs": "099225c91621f43edc19ebe65a2274f23f14188cb6a178dcf53259db61d86b65",
+    "rust/tools/native-project-templates/tests/fixtures/native-templates.json": "9544d4b38698ab018957acd1ef7c7ec980ff3df9bbf7233e4f905c3e2818e64f",
+    "rust/tools/native-project-templates/tests/rr23d_literal.rs": "7372c6ee689bcbd67b565d6ded8c9f64e805bab5cd02ee1a8bfd2afc8cc047a1"
+  },
+  "source_unchanged": true
+}

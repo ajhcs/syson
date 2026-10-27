@@ -1,0 +1,31 @@
+{
+  "candidate_base": "979c7742f8e5d6d4f02959143612c2ea82a13930",
+  "tools": ["native-graphql-contract", "native-db-contract", "native-http-contract", "native-project-templates"],
+  "suite_counts": [19, 20, 24, 23, 16, 6],
+  "fixtures": {
+    "graphql": "rust/tools/native-graphql-contract/tests/fixtures/native-official-label-introspection.json",
+    "db": "rust/tools/native-db-contract/tests/fixtures/native-01-catalog.json",
+    "mappings": "rust/tools/native-http-contract/tests/fixtures/native-mappings.json",
+    "probes": "rust/tools/native-http-contract/tests/fixtures/native-probes.json",
+    "templates": "rust/tools/native-project-templates/tests/fixtures/native-templates.json"
+  },
+  "badfaith": "rust/tools/native-graphql-contract/tests/fixtures/native-badfaith-introspection.json",
+  "query": "porting/rust-parity-evidence/C01c/introspection.graphql",
+  "capabilities": "porting/rust-parity-evidence/C01c/capabilities-single.graphql",
+  "http_manifest": "porting/rust-parity-evidence/C01f/probes.json",
+  "db_oracle": "porting/rust-parity-evidence/C01d/c01d-cli-02/native-stdout.txt",
+  "template_errors": ["browser-small-first", "browser-small-next", "invalid-context", "invalid-page-type"],
+  "template_selections": [
+    ["all", [], null],
+    ["template", ["all-templates", "sysmlv2-template"], {"id": "sysmlv2-template", "kind": "template"}],
+    ["blank", ["browser-large", "blank-project"], {"id": "blank-project", "kind": "template"}],
+    ["upload", ["browser-large", "upload-project"], {"id": "upload-project", "kind": "upload"}],
+    ["browse", ["browser-large", "browse-all-project-templates"], {"id": "browse-all-project-templates", "kind": "browse"}]
+  ],
+  "cli_cases": [
+    "graphql-native", "graphql-query", "graphql-capabilities", "graphql-badfaith", "graphql-markers",
+    "db-native", "db-marker-oid", "db-marker-capture", "db-negative-zero",
+    "http-native-mappings", "http-native-probes", "http-manifest", "http-mappings-literals", "http-probes-literals", "http-zero-body", "http-typed-handler-marker", "http-typed-context-marker",
+    "templates-all", "templates-template", "templates-blank", "templates-upload", "templates-browse", "templates-usage", "templates-invalid", "templates-symlink", "templates-unknown", "templates-failed-context", "templates-wrong-control", "templates-literal-and-typed-zero", "templates-nested-id-marker"
+  ]
+}
