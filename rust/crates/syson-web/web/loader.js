@@ -42,6 +42,7 @@ try {
   let documentEpoch = 0;
   let recoveryDrafts = null;
   let presentationTrusted = true;
+  let inspectorDisclosureDefaults = new WeakMap();
   const normal = host => !!host.querySelector('#export-json');
   const selected = host => host.querySelector('.tree button[aria-pressed="true"]')?.dataset.value ?? '';
   function formKey(element) {
@@ -81,20 +82,30 @@ try {
     for (const option of element.options) if (option.defaultSelected) initial = option.value;
     return element.value !== initial;
   }
+  function rememberInspectorDefaults() {
+    inspectorDisclosureDefaults = new WeakMap();
+    const inspector = root.querySelector('.inspector');
+    if (!inspector) return;
+    const walker = document.createTreeWalker(inspector, NodeFilter.SHOW_ELEMENT);
+    let count = 0;
+    for (let element = walker.nextNode(); element; element = walker.nextNode()) {
+      if (element.tagName !== 'DETAILS') continue;
+      if (count++ === draftLimits.details) break;
+      inspectorDisclosureDefaults.set(element, element.open);
+    }
+  }
   function captureDrafts() {
     if (!normal(root) || !presentationTrusted) return null;
-    const snapshot = {epoch: documentEpoch, selected: selected(root), fields: [], details: [], focus: null};
+    const snapshot = {epoch: documentEpoch, selected: '', fields: [], details: [], focus: null};
     let bytes = 0, units = 0;
     const ids = new Set(), detailIds = new Set();
-    const refuse = () => { throw new Error('Draft preservation limit exceeded (64 fields, 32 disclosures, 1 MiB UTF-8 / 2 MiB UTF-16). No action was sent; shorten or clear drafts first.'); };
+    const refuse = () => { throw new Error('Draft preservation limit exceeded (64 fields, 32 disclosures, 1 MiB UTF-8 / 2 MiB UTF-16). No action was sent; shorten/reset drafts, reset inspector disclosures to their initial state, or choose Document root as Parent first.'); };
     const charge = text => {
       // Check length before scanning/copying into retained records or encoding.
       if (text.length > draftLimits.utf16 / 2) refuse();
       units += text.length * 2; bytes += utf8Size(text);
       if (units > draftLimits.utf16 || bytes > draftLimits.utf8) refuse();
     };
-    if (snapshot.selected.length > draftLimits.id) refuse();
-    charge(snapshot.selected);
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT);
     for (let element = walker.nextNode(); element; element = walker.nextNode()) {
       if (element.matches('input[id],select[id],textarea[id]') && !element.readOnly && !element.disabled) {
@@ -109,12 +120,19 @@ try {
         if (element === document.activeElement) snapshot.focus = {id: record.id,
           caret: typeof element.selectionStart === 'number' ? [element.selectionStart, element.selectionEnd, element.selectionDirection] : null};
       } else if (element.tagName === 'DETAILS') {
+        const inspector = !!element.closest('.inspector');
+        if (inspector && element.open === inspectorDisclosureDefaults.get(element) && !element.contains(document.activeElement)) continue;
         const key = detailKey(element);
         if (!key) continue; // Unkeyed disclosures have no stable restoration contract.
         if (snapshot.details.length === draftLimits.details || key.length > draftLimits.id || detailIds.has(key)) refuse();
         charge(key); detailIds.add(key);
-        snapshot.details.push({key, open: element.open, scope: element.closest('.inspector') ? 'inspector' : 'document'});
+        snapshot.details.push({key, open: element.open, scope: inspector ? 'inspector' : 'document'});
       }
+    }
+    if (snapshot.fields.some(record => record.scope === 'inspector') || snapshot.details.some(record => record.scope === 'inspector')) {
+      // Model identities are arbitrary strings, not bounded DOM control IDs.
+      snapshot.selected = selected(root);
+      charge(snapshot.selected);
     }
     return snapshot;
   }
@@ -190,6 +208,7 @@ try {
       }
       if (previousStatus.textContent !== nextStatus.textContent) previousStatus.textContent = nextStatus.textContent;
     } else root.replaceChildren(template.content);
+    rememberInspectorDefaults();
     const snapshot = recovered ? recoveryDrafts : preserveDrafts ? context?.snapshot : null;
     const restoredFocus = restoreDrafts(snapshot, !recovered, true);
     if (isNormal) recoveryDrafts = null;
