@@ -82,6 +82,7 @@ pub enum Change<'a> {
 pub struct Store {
     path: PathBuf,
     token: Arc<()>,
+    generation: Option<String>,
 }
 struct Limited {
     bytes: Vec<u8>,
@@ -121,13 +122,17 @@ fn serialize(document: &Document, limit: usize) -> Result<String, Error> {
     serde_json::to_writer(&mut writer, document.value()).map_err(|_| Error::Serialization)?;
     String::from_utf8(writer.bytes).map_err(|_| Error::Serialization)
 }
-fn protocol_start(action: &str) -> Result<Limited, Error> {
+fn protocol_start(action: &str, generation: Option<&str>) -> Result<Limited, Error> {
     let mut input = Limited {
         bytes: vec![],
         limit: LIMIT,
     };
     input.write_all(b"{\"action\":").map_err(|_| Error::Limit)?;
     serde_json::to_writer(&mut input, action).map_err(|_| Error::Limit)?;
+    input
+        .write_all(b",\"generation\":")
+        .map_err(|_| Error::Limit)?;
+    serde_json::to_writer(&mut input, &generation).map_err(|_| Error::Limit)?;
     input.write_all(b",\"value\":").map_err(|_| Error::Limit)?;
     Ok(input)
 }
@@ -143,24 +148,53 @@ impl Store {
             .create_new(true)
             .open(path)
             .map_err(|_| Error::Io)?;
-        let store = Self {
+        let mut store = Self {
             path: path.into(),
             token: Arc::new(()),
+            generation: None,
         };
-        store.call("initialize", Value::Null)?;
+        store.bind("initialize")?;
         Ok(store)
     }
-    /// Never creates a missing DB; candidate format is checked before any write.
+    /// Open v2 without changing its epoch. Old-format files refuse unchanged.
+    /// Observations remain local to this newly opened handle.
     pub fn open(path: impl AsRef<Path>) -> Result<Self, Error> {
-        let store = Self {
-            path: path.as_ref().into(),
+        Self::open_epoch(path.as_ref(), "open")
+    }
+    /// After an offline caller-owned restore, rotate the restored v2 database's
+    /// epoch atomically, invalidating every prior handle and observation. This
+    /// performs no file copying. Quiesce writers before replacing/restoring files.
+    /// Unannounced rewinds preserving the old epoch are not detectable here.
+    pub fn open_restored(path: impl AsRef<Path>) -> Result<Self, Error> {
+        Self::open_epoch(path.as_ref(), "renew_epoch")
+    }
+    fn open_epoch(path: &Path, action: &str) -> Result<Self, Error> {
+        let mut store = Self {
+            path: path.into(),
             token: Arc::new(()),
+            generation: None,
         };
-        store.call("load", json!(["", ""]))?;
+        store.bind(action)?;
         Ok(store)
+    }
+    fn bind(&mut self, action: &str) -> Result<(), Error> {
+        let result = self.call(action, Value::Null)?;
+        let generation = result["generation"]
+            .as_str()
+            .filter(|s| {
+                s.len() == 32
+                    && s.bytes()
+                        .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+            })
+            .ok_or(Error::Protocol)?;
+        if result["ok"] != true {
+            return Err(Error::Protocol);
+        }
+        self.generation = Some(generation.into());
+        Ok(())
     }
     fn call(&self, action: &str, value: Value) -> Result<Value, Error> {
-        let mut input = protocol_start(action)?;
+        let mut input = protocol_start(action, self.generation.as_deref())?;
         serde_json::to_writer(&mut input, &value).map_err(|_| Error::Limit)?;
         input.write_all(b"}").map_err(|_| Error::Limit)?;
         self.invoke(input.bytes)
@@ -199,6 +233,9 @@ impl Store {
     }
     pub fn load(&self, key: Key) -> Result<Option<Stored>, Error> {
         let result = self.call("load", key.wire())?;
+        if result["generation"].as_str() != self.generation.as_deref() {
+            return Err(Error::Protocol);
+        }
         if result.get("row") == Some(&Value::Null) {
             return Ok(None);
         }
@@ -232,7 +269,7 @@ impl Store {
         if changes.is_empty() || changes.len() > 64 {
             return Err(Error::Limit);
         }
-        let mut input = protocol_start("transact")?;
+        let mut input = protocol_start("transact", self.generation.as_deref())?;
         input.write_all(b"[").map_err(|_| Error::Limit)?;
         for (index, change) in changes.iter().enumerate() {
             let (kind, key, name, content, revision, changed, read_only) = match change {
