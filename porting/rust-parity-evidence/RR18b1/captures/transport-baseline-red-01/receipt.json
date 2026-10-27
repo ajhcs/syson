@@ -1,0 +1,33 @@
+{
+  "status": "EXPECTED_REACHED_ALLOCATION_ASSERTION_FAILURE",
+  "test_sha256": "db87547c764eac83629ad6b67dd271bf959320dcc9e4a8a8fd6cce89eacc8e08",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "generate-lockfile",
+        "--offline",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-rereview-batch10-20261027/transport-baseline-red-01/consumer/Cargo.toml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-rereview-batch10-20261027/transport-baseline-red-01/consumer/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 101
+    }
+  ],
+  "scope": "New regression against immutable #112; not a parity or full-suite result"
+}

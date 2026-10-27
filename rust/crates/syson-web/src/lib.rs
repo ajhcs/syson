@@ -161,26 +161,17 @@ impl App {
         if request["action"].as_str() == Some("attribute") && self.pending.is_none() {
             self.active_property = field(request, "attribute").into();
         }
-        let before = self
-            .editor
-            .document()
-            .to_json()
-            .map_err(|e| e.to_string())?;
         let result = self.handle_action(request);
         if result.is_ok() {
             let action = request["action"].as_str().unwrap_or("");
             if matches!(action, "select" | "import") {
                 self.active_property.clear();
             }
+            // Closed dispatch: these are the only actions that publish a new
+            // committed document; staged/canvas/selection actions do not.
             if matches!(action, "commit" | "import" | "confirm_discard")
                 || (matches!(action, "undo" | "redo")
                     && result.as_deref() == Ok("History applied."))
-                || self
-                    .editor
-                    .document()
-                    .to_json()
-                    .map_err(|e| e.to_string())?
-                    != before
             {
                 self.canvas.model_changed()?;
             } else if matches!(
@@ -1172,6 +1163,78 @@ mod tests {
     use serde_json::json;
     fn create(seed: u8, name: &str) -> Value {
         json!({"action":"stage","fields":{"kind":"package","name":name,"parent":""},"entropy":(0..96).map(|i|(i as u8).wrapping_add(seed)).collect::<Vec<_>>()})
+    }
+    #[test]
+    fn closed_action_dispatch_keeps_canvas_for_staging_and_invalidates_only_publication() {
+        fn layout(app: &mut App) {
+            let labels = Value::Array(
+                app.editor
+                    .document()
+                    .elements()
+                    .iter()
+                    .filter(|e| e.class == "Package")
+                    .map(|e| json!({"id":e.element_id,"width":80.,"height":24.}))
+                    .collect(),
+            )
+            .to_string();
+            let ticket = app
+                .canvas
+                .request(
+                    app.editor.document(),
+                    &labels,
+                    &app.canvas.revision(),
+                    vec![],
+                    false,
+                )
+                .unwrap();
+            app.canvas.compute(&ticket).unwrap();
+            app.canvas.apply(&ticket, app.editor.document()).unwrap();
+        }
+        let mut app = App::default();
+        app.handle(&create(0, "Vehicle")).unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        layout(&mut app);
+        let id = app.editor.document().elements()[0].element_id.clone();
+        let committed = app.editor.document().to_json().unwrap();
+        let geometry = app.canvas.export(app.editor.document());
+        for action in [
+            json!({"action":"select","fields":{"value":id}}),
+            json!({"action":"rename","fields":{"name":"Draft"}}),
+            json!({"action":"cancel"}),
+            json!({"action":"undo-invalid"}),
+            json!({"action":"import","fields":{"json":"invalid"}}),
+        ] {
+            let _ = app.handle(&action);
+            assert_eq!(app.editor.document().to_json().unwrap(), committed);
+            assert_eq!(app.canvas.export(app.editor.document()), geometry);
+        }
+        app.handle(&json!({"action":"rename","fields":{"name":"Changed"}}))
+            .unwrap();
+        app.handle(&json!({"action":"commit"})).unwrap();
+        assert!(app.canvas.export(app.editor.document()).is_empty());
+        layout(&mut app);
+        app.handle(&json!({"action":"undo"})).unwrap();
+        assert_eq!(app.editor.document().to_json().unwrap(), committed);
+        assert!(app.canvas.scene(app.editor.document()).is_none());
+        layout(&mut app);
+        app.handle(&json!({"action":"redo"})).unwrap();
+        assert!(app.canvas.scene(app.editor.document()).is_none());
+        layout(&mut app);
+        let geometry = app.canvas.export(app.editor.document());
+        assert_eq!(
+            app.handle(&json!({"action":"redo"})).unwrap(),
+            "No history available."
+        );
+        assert_eq!(app.canvas.export(app.editor.document()), geometry);
+        let input = app.editor.document().to_json().unwrap();
+        app.handle(&json!({"action":"import","fields":{"json":input}}))
+            .unwrap();
+        assert!(app.canvas.scene(app.editor.document()).is_none());
+        layout(&mut app);
+        app.handle(&json!({"action":"discard_document"})).unwrap();
+        app.handle(&json!({"action":"confirm_discard"})).unwrap();
+        assert!(app.canvas.scene(app.editor.document()).is_none());
+        assert!(app.editor.document().elements().is_empty());
     }
     #[test]
     fn recovery_uri_retains_model_bytes_unicode_cr_lf_and_literal_numbers() {
