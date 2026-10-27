@@ -112,6 +112,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "syson-json-value"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "syson-layout"
+version = "0.1.0"
+
+[[package]]
 name = "syson-metamodel"
 version = "0.1.0"
 
@@ -121,7 +133,15 @@ version = "0.1.0"
 dependencies = [
  "serde_json",
  "syson-domain",
+ "syson-json-value",
  "syson-metamodel",
+]
+
+[[package]]
+name = "syson-node-measurement"
+version = "0.1.0"
+dependencies = [
+ "syson-editor",
 ]
 
 [[package]]
@@ -129,13 +149,23 @@ name = "syson-persistence"
 version = "0.1.0"
 
 [[package]]
+name = "syson-routing"
+version = "0.1.0"
+dependencies = [
+ "syson-layout",
+]
+
+[[package]]
 name = "syson-web"
 version = "0.1.0"
 dependencies = [
  "serde_json",
  "syson-editor",
+ "syson-layout",
  "syson-metamodel",
  "syson-model",
+ "syson-node-measurement",
+ "syson-routing",
  "syson-workflow",
 ]
 

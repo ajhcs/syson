@@ -14,7 +14,7 @@ const model={json:{version:'1.0',encoding:'utf-8'},ns:{sysml:'http://www.eclipse
  {id:'string-resource',eClass:'sysml:LiteralString',data:{elementId:'string-id',declaredName:'text',value:'\nline one\u0000line two'}},
  {id:'action-resource',eClass:'sysml:ActionUsage',data:{elementId:'action-id',declaredName:'actions'}},
  {id:'definition-resource',eClass:'sysml:ConnectionDefinition',data:{elementId:'definition-id',declaredName:'Connection'}}]};
-(async()=>{const browser=await chromium.launch({headless:true});try{const page=await browser.newPage({viewport:{width:1365,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});await page.goto(url);await page.getByRole('heading',{name:'SysON model editor',exact:true}).waitFor();
+(async()=>{const browser=await chromium.launch({headless:true});try{const page=await browser.newPage({serviceWorkers:'block',viewport:{width:1365,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});await page.route('**/*',route=>{if(new URL(route.request().url()).origin===new URL(url).origin)return route.continue();errors.push('External request: '+route.request().url());return route.abort();});await page.goto(url);await page.getByRole('heading',{name:'SysON model editor',exact:true}).waitFor();
 const doc=async()=>JSON.parse(await page.locator('#export-json').inputValue());
 const node=async(id)=>(await doc()).content.find(n=>n.data.elementId===id).data;
 const choose=async(name,kind)=>page.getByRole('button',{name:name+' '+kind,exact:true}).click();
