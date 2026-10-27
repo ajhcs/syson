@@ -1,0 +1,77 @@
+--- a/rust/crates/syson-ast/src/lib.rs
++++ b/rust/crates/syson-ast/src/lib.rs
+@@ -864,12 +864,7 @@
+             }
+             active.insert(id);
+             self.defaults(id)?;
+-            self.node(id)?;
+-            let n = self
+-                .state
+-                .nodes
+-                .get_mut(&id)
+-                .ok_or(Error::UnknownNode(id))?;
++            let n = self.node_mut(id)?;
+             if n.kind.is_none() {
+                 return Err(Error::MissingType(id));
+             }
+@@ -881,12 +876,7 @@
+                         *child,
+                         Some(Container {
+                             node: id,
+-                            property: copied_text(
+-                                key,
+-                                &mut self.work,
+-                                self.limits.max_work,
+-                                &self.cancel,
+-                            )?,
++                            property: key.clone(),
+                             index: None,
+                         }),
+                         false,
+@@ -898,12 +888,7 @@
+                                     child,
+                                     Some(Container {
+                                         node: id,
+-                                        property: copied_text(
+-                                            key,
+-                                            &mut self.work,
+-                                            self.limits.max_work,
+-                                            &self.cancel,
+-                                        )?,
++                                        property: key.clone(),
+                                         index: Some(i),
+                                     }),
+                                     false,
+--- a/rust/crates/syson-ast/tests/rr08_regression.rs
++++ b/rust/crates/syson-ast/tests/rr08_regression.rs
+@@ -457,30 +457,3 @@
+         Err(Error::UnknownType("Unknown".into()))
+     );
+ }
+-
+-#[test]
+-fn finish_charges_each_containment_label_before_repeated_copying() {
+-    let mut b = builder(Limits {
+-        max_work: 400_000,
+-        ..Limits::default()
+-    });
+-    let root = b.allocate(Some("Element"), None).unwrap();
+-    let children: Vec<_> = (0..32)
+-        .map(|_| Datum::node(b.allocate(Some("Element"), None).unwrap()))
+-        .collect();
+-    let key = "k".repeat(65_536);
+-    assign(&mut b, root, &key, Datum::new(Value::Array(children)));
+-    REQUESTS.set(Requests::default());
+-    TRACK.set(true);
+-    let result = b.finish(root);
+-    TRACK.set(false);
+-    let stats = REQUESTS.get();
+-    eprintln!(
+-        "RR08 finish32x65536 allocation={stats:?}; refused={}",
+-        matches!(result, Err(Error::Budget))
+-    );
+-    assert!(matches!(result, Err(Error::Budget)));
+-    // Setup spends about 197k units; <=3 full label reservations fit the
+-    // remaining work. The fourth must refuse before another 64KiB allocation.
+-    assert!(stats.total <= 262_144, "{stats:?}");
+-}

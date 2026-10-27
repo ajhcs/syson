@@ -1,0 +1,78 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Development-only requested-allocation oracle, not application instrumentation.
+use std::{
+    alloc::{GlobalAlloc, Layout, System},
+    cell::Cell,
+    sync::{Arc, atomic::AtomicBool},
+};
+use syson_ast::{Builder, Constructed, Limits, Reflection};
+#[derive(Clone, Copy, Debug, Default)]
+struct Requests { total: usize, largest: usize }
+thread_local! {
+    static TRACK: Cell<bool> = const { Cell::new(false) };
+    static REQUESTS: Cell<Requests> = const { Cell::new(Requests { total: 0, largest: 0 }) };
+}
+fn record(size: usize) {
+    if TRACK.try_with(Cell::get).unwrap_or(false) {
+        let _ = REQUESTS.try_with(|cell| {
+            let mut requests = cell.get();
+            requests.total = requests.total.saturating_add(size);
+            requests.largest = requests.largest.max(size);
+            cell.set(requests);
+        });
+    }
+}
+struct Observed;
+// SAFETY: System receives each original pointer/layout unchanged. Constant TLS
+// bookkeeping allocates nothing. Full successful realloc requests count again;
+// this is allocation traffic, not net live memory, peak memory, RSS or latency.
+unsafe impl GlobalAlloc for Observed {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc(layout) };
+        if !pointer.is_null() { record(layout.size()); }
+        pointer
+    }
+    unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc_zeroed(layout) };
+        if !pointer.is_null() { record(layout.size()); }
+        pointer
+    }
+    unsafe fn realloc(&self, pointer: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        let next = unsafe { System.realloc(pointer, layout, size) };
+        if !next.is_null() { record(size); }
+        next
+    }
+    unsafe fn dealloc(&self, pointer: *mut u8, layout: Layout) {
+        unsafe { System.dealloc(pointer, layout) };
+    }
+}
+#[global_allocator]
+static ALLOCATOR: Observed = Observed;
+fn builder(limits: Limits) -> Builder {
+    let mut reflection = Reflection::default();
+    reflection.declare("Element".into(), vec![]).unwrap();
+    Builder::new(reflection, limits, Arc::new(AtomicBool::new(false))).unwrap()
+}
+fn construction_requests(count: usize) -> Requests {
+    let mut builder = builder(Limits::default());
+    REQUESTS.set(Requests::default());
+    TRACK.set(true);
+    for _ in 0..count {
+        let node = builder.begin_node(Some("Element"), None).unwrap();
+        assert_eq!(builder.end_frame().unwrap(), Constructed::Node(node));
+    }
+    TRACK.set(false);
+    REQUESTS.get()
+}
+#[test]
+fn growing_construction_avoids_repeated_whole_state_allocation() {
+    // Run all sizes before asserting so a baseline failure retains every point.
+    let small = construction_requests(100);
+    let medium = construction_requests(1000);
+    let large = construction_requests(5000);
+    eprintln!("RR08 construction100={small:?};1000={medium:?};5000={large:?}");
+    // Broad bounds admit map/journal growth and allocator layout differences;
+    // whole-State snapshots grow approximately 100x and 25x at these steps.
+    assert!(medium.total <= small.total.saturating_mul(20), "{small:?} {medium:?}");
+    assert!(large.total <= medium.total.saturating_mul(10), "{medium:?} {large:?}");
+}
