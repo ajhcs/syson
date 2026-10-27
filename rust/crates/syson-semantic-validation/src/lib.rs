@@ -11,10 +11,13 @@ use std::{
 use syson_ast::{Arena, NodeId, Slot, Span, Value};
 use syson_ast_adapter::{Adapter, Limits};
 use syson_metamodel::{self as mm, ClassifierId as C};
-use syson_model::Document;
+use syson_model::{Document, ModelError};
 use syson_references::{FragmentIdentity, Resource};
 use syson_semantic_names::{NameKind, Snapshot};
 
+/// Selected validation admission, not native SysON project capacity. The bound
+/// applies before summaries, parser construction or the names snapshot clone.
+pub const MAX_DOCUMENT_BYTES: usize = 1024 * 1024;
 pub const NAMESPACE: &str = "validateNamespaceDistinguishibility";
 pub const PART: &str = "validatePartUsagePartDefinition";
 #[derive(Debug, PartialEq, Eq)]
@@ -116,6 +119,15 @@ pub fn validate(
             selected.push(rule);
         }
     }
+    // Use the existing model serializer authority for admission, without owning
+    // output. Even otherwise ignored envelope data must fit before a full names
+    // snapshot is cloned. This is an explicit selected-validator budget.
+    document
+        .json_size(MAX_DOCUMENT_BYTES, || cancel.load(Ordering::Relaxed))
+        .map_err(|error| match error {
+            ModelError::JsonAdmission(syson_json_value::Error::Cancelled) => Error::Cancelled,
+            _ => Error::UnsupportedShape("selected document byte/depth budget"),
+        })?;
     let arena = Adapter::pinned()
         .map_err(Error::Parse)?
         .construct(source, Limits::default(), cancel.clone())
@@ -130,13 +142,9 @@ pub fn validate(
     if rows.len() > 2048 {
         return Err(Error::UnsupportedShape("selected document budget"));
     }
-    let envelope: serde_json::Value = serde_json::from_str(
-        &document
-            .to_json()
-            .map_err(|_| Error::UnsupportedShape("document serialization"))?,
-    )
-    .map_err(|_| Error::UnsupportedShape("document serialization"))?;
-    if envelope["content"]
+    // Document already owns the validated envelope. Borrow it instead of a
+    // full canonical String plus generic Value reparse of opaque JSON.
+    if document.value()["content"]
         .as_array()
         .is_some_and(|roots| roots.iter().any(|root| root["eClass"] != "sysml:Package"))
     {

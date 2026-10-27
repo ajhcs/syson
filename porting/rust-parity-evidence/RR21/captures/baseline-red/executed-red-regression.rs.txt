@@ -1,0 +1,97 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Development-only requested-allocation observer; never application code.
+use serde_json::{Value, json};
+use std::{
+    alloc::{GlobalAlloc, Layout, System},
+    cell::Cell,
+    sync::{Arc, atomic::AtomicBool},
+};
+use syson_model::{ContainmentFeature, Document, Editor, NodeIds};
+use syson_semantic_validation::{Error, NAMESPACE, validate};
+use syson_text_import::Importer;
+#[derive(Clone, Copy, Debug, Default)]
+struct Allocations { live: isize, peak: isize, largest: usize }
+thread_local! {
+    static TRACK: Cell<bool> = const { Cell::new(false) };
+    static STATS: Cell<Allocations> = const { Cell::new(Allocations { live: 0, peak: 0, largest: 0 }) };
+}
+fn record(delta: isize, requested: usize) {
+    if TRACK.try_with(Cell::get).unwrap_or(false) {
+        let _ = STATS.try_with(|cell| {
+            let mut stats = cell.get();
+            stats.live += delta;
+            stats.peak = stats.peak.max(stats.live);
+            stats.largest = stats.largest.max(requested);
+            cell.set(stats);
+        });
+    }
+}
+struct Observed;
+// SAFETY: Original pointers/layouts delegate unchanged to System. Constant TLS
+// bookkeeping allocates nothing, tolerates teardown and never changes ownership.
+unsafe impl GlobalAlloc for Observed {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc(layout) };
+        if !pointer.is_null() { record(layout.size() as isize, layout.size()); }
+        pointer
+    }
+    unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc_zeroed(layout) };
+        if !pointer.is_null() { record(layout.size() as isize, layout.size()); }
+        pointer
+    }
+    unsafe fn dealloc(&self, pointer: *mut u8, layout: Layout) {
+        record(-(layout.size() as isize), 0);
+        unsafe { System.dealloc(pointer, layout) };
+    }
+    unsafe fn realloc(&self, pointer: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        let next = unsafe { System.realloc(pointer, layout, size) };
+        if !next.is_null() { record(size as isize - layout.size() as isize, size); }
+        next
+    }
+}
+#[global_allocator]
+static ALLOCATOR: Observed = Observed;
+fn id(prefix: u8, n: u32) -> String {
+    format!("{prefix:08x}-0000-4000-8000-{n:012x}")
+}
+fn imported(source: &str) -> Document {
+    let mut editor = Editor::new(Document::empty());
+    let ids = (1..1024).map(|n| NodeIds::new(&id(1, n), &id(2, n)).unwrap());
+    Importer::pinned().unwrap().stage(
+        editor.begin(), source, None, ids, Arc::new(AtomicBool::new(false)),
+    ).unwrap().commit(&mut editor).unwrap();
+    editor.document().clone()
+}
+#[test]
+fn dense_opaque_projection_refuses_without_copying_below_the_rr04_output_cap() {
+    let editor = Editor::new(imported("package P;"));
+    let before = editor.document().clone();
+    let parent = editor.document().elements().iter()
+        .find(|row| row.name.as_deref() == Some("P")).unwrap().element_id.clone();
+    let mut opaque = Value::Array(vec![Value::Null; 20_000]);
+    for _ in 0..32 { opaque = Value::Array(vec![opaque]); }
+    let fragment = json!({"id":id(3,1),"eClass":"sysml:OwningMembership",
+        "data":{"elementId":id(4,1),"opaque":opaque}});
+    let mut tx = editor.begin();
+    tx.attach_preallocated_subtree(&parent, ContainmentFeature::OwnedRelationship, fragment).unwrap();
+    let compact = serde_json::to_vec(tx.document().value()).unwrap();
+    assert!(compact.len() < 1_048_576);
+    let canonical = tx.document().json_size(4 * 1024 * 1024, || false).unwrap();
+    assert!(canonical > 1_048_576 && canonical <= 4 * 1024 * 1024);
+    // RR04 already prevents >4MiB output. This distinct baseline is below that
+    // ceiling, so F47's unnecessary owned serialization/reparse still executes.
+    let cancel = Arc::new(AtomicBool::new(false));
+    STATS.set(Allocations::default());
+    TRACK.set(true);
+    let result = validate("package P;", tx.document(), &[NAMESPACE], cancel);
+    TRACK.set(false);
+    let stats = STATS.get();
+    eprintln!("RR21 canonical_bytes={canonical}; allocation={stats:?}");
+    assert!(matches!(result, Err(Error::UnsupportedShape(_))));
+    assert!(stats.largest <= 65_536, "{stats:?}");
+    assert!(stats.peak <= 131_072, "{stats:?}");
+    assert_eq!(stats.live, 0, "{stats:?}");
+    assert_eq!(editor.document(), &before);
+    tx.cancel();
+}
