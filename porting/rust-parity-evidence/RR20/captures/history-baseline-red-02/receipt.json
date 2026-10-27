@@ -1,0 +1,34 @@
+{
+  "status": "EXPECTED_REACHED_ASSERTION_FAILURE_UNBOUNDED_HISTORY",
+  "source_sha256": "73d6ccf9bced2844236ea57bc5f1af442916be6fb1d3c121ec48b10732121c40",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "generate-lockfile",
+        "--offline",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-rereview-batch9-20261027/history-baseline-red-02/consumer/Cargo.toml"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--release",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-rereview-batch9-20261027/history-baseline-red-02/consumer/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 101
+    }
+  ],
+  "observed": "1000elements/256actualcommits ->256undo entries;targetdefault64"
+}
