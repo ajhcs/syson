@@ -9,8 +9,8 @@ use std::cell::RefCell;
 use std::collections::{BTreeMap, BTreeSet};
 use syson_metamodel::ClassifierId;
 use syson_model::{
-    AttributeBlock, AttributeDescriptor, AttributeError, Document, Editor, ElementSummary, NodeIds,
-    ScalarType, Transaction,
+    AttributeBlock, AttributeDescriptor, AttributeError, Document, Editor, ElementSummaryRef,
+    NodeIds, ScalarType, Transaction,
 };
 
 const LIMIT: usize = 1_048_576;
@@ -466,7 +466,7 @@ impl App {
             .unwrap_or_else(|| self.editor.document());
         // Every imported element remains selectable, including literal values and
         // relationship objects. Only the existing bounded kinds get SVG previews.
-        let elements = doc.elements();
+        let elements = doc.element_summaries();
         let tree = render_model_navigation(&elements, &self.selected);
         let mut parent_options =
             String::from("<option value=\"\">Document root (package only)</option>");
@@ -502,17 +502,17 @@ impl App {
         }
         let mut y = 24.;
         for (index, element) in elements.iter().enumerate() {
-            let id = escape(&element.element_id);
-            let name = escape(element.name.as_deref().unwrap_or("(unnamed)"));
-            let class = escape(&element.class);
-            if doc.can_create_in(&element.element_id) {
+            let id = escape(element.element_id);
+            let name = escape(element.name.unwrap_or("(unnamed)"));
+            let class = escape(element.class);
+            if doc.can_create_in(element.element_id) {
                 parent_options
                     .push_str(&format!("<option value=\"{id}\">{name} · {class}</option>"));
             }
-            if doc.is_instance_of(&element.element_id, ClassifierId::PartDefinition) {
+            if doc.is_instance_of(element.element_id, ClassifierId::PartDefinition) {
                 definitions.push_str(&format!("<option value=\"{id}\">{name}</option>"));
             }
-            if !has_diagram_preview(&element.class) {
+            if !has_diagram_preview(element.class) {
                 continue;
             }
             let node = scene.and_then(|s| s.nodes.iter().find(|n| n.id == element.element_id));
@@ -545,7 +545,7 @@ impl App {
         }
         diagram.push_str(&routes);
         let selected = elements.iter().find(|e| e.element_id == self.selected);
-        let selected_name = escape_textarea(selected.and_then(|e| e.name.as_deref()).unwrap_or(""));
+        let selected_name = escape_textarea(selected.and_then(|e| e.name).unwrap_or(""));
         let scalar_inspector = if selected.is_some() {
             render_scalar_inspector(
                 doc,
@@ -566,15 +566,15 @@ impl App {
             } else {
                 String::new()
             };
-            let rotate_control = if has_diagram_preview(&element.class) {
+            let rotate_control = if has_diagram_preview(element.class) {
                 "<p><button type=\"button\" data-action=\"rotate\">Rotate preview</button></p>"
             } else {
                 ""
             };
             format!(
                 "<h3>{}</h3><details id=\"element-identity\" class=\"identity-details\"><summary>Element identifier</summary><p class=\"element-id\">{}</p></details>{rename_form}{rotate_control}{scalar_inspector}",
-                escape(&element.class),
-                escape(&element.element_id)
+                escape(element.class),
+                escape(element.element_id)
             )
         } else {
             "<p>Select an element in the model list.</p>".into()
@@ -619,10 +619,10 @@ impl App {
         )
     }
 }
-fn navigation_button(element: &ElementSummary, selected: &str) -> String {
-    let id = escape(&element.element_id);
-    let name = escape(element.name.as_deref().unwrap_or("(unnamed)"));
-    let class = escape(&element.class);
+fn navigation_button(element: &ElementSummaryRef<'_>, selected: &str) -> String {
+    let id = escape(element.element_id);
+    let name = escape(element.name.unwrap_or("(unnamed)"));
+    let class = escape(element.class);
     format!(
         "<button id=\"select-{id}\" type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button>",
         selected == element.element_id
@@ -630,32 +630,29 @@ fn navigation_button(element: &ElementSummary, selected: &str) -> String {
 }
 /// Nested native lists expose semantic ownership without pretending to implement
 /// ARIA tree arrow-key behavior. Relationship objects remain available separately.
-fn render_model_navigation(elements: &[ElementSummary], selected: &str) -> String {
-    let by_id: BTreeMap<_, _> = elements
-        .iter()
-        .map(|e| (e.element_id.as_str(), e))
-        .collect();
+fn render_model_navigation(elements: &[ElementSummaryRef<'_>], selected: &str) -> String {
+    let by_id: BTreeMap<_, _> = elements.iter().map(|e| (e.element_id, e)).collect();
     let relationships: BTreeSet<_> = elements
         .iter()
         .filter(|e| {
-            syson_metamodel::lookup(syson_metamodel::Package::Domain, &e.class)
+            syson_metamodel::lookup(syson_metamodel::Package::Domain, e.class)
                 .is_some_and(|c| syson_metamodel::is_subtype(c, ClassifierId::Relationship))
         })
-        .map(|e| e.element_id.as_str())
+        .map(|e| e.element_id)
         .collect();
-    let mut children: BTreeMap<Option<&str>, Vec<&ElementSummary>> = BTreeMap::new();
+    let mut children: BTreeMap<Option<&str>, Vec<&ElementSummaryRef<'_>>> = BTreeMap::new();
     for element in elements
         .iter()
-        .filter(|e| !relationships.contains(e.element_id.as_str()))
+        .filter(|e| !relationships.contains(e.element_id))
     {
-        let mut owner = element.owner.as_deref();
+        let mut owner = element.owner;
         let mut seen = BTreeSet::new();
         while let Some(id) = owner.filter(|id| relationships.contains(id)) {
             if !seen.insert(id) {
                 owner = None;
                 break;
             }
-            owner = by_id.get(id).and_then(|e| e.owner.as_deref());
+            owner = by_id.get(id).and_then(|e| e.owner);
         }
         children
             .entry(owner.filter(|id| by_id.contains_key(id)))
@@ -686,7 +683,7 @@ fn render_model_navigation(elements: &[ElementSummary], selected: &str) -> Strin
             "<li style=\"--model-depth:{depth}\">{}",
             navigation_button(element, selected)
         ));
-        if let Some(nested) = children.get(&Some(element.element_id.as_str())) {
+        if let Some(nested) = children.get(&Some(element.element_id)) {
             html.push_str("<ul class=\"tree-children\">");
             stack.push((None, 0));
             stack.extend(nested.iter().rev().map(|e| (Some(*e), depth + 1)));
@@ -704,7 +701,7 @@ fn render_model_navigation(elements: &[ElementSummary], selected: &str) -> Strin
         html.push_str(&format!("<details id=\"model-relationships\"{open}><summary>Relationships ({})</summary><p class=\"navigation-help\">Inspect membership and typing links here.</p><ul class=\"tree\" aria-label=\"Relationship objects\">", relationships.len()));
         for element in elements
             .iter()
-            .filter(|e| relationships.contains(e.element_id.as_str()))
+            .filter(|e| relationships.contains(e.element_id))
         {
             html.push_str(&format!(
                 "<li>{}</li>",
@@ -2014,7 +2011,7 @@ mod tests {
         usage["fields"]["parent"] = json!(package);
         app.handle(&usage).unwrap();
         app.handle(&json!({"action":"commit"})).unwrap();
-        let elements = app.editor.document().elements();
+        let elements = app.editor.document().element_summaries();
         let relationship = elements
             .iter()
             .find(|e| e.class == "OwningMembership")

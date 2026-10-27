@@ -12,8 +12,10 @@ use serde_json::{Value, json};
 use std::collections::{BTreeMap, BTreeSet};
 use syson_domain::model::{Element, ElementId, Model};
 mod containment;
+mod element_summary;
 mod scalar;
 pub use containment::ContainmentFeature;
+pub use element_summary::ElementSummaryRef;
 pub use scalar::*;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -453,31 +455,15 @@ fn class(node: &Value) -> &str {
 fn id(node: &Value) -> &str {
     node["data"]["elementId"].as_str().unwrap()
 }
-fn collect_summaries(
-    nodes: &[Value],
-    owner: Option<&str>,
+fn collect_summaries<'a>(
+    nodes: &'a [Value],
+    owner: Option<&'a str>,
     relationships: bool,
     out: &mut Vec<ElementSummary>,
 ) {
-    for node in nodes {
-        out.push(ElementSummary {
-            resource_id: node["id"].as_str().unwrap().into(),
-            element_id: id(node).into(),
-            class: class(node).into(),
-            name: node["data"]["declaredName"].as_str().map(str::to_owned),
-            owner: if relationships {
-                None
-            } else {
-                owner.map(str::to_owned)
-            },
-        });
-        if let Some(related) = node["data"]["ownedRelatedElement"].as_array() {
-            collect_summaries(related, owner, false, out);
-        }
-        if let Some(relations) = node["data"]["ownedRelationship"].as_array() {
-            collect_summaries(relations, Some(id(node)), true, out);
-        }
-    }
+    element_summary::visit(nodes, owner, relationships, &mut |row| {
+        out.push(row.into_owned())
+    });
 }
 fn project_node(
     node: &Value,
