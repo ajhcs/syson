@@ -242,7 +242,8 @@ fn cancellation_and_work_budget_are_explicit_and_not_rolled_back() {
     let mut b = Builder::new(
         reflection(),
         Limits {
-            max_work: 3,
+            // Transaction 1 plus two allocations of 1 + seven copied kind bytes.
+            max_work: 17,
             ..Limits::default()
         },
         Arc::new(AtomicBool::new(false)),

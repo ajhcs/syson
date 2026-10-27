@@ -165,6 +165,8 @@ impl Reflection {
 pub struct Limits {
     pub max_nodes: usize,
     pub max_frames: usize,
+    /// Operation units and charged UTF8 copy bytes; spent work is not rolled
+    /// back. This is not an allocator-byte cap or a cancellation deadline.
     pub max_work: usize,
 }
 impl Default for Limits {
@@ -212,13 +214,106 @@ enum Frame {
     Node(NodeId),
     Datatype(String),
 }
-#[derive(Clone, Debug, Default)]
+#[derive(Debug, Default)]
 struct State {
     nodes: BTreeMap<NodeId, Node>,
     frames: Vec<Frame>,
     cst: BTreeMap<u64, NodeId>,
 }
 
+// Undo retains moved values rather than cloning untouched state. Inner commits
+// remain reversible by their outer transaction; IDs and work are never journaled.
+#[derive(Debug)]
+enum Undo {
+    Node(NodeId),
+    Field(NodeId, String, Option<Datum>),
+    Append(NodeId, String, usize),
+    Kind(NodeId, Option<String>),
+    PopFrame,
+    PushFrame(Frame),
+    Frame(Frame),
+    Datatype(usize),
+    Cst(u64, Option<NodeId>),
+}
+fn copied_text(
+    text: &str,
+    work: &mut usize,
+    limit: usize,
+    cancel: &AtomicBool,
+) -> Result<String, Error> {
+    if cancel.load(Ordering::Relaxed) {
+        return Err(Error::Cancelled);
+    }
+    *work = work.checked_add(text.len()).ok_or(Error::Budget)?;
+    if *work > limit {
+        return Err(Error::Budget);
+    }
+    let mut result = String::with_capacity(text.len());
+    let mut start = 0;
+    while start < text.len() {
+        if cancel.load(Ordering::Relaxed) {
+            return Err(Error::Cancelled);
+        }
+        let mut end = (start + 4096).min(text.len());
+        while !text.is_char_boundary(end) {
+            end -= 1;
+        }
+        result.push_str(&text[start..end]);
+        start = end;
+    }
+    if cancel.load(Ordering::Relaxed) {
+        return Err(Error::Cancelled);
+    }
+    Ok(result)
+}
+fn copied_datum(
+    d: &Datum,
+    work: &mut usize,
+    limit: usize,
+    cancel: &AtomicBool,
+) -> Result<Datum, Error> {
+    if cancel.load(Ordering::Relaxed) {
+        return Err(Error::Cancelled);
+    }
+    *work = work.checked_add(1).ok_or(Error::Budget)?;
+    if *work > limit {
+        return Err(Error::Budget);
+    }
+    let lexeme = d
+        .lexeme
+        .as_ref()
+        .map(|x| -> Result<Lexeme, Error> {
+            Ok(Lexeme {
+                text: copied_text(&x.text, work, limit, cancel)?,
+                span: x.span.clone(),
+            })
+        })
+        .transpose()?;
+    let value = match &d.value {
+        Value::String(s) => Value::String(copied_text(s, work, limit, cancel)?),
+        Value::UnresolvedReference {
+            text: s,
+            target_type,
+        } => Value::UnresolvedReference {
+            text: copied_text(s, work, limit, cancel)?,
+            target_type: copied_text(target_type, work, limit, cancel)?,
+        },
+        Value::Array(values) => {
+            // Validated builder arrays are flat. Copy entries individually and
+            // charge each before vector growth; nested containment stays refused.
+            let mut result = Vec::new();
+            for value in values {
+                if cancel.load(Ordering::Relaxed) {
+                    return Err(Error::Cancelled);
+                }
+                result.push(copied_datum(value, work, limit, cancel)?);
+            }
+            Value::Array(result)
+        }
+        value => value.clone(),
+    };
+    Ok(Datum { value, lexeme })
+}
 /// Only this builder mutates objects. Complete arenas expose no mutable references.
 pub struct Builder {
     owner: u64,
@@ -228,6 +323,8 @@ pub struct Builder {
     work: usize,
     next_id: u64,
     state: State,
+    undo: Vec<Undo>,
+    transactions: usize,
 }
 impl Builder {
     pub fn new(
@@ -243,6 +340,8 @@ impl Builder {
             work: 0,
             next_id: 0,
             state: State::default(),
+            undo: Vec::new(),
+            transactions: 0,
         })
     }
     fn charge(&mut self, n: usize) -> Result<(), Error> {
@@ -262,14 +361,85 @@ impl Builder {
         f: impl FnOnce(&mut Self) -> Result<T, Error>,
     ) -> Result<T, Error> {
         self.charge(1)?;
-        let saved = self.state.clone();
-        match f(self) {
-            Ok(v) => Ok(v),
-            Err(e) => {
-                self.state = saved;
-                Err(e)
+        let mark = self.undo.len();
+        self.transactions += 1;
+        let result = f(self).and_then(|value| {
+            self.charge(0)?;
+            Ok(value)
+        });
+        self.transactions -= 1;
+        if result.is_err() {
+            while self.undo.len() > mark {
+                match self.undo.pop().unwrap() {
+                    Undo::Node(id) => {
+                        self.state.nodes.remove(&id);
+                    }
+                    Undo::Field(id, key, old) => {
+                        let fields = &mut self.state.nodes.get_mut(&id).unwrap().fields;
+                        if let Some(old) = old {
+                            fields.insert(key, old);
+                        } else {
+                            fields.remove(&key);
+                        }
+                    }
+                    Undo::Append(id, key, len) => {
+                        if let Value::Array(a) = &mut self
+                            .state
+                            .nodes
+                            .get_mut(&id)
+                            .unwrap()
+                            .fields
+                            .get_mut(&key)
+                            .unwrap()
+                            .value
+                        {
+                            a.truncate(len);
+                        }
+                    }
+                    Undo::Kind(id, kind) => self.state.nodes.get_mut(&id).unwrap().kind = kind,
+                    Undo::PopFrame => {
+                        self.state.frames.pop();
+                    }
+                    Undo::PushFrame(frame) => self.state.frames.push(frame),
+                    Undo::Frame(frame) => *self.state.frames.last_mut().unwrap() = frame,
+                    Undo::Datatype(len) => {
+                        if let Some(Frame::Datatype(s)) = self.state.frames.last_mut() {
+                            s.truncate(len);
+                        }
+                    }
+                    Undo::Cst(id, old) => {
+                        if let Some(old) = old {
+                            self.state.cst.insert(id, old);
+                        } else {
+                            self.state.cst.remove(&id);
+                        }
+                    }
+                }
             }
         }
+        if self.transactions == 0 {
+            self.undo.clear();
+        }
+        result
+    }
+    fn record(&mut self, undo: Undo) {
+        if self.transactions != 0 {
+            self.undo.push(undo);
+        }
+    }
+    fn text(&mut self, text: &str) -> Result<String, Error> {
+        copied_text(text, &mut self.work, self.limits.max_work, &self.cancel)
+    }
+    fn put_field(&mut self, id: NodeId, key: String, value: Datum) -> Result<(), Error> {
+        let journal_key = self.text(&key)?;
+        let old = self.node_mut(id)?.fields.insert(key, value);
+        self.record(Undo::Field(id, journal_key, old));
+        Ok(())
+    }
+    fn replace_frame(&mut self, frame: Frame) -> Result<(), Error> {
+        let old = std::mem::replace(self.state.frames.last_mut().ok_or(Error::NoFrame)?, frame);
+        self.record(Undo::Frame(old));
+        Ok(())
     }
     pub fn node(&self, id: NodeId) -> Result<&Node, Error> {
         if id.owner != self.owner {
@@ -289,11 +459,16 @@ impl Builder {
         origin: Option<Lexeme>,
     ) -> Result<NodeId, Error> {
         self.charge(1 + origin.as_ref().map_or(0, |x| x.text.len()))?;
-        if let Some(k) = kind {
-            if !self.reflection.types.contains_key(k) {
-                return Err(Error::UnknownType(k.to_owned()));
+        let kind = match kind {
+            Some(k) => {
+                let copied = self.text(k)?;
+                if !self.reflection.types.contains_key(k) {
+                    return Err(Error::UnknownType(copied));
+                }
+                Some(copied)
             }
-        }
+            None => None,
+        };
         if self.state.nodes.len() >= self.limits.max_nodes {
             return Err(Error::Budget);
         }
@@ -305,12 +480,13 @@ impl Builder {
         self.state.nodes.insert(
             id,
             Node {
-                kind: kind.map(str::to_owned),
+                kind,
                 fields: BTreeMap::new(),
                 origin,
                 container: None,
             },
         );
+        self.record(Undo::Node(id));
         Ok(id)
     }
     fn push(&mut self, frame: Frame) -> Result<(), Error> {
@@ -319,6 +495,7 @@ impl Builder {
             return Err(Error::Budget);
         }
         self.state.frames.push(frame);
+        self.record(Undo::PopFrame);
         Ok(())
     }
     pub fn begin_node(
@@ -337,22 +514,46 @@ impl Builder {
     }
     /// Adapter supplies already converted pieces. No hidden whitespace is inserted.
     pub fn append_datatype(&mut self, converted: &str) -> Result<(), Error> {
-        self.charge(1 + converted.len())?;
-        match self.state.frames.last_mut() {
-            Some(Frame::Datatype(s)) => {
-                s.push_str(converted);
-                Ok(())
+        self.transaction(|b| {
+            let (len, capacity) = match b.state.frames.last() {
+                Some(Frame::Datatype(s)) => (s.len(), s.capacity()),
+                _ => return Err(Error::WrongFrame),
+            };
+            let required = len.checked_add(converted.len()).ok_or(Error::Budget)?;
+            // Reserve may copy the old buffer as well as the appended bytes.
+            b.charge(
+                converted
+                    .len()
+                    .checked_add(if required > capacity { len } else { 0 })
+                    .ok_or(Error::Budget)?,
+            )?;
+            b.record(Undo::Datatype(len));
+            if let Some(Frame::Datatype(s)) = b.state.frames.last_mut() {
+                s.try_reserve_exact(converted.len())
+                    .map_err(|_| Error::Budget)?;
+                let mut start = 0;
+                while start < converted.len() {
+                    if b.cancel.load(Ordering::Relaxed) {
+                        return Err(Error::Cancelled);
+                    }
+                    let mut end = (start + 4096).min(converted.len());
+                    while !converted.is_char_boundary(end) {
+                        end -= 1;
+                    }
+                    s.push_str(&converted[start..end]);
+                    start = end;
+                }
             }
-            _ => Err(Error::WrongFrame),
-        }
+            b.charge(0)
+        })
     }
+
     /// Unassigned, non-datatype subrule result becomes the active frame after merging.
     pub fn adopt_subrule(&mut self, target: NodeId) -> Result<(), Error> {
         self.transaction(|b| {
             let source = b.current_node()?;
             b.merge(target, source)?;
-            *b.state.frames.last_mut().ok_or(Error::NoFrame)? = Frame::Node(target);
-            Ok(())
+            b.replace_frame(Frame::Node(target))
         })
     }
     /// Langium suppresses assigned subrule results whose composite CST is empty.
@@ -411,40 +612,52 @@ impl Builder {
         op: Assignment,
         value: Datum,
     ) -> Result<(), Error> {
-        self.charge(1 + feature.len())?;
-        self.node(id)?;
-        if op == Assignment::Append && matches!(value.value, Value::Array(_)) {
-            return Err(Error::NestedContainmentArray);
-        }
-        self.validate_datum(&value)?;
-        let fields = &mut self.node_mut(id)?.fields;
-        match op {
-            Assignment::Set => {
-                fields.insert(feature.to_owned(), value);
+        self.transaction(|b| {
+            b.charge(1 + feature.len())?;
+            b.node(id)?;
+            if op == Assignment::Append && matches!(value.value, Value::Array(_)) {
+                return Err(Error::NestedContainmentArray);
             }
-            Assignment::Presence => {
-                fields.insert(
-                    feature.to_owned(),
+            b.validate_datum(&value)?;
+            let key = b.text(feature)?;
+            match op {
+                Assignment::Set => b.put_field(id, key, value)?,
+                Assignment::Presence => b.put_field(
+                    id,
+                    key,
                     Datum {
                         value: Value::Boolean(true),
                         lexeme: value.lexeme,
                     },
-                );
-            }
-            Assignment::Append => {
-                let slot = fields
-                    .entry(feature.to_owned())
-                    .or_insert_with(|| Datum::new(Value::Array(Vec::new())));
-                if !matches!(slot.value, Value::Array(_)) {
-                    *slot = Datum::new(Value::Array(Vec::new()));
+                )?,
+                Assignment::Append => {
+                    if let Some(Datum {
+                        value: Value::Array(a),
+                        ..
+                    }) = b.node(id)?.fields.get(feature)
+                    {
+                        let copied = if a.len() == a.capacity() { a.len() } else { 0 };
+                        b.charge(copied)?;
+                        let Datum {
+                            value: Value::Array(a),
+                            ..
+                        } = b.node_mut(id)?.fields.get_mut(feature).unwrap()
+                        else {
+                            unreachable!()
+                        };
+                        let len = a.len();
+                        a.try_reserve(1).map_err(|_| Error::Budget)?;
+                        a.push(value);
+                        b.record(Undo::Append(id, key, len));
+                    } else {
+                        b.put_field(id, key, Datum::new(Value::Array(vec![value])))?;
+                    }
                 }
-                if let Value::Array(a) = &mut slot.value {
-                    a.push(value);
-                }
             }
-        }
-        Ok(())
+            Ok(())
+        })
     }
+
     /// Plain unresolved reference construction; resolution and scope are outside this crate.
     pub fn reference(
         &mut self,
@@ -455,8 +668,8 @@ impl Builder {
         target_type: &str,
     ) -> Result<(), Error> {
         let value = Value::UnresolvedReference {
-            text: lexeme.text.clone(),
-            target_type: target_type.to_owned(),
+            text: self.text(&lexeme.text)?,
+            target_type: self.text(target_type)?,
         };
         self.assign(
             id,
@@ -469,32 +682,43 @@ impl Builder {
         )
     }
     pub fn defaults(&mut self, id: NodeId) -> Result<(), Error> {
-        self.charge(1)?;
-        let kind = self.node(id)?.kind.clone().ok_or(Error::MissingType(id))?;
-        let props = self
-            .reflection
-            .types
-            .get(&kind)
-            .ok_or(Error::UnknownType(kind))?
-            .clone();
-        self.charge(props.len())?;
-        for p in props {
-            let fields = &mut self.node_mut(id)?.fields;
-            match p {
-                DefaultValue::Array(name) => {
-                    if !matches!(fields.get(&name).map(|x| &x.value), Some(Value::Array(_))) {
-                        fields.insert(name, Datum::new(Value::Array(Vec::new())));
-                    }
-                }
-                DefaultValue::Boolean(name) => {
-                    fields
-                        .entry(name)
-                        .or_insert_with(|| Datum::new(Value::Boolean(false)));
+        self.transaction(|b| {
+            b.charge(1)?;
+            let kind = b.node(id)?.kind.as_deref().ok_or(Error::MissingType(id))?;
+            let props = b
+                .reflection
+                .types
+                .get(kind)
+                .ok_or_else(|| Error::UnknownType(kind.into()))?;
+            let mut copied = Vec::new();
+            for p in props {
+                let name = copied_text(p.name(), &mut b.work, b.limits.max_work, &b.cancel)?;
+                copied.push(match p {
+                    DefaultValue::Array(_) => DefaultValue::Array(name),
+                    DefaultValue::Boolean(_) => DefaultValue::Boolean(name),
+                });
+            }
+            b.charge(copied.len())?;
+            for p in copied {
+                let replace = match &p {
+                    DefaultValue::Array(name) => !matches!(
+                        b.node(id)?.fields.get(name).map(|x| &x.value),
+                        Some(Value::Array(_))
+                    ),
+                    DefaultValue::Boolean(name) => !b.node(id)?.fields.contains_key(name),
+                };
+                if replace {
+                    let (name, value) = match p {
+                        DefaultValue::Array(name) => (name, Value::Array(Vec::new())),
+                        DefaultValue::Boolean(name) => (name, Value::Boolean(false)),
+                    };
+                    b.put_field(id, name, Datum::new(value))?;
                 }
             }
-        }
-        Ok(())
+            Ok(())
+        })
     }
+
     /// Adopts source type only when target lacks one; source array entries come first.
     /// CST retargeting is explicit through associate_cst, never guessed from node spans.
     pub fn merge(&mut self, target: NodeId, source: NodeId) -> Result<(), Error> {
@@ -502,27 +726,62 @@ impl Builder {
             if target == source {
                 return Err(Error::SelfMerge);
             }
-            let src = b.node(source)?.clone();
+            b.node(source)?;
             b.node(target)?;
-            b.charge(1 + src.fields.len())?;
-            let adopted = b.node(target)?.kind.is_none() && src.kind.is_some();
-            if adopted {
-                b.node_mut(target)?.kind = src.kind;
+            let src = &b.state.nodes[&source];
+            let kind = src
+                .kind
+                .as_ref()
+                .map(|s| copied_text(s, &mut b.work, b.limits.max_work, &b.cancel))
+                .transpose()?;
+            let mut fields = BTreeMap::new();
+            for (key, value) in &src.fields {
+                let key = copied_text(key, &mut b.work, b.limits.max_work, &b.cancel)?;
+                let value = copied_datum(value, &mut b.work, b.limits.max_work, &b.cancel)?;
+                fields.insert(key, value);
             }
-            for (key, old) in src.fields {
+            b.charge(1 + fields.len())?;
+            let adopted = b.node(target)?.kind.is_none() && kind.is_some();
+            if adopted {
+                let old = std::mem::replace(&mut b.node_mut(target)?.kind, kind);
+                b.record(Undo::Kind(target, old));
+            }
+            for (key, old) in fields {
                 b.validate_datum(&old)?;
-                let fields = &mut b.node_mut(target)?.fields;
-                match fields.get_mut(&key) {
-                    None => {
-                        fields.insert(key, old);
-                    }
-                    Some(new) => {
-                        if let (Value::Array(a), Value::Array(z)) = (&old.value, &mut new.value) {
-                            let mut joined = a.clone();
-                            joined.append(z);
-                            *z = joined;
+                match b.node(target)?.fields.get(&key) {
+                    None => b.put_field(target, key, old)?,
+                    Some(new)
+                        if matches!(
+                            (&old.value, &new.value),
+                            (Value::Array(_), Value::Array(_))
+                        ) =>
+                    {
+                        // Retain the target by moving it into undo. Only its
+                        // entries are copied, with scalar work charged/polled.
+                        let mut joined = if let Value::Array(a) = old.value {
+                            a
+                        } else {
+                            unreachable!()
+                        };
+                        let copied = copied_datum(
+                            &b.state.nodes[&target].fields[&key],
+                            &mut b.work,
+                            b.limits.max_work,
+                            &b.cancel,
+                        )?;
+                        if let Value::Array(mut a) = copied.value {
+                            joined.append(&mut a);
                         }
+                        b.put_field(
+                            target,
+                            key,
+                            Datum {
+                                value: Value::Array(joined),
+                                lexeme: copied.lexeme,
+                            },
+                        )?;
                     }
+                    _ => (),
                 }
             }
             if adopted {
@@ -547,7 +806,7 @@ impl Builder {
             if let Some((name, op)) = feature {
                 b.assign(new, name, op, Datum::node(old))?;
             }
-            *b.state.frames.last_mut().ok_or(Error::NoFrame)? = Frame::Node(new);
+            b.replace_frame(Frame::Node(new))?;
             Ok(new)
         })
     }
@@ -555,24 +814,28 @@ impl Builder {
     pub fn associate_cst(&mut self, cst_id: u64, node: NodeId) -> Result<(), Error> {
         self.charge(1)?;
         self.node(node)?;
-        self.state.cst.insert(cst_id, node);
+        let old = self.state.cst.insert(cst_id, node);
+        self.record(Undo::Cst(cst_id, old));
         Ok(())
     }
     pub fn end_frame(&mut self) -> Result<Constructed, Error> {
-        self.transaction(
-            |b| match b.state.frames.last().cloned().ok_or(Error::NoFrame)? {
+        self.transaction(|b| {
+            let result = match b.state.frames.last().ok_or(Error::NoFrame)? {
                 Frame::Node(id) => {
+                    let id = *id;
                     b.defaults(id)?;
-                    b.state.frames.pop();
-                    Ok(Constructed::Node(id))
+                    Constructed::Node(id)
                 }
                 Frame::Datatype(s) => {
-                    b.state.frames.pop();
-                    Ok(Constructed::Text(s))
+                    Constructed::Text(copied_text(s, &mut b.work, b.limits.max_work, &b.cancel)?)
                 }
-            },
-        )
+            };
+            let frame = b.state.frames.pop().unwrap();
+            b.record(Undo::PushFrame(frame));
+            Ok(result)
+        })
     }
+
     pub fn unsupported<T>(&self, construct: &str) -> Result<T, Error> {
         Err(Error::UnsupportedConstruct(construct.to_owned()))
     }
@@ -601,7 +864,12 @@ impl Builder {
             }
             active.insert(id);
             self.defaults(id)?;
-            let n = self.node_mut(id)?;
+            self.node(id)?;
+            let n = self
+                .state
+                .nodes
+                .get_mut(&id)
+                .ok_or(Error::UnknownNode(id))?;
             if n.kind.is_none() {
                 return Err(Error::MissingType(id));
             }
@@ -613,7 +881,12 @@ impl Builder {
                         *child,
                         Some(Container {
                             node: id,
-                            property: key.clone(),
+                            property: copied_text(
+                                key,
+                                &mut self.work,
+                                self.limits.max_work,
+                                &self.cancel,
+                            )?,
                             index: None,
                         }),
                         false,
@@ -625,7 +898,12 @@ impl Builder {
                                     child,
                                     Some(Container {
                                         node: id,
-                                        property: key.clone(),
+                                        property: copied_text(
+                                            key,
+                                            &mut self.work,
+                                            self.limits.max_work,
+                                            &self.cancel,
+                                        )?,
                                         index: Some(i),
                                     }),
                                     false,
