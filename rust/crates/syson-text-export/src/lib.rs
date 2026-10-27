@@ -3,6 +3,7 @@
 #![forbid(unsafe_code)]
 use serde_json::Value;
 use std::sync::{Arc, atomic::AtomicBool};
+use syson_ast_adapter::is_reserved_word;
 use syson_domain::names::KEYWORDS;
 use syson_model::{Document, Editor, NodeIds};
 use syson_text_import::Importer;
@@ -223,12 +224,14 @@ fn type_path(
 }
 const MAX_OUTPUT: usize = 65_536;
 fn needs_quotes(name: &str) -> bool {
-    // Exactly the existing NameHelper policy, including its narrower keywords.
+    // Preserve native NameHelper quoting, then also quote tokens the actual
+    // importer reserves. Its shared lexer predicate owns the additional words.
     // Apostrophes, backslashes and controls were already refused by collect.
     let first = name.as_bytes()[0];
     !name.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
         || !(first.is_ascii_alphabetic() || first == b'_')
         || KEYWORDS.contains(&name)
+        || is_reserved_word(name)
 }
 struct Output {
     bytes: usize,

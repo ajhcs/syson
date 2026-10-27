@@ -293,18 +293,17 @@ fn duplicate_siblings_and_lossy_name_inputs_refuse() {
     }
 }
 #[test]
-fn actual_f14_gate_refuses_wider_reserved_names_and_parser_size_limits() {
+fn actual_f14_gate_quotes_reserved_names_and_refuses_parser_size_limits() {
     let document = import("package P;");
     for name in ["true", "classifier", "xor"] {
         let changed = change(&document, &named(&document, "P"), |d| {
             d["declaredName"] = json!(name)
         });
-        assert!(
-            matches!(
-                export(&changed, Options::default()),
-                Err(Error::NotImportable(_))
-            ),
-            "{name}"
+        let output = export(&changed, Options::default()).unwrap();
+        assert_eq!(output, format!("package '{name}';"));
+        assert_eq!(
+            export(&import(&output), Options::default()).unwrap(),
+            output
         );
     }
     let changed = change(&document, &named(&document, "P"), |d| {

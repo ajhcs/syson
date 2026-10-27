@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: EPL-2.0
+// Baseline-compatible counterexample source: no new parser-query dependency.
+use std::sync::{Arc, atomic::AtomicBool};
+use syson_model::{Document, Editor, NodeIds};
+use syson_text_export::{Options, export};
+use syson_text_import::Importer;
+#[test]
+fn quoted_class_must_export_and_reimport_as_the_same_name() {
+    let mut editor = Editor::new(Document::empty());
+    let ids = (1..=1024).map(|n| NodeIds::new(
+        &format!("30000000-0000-4000-8000-{n:012x}"),
+        &format!("40000000-0000-4000-8000-{n:012x}"),
+    ).unwrap());
+    Importer::pinned().unwrap().stage(
+        editor.begin(), "package 'class';", None, ids,
+        Arc::new(AtomicBool::new(false)),
+    ).unwrap().commit(&mut editor).unwrap();
+    assert_eq!(export(editor.document(), Options::default()).unwrap(), "package 'class';");
+}
