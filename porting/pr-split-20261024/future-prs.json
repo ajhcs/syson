@@ -1,0 +1,1186 @@
+{
+  "schema_version": 1,
+  "status": "PROPOSED_PR_HANDOFFS_NOT_A_REPLACEMENT_BACKLOG",
+  "inventory_complete": false,
+  "full_parity_claimed": false,
+  "units": [
+    {
+      "id": "F01",
+      "title": "Bind GeneralView planning to resource-scoped query results",
+      "dependencies": [],
+      "lane": "query",
+      "paths": [
+        "rust/crates/syson-initializer-graph/src/general_view.rs",
+        "rust/crates/syson-initializer-graph/tests/general_view.rs"
+      ],
+      "acceptance": "Preserve resource and snapshot identity; test first-match visibility, missing ResourceSet, unresolved member and stale snapshot. Return a scoped target without mutating an external resource.",
+      "excluded": "ViewUsage mutation, native import evaluation and URI loading.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f01",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F02",
+      "title": "Freeze namespace import and exclusion contracts",
+      "dependencies": [],
+      "lane": "query",
+      "paths": [
+        "porting/area-inventories/DOMAIN-QUERY/imports/"
+      ],
+      "acceptance": "Pin Namespace importedMemberships, membershipsOfVisibility, exclusions and conflict filtering. Enumerate ordered synthetic fixtures, cycles and unresolved outcomes. Review exact API before implementation.",
+      "excluded": "No import evaluator, oracle execution or inventory-complete promotion.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f02",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F03",
+      "title": "Evaluate public namespace imports on immutable snapshots",
+      "dependencies": [
+        "F02"
+      ],
+      "lane": "query",
+      "paths": [
+        "rust/crates/syson-initializer-graph/src/imports.rs",
+        "rust/crates/syson-initializer-graph/tests/imports.rs"
+      ],
+      "acceptance": "Implement the accepted public-import fixture set with exclusions, aliases, conflict precedence, cycles and lazy failures. Retain supplied-observation mode as a distinct input.",
+      "excluded": "Private/protected import families, unqualified full native import parity and URI I/O.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f03",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F04",
+      "title": "Decode and resolve selected EMF references without loading",
+      "dependencies": [],
+      "lane": "references",
+      "paths": [
+        "rust/crates/syson-initializer-graph/src/reference_resolution.rs",
+        "rust/crates/syson-initializer-graph/tests/reference_resolution.rs"
+      ],
+      "acceptance": "Freeze the supported URI/fragment encodings from pinned source first. Resolve only against an explicit immutable resource registry; distinguish absent, unresolved, invalid and unsupported proxy forms; test same-ID resources.",
+      "excluded": "Network, database loads, filesystem discovery and unrestricted EMF proxy equivalence.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f04",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F05",
+      "title": "Construct ViewUsage with an explicit GeneralView reference",
+      "dependencies": [
+        "F01",
+        "F04"
+      ],
+      "lane": "model",
+      "paths": [
+        "rust/crates/syson-initializer-graph/src/view_usage.rs",
+        "rust/crates/syson-initializer-graph/tests/view_usage.rs"
+      ],
+      "acceptance": "Freeze the ViewUsage initializer contract, preserve external target scope through selected JSON encoding, and stage/cancel/commit a single construction. Test absent target, identity collision and no partial writes.",
+      "excluded": "Native import computation, graphical representation creation and complete EMF serialization.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f05",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F06",
+      "title": "Qualify raw factory defaults and selected admission",
+      "dependencies": [],
+      "lane": "model-review",
+      "paths": [
+        "porting/validation/factory-review-01/",
+        "rust/validation/factory/"
+      ],
+      "acceptance": "Resume the existing validator only after its held lease is explicitly reconciled. Review immutable e075dd949 provenance and final selected-admission delta; execute only a freshly scoped harness and preserve original failures.",
+      "excluded": "Replacement reviewer ownership, enabling the candidate by default, full cache/inverse/serializer acceptance.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f06",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F07",
+      "title": "Add initialized ConnectionUsage and InterfaceUsage construction",
+      "dependencies": [
+        "F06"
+      ],
+      "lane": "model",
+      "paths": [
+        "rust/crates/syson-initializer-graph/src/connection_usage.rs",
+        "rust/crates/syson-initializer-graph/src/interface_usage.rs",
+        "rust/crates/syson-initializer-graph/tests/usage_construction.rs"
+      ],
+      "acceptance": "First freeze the two exact source schedules. Cover child order, defaults, identity exhaustion, parent mismatch and rollback in caller-owned transactions. Split again if either source closure exceeds the review budget.",
+      "excluded": "Other Usage families, palette exposure and full metamodel constructor coverage.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f07",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F08",
+      "title": "Implement immutable AST reflection type tables",
+      "dependencies": [],
+      "lane": "parser-reflection",
+      "paths": [
+        "rust/crates/syson-reflection/"
+      ],
+      "acceptance": "Use the prepared 189-name source table; test every ordered ancestor/subtype list, local-before-inherited mandatory property and reference-position target type. Reject foreign handles and unknown input explicitly.",
+      "excluded": "CST event application, reference linking and semantic metamodels.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f08",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F09",
+      "title": "Implement ordered AST postprocessor dispatch",
+      "dependencies": [
+        "F08"
+      ],
+      "lane": "parser-dispatch",
+      "paths": [
+        "rust/crates/syson-ast-dispatch/"
+      ],
+      "acceptance": "Keep most-derived selection, block expansion and full-chain order separate. Cover duplicate ancestor order, defaults and explicit truthiness/input restrictions using pinned fixtures.",
+      "excluded": "Executing all postprocessors and silently normalizing source cache quirks.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f09",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F10",
+      "title": "Convert AST primitive strings and numbers explicitly",
+      "dependencies": [],
+      "lane": "parser-values",
+      "paths": [
+        "rust/crates/syson-ast-values/"
+      ],
+      "acceptance": "Freeze source conversions and model absence/null/value distinctly. Cover quoted/unquoted names, escapes, Unicode, signed/nonfinite numeric boundaries and number spelling; explicit unsupported outcomes are retained.",
+      "excluded": "Linking, grammar ambiguity policy and full parser recovery.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f10",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F11",
+      "title": "Construct ASTs for package and part declaration fixtures",
+      "dependencies": [
+        "F08",
+        "F10"
+      ],
+      "lane": "parser-construction",
+      "paths": [
+        "rust/crates/syson-ast-adapter/"
+      ],
+      "acceptance": "Freeze a finite whitelist of package, part definition and typed part usage construction obligations from the existing 848-entry inventory. Compare AST shape, parenting and primitive values for valid and malformed fixture pairs.",
+      "excluded": "All remaining grammar obligations, broad recovery behavior and semantic import.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f11",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F12",
+      "title": "Apply OperatorExpression postprocessing to bounded fixtures",
+      "dependencies": [
+        "F09",
+        "F11"
+      ],
+      "lane": "parser-construction",
+      "paths": [
+        "rust/crates/syson-ast-adapter/src/operator_expression.rs",
+        "rust/crates/syson-ast-adapter/tests/operator_expression.rs"
+      ],
+      "acceptance": "Freeze the single source handler and its explicit obligation IDs. Verify placeholder insertion, ordering, parenting and rollback for unary/binary/nested synthetic expressions.",
+      "excluded": "While-loop, Import, TransitionUsage and SuccessionAsUsage handlers; each needs its own later PR.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f12",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F13",
+      "title": "Link local ElementReference chains in package fixtures",
+      "dependencies": [
+        "F04",
+        "F11"
+      ],
+      "lane": "parser-linking",
+      "paths": [
+        "rust/crates/syson-linker/"
+      ],
+      "acceptance": "Resolve only the admitted local reference family; test qualified segments, alias/type mismatch, unresolved targets and cycles. Keep syntactic AST and resolved semantic outcomes separate.",
+      "excluded": "Global standard-library loading, implicit specializations and all reference types.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f13",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F14",
+      "title": "Import package and part text into one staged model",
+      "dependencies": [
+        "F11",
+        "F13"
+      ],
+      "lane": "text-import",
+      "paths": [
+        "rust/crates/syson-text-import/"
+      ],
+      "acceptance": "Stage package/part definition/typed usage fixtures atomically, preserving distinct semantic/resource IDs. Diagnostics, invalid suffixes and cancellation leave committed data unchanged. Unsupported constructs fail explicitly.",
+      "excluded": "Complete SysML/KerML interchange, broad semantic validation and every grammar family.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f14",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F15",
+      "title": "Measure package, view-frame and note nodes through a typed host boundary",
+      "dependencies": [],
+      "lane": "geometry",
+      "paths": [
+        "rust/crates/syson-node-measurement/"
+      ],
+      "acceptance": "Port exactly these three existing geometry contracts with caller-provided text/font measurements. Cover forced/user sizes, missing dimensions and invalid numeric inputs without duplicating domain state.",
+      "excluded": "All node renderers, layout and theme/accessibility completion.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f15",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F16",
+      "title": "Layout a flat directed graph of measured rectangular nodes",
+      "dependencies": [],
+      "lane": "layout",
+      "paths": [
+        "rust/crates/syson-layout/"
+      ],
+      "acceptance": "First freeze the Rust-only layout API and supported flat-graph constraints. Test deterministic placement, disconnected graphs, cycles, cancellation/budgets and no-overlap invariants; label algorithm differences explicitly.",
+      "excluded": "ELK equivalence, containers, ports and edge routing.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f16",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F17",
+      "title": "Route flat-graph orthogonal edges with explicit constraints",
+      "dependencies": [
+        "F16"
+      ],
+      "lane": "routing",
+      "paths": [
+        "rust/crates/syson-routing/"
+      ],
+      "acceptance": "Support one admitted orthogonal routing family; test obstacle avoidance, self edges, parallel edges, endpoints and budget exhaustion. Preserve unsupported geometry rather than returning fabricated success.",
+      "excluded": "Nested containers, all UML/SysML decorators and full layout parity.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f17",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F18",
+      "title": "Layout nested package containers",
+      "dependencies": [
+        "F15",
+        "F16"
+      ],
+      "lane": "layout",
+      "paths": [
+        "rust/crates/syson-layout/src/containers.rs",
+        "rust/crates/syson-layout/tests/containers.rs"
+      ],
+      "acceptance": "Freeze package-only parent/child coordinates, padding, label space and user-resized minima. Test nested containers and repeated incremental layout.",
+      "excluded": "Border ports, every custom container and general hierarchical layout parity.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f18",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F19",
+      "title": "Integrate async layout, rotation and stale-result cancellation",
+      "dependencies": [
+        "F15",
+        "F17",
+        "F18"
+      ],
+      "lane": "canvas",
+      "paths": [
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/browser-tests/layout.cjs"
+      ],
+      "acceptance": "Bind one package/part canvas journey to real computed layout. Preserve first-selection rotation, incident-edge merge, request identity, stale results, cancellation, undo and JSON geometry persistence.",
+      "excluded": "A complete graphical editor, all palettes and all diagram types.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f19",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F20",
+      "title": "Freeze REST read DTOs and error contracts",
+      "dependencies": [],
+      "lane": "api-read",
+      "paths": [
+        "porting/area-inventories/API/read-contract/",
+        "rust/crates/syson-api-types/"
+      ],
+      "acceptance": "Pin get-element and get-relationships wire shapes, status/null/error behavior and relationship omission versus descendant traversal. Add serialization fixtures without starting a server.",
+      "excluded": "REST writes, GraphQL, authentication implementation and API-wide parity.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f20",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F21",
+      "title": "Close authentication, session and project-isolation source contracts",
+      "dependencies": [],
+      "lane": "api-security-contract",
+      "paths": [
+        "porting/area-inventories/API/session-isolation/"
+      ],
+      "acceptance": "Trace actual inherited auth/authz/session/cookie/origin/project boundaries and deployed-artifact correspondence. Record unknowns as blockers and define negative fixtures before selecting a Rust host adapter.",
+      "excluded": "New credentials, deployed policy changes and claims that text search proves missing controls.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f21",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F22",
+      "title": "Serve the two admitted REST read operations",
+      "dependencies": [
+        "F20",
+        "F21",
+        "F27"
+      ],
+      "lane": "api-read",
+      "paths": [
+        "rust/crates/syson-api-read/"
+      ],
+      "acceptance": "Select a reviewed Rust transport dependency first. Exercise get-element and relationships against synthetic isolated projects, including unauthenticated, forbidden, missing and malformed cases with pinned wire shapes.",
+      "excluded": "General GraphQL, writes, subscriptions and production deployment.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f22",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F23",
+      "title": "Dispatch bounded editing commands with cancellation",
+      "dependencies": [
+        "F21",
+        "F27"
+      ],
+      "lane": "api-commands",
+      "paths": [
+        "rust/crates/syson-command-dispatch/"
+      ],
+      "acceptance": "Freeze one create/rename command pair, request UUID, per-context ordering, cancellation, shutdown and error/payload boundaries. Test actual isolated asynchronous lifetimes and preservation on failure.",
+      "excluded": "All mutations, durable acknowledgements and history parity.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f23",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F24",
+      "title": "Implement bounded subscription session lifecycle",
+      "dependencies": [
+        "F23"
+      ],
+      "lane": "api-subscriptions",
+      "paths": [
+        "rust/crates/syson-subscriptions/"
+      ],
+      "acceptance": "Freeze supported protocol messages first. Test connect/start/stop/close, malformed input, keepalive, disposal and project isolation with real isolated transport. Disposition the source terminate-message quirk explicitly.",
+      "excluded": "Every subscription payload, collaborative conflict resolution and distributed sessions.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f24",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F25",
+      "title": "Plan document reconciliation as a pure function",
+      "dependencies": [],
+      "lane": "storage-planning",
+      "paths": [
+        "rust/crates/syson-document-reconcile/"
+      ],
+      "acceptance": "Preserve source ID/name/content instance and timestamp rules, metadata-only changes, removals and dependency events. Freeze duplicate/null behavior and test exact deterministic action plans.",
+      "excluded": "PostgreSQL, resource serialization, transaction events and durability.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f25",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F26",
+      "title": "Freeze the resolved schema and synthetic migration sequence",
+      "dependencies": [],
+      "lane": "storage-schema",
+      "paths": [
+        "porting/persistence/schema-contract/"
+      ],
+      "acceptance": "Close candidate artifact correspondence, ordered Liquibase changes and DBMS/precondition/checksum/rollback boundaries. Produce a synthetic migration plan and exact commands for separate execution review.",
+      "excluded": "Installing extensions, changing package baselines and running a database or migration.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f26",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F27",
+      "title": "Persist and reload selected JSON documents transactionally",
+      "dependencies": [
+        "F04",
+        "F25",
+        "F26"
+      ],
+      "lane": "storage",
+      "paths": [
+        "rust/crates/syson-storage/"
+      ],
+      "acceptance": "Review storage driver/dependency and isolated DB commands before execution. Exercise one document create/update/delete/reload transaction with separate identities, read-only checks, rollback and actual serializer failures.",
+      "excluded": "Entire schema compatibility, all representation types and production state.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f27",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F28",
+      "title": "Apply the two existing library-ID migrations in a versioned pipeline",
+      "dependencies": [
+        "F27"
+      ],
+      "lane": "migration",
+      "paths": [
+        "rust/crates/syson-persistence/src/pipeline.rs",
+        "rust/crates/syson-persistence/tests/pipeline.rs"
+      ],
+      "acceptance": "Reuse the existing semantic-reference and diagram-target algorithms; freeze version/order state, nested JSON traversal, nonlibrary resolution and idempotent replay using isolated old-project fixtures.",
+      "excluded": "All remaining migration participants and cross-version product acceptance.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f28",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F29",
+      "title": "Implement input-addressed semantic undo and redo",
+      "dependencies": [
+        "F27"
+      ],
+      "lane": "history",
+      "paths": [
+        "rust/crates/syson-history/"
+      ],
+      "acceptance": "Preserve original-input UUID lookup, applyAndReverse and missing-ID success semantics; test semantic versus representation changes, ordering and failure. Keep product differences explicit.",
+      "excluded": "Client session stacks, all representation recorders and durable collaborative history.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f29",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F30",
+      "title": "Integrate client history stacks with command responses",
+      "dependencies": [
+        "F23",
+        "F29"
+      ],
+      "lane": "frontend-history",
+      "paths": [
+        "rust/crates/syson-web/src/remote_history.rs",
+        "rust/browser-tests/remote_history.cjs"
+      ],
+      "acceptance": "Test outgoing request stack updates, redo clearing, success/failure response timing, then-current entry selection, mount resets and interleaved requests. Preserve the existing local mode separately.",
+      "excluded": "Every collaborative history scenario, restart persistence and full keyboard acceptance.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f30",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F31",
+      "title": "Inject failures into isolated immutable snapshot publication",
+      "dependencies": [],
+      "lane": "recovery-local",
+      "paths": [
+        "rust/crates/syson-workflow/tests/snapshot_failures.rs"
+      ],
+      "acceptance": "Use synthetic workspace-backed test directories and controlled I/O faults at staging/write/sync/publication boundaries. Preserve originals and report uncertain post-publication outcomes separately.",
+      "excluded": "Power-loss proof, PostgreSQL recovery, production fault injection and automatic cleanup.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f31",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F32",
+      "title": "Qualify success acknowledgement against durable commit",
+      "dependencies": [
+        "F23",
+        "F27"
+      ],
+      "lane": "recovery-storage",
+      "paths": [
+        "rust/crates/syson-command-dispatch/tests/durable_ack.rs",
+        "rust/crates/syson-storage/tests/failure_boundaries.rs"
+      ],
+      "acceptance": "In an admitted disposable DB, interrupt only the synthetic command at the five captured persistence/payload boundaries. Observe client payload, durable rows and reload independently; define retry outcomes from evidence.",
+      "excluded": "Full disaster recovery, backup/restore and distributed exactly-once claims.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f32",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F33",
+      "title": "Round-trip selected cross-resource EMF JSON references",
+      "dependencies": [
+        "F04",
+        "F05"
+      ],
+      "lane": "interchange-json",
+      "paths": [
+        "rust/crates/syson-json-interchange/"
+      ],
+      "acceptance": "Freeze selected package/part/port/view reference encodings and document boundaries. Test load/save/reload, unknown fields, external IDs, dangling references and failure without partial model writes.",
+      "excluded": "Complete EMF serializers, every metamodel class, flags/caches/notifications and archive formats.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f33",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F34",
+      "title": "Export package and part textual forms",
+      "dependencies": [
+        "F14"
+      ],
+      "lane": "interchange-text",
+      "paths": [
+        "rust/crates/syson-text-export/"
+      ],
+      "acceptance": "Pin exactly package/part/typing exporter cases, escaping, indentation, deresolution and platform byte policy. Round-trip the admitted fixtures and reject unsupported classes explicitly.",
+      "excluded": "All 82 textual dispatch obligations and all expressions/actions.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f34",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F35",
+      "title": "Read and write a selected project archive manifest",
+      "dependencies": [
+        "F33"
+      ],
+      "lane": "interchange-archive",
+      "paths": [
+        "rust/crates/syson-project-archive/"
+      ],
+      "acceptance": "Freeze a finite manifest/participant set and reviewed archive dependency. Test identity preservation, names, duplicate members, malformed/partial archives, byte limits and atomic import into synthetic state.",
+      "excluded": "All participants, diagram/image export and complete project archive compatibility.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f35",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F36",
+      "title": "Qualify keyboard and screen-reader use of the property inspector",
+      "dependencies": [],
+      "lane": "accessibility",
+      "paths": [
+        "rust/crates/syson-web/src/inspector_accessibility.rs",
+        "rust/browser-tests/inspector_accessibility.cjs"
+      ],
+      "acceptance": "Exercise one create/select/edit/cancel/commit inspector journey with semantic labels, tab order, focus return and announcements. Record actual browser and assistive-tool evidence and its limits.",
+      "excluded": "Whole-app accessibility, all editors and cross-platform assistive acceptance.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f36",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F37",
+      "title": "Load projects with explicit cancel, error and retry states",
+      "dependencies": [
+        "F22",
+        "F23"
+      ],
+      "lane": "frontend-projects",
+      "paths": [
+        "rust/crates/syson-web/src/project_loading.rs",
+        "rust/browser-tests/project_loading.cjs"
+      ],
+      "acceptance": "Test isolated project selection/loading, permission failures, request cancellation, stale responses and retry without losing committed edits.",
+      "excluded": "All routes, project administration and complete shell behavior.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f37",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F38",
+      "title": "Implement a typed extension registry with deterministic precedence",
+      "dependencies": [],
+      "lane": "extensions",
+      "paths": [
+        "rust/crates/syson-extensions/"
+      ],
+      "acceptance": "Freeze one admitted provider category from pinned source. Test default/custom ordering, duplicate keys, invalid registration and missing capabilities in immutable snapshots.",
+      "excluded": "All extension points, arbitrary plugin execution and third-party plugin acceptance.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f38",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F39",
+      "title": "Prepare an immutable upstream build and launch preflight",
+      "dependencies": [],
+      "lane": "reference-preparation",
+      "paths": [
+        "porting/reference-preflight/"
+      ],
+      "acceptance": "Inventory existing exact toolchains, lifecycle scripts, package access without secret output, SNAPSHOT digests, synthetic paths/ports and stop conditions. Produce exact reviewable commands; keep missing entitlements distinct from denial.",
+      "excluded": "Installing packages, running Maven/npm lifecycle, launching services and changing production/security state.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f39",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F40",
+      "title": "Build and capture the isolated pinned SysON reference",
+      "dependencies": [
+        "F39"
+      ],
+      "lane": "reference-execution",
+      "paths": [
+        "porting/reference-runs/"
+      ],
+      "acceptance": "Only after exact action review and resource allocation, build the pinned application and launch against disposable synthetic PostgreSQL. Capture source/artifact/environment hashes, failures and teardown evidence.",
+      "excluded": "Default compose substitution, publication/deploy, production database use and unreviewed runtime retries.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f40",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F41",
+      "title": "Compare the three strict seed behavior fixtures",
+      "dependencies": [
+        "F40"
+      ],
+      "lane": "differential-validation",
+      "paths": [
+        "porting/differential/seed-three/"
+      ],
+      "acceptance": "Run matched name-matching, rotation-merge and ID-migration fixtures against pinned reference and Rust revisions. Capture original outputs, diagnostics and disposition each difference without altering historical evidence.",
+      "excluded": "Whole-area verification and treating source-derived expectations as runtime captures.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f41",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F42",
+      "title": "Compare one complete Vehicle authoring journey",
+      "dependencies": [
+        "F14",
+        "F19",
+        "F30",
+        "F35",
+        "F37",
+        "F41"
+      ],
+      "lane": "acceptance",
+      "paths": [
+        "porting/differential/vehicle-journey/"
+      ],
+      "acceptance": "Freeze one matched create/type/edit/cancel/undo/export/reload journey. Compare API/model artifacts, reference identities and browser evidence across both applications; report unsupported steps and mismatches individually.",
+      "excluded": "Every diagram, all users, production/domain acceptance and whole-product parity.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f42",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F43",
+      "title": "Verify Rust/WASM distribution dependency and notice closure",
+      "dependencies": [],
+      "lane": "dependencies",
+      "paths": [
+        "porting/distribution-check/"
+      ],
+      "acceptance": "Check actual default/candidate feature dependency graphs, locked artifacts, supplied licenses and notice/source inclusion in synthetic distribution packages. Flag unresolved upstream provenance separately.",
+      "excluded": "Legal clearance for the full upstream product and accepting new dependencies implicitly.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f43",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F44",
+      "title": "Qualify Java-compatible naming Unicode boundaries",
+      "dependencies": [],
+      "lane": "names",
+      "paths": [
+        "rust/crates/syson-domain/src/names.rs",
+        "rust/crates/syson-domain/tests/name_unicode.rs",
+        "porting/domain/name-unicode/"
+      ],
+      "acceptance": "Freeze strip/UTF16/quote/escape/alias-identity domains and compare finite source-derived fixtures. Any implementation repair remains within names.rs and has explicit incompatible-input dispositions.",
+      "excluded": "All effective-name semantics, native imports and unrun upstream differential claims.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f44",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F45",
+      "title": "Qualify resource-dependent identity allocation",
+      "dependencies": [],
+      "lane": "identities",
+      "paths": [
+        "rust/crates/syson-domain/src/identity_context.rs",
+        "rust/crates/syson-domain/tests/identity_context.rs"
+      ],
+      "acceptance": "Freeze ordinary versus standard-library resource branches and an injected fresh-ID provider. Test repeatability, collision/provider exhaustion and separate semantic/resource identity through selected import/reload.",
+      "excluded": "All EMF resource adapters and automatic random/provider substitution.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f45",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F46",
+      "title": "Expose semantic owner and qualified names through the native adapter",
+      "dependencies": [
+        "F03",
+        "F04"
+      ],
+      "lane": "model-operations",
+      "paths": [
+        "rust/crates/syson-initializer-graph/src/semantic_names.rs",
+        "rust/crates/syson-initializer-graph/tests/semantic_names.rs"
+      ],
+      "acceptance": "Freeze Element owner/ownedElement and selected qualified-name operations; test relationship flattening, inherited/short names, cycles and unresolved resources with no silent fallback.",
+      "excluded": "All 70 operations, every derived feature and full EMF invariants.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f46",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    },
+    {
+      "id": "F47",
+      "title": "Validate one package/part containment and typing rule family",
+      "dependencies": [
+        "F14",
+        "F46"
+      ],
+      "lane": "semantic-validation",
+      "paths": [
+        "rust/crates/syson-semantic-validation/"
+      ],
+      "acceptance": "Freeze a finite classifier/rule whitelist before implementation. Return source-positioned diagnostics for admitted containment/typing fixtures and distinguish unsupported rules from valid results.",
+      "excluded": "All SysML constraints, standards conformance and engineering/domain acceptance.",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "lease": "NOT_GRANTED",
+      "code_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "branch": "codex/syson-f47",
+      "review_budget": "One behavior family; aim for <=400 changed handwritten production lines and <=900 authored lines including tests. Split before exceeding this; separate generated tables and runtime receipts.",
+      "execution_gates": [
+        "Existing held leases must be explicitly reconciled before overlapping work.",
+        "No new compiler/display entitlement; retain the shared allocation protocol.",
+        "New dependencies, upstream builds/services and credential changes retain exact action review."
+      ]
+    }
+  ],
+  "area_coverage": {
+    "DOMAIN-NAME": [
+      "F44"
+    ],
+    "DOMAIN-ID": [
+      "F45"
+    ],
+    "DOMAIN-QUERY": [
+      "F01",
+      "F02",
+      "F03",
+      "F04",
+      "F46"
+    ],
+    "EDITOR-ROTATE": [
+      "F19"
+    ],
+    "EDITOR-GEOMETRY": [
+      "F15"
+    ],
+    "MIGRATION-ID": [
+      "F28"
+    ],
+    "MODEL": [
+      "F05",
+      "F06",
+      "F07",
+      "F33",
+      "F46",
+      "F47"
+    ],
+    "PARSER": [
+      "F08",
+      "F09",
+      "F10",
+      "F11",
+      "F12",
+      "F13",
+      "F14"
+    ],
+    "UI": [
+      "F19",
+      "F30",
+      "F36",
+      "F37"
+    ],
+    "LAYOUT": [
+      "F15",
+      "F16",
+      "F17",
+      "F18",
+      "F19"
+    ],
+    "API": [
+      "F20",
+      "F21",
+      "F22",
+      "F23",
+      "F24"
+    ],
+    "DB": [
+      "F25",
+      "F26",
+      "F27"
+    ],
+    "RECOVERY": [
+      "F31",
+      "F32"
+    ],
+    "HISTORY": [
+      "F29",
+      "F30"
+    ],
+    "ACCESSIBILITY": [
+      "F36"
+    ],
+    "EXPORT": [
+      "F33",
+      "F34",
+      "F35"
+    ],
+    "EXTENSIONS": [
+      "F38"
+    ],
+    "DEPS": [
+      "F39",
+      "F40",
+      "F43"
+    ]
+  },
+  "residual_policy": "After each finite behavior/rule/classifier family, enumerate the next source-backed sibling family in a new PR. These 47 units start all 18 areas but do not close the incomplete baseline inventory or all 735 grammar / 848 AST obligations."
+}

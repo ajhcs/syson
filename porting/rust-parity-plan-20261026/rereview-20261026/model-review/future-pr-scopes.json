@@ -1,0 +1,196 @@
+{
+  "status": "PROPOSALS_ONLY_ROOT_WILL_NORMALIZE_R_IDS",
+  "existing_plan_units": 733,
+  "proposals": [
+    {
+      "key": "SAFE_LITERAL_JSON",
+      "title": "Preserve literal JSON objects across serde private-token names",
+      "owner_units": [
+        "M06",
+        "I03"
+      ],
+      "deps": [],
+      "external_prs": [
+        8
+      ],
+      "scope": [
+        "One reusable bounded JSON value materialization authority; do not add semantic/query logic or a new registry tuple."
+      ],
+      "tasks": [
+        "Treat Number/RawValue marker names as ordinary application keys while retaining numeric precision.",
+        "Make duplicate-key and key-order policies explicit; preserve authoritative wire order where required.",
+        "Preserve literal objects or explicitly refuse; silent reinterpretation is forbidden. Refusal does not count as full preservation parity."
+      ],
+      "verification": [
+        "Independent raw-token/manual-object oracle for both private keys, ordinary keys, marker-key placement/order, huge integers and decimals.",
+        "Whole-payload equality around an unrelated edit; marker object must not turn into scalar or reified JSON.",
+        "Byte/depth/value/output allocation and cancellation bounds before copying."
+      ],
+      "budget": {
+        "production": 400,
+        "authored": 900
+      },
+      "commit_plan": [
+        "Core behavior and independent regressions",
+        "Exact execution/evidence and limitations"
+      ]
+    },
+    {
+      "key": "MODEL_SAFE_JSON_ADOPTION",
+      "title": "Route model import and selected identity bridges through safe literal materialization",
+      "owner_units": [
+        "M06",
+        "I03",
+        "I06"
+      ],
+      "deps": [
+        "SAFE_LITERAL_JSON"
+      ],
+      "external_prs": [
+        8,
+        63,
+        69
+      ],
+      "scope": [
+        "Document::from_json plus selected interchange boundaries; keep factory/initializer holds untouched until their owner authorizes the specific dependency handoff."
+      ],
+      "tasks": [
+        "Consume the common literal JSON authority, preserving unknown fields and both ID domains.",
+        "Extend native-open\u2192actual Editor edit\u2192save/reload regressions with private-key opaque values.",
+        "Audit downstream prepare/codec consumers separately; do not flatten all readers into this PR."
+      ],
+      "verification": [
+        "Root model-marker counterexample retained red and then green.",
+        "Existing exact large-number/opaque/identity/collision tests remain valid.",
+        "Actual save/reopen workflow preserves literal vendor objects; no fallback or source-format inference."
+      ],
+      "budget": {
+        "production": 400,
+        "authored": 900
+      },
+      "commit_plan": [
+        "Model/bridge adoption with regressions",
+        "Retained executions and source provenance"
+      ]
+    },
+    {
+      "key": "CATALOGUE_SAFE_JSON_ADOPTION",
+      "title": "Keep library identity indexes strictly physical for opaque private-token payloads",
+      "owner_units": [
+        "C01g",
+        "M15"
+      ],
+      "deps": [
+        "SAFE_LITERAL_JSON"
+      ],
+      "external_prs": [
+        85
+      ],
+      "scope": [
+        "Only catalogue value interpretation and physical-node traversal; no EMF loader or project-cap changes."
+      ],
+      "tasks": [
+        "Ensure JSON string payloads are never reified into nodes by dependency-private markers.",
+        "Keep typed NodeId/SemanticId indexes and raw-byte access unchanged."
+      ],
+      "verification": [
+        "Exact retained phantom-node case returns zero records.",
+        "PrivateNumber objects remain literal objects.",
+        "Actual94 resources and109673 stored identity tuples still match; retain all12162 native diagnostics.",
+        "Recheck index/pointer/value/allocation caps and one real consuming CLI."
+      ],
+      "budget": {
+        "production": 250,
+        "authored": 600
+      },
+      "commit_plan": [
+        "Adoption and physical-index regressions",
+        "Actual corpus/counterexample evidence"
+      ]
+    },
+    {
+      "key": "BOUNDED_LEGACY_NAME_AUTHORITY",
+      "title": "Bound legacy conjugated-name reference traversal and reuse one naming authority",
+      "owner_units": [
+        "M10",
+        "M07"
+      ],
+      "deps": [],
+      "external_prs": [
+        15,
+        49
+      ],
+      "scope": [
+        "ResourceSet name_inner and narrowly related name callers; no import/type engine rewrite."
+      ],
+      "tasks": [
+        "Use bounded iterative traversal with cycle/depth/work/cancellation policy.",
+        "Retain exact source naming/prefix/first-relation order and explicit reference encoding.",
+        "Avoid maintaining divergent legacy versus F46 failure bounds."
+      ],
+      "verification": [
+        "Flat normal/boundary/over-bound/8192-reference graphs, cycles, and cancellation.",
+        "Matched pinned native normal outcomes; bounded refusal is an explicitly labeled Rust improvement where native recursion fails.",
+        "Actual GeneralView/query caller and no identity fallback."
+      ],
+      "budget": {
+        "production": 400,
+        "authored": 900
+      },
+      "commit_plan": [
+        "Bounded authority and deep-reference regressions",
+        "Native/actual-caller performance and failure dispositions"
+      ]
+    },
+    {
+      "key": "BOUNDED_INDEX_AND_PEER_COUNT",
+      "title": "Remove measured repeated subtree retention and peer-count rescans",
+      "owner_units": [
+        "M07",
+        "M21",
+        "M23",
+        "M38"
+      ],
+      "deps": [],
+      "external_prs": [
+        14,
+        15,
+        49,
+        54
+      ],
+      "scope": [
+        "One index/adjacency/count family; source gates/held owner handoff precede changes."
+      ],
+      "tasks": [
+        "First capture matched256/1024/4096 wide and deep baseline fixtures.",
+        "Retain only required immutable node facts/adjacency rather than recursively copying descendant payloads into every node, where measurements justify it.",
+        "Count exact-class owned members without K full-map rescans.",
+        "Keep prefix observations, source order and transactional/cancellation semantics."
+      ],
+      "verification": [
+        "Before/after exact node/owner/count/name outputs.",
+        "Measured median/p95/RSS/cancellation with actual creation/query caller.",
+        "No latency or parity assertion from source complexity alone."
+      ],
+      "budget": {
+        "production": 400,
+        "authored": 900
+      },
+      "commit_plan": [
+        "Meaningful baseline/regression fixtures and narrowly scoped index repair",
+        "Exact comparison/performance evidence"
+      ]
+    }
+  ],
+  "augment_only": [
+    "MODEL-RR-005 actual bundle acceptance under M15/M30/M38/I06",
+    "MODEL-RR-006 history retention under M03/B17/U08",
+    "MODEL-RR-007 shared allocation consumer under M32/I09",
+    "MODEL-RR-008 cancellation latency under P08/P14/M19"
+  ],
+  "existing_gates_not_duplicated": [
+    "F08/F09 ordering/native callback gaps already belong to P14 and downstream postprocessor units.",
+    "Held F06/F07 factory/admission work remains M02/M24 independent-owner blocked.",
+    "Layout-core #5 is finite formulas/rotation preparation; native layout/rendering/caller closure remains U10 and UI-owned acceptance."
+  ]
+}

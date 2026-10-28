@@ -1,0 +1,13 @@
+    Checking syson-syntax v0.1.0 (/workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-syntax)
+    Checking syson-syntax-independent-validation v0.1.0 (/workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/validation/syntax)
+error: needless call to `as_bytes`
+   --> tests/recognizer_regressions.rs:262:16
+    |
+262 |     assert_eq!(input.as_bytes().len(), 37);
+    |                ^^^^^^^^^^^^^^^^^^^^^^ help: `len()` can be called directly on strings: `input.len()`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_as_bytes
+    = note: `-D clippy::needless-as-bytes` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::needless_as_bytes)]`
+
+error: could not compile `syson-syntax-independent-validation` (test "recognizer_regressions") due to 1 previous error

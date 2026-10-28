@@ -1,0 +1,383 @@
+{
+  "scope": "Bounded source completion supplement only. Original sealed model-review packet and SHA manifest are unchanged.",
+  "reviewer": "/root/audit_model_query",
+  "mode": "No compiler/runtime/network/source edits",
+  "prs": [
+    {
+      "pr": 27,
+      "url": "https://github.com/ajhcs/syson/pull/27",
+      "head": "e4abad3cf564af08da655703a1e54a52cf54b17e",
+      "verdict": "NO_NEW_MATERIAL_DEFECT_FOUND_IN_TARGETED_SOURCE_PASS",
+      "assessment": "Finite/nonnegative geometry checked before host; returned target+layout/font/request stamps checked; final computed dimensions rechecked for overflow. Host stamps are caller-controlled observations, not actual DOM/font or document-affinity proof.",
+      "files": [
+        {
+          "path": "rust/crates/syson-node-measurement/src/lib.rs",
+          "git_blob": "9c51a17bf38eb92a3d98d8c057284b2a816ce908",
+          "sha256": "a9aa057159a2d71f33ae836d8570246d4fd8e6d3fd7f2d228b174fccf50da1d0",
+          "lines": 298,
+          "review_depth": "FULL_PRODUCTION_ALGORITHM_TARGETED_SOURCE_READ",
+          "not_checked_reason": "No compiler/runtime/browser/native ELK comparison; no complete upstream algorithm parity claim.",
+          "test_functions": null
+        },
+        {
+          "path": "rust/crates/syson-node-measurement/tests/measurement.rs",
+          "git_blob": "3d2b4360328f2f054900507ca04a785b24d44347",
+          "sha256": "f67092eb14ffa1785b0deab29cb7303ce767ba75c1b46de96081a5b20d5b2953",
+          "lines": 462,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_GEOMETRIC_ORACLE_ASSERTIONS",
+          "not_checked_reason": "No tests/runtime executed by reviewer; not all test assertions re-read.",
+          "test_functions": [
+            "node",
+            "request<'a>",
+            "size",
+            "optional",
+            "measured",
+            "only_the_three_renderer_types_are_admitted",
+            "leaf_defaults_and_caller_label_height_match_both_pinned_handlers",
+            "leaf_force_values_suppress_retention_but_do_not_become_dimensions",
+            "previous_dimensions_use_new_previous_and_current_branches_with_per_axis_defaults",
+            "previous_and_visible_lookup_keep_source_first_match_order",
+            "note_height_defaults_border_and_forced_dimensions_use_the_note_contract",
+            "note_zero_force_is_nullish_for_selection_but_falsy_for_resized_retention",
+            "note_border_left_override_and_nonfinite_fallback_match_numeric_css_helper",
+            "aspect_ratio_expands_one_axis_with_source_truthy_default_fallbacks",
+            "missing_label_observation_is_preserved_and_host_errors_are_explicit",
+            "stale_layout_font_and_request_observations_are_refused",
+            "a_different_label_target_is_not_accepted_with_a_matching_stamp",
+            "unsupported_container_paths_fail_before_requesting_host_measurement",
+            "invalid_dimension_label_and_font_numbers_are_rejected",
+            "invalid_matching_previous_sizes_and_negative_borders_are_explicit",
+            "finite_input_arithmetic_overflow_is_not_reported_as_measured_success",
+            "finite_negative_letter_spacing_is_admitted_but_nonfinite_is_not"
+          ]
+        }
+      ],
+      "existing_acceptance_owners": [
+        "U02",
+        "U10"
+      ]
+    },
+    {
+      "pr": 29,
+      "url": "https://github.com/ajhcs/syson/pull/29",
+      "head": "6c198db81434ad4b1f318a6895fee8933a331d53",
+      "verdict": "NO_NEW_MATERIAL_DEFECT_FOUND_IN_TARGETED_SOURCE_PASS",
+      "assessment": "Iterative SCC/ranking/weak-component placement; checked arithmetic/precision, fallible reservations, typed unsupported containers/ports/pins, precharged sorts and cancellation guards. Logical work and conservative workspace estimates are explicitly not time/RSS bounds or ELK equivalence.",
+      "files": [
+        {
+          "path": "rust/crates/syson-layout/src/lib.rs",
+          "git_blob": "eedfc619b429de9012170d1a30bf16a9a554eaf1",
+          "sha256": "fd713fada8d59d9654783236d64709ef47329afc7029f8c06b65131c9615f1ad",
+          "lines": 529,
+          "review_depth": "FULL_PRODUCTION_ALGORITHM_TARGETED_SOURCE_READ",
+          "not_checked_reason": "No compiler/runtime/browser/native ELK comparison; no complete upstream algorithm parity claim.",
+          "test_functions": null
+        },
+        {
+          "path": "rust/crates/syson-layout/tests/layout.rs",
+          "git_blob": "48c50f066ce717758b7d9c71af04c9cc48fdf35c",
+          "sha256": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a",
+          "lines": 572,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_GEOMETRIC_ORACLE_ASSERTIONS",
+          "not_checked_reason": "No tests/runtime executed by reviewer; not all test assertions re-read.",
+          "test_functions": [
+            "node",
+            "edge<'a>",
+            "run<'a>",
+            "placed<'a, 'b>",
+            "invariants",
+            "an_empty_graph_needs_no_work_or_logical_buffer_storage",
+            "chain_ranks_and_positions_depend_on_edge_direction",
+            "a_diamond_uses_measured_layer_extents_and_longest_path_rank",
+            "cyclic_components_self_loops_and_parallel_edges_are_retained",
+            "disconnected_weak_components_have_explicit_cross_axis_gutters",
+            "node_and_edge_permutations_produce_identical_canonical_results",
+            "duplicate_empty_and_unknown_identifiers_are_errors",
+            "unsupported_containers_ports_and_pinning_are_not_silently_dropped",
+            "invalid_dimensions_and_spacing_are_rejected",
+            "each_budget_fails_explicitly_and_exact_admitted_work_is_reproducible",
+            "cancellation_before_during_and_late_in_layout_returns_no_partial_result",
+            "numeric_overflow_and_lost_positive_coordinate_advance_are_explicit",
+            "zero_size_rectangles_and_zero_gaps_are_supported_without_overlap",
+            "all_three_node_directed_graphs_match_independent_reachability_and_invariants",
+            "unused_layer_node_and_trailing_component_gaps_do_not_overflow"
+          ]
+        }
+      ],
+      "existing_acceptance_owners": [
+        "U10",
+        "U29"
+      ]
+    },
+    {
+      "pr": 33,
+      "url": "https://github.com/ajhcs/syson/pull/33",
+      "head": "546604c2cf64bf07586964c5683c0030fc85bd56",
+      "verdict": "NO_NEW_MATERIAL_DEFECT_FOUND_IN_TARGETED_SOURCE_PASS",
+      "assessment": "Immutable provider slots preserve duplicate labels/injection order. Missing reached capabilities refuse; first true wins; only null custom result invokes default. This plans from caller observations and never invokes providers or binds actual request identity.",
+      "files": [
+        {
+          "path": "rust/crates/syson-extensions/src/lib.rs",
+          "git_blob": "6ca89fa604b588081ab43c67b5ee0df58844c510",
+          "sha256": "5d076dd249baf986358fc25a9bf78c1329d392543cf90ef790e8558178ce90c1",
+          "lines": 161,
+          "review_depth": "FULL_PRODUCTION_ALGORITHM_TARGETED_SOURCE_READ",
+          "not_checked_reason": "No compiler/runtime/browser/native ELK comparison; no complete upstream algorithm parity claim.",
+          "test_functions": null
+        },
+        {
+          "path": "rust/crates/syson-extensions/tests/move_registry.rs",
+          "git_blob": "4ecba641ddfc3ef7156130127c442b028fd1012a",
+          "sha256": "53df8cf6a95ea3b2807184d071a72e1cd478a8101fa004f3c8118aa9ba9917b6",
+          "lines": 257,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_GEOMETRIC_ORACLE_ASSERTIONS",
+          "not_checked_reason": "No tests/runtime executed by reviewer; not all test assertions re-read.",
+          "test_functions": [
+            "id",
+            "registry",
+            "slot",
+            "no_custom_providers_uses_default",
+            "all_false_uses_default",
+            "first_true_wins_in_exact_injected_order",
+            "rejects_missing_default_before_selection",
+            "rust_label_admission_boundaries_are_explicit",
+            "duplicate_labels_are_not_deduplicated",
+            "unavailable_before_match_is_not_a_false_capability",
+            "short_packet_reports_first_reached_missing_slot",
+            "later_observations_cannot_change_earlier_match",
+            "excess_observations_do_not_silently_bind_to_unknown_providers",
+            "packets_own_independent_registrations_and_observations",
+            "selected_null_falls_to_default_not_next_custom",
+            "selected_success_and_failure_are_both_returned_without_fallback",
+            "default_null_is_returned_without_recursive_fallback",
+            "default_failure_is_also_a_completed_result",
+            "exhaustive_small_truth_tables_match_first_true_position",
+            "null_message_is_a_non_null_status_and_does_not_request_fallback"
+          ]
+        }
+      ],
+      "existing_acceptance_owners": [
+        "B29",
+        "M20"
+      ]
+    },
+    {
+      "pr": 36,
+      "url": "https://github.com/ajhcs/syson/pull/36",
+      "head": "96f76b1ebf96d0f1781989f18a6b86faf6709fa9",
+      "verdict": "NO_NEW_MATERIAL_DEFECT_FOUND_IN_TARGETED_SOURCE_PASS",
+      "assessment": "Positive integer rectangle admission and doubled half-unit coordinates bound numeric arithmetic. Visibility-grid BFS validates rectangle interiors, exact side-center endpoints, output/grid/work limits and cancellation; zero clearance/coincident parallel routes/heading unconstrained are explicit scope choices.",
+      "files": [
+        {
+          "path": "rust/crates/syson-routing/src/lib.rs",
+          "git_blob": "17ab0ab2a66d280fded4fc7174d5ec1fb1b495eb",
+          "sha256": "4ef440f6c241ce7e008b679e0781e65a9df03861b625fae3349343f3782c5c0e",
+          "lines": 403,
+          "review_depth": "FULL_PRODUCTION_ALGORITHM_TARGETED_SOURCE_READ",
+          "not_checked_reason": "No compiler/runtime/browser/native ELK comparison; no complete upstream algorithm parity claim.",
+          "test_functions": null
+        },
+        {
+          "path": "rust/crates/syson-routing/tests/routing.rs",
+          "git_blob": "52abeb561a57ba2824a20fbf62e66c0f9e642757",
+          "sha256": "2f84297784fd60b6dbe18e6842f45f196c6d11866cad11cdb09d246af5006ec6",
+          "lines": 439,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_GEOMETRIC_ORACLE_ASSERTIONS",
+          "not_checked_reason": "No tests/runtime executed by reviewer; not all test assertions re-read.",
+          "test_functions": [
+            "node",
+            "edge",
+            "pair",
+            "run<'a>",
+            "anchor",
+            "verify",
+            "straight_route_has_exact_odd_size_half_unit_anchors",
+            "obstacle_requires_real_detour",
+            "self_edge_uses_distinct_side_centers_without_entering_node",
+            "same_anchor_is_unsupported_instead_of_fabricated_zero_length_loop",
+            "parallel_ids_survive_and_shared_geometry_is_explicit",
+            "corner_and_boundary_touch_are_allowed_without_positive_clearance",
+            "permutations_do_not_change_routes_or_charged_work",
+            "geometry_rejects_fractional_nonfinite_degenerate_and_outside_edges",
+            "interior_overlap_is_distinct_from_touching",
+            "identity_and_endpoint_failures_are_typed",
+            "empty_graph_and_no_edge_results_have_no_fabricated_routes",
+            "all_resource_limit_classes_are_enforced_without_partial_results",
+            "exact_grid_and_work_budgets_accept_but_one_less_rejects",
+            "cancellation_is_polled_initially_and_during_search",
+            "real_f16_layout_positions_feed_router_without_mutation",
+            "generated_obstacles_and_all_distinct_self_sides_preserve_invariants"
+          ]
+        }
+      ],
+      "existing_acceptance_owners": [
+        "U10",
+        "U11",
+        "U29"
+      ]
+    },
+    {
+      "pr": 39,
+      "url": "https://github.com/ajhcs/syson/pull/39",
+      "head": "0ce925097fec1aba61f0735dd67d76ce6eeae41c",
+      "verdict": "NO_NEW_MATERIAL_DEFECT_FOUND_IN_TARGETED_SOURCE_PASS",
+      "assessment": "Parent IDs/cycles/cross-parent edges rejected; bottom-up sibling layout plus top-down absolute projection, finite geometry and precision checks, source retained-position clamps and overlap preservation, logical work/memory guards. Package-only; ports, cross-container routing and native cache behavior remain unqualified.",
+      "files": [
+        {
+          "path": "rust/crates/syson-layout/src/containers.rs",
+          "git_blob": "af44c15137d5d606d79c5055df429163ea4a4479",
+          "sha256": "9d86a510de50586ffaacabb14ecb54415493d6888d9457ec87783b3399d1bec8",
+          "lines": 368,
+          "review_depth": "FULL_PRODUCTION_ALGORITHM_TARGETED_SOURCE_READ",
+          "not_checked_reason": "No compiler/runtime/browser/native ELK comparison; no complete upstream algorithm parity claim.",
+          "test_functions": null
+        },
+        {
+          "path": "rust/crates/syson-layout/src/lib.rs",
+          "git_blob": "b598a46fd749f8aa148dd83e1374340f3a883646",
+          "sha256": "872a87f8f59e41388febf5038ec7d4e528fb25f02d8c54e2ff85bb8f63385349",
+          "lines": 530,
+          "review_depth": "FULL_PRODUCTION_ALGORITHM_TARGETED_SOURCE_READ",
+          "not_checked_reason": "No compiler/runtime/browser/native ELK comparison; no complete upstream algorithm parity claim.",
+          "test_functions": null
+        },
+        {
+          "path": "rust/crates/syson-layout/tests/containers.rs",
+          "git_blob": "325af7e7edb7651996a51e8ac877493879d319b9",
+          "sha256": "e486c5c2e96b07d786f772ee322c83762db24ba3ef70bd6bc81c2fbaff393aea",
+          "lines": 553,
+          "review_depth": "TEST_INVENTORY_AND_SELECTED_GEOMETRIC_ORACLE_ASSERTIONS",
+          "not_checked_reason": "No tests/runtime executed by reviewer; not all test assertions re-read.",
+          "test_functions": [
+            "node<'a>",
+            "options",
+            "run<'a>",
+            "verify",
+            "nested_offsets_are_relative_and_absolute_and_parent_bounds_follow_children",
+            "previous_branch_uses_header_plus_padding_without_border_and_clamps_negative_x",
+            "resized_parent_uses_previous_minimum_instead_of_default_minimum",
+            "nullish_default_axes_and_parent_to_leaf_transition_are_distinct",
+            "repeated_incremental_inputs_preserve_geometry_and_expand_for_larger_children",
+            "retained_overlapping_siblings_are_not_silently_reflowed",
+            "sibling_edges_feed_f16_and_permutations_preserve_output",
+            "unknown_parent_cycles_and_cross_parent_edges_are_separate_errors",
+            "identity_and_endpoint_errors_are_rejected_without_partial_results",
+            "malformed_unused_geometry_is_explicit_input_restriction",
+            "all_logical_limits_and_exact_work_boundary_are_enforced",
+            "initial_and_late_cancellation_return_no_partial_layout",
+            "empty_forest_is_empty_and_options_remain_validated",
+            "finite_forests_in_both_directions_have_containment_and_fresh_nonoverlap",
+            "actual_f15_measurement_supplies_leaf_size_without_dom_claims"
+          ]
+        }
+      ],
+      "existing_acceptance_owners": [
+        "U10",
+        "U11",
+        "U29"
+      ]
+    }
+  ],
+  "material_new_functional_defects_found": 0,
+  "acceptance_gaps": [
+    {
+      "id": "GEOMETRY-SUPPLEMENT-01",
+      "severity": "P2_ACCEPTANCE_GAP_NOT_CONFIRMED_PRODUCT_BUG",
+      "title": "Composed measurement/layout/router numeric domains need an explicit actual-caller contract",
+      "evidence": "SOURCE_ONLY",
+      "sources": [
+        {
+          "pr": 27,
+          "head": "e4abad3cf564af08da655703a1e54a52cf54b17e",
+          "path": "rust/crates/syson-node-measurement/src/lib.rs",
+          "line": 146,
+          "sha256": "a9aa057159a2d71f33ae836d8570246d4fd8e6d3fd7f2d228b174fccf50da1d0"
+        },
+        {
+          "pr": 36,
+          "head": "96f76b1ebf96d0f1781989f18a6b86faf6709fa9",
+          "path": "rust/crates/syson-routing/src/lib.rs",
+          "line": 133,
+          "sha256": "4ef440f6c241ce7e008b679e0781e65a9df03861b625fae3349343f3782c5c0e"
+        }
+      ],
+      "trigger": "A host supplies a valid fractional measurement/default dimension; F15 and F16 can return fractional dimensions/positions, while F17 refuses fractional rectangles.",
+      "actual": "Standalone API composition can end in Unsupported(Geometry). No actual UI controller failure was reproduced here; a caller may explicitly quantize/admit geometry.",
+      "expected": "One explicit numeric projection/admission policy used by the real measurement\u2192layout\u2192routing caller, preserving geometry provenance and recording unsupported branches.",
+      "augment_existing": [
+        "U02",
+        "U10",
+        "U11"
+      ],
+      "gates": [
+        "Real font/DOM metrics with fractional values at320/1440 widths and zoom/font changes.",
+        "Actual caller geometry precision/quantization policy, bounds and no hidden identity-layout fallback.",
+        "Route endpoints remain attached and lines avoid node interiors after any conversion.",
+        "Native/visual readability and source-specific numerical expectations remain distinct."
+      ]
+    },
+    {
+      "id": "GEOMETRY-SUPPLEMENT-02",
+      "severity": "P3_CAPACITY_ACCEPTANCE_GAP",
+      "title": "Nominal count limits do not imply usable default capacity under conservative sort charging",
+      "evidence": "SOURCE_ARITHMETIC_NOT_BENCHMARK",
+      "sources": [
+        {
+          "pr": 36,
+          "head": "96f76b1ebf96d0f1781989f18a6b86faf6709fa9",
+          "path": "rust/crates/syson-routing/src/lib.rs",
+          "line": 248,
+          "sha256": "4ef440f6c241ce7e008b679e0781e65a9df03861b625fae3349343f3782c5c0e"
+        },
+        {
+          "pr": 39,
+          "head": "0ce925097fec1aba61f0735dd67d76ce6eeae41c",
+          "path": "rust/crates/syson-layout/src/containers.rs",
+          "line": 145,
+          "sha256": "9d86a510de50586ffaacabb14ecb54415493d6888d9457ec87783b3399d1bec8"
+        }
+      ],
+      "trigger": "F17 default256 edges costs256\u00b2\u00d71024=67,108,864 logical sort units against max_work20,000,000 even for short edge IDs. F18 uses configured max_id_bytes for n\u00b2 precharge; F16 uses actual maximum ID bytes.",
+      "actual": "Work admission can refuse well below nominal node/edge ceilings. This follows the documented multiple-guard policy, not a measured time regression or incorrect layout.",
+      "expected": "Calibrate published supported workload sizes and caller limits with realistic IDs and graph shapes; avoid presenting count ceilings as accepted native capacity.",
+      "augment_existing": [
+        "U10",
+        "U11",
+        "U29"
+      ],
+      "gates": [
+        "Default and configured limits at64/128/256/1024nodes and representative edge densities.",
+        "Measure wall/p95/RSS/cancellation separately from logical charge.",
+        "Do not weaken hard numeric/allocation guards just to match a count target."
+      ]
+    },
+    {
+      "id": "GEOMETRY-SUPPLEMENT-03",
+      "severity": "EXISTING_ACCEPTANCE_GATES_ONLY",
+      "title": "Synthetic host/provider observations and geometric invariants do not qualify full native UI behavior",
+      "evidence": "SOURCE_TEST_SCOPE",
+      "affected_prs": [
+        27,
+        29,
+        33,
+        36,
+        39
+      ],
+      "actual": "Meaningful local invariants cover obstacle interiors, SCC ranking, determinism, nested bounds and dispatch truth tables. They do not execute fonts/DOM, native injection/providers, ELK or real extension moves.",
+      "augment_existing": [
+        "U02",
+        "U10",
+        "U11",
+        "B29",
+        "M20"
+      ],
+      "gates": [
+        "Real caller affinity across document/revision/font/worker changes.",
+        "Actual provider order/request identity, failure/null behavior and semantic move result.",
+        "Native rendered obstacle clearance, path/bend quality and nested-container readability comparison."
+      ],
+      "new_repair_unit_required": false
+    }
+  ],
+  "limitations": "Targeted few-minute production-source pass plus selected test oracles; not an exhaustive new test audit, native ELK parity, actual DOM/provide invocation or performance acceptance."
+}

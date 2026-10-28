@@ -1,0 +1,540 @@
+{
+  "repair_unit_count": 24,
+  "future_repairs_not_implemented": true,
+  "units": [
+    {
+      "id": "RR01",
+      "title": "Introduce bounded literal JSON materialization without private-token reinterpretation",
+      "findings": [
+        "MODEL-RR-001",
+        "MODEL-RR-002"
+      ],
+      "owner_plan_units": [
+        "M06",
+        "I03"
+      ],
+      "dependencies": [],
+      "write_scope": [
+        "rust/crates/syson-json-value/",
+        "porting/rust-parity-evidence/RR01/"
+      ]
+    },
+    {
+      "id": "RR02",
+      "title": "Adopt literal-safe parsing at model and selected identity-bridge entry points",
+      "findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "M06",
+        "I03",
+        "I06"
+      ],
+      "dependencies": [
+        "RR01",
+        "I01"
+      ],
+      "write_scope": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-json-interchange/src/selected_model.rs",
+        "rust/crates/syson-json-interchange/src/native_model.rs",
+        "rust/crates/syson-model/tests/rr02_regression.rs",
+        "rust/crates/syson-json-interchange/tests/rr02_literal_bridge.rs",
+        "porting/rust-parity-evidence/RR02/"
+      ]
+    },
+    {
+      "id": "RR03",
+      "title": "Keep the library catalogue physical under reserved JSON keys",
+      "findings": [
+        "MODEL-RR-002"
+      ],
+      "owner_plan_units": [
+        "C01g",
+        "M15"
+      ],
+      "dependencies": [
+        "RR01",
+        "C01g"
+      ],
+      "write_scope": [
+        "rust/tools/native-library-catalog/",
+        "porting/rust-parity-evidence/RR03/"
+      ]
+    },
+    {
+      "id": "RR04",
+      "title": "Expose bounded model JSON counting/writing before owned output allocation",
+      "findings": [
+        "PARSER-RR-01",
+        "MODEL-RR-007",
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "I09",
+        "I03"
+      ],
+      "dependencies": [
+        "RR02"
+      ],
+      "write_scope": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/tests/rr04_regression.rs",
+        "porting/rust-parity-evidence/RR04/"
+      ]
+    },
+    {
+      "id": "RR05",
+      "title": "Enforce interchange and bridge serialized budgets before allocation",
+      "findings": [
+        "PARSER-RR-01"
+      ],
+      "owner_plan_units": [
+        "I09",
+        "I06"
+      ],
+      "dependencies": [
+        "RR04",
+        "I01"
+      ],
+      "write_scope": [
+        "rust/crates/syson-json-interchange/src/lib.rs",
+        "rust/crates/syson-json-interchange/src/selected_model.rs",
+        "rust/crates/syson-json-interchange/src/native_model.rs",
+        "rust/crates/syson-json-interchange/tests/rr05_regression.rs",
+        "porting/rust-parity-evidence/RR05/"
+      ]
+    },
+    {
+      "id": "RR06",
+      "title": "Preflight rendered names and text output before copies",
+      "findings": [
+        "PARSER-RR-02"
+      ],
+      "owner_plan_units": [
+        "P170",
+        "I09"
+      ],
+      "dependencies": [],
+      "write_scope": [
+        "rust/crates/syson-text-export/src/lib.rs",
+        "rust/crates/syson-text-export/tests/rr06_regression.rs",
+        "porting/rust-parity-evidence/RR06/"
+      ]
+    },
+    {
+      "id": "RR07",
+      "title": "Quote export names against the actual parser keyword contract",
+      "findings": [
+        "PARSER-RR-03"
+      ],
+      "owner_plan_units": [
+        "P170",
+        "P171"
+      ],
+      "dependencies": [
+        "RR06"
+      ],
+      "write_scope": [
+        "rust/crates/syson-text-export/src/lib.rs",
+        "rust/crates/syson-text-export/tests/rr07_regression.rs",
+        "porting/rust-parity-evidence/RR07/"
+      ]
+    },
+    {
+      "id": "RR08",
+      "title": "Bound AST rollback snapshot work and cancellation",
+      "findings": [
+        "PARSER-RR-04"
+      ],
+      "owner_plan_units": [
+        "P12",
+        "P14",
+        "P18",
+        "P184"
+      ],
+      "dependencies": [],
+      "write_scope": [
+        "rust/crates/syson-ast/src/lib.rs",
+        "rust/crates/syson-ast/tests/rr08_regression.rs",
+        "porting/rust-parity-evidence/RR08/"
+      ]
+    },
+    {
+      "id": "RR09",
+      "title": "Bound native graph indexing and owned-peer counting costs",
+      "findings": [
+        "MODEL-RR-004"
+      ],
+      "owner_plan_units": [
+        "M07",
+        "M11"
+      ],
+      "dependencies": [],
+      "write_scope": [
+        "rust/crates/syson-initializer-graph/src/lib.rs",
+        "rust/crates/syson-initializer-graph/tests/rr09_regression.rs",
+        "porting/rust-parity-evidence/RR09/"
+      ]
+    },
+    {
+      "id": "RR10",
+      "title": "Bound legacy conjugated-name traversal through one authority",
+      "findings": [
+        "MODEL-RR-003"
+      ],
+      "owner_plan_units": [
+        "M10",
+        "M07"
+      ],
+      "dependencies": [
+        "RR09"
+      ],
+      "write_scope": [
+        "rust/crates/syson-initializer-graph/src/native_query.rs",
+        "rust/crates/syson-initializer-graph/tests/rr10_regression.rs",
+        "porting/rust-parity-evidence/RR10/"
+      ]
+    },
+    {
+      "id": "RR11",
+      "title": "Fence SQLite observations by actual database generation",
+      "findings": [
+        "PLAT-01"
+      ],
+      "owner_plan_units": [
+        "B06"
+      ],
+      "dependencies": [],
+      "write_scope": [
+        "rust/crates/syson-storage/src/lib.rs",
+        "rust/crates/syson-storage/src/bridge.py",
+        "rust/crates/syson-storage/tests/rr11_regression.rs",
+        "porting/rust-parity-evidence/RR11/"
+      ]
+    },
+    {
+      "id": "RR12",
+      "title": "Bound storage names and read metadata before cloning/encoding",
+      "findings": [
+        "PLAT-02"
+      ],
+      "owner_plan_units": [
+        "B05",
+        "B06"
+      ],
+      "dependencies": [
+        "RR11"
+      ],
+      "write_scope": [
+        "rust/crates/syson-storage/src/lib.rs",
+        "rust/crates/syson-storage/src/bridge.py",
+        "rust/crates/syson-storage/tests/rr12_regression.rs",
+        "porting/rust-parity-evidence/RR12/"
+      ]
+    },
+    {
+      "id": "RR13",
+      "title": "Refuse nonregular snapshot inputs and bound serialization before writing",
+      "findings": [
+        "PLAT-03"
+      ],
+      "owner_plan_units": [
+        "B06",
+        "C03"
+      ],
+      "dependencies": [
+        "RR04"
+      ],
+      "write_scope": [
+        "rust/crates/syson-workflow/src/lib.rs",
+        "rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "porting/rust-parity-evidence/RR13/"
+      ]
+    },
+    {
+      "id": "RR14",
+      "title": "Admit regular composition manifests before opening",
+      "findings": [
+        "PLAT-04"
+      ],
+      "owner_plan_units": [
+        "C03a",
+        "C03"
+      ],
+      "dependencies": [
+        "C03a"
+      ],
+      "write_scope": [
+        "rust/tools/verify-composition/src/lib.rs",
+        "rust/tools/verify-composition/tests/rr14_regression.rs",
+        "porting/rust-parity-evidence/RR14/"
+      ]
+    },
+    {
+      "id": "RR15",
+      "title": "Bound legacy syntax-observer input file admission",
+      "findings": [
+        "PARSER-RR-05"
+      ],
+      "owner_plan_units": [
+        "P08",
+        "C09",
+        "C02"
+      ],
+      "dependencies": [],
+      "write_scope": [
+        "rust/tools/syntax-observe/src/main.rs",
+        "rust/tools/syntax-observe/tests/rr15_regression.rs",
+        "porting/rust-parity-evidence/RR15/"
+      ]
+    },
+    {
+      "id": "RR16",
+      "title": "Bind integration receipts to a complete unchanged executed source closure",
+      "findings": [
+        "PLAT-05"
+      ],
+      "owner_plan_units": [
+        "C02",
+        "C03"
+      ],
+      "dependencies": [],
+      "write_scope": [
+        "porting/run_integration_checks.py",
+        "porting/tests/test_rr16_integration_receipts.py",
+        "porting/rust-parity-evidence/RR16/"
+      ]
+    },
+    {
+      "id": "RR17",
+      "title": "Add complete Rust CI and final-source affected-suite gates",
+      "findings": [
+        "PLAT-06"
+      ],
+      "owner_plan_units": [
+        "C03",
+        "C04"
+      ],
+      "dependencies": [
+        "RR16"
+      ],
+      "write_scope": [
+        ".github/workflows/rust-parity.yml",
+        "porting/rust-ci-matrix.json",
+        "porting/check_rust_ci.py",
+        "porting/tests/test_rr17_rust_ci.py",
+        "porting/rust-parity-evidence/RR17/"
+      ]
+    },
+    {
+      "id": "RR18",
+      "title": "Bound preview generation and keep import/export recovery reachable",
+      "findings": [
+        "UI-RR-04"
+      ],
+      "owner_plan_units": [
+        "B31",
+        "U03",
+        "U18"
+      ],
+      "dependencies": [
+        "RR04"
+      ],
+      "write_scope": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/src/layout_controller.rs",
+        "rust/crates/syson-web/tests/rr18_regression.rs",
+        "porting/rust-parity-evidence/RR18/"
+      ]
+    },
+    {
+      "id": "RR19",
+      "title": "Expose real command availability and kind-specific editing affordances",
+      "findings": [
+        "UI-RR-03"
+      ],
+      "owner_plan_units": [
+        "U08",
+        "U05"
+      ],
+      "dependencies": [
+        "RR18",
+        "RR20"
+      ],
+      "write_scope": [
+        "rust/crates/syson-web/src/lib.rs",
+        "rust/crates/syson-web/web/style.css",
+        "rust/crates/syson-web/tests/rr19_regression.rs",
+        "porting/rust-parity-evidence/RR19/"
+      ]
+    },
+    {
+      "id": "RR20",
+      "title": "Bound retained local model history without breaking revision/rollback semantics",
+      "findings": [
+        "MODEL-RR-006"
+      ],
+      "owner_plan_units": [
+        "M03",
+        "B17",
+        "U08"
+      ],
+      "dependencies": [
+        "RR04"
+      ],
+      "write_scope": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/tests/rr20_regression.rs",
+        "porting/rust-parity-evidence/RR20/"
+      ]
+    },
+    {
+      "id": "RR21",
+      "title": "Admit bounded semantic-validation projections before serialization",
+      "findings": [
+        "MODEL-RR-007"
+      ],
+      "owner_plan_units": [
+        "M32",
+        "I09"
+      ],
+      "dependencies": [
+        "RR04"
+      ],
+      "write_scope": [
+        "rust/crates/syson-semantic-validation/src/lib.rs",
+        "rust/crates/syson-semantic-validation/tests/rr21_regression.rs",
+        "porting/rust-parity-evidence/RR21/"
+      ]
+    },
+    {
+      "id": "RR22",
+      "title": "Adopt literal-safe JSON through actual migration and project-preparation carriers",
+      "findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C03b",
+        "C03c",
+        "I06"
+      ],
+      "dependencies": [
+        "RR01",
+        "RR02",
+        "C03b",
+        "C03c",
+        "RR24"
+      ],
+      "write_scope": [
+        "rust/crates/syson-project-preparation/src/lib.rs",
+        "rust/crates/syson-project-wire/tests/codec.rs",
+        "rust/crates/syson-project-preparation/tests/rr22_regression.rs",
+        "porting/rust-parity-evidence/RR22/"
+      ]
+    },
+    {
+      "id": "RR23",
+      "title": "Adopt literal-safe JSON at observed-contract readers without changing evidence",
+      "findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "C01c",
+        "C01d",
+        "C01f",
+        "C01h"
+      ],
+      "dependencies": [
+        "RR01",
+        "C01c",
+        "C01d",
+        "C01f",
+        "C01h"
+      ],
+      "write_scope": [
+        "rust/tools/native-graphql-contract/",
+        "rust/tools/native-db-contract/",
+        "rust/tools/native-http-contract/",
+        "rust/tools/native-project-templates/",
+        "porting/rust-parity-evidence/RR23/"
+      ]
+    },
+    {
+      "id": "RR24",
+      "title": "Preserve literal JSON through shared migration support and action/control migration",
+      "findings": [
+        "MODEL-RR-001"
+      ],
+      "owner_plan_units": [
+        "B25S",
+        "B25d",
+        "C03b",
+        "I06"
+      ],
+      "dependencies": [
+        "RR01",
+        "B25S",
+        "B25d"
+      ],
+      "write_scope": [
+        "rust/crates/syson-migrations/src/lib.rs",
+        "rust/crates/syson-migrations/b25d.rs",
+        "rust/crates/syson-migrations/tests/rr24_literal.rs",
+        "porting/rust-parity-evidence/RR24/"
+      ]
+    }
+  ],
+  "augmented_existing_units": [
+    "B05",
+    "B06",
+    "B08",
+    "B17",
+    "B25S",
+    "B25d",
+    "B29",
+    "B31",
+    "C01",
+    "C01c",
+    "C01d",
+    "C01f",
+    "C01g",
+    "C01h",
+    "C02",
+    "C03",
+    "C03a",
+    "C03b",
+    "C03c",
+    "C04",
+    "C09",
+    "I03",
+    "I06",
+    "I09",
+    "M03",
+    "M06",
+    "M07",
+    "M10",
+    "M11",
+    "M15",
+    "M20",
+    "M30",
+    "M32",
+    "M38",
+    "P08",
+    "P12",
+    "P14",
+    "P170",
+    "P171",
+    "P18",
+    "P184",
+    "U01",
+    "U02",
+    "U03",
+    "U05",
+    "U08",
+    "U10",
+    "U11",
+    "U18",
+    "U29"
+  ]
+}

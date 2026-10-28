@@ -1,0 +1,33 @@
+{
+  "status": "SOURCE_PREPARED_NOT_EXECUTED",
+  "number_constructor": {
+    "registry_version": "1.0.151",
+    "path": "/workspace/cache/builderbob/mbse-craft/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.151/src/number.rs",
+    "sha256": "70b83c36286f6c58123f544f27db2b54a1135f928fe33b08b521b2997773f862",
+    "lines": [
+      340,
+      347
+    ],
+    "precondition": "Only immutable raw number tokens from complete strict borrowed-RawValue syntax validation reach the private converter; Literal fields are private."
+  },
+  "number_parser_normalization_source": {
+    "path": "/workspace/cache/builderbob/mbse-craft/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.151/src/de.rs",
+    "sha256": "4998d7e252eb513be85b298e287048b4fb283882e9ba7df905f572f07200f3f3",
+    "lines": [
+      938,
+      955,
+      1296,
+      1304
+    ]
+  },
+  "shared_original_failures": [
+    "/workspace/build/builderbob/syson-rereview-20261026/counterexamples-02/model-marker-runtime-stdout.json",
+    "/workspace/build/builderbob/syson-rereview-20261026/catalogue-private-token-01/receipt.json"
+  ],
+  "adoption": "RR02 and RR03 remain separate; no held file changed",
+  "commands_not_run": [
+    "cargo fmt --manifest-path rust/crates/syson-json-value/Cargo.toml -- --check",
+    "cargo test --offline --locked --manifest-path rust/crates/syson-json-value/Cargo.toml",
+    "cargo clippy --offline --locked --manifest-path rust/crates/syson-json-value/Cargo.toml --all-targets -- -D warnings"
+  ]
+}

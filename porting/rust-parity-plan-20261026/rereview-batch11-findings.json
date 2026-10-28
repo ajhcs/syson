@@ -1,0 +1,45 @@
+{
+  "status": "OPEN_REVIEW_FINDINGS_FROM_REAL_RENDERED_UI",
+  "source_candidate": "acf6707ba4104e61d47639ecf088376e19a48f79",
+  "evidence": [
+    {
+      "path": "/workspace/build/builderbob/syson-rereview-batch11-20261027/joint-browser-01/textarea_layout/textarea-drafts-320.png",
+      "sha256": "3a5844656dd87c0f3d20de99b24607ef29054238f4257b4110ccc9e854a88461"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-rereview-batch11-20261027/joint-browser-01/textarea_layout/textarea-drafts-1440.png",
+      "sha256": "7420728e3d51040426c74422821b879ce70111c30f9385c1b1713821e5826996"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-rereview-batch11-20261027/joint-browser-01/textarea_layout/textarea-rename-control-320.png",
+      "sha256": "16d60d9a4a22be12232317175cf03013add402edfdbac2c192988605e6ef860b"
+    }
+  ],
+  "findings": [
+    {
+      "id": "B11-NAV-FOCUS",
+      "owner": "RR18b3e",
+      "priority": "NEXT_USABILITY_REPAIR",
+      "observed": "A 4096-character name wraps the model-navigation button into a many-screen wall. After refusal/font repaint, the captured viewport can contain that wall while activeElement and caret still match an offscreen import field.",
+      "limits": "Screenshots and actual focus/caret assertions support this gap. The old oracle did not measure viewport intersection; the repair must measure visibility before any automation scrolls the control into view."
+    },
+    {
+      "id": "B11-GLYPHS",
+      "owner": "RR18b3d",
+      "observed": "CJK and emoji render as missing-glyph boxes despite exact DOM/AX values on the pinned DejaVu baseline.",
+      "limits": "This does not prove every operator platform lacks suitable fonts. Visual acceptance of the pinned baseline remains OPEN."
+    },
+    {
+      "id": "B11-PERFORMANCE",
+      "owner": "RR18b3d",
+      "observed": "Joint named phase tasks reach 62/61 ms, ordinary recovery 94/104 ms, and the dense 1025-row caller 165/178 ms at 320/1440 px.",
+      "limits": "Individual named observations only; no statistical improvement, portable latency guarantee or native SysON ratio is claimed."
+    },
+    {
+      "id": "B11-IGNORED-ARTIFACTS",
+      "owner": "RR16c",
+      "observed": "Committed-tree audit found four #113 and twelve #114 sealed HTTP logs omitted by Git ignore rules. Retained original bytes still match all sixteen historical hashes. Earlier blanket committed-seal claims were too broad.",
+      "repair": "Separate data-only supplement on main; preserve old heads and seals. RR16b gains complete Git artifact closure and negative ignored-file gates. Current batch11 packets were repaired before push and every sealed file now matches Git."
+    }
+  ]
+}

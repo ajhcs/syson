@@ -1,0 +1,2138 @@
+{
+  "scope": "28assigned immutable PRs including baseparser components and repairs; overlappingbranches are not28independentfeatures.",
+  "reviewer_execution": "None: no compiler/native/browser/network. Root fresh targeted counterexamples are separate referenced evidence.",
+  "not_claimed": [
+    "No exhaustive line-by-line audit of all historical snapshot/evidence copies.",
+    "Test function/case inventories and targeted invariants are reviewed; absence of a new finding is not full test/native/parity acceptance.",
+    "Generated grammar/reflection tables and fixture corpora are inventoried/source-qualified, not assigned new whole-language acceptance.",
+    "F47review limited to spans/sourceassociation; model lane owns semanticrules.",
+    "Physicalsource/receipt reads do not refresh originalnative executions."
+  ],
+  "pull_requests": [
+    {
+      "pull_request": 6,
+      "head": "bb871cdb2597c33f7ef6d4e41ed82febb1e4dea4",
+      "base": "fc920f3dacf04d07a5655eacd78049220ac40929",
+      "title": "[S05] Standard-library ID migration algorithms",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Pure supplied table/string algorithms; no I/O/URI loading/native host proof.",
+      "files": [
+        {
+          "path": "rust/crates/syson-persistence/Cargo.lock",
+          "git_blob": "48a7e96932d96b4d90c1c49c16f859d1c3bbcd20",
+          "sha256": "c4d5176a081c3511c5b624c9543d948875e7a911b1b139ad550ae9dae6f98409",
+          "lines": 7,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-persistence/Cargo.toml",
+          "git_blob": "98f55b8b94cd8f5851a1fe220773e0fd418b1702",
+          "sha256": "e6a4e978476a663e88d62510692da9132fe4b2ce7fb62db68ccc7683f946aff9",
+          "lines": 8,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-persistence/src/lib.rs",
+          "git_blob": "a10d0ea0047a36fe38f16874d4444ed0c7f03627",
+          "sha256": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476",
+          "lines": 104,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-persistence/tests/migration_contracts.rs",
+          "git_blob": "5b7545bb1d928b4df52979bd34109b708ae5ed07",
+          "sha256": "aa5e8c6cac168e04594a6aa78344202e2dbaca6a66a0ba5d97c67f226402f8c0",
+          "lines": 144,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "supplied_table_and_upstream_fixture_preserve_expected_string_and_action_ids",
+            "parser_matches_java_split_trim_duplicate_and_line_end_rules",
+            "semantic_uri_from_upstream_sql_maps_to_upstream_expected_element_id",
+            "live_element_resolution_takes_precedence_over_fallback",
+            "ordinary_and_containment_references_never_call_resolver",
+            "unknown_reference_unchanged_and_missing_fragment_follows_upstream_slice_rules",
+            "diagram_start_id_matches_upstream_assertion_and_is_idempotent_without_resolution",
+            "resolved_nonlibrary_element_blocks_map_fallback",
+            "non_target_and_non_string_json_attributes_never_resolve",
+            "project_download_filter_preserves_source_prefix_and_null_semantics"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 10,
+      "head": "ff9658fa0181b7205b6037517d3d3ceb741a77e4",
+      "base": "029860c89f8c9ae0758100f5f00f7ce6143d27c9",
+      "title": "[S09] Grammar-driven syntax recognizer and independent regressions",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "CFG/Earley recognizer and one CST derivation only; ambiguity reported. No ALL(*)choice/recovery/semanticAST/full735-rulebehavior closure inferred from compilation counts.",
+      "files": [
+        {
+          "path": "porting/syntax/generate_data.py",
+          "git_blob": "9a72920aa6a7a79314f1b0f33089c17eb8bd33a6",
+          "sha256": "f09100588f44a453b49b5529393bde338a951d5003a61d9b92fed06c1389dc9d",
+          "lines": 46,
+          "role": "harness",
+          "review_mode": "source inventory/dependency preparation lens; operational runner side-effects owned by coordinator/platform lane",
+          "test_function_names": []
+        },
+        {
+          "path": "porting/syntax/run_checks.py",
+          "git_blob": "9d1a99da74288a7759f904d088d6fa2e0232e33c",
+          "sha256": "907613e3cad63d2b0762aba8379cf4d12e8953322ee5635286f12c979e7f8c79",
+          "lines": 22,
+          "role": "harness",
+          "review_mode": "source inventory/dependency preparation lens; operational runner side-effects owned by coordinator/platform lane",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-syntax/Cargo.lock",
+          "git_blob": "24449b36acc13503547ba3ad27beb321b076ad0a",
+          "sha256": "3c502e5b101871a47182b7318f3cead8f47c608edff308c63fc5c262b17d192c",
+          "lines": 105,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-syntax/Cargo.toml",
+          "git_blob": "5b75407699be80bbbb09ab49622370e8f3ebe796",
+          "sha256": "2c78bec4ac2cc446eacdde0cfe14c3fb45554cbafd445deedff2027e6500adc6",
+          "lines": 9,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-syntax/src/grammar.rs",
+          "git_blob": "c249784968ba7990d35ba8896f1f7cf03262a5d9",
+          "sha256": "246f7c7b91780bf5d4a7eb9d8154bb5a840d3b81735c08c5e1782bbb46435233",
+          "lines": 522,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-syntax/src/lexer.rs",
+          "git_blob": "8c188e569b0a8feb8c64e0ec6907a3d39f74a0fb",
+          "sha256": "8f41bd9f64380e67986aea9047ca4d2653f1549017bccebbd90d95c24c31485c",
+          "lines": 253,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-syntax/src/lib.rs",
+          "git_blob": "2100bdfa2e3b185a94fa0c02974d8f375075b38b",
+          "sha256": "5bedf0a6c347453a61187e34a329ac9c107b07ec16cef58995b4a34d276ba5c5",
+          "lines": 118,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-syntax/src/recognizer.rs",
+          "git_blob": "c7df39ef8dada4202bdc0c7f47e74470c465237e",
+          "sha256": "bd04b781148e45e37a1c6c6428e456d36abddad34967e44ec38efa18e8c0f103",
+          "lines": 339,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-syntax/tests/syntax_contracts.rs",
+          "git_blob": "7a1137cc77ae00276abe427c5741ab127b0be04d",
+          "sha256": "9ba901f2dd8e0ae2c89e3da9a683b300b3c1dc3f36e707b0b4c5984ca167cf41",
+          "lines": 322,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "grammar",
+            "both_full_rule_sets_compile_and_keywords_are_derived",
+            "original_upstream_namespace_and_camera_fixtures_are_recognized",
+            "original_incomplete_completion_fixture_returns_expected_tokens",
+            "all_construct_markers_are_visible_without_claiming_semantic_ast",
+            "semantic_invalid_upstream_input_is_only_syntax_recognized",
+            "keyword_prefixes_and_longest_punctuation_do_not_split_identifiers",
+            "comments_keep_visible_annotation_tokens_and_hidden_note_priority",
+            "ecmascript_whitespace_and_ascii_identifier_distinctions",
+            "utf8_utf16_and_crlf_positions_are_separate",
+            "source_number_quirk_and_quote_rules_are_not_normalized",
+            "cancellation_and_every_budget_are_explicit_errors",
+            "unknown_constructs_and_terminal_mutations_fail_closed",
+            "no_trailing_garbage_or_missing_delimiters_are_silently_accepted",
+            "unreachable_import_kind_does_not_change_runtime_lexer_priority",
+            "empty_documents_and_repeated_recognition_are_stable_with_contained_spans"
+          ]
+        },
+        {
+          "path": "rust/validation/syntax/Cargo.lock",
+          "git_blob": "30b0dd9e7927b4c488c95fb3256fd3aba840b1bc",
+          "sha256": "e889f7e06fa76840f0126f8313ebc6d281ae11440b00005f7052009e4a1abf58",
+          "lines": 113,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/syntax/Cargo.toml",
+          "git_blob": "eb97ecf033723821c04acbbce5cf4eeaa24d0793",
+          "sha256": "caa1222594497e70e20cb8cbc3a07bd889fac9197edc54570bf77a366f5a7d7e",
+          "lines": 10,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/syntax/examples/oracle_receipt.rs",
+          "git_blob": "1305dce6e854a9e3800d883e156ceaa3625101d3",
+          "sha256": "11d538a3c114b66c134c386171af48644e3b7ac212c7e7cba9e78ed11733df0a",
+          "lines": 15,
+          "role": "harness",
+          "review_mode": "immutable helper identity/inventory + caller/purpose boundary only; not an independent runtime qualification",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/syntax/src/lib.rs",
+          "git_blob": "ad318240c07762ae455ca2ed94674c67213cbebe",
+          "sha256": "c6ef32d9869ed0ac7f4bc779ae6f9b091629bdf16eaa5d2e614a91afb57e57be",
+          "lines": 2,
+          "role": "harness",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/syntax/tests/recognizer_regressions.rs",
+          "git_blob": "a5c0df122d23b9bacf41b0c78d908ebc284a5f05",
+          "sha256": "793a2acb4192712fd7357ace142adce62d7e20b8b474dd00fd6418700e9c5b23",
+          "lines": 360,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "kw",
+            "group",
+            "alt",
+            "call",
+            "custom",
+            "words",
+            "valid_tree",
+            "exhaustive_balanced_parentheses_match_independent_counter_oracle",
+            "nullable_left_recursion_and_late_completions_match_small_language_oracles",
+            "ambiguous_nullable_recursion_terminates_and_returns_only_a_complete_derivation",
+            "source_terminal_boundaries_preserve_raw_spelling_and_unicode_offsets",
+            "resource_boundaries_and_cancellation_fail_without_successful_partial_results",
+            "same_executed_reference_fixture_is_recognized_with_semantics_not_performed",
+            "actual_grammar_rejects_truncation_and_extra_tokens_at_bounded_entry_points",
+            "malformed_or_unsupported_grammar_changes_fail_closed"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 11,
+      "head": "511b0b1ce14dae7f6b57d57f93b5d709ee1b479b",
+      "base": "575656244320c4e773265d3ad9b2579795b81d81",
+      "title": "[S10] Transactional AST operation kernel and independent regressions",
+      "status": "SPECIFIC_FINDINGS_RECORDED",
+      "finding_ids": [
+        "PARSER-RR-04"
+      ],
+      "coverage_limits": "Operation kernel only; atomic/state/ownership invariants read, no nativeparser or allocator profile by reviewer.",
+      "files": [
+        {
+          "path": "rust/crates/syson-ast/Cargo.lock",
+          "git_blob": "73fbd4a406f85a1154a71d619dc311c7371f579b",
+          "sha256": "d46c666810d41402e3cb870f349c31903ed3854348edb68a6e933fdcb333ce4d",
+          "lines": 7,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast/Cargo.toml",
+          "git_blob": "03c4e0481349eb97ae3540654a9d92ea7fda168c",
+          "sha256": "c4792a4316239c991a7d87fa3b8cce2c6bbe4fdc156dc234add1ded10d88ccf4",
+          "lines": 8,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast/src/lib.rs",
+          "git_blob": "2b0300cf545baf6aee6892818755df2067c3af55",
+          "sha256": "3317db9c1042d4d5c49aefa1b660ab1eef2e8409861345ed476d7f50f11d74c1",
+          "lines": 690,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast/tests/construction.rs",
+          "git_blob": "c7d3e97cb306f65f809694ed8e8ea3ac361e3af9",
+          "sha256": "6adc41c6e7a448b641613e52612e49e1c0241175d9d0fe509c49bc4ea0a43338",
+          "lines": 348,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "reflection",
+            "builder",
+            "string",
+            "missing_null_false_and_array_defaults_remain_distinct",
+            "boolean_default_does_not_overwrite_explicit_null",
+            "presence_uses_match_presence_and_retains_raw_lexeme",
+            "set_replaces_and_append_resets_non_array",
+            "merge_source_arrays_precede_target_and_target_scalars_win",
+            "action_wraps_previous_frame_and_sets_final_container",
+            "fragment_datatype_concatenation_inserts_no_spaces",
+            "quote_and_astral_text_retain_bytes_and_utf16_offsets",
+            "references_are_not_containment_or_resolved_targets",
+            "failed_branch_rolls_back_nodes_fields_frames_and_cst_without_reusing_ids",
+            "arrays_produce_property_indexes_and_cst_retarget_is_explicit",
+            "cycles_and_shared_containment_rejected_independently",
+            "cancellation_and_work_budget_are_explicit_and_not_rolled_back",
+            "node_and_frame_limits_do_not_leak_failed_begin",
+            "unassigned_subrule_adoption_replaces_frame_after_source_first_merge",
+            "empty_subrule_cst_suppresses_assignment_and_unreachable_node_is_pruned",
+            "unknown_types_nested_arrays_and_open_frames_are_errors",
+            "reflection_defaults_keep_first_declared_property_kind",
+            "action_without_feature_replaces_untyped_frame_without_constructing_it"
+          ]
+        },
+        {
+          "path": "rust/crates/syson-ast/tests/flat_array.rs",
+          "git_blob": "dae37c687cc9802d650373cb70ddda22bebe8c18",
+          "sha256": "bb0ffbd67aa88308b3c56f50a6efbce6aa9986ae2cd73c95d418e0c02b2914d8",
+          "lines": 49,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "builder",
+            "appending_an_array_is_rejected_before_mutating_existing_field",
+            "setting_a_flat_array_remains_supported"
+          ]
+        },
+        {
+          "path": "rust/crates/syson-ast/tests/ownership.rs",
+          "git_blob": "6841d5e54370bd15a9c618a1f958ab358aa62d40",
+          "sha256": "cde010bead493297788ce342a210fadddfd5c9f3a6ccbd8df23c4a5290017da4",
+          "lines": 94,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "builder",
+            "foreign_assignment_cannot_mutate_same_index_node",
+            "foreign_merge_and_cst_association_are_rejected",
+            "foreign_root_cannot_finish_an_unrelated_builder",
+            "arena_lookup_rejects_foreign_and_dropped_builder_handles",
+            "foreign_values_and_subrule_adoption_cannot_enter_local_state",
+            "concurrent_builders_have_distinct_handles_with_matching_local_indexes"
+          ]
+        },
+        {
+          "path": "rust/validation/ast/Cargo.lock",
+          "git_blob": "a5865a2f8d09866675d620a3dfe789ea21dff737",
+          "sha256": "7b5acb7ee9deb6919906c6ee70151c09956471920e4cef3059f49261d038bd49",
+          "lines": 12,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/ast/Cargo.toml",
+          "git_blob": "aba4b2192e2a8c702ac748c2029f024477c558ee",
+          "sha256": "86e8f740a81a3eb2ca154549f8cd27913cfe55852253c524acd048d73d772adf",
+          "lines": 9,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/ast/src/lib.rs",
+          "git_blob": "c1fd8f06dc17316282315879fea478b2374b84a4",
+          "sha256": "15dfe72d4c2686fc7a4ebfc430dcb8b860079ebbf4f0a2deedb955888abb9c2a",
+          "lines": 2,
+          "role": "harness",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/ast/tests/kernel_regressions.rs",
+          "git_blob": "f3019c536ffdccc0bdda54910ff23df35c49c423",
+          "sha256": "413416b4be2aefdfe40658a66b1c58cec964e6cd650ac4c5a24abf4e53940120",
+          "lines": 396,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "reflection",
+            "builder",
+            "text",
+            "every_foreign_node_entry_point_rejects_other_builder_ids_without_aliasing",
+            "appending_an_array_is_rejected_before_it_can_create_nested_property_state",
+            "nested_transaction_success_and_failure_preserve_frames_fields_and_cst_ownership",
+            "action_failure_rolls_back_added_defaults_and_nested_wrappers_derive_containers",
+            "adoption_source_first_arrays_defaults_and_explicit_cst_retarget_remain_separate",
+            "cancellation_inside_transaction_rolls_back_and_failed_work_remains_consumed",
+            "datatype_and_zero_length_subrules_preserve_frame_and_absence_contracts",
+            "node_frame_limits_and_source_spans_fail_explicitly_without_reusing_ids",
+            "presence_defaults_raw_references_and_number_input_slots_keep_distinct_contracts",
+            "unassigned_subrule_adoption_switches_frame_and_preserves_source_first_order"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 12,
+      "head": "ca80c1960620f87b940bd1e2040597efd7842052",
+      "base": "ff9658fa0181b7205b6037517d3d3ceb741a77e4",
+      "title": "[S11] Parser reference corpus and native observation tooling",
+      "status": "SPECIFIC_FINDINGS_RECORDED",
+      "finding_ids": [
+        "PARSER-RR-05"
+      ],
+      "coverage_limits": "Reference invocation/observation tooling; dump--validate can emit recoveredAST with exit0, so nativevalidity requires explicit parser diagnostics/build observations.",
+      "files": [
+        {
+          "path": "porting/parser-oracle/run_reference.py",
+          "git_blob": "0f213bf60cdd4654e3d4b595de2055e44c63d781",
+          "sha256": "074425971218521895f8dc2d8468c9791d99c30de903b4fd1d52d62914e320c7",
+          "lines": 75,
+          "role": "harness",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "porting/validation/parser-corpus/check_preparation.py",
+          "git_blob": "2244220ae80a7e5d493c37bc4b663ce6ea8ff2e7",
+          "sha256": "b97c85229a9d0a033e5b78f2dde5ea8cd507d1303e54ba73a0c78331f7b9909e",
+          "lines": 51,
+          "role": "harness",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "porting/validation/parser-corpus/prepare.py",
+          "git_blob": "f3a680f7e75878b65fbe1ba0f2a375073f1f9c15",
+          "sha256": "bb00befbc2c75a97701caa6b0ebef6e017e8cca0409a13d72e8b23e42b50a3cd",
+          "lines": 111,
+          "role": "harness",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "porting/validation/run_syntax_review.py",
+          "git_blob": "8dda50afc0ceccc00c0a165e1d6266fd75be7976",
+          "sha256": "3663f8955fa9056e080df52c091209461215de5e1b7eebdcc9e140157d19a0af",
+          "lines": 85,
+          "role": "harness",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/tools/syntax-observe/Cargo.lock",
+          "git_blob": "10b2ee0dd4203d4fb7ac790eee15fcaf24cb15a9",
+          "sha256": "c00e75e058a0b16da173ef7aa837e0b1de1efad5ccd72b3b9a572a3d69c63991",
+          "lines": 113,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/tools/syntax-observe/Cargo.toml",
+          "git_blob": "c2c25c48a35c4ca8d87dc414e0dd0ddcd013cbe0",
+          "sha256": "5b90b6c69cce21cdd1e3ed097a8fb079ed8e2028fc5d531221bef519e77fa8af",
+          "lines": 10,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/tools/syntax-observe/src/main.rs",
+          "git_blob": "7de1b5e9fe1bb4e266168d87a27284c13cea2d08",
+          "sha256": "3997872c78eaffccf35fae8faf49b92637bcebd9a660c37230590e945b5c5a98",
+          "lines": 46,
+          "role": "harness",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 19,
+      "head": "af4587008df81a3c16ab15fcb5b799a6f0d7438c",
+      "base": "069a13c3d30b06e5e9ec1086c59d301e1d850240",
+      "title": "[S18] Integrated independent Rust regression harness",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Language/migration portions of bounded integration runner only; UI/scalar/model/layout tests delegated. Hashing allsource doesnot imply every component test ran.",
+      "files": [
+        {
+          "path": "porting/run_integration_checks.py",
+          "git_blob": "4a43da0950dc819d1838130a66ab653c570347eb",
+          "sha256": "5a341a468a3b262e713886d375805cb6fd5d62cccbd31c30c0b52c306f69fa1d",
+          "lines": 53,
+          "role": "harness",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/Cargo.lock",
+          "git_blob": "9eb7b606a73eadd7929d2bbafb0619c90daf886a",
+          "sha256": "3e11cfe002f6a6739699a7c179b4786645ae00ccf72ab4f3ff2c377c4a898984",
+          "lines": 156,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/Cargo.toml",
+          "git_blob": "7a0b213d323ff87e73b3b2a75d23869f78be759e",
+          "sha256": "1743b65536b307b41404fddc61f041abc060468430053367005f9eaabe00f393",
+          "lines": 16,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/validation/tests/ledger_fixtures.rs",
+          "git_blob": "d4015adb1829e1d90c866a4c2e90a36fb43a1977",
+          "sha256": "c9bfc9ab54a022344848f97ff82dd2e547f4cbbaa65095d8c7accd56674386fb",
+          "lines": 130,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "read_fixture",
+            "name_case",
+            "layout_node",
+            "rotation_case",
+            "migration_case",
+            "case_000001",
+            "case_000002",
+            "case_000003",
+            "case_000004",
+            "case_000005",
+            "case_000006",
+            "case_000007",
+            "case_000008",
+            "case_000009"
+          ]
+        },
+        {
+          "path": "rust/validation/tests/source_regressions.rs",
+          "git_blob": "ac87242e1255877017f0059894a870b093362cad",
+          "sha256": "4490a7fb361cf5cb2eac09abd0571a2477c3c34c7b0b09bb50935cb4fbb993e9",
+          "lines": 117,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "java_strip_unicode_boundary",
+            "node",
+            "empty_id_find_result_is_false_even_when_matched",
+            "first_empty_edge_match_prevents_later_truthy_match",
+            "nan_computed_minimum_retains_previous_height",
+            "reference_priority_is_sysml_substring_even_when_kerml_comes_first",
+            "diagram_found_nonlibrary_blocks_old_id_fallback",
+            "parser_preserves_java_trim_nonbreaking_space_and_trailing_split_rules"
+          ]
+        }
+      ],
+      "other_lane_files": [
+        {
+          "path": "rust/validation/examples/export_metamodel.rs",
+          "reason": "other-lane model/scalar/UI/layout harness, delegated"
+        },
+        {
+          "path": "rust/validation/scripts/check_compiled_metamodel.py",
+          "reason": "other-lane model/scalar/UI/layout harness, delegated"
+        },
+        {
+          "path": "rust/validation/scripts/run_ledger_fixtures.py",
+          "reason": "other-lane model/scalar/UI/layout harness, delegated"
+        },
+        {
+          "path": "rust/validation/tests/creation_regressions.rs",
+          "reason": "other-lane model/scalar/UI/layout harness, delegated"
+        },
+        {
+          "path": "rust/validation/tests/model_workflow_regressions.rs",
+          "reason": "other-lane model/scalar/UI/layout harness, delegated"
+        },
+        {
+          "path": "rust/validation/tests/scalar_regressions.rs",
+          "reason": "other-lane model/scalar/UI/layout harness, delegated"
+        },
+        {
+          "path": "rust/validation/tests/web_contract_regressions.rs",
+          "reason": "other-lane model/scalar/UI/layout harness, delegated"
+        }
+      ]
+    },
+    {
+      "pull_request": 23,
+      "head": "7d1eb8a1a05c292c78ca27482158c6dfe5196c3b",
+      "base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "title": "F08: add immutable AST reflection tables and checked handles",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Shared with model lane. Parser-consumer metadata/default/referenceposition lens; generated table records/counts inventoried, not fullnative189-name ordering qualification.",
+      "files": [
+        {
+          "path": "rust/crates/syson-reflection/Cargo.lock",
+          "git_blob": "e4b0ae2967db48064a7f54675e41999f042dfdc5",
+          "sha256": "13e69271935b9a25a3724e23b972f0380fa37aa83444733806d7e9a04cba8e04",
+          "lines": 7,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-reflection/Cargo.toml",
+          "git_blob": "0e82bdbb80fc5ca9f9e52daec3cf0a6e7f120d65",
+          "sha256": "0cc1aa2f8c2f035614876c29d425051e6311d0056948ba8c7a7df33e3dcef3ca",
+          "lines": 8,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-reflection/src/generated.rs",
+          "git_blob": "1e75f88d555979d6b309a64aa663082e5e3e0542",
+          "sha256": "39651ef2b972a3628747a24f9aff5e13ca95eec70cbec7e50165518f9737ffb1",
+          "lines": 207,
+          "role": "production",
+          "review_mode": "generated metadata/table inventory; source-qualified candidate behavior only",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-reflection/src/lib.rs",
+          "git_blob": "82f8788f718d6b96c0070394e1720d45c276c828",
+          "sha256": "73ead0b106d3fb1186fcaed5050225af2eb36897401795901f7df735265dea20",
+          "lines": 344,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-reflection/tests/reflection.rs",
+          "git_blob": "a5e53c6d033a87d0d0cf7739b6ab2101d6f740b2",
+          "sha256": "59c546b327587e0d5d5771190c8f502c81e721969eff3fdd8db71d87432ab7ff",
+          "lines": 301,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "names",
+            "csv",
+            "every_generated_name_order_ancestor_descendant_and_metadata_matches_static_source_fixture",
+            "four_retained_strict_source_expectations_remain_literal",
+            "non_type_markers_are_filtered_only_from_the_ast_list",
+            "local_metadata_precedes_inherited_and_children_is_appended_once",
+            "generated_property_ids_and_override_reference_positions_are_distinct",
+            "malformed_positions_are_rejected_without_arithmetic_overflow",
+            "unknown_names_and_foreign_handles_are_explicit_errors",
+            "owner_identity_outlives_its_database_and_tables_are_shareable"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 25,
+      "head": "48ee69e41c4f29346f1d95075278d84aefc48057",
+      "base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+      "title": "F10: convert AST primitive values without losing source spelling",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Finite primitive conversion and names; scalar/BigInt/Date refusals and UTF16/sourcebytes read. No fullCST dispatcher behavior inferred.",
+      "files": [
+        {
+          "path": "rust/crates/syson-ast-values/Cargo.lock",
+          "git_blob": "c21a98143faa06efe643e5f99b4738d1a83c2269",
+          "sha256": "b7aec954c28fef33ee289df4a71b232e942cdea6fac995fcaa44c4077be395db",
+          "lines": 7,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-values/Cargo.toml",
+          "git_blob": "6b629244e3d48366ea4f75a95367b096a2b9b0ec",
+          "sha256": "2f9b08c9bea08aed58e81862e9a231f209ddd914f250361fd773126691d77b40",
+          "lines": 9,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-values/src/lib.rs",
+          "git_blob": "dbc4a288746469e4980e6f7819a9100cb4c41f0a",
+          "sha256": "a41deb4952e4f7fb5e8bdd1718af745bbfecf17b9080cce2433d2e30644c1a58",
+          "lines": 409,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-values/tests/conversion.rs",
+          "git_blob": "0493f91fc935c00ed3e4e0fe2757d53be44df71c",
+          "sha256": "ed40405b16e3d2418319b1d8d05d4da1b9d773c170c4eeb8aef7aee7da71ec86",
+          "lines": 372,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "control",
+            "lexeme",
+            "text",
+            "number",
+            "absence_null_and_empty_string_remain_distinct",
+            "reachable_string_terminals_retain_quotes_escapes_and_unicode",
+            "named_converter_precedes_declared_type_and_is_ascii_case_insensitive",
+            "string_escape_scan_is_not_json_decoding",
+            "regex_substring_and_string_slicing_follow_utf16_units",
+            "name_sanitation_is_a_later_distinct_layer",
+            "name_escaping_preserves_ascii_rule_and_source_escape_set",
+            "decimal_values_round_binary64_but_keep_source_spelling",
+            "signs_subnormal_overflow_and_nonfinite_are_explicit_numbers",
+            "number_syntax_is_not_rust_parse_syntax",
+            "js_whitespace_is_not_rust_whitespace",
+            "radix_rounding_uses_guard_and_sticky_bits",
+            "inherited_int_converter_uses_prefix_and_default_hex_detection",
+            "boolean_helper_has_no_whitespace_trim_and_bigint_date_are_unsupported",
+            "budgets_cancellation_and_invalid_dispatch_retain_failure_span",
+            "empty_quoted_name_obeys_output_budget_and_cancellation"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 35,
+      "head": "98d888365ba344fa513c03e652ab8ff1d95082a6",
+      "base": "7d1eb8a1a05c292c78ca27482158c6dfe5196c3b",
+      "title": "Add ordered AST postprocessor dispatch plans",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Shared with model lane. Dispatcher API/falsey/ancestor/block semantics; no callbacks execute and inherited order remains F08candidate.",
+      "files": [
+        {
+          "path": "rust/crates/syson-ast-dispatch/Cargo.lock",
+          "git_blob": "bf151902616ab39f785ace8a8412e06c598feb10",
+          "sha256": "e2c47e4c5a0631c9eed7fbb72103960c78585308b02948ef4d0e87ca20248536",
+          "lines": 14,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-dispatch/Cargo.toml",
+          "git_blob": "2835317a5ab2c0ff6dafeb868609389c1860d9d8",
+          "sha256": "c91cbed4e441ac92b1d4abf37e8f86c6362ccb2a8a072c57df6312ba10018508",
+          "lines": 11,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-dispatch/src/lib.rs",
+          "git_blob": "0c40354178f3dd40d2e96be6b87a5afccbd6838a",
+          "sha256": "5d7ff68a4a1580fc71df734e1b82a6dbe23bc4b9503c671fe40bc38eedab1ce0",
+          "lines": 183,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-dispatch/tests/dispatch.rs",
+          "git_blob": "5fd492e331208c72166cd096218cd2c573e736c0",
+          "sha256": "3fc744649b49ae82fa04adb9112aabcbd77c3383ab8ac15776c2e7dc9b503186",
+          "lines": 341,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "db",
+            "ty",
+            "retained_source_most_derived_expectations",
+            "retained_source_array_expectations",
+            "explicit_falsey_direct_values_fall_back_to_ancestor",
+            "falsey_ancestors_skip_to_default_and_falsey_defaults_are_omitted",
+            "truthy_default_expands_to_every_generated_name_in_source_order",
+            "empty_array_is_truthy_but_merge_still_collects_ancestor_block",
+            "reverse_merge_reverses_blocks_without_reversing_elements",
+            "full_chain_default_is_last_or_first_and_payloads_are_not_flattened",
+            "repeated_payload_identity_is_retained_for_distinct_ancestors_and_default",
+            "foreign_owner_is_rejected_at_registration_and_every_lookup",
+            "duplicate_registration_is_restricted_but_default_is_not_a_type",
+            "parser_registry_covers_direct_and_inherited_processors_without_invoking_them",
+            "construct_skips_nonstrings_and_unknown_strings_even_with_default",
+            "registries_and_prior_borrowed_plans_do_not_change_each_other",
+            "merged_blocks_retain_repeated_items_within_and_across_ancestors"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 40,
+      "head": "ca1c4b3ab364db7dc9da835c66cba72912c3417f",
+      "base": "2af6bfbc46b3c30ba7ccf0a2774d65c1ce578cc2",
+      "title": "Construct finite package and part ASTs from text",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Finite package/part parser. Unsupported grammar remains explicit; no semantic import/recovery/fullSysML acceptance.",
+      "files": [
+        {
+          "path": "rust/crates/syson-ast-adapter/Cargo.lock",
+          "git_blob": "cdb2942ce10833733afb5f3f62a36e2d893c5dec",
+          "sha256": "87baa16c33cc450a13c4dffbc098dedab6d55abc3d575c408eeaca9196788384",
+          "lines": 24,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/Cargo.toml",
+          "git_blob": "967794a5b2af7f751bcc27ff495b2159eeb1c94d",
+          "sha256": "e4a0fc00846ef29365fcde52f6519116fac468b74b69a739b9d1d2afd76655ec",
+          "lines": 13,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/src/lib.rs",
+          "git_blob": "67c21157cfe9fdeffafba8e1c2317d53238a0493",
+          "sha256": "f91fe8a50c2b1d79a5afcd30cef9afe6a85d1859473c9a8977b3cc251ea62d96",
+          "lines": 447,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/src/reserved.rs",
+          "git_blob": "3d11a62cea8ea475b98b14eaea849163bcca7b89",
+          "sha256": "00fe45206cb1bf7341f43674684b7e0bd493a4addb3e7b320e399196da0a8ac9",
+          "lines": 173,
+          "role": "production",
+          "review_mode": "generated keyword inventory + actual tokenizer/printer set comparison",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/tests/construction.rs",
+          "git_blob": "67d4915f1384182c5eec4c0551368db7c455314f",
+          "sha256": "2ea2e44eabb78fad4d66a2c219b022782247ce47589d9ca9e75af5f786ab1ee4",
+          "lines": 358,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "adapter",
+            "build",
+            "child",
+            "target",
+            "kind",
+            "assert_parent",
+            "package_part_definition_and_typed_usage_have_source_shaped_wrappers",
+            "usage_membership_depends_on_package_or_definition_body_context",
+            "qualified_typing_stays_unresolved_with_raw_name_segments_and_parenting",
+            "raw_quoted_names_preserve_quotes_escapes_and_both_span_units",
+            "anonymous_and_empty_bodies_keep_optional_names_absent",
+            "defaults_and_absent_optionals_are_distinct_from_empty_or_false_values",
+            "repeated_declarations_preserve_encounter_order_and_distinct_identity",
+            "malformed_finite_pairs_produce_no_arena_and_retain_precise_offsets",
+            "valid_source_outside_whitelist_is_explicitly_unsupported",
+            "keyword_union_never_silently_constructs_keyword_as_regular_name",
+            "all_frontend_limits_and_invalid_depths_fail_closed",
+            "kernel_limit_and_precancelled_input_never_return_partial_arena",
+            "prior_arenas_are_immutable_and_node_handles_do_not_cross_owners"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 41,
+      "head": "25acfaa6f3059685f133be034355f11104aad16f",
+      "base": "1d50b6f988a5ee8847f61a4c76e1d46766bad3a0",
+      "title": "Apply structural operator-expression postprocessing",
+      "status": "SPECIFIC_FINDINGS_RECORDED",
+      "finding_ids": [
+        "PARSER-RR-04"
+      ],
+      "coverage_limits": "Synthetic operator postprocessor only; no actualtextExpression parser or nativecachealias emulation.",
+      "files": [
+        {
+          "path": "rust/crates/syson-ast-adapter/Cargo.lock",
+          "git_blob": "37f5742c7c7875dff3639a9aed46560c5cf36181",
+          "sha256": "914eae2e97aee18957614a41b22f367e845f0a3ae15d5016ab58d433bb10538e",
+          "lines": 32,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/Cargo.toml",
+          "git_blob": "17148bed6b348c07e6572b765c76ea91baf20259",
+          "sha256": "f523e4956077c1f46a5fba36497da3a613b0291b21c722c3a08f9795a198a42e",
+          "lines": 14,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/src/lib.rs",
+          "git_blob": "d308a5e4c295f3cd820abe8a32b6a18fd9521e74",
+          "sha256": "17a1eb0f3d5e0bb8e6343420c6a5cc497cfc8767522f44a46463ec2c07ac8786",
+          "lines": 448,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/src/operator_expression.rs",
+          "git_blob": "717257156408bfbbc4b81dd21450919442596b5c",
+          "sha256": "92b838fe2cda05176eeb0ddedbca6230e829abc09f44b5d790a0030f13f43408",
+          "lines": 158,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/tests/operator_expression.rs",
+          "git_blob": "8c356d3e1bb8c9a56e550e4780938a27e7349877",
+          "sha256": "6d33bd3d37c214282bc0867cd504ced87b89427115bd25e605b80584da4b1ef8",
+          "lines": 368,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "processor",
+            "builder",
+            "assign",
+            "expression",
+            "node_value",
+            "operands",
+            "assert_parent",
+            "inserted",
+            "four_exact_classification_operators_insert_the_source_placeholder_chain",
+            "explicit_empty_array_is_truthy_and_does_not_report_normalization",
+            "representable_falsey_operand_values_are_normalized_before_insertion",
+            "missing_falsey_or_nonmatching_operator_only_normalizes_operands",
+            "unary_binary_and_nonempty_classification_preserve_operand_order",
+            "nested_processing_is_explicit_and_repeated_application_is_idempotent",
+            "nonempty_operands_do_not_require_a_string_operator_or_rewrite_other_fields",
+            "truthy_nonarray_operands_are_an_explicit_unchanged_admission_error",
+            "other_dispatch_entries_are_not_executed_or_subject_to_operand_admission",
+            "allocation_failure_rolls_back_normalization_new_nodes_and_all_parent_writes",
+            "cancellation_and_foreign_or_missing_handles_do_not_mutate_the_target",
+            "source_cst_is_preserved_and_native_cache_aliases_remain_explicitly_unimplemented"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 50,
+      "head": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "base": "19cc940e7a0ea0c909f140fc0bc79d19220cddd2",
+      "title": "F13: Link finite local AST references with explicit semantic bindings",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Finite local linker, explicitbindings/aliases only. Historical256boundary hasknownfix58; not a newfinding.",
+      "files": [
+        {
+          "path": "rust/crates/syson-linker/Cargo.lock",
+          "git_blob": "ec84d5b171a774b247ee9b1a8397678b4c7eb109",
+          "sha256": "d548cb3b37582e899e9b540df6224d630c36060d8cdbae92c05e53d8c3970a8d",
+          "lines": 157,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-linker/Cargo.toml",
+          "git_blob": "2ca29094b95daca6986a9aadbf7fc5495163e409",
+          "sha256": "46144a418e7e7f9e1de8baf81bcede6907b4acaa4ad7bfe8bfe9786bcf7e640c",
+          "lines": 16,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-linker/src/lib.rs",
+          "git_blob": "ad1f3bb276dc428e1ae5ba28536d68852ce1cbb4",
+          "sha256": "6ebba197984e5151f7fbca5fbefa468a73401ad65cae919bd3a293c4d405023e",
+          "lines": 373,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-linker/tests/linking.rs",
+          "git_blob": "01e339a200a3b31d8cb29a898962b03b35c11a5e",
+          "sha256": "fad874799393a1c9176ce5df5e7622eaf1e35115f825d2543048eebc38198844",
+          "lines": 432,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "parse",
+            "named",
+            "references",
+            "registry",
+            "empty",
+            "alias",
+            "actual_f11_reference_resolves_then_explicit_f04_binding_preserves_both_ids",
+            "nearest_lexical_scope_wins_without_testing_later_parent_candidates",
+            "later_qualified_segments_do_not_fall_back_to_the_parent_scope",
+            "wrong_type_is_retained_as_found_but_never_as_a_resolved_target",
+            "caller_observed_alias_chain_resolves_without_claiming_f11_alias_parsing",
+            "alias_cycles_fail_without_publishing_a_partial_target",
+            "qualified_alias_targets_use_their_observed_scope_and_wrong_types_stay_visible",
+            "missing_alias_target_and_case_mismatch_are_explicit_unresolved_outcomes",
+            "duplicate_or_ambiguous_sanitized_names_refuse_snapshot_admission",
+            "foreign_alias_scopes_and_foreign_or_duplicate_binding_nodes_refuse",
+            "semantic_bindings_never_fall_back_from_json_node_id_to_semantic_element_id",
+            "semantic_mapping_checks_the_actual_declaration_classifier",
+            "result_and_semantic_targets_cannot_be_replayed_in_an_identical_new_snapshot",
+            "quoted_unicode_and_escaped_names_are_sanitized_for_lookup_without_editing_syntax",
+            "alias_work_admission_is_bounded_and_external_proxy_bindings_are_not_admitted"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 52,
+      "head": "574193c29659010bd5c31c1e6a768fb58f712230",
+      "base": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "title": "F14: Stage finite package and part text imports atomically",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "ActualfiniteF11\u2192F13\u2192selectedModel atomicimport; existing-parent symbols intentionallyexcluded; namingcleanup distinctASTlookup.",
+      "files": [
+        {
+          "path": "rust/crates/syson-text-import/Cargo.lock",
+          "git_blob": "f1089c0a33145b8933b9acbdfde37975bc64c446",
+          "sha256": "c73460842a3a5ec7ef23472c01ddb6859998bb455e75d681c006772b2d46e467",
+          "lines": 170,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-text-import/Cargo.toml",
+          "git_blob": "2bf97d76585b894ed9f34eaa9f2f84eddd04ba5c",
+          "sha256": "18f81221e84073b8e320d77d9d5f53c9d76a73903bc4c60cf06f3aa4d0794204",
+          "lines": 17,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-text-import/src/lib.rs",
+          "git_blob": "ac0a89f4061c5fb8051a98299e4fa78cd08a6728",
+          "sha256": "9eaf961c48417f203ab3f8b8ccf327409f8df7014c291815a2740cea461117f1",
+          "lines": 266,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-text-import/tests/import.rs",
+          "git_blob": "f29d1163b88c1f007577b29b77014c7b2b1619c9",
+          "sha256": "226990108ce1a50f019937f0913e0ad1f30f77c9b34e605f41f8ae8483d1f40e",
+          "lines": 335,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "importer",
+            "ids",
+            "supply",
+            "cancel",
+            "named",
+            "type_target",
+            "source_stages_and_commits_one_model_with_distinct_ids_and_actual_linked_types",
+            "forward_and_cross_package_references_use_actual_f13",
+            "constructor_selects_definition_body_feature_membership",
+            "explicit_existing_parent_attaches_parts_without_injecting_existing_symbols",
+            "pinned_java_quote_stripping_is_distinct_from_ast_lookup",
+            "malformed_suffix_and_unsupported_input_leave_data_and_history_unchanged",
+            "missing_wrong_type_duplicate_and_outer_fallback_references_refuse_atomically",
+            "missing_parent_and_unnamed_constructs_are_explicitly_unsupported",
+            "exhausted_colliding_and_late_typing_identities_publish_no_prefix",
+            "explicit_and_mid_creation_cancellation_drop_the_whole_owned_transaction",
+            "cancellation_after_staging_prevents_commit",
+            "stale_and_foreign_editor_commit_keep_current_documents",
+            "empty_input_is_noop_and_parser_limits_remain_authoritative"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 55,
+      "head": "92aaccaf5cd5b69b44839f77dff7723e078a60fa",
+      "base": "80261b68e5e7ec2f2fe7f0d638050faca9800670",
+      "title": "F33: Round-trip finite cross-resource EMF JSON reference bundles",
+      "status": "SPECIFIC_FINDINGS_RECORDED",
+      "finding_ids": [
+        "PARSER-RR-01"
+      ],
+      "coverage_limits": "Finitebundle/value/nativewire validation; no generalEMFloading. Newserializationallocation finding and sharedopaque-keymaterialization.",
+      "files": [
+        {
+          "path": "rust/crates/syson-json-interchange/Cargo.lock",
+          "git_blob": "ec99db7de22e034f61ff962597db9d6aadce50cc",
+          "sha256": "31ad7ff29b99bde1aec8941eaa03b406f9ab70b9a45341be5e76f6b50cbcb2c6",
+          "lines": 178,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/Cargo.toml",
+          "git_blob": "72b361eafdcb0bfc9c6471de6258a67cc12469fc",
+          "sha256": "c2987c2f050128c44e6de3f5e48fe3c3e78741f9ffd31b83ff34afeab2cbcd03",
+          "lines": 17,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/src/lib.rs",
+          "git_blob": "7f358de6992b38c023c0d54ed3eeb1bdca62ad78",
+          "sha256": "5834751c57b5644e0aaeb0db647b4adf911fa1bbba0dcb0a5e68eac49ecaf027",
+          "lines": 193,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/tests/roundtrip.rs",
+          "git_blob": "b862de98f400108417eed987d43c7938fb349270",
+          "sha256": "f66c33245f801973243f376a5eb5e5a5a289c0702a5c7720361dbaf53a19ea6b",
+          "lines": 368,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "ids",
+            "node",
+            "envelope",
+            "input",
+            "local",
+            "changed_type",
+            "library",
+            "package_part_port_roundtrip_preserves_values_and_local_node_identity",
+            "actual_f05_external_view_projection_roundtrips_all_resources",
+            "unknown_envelope_node_and_data_fields_survive_as_opaque_values",
+            "dangling_local_ref_has_position_and_never_uses_semantic_fallback",
+            "external_fragment_policy_is_explicit_and_same_ids_in_other_resource_do_not_alias",
+            "missing_external_resources_are_not_discovered_or_loaded",
+            "reference_class_tags_and_target_classes_are_both_checked",
+            "unsupported_reference_forms_and_known_reference_features_refuse",
+            "absent_and_explicit_null_type_remain_distinct_json_values",
+            "later_failure_does_not_publish_partial_replacement_or_mutate_previous_bundle",
+            "duplicate_resource_keys_ids_and_invalid_ids_refuse",
+            "finite_class_and_envelope_contract_refuses_other_families",
+            "resource_byte_count_and_total_node_limits_are_enforced",
+            "accepted_uploads_also_fit_canonical_save_and_reload_budget"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 56,
+      "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+      "base": "574193c29659010bd5c31c1e6a768fb58f712230",
+      "title": "F34: Export finite package and part text with round-trip admission",
+      "status": "SPECIFIC_FINDINGS_RECORDED",
+      "finding_ids": [
+        "PARSER-RR-02",
+        "PARSER-RR-03"
+      ],
+      "coverage_limits": "Finitepackage/part export withactualF14gate; rootidentity loss intentionaltextformat. Newnamebudget andquotedreservedwordworkflow findings.",
+      "files": [
+        {
+          "path": "rust/crates/syson-text-export/Cargo.lock",
+          "git_blob": "ad9629b4b5dafdac5682b4149f018e644935bd03",
+          "sha256": "263f085c08e374af976bba14a34a6bb5cc33166bd811c05cada7f239bd3ee7cd",
+          "lines": 180,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-text-export/Cargo.toml",
+          "git_blob": "e5ef011e8147cd6cf8a3de5cfc43b382a9a8a701",
+          "sha256": "a082b086ab156d92b56adacffc91d3fd932f9325e88abe4341dcb8e668bc1f2c",
+          "lines": 15,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-text-export/src/lib.rs",
+          "git_blob": "26847c3a7735bd9e1e0a42fea243c458ec319ac1",
+          "sha256": "171536fcb42a75cb21cf93407bed62fcd389610cea05918b69dd1fa9d9821a2f",
+          "lines": 327,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-text-export/tests/export.rs",
+          "git_blob": "fc88f7bb8a87882b27db4a42e546cb0aaf2977fd",
+          "sha256": "bf7ca303014b00d67c7921fd14b9901a119c4982adc1d491ee2e6687432d05ea",
+          "lines": 314,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "ids",
+            "import",
+            "named",
+            "change",
+            "exact_package_part_typing_bytes_roundtrip_through_actual_f14",
+            "explicit_crlf_and_tabs_have_no_platform_or_trailing_newline_dependency",
+            "empty_and_multiple_root_packages_keep_order",
+            "printable_spaces_unicode_and_native_keywords_roundtrip",
+            "nested_feature_memberships_and_forward_references_keep_order",
+            "cross_package_deresolution_qualifies_only_when_required",
+            "shadowed_root_path_is_refused_instead_of_binding_a_different_type",
+            "semantic_typing_never_falls_back_to_local_node_identity",
+            "dangling_wrong_class_wrong_typed_feature_and_multiple_types_refuse",
+            "unknown_fields_modifiers_and_untyped_parts_are_not_silently_dropped",
+            "unsupported_classifier_and_wrong_membership_kind_fail_without_output",
+            "duplicate_siblings_and_lossy_name_inputs_refuse",
+            "actual_f14_gate_refuses_wider_reserved_names_and_parser_size_limits"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 57,
+      "head": "37d1800cb9858f5d62ac244963dad031ffe3b410",
+      "base": "259ecebe50ed80debf7a8bf0506c7bb3a600a214",
+      "title": "F47: Validate selected namespace names and direct part typing with source spans",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Spans/sourceassociation only. OriginalbareCR linebug isknownfixed59; rule semantics delegatedmodelreview.",
+      "files": [
+        {
+          "path": "rust/crates/syson-semantic-validation/Cargo.lock",
+          "git_blob": "2c3baa2c657ce910087149d078fd3b0974ec264a",
+          "sha256": "c9ea631e5968c4e6b5e902e07de3dcaf354c10bc2700999d6d29a24bcd12542c",
+          "lines": 214,
+          "role": "metadata",
+          "review_mode": "targeted spans/sourceassociation/linecolumn code; rule semantics delegated",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-semantic-validation/Cargo.toml",
+          "git_blob": "50037130e7eb1af43ed3c4742497606136692cfc",
+          "sha256": "596f3190304f31ce034e8b3c1a266a6a3f6f2b0d9ca95a73091e5a240b87a8f9",
+          "lines": 20,
+          "role": "metadata",
+          "review_mode": "targeted spans/sourceassociation/linecolumn code; rule semantics delegated",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-semantic-validation/src/lib.rs",
+          "git_blob": "2cb0735b891c107e7efca930a4a3c76829a7ad0d",
+          "sha256": "c797aa7449afc0047fb7f9e2bde9acf38e4c0e525ad3dc4a45ed46134e387dde",
+          "lines": 387,
+          "role": "production",
+          "review_mode": "targeted spans/sourceassociation/linecolumn code; rule semantics delegated",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-semantic-validation/tests/rules.rs",
+          "git_blob": "97d29e352df45b6004e9b51cd2763a6de4251fa7",
+          "sha256": "cd187dc6e6e79e61f165c7132134812fd2265310d46d866e744814d081d723d8",
+          "lines": 314,
+          "role": "test",
+          "review_mode": "targeted spans/sourceassociation/linecolumn code; rule semantics delegated",
+          "test_function_names": [
+            "flag",
+            "ids",
+            "imported",
+            "value",
+            "document",
+            "run",
+            "actual_f14_document_passes_selected_checks_without_mutation",
+            "missing_part_definition_yields_source_positioned_warning_and_actual_f46_label",
+            "source_utf16_column_counts_supplementary_characters_on_same_line",
+            "namespace_distinguishibility_uses_member_class_compatibility",
+            "short_name_collisions_are_checked_with_both_member_names",
+            "unrelated_containment_scopes_do_not_conflict",
+            "null_and_wrong_class_types_fail_but_any_direct_part_definition_passes",
+            "selected_semantic_identity_never_falls_back_to_json_node_id",
+            "unresolved_external_and_nonstring_typing_never_produce_clean_verdict",
+            "explicit_rule_selection_deduplicates_and_unknown_rule_refuses_whole_request",
+            "changed_name_class_order_parent_or_extra_declaration_refuses_source_association",
+            "unsupported_classifiers_and_containment_channels_are_explicit",
+            "membership_must_own_one_declaration_and_typing_must_be_on_usage",
+            "unsupported_syntax_and_cancelled_runs_do_not_mutate_editor_or_history",
+            "empty_input_has_explicit_zero_applicable_checks_and_quoted_names_associate",
+            "unadmitted_fields_and_mismatched_or_absent_typed_feature_refuse"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 58,
+      "head": "6fe12e6bd256f9fcb2284b60b8d6d97ab53100fc",
+      "base": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "title": "Fix linker admission at the 256-declaration parser boundary",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "FocusedsyntheticNamespace budgetrepair reviewed separately from historicalF13; preservesnonNamespace boundarynegative.",
+      "files": [
+        {
+          "path": "rust/crates/syson-linker/src/lib.rs",
+          "git_blob": "3de8c241ab1a657d18cd3002efafe36c8c68b008",
+          "sha256": "ad28199c2a512d00048e8326c89ad7e91c0aa647508a1a8a394fd547fb9b8510",
+          "lines": 381,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-linker/tests/linking.rs",
+          "git_blob": "ee056c039a8d56933edcf9f2340a8c9084deaa24",
+          "sha256": "cff91b466cc114dfbabca9d5636f46b7896dad39943406a42612eecc7f757177",
+          "lines": 529,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "parse",
+            "named",
+            "references",
+            "registry",
+            "empty",
+            "alias",
+            "actual_f11_reference_resolves_then_explicit_f04_binding_preserves_both_ids",
+            "nearest_lexical_scope_wins_without_testing_later_parent_candidates",
+            "later_qualified_segments_do_not_fall_back_to_the_parent_scope",
+            "wrong_type_is_retained_as_found_but_never_as_a_resolved_target",
+            "caller_observed_alias_chain_resolves_without_claiming_f11_alias_parsing",
+            "alias_cycles_fail_without_publishing_a_partial_target",
+            "qualified_alias_targets_use_their_observed_scope_and_wrong_types_stay_visible",
+            "missing_alias_target_and_case_mismatch_are_explicit_unresolved_outcomes",
+            "duplicate_or_ambiguous_sanitized_names_refuse_snapshot_admission",
+            "foreign_alias_scopes_and_foreign_or_duplicate_binding_nodes_refuse",
+            "semantic_bindings_never_fall_back_from_json_node_id_to_semantic_element_id",
+            "semantic_mapping_checks_the_actual_declaration_classifier",
+            "result_and_semantic_targets_cannot_be_replayed_in_an_identical_new_snapshot",
+            "quoted_unicode_and_escaped_names_are_sanitized_for_lookup_without_editing_syntax",
+            "alias_work_admission_is_bounded_and_external_proxy_bindings_are_not_admitted",
+            "boundary_source",
+            "default_parser_declaration_boundary_excludes_the_synthetic_namespace",
+            "custom_parser_budget_does_not_expand_the_linker_declaration_budget",
+            "default_parser_still_refuses_257_real_declarations",
+            "a_real_package_root_does_not_receive_a_synthetic_root_allowance"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 59,
+      "head": "f55c13f1bf96760ebd8c6d7906525273acd88fc8",
+      "base": "37d1800cb9858f5d62ac244963dad031ffe3b410",
+      "title": "Correct diagnostic positions across CR, LF and CRLF",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "FocusedCR/LF/CRLF UTF16diagnosticpositions; no rule-semantic/fullvalidator acceptance.",
+      "files": [
+        {
+          "path": "rust/crates/syson-semantic-validation/src/lib.rs",
+          "git_blob": "5f72edd201e5582397b197f570b0d9823e2863ef",
+          "sha256": "39eae55f3f4a12ff775c9f56d69d13e4f93d3618e6ea17279188d2c0fe4d854d",
+          "lines": 399,
+          "role": "production",
+          "review_mode": "targeted spans/sourceassociation/linecolumn code; rule semantics delegated",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-semantic-validation/tests/rules.rs",
+          "git_blob": "9b8e821ee44d09595f30aed93152885206caa178",
+          "sha256": "ed53b5923b9099fa539ad7ddb2c8f9c84f46b82eb21b5426fb9188f490bce991",
+          "lines": 358,
+          "role": "test",
+          "review_mode": "targeted spans/sourceassociation/linecolumn code; rule semantics delegated",
+          "test_function_names": [
+            "flag",
+            "ids",
+            "imported",
+            "value",
+            "document",
+            "run",
+            "actual_f14_document_passes_selected_checks_without_mutation",
+            "missing_part_definition_yields_source_positioned_warning_and_actual_f46_label",
+            "source_utf16_column_counts_supplementary_characters_on_same_line",
+            "namespace_distinguishibility_uses_member_class_compatibility",
+            "short_name_collisions_are_checked_with_both_member_names",
+            "unrelated_containment_scopes_do_not_conflict",
+            "null_and_wrong_class_types_fail_but_any_direct_part_definition_passes",
+            "selected_semantic_identity_never_falls_back_to_json_node_id",
+            "unresolved_external_and_nonstring_typing_never_produce_clean_verdict",
+            "explicit_rule_selection_deduplicates_and_unknown_rule_refuses_whole_request",
+            "changed_name_class_order_parent_or_extra_declaration_refuses_source_association",
+            "unsupported_classifiers_and_containment_channels_are_explicit",
+            "membership_must_own_one_declaration_and_typing_must_be_on_usage",
+            "unsupported_syntax_and_cancelled_runs_do_not_mutate_editor_or_history",
+            "empty_input_has_explicit_zero_applicable_checks_and_quoted_names_associate",
+            "unadmitted_fields_and_mismatched_or_absent_typed_feature_refuse",
+            "diagnostic_positions_accept_all_lexer_line_endings",
+            "diagnostic_columns_reset_after_mixed_breaks_and_count_supplementary_units"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 63,
+      "head": "d8fc0876714a0fcecb5548e9658ab0acf5cf1e53",
+      "base": "4f4ad801796081cf337fac81c29e0e5617f3cc9a",
+      "title": "Bridge selected import identities to native JSON references explicitly",
+      "status": "SPECIFIC_FINDINGS_RECORDED",
+      "finding_ids": [
+        "PARSER-RR-01"
+      ],
+      "coverage_limits": "ExplicitselectedsemanticID\u2192localnodeUUID sixclassbridge; no autodetection/fallback/externaltypes. Sharesprettysizeallocation gate.",
+      "files": [
+        {
+          "path": "rust/crates/syson-json-interchange/Cargo.lock",
+          "git_blob": "171c1588429a9f73886321353f57ef98d736844a",
+          "sha256": "0046828c8a74aa44350226fe741d1daa2f3b7d29c3a93e6f4aca91edfd6c230f",
+          "lines": 225,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/Cargo.toml",
+          "git_blob": "64f1d1462890efedab2a1a40a2dcb8a10cb2145f",
+          "sha256": "2aafb6625a885030118d0674d01ce266e55a53aa0c81f15a9002bcb6ffcc3cca",
+          "lines": 18,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/src/lib.rs",
+          "git_blob": "67b5140b54cc0e709662f0db9cf6b21a29efbb75",
+          "sha256": "2293e9115b8bff75f0c286993bb07f283bb151a90e1d9cc5d882fda58ca22b2d",
+          "lines": 195,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/src/selected_model.rs",
+          "git_blob": "6d985d59c13c980eaf53941d71f8e4eb1be8a71a",
+          "sha256": "10a9d000e123e0ba0721dbc28b2fe14001abe893621c644cfaf2403d5acd38d2",
+          "lines": 225,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/tests/selected_model.rs",
+          "git_blob": "d8896ab0a312dbe7419cbc5792299f51cd7cfea6",
+          "sha256": "35269e3cb1623f869b9e0502bb50ac21a9288e5c47df2e7d8aa458fbb3843b2c",
+          "lines": 380,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "ids",
+            "imported",
+            "import_source",
+            "named",
+            "edit",
+            "bridge",
+            "native",
+            "resolved",
+            "refuses",
+            "actual_f14_import_bridges_then_saves_and_reloads_through_normal_f33",
+            "cross_domain_collisions_never_select_the_other_same_class_target",
+            "unknown_envelope_node_and_data_values_and_all_identities_survive",
+            "native_wire_documents_require_native_loading_and_are_not_auto_detected",
+            "missing_null_nonstring_external_and_node_id_types_refuse_atomically",
+            "typed_feature_must_identify_its_actual_containing_usage_by_semantic_id",
+            "wrong_class_targets_and_missing_or_multiple_typing_refuse",
+            "unsupported_classes_membership_shapes_and_misplaced_typing_refuse",
+            "final_native_validation_refuses_other_known_reference_features",
+            "late_failure_drops_the_private_conversion_without_replacing_published_bundle",
+            "empty_resources_work_and_invalid_keys_or_oversized_values_refuse",
+            "nested_feature_membership_keeps_cross_package_targets_after_native_reload"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 68,
+      "head": "c6c4696b009c5c5cfc61a4b206bcb64edf79c704",
+      "base": "ca1c4b3ab364db7dc9da835c66cba72912c3417f",
+      "title": "P01: preserve source positions while accepting lexical line comments",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Ordinary// comments only, exact//* andsemantic/* fences. Native10fixture evidence finite; recoveredAST/nativevalidity distinction preserved.",
+      "files": [
+        {
+          "path": "rust/crates/syson-ast-adapter/src/lib.rs",
+          "git_blob": "03e590b3d88276f75abfb08321d5d90f61b1ebf6",
+          "sha256": "e31946528fcc7c4692541fc379a5bbdd39c6ed4603fbe58623c2582c7865aa55",
+          "lines": 462,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/tests/construction.rs",
+          "git_blob": "ef158d65d0dba3c931847f60f6255b7327e2a3f9",
+          "sha256": "041eec68363406aed00a2f2d9b251657e122b17dddf1aaaee590866b551098a9",
+          "lines": 358,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "adapter",
+            "build",
+            "child",
+            "target",
+            "kind",
+            "assert_parent",
+            "package_part_definition_and_typed_usage_have_source_shaped_wrappers",
+            "usage_membership_depends_on_package_or_definition_body_context",
+            "qualified_typing_stays_unresolved_with_raw_name_segments_and_parenting",
+            "raw_quoted_names_preserve_quotes_escapes_and_both_span_units",
+            "anonymous_and_empty_bodies_keep_optional_names_absent",
+            "defaults_and_absent_optionals_are_distinct_from_empty_or_false_values",
+            "repeated_declarations_preserve_encounter_order_and_distinct_identity",
+            "malformed_finite_pairs_produce_no_arena_and_retain_precise_offsets",
+            "valid_source_outside_whitelist_is_explicitly_unsupported",
+            "keyword_union_never_silently_constructs_keyword_as_regular_name",
+            "all_frontend_limits_and_invalid_depths_fail_closed",
+            "kernel_limit_and_precancelled_input_never_return_partial_arena",
+            "prior_arenas_are_immutable_and_node_handles_do_not_cross_owners"
+          ]
+        },
+        {
+          "path": "rust/crates/syson-ast-adapter/tests/line_comments.rs",
+          "git_blob": "34b676c88d6f844fdf0b7564c49f967d981495c9",
+          "sha256": "b1f05555c64c8c75478b24b6b477dc6d7e082d81e7046a6bd4d1990914339f29",
+          "lines": 227,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "construct",
+            "build",
+            "declarations",
+            "name",
+            "assert_span",
+            "each_line_ending_terminates_hidden_notes_at_real_token_boundaries",
+            "quoted_slashes_and_escaped_quotes_stay_in_names_and_references",
+            "comment_only_eof_has_no_visible_tokens_and_keeps_original_root_span",
+            "notes_do_not_spend_visible_tokens_but_do_spend_original_source_bytes",
+            "ignored_punctuation_cannot_close_a_body_or_change_original_error_offsets",
+            "semantic_block_comments_and_overlapping_multiline_notes_remain_explicit"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 69,
+      "head": "f4e951a74c2a1b2d32db4d397ad4bddae3bbd173",
+      "base": "d8fc0876714a0fcecb5548e9658ab0acf5cf1e53",
+      "title": "I01: open native local identity wires in the selected editor",
+      "status": "SPECIFIC_FINDINGS_RECORDED",
+      "finding_ids": [
+        "PARSER-RR-01"
+      ],
+      "coverage_limits": "Explicitinverse sixclassbridge, unknowncontainmentopaque/noNullinsertionrepair retained. No resource auto-discovery or foreignURI policy.",
+      "files": [
+        {
+          "path": "rust/crates/syson-json-interchange/src/lib.rs",
+          "git_blob": "cc106f7600c50c25de643bd3f89126a8e60be43b",
+          "sha256": "1186e9460310dec4d183567aede62136e1860b4bcd259b0814bb135a521f5ea1",
+          "lines": 196,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/src/native_model.rs",
+          "git_blob": "8821b946c228edcff184d555dd2c383f84cd1987",
+          "sha256": "8f9320b66fd11f8fae505d25f9e5ea59f405f132261ce7c0af209863b23b2fe1",
+          "lines": 151,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-json-interchange/tests/native_model.rs",
+          "git_blob": "6b68a099d46027503c6b558e80d30d579621b9ca",
+          "sha256": "c97b5c5e9566832bf410929167a33cf4bf828f97a97821de32576826bcfe1db9",
+          "lines": 305,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "ids",
+            "importer",
+            "selected",
+            "forward",
+            "native",
+            "reverse",
+            "named",
+            "edit",
+            "refuses",
+            "six_class_cross_package_native_to_selected_round_trip_preserves_every_value",
+            "native_open_then_actual_editor_and_f14_import_then_save_reload_keeps_identity",
+            "same_class_cross_domain_collisions_lookup_only_native_node_ids",
+            "opaque_values_fake_nodes_and_large_numbers_are_not_rewritten",
+            "selected_semantic_wires_are_not_autodetected_or_used_as_fallback",
+            "missing_null_nonstring_dangling_external_and_typed_local_wires_refuse",
+            "wrong_target_class_or_other_same_class_containing_usage_refuse",
+            "unsupported_classes_known_references_and_owning_shapes_refuse",
+            "late_failure_does_not_mutate_input_or_replace_published_selected_snapshot",
+            "empty_resources_invalid_keys_and_oversized_values_have_explicit_boundaries"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 70,
+      "head": "e95d96ef3a49c0e504f4eccbf5201cbe1c5d8d3a",
+      "base": "6dc96e2cb4ef548656f4c9ac3a24f6e37ff9c194",
+      "title": "B01: prepare versioned standard-library ID migrations in Rust",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Boundedpure libraryID preparation; arbitraryresolver external effects explicitlycallerowned. No SQL/nativehistory acceptance.",
+      "files": [
+        {
+          "path": "rust/crates/syson-migration-pipeline/Cargo.lock",
+          "git_blob": "65abcd6fbefcd6a68ff3336ba828a35517d9e81e",
+          "sha256": "bcbc8681c9c0b4afa6f0628b114d6d3d6e66ba85c61c79ff322d355607d2c9a6",
+          "lines": 129,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migration-pipeline/Cargo.toml",
+          "git_blob": "c399b59ef83e0ab270f6e9815dc756df4ddc3188",
+          "sha256": "ae9bc581a21f4d74a9816952621c46117cf2e718f6cedba57162a1e9d47e91da",
+          "lines": 14,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migration-pipeline/src/lib.rs",
+          "git_blob": "edc0aef2bd8d4a9dd8a7153c844aa5484065fbf0",
+          "sha256": "4b3c71daaa62f7b317a43e6fcec3c29f0ac299d1c358e0bd2bdb0d582cd28cb3",
+          "lines": 359,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migration-pipeline/tests/preparation.rs",
+          "git_blob": "687120a78462d4cf047541d655a5fcdf377444c7",
+          "sha256": "e3ac4172dce37603cc536142b3e95db694e2e415dbf33898576f82864f789e1a",
+          "lines": 428,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "node",
+            "admitted",
+            "rep",
+            "map",
+            "typed",
+            "element",
+            "nested_semantic_and_diagram_migrations_preserve_nonreferences_and_replay",
+            "all_semantic_documents_precede_diagrams_and_resolved_ids_win",
+            "resolver_failure_after_semantic_work_returns_no_partial_project",
+            "wrong_kind_and_nonlibrary_reference_do_not_call_resolver",
+            "unsupported_watermarks_refuse_before_resolution",
+            "unknown_library_features_and_invalid_reference_shape_refuse_atomically",
+            "real_document_admission_rejects_duplicate_ids_before_pipeline",
+            "item_document_aggregate_depth_and_expanding_output_budgets",
+            "native_sql_fixture_prepares_the_two_ids_asserted_by_native_integration_test",
+            "many_expansions_stop_before_per_document_and_project_growth_exhaustion",
+            "oversized_resolver_id_refuses_without_formatting_or_mutating_input"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 71,
+      "head": "cbf8a9f7a56f459a2374962e96010233fe711801",
+      "base": "e95d96ef3a49c0e504f4eccbf5201cbe1c5d8d3a",
+      "title": "B25S: share bounded source-compatible JSON migration preparation",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Shared selectedmigration machinery: firstnamespaceentry/order carrier, object-childquirk, postorder deletion, immutableatomicoutput andbudgets. No migrationhost acceptance.",
+      "files": [
+        {
+          "path": "rust/crates/syson-migrations/Cargo.lock",
+          "git_blob": "e9da96b18e39de9be4149995ab17a697dd491c05",
+          "sha256": "4f8eeccb6e0bf22b69c0ed2523e2814b5765b96c05cd07e25ee7b901575e2404",
+          "lines": 141,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/Cargo.toml",
+          "git_blob": "50db401f7fbe41da78a4abe5b3077ac99b58334b",
+          "sha256": "b42a3aa8b5ec73373d7e9164ff271f187da966e6ae8ad24d88fbf089fcda679a",
+          "lines": 18,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/examples/path_memory.rs",
+          "git_blob": "a259e05efb718af07c1d336eea8dc33e44839daf",
+          "sha256": "4ef9b14c97b845ee65648ba527b9bef5ed305592fafe441e266dc587a9cc70a2",
+          "lines": 41,
+          "role": "production",
+          "review_mode": "immutable helper identity/inventory + caller/purpose boundary only; not an independent runtime qualification",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/src/lib.rs",
+          "git_blob": "cee4691ec124b6e5bab2e660b0eb37c476fc5db9",
+          "sha256": "56f64970312145695aab71b5f51254786125132811d809f5cdbcc6e02ee725df",
+          "lines": 287,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/tests/core.rs",
+          "git_blob": "9cab87ba523971a84b7d3c78b7deba56becb19f8",
+          "sha256": "10f19569979ac444768c8654216ca1a891382a050022b498a1f54c949cb165e5",
+          "lines": 206,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "original_namespace_order_and_duplicate_first_key_value_are_not_sorted",
+            "collects_object_children_not_parent_fields_or_untyped_array_items",
+            "pass_collection_is_a_snapshot_and_later_pass_sees_current_output",
+            "subtype_predicate_and_opaque_values_preserve_exact_selected_behavior",
+            "malformed_namespace_root_and_budget_failures_have_no_partial_result",
+            "long_ancestor_key_many_targets_keep_values_without_path_key_copies",
+            "serialization_preserves_predicate_across_participants_in_both_orders",
+            "namespace_serialization_uses_current_values_and_remaining_insertion_order",
+            "edited_output_rechecks_depth_and_value_budget_before_serializing"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 72,
+      "head": "538f4c8a5ca6e4644ad020442a9e0056a91ac8bd",
+      "base": "cbf8a9f7a56f459a2374962e96010233fe711801",
+      "title": "B25a: prepare Annotation reference migrations",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "ExactAnnotation/AnnotatingElement removals/version; nativefinitefixture/helper semantics plusactualDocument\u2192B01caller. Fullframework/SQLactivation remainopen.",
+      "files": [
+        {
+          "path": "rust/crates/syson-migrations/b25a.rs",
+          "git_blob": "cca279714aaf71e228b84a81811e7f1c18d1c4e9",
+          "sha256": "70aca70d43fc0af655fc7294e59d38d3bda232c56ec7b33812976e2826bb853d",
+          "lines": 26,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/src/lib.rs",
+          "git_blob": "1404c2d9d5fc387be318dce58a58b0f78b31acc3",
+          "sha256": "2bed14389b4808b31c32ad63aae81462045f7d77e419fd97412b000122822017",
+          "lines": 290,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/tests/b25a.rs",
+          "git_blob": "d52c792b5d861af94aa9d5d7b1f03b34b579aa44",
+          "sha256": "b0010b8517ea1087cc26453b5792f97f7ded3d2610cd29a5659a98d6992917f9",
+          "lines": 135,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "source_contract_packet_preserves_native_quirks_without_claiming_native_execution",
+            "invalid_input_and_budget_failures_do_not_replace_an_existing_preparation",
+            "participant_output_enters_actual_document_admission_and_b01_preparation"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 73,
+      "head": "23a48ab073cad592316bfa8d9b586e9d12d608de",
+      "base": "cbf8a9f7a56f459a2374962e96010233fe711801",
+      "title": "B25b: prepare connector source and target migration",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "ExactConnectorAsUsage source/target removals/version;8class closure +directobjectchildrenquirk andactualDocument\u2192B01consumer; not nativeframework closure.",
+      "files": [
+        {
+          "path": "rust/crates/syson-migrations/b25b.rs",
+          "git_blob": "1dcbe8f804a8b16a005057288faa5807ad08b9d3",
+          "sha256": "39912a769b6cd5eaf65abe665475913a4bbe6e1bb867e6e73c7f04a1021c083d",
+          "lines": 20,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/src/lib.rs",
+          "git_blob": "72c0e66e4e7993bde42e83b0af745f503716a171",
+          "sha256": "b0164f778efd5b04461b7ba27550b98d61ec50d11042b2651fde6822b685644c",
+          "lines": 290,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/tests/b25b.rs",
+          "git_blob": "22f73aa0ca75d4e0e3c2fce62ac86caa863072bd",
+          "sha256": "078e49f7df3e9c9bddcda05c3c82bc710b8201349d02d79d6e55c2523defe020",
+          "lines": 228,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "resource",
+            "exact_version_and_every_connector_subclass_remove_only_direct_object_children_fields",
+            "matching_typed_parent_selects_vendor_objects_but_not_array_items_or_grandchildren",
+            "arbitrary_nested_arrays_reach_connectors_without_migrating_unrelated_classes",
+            "first_namespace_entry_controls_matching_without_reordering_or_later_fallback",
+            "absent_fields_replay_and_unknown_json_values_are_preserved_without_null_insertion",
+            "malformed_input_and_nonobject_roots_publish_no_prepared_output",
+            "migrated_json_opens_as_document_then_b01_prepares_library_ids_with_separate_watermark",
+            "exact_packet_bytes_match_separately_recorded_source_predictions"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 74,
+      "head": "ac478624f5c78d247a624b887b5e8dd3666acbce",
+      "base": "cbf8a9f7a56f459a2374962e96010233fe711801",
+      "title": "B25c: prepare ViewUsage exposedElement migration",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "ExactViewUsage exposedElement removal/version; spellingneighbors/namespaceorder/arrays/replay inspected. No nativehistory host.",
+      "files": [
+        {
+          "path": "rust/crates/syson-migrations/b25c.rs",
+          "git_blob": "76d52c62cfe50ed586fed206cb6b2318c7964feb",
+          "sha256": "17a233036342ffc7402fc9f55c401113eecabf92cd1fa205608e722f51081179",
+          "lines": 20,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/src/lib.rs",
+          "git_blob": "a99fa6806c9892672d351a5b1de7baae2c8055d0",
+          "sha256": "3e24d4e2b3f88b84f852455fd56bfc7efd23801c7d7522a796c27d3f814872e0",
+          "lines": 290,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/tests/b25c.rs",
+          "git_blob": "46fdd234a81237dd4a24687faf139aeced7b99f4",
+          "sha256": "f9777ab551c7a749572af90a9ccd57b7a57127733eaec60d693386d1fd061732",
+          "lines": 232,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "view",
+            "resource",
+            "run",
+            "exact_feature_is_removed_while_spelling_neighbors_and_ids_survive",
+            "child_object_collection_includes_vendor_objects_but_not_parent_fields",
+            "traversal_reaches_arbitrary_nested_arrays_and_objects",
+            "sibling_unknown_enum_and_foreign_classes_preserve_the_same_property",
+            "first_namespace_entry_decides_in_original_json_order",
+            "absent_empty_and_nonobject_namespace_are_noops",
+            "null_array_and_primitive_feature_values_are_removed_identically",
+            "repeat_is_idempotent_and_failure_cannot_replace_prior_publication",
+            "actual_document_and_b01_preparation_keep_node_and_semantic_identity"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 75,
+      "head": "d8cc04372d184f5f51825cc7623047586a9ed7ab",
+      "base": "cbf8a9f7a56f459a2374962e96010233fe711801",
+      "title": "Port action and control description-ID migration to Rust (B25d)",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Exact6descriptionID mapping and inheritedJackson traversal, nested-arraynativepartialfailure vsRustatomicrefusal explicit. No fullrepresentationloading.",
+      "files": [
+        {
+          "path": "rust/crates/syson-migrations/b25d.rs",
+          "git_blob": "fdd4d0c07e187d28efbf83d80bbe13e2f2f3c3f3",
+          "sha256": "ae62fa0a0dccaad873f8acd440b06f0da154638af2ffe89460fe11ef10ba0664",
+          "lines": 193,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/src/lib.rs",
+          "git_blob": "8271d3d5cbcde1f5b6e140c5ea2de724b17a847d",
+          "sha256": "fcd7790c69f23d450ed9ec68118e790d3c2cfdfc97ed8e5e7724bc2a098e745b",
+          "lines": 290,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-migrations/tests/b25d.rs",
+          "git_blob": "2fb26c361c70f2132d5da9e1981a407b25c69ad1",
+          "sha256": "753dcdffd4e0e7f2030fb77c1a01757ca08272835e62885788afe9e067d8ad9c",
+          "lines": 222,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "explicit_callback_and_inherited_traversal_source_contract_corpus",
+            "low_level_callback_uses_explicit_value_and_has_no_read_only_or_root_value_fallback",
+            "selected_kind_watermark_replay_and_unknown_policy_are_separate_from_framework_history",
+            "current_unknown_and_absent_description_ids_are_noop_without_inserting_null_fields",
+            "failure_after_earlier_private_changes_publishes_nothing_and_preserves_existing_output",
+            "preparation_and_serialization_enforce_candidate_byte_depth_and_value_budgets",
+            "actual_b01_representation_handoff_migrates_target_ids_without_reusing_watermarks"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 81,
+      "head": "7f111c24bb3f79c44c55cdef2d4fa3246e50560b",
+      "base": "9baa77f9ce8c27cb0b784bee121872aab0ffcef5",
+      "title": "Compose private project migration preparation in Rust (C03b)",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Actual b25b\u2192a\u2192c\u2192Document\u2192B01\u2192b25d privatepreparation; allselectedstamp preflight andrawnamespacecarrier. No durablepublish/load or rollbackofarbitraryresolver effects.",
+      "files": [
+        {
+          "path": "rust/crates/syson-project-preparation/Cargo.lock",
+          "git_blob": "147f08464888e83261802ed965d47ef020cd79f9",
+          "sha256": "8ea89dba87491ca57f9bd2d590b018daa7b3fa8bfa4a0b5093734799edf6240c",
+          "lines": 149,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-project-preparation/Cargo.toml",
+          "git_blob": "7061f0a89cb4b5268a85fe65ccb0e80e10f646a8",
+          "sha256": "86c40164681bd3dac90892505339a67eec35c93ea93cbab0eee2866ca50a7c77",
+          "lines": 15,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-project-preparation/examples/observe.rs",
+          "git_blob": "8b8edea111a45d704b235cab1799523061c44e24",
+          "sha256": "7867e95536dec6bd7f26f6bac753d0fea657cb9488cb583c6ef1d9953a43312a",
+          "lines": 109,
+          "role": "production",
+          "review_mode": "immutable helper identity/inventory + caller/purpose boundary only; not an independent runtime qualification",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-project-preparation/src/lib.rs",
+          "git_blob": "84dec37c41a69a6720c833d845b6c35a3efd00b2",
+          "sha256": "57ae680410011c83963ecb7d122d79d9b174ad87a20854d528449d226e5f2228",
+          "lines": 307,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-project-preparation/tests/preparation.rs",
+          "git_blob": "f5abbb051b98a660f2f0fb0be9817dc4e102490f",
+          "sha256": "35db2598691021d30e002a0b4fbfddf114a4d9e46144c2a776898a17a770e323",
+          "lines": 369,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "optional",
+            "input",
+            "ids",
+            "actual_consuming_recipe_removes_legacy_fields_then_admits_and_migrates_both_project_lanes",
+            "recipe_is_a_real_consumer_not_a_metadata_only_preflight",
+            "replay_does_not_double_map_ids_and_control_stamp_is_independent_from_library_stamps",
+            "foreign_first_namespace_survives_b01_and_replay_without_activating_pending_removals",
+            "foreign_representations_keep_both_unknown_versions_and_opaque_json_values",
+            "every_selected_future_watermark_refuses_before_any_earlier_resolvable_library_work",
+            "late_document_admission_failure_discards_earlier_private_migrations",
+            "late_control_and_resolver_failures_preserve_input_and_previous_output_not_external_effects",
+            "item_input_aggregate_value_depth_and_mapping_budgets_refuse_before_resolver",
+            "b01_expansion_limit_is_enforced_after_real_semantic_cleanup_without_publishing_stamps"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    },
+    {
+      "pull_request": 82,
+      "head": "606b169def89d2b4dabf6a48e03d16f3d024277b",
+      "base": "7f111c24bb3f79c44c55cdef2d4fa3246e50560b",
+      "title": "Preserve prepared-project wire payloads in Rust (C03c)",
+      "status": "NO_ADDITIONAL_SPECIFIC_DEFECT_IDENTIFIED_IN_REVIEWED_SCOPE",
+      "finding_ids": [],
+      "coverage_limits": "Prepared-onlyencode/untrusteddecode, strictnullablemetadata andrawpayloadtokens; no nativearchive or C03bValue-materialization safety claim.",
+      "files": [
+        {
+          "path": "rust/crates/syson-project-wire/Cargo.lock",
+          "git_blob": "220c1876046e907560d88397d87ba6fd9e111e81",
+          "sha256": "3ac4f949d67be06b9aee189cd9ac05a15a938c0a4bef4bc78a0b7c4e35ced8de",
+          "lines": 161,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-project-wire/Cargo.toml",
+          "git_blob": "1d0171444b59062424096a1f5c873e679262707c",
+          "sha256": "ae1f120a38ba9160c7f428caebff22ed295f75c10faeb0418367fbb039234d7f",
+          "lines": 17,
+          "role": "metadata",
+          "review_mode": "dependency/version identity",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-project-wire/src/lib.rs",
+          "git_blob": "847232db7253f32c2ec52a7fbce9d56d67ca9ffc",
+          "sha256": "72c0402e148da04fa10f397cefd49580efed7269d60f779d04b83814d523f7f5",
+          "lines": 292,
+          "role": "production",
+          "review_mode": "immutable source/control-flow and caller-boundary review",
+          "test_function_names": []
+        },
+        {
+          "path": "rust/crates/syson-project-wire/tests/codec.rs",
+          "git_blob": "03d0a29140e64bc371513c6e2d31b63930efb1a8",
+          "sha256": "1d6e4cceb5a29e29c110c961d86f68a2af0d90d465f58e9e8d29ff2b503166f3",
+          "lines": 346,
+          "role": "test",
+          "review_mode": "test case inventory + targeted boundary/assertion review; no execution",
+          "test_function_names": [
+            "optional",
+            "project",
+            "ids",
+            "minimal",
+            "packet",
+            "real_prepare_encode_decode_prepare_preserves_authoritative_wire_and_all_six_stamps",
+            "foreign_first_namespace_and_pending_null_stamps_survive_authoritative_wire_replay",
+            "foreign_kind_unknown_stamps_and_empty_projects_round_trip_without_native_interpretation",
+            "raw_payload_tokens_preserve_whitespace_duplicates_opaque_numbers_and_unicode_exactly",
+            "raw_embedding_avoids_quoting_amplification_for_real_prepared_foreign_content",
+            "every_nullable_stamp_is_required_and_unknown_envelope_metadata_fields_refuse",
+            "duplicate_metadata_refuses_even_when_the_first_value_is_explicit_null",
+            "future_format_wrong_metadata_types_trailing_and_late_failures_leave_no_partial_result",
+            "exact_payload_aggregate_item_metadata_and_envelope_byte_caps_are_enforced"
+          ]
+        }
+      ],
+      "other_lane_files": []
+    }
+  ],
+  "counts": {
+    "pull_requests": 28,
+    "file_entries": 128,
+    "production_or_harness_entries": 51,
+    "test_entries": 33
+  },
+  "known_prior_repairs_not_new_findings": [
+    {
+      "old_pr": 50,
+      "repair_pr": 58,
+      "issue": "SyntheticNamespace off-by-one declarationbudget."
+    },
+    {
+      "old_pr": 57,
+      "repair_pr": 59,
+      "issue": "BareCR/CRLFsource line/UTF16position."
+    },
+    {
+      "old_prs": [
+        52,
+        55
+      ],
+      "repair_prs": [
+        63,
+        69
+      ],
+      "issue": "Explicit selectedsemantic/nativewire bridges; finitefamily only."
+    }
+  ],
+  "existing_plan_augmentations": [
+    {
+      "unit": "I06",
+      "tasks": [
+        "Compose actual6class nativeBundle\u2192I01reverse\u2192Editor/F14edit\u2192F34export\u2192F14import\u2192forwardbridge\u2192Bundle.save/reload journey, checking targetidentity domains andintentionaltextidentity omission.",
+        "Include parser-onlyreserved names andopaquevendorobjects instead of onlycommon names."
+      ],
+      "reason": "Currentcomponent tests consume real neighbors, but no single capturedcomposed journey covers this entire nowavailable chain."
+    },
+    {
+      "unit": "C03",
+      "tasks": [
+        "After reviewedlanding/retarget, enumerate syntax/ASToperation/adapter/linker/interchange/migration/preparation/codec testmanifests explicitly on the exactcomposedtree; do notinfer ASTsuite coverage from #19sourcehash map.",
+        "Preserve prerequisite snapshots and originalfailures; differentiate unionofperPRpasses from actualcomposedacceptance."
+      ],
+      "reason": "Historical bounded #19runner names syson-syntax but not the separate syson-ast/validation-ast manifests."
+    },
+    {
+      "unit": "P14",
+      "tasks": [
+        "Qualify F08 mandatory/inheritance/referenceposition ordering against actual pinnednative runtime and feed bothF09dispatch andF11/F12consumers; keep SourceDerivedStableShortSortCandidate label until then."
+      ],
+      "reason": "Sourcecandidate metadata is explicit; existingconstant tests do not establishnativeordering. This augments alreadyplannedqualification, not a new genericinstrumentation child."
+    },
+    {
+      "unit": "I07",
+      "tasks": [
+        "Qualify composedparticipant lifecycle/canonicalURI policies with the actual consuminghost and independentwatermarks; preservefirstnamespaceentry acrossserialization/replay.",
+        "Use nativefragmentobservations topreventwiring aphysicalmetadata SemanticIdindex asResourceSet.getEObject; no impliedload/fallback."
+      ],
+      "reason": "Nativefiniteparticipantcases are strongselectedevidence; currentpurehelpers/C03b composition do notprovidefullnativehistory orloading."
+    }
+  ]
+}

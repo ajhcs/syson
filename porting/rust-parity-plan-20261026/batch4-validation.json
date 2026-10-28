@@ -1,0 +1,31 @@
+{
+  "status": "PASS_PLAN_GATES;_PARITY_OPEN",
+  "unit_count": 727,
+  "stage_node_count": 1454,
+  "unordered_writes": 0,
+  "reproducible_files": 730,
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/rust-parity-plan/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"units\": 727,\n  \"source_graph_acyclic\": true,\n  \"readiness_graph_nodes\": 1454,\n  \"readiness_graph_acyclic\": true,\n  \"unordered_write_conflicts\": 0,\n  \"all_14_original_remaining_briefs_mapped\": true,\n  \"source_assignment_counts_verified\": true,\n  \"negative_gate_checks\": \"PASS\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/rust-parity-plan/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--check-completion"
+      ],
+      "exit_code": 2,
+      "stdout": "{\n  \"units\": 727,\n  \"source_graph_acyclic\": true,\n  \"readiness_graph_nodes\": 1454,\n  \"readiness_graph_acyclic\": true,\n  \"unordered_write_conflicts\": 0,\n  \"all_14_original_remaining_briefs_mapped\": true,\n  \"source_assignment_counts_verified\": true,\n  \"parity\": \"OPEN\",\n  \"open_gate_count\": 728,\n  \"first_open_gates\": [\n    \"Pinned runtime/source obligation closure remains open\",\n    \"Not feature-accepted: B01\",\n    \"Not feature-accepted: B02\",\n    \"Not feature-accepted: B03\",\n    \"Not feature-accepted: B04\",\n    \"Not feature-accepted: B05\",\n    \"Not feature-accepted: B06\",\n    \"Not feature-accepted: B07\"\n  ]\n}\n",
+      "stderr": ""
+    }
+  ],
+  "parent_closure": "C01/C03 OPEN; all three new units NOT_ACCEPTED for full parity",
+  "local_links_checked": 1466
+}

@@ -1,0 +1,270 @@
+[
+  {
+    "fixture": "01-basic-typed-part",
+    "native_cli_exit": 0,
+    "native_declarations": [
+      {
+        "class": "Package",
+        "name": "Vehicle"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Wheel"
+      },
+      {
+        "class": "PartUsage",
+        "name": "wheel"
+      }
+    ],
+    "rust_ast": [
+      {
+        "class": "Package",
+        "name": "Vehicle"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Wheel"
+      },
+      {
+        "class": "PartUsage",
+        "name": "wheel"
+      }
+    ],
+    "selected_ast_equal": true,
+    "rust_parse_error": null,
+    "rust_import_ok": true,
+    "rust_import_error": null,
+    "rust_parse_us": 20,
+    "native_recovered_without_refusal": false
+  },
+  {
+    "fixture": "02-nested-feature-membership",
+    "native_cli_exit": 0,
+    "native_declarations": [
+      {
+        "class": "Package",
+        "name": "Vehicle"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Wheel"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Car"
+      },
+      {
+        "class": "PartUsage",
+        "name": "wheel"
+      }
+    ],
+    "rust_ast": [
+      {
+        "class": "Package",
+        "name": "Vehicle"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Wheel"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Car"
+      },
+      {
+        "class": "PartUsage",
+        "name": "wheel"
+      }
+    ],
+    "selected_ast_equal": true,
+    "rust_parse_error": null,
+    "rust_import_ok": true,
+    "rust_import_error": null,
+    "rust_parse_us": 18,
+    "native_recovered_without_refusal": false
+  },
+  {
+    "fixture": "03-forward-qualified-type",
+    "native_cli_exit": 0,
+    "native_declarations": [
+      {
+        "class": "Package",
+        "name": "V"
+      },
+      {
+        "class": "PartUsage",
+        "name": "a"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Local"
+      },
+      {
+        "class": "Package",
+        "name": "Lib"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Wheel"
+      }
+    ],
+    "rust_ast": [
+      {
+        "class": "Package",
+        "name": "V"
+      },
+      {
+        "class": "PartUsage",
+        "name": "a"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Local"
+      },
+      {
+        "class": "Package",
+        "name": "Lib"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "Wheel"
+      }
+    ],
+    "selected_ast_equal": true,
+    "rust_parse_error": null,
+    "rust_import_ok": true,
+    "rust_import_error": null,
+    "rust_parse_us": 22,
+    "native_recovered_without_refusal": false
+  },
+  {
+    "fixture": "04-quoted-escape",
+    "native_cli_exit": 0,
+    "native_declarations": [
+      {
+        "class": "Package",
+        "name": "'Road vehicle'"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "'W\\'heel'"
+      },
+      {
+        "class": "PartUsage",
+        "name": "axle"
+      }
+    ],
+    "rust_ast": [
+      {
+        "class": "Package",
+        "name": "'Road vehicle'"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "'W\\'heel'"
+      },
+      {
+        "class": "PartUsage",
+        "name": "axle"
+      }
+    ],
+    "selected_ast_equal": true,
+    "rust_parse_error": null,
+    "rust_import_ok": true,
+    "rust_import_error": null,
+    "rust_parse_us": 16,
+    "native_recovered_without_refusal": false
+  },
+  {
+    "fixture": "05-comments-gap",
+    "native_cli_exit": 0,
+    "native_declarations": [
+      {
+        "class": "Package",
+        "name": "P"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "T"
+      }
+    ],
+    "rust_ast": null,
+    "selected_ast_equal": false,
+    "rust_parse_error": "Unsupported { offset: 0 }",
+    "rust_import_ok": false,
+    "rust_import_error": "Parse(Unsupported { offset: 0 })",
+    "rust_parse_us": 0,
+    "native_recovered_without_refusal": false
+  },
+  {
+    "fixture": "06-untyped-usage-gap",
+    "native_cli_exit": 0,
+    "native_declarations": [
+      {
+        "class": "Package",
+        "name": "P"
+      },
+      {
+        "class": "PartUsage",
+        "name": "axle"
+      }
+    ],
+    "rust_ast": null,
+    "selected_ast_equal": false,
+    "rust_parse_error": "Unsupported { offset: 20 }",
+    "rust_import_ok": false,
+    "rust_import_error": "Parse(Unsupported { offset: 20 })",
+    "rust_parse_us": 0,
+    "native_recovered_without_refusal": false
+  },
+  {
+    "fixture": "07-usage-body-gap",
+    "native_cli_exit": 0,
+    "native_declarations": [
+      {
+        "class": "Package",
+        "name": "P"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "T"
+      },
+      {
+        "class": "PartUsage",
+        "name": "assembly"
+      },
+      {
+        "class": "PartUsage",
+        "name": "wheel"
+      }
+    ],
+    "rust_ast": null,
+    "selected_ast_equal": false,
+    "rust_parse_error": "Unsupported { offset: 38 }",
+    "rust_import_ok": false,
+    "rust_import_error": "Parse(Unsupported { offset: 38 })",
+    "rust_parse_us": 5,
+    "native_recovered_without_refusal": false
+  },
+  {
+    "fixture": "08-malformed-missing-brace",
+    "native_cli_exit": 0,
+    "native_declarations": [
+      {
+        "class": "Package",
+        "name": "P"
+      },
+      {
+        "class": "PartDefinition",
+        "name": "T"
+      }
+    ],
+    "rust_ast": null,
+    "selected_ast_equal": false,
+    "rust_parse_error": "Malformed { offset: 22, expected: \"}\" }",
+    "rust_import_ok": false,
+    "rust_import_error": "Parse(Malformed { offset: 22, expected: \"}\" })",
+    "rust_parse_us": 0,
+    "native_recovered_without_refusal": true
+  }
+]

@@ -1,0 +1,312 @@
+{
+  "status": "READ_ONLY_SOURCE_AUDIT_COMPLETE",
+  "runtime_execution": "NOT_RUN_BY_WORKER",
+  "upstream": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "candidate": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+  "units": [
+    {
+      "id": "F08",
+      "head": "7d1eb8a1a05c292c78ca27482158c6dfe5196c3b",
+      "pr": 23,
+      "scope": "189-name immutable reflection and owner-qualified handles",
+      "verdict": "BOUNDED_SOURCE_CONTRACT; ORIGINAL_RUNTIME_ORDER_UNVERIFIED",
+      "strengths": [
+        "Private Arc ownership rejects foreign handles",
+        "No mutable reflection registry",
+        "All567 ancestry partitions and35721 type pairs have local assertions"
+      ],
+      "gaps": [
+        "Ancestor comparator is partial; actual bundled JavaScript runtime ordering has not been compared",
+        "Metadata is not AST/default/cache application"
+      ],
+      "expectations": [
+        "All189 exact known-name ancestor/subtype/default tables should match the pinned runtime at the chosen Node version before dispatch-parity qualification",
+        "Unknown and foreign identities must return typed errors",
+        "Construct once per import/export session; benchmark repeated initialization separately"
+      ],
+      "code": [
+        "rust/crates/syson-reflection/src/lib.rs:82-227"
+      ],
+      "performance": "Source-derived:189x189 closure and O(189^3) fixed preprocessing per pinned() call; not a measured latency"
+    },
+    {
+      "id": "F09",
+      "head": "98d888365ba344fa513c03e652ab8ff1d95082a6",
+      "pr": 35,
+      "scope": "Immutable dispatch selection/chaining/block merging plans",
+      "verdict": "BOUNDED_PLAN_CONTRACT; CALLBACK_RUNTIME_EXCLUDED",
+      "strengths": [
+        "Explicit falsey variants",
+        "Own+ancestor+default ordering, repeated payloads preserved",
+        "Unknown construct inputs skip default as source expanded map does"
+      ],
+      "gaps": [
+        "Does not execute five registered handlers",
+        "Inherits F08 unqualified runtime ancestor order",
+        "No dynamic registry/prototype/getter behavior"
+      ],
+      "expectations": [
+        "Actual known-type chain/merge selections should match pinned runtime registrations",
+        "Source falsey, empty truthy block, reverse whole-block ordering need runtime golden evidence",
+        "Typed API must keep duplicate registrations and foreign handles explicit"
+      ],
+      "code": [
+        "rust/crates/syson-ast-dispatch/src/lib.rs:70-179"
+      ],
+      "performance": "Source-derived linear registration scans over fixed189-type reflection; no measured latency"
+    },
+    {
+      "id": "F10",
+      "head": "48ee69e41c4f29346f1d95075278d84aefc48057",
+      "pr": 25,
+      "scope": "Primitive conversion, UTF16 strings, name sanitation",
+      "verdict": "BOUNDED_SOURCE_CONTRACT; EMBEDDED_CONVERTER_RUNTIME_DIFF_NOT_RUN",
+      "strengths": [
+        "Retains raw byte spans separately from UTF16 result",
+        "NaN/infinity/signedzero stay explicit",
+        "Power-of-two radix conversion uses guard/sticky rounding",
+        "Caller budget and cancellation observer"
+      ],
+      "gaps": [
+        "BigInt/Date unsupported",
+        "Resolved dispatch supplied by caller; no CST lookup",
+        "Candidate naming source correspondence to embedded runtime remains unverified"
+      ],
+      "expectations": [
+        "Execute actual bundled convertString/ID/Regex/Int/Number/Boolean against matching Rust outcomes including malformed boundaries and radix ties",
+        "Do not coerce unsupported conversions or UTF16 errors into successful strings",
+        "Capture elapsed time/input size and cancellation poll latency"
+      ],
+      "code": [
+        "rust/crates/syson-ast-values/src/lib.rs:89-401",
+        "backend/application/syson-sysml-import/src/main/resources/syside-cli.js:41808-41927"
+      ],
+      "performance": "Source-derived bounded scans plus stdlib numeric parse; numeric parse is not preemptible; no measured latency"
+    },
+    {
+      "id": "F11",
+      "head": "ca1c4b3ab364db7dc9da835c66cba72912c3417f",
+      "pr": 40,
+      "scope": "Finite package/part AST construction",
+      "verdict": "PARTIAL_SYNTAX; NATIVE_AST_GOLDENS_REQUIRED",
+      "strengths": [
+        "Atomic immutable Arena",
+        "Byte/UTF16 declaration/reference spans",
+        "Typed limits and malformed-vs-unsupported distinction"
+      ],
+      "gaps": [
+        "Comments, untyped usages, usage bodies, modifiers, shortnames, expression syntax, recovery all unsupported",
+        "Conservative170-keyword union can reject native-admitted identifiers",
+        "Native child/CST/cache metadata deliberately absent"
+      ],
+      "expectations": [
+        "Native embedded CLI dump --stdlib none comparison for package/part/typing wrappers and raw names",
+        "Unsupported grammar must be communicated as unavailable feature, not invalid full-SysML input",
+        "Default64KiB/8192tokens/256declarations/depth32 need boundary composition checks"
+      ],
+      "code": [
+        "rust/crates/syson-ast-adapter/src/lib.rs:16-53",
+        "rust/crates/syson-ast-adapter/src/lib.rs:78-316"
+      ],
+      "performance": "Source-derived bounded token and recursive emit work; fixed reflection initialization plus kernel transactions; no measured latency"
+    },
+    {
+      "id": "F12",
+      "head": "25acfaa6f3059685f133be034355f11104aad16f",
+      "pr": 41,
+      "scope": "One synthetic structural operator postprocessor",
+      "verdict": "STRUCTURAL_HANDLER_ONLY; EXPRESSION_PARSING_AND_NATIVE_CACHES_EXCLUDED",
+      "strengths": [
+        "Exact4-operator predicate",
+        "One kernel transaction rolls back insertion/normalization on failure",
+        "Native cache aliases explicitly excluded rather than silently duplicated"
+      ],
+      "gaps": [
+        "No expression-text input",
+        "Other4registered parser handlers unimplemented by this API",
+        "Native immediate parenting/cache effects not reproduced"
+      ],
+      "expectations": [
+        "Run actual retained fixOperatorExpression on controlled objects and compare structural insertion/order/defaults",
+        "Repeated application must be idempotent and nonmatches unchanged",
+        "Allocation/cancellation failure must publish no immutable partial arena"
+      ],
+      "code": [
+        "rust/crates/syson-ast-adapter/src/operator_expression.rs:94-174"
+      ],
+      "performance": "Fixed3-node repair plus existing Builder transaction cost; no measured latency"
+    },
+    {
+      "id": "F13",
+      "head": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "pr": 50,
+      "scope": "Finite local reference linking with explicit JSON node bindings",
+      "verdict": "FIX_REQUIRED_BOUNDARY; NATIVE_VISIBLE_SCOPE_EXCLUDED",
+      "strengths": [
+        "Nearest first-segment lexical lookup and no outer fallback for later segments",
+        "Partial failed chain retained without publishing target",
+        "Alias cycles/work limits",
+        "Syntax IDs never synthesized into semantic IDs"
+      ],
+      "gaps": [
+        "BUG-AUDIT-PARSER-001 off-by-one counts synthetic Namespace against256declaration budget",
+        "Imports/inheritance/global libraries/visibility/cache lookup not implemented",
+        "Caller alias and declaration binding observations remain unqualified"
+      ],
+      "expectations": [
+        "F11 accepted256declaration AST should pass F13 admission and F14 import",
+        "257realdeclarations must still refuse under a256limit",
+        "Missing binding and wrong identity/type remain errors; never hidden semantic-ID fallback"
+      ],
+      "code": [
+        "rust/crates/syson-linker/src/lib.rs:125-139",
+        "rust/crates/syson-linker/src/lib.rs:173-183",
+        "rust/crates/syson-linker/src/lib.rs:382-405"
+      ],
+      "performance": "Bounded4096lookup work; indexing <=256realdeclarations should align with parser; no measured latency"
+    },
+    {
+      "id": "F14",
+      "head": "574193c29659010bd5c31c1e6a768fb58f712230",
+      "pr": 52,
+      "scope": "One atomic finite text import into selected model",
+      "verdict": "BOUNDED_IMPORT; END_TO_END_JSON_INTEROPERABILITY_GAP",
+      "strengths": [
+        "Actual F11 -> F13 -> selected constructors",
+        "Forward reference second pass",
+        "Owned transaction and stale/foreign commit guards",
+        "Identity exhaustion/cancellation drops all staged changes"
+      ],
+      "gaps": [
+        "Shares F13 boundary BUG-AUDIT-PARSER-001",
+        "FeatureTyping type/typedFeature use semantic IDs, incompatible with F33 native node-ID wire contract",
+        "Quoted names intentionally reproduce Java apostrophe cleaning, which is lossy for some names",
+        "Existing parent does not expose existing lexical symbols"
+      ],
+      "expectations": [
+        "Source/model/history unchanged after any late failure",
+        "Complete imports at advertised parser bounds",
+        "Provide explicit identity-domain conversion before native JSON interchange; do not pass selected document directly into F33 as native wire data",
+        "Measure small/typical/max fixture stage and commit times including failure rollback"
+      ],
+      "code": [
+        "rust/crates/syson-text-import/src/lib.rs:94-175",
+        "rust/crates/syson-text-import/src/lib.rs:210-245"
+      ],
+      "performance": "Multiple document scans/validation per constructor and cloned registry; bounded by256declarations but worst-case elapsed time not measured"
+    },
+    {
+      "id": "F33",
+      "head": "92aaccaf5cd5b69b44839f77dff7723e078a60fa",
+      "pr": 55,
+      "scope": "Finite immutable native-wire JSON bundle load/save",
+      "verdict": "BOUNDED_INTERCHANGE; SELECTED_MODEL_BRIDGE_NOT_IMPLEMENTED",
+      "strengths": [
+        "Private all-resource staging",
+        "Opaque unknown values retained",
+        "Actual F04/F05 identity/reference checks",
+        "Canonical output budget checked as well as upload budget"
+      ],
+      "gaps": [
+        "GAP-AUDIT-PARSER-002 F14 semantic wires cannot be supplied unchanged",
+        "Only10exactclasses and2noncontainment references admitted",
+        "No native serializer default/caches/ordinary-relative URI equivalence",
+        "No whole-native fixture admitted"
+      ],
+      "expectations": [
+        "Actual F14 typed model needs explicit tagged bridge to native node IDs before bundle loading",
+        "Cross-domain collisions must not silently retarget types",
+        "Actual native compatible fixture save/reload must retain IDs, array order and unknown values",
+        "At1/16/32resources and1/4096nodes measure p50/p95/memory; current code repeatedly scans Document.element by semantic ID"
+      ],
+      "code": [
+        "rust/crates/syson-json-interchange/src/lib.rs:68-158",
+        "rust/crates/syson-references/src/lib.rs"
+      ],
+      "performance": "Source-derived per-node Document.element recursive searches can be quadratic within4096nodes; no measured latency or superiority claim"
+    },
+    {
+      "id": "F34",
+      "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+      "pr": 56,
+      "scope": "Finite selected-model textual exporter with private real-import gate",
+      "verdict": "BOUNDED_EXPORT; CONSERVATIVE_AND_SOURCE_DERESOLUTION_ONLY",
+      "strengths": [
+        "Strict field/class/membership whitelist prevents silent loss",
+        "Shortest candidate must resolve to same target",
+        "Actual F14 re-import compares declaration/typing projection independent of allocated IDs",
+        "Explicit LF/CRLF/indentation policy"
+      ],
+      "gaps": [
+        "Shares F13 maximum declaration failure through private gate",
+        "Native wires/imports/aliases/comments/modifiers and wider exporter families rejected",
+        "Apostrophe/backslash/control names refused",
+        "No cancellation API; every export rebuilds Importer reflection and imports whole private document"
+      ],
+      "expectations": [
+        "Accepted export must re-import identically in declared projection",
+        "Never emit text with shadowed target or silently drop unknown field",
+        "Repeated exports and maximum model need latency measurement; cancellation or async host path if100msinteractive budget exceeded",
+        "Native serializer byte comparison should distinguish explicit chosen newline policy from semantic mismatch"
+      ],
+      "code": [
+        "rust/crates/syson-text-export/src/lib.rs:171-209",
+        "rust/crates/syson-text-export/src/lib.rs:256-326"
+      ],
+      "performance": "Contains repeated linear target lookup plus fresh F14 parse/link/model build per export; at most256decls/64KiBoutput; not measured"
+    }
+  ],
+  "findings": [
+    {
+      "id": "BUG-AUDIT-PARSER-001",
+      "priority": "P2",
+      "units": [
+        "F11",
+        "F13",
+        "F14",
+        "F34"
+      ],
+      "title": "Synthetic Namespace consumes one real-declaration slot in linker",
+      "proof": "F11 defaults.declarations=256. F13 indexes arena.root Namespace before real declarations, then refuses any index call when scopes.len()==256. Thus256realdeclarations require257scopes and finaldeclaration refuses.",
+      "repro_source_recipe": "'package P {' + ''.join('part def T%d;' % n for n in range(255)) + '}'",
+      "observed": "Source-proven; runtime repro not executed by audit worker",
+      "expected": "256realdeclarations accepted throughout parser/linker/import/export; synthetic root excluded from real-declaration limit",
+      "fix_pr": "One focused linker boundary fix plus256/257boundary tests and actual F14 integration case; publicnamedconstant for realdeclaration budget recommended",
+      "scope": [
+        "rust/crates/syson-linker/src/lib.rs",
+        "rust/crates/syson-linker/tests/"
+      ],
+      "code": "rust/crates/syson-linker/src/lib.rs:173-175"
+    },
+    {
+      "id": "GAP-AUDIT-PARSER-002",
+      "priority": "P1_INTEGRATION_GAP",
+      "units": [
+        "F14",
+        "F33",
+        "F34"
+      ],
+      "title": "Selected semantic-ID typing and native node-ID JSON contracts have no explicit bridge",
+      "proof": "F14 calls Transaction::type_part_usage with target.element_id. F33 passes FeatureTyping wire values unchanged to F04 Registry.resolve, which interprets bare UUID as JSON node ID. Ordinary distinct IDs yield Unresolved; allowed cross-domain ID collision may resolve another same-class target.",
+      "repro_source": "package P {part def T;part x:T;}",
+      "observed": "Source-proven contract incompatibility; runtime repro not executed",
+      "expected": "Explicit conversion API with input/output identity-domain tags, validating full selected type/typedFeature associations before any replacement; no fallback guessing in F04/F33",
+      "fix_pr": "Separate bounded selected-to-native FeatureTyping identity bridge crate/API with actual F14->bridge->F33->reload->bridge->F34 roundtrip fixtures and cross-domain collision cases",
+      "scope": [
+        "new standalone bridge crate; exact API and snapshot composition coordinator-owned"
+      ],
+      "code": [
+        "rust/crates/syson-text-import/src/lib.rs:165-168",
+        "rust/crates/syson-json-interchange/src/lib.rs:126-147"
+      ]
+    }
+  ],
+  "quality_targets": {
+    "status": "PROPOSED_NOT_MEASURED",
+    "functional": "No partial publication; preserve declaration/identity/typing invariants",
+    "usability": "Differentiate unsupported language families from malformed input; display source ranges and actionable failure causes",
+    "performance": "Measure fixed-host release small/typical/max inputs; aim p95<100ms for direct interaction tasks and cooperative cancellation<50ms; values are proposed local product targets, not measured SysON baselines",
+    "visual": "No independent visualsurface in these9crates; actual UI exposure and flows audited by coordinator",
+    "parity": "Pinned embedded CLI parser output qualifies parser only; Java EMF translation and full running SysON need separate captures"
+  }
+}

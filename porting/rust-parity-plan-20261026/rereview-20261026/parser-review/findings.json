@@ -1,0 +1,424 @@
+{
+  "status": "REREVIEW_FINDINGS_NO_IMPLEMENTATION_CHANGES",
+  "scope": "Language/text/import/export/migration/preparation/wirecodec lane",
+  "findings": [
+    {
+      "id": "PARSER-RR-01",
+      "severity": "P2",
+      "title": "Bundle serialized-size refusal materializes oversized pretty JSON first",
+      "classification": "REPRODUCED_BUDGET_CHECK_ORDER_BUG",
+      "confidence": "high",
+      "locations": [
+        {
+          "pull_request": 55,
+          "head": "92aaccaf5cd5b69b44839f77dff7723e078a60fa",
+          "path": "rust/crates/syson-json-interchange/src/lib.rs",
+          "line": 85
+        },
+        {
+          "pull_request": 55,
+          "head": "92aaccaf5cd5b69b44839f77dff7723e078a60fa",
+          "path": "rust/crates/syson-json-interchange/src/lib.rs",
+          "line": 87
+        },
+        {
+          "pull_request": 63,
+          "head": "d8fc0876714a0fcecb5548e9658ab0acf5cf1e53",
+          "path": "rust/crates/syson-json-interchange/src/selected_model.rs",
+          "line": 201
+        },
+        {
+          "pull_request": 69,
+          "head": "f4e951a74c2a1b2d32db4d397ad4bddae3bbd173",
+          "path": "rust/crates/syson-json-interchange/src/native_model.rs",
+          "line": 123
+        }
+      ],
+      "trigger": "Valid empty selected Document plus vendor opaque metadata:60 nested object wrappers around100000null array items;500481rawbytes (<1048576). Bundle::load calls Document::to_json before checking pretty length. Public bridges likewise pretty serialize Document before their byte guard.",
+      "expected": "Reject over-budget canonical output through bounded counting/streaming before building the oversized pretty String; preserve caller state and ordinary unknown values.",
+      "actual": "Root executed immutable #55: returns Limit only after max single requested allocation16777216bytes; peak additional live requested layout bytes21011477. Serialized cap is1048576. API does not publish partial output, but allocates the refused oversized representation.",
+      "evidence": {
+        "type": "ROOT_EXECUTED_NEW_COUNTEREXAMPLE_PLUS_IMMUTABLE_SOURCE",
+        "root_receipt": "/workspace/build/builderbob/syson-rereview-20261026/counterexamples-01/receipt.json",
+        "raw_stdout": "/workspace/build/builderbob/syson-rereview-20261026/counterexamples-01/f33-runtime-stdout.json",
+        "capture_status_caveat": "overall first script FAIL only later unrelated model-probe compile issue; F33/F34 runtime observations completed and retained.",
+        "metrics_scope": "Measurement shim requested allocation layouts during APIcall; not RSS/nativebenchmark/capacity SLA.",
+        "proposal": "probes/proposal.json"
+      },
+      "existing_plan_units": [
+        "I09",
+        "I03",
+        "I06",
+        "C03"
+      ],
+      "future_pr": {
+        "scope": "Bound canonical selected-model/interchange serialization before allocation, shared by Bundle and both identity bridges.",
+        "dependency_prs": [
+          55,
+          63,
+          69
+        ],
+        "tasks": [
+          "Introduce one bounded counting/writer serialization primitive for canonical pretty output; count before owned String creation or write to bounded owned buffer.",
+          "Use the same admission policy at Bundle::load/save and bridge entry points; avoid rawsize-only guards and unknown-value changes.",
+          "Keep all failure paths atomic and preserve both identity domains; do not merge identity encoding policies."
+        ],
+        "verification": [
+          "Fresh focused original counterexample must still return Limit while refusing before the large pretty-output allocation.",
+          "Near-limit accepted documents save/reload and bridges roundtrip; high-depth/dense opaque values/control escaping exercise encoded byte accounting.",
+          "Actual composed caller, allocation-focused bounded case and unchanged-byte checks; no broad old-suite replay without affected concern."
+        ],
+        "budget": {
+          "production_lines_max": 400,
+          "authored_lines_max": 900,
+          "commits": 2
+        },
+        "paths": [
+          "rust/crates/syson-json-interchange/src/lib.rs",
+          "rust/crates/syson-json-interchange/src/selected_model.rs",
+          "rust/crates/syson-json-interchange/src/native_model.rs",
+          "rust/crates/syson-json-interchange/src/serialization.rs",
+          "rust/crates/syson-json-interchange/tests/serialization_budget.rs"
+        ],
+        "depends_on_findings": [],
+        "acceptance_gates": [
+          "C03",
+          "I09",
+          "C99"
+        ],
+        "implementation_authorized_now": false
+      },
+      "testing_gap": "Current roundtrip.rs accepted_uploads_also_fit_canonical_save_and_reload_budget explicitly constructs oversized pretty output, asserts eventual Limit, but never bounds/refuses the intermediate allocation."
+    },
+    {
+      "id": "PARSER-RR-02",
+      "severity": "P2",
+      "title": "Text export copies unbounded model names before its64KiB output guard",
+      "classification": "REPRODUCED_BUDGET_CHECK_ORDER_BUG",
+      "confidence": "high",
+      "locations": [
+        {
+          "pull_request": 56,
+          "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+          "path": "rust/crates/syson-text-export/src/lib.rs",
+          "line": 102
+        },
+        {
+          "pull_request": 56,
+          "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+          "path": "rust/crates/syson-text-export/src/lib.rs",
+          "line": 231
+        },
+        {
+          "pull_request": 56,
+          "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+          "path": "rust/crates/syson-text-export/src/lib.rs",
+          "line": 248
+        }
+      ],
+      "trigger": "One valid root Package named2097152ASCII A characters; Document::from_json admits it. export collects name, printable_name copies it, render appends before testing out.len.",
+      "expected": "Reject a name/rendered projection that cannot fit65536bytes before large printable-name/output allocations.",
+      "actual": "Root new immutable #56 probe input2097410bytes/name2097152: returns Limit after max single requested allocation4194320bytes and peak additional live requested layout bytes4194672.",
+      "evidence": {
+        "type": "ROOT_EXECUTED_NEW_COUNTEREXAMPLE_PLUS_IMMUTABLE_SOURCE",
+        "root_receipt": "/workspace/build/builderbob/syson-rereview-20261026/counterexamples-01/receipt.json",
+        "raw_stdout": "/workspace/build/builderbob/syson-rereview-20261026/counterexamples-01/f34-runtime-stdout.json",
+        "metrics_scope": "API-call requested allocation bookkeeping only; no RSS/native latency claim.",
+        "proposal": "probes/proposal.json"
+      },
+      "existing_plan_units": [
+        "P170",
+        "P171",
+        "P183",
+        "I09"
+      ],
+      "future_pr": {
+        "scope": "Preflight exact rendered-name/output byte growth in finite text export.",
+        "dependency_prs": [
+          56,
+          52
+        ],
+        "tasks": [
+          "Bound name encoding/output growth before printable_name ownership/candidate collection and String append.",
+          "Keep Unicode/quoted keyword bytes, newline and indentation policies exact; avoid truncation and preserve atomic return.",
+          "Use bounded writer/counting for full document and type-name candidate generation, retaining actual import gate."
+        ],
+        "verification": [
+          "New2MiB-name counterexample returns same Limit before multi-MiB output allocation; below/at/above65536byte names and escaped/Unicode candidates.",
+          "ActualF14 import\u2192export\u2192import for ordinary and quoted names; verify unchanged document and absence of partial String on failure."
+        ],
+        "budget": {
+          "production_lines_max": 400,
+          "authored_lines_max": 900,
+          "commits": 2
+        },
+        "paths": [
+          "rust/crates/syson-text-export/src/lib.rs",
+          "rust/crates/syson-text-export/tests/render_budget.rs"
+        ],
+        "depends_on_findings": [],
+        "acceptance_gates": [
+          "C03",
+          "I09",
+          "C99"
+        ],
+        "implementation_authorized_now": false
+      },
+      "testing_gap": "Existing exporter budget tests assert refusal for declaration/byte limits but do not bound transient copies from a valid large Document."
+    },
+    {
+      "id": "PARSER-RR-03",
+      "severity": "P2",
+      "title": "Quoted parser keywords imported by F14 cannot be exported through F34",
+      "classification": "STATIC_COMPOSITION_BUG",
+      "confidence": "high",
+      "locations": [
+        {
+          "pull_request": 56,
+          "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+          "path": "rust/crates/syson-text-export/src/lib.rs",
+          "line": 231
+        },
+        {
+          "pull_request": 56,
+          "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+          "path": "rust/crates/syson-text-export/src/lib.rs",
+          "line": 284
+        },
+        {
+          "pull_request": 56,
+          "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+          "path": "rust/crates/syson-domain/src/names.rs",
+          "line": 164
+        },
+        {
+          "pull_request": 56,
+          "head": "82af0cea91e1a17c9b75e5bb77049357959ee50a",
+          "path": "rust/crates/syson-ast-adapter/src/reserved.rs",
+          "line": 30
+        }
+      ],
+      "trigger": "F14 import of package 'class'; yields valid selected rootPackage declaredName class. F34 printable_name uses117SysMLNameHelperkeywords, omitting class; own imported parserreserved table contains class.",
+      "expected": "Export as package 'class'; then actualF14 reimport succeeds within the finite package family.",
+      "actual": "Static exact-source trace: export renders package class; then its real importer gate rejects reserved class atbyte8 with NotImportable(Parse(Unsupported)).53 parser-only word keywords are absent from the printable-name set, including class/namespace/true/as.",
+      "evidence": {
+        "type": "IMMUTABLE_SOURCE_COMPOSITION_PROOF_NOT_EXECUTED",
+        "native_boundary": "Java printable helper may share this defect; qualify it as an explicit usability/correctness improvement rather than altering the exact general domain helper silently.",
+        "source_inventory": "117domain keywords vs170parser word keywords; parser-minus-domain53, domain-minus-parser constant."
+      },
+      "existing_plan_units": [
+        "P170",
+        "P171",
+        "P15"
+      ],
+      "future_pr": {
+        "scope": "Token-safe naming in the text exporter without changing the exact standalone JavaNameHelper compatibility helper.",
+        "dependency_prs": [
+          56,
+          52,
+          40
+        ],
+        "tasks": [
+          "Quote rendered names using the actual target lexer reserved-token contract as well as syntactic identifier rules.",
+          "Apply identical policy to declarations and qualified reference segments; preserve shortest valid resolution and actual importer gate.",
+          "Record native-export behavior if it shares the issue; retain a named intentional Rust improvement."
+        ],
+        "verification": [
+          "ActualF14 package 'class';\u2192export\u2192F14 import; assert bytes and names survive.",
+          "Table-driven every parser-only reserved word, punctuation/Unicode, qualified type segment and ordinary-name controls; true/false/null/class/namespace cases."
+        ],
+        "budget": {
+          "production_lines_max": 250,
+          "authored_lines_max": 700,
+          "commits": 2
+        },
+        "paths": [
+          "rust/crates/syson-text-export/src/lib.rs",
+          "rust/crates/syson-text-export/tests/reserved_names.rs"
+        ],
+        "depends_on_findings": [
+          "PARSER-RR-02"
+        ],
+        "acceptance_gates": [
+          "C03",
+          "C05",
+          "C99"
+        ],
+        "implementation_authorized_now": false
+      },
+      "testing_gap": "printable_spaces_unicode_and_native_keywords_roundtrip covers part, which belongs to both sets, so it cannot detect lexer/printer keyword-set drift."
+    },
+    {
+      "id": "PARSER-RR-04",
+      "severity": "P2",
+      "title": "AST transaction snapshots perform uncharged quadratic whole-state copies",
+      "classification": "STATIC_COMPLEXITY_AND_WORK_BUDGET_BUG",
+      "confidence": "high",
+      "locations": [
+        {
+          "pull_request": 11,
+          "head": "511b0b1ce14dae7f6b57d57f93b5d709ee1b479b",
+          "path": "rust/crates/syson-ast/src/lib.rs",
+          "line": 265
+        },
+        {
+          "pull_request": 11,
+          "head": "511b0b1ce14dae7f6b57d57f93b5d709ee1b479b",
+          "path": "rust/crates/syson-ast/src/lib.rs",
+          "line": 329
+        },
+        {
+          "pull_request": 11,
+          "head": "511b0b1ce14dae7f6b57d57f93b5d709ee1b479b",
+          "path": "rust/crates/syson-ast/src/lib.rs",
+          "line": 501
+        },
+        {
+          "pull_request": 41,
+          "head": "25acfaa6f3059685f133be034355f11104aad16f",
+          "path": "rust/crates/syson-ast-adapter/src/operator_expression.rs",
+          "line": 116
+        }
+      ],
+      "trigger": "Repeated begin_node/end_frame construction or selectedF12.apply calls on an increasingly populated builder. transaction charges1 then clones all nodes/fields/frames/CST associations, even if closure changes one node.",
+      "expected": "Rollback work proportional to changed state, or an explicit charged snapshot budget and cancellation boundary that matches actual copy effort.",
+      "actual": "Nsmall operations over growing state cause \u0398(N\u00b2) copied state with only \u0398(N) snapshot work charges. max_nodes100000/max_work10000000 do not account for clone volume or cancellation while cloning. F11 directallocate path avoids most of this; public operation-kernel/F12 path remains reachable.",
+      "evidence": {
+        "type": "IMMUTABLE_SOURCE_COMPLEXITY_PROOF_NOT_PROFILED",
+        "not_claimed": "No measuredwalltime/peak/RSS, no claim all parser paths currently hit it."
+      },
+      "existing_plan_units": [
+        "P12",
+        "P14",
+        "P18",
+        "P184"
+      ],
+      "future_pr": {
+        "scope": "Bound transaction rollback cost in existing AST kernel, reused by postprocessors.",
+        "dependency_prs": [
+          11,
+          41
+        ],
+        "tasks": [
+          "Use change journaling or bounded changed-node snapshots instead of full State clone per local transaction; preserve nested transaction semantics.",
+          "Charge every retained/cloned payload and check cancellation before expensive work; preserve spent work and nonrecycled NodeIds/owner identities.",
+          "Keep failed-branch CST/frame/default/containment restoration exact."
+        ],
+        "verification": [
+          "Growing100/1000/5000-node construction and postprocessor cases with allocation/copy-work counters; avoid a flaky timing-only assertion.",
+          "Nested success/failure rollback, foreign handles, spent IDs, cancelled midoperation and parent links after finish.",
+          "One actual CST\u2192kernel consuming path and F12 repeated postprocess integration after composition."
+        ],
+        "budget": {
+          "production_lines_max": 400,
+          "authored_lines_max": 900,
+          "commits": 2
+        },
+        "paths": [
+          "rust/crates/syson-ast/src/lib.rs",
+          "rust/crates/syson-ast/tests/transaction_work.rs",
+          "rust/crates/syson-ast-adapter/tests/operator_expression.rs"
+        ],
+        "depends_on_findings": [],
+        "acceptance_gates": [
+          "C03",
+          "C05",
+          "C99"
+        ],
+        "implementation_authorized_now": false
+      },
+      "testing_gap": "Existing tests cover rollback correctness, node/frame/work errors and cancellation, but no growing-state snapshot cost or work-accounting proportionality."
+    },
+    {
+      "id": "PARSER-RR-05",
+      "severity": "P2",
+      "title": "Old syntax-observe CLI can block opening a FIFO despite its byte limit",
+      "classification": "STATIC_OPERATIONAL_ADMISSION_BUG",
+      "confidence": "high",
+      "locations": [
+        {
+          "pull_request": 12,
+          "head": "ca80c1960620f87b940bd1e2040597efd7842052",
+          "path": "rust/tools/syntax-observe/src/main.rs",
+          "line": 18
+        },
+        {
+          "pull_request": 12,
+          "head": "ca80c1960620f87b940bd1e2040597efd7842052",
+          "path": "rust/tools/syntax-observe/src/main.rs",
+          "line": 22
+        }
+      ],
+      "trigger": "Pass an owned FIFO named fixture.sysml with no writer. metadata length0 passes<=1024 check, then File::open blocks before take(1025) can bound reads.",
+      "expected": "Refuse nonregular/nonsymlink fixture before open; return an actionable error without hanging or printing successful syntax status.",
+      "actual": "Source path has metadata-size guard only and follows file type into blocking open. No intrinsic readiness/read timeout exists in this CLI.",
+      "evidence": {
+        "type": "IMMUTABLE_SOURCE_CONTROL_FLOW_PROOF_NOT_EXECUTED",
+        "not_claimed": "No security exploit, symlink race resistance or productionHTTPbehavior claim."
+      },
+      "existing_plan_units": [
+        "P08",
+        "C09",
+        "C02"
+      ],
+      "future_pr": {
+        "scope": "Apply the established regular-file pre-open contract to old language observation CLI.",
+        "dependency_prs": [
+          12
+        ],
+        "tasks": [
+          "Check symlink_metadata regular-file identity before opening and keep the existing UTF8/suffix/byte constraints.",
+          "Keep invocation language and no-native-parser fallback policies intact."
+        ],
+        "verification": [
+          "Root-owned FIFO/directory/symlink refusals with a short process deadline; no FIFO opening and no partial observation output.",
+          "Existing legitimate same-byte native/Rust fixture observation and exact invalid suffix/oversize cases."
+        ],
+        "budget": {
+          "production_lines_max": 100,
+          "authored_lines_max": 350,
+          "commits": 2
+        },
+        "paths": [
+          "rust/tools/syntax-observe/src/main.rs",
+          "rust/tools/syntax-observe/tests/input_admission.rs"
+        ],
+        "depends_on_findings": [],
+        "acceptance_gates": [
+          "C03",
+          "C05",
+          "C99"
+        ],
+        "implementation_authorized_now": false
+      },
+      "testing_gap": "Reference Python runner uses is_file but its paired Rust syntax-observe tool has no equivalent file-type guard or CLI nonregular fixture regression."
+    }
+  ],
+  "cross_lane_shared": [
+    {
+      "owner": "audit_model_query",
+      "issue": "serde private Number/RawValue key reification destroys opaque object identity",
+      "our_affected_prs": [
+        55,
+        63,
+        69,
+        71,
+        72,
+        73,
+        74,
+        75,
+        81,
+        82
+      ],
+      "note": "Cross-reference model lane primary finding; no duplicate repair. C03c RawValue-only decode retains tokens, but subsequent C03b preparation materializes Value.",
+      "root_evidence": "counterexamples-02 + catalogue-private-token-01",
+      "suggested_existing_units": [
+        "M06",
+        "I03",
+        "I06",
+        "I09"
+      ]
+    }
+  ],
+  "execution_limit": "Reviewer executed no compiler/runtime/browser/network; root newly executed two bounded allocation probes, with exact records referenced. Static findings remain unexecuted."
+}

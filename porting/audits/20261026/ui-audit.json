@@ -1,0 +1,653 @@
+{
+  "schema": 1,
+  "mode": "READ_ONLY_CODE_AND_CURRENT_CAPTURE_AUDIT",
+  "units": [
+    {
+      "id": "F15",
+      "title": "Node label measurement and selected leaf geometry",
+      "source_scope": {
+        "inspected_snapshot": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+        "implementation": "syson-node-measurement; actual F19 wrapper uses package-leaf policy with DOM-observed labels",
+        "classes": "Package leaf, view-frame leaf and note core contracts; only the finite package/part preview is browser-bound"
+      },
+      "UIstatus": "INDIRECT_UI_COMPONENT; PACKAGE_LEAF_BROWSER_INTEGRATION_ONLY",
+      "functional_expectations": [
+        "Preserve exact label target and layout/font/request stamp; wrong or stale observations refuse. None/zero/forced dimensions retain the pinned finite source distinctions.",
+        "Package/view-frame leaves retain75x50 minima and8+label-height+8 padding. Notes use their separate border/default/aspect policy. Parent layout is F18, not silently treated as a leaf.",
+        "All admitted dimensions are finite/nonnegative and computation returns no partial model mutation. Matching observation tokens do not authenticate a caller or prove DOM measurement."
+      ],
+      "performance_ranges": {
+        "admitted": "One node request; previous/visible-ID searches are linear in caller observations. F19 bounds its browser label packet to1MiB and32 supported nodes.",
+        "budget": {
+          "measured_in_this_audit": "Fresh browser journeys assert functional states and reflow; no isolated layout/measurement/routing p50/p95, INP, LCP, long-task or maximum-load benchmark was recorded in these supplied UI captures. Harness elapsed time is not an interaction latency metric.",
+          "proposed_project_gates_not_measured": {
+            "small_edit_feedback": "p95 <=100 ms over at least30 matched select/stage/cancel/commit samples on the fixed host and browser",
+            "bounded_canvas": "For the admitted up-to32-node/64-edge family, p95 request-to-published-layout <=250 ms and no main-thread computation task >50 ms; test multiple graph shapes, long labels, fonts and cancellation",
+            "responsive": "No horizontal page overflow at320/390/640/1365/1440 CSS px; selected controls remain reachable at200% and400% zoom; labels must have a readable zoom/scroll alternative",
+            "interaction_targets": "Project minimum44x44 CSS px for primary buttons/inputs/disclosures; explicit computed accessible names and visible focus",
+            "qualification_note": "These are proposed acceptance budgets, not WCAG certification or established current performance results."
+          }
+        },
+        "limitation": "No measured DOM/font timing distribution or renderer equivalence at maximum label sizes."
+      },
+      "usability": {
+        "strengths": [
+          "F19 copies the actual rendered system-ui label style into a hidden measurement host after document.fonts.ready; no fabricated fallback measurement.",
+          "Invalid observations refuse explicitly instead of publishing guessed geometry."
+        ],
+        "remaining": [
+          "Core note/view-frame families have no corresponding current Rust authoring palette/browser flow.",
+          "Long horizontal labels remain clipped to fixed node interiors; full text is available through title/model list, but touch/canvas readability needs explicit zoom or wrapping design."
+        ]
+      },
+      "native_parity": {
+        "status": "ACTUAL_REFERENCE_APP_OBSERVED_NOT_MATCHED_GEOMETRY_DIFFERENTIAL",
+        "reference_version": "2026.9.3",
+        "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+        "reference_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+        "rust_source_pin": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+        "source_delta": "125 files according to coordinator source-delta capture; largely icons/providers/actions. Artifact/source correspondence is not independently rebuilt or attested.",
+        "fixture_difference": "Native General View renders the Batmobile template with many classifiers/relationships. Rust browser authoring uses Vehicle/Wheel/typed wheel with three supported diagram nodes. These are not matched geometry inputs.",
+        "observed_controls": "Native explorer, libraries, command search, inspector, pan/zoom/fit, minimap, arrange, image export and additional diagram tools are visible in fresh DOM/screens. Rust preview does not implement these as an equivalent graphical editor.",
+        "not_qualified": [
+          "ELK-equivalent coordinates/routes",
+          "matching native node/font sizing across all renderers",
+          "native inspector or screen-reader parity",
+          "full native geometry history/persistence semantics",
+          "whole-product feature parity"
+        ]
+      },
+      "evidence": [
+        "porting/follow-ons/F15/README.md",
+        "rust/crates/syson-node-measurement/src/lib.rs:192",
+        "browser/audit-ui-before-04/ui_walkthrough/03-authoring-desktop.png"
+      ],
+      "limitations": [
+        "Source-derived finite handlers and candidate Sirius helper pins are not a deployed npm artifact attestation.",
+        "No new renderer/font-runtime differential was run for this packet."
+      ]
+    },
+    {
+      "id": "F16",
+      "title": "Deterministic flat directed layout",
+      "source_scope": {
+        "inspected_snapshot": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+        "implementation": "syson-layout::layout; iterative SCC condensation, longest-path ranks and weak-component bands",
+        "source_disposition": "Explicit proposed Rust algorithm, not an ELK translation"
+      },
+      "UIstatus": "ALGORITHM_COMPONENT; INDIRECT_F19_INTEGRATION",
+      "functional_expectations": [
+        "Borrow measured rectangles and preserve dimensions/edge identities. Canonical ID order makes admitted input permutations deterministic.",
+        "Only flat, unpinned, port-free nodes and Right/Down are admitted. Unknown endpoints, invalid numbers, unsupported constraints, allocation/precision/work failures and cancellation return no partial layout.",
+        "Inter-SCC edges advance in rank; same-layer nodes and weak-component bands do not overlap under finite arithmetic. Do not promise minimum crossings, area or native aesthetics."
+      ],
+      "performance_ranges": {
+        "admitted": "Default caps4096 nodes/16384 edges,100,000,000 logical work,16MiB estimated workspace and1024-byte IDs. Count caps are necessary bounds, not a promise every graph under those counts passes the conservative work budget.",
+        "complexity": "Iterative graph traversals avoid recursive DFS. Sort work is conservatively precharged with length-squared/key-byte bounds. Logical work/workspace excludes RSS and is not a wall-clock deadline.",
+        "budget": {
+          "measured_in_this_audit": "Fresh browser journeys assert functional states and reflow; no isolated layout/measurement/routing p50/p95, INP, LCP, long-task or maximum-load benchmark was recorded in these supplied UI captures. Harness elapsed time is not an interaction latency metric.",
+          "proposed_project_gates_not_measured": {
+            "small_edit_feedback": "p95 <=100 ms over at least30 matched select/stage/cancel/commit samples on the fixed host and browser",
+            "bounded_canvas": "For the admitted up-to32-node/64-edge family, p95 request-to-published-layout <=250 ms and no main-thread computation task >50 ms; test multiple graph shapes, long labels, fonts and cancellation",
+            "responsive": "No horizontal page overflow at320/390/640/1365/1440 CSS px; selected controls remain reachable at200% and400% zoom; labels must have a readable zoom/scroll alternative",
+            "interaction_targets": "Project minimum44x44 CSS px for primary buttons/inputs/disclosures; explicit computed accessible names and visible focus",
+            "qualification_note": "These are proposed acceptance budgets, not WCAG certification or established current performance results."
+          }
+        }
+      },
+      "usability": {
+        "strengths": [
+          "Deterministic output and clear unsupported outcomes make failures reproducible."
+        ],
+        "remaining": [
+          "The browser uses default Right orientation; the standalone API Down option is not a current user-visible layout control.",
+          "No pinned nodes, ports, native connection anchors, ELK option UI, crossing minimization or arbitrary hierarchical layout parity."
+        ]
+      },
+      "native_parity": {
+        "status": "ACTUAL_REFERENCE_APP_OBSERVED_NOT_MATCHED_GEOMETRY_DIFFERENTIAL",
+        "reference_version": "2026.9.3",
+        "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+        "reference_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+        "rust_source_pin": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+        "source_delta": "125 files according to coordinator source-delta capture; largely icons/providers/actions. Artifact/source correspondence is not independently rebuilt or attested.",
+        "fixture_difference": "Native General View renders the Batmobile template with many classifiers/relationships. Rust browser authoring uses Vehicle/Wheel/typed wheel with three supported diagram nodes. These are not matched geometry inputs.",
+        "observed_controls": "Native explorer, libraries, command search, inspector, pan/zoom/fit, minimap, arrange, image export and additional diagram tools are visible in fresh DOM/screens. Rust preview does not implement these as an equivalent graphical editor.",
+        "not_qualified": [
+          "ELK-equivalent coordinates/routes",
+          "matching native node/font sizing across all renderers",
+          "native inspector or screen-reader parity",
+          "full native geometry history/persistence semantics",
+          "whole-product feature parity"
+        ]
+      },
+      "evidence": [
+        "porting/follow-ons/F16/API.md",
+        "rust/crates/syson-layout/src/lib.rs",
+        "browser/audit-ui-before-04/ui_walkthrough/03-authoring-desktop.png",
+        "native-browser-11/native-07-arranged.png"
+      ],
+      "limitations": [
+        "Fresh native Arrange was observed on a different Batmobile graph; it is not an algorithm oracle for the Rust three-node canvas.",
+        "No maximum-input or matched elapsed-time differential is claimed."
+      ]
+    },
+    {
+      "id": "F17",
+      "title": "Finite orthogonal obstacle routing",
+      "source_scope": {
+        "inspected_snapshot": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+        "implementation": "syson-routing grid/BFS with exact doubled-integer endpoints and open-interior obstacle checks",
+        "source_disposition": "Proposed finite zero-clearance router; not ELK routing equivalence"
+      },
+      "UIstatus": "ALGORITHM_COMPONENT; F19_USES_RIGHT_TO_LEFT_SAME_PARENT_TYPING_ROUTES",
+      "functional_expectations": [
+        "Require unique IDs, positive integer rectangles and rectangle edges within +/-1,000,000 units; refuse fractional/nonfinite/interior-overlap geometry.",
+        "Route Left/Right/Top/Bottom side-center anchors in the core API; sides constrain anchor position, not departure heading. Preserve half-unit centers as doubled integers.",
+        "Returned nonzero orthogonal segments must avoid every open rectangle interior; zero-clearance boundary/corner contact remains allowed. Distinct-side self and parallel edges retain identity.",
+        "Errors/cancellation produce no partial route collection. Grid-hop BFS does not promise shortest metric length, fewest bends, crossing avoidance or parallel lane separation."
+      ],
+      "performance_ranges": {
+        "admitted": "Default caps128 nodes/256 edges,16,384 grid vertices,65,536 output points,20,000,000 logical work and1024-byte IDs. F19 narrows counts to32/64.",
+        "complexity": "Each candidate segment checks rectangles; routing cost grows with grid, obstacles and edge count. Work/grid limits may refuse before count limits.",
+        "budget": {
+          "measured_in_this_audit": "Fresh browser journeys assert functional states and reflow; no isolated layout/measurement/routing p50/p95, INP, LCP, long-task or maximum-load benchmark was recorded in these supplied UI captures. Harness elapsed time is not an interaction latency metric.",
+          "proposed_project_gates_not_measured": {
+            "small_edit_feedback": "p95 <=100 ms over at least30 matched select/stage/cancel/commit samples on the fixed host and browser",
+            "bounded_canvas": "For the admitted up-to32-node/64-edge family, p95 request-to-published-layout <=250 ms and no main-thread computation task >50 ms; test multiple graph shapes, long labels, fonts and cancellation",
+            "responsive": "No horizontal page overflow at320/390/640/1365/1440 CSS px; selected controls remain reachable at200% and400% zoom; labels must have a readable zoom/scroll alternative",
+            "interaction_targets": "Project minimum44x44 CSS px for primary buttons/inputs/disclosures; explicit computed accessible names and visible focus",
+            "qualification_note": "These are proposed acceptance budgets, not WCAG certification or established current performance results."
+          }
+        }
+      },
+      "usability": {
+        "strengths": [
+          "Actual F19 typing routes follow the placed nodes, and route endpoints/bounds participate in preview viewBox fitting."
+        ],
+        "remaining": [
+          "No clearance, port placement, arrow/label/decorator management, lane separation, constrained heading or general cross-container routing.",
+          "Identical parallel routes may overlap; an engineering editor needs clearer disambiguation."
+        ]
+      },
+      "native_parity": {
+        "status": "ACTUAL_REFERENCE_APP_OBSERVED_NOT_MATCHED_GEOMETRY_DIFFERENTIAL",
+        "reference_version": "2026.9.3",
+        "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+        "reference_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+        "rust_source_pin": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+        "source_delta": "125 files according to coordinator source-delta capture; largely icons/providers/actions. Artifact/source correspondence is not independently rebuilt or attested.",
+        "fixture_difference": "Native General View renders the Batmobile template with many classifiers/relationships. Rust browser authoring uses Vehicle/Wheel/typed wheel with three supported diagram nodes. These are not matched geometry inputs.",
+        "observed_controls": "Native explorer, libraries, command search, inspector, pan/zoom/fit, minimap, arrange, image export and additional diagram tools are visible in fresh DOM/screens. Rust preview does not implement these as an equivalent graphical editor.",
+        "not_qualified": [
+          "ELK-equivalent coordinates/routes",
+          "matching native node/font sizing across all renderers",
+          "native inspector or screen-reader parity",
+          "full native geometry history/persistence semantics",
+          "whole-product feature parity"
+        ]
+      },
+      "evidence": [
+        "porting/follow-ons/F17/README.md",
+        "rust/crates/syson-routing/src/lib.rs",
+        "rust/crates/syson-web/src/layout_geometry.rs",
+        "browser/audit-ui-before-04/ui_walkthrough/03-authoring-desktop.png"
+      ],
+      "limitations": [
+        "Geometric invariants are local proposed-algorithm acceptance, not native golden outputs.",
+        "No full negative-route completeness proof or wall-clock cancellation guarantee."
+      ]
+    },
+    {
+      "id": "F18",
+      "title": "Package-only nested container layout",
+      "source_scope": {
+        "inspected_snapshot": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+        "implementation": "syson-layout::containers::layout_packages around F16 sibling layout",
+        "source_disposition": "Finite source-derived package sizing/clamping plus proposed Rust placement"
+      },
+      "UIstatus": "ALGORITHM_COMPONENT; PACKAGE_CONTAINER_BROWSER_INTEGRATION",
+      "functional_expectations": [
+        "Layout a valid package forest bottom-up, then return canonical relative and absolute coordinates with child bounds and header/border/padding contributions.",
+        "Preserve finite source nullish/default/user-minimum branches; explicit zero remains distinct. Retained negative child positions clamp as documented, and retained overlaps are not silently reflowed.",
+        "Reject unknown/cyclic parents, cross-parent edges, duplicate identities, invalid numbers, precision overflow, work limits and cancellation with no partial result.",
+        "Last-child removal uses supplied leaf dimensions. Every sibling layout shares the total work budget."
+      ],
+      "performance_ranges": {
+        "admitted": "Inherits F16 logical count/work/workspace limits and per-group shared charging; F19 limits runtime preview to32 nodes/64 same-parent edges.",
+        "budget": {
+          "measured_in_this_audit": "Fresh browser journeys assert functional states and reflow; no isolated layout/measurement/routing p50/p95, INP, LCP, long-task or maximum-load benchmark was recorded in these supplied UI captures. Harness elapsed time is not an interaction latency metric.",
+          "proposed_project_gates_not_measured": {
+            "small_edit_feedback": "p95 <=100 ms over at least30 matched select/stage/cancel/commit samples on the fixed host and browser",
+            "bounded_canvas": "For the admitted up-to32-node/64-edge family, p95 request-to-published-layout <=250 ms and no main-thread computation task >50 ms; test multiple graph shapes, long labels, fonts and cancellation",
+            "responsive": "No horizontal page overflow at320/390/640/1365/1440 CSS px; selected controls remain reachable at200% and400% zoom; labels must have a readable zoom/scroll alternative",
+            "interaction_targets": "Project minimum44x44 CSS px for primary buttons/inputs/disclosures; explicit computed accessible names and visible focus",
+            "qualification_note": "These are proposed acceptance budgets, not WCAG certification or established current performance results."
+          }
+        },
+        "limitation": "Logical memory/work estimates are not RSS or a response deadline; no fresh deep-forest browser stress benchmark."
+      },
+      "usability": {
+        "strengths": [
+          "The three-node browser fixture visibly places typed usage and definition within Vehicle and recomputes parent bounds on full layout."
+        ],
+        "remaining": [
+          "Current preview requires semantic parents to be Packages; native definition/usage compartments and cross-container relationships are unsupported.",
+          "Selective leaf rotation can exceed its unchanged parent until the user requests full layout. This is documented policy, but an open usability limitation."
+        ]
+      },
+      "native_parity": {
+        "status": "ACTUAL_REFERENCE_APP_OBSERVED_NOT_MATCHED_GEOMETRY_DIFFERENTIAL",
+        "reference_version": "2026.9.3",
+        "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+        "reference_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+        "rust_source_pin": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+        "source_delta": "125 files according to coordinator source-delta capture; largely icons/providers/actions. Artifact/source correspondence is not independently rebuilt or attested.",
+        "fixture_difference": "Native General View renders the Batmobile template with many classifiers/relationships. Rust browser authoring uses Vehicle/Wheel/typed wheel with three supported diagram nodes. These are not matched geometry inputs.",
+        "observed_controls": "Native explorer, libraries, command search, inspector, pan/zoom/fit, minimap, arrange, image export and additional diagram tools are visible in fresh DOM/screens. Rust preview does not implement these as an equivalent graphical editor.",
+        "not_qualified": [
+          "ELK-equivalent coordinates/routes",
+          "matching native node/font sizing across all renderers",
+          "native inspector or screen-reader parity",
+          "full native geometry history/persistence semantics",
+          "whole-product feature parity"
+        ]
+      },
+      "evidence": [
+        "porting/follow-ons/F18/README.md",
+        "rust/crates/syson-layout/src/containers.rs",
+        "rust/crates/syson-web/src/layout_geometry.rs",
+        "browser/audit-ui-before-04/ui_walkthrough/03-authoring-desktop.png"
+      ],
+      "limitations": [
+        "No native getChildNodePosition/new-node-overlay behavior, nonpackage containers, border ports or full hierarchical layout correspondence."
+      ]
+    },
+    {
+      "id": "F19",
+      "title": "Measured canvas composition, history and WASM binding",
+      "source_scope": {
+        "inspected_snapshot": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+        "implementation": "F19A geometry + F19B controller + F19C App/loader/SVG; three ordered original PRs",
+        "parts": [
+          "rust/crates/syson-web/src/layout_geometry.rs",
+          "rust/crates/syson-web/src/layout_controller.rs",
+          "rust/crates/syson-web/src/lib.rs",
+          "rust/crates/syson-web/web/loader.js"
+        ]
+      },
+      "UIstatus": "DIRECT_BROWSER_SURFACE; FINITE_PREVIEW_PARTIAL_NATIVE_PARITY",
+      "functional_expectations": [
+        "Real DOM measurements feed actual F15/F18/F17 computation; no duplicate fake geometry. Model and representation identity domains remain distinct.",
+        "Request/compute/apply use monotonically increasing controller-scoped tickets and exact canonical model binding. Selection/font/model changes invalidate queued work; stale/cancelled results cannot publish or create extra history.",
+        "Canvas undo/redo is distinct from semantic history and bounded to32 frames; model edits/imports invalidate canvas geometry/history.",
+        "Rotate only selected leaves. Selected nodes/incident routes adopt results while unselected geometry is retained; explicitly relayout package bounds afterward.",
+        "Companion JSON requires exact model/version/identity/geometry/endpoint checks before state mutation; file and escaped default-ABI packet must fit1MiB. Imported geometry is file data, not a solver/DOM attestation."
+      ],
+      "performance_ranges": {
+        "admitted": "At most32 Package/PartDefinition/PartUsage nodes and64 same-parent local semantic-ID typing edges;1MiB request/model/companion/default-ABI budgets; finite integer geometry with half-unit routes;32 history frames.",
+        "execution": "Two zero-delay callbacks split compute and apply on the browser main thread. F19 passes noncancelling callbacks into synchronous algorithms; user cancellation is between phases, not preemptive or off-thread.",
+        "budget": {
+          "measured_in_this_audit": "Fresh browser journeys assert functional states and reflow; no isolated layout/measurement/routing p50/p95, INP, LCP, long-task or maximum-load benchmark was recorded in these supplied UI captures. Harness elapsed time is not an interaction latency metric.",
+          "proposed_project_gates_not_measured": {
+            "small_edit_feedback": "p95 <=100 ms over at least30 matched select/stage/cancel/commit samples on the fixed host and browser",
+            "bounded_canvas": "For the admitted up-to32-node/64-edge family, p95 request-to-published-layout <=250 ms and no main-thread computation task >50 ms; test multiple graph shapes, long labels, fonts and cancellation",
+            "responsive": "No horizontal page overflow at320/390/640/1365/1440 CSS px; selected controls remain reachable at200% and400% zoom; labels must have a readable zoom/scroll alternative",
+            "interaction_targets": "Project minimum44x44 CSS px for primary buttons/inputs/disclosures; explicit computed accessible names and visible focus",
+            "qualification_note": "These are proposed acceptance budgets, not WCAG certification or established current performance results."
+          }
+        }
+      },
+      "usability": {
+        "strengths": [
+          "Desktop captured three-column editor has clear form labels, separate model/canvas history labels, visible staged commit/cancel controls and an explicit local preview scope.",
+          "Fresh captures prove real authoring, layout, selection and finite inspector flows without page errors or console warnings."
+        ],
+        "confirmed_baseline_issue": "audit-ui-before-04 records an unsaved rename preserved by layout but replaced by committed wheel after Canvas undo. This is a real draft-loss issue; the coordinator has a separate recovery fix/replay, not reclassified as a baseline pass here.",
+        "remaining": [
+          "Native pan/zoom/fit/minimap/diagram editing, direct canvas selection/dragging, richer notation/ports/compartments, file/download usability and persisted project collaboration are absent.",
+          "Auto-fit SVG at narrow widths can make diagram labels very small. Current320px screenshot proves page reflow, not readable full-diagram interaction. Final viewport/replay disposition remains coordinator-owned.",
+          "The JSON copy/import interface and raw implementation class captions remain technical compared with an engineering authoring product."
+        ]
+      },
+      "native_parity": {
+        "status": "ACTUAL_REFERENCE_APP_OBSERVED_NOT_MATCHED_GEOMETRY_DIFFERENTIAL",
+        "reference_version": "2026.9.3",
+        "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+        "reference_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+        "rust_source_pin": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+        "source_delta": "125 files according to coordinator source-delta capture; largely icons/providers/actions. Artifact/source correspondence is not independently rebuilt or attested.",
+        "fixture_difference": "Native General View renders the Batmobile template with many classifiers/relationships. Rust browser authoring uses Vehicle/Wheel/typed wheel with three supported diagram nodes. These are not matched geometry inputs.",
+        "observed_controls": "Native explorer, libraries, command search, inspector, pan/zoom/fit, minimap, arrange, image export and additional diagram tools are visible in fresh DOM/screens. Rust preview does not implement these as an equivalent graphical editor.",
+        "not_qualified": [
+          "ELK-equivalent coordinates/routes",
+          "matching native node/font sizing across all renderers",
+          "native inspector or screen-reader parity",
+          "full native geometry history/persistence semantics",
+          "whole-product feature parity"
+        ]
+      },
+      "evidence": [
+        "browser/audit-ui-before-04/receipt.json",
+        "browser/audit-ui-before-04/ui_walkthrough/audit.json",
+        "browser/audit-ui-before-04/ui_walkthrough/03-authoring-desktop.png",
+        "browser/audit-ui-before-04/ui_walkthrough/05-mobile-top.png",
+        "browser/audit-ui-navigation-02/inspector_accessibility/inspector-mobile-320.png",
+        "native-browser-10/dom.json",
+        "native-browser-10/native-05-diagram.png",
+        "native-browser-11/native-07-arranged.png"
+      ],
+      "limitations": [
+        "No matched Vehicle geometry/rotation/history native differential. Batmobile is much larger and semantically broader.",
+        "No p95 frame/interaction, long-task, worker preemption or maximum-supported-graph benchmark.",
+        "Separate fix branches have their own captures; this packet does not attest a merged integration build."
+      ]
+    },
+    {
+      "id": "F36",
+      "title": "Inspector keyboard, focus and persistent live status",
+      "source_scope": {
+        "inspected_snapshot": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+        "implementation": "Bounded InspectorAccessibility focus policy and persistent status-node loader update",
+        "remediation_capture": "Current root navigation/inspector refinement uses nav-03 build and audit-ui-navigation-02 browser capture, separate from originalF36baseline"
+      },
+      "UIstatus": "DIRECT_BROWSER_SURFACE; CHROMIUM_SEMANTICS_QUALIFIED_IN_FINITE_FLOW",
+      "functional_expectations": [
+        "Keyboard create/select/rename/scalar staging must preserve committed export until commit; cancel must restore model state, and commit/cancel returns focus to the recorded origin.",
+        "All visible controls need computed accessible names, visible focus and predictable Tab order. SVG is aria-hidden, so the model/relationship navigation must provide the accessible alternative.",
+        "The live-status DOM object remains connected with stable status/polite/atomic success semantics and alert/assertive error semantics; do not remove/recreate it or clear attributes during repaint.",
+        "Pending edits must retain their original selected target; a selection change cannot silently redirect a commit. Unsupported/read-only properties need reasons and cannot become editable through presentation changes."
+      ],
+      "performance_ranges": {
+        "measured_states": "nav02 PASS at1365x1000,390x844 and320x844; no console errors/warnings; same status backend10 and named focused textbox/combobox captured. These are state/semantics checks, not timing distributions.",
+        "budget": {
+          "measured_in_this_audit": "Fresh browser journeys assert functional states and reflow; no isolated layout/measurement/routing p50/p95, INP, LCP, long-task or maximum-load benchmark was recorded in these supplied UI captures. Harness elapsed time is not an interaction latency metric.",
+          "proposed_project_gates_not_measured": {
+            "small_edit_feedback": "p95 <=100 ms over at least30 matched select/stage/cancel/commit samples on the fixed host and browser",
+            "bounded_canvas": "For the admitted up-to32-node/64-edge family, p95 request-to-published-layout <=250 ms and no main-thread computation task >50 ms; test multiple graph shapes, long labels, fonts and cancellation",
+            "responsive": "No horizontal page overflow at320/390/640/1365/1440 CSS px; selected controls remain reachable at200% and400% zoom; labels must have a readable zoom/scroll alternative",
+            "interaction_targets": "Project minimum44x44 CSS px for primary buttons/inputs/disclosures; explicit computed accessible names and visible focus",
+            "qualification_note": "These are proposed acceptance budgets, not WCAG certification or established current performance results."
+          }
+        }
+      },
+      "usability": {
+        "strengths": [
+          "Inspected nav02 screenshots replace flat unnamed relationship clutter with semantic-owner hierarchy and an explicit Relationships disclosure. Advanced/unavailable property groups reduce the default inspector burden.",
+          "Keyboard relationship disclosure, advanced-property origin focus, pending selection/commit targeting,320px reflow and44px targets are asserted by the current root browser journey.",
+          "Live-region observer records same/connected true, removed/attrsCleared false, with status text transitions. Full Chromium AX summaries show Element name and Is abstract focus."
+        ],
+        "remaining": [
+          "Screen-reader speech, other browser engines, forced colors, high contrast,200%/400% zoom and full WCAG compliance are not established.",
+          "Status text repeated verbatim is not artificially re-announced. Error-value preservation and background caret preservation are distinct behaviors; do not claim every error path preserves caret selection.",
+          "Current native390px screenshot has cramped fixed panes while Rust reflows; different graph sizes mean this supports a narrow responsive improvement, not overall UX superiority."
+        ]
+      },
+      "native_parity": {
+        "status": "ACTUAL_REFERENCE_APP_OBSERVED_NOT_MATCHED_GEOMETRY_DIFFERENTIAL",
+        "reference_version": "2026.9.3",
+        "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+        "reference_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+        "rust_source_pin": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+        "source_delta": "125 files according to coordinator source-delta capture; largely icons/providers/actions. Artifact/source correspondence is not independently rebuilt or attested.",
+        "fixture_difference": "Native General View renders the Batmobile template with many classifiers/relationships. Rust browser authoring uses Vehicle/Wheel/typed wheel with three supported diagram nodes. These are not matched geometry inputs.",
+        "observed_controls": "Native explorer, libraries, command search, inspector, pan/zoom/fit, minimap, arrange, image export and additional diagram tools are visible in fresh DOM/screens. Rust preview does not implement these as an equivalent graphical editor.",
+        "not_qualified": [
+          "ELK-equivalent coordinates/routes",
+          "matching native node/font sizing across all renderers",
+          "native inspector or screen-reader parity",
+          "full native geometry history/persistence semantics",
+          "whole-product feature parity"
+        ]
+      },
+      "evidence": [
+        "browser/audit-ui-navigation-02/receipt.json",
+        "browser/audit-ui-navigation-02/inspector_accessibility/stdout.txt",
+        "browser/audit-ui-navigation-02/inspector_accessibility/focus.json",
+        "browser/audit-ui-navigation-02/inspector_accessibility/live-region.json",
+        "browser/audit-ui-navigation-02/inspector_accessibility/ax-summary.json",
+        "browser/audit-ui-navigation-02/inspector_accessibility/inspector-desktop.png",
+        "browser/audit-ui-navigation-02/inspector_accessibility/inspector-mobile-320.png",
+        "native-browser-11/native-08-mobile.png"
+      ],
+      "limitations": [
+        "Browser accessibility-tree/DOM evidence is not screen-reader speech or all-platform acceptance.",
+        "Native inspector/keyboard/assistive behavior was not exercised in a matched fixture."
+      ]
+    }
+  ],
+  "unit_count": 6,
+  "source_snapshot": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+  "source_files": [
+    {
+      "path": "rust/crates/syson-node-measurement/src/lib.rs",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "a9aa057159a2d71f33ae836d8570246d4fd8e6d3fd7f2d228b174fccf50da1d0"
+    },
+    {
+      "path": "rust/crates/syson-layout/src/lib.rs",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "872a87f8f59e41388febf5038ec7d4e528fb25f02d8c54e2ff85bb8f63385349"
+    },
+    {
+      "path": "rust/crates/syson-layout/src/containers.rs",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "9d86a510de50586ffaacabb14ecb54415493d6888d9457ec87783b3399d1bec8"
+    },
+    {
+      "path": "rust/crates/syson-routing/src/lib.rs",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "4ef440f6c241ce7e008b679e0781e65a9df03861b625fae3349343f3782c5c0e"
+    },
+    {
+      "path": "rust/crates/syson-web/src/layout_geometry.rs",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "ff4f6565672f37e60a102e766662bcfb68e82844ddc89b83985dcacff5d11dcb"
+    },
+    {
+      "path": "rust/crates/syson-web/src/layout_controller.rs",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "11cb3a2decd0e64132620c1ed1e1d25e56f3a27a18726463516a455a64adf9a8"
+    },
+    {
+      "path": "rust/crates/syson-web/src/inspector_accessibility.rs",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "685c8a2d41e82ab32509c681bbec7fec9222c9074671eaee9134329687335313"
+    },
+    {
+      "path": "rust/crates/syson-web/src/lib.rs",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "6830d1567ac7a501fb1e2fbd5b2310f38b2883b4b364a6c816e7523e37bac4df"
+    },
+    {
+      "path": "rust/crates/syson-web/web/loader.js",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "705c125f697b9936e74dc9647c817ab797744380bcb66fc372f9621e5eae2174"
+    },
+    {
+      "path": "rust/crates/syson-web/web/style.css",
+      "revision": "d8f30b9c05df2f6ccb6311c308bac06f55e0b3cc",
+      "sha256": "0eb27cb054f95799814c4f6653de95b2e8c977c8607249ed0a6cc7af89c075f5"
+    }
+  ],
+  "fresh_screenshots_inspected": [
+    {
+      "path": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-before-04/ui_walkthrough/03-authoring-desktop.png",
+      "sha256": "fb36f3eecabbc81863cbe5f1fa06e813d0b0572eae91f9721de645d522813255",
+      "inspected": true,
+      "origin": "CURRENT_ROOT_AUDIT_CAPTURE"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-before-04/ui_walkthrough/05-mobile-top.png",
+      "sha256": "00f3eacab849aab359ae5c49ce940f78de5305792276ce260ed18179cefc0d82",
+      "inspected": true,
+      "origin": "CURRENT_ROOT_AUDIT_CAPTURE"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-audit-20261026/browser/audit-ui-navigation-02/inspector_accessibility/inspector-mobile-320.png",
+      "sha256": "6d36f3f255de8ff8e997823d0d5be677a345bf48b5a4e8b7edb27a2df1b4baf5",
+      "inspected": true,
+      "origin": "CURRENT_ROOT_AUDIT_CAPTURE"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-audit-20261026/native-browser-10/native-05-diagram.png",
+      "sha256": "9ba51da73a7b654fd5e4f669702285385484b4d0cabdbf1f35b8d5041b4ecfdb",
+      "inspected": true,
+      "origin": "CURRENT_ROOT_AUDIT_CAPTURE"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-audit-20261026/native-browser-11/native-07-arranged.png",
+      "sha256": "44d6cc76e261d439d60cf8d8c6058855f48c50be8e4c95d7faae34c0066fb5e8",
+      "inspected": true,
+      "origin": "CURRENT_ROOT_AUDIT_CAPTURE"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-audit-20261026/native-browser-11/native-08-mobile.png",
+      "sha256": "8745c68bdd1679faea16c2925ce25ab077ce80db278a5c990092ef4f808db584",
+      "inspected": true,
+      "origin": "CURRENT_ROOT_AUDIT_CAPTURE"
+    }
+  ],
+  "current_browser_results": {
+    "baseline": {
+      "capture": "browser/audit-ui-before-04",
+      "draft": {
+        "before": "unsaved draft",
+        "afterLayout": "unsaved draft",
+        "afterCanvasUndo": "wheel"
+      },
+      "viewport_widths": [
+        1440,
+        1440,
+        1440,
+        1440,
+        390,
+        390,
+        640
+      ],
+      "console_errors": [],
+      "console_warnings": []
+    },
+    "navigation": {
+      "capture": "browser/audit-ui-navigation-02",
+      "result": "PASS",
+      "viewports": [
+        [
+          1365,
+          1000
+        ],
+        [
+          390,
+          844
+        ],
+        [
+          320,
+          844
+        ]
+      ],
+      "console_errors": [],
+      "console_warnings": [],
+      "live_region": {
+        "same": true,
+        "connected": true,
+        "removed": false,
+        "attrsCleared": false
+      },
+      "ax_summary": [
+        {
+          "name": "selection",
+          "statusBackend": 10,
+          "focusedRole": "textbox",
+          "focusedName": "Element name"
+        },
+        {
+          "name": "rename-commit",
+          "statusBackend": 10,
+          "focusedRole": "textbox",
+          "focusedName": "Element name"
+        },
+        {
+          "name": "scalar-commit",
+          "statusBackend": 10,
+          "focusedRole": "combobox",
+          "focusedName": "Is abstract"
+        },
+        {
+          "name": "mobile-cancel",
+          "statusBackend": 10,
+          "focusedRole": "textbox",
+          "focusedName": "Element name"
+        }
+      ]
+    },
+    "native": {
+      "general_view_capture": "native-browser-10",
+      "arranged_mobile_capture": "native-browser-11",
+      "native_general_view_errors": [],
+      "native_general_view_warning_count": 4,
+      "arranged_warning_count": 6,
+      "harness_elapsed_ms": [
+        2484,
+        3300
+      ],
+      "timing_disposition": "Navigation/network-idle/open-view/screenshot and arrangement/resize harness elapsed; not LCP/INP, solver duration or comparable to the Rust workflow."
+    }
+  },
+  "proposed_acceptance_gates": {
+    "small_edit_feedback": "p95 <=100 ms over at least30 matched select/stage/cancel/commit samples on the fixed host and browser",
+    "bounded_canvas": "For the admitted up-to32-node/64-edge family, p95 request-to-published-layout <=250 ms and no main-thread computation task >50 ms; test multiple graph shapes, long labels, fonts and cancellation",
+    "responsive": "No horizontal page overflow at320/390/640/1365/1440 CSS px; selected controls remain reachable at200% and400% zoom; labels must have a readable zoom/scroll alternative",
+    "interaction_targets": "Project minimum44x44 CSS px for primary buttons/inputs/disclosures; explicit computed accessible names and visible focus",
+    "qualification_note": "These are proposed acceptance budgets, not WCAG certification or established current performance results."
+  },
+  "native_reference": {
+    "status": "ACTUAL_REFERENCE_APP_OBSERVED_NOT_MATCHED_GEOMETRY_DIFFERENTIAL",
+    "reference_version": "2026.9.3",
+    "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "reference_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+    "rust_source_pin": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "source_delta": "125 files according to coordinator source-delta capture; largely icons/providers/actions. Artifact/source correspondence is not independently rebuilt or attested.",
+    "fixture_difference": "Native General View renders the Batmobile template with many classifiers/relationships. Rust browser authoring uses Vehicle/Wheel/typed wheel with three supported diagram nodes. These are not matched geometry inputs.",
+    "observed_controls": "Native explorer, libraries, command search, inspector, pan/zoom/fit, minimap, arrange, image export and additional diagram tools are visible in fresh DOM/screens. Rust preview does not implement these as an equivalent graphical editor.",
+    "not_qualified": [
+      "ELK-equivalent coordinates/routes",
+      "matching native node/font sizing across all renderers",
+      "native inspector or screen-reader parity",
+      "full native geometry history/persistence semantics",
+      "whole-product feature parity"
+    ]
+  },
+  "findings": [
+    {
+      "id": "UI-DRAFT-LOSS",
+      "severity": "P1_USABILITY",
+      "status": "BASELINE_REPRODUCED; COORDINATOR_SEPARATE_FIX_REPLAY",
+      "evidence": "browser/audit-ui-before-04/ui_walkthrough/audit.json",
+      "actual": "unsaved draft -> wheel after Canvas undo"
+    },
+    {
+      "id": "UI-INFORMATION-HIERARCHY",
+      "severity": "P2",
+      "status": "NAV02_REMEDIATION_CAPTURE_PASS",
+      "actual": "Semantic owner hierarchy, grouped relationships/advanced properties and pending target preservation asserted in current browser journey."
+    },
+    {
+      "id": "UI-NARROW-CANVAS-READABILITY",
+      "severity": "P2",
+      "status": "OPEN_OR_FINAL_VIEWPORT_DISPOSITION_PENDING_COORDINATOR",
+      "actual": "320px page fits, but SVG overview labels are small and no user pan/zoom/fit affordance is implemented. Do not equate absence of page overflow with complete diagram usability."
+    },
+    {
+      "id": "UI-NATIVE-GEOMETRY-PARITY",
+      "status": "NOT_QUALIFIED",
+      "actual": "Native Batmobile GeneralView/Arrange observed, but input graph, source artifact and supported feature family differ from the Rust three-node preview."
+    }
+  ],
+  "execution_by_this_agent": {
+    "compiler": false,
+    "browser": false,
+    "native_runtime": false,
+    "new_source_changes": false
+  },
+  "scope_note": "This packet reads current root audit evidence plus immutable F36-composed source. Historical test counts in component READMEs are not attributed to a new run. Root owns final findings, viewport remediation and publication."
+}
