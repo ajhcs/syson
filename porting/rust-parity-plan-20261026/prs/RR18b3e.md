@@ -1,6 +1,6 @@
 # RR18b3e: Bound long navigation labels and preserve visible focus after repaint
 
-Lane: rereview-repairs. State: PLANNED_NOT_IMPLEMENTED.
+Lane: rereview-repairs. State: IMPLEMENTED_BOUNDED_NOT_ACCEPTED.
 
 ## Source preparation prerequisites
 
@@ -68,5 +68,6 @@ All named counterexamples/regressions and actual consuming caller gates pass on 
 - rereview-20261026/platform-review/findings.json
 - rereview-20261026/ui-findings.json
 - rereview-batch11-findings.json
+- rereview-batch13-findings.json
 
 Original lane record: [lanes/rereview.json](../lanes/rereview.json). Source snapshots stay immutable; plan.json adds the explicit coordinator dependency overlay.

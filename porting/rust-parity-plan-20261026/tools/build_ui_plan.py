@@ -98,7 +98,8 @@ add('U03','Project home, templates and application routing',['U01'],['doc/conten
   'Responsive320/390/640/1365/1440px and loading/error screenshots.'])
 
 add('U04','Explorer navigation, document actions and search',['U03'],['backend/views/syson-tree-explorer-view','backend/services/syson-tree-services','doc/content/modules/user-manual/pages/features/explorer.adoc'],
- ['Implement virtualized semantic tree with documents/libraries, containment hierarchy, selection and reveal.',
+ ['Retain the batch13 512-child synthetic Rust counterexample: bounded individual names still produce a roughly33000CSSpx page. Provide usable collapse/filter/windowed navigation with exact selected/fulltext/keyboard access; compare a matched native fixture before claiming large-explorer parity.',
+  'Implement virtualized semantic tree with documents/libraries, containment hierarchy, selection and reveal.',
   'Add source-supported create/rename/delete/copy/move/import actions with actual server commands and read-only guards.',
   'Implement keyboard tree navigation, accessible expansion, name search and stable selection after refresh.'],
  ['Matched native explorer actions with ordered membership/identity and undo artifacts.',
@@ -126,6 +127,7 @@ add('U07','Real file download/upload and archive reload',['U06'],['backend/appli
   'Preserve encoding, names, node/semantic/resource identities, libraries, representations and unknown native values.',
   'Enforce upload/expanded archive/member limits, path safety, cancellation and unchanged-document recovery; split archive handling from text if budget exceeded.'],
  ['Download actual browser bytes, reopen in fresh Rust context and native reference; perform reverse direction too.',
+  'Retain batch13 concrete reload difference: the matched long Package name survives native UI page reload, while the Rust prototype currently needs explicit canonical JSON reimport. Manual reimport is file round-trip evidence, not connected persistence parity; require B06/U03 integration for durable reopen.',
   'Invalid UTF8, duplicate keys, truncated files, corrupt archives and cancellation never partially publish.',
   'Inspect download UX, filename, feedback, progress and keyboard focus at all target widths.'],external=[55,56,63])
 
