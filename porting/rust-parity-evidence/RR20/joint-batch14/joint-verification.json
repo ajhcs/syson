@@ -1,0 +1,316 @@
+{
+  "schema": 1,
+  "status": "PASS_BOUNDED_RR20_BORROWED_SUMMARY_COMPOSITION;MAIN_LANDING_AND_FULL_PARITY_OPEN",
+  "unit": "RR20",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.0",
+  "base": "06fc56aa6c45bb45bdc6ff575ac1c7eae553cc37",
+  "existing_inputs": {
+    "RR20_implementation": "c7f1f0f66d9dbfa2b8b1584accf9d00d153dd703",
+    "RR20_original_pr": 111,
+    "borrowed_summary_original_pr": 115,
+    "current_UI_original_prs": [
+      124,
+      125
+    ]
+  },
+  "source_budget": {
+    "production_added": 276,
+    "production_removed": 15,
+    "model_test_lines": 464,
+    "new_browser_recipe_lines": 144,
+    "existing_browser_readiness_added": 1,
+    "authored_added_total": 885,
+    "review_budget": 900,
+    "capture_and_evidence_data": "separate generated review block"
+  },
+  "debug_browser": {
+    "successful_unique_recipes": 18,
+    "original_inspector_failure": "joint-callers-01 FAIL retained, then failed+unexecuted remainder only",
+    "build_reuse": "joint-build-02 explicitly rebinds unchanged compiled artifact to one corrected noncompiled inspector readiness input; no replay/rebuild claimed"
+  },
+  "release_browser": {
+    "successful_recipes": 18,
+    "all_exit_codes": 0,
+    "profile": "release WASM",
+    "wasm_bytes": 965797,
+    "wasm_sha256": "73f223fce00151e022a4701fee2316fa0d3766d260a8f43c68fadd76483d2f56",
+    "configuration_change": "Fresh release build; all18 UIrecipes rerun because executable artifact changed."
+  },
+  "baseline_red": {
+    "status": "EXPECTED_ACTUAL_UI_FAILURE",
+    "run": "joint-baseline-red-02",
+    "observed": "Preserved unbounded baseline moves Revision6 to Revision5 on extra undo; repaired composition retains exact boundary and redos.",
+    "setup_failure": "joint-baseline-red-01 rejected stale priorbuild before any server/browser; driverstreams preserved, no receipt was emitted"
+  },
+  "metrics": {
+    "definition": "Native click event to two animation frames, not pure Rust time or whole-journey task duration",
+    "measurement": "2 warmups +7 restored-state samples; no p95 or native speedratio",
+    "debug": [
+      {
+        "width": 320,
+        "sparse": {
+          "metric": "Native undo click event to two animation frames; redo restores identical model/history preconditions outside timing",
+          "warmupsMs": [
+            23.600000023841858,
+            23.899999976158142
+          ],
+          "measuredMs": [
+            25.700000047683716,
+            25.399999976158142,
+            24.5,
+            26.5,
+            24.5,
+            26.59999990463257,
+            24.200000047683716
+          ],
+          "minMs": 24.200000047683716,
+          "medianMs": 25.399999976158142,
+          "maxMs": 26.59999990463257
+        },
+        "dense": {
+          "metric": "Native undo click event to two animation frames; redo restores identical model/history preconditions outside timing",
+          "warmupsMs": [
+            615.8000000715256,
+            641.4000000953674
+          ],
+          "measuredMs": [
+            614.6999999284744,
+            604.5,
+            638.1000000238419,
+            611,
+            632,
+            606.6999999284744,
+            621.7999999523163
+          ],
+          "minMs": 604.5,
+          "medianMs": 614.6999999284744,
+          "maxMs": 638.1000000238419
+        }
+      },
+      {
+        "width": 1440,
+        "sparse": {
+          "metric": "Native undo click event to two animation frames; redo restores identical model/history preconditions outside timing",
+          "warmupsMs": [
+            23.799999952316284,
+            25.600000023841858
+          ],
+          "measuredMs": [
+            26.700000047683716,
+            22.700000047683716,
+            24.800000071525574,
+            26.899999976158142,
+            24.299999952316284,
+            25.90000009536743,
+            24.899999976158142
+          ],
+          "minMs": 22.700000047683716,
+          "medianMs": 24.899999976158142,
+          "maxMs": 26.899999976158142
+        },
+        "dense": {
+          "metric": "Native undo click event to two animation frames; redo restores identical model/history preconditions outside timing",
+          "warmupsMs": [
+            622.5,
+            607.5999999046326
+          ],
+          "measuredMs": [
+            618.2000000476837,
+            620.2999999523163,
+            616.8000000715256,
+            609.2000000476837,
+            628.2000000476837,
+            610.1000000238419,
+            606.8999999761581
+          ],
+          "minMs": 606.8999999761581,
+          "medianMs": 616.8000000715256,
+          "maxMs": 628.2000000476837
+        }
+      }
+    ],
+    "release": [
+      {
+        "width": 320,
+        "sparse": {
+          "metric": "Native undo click event to two animation frames; redo restores identical model/history preconditions outside timing",
+          "warmupsMs": [
+            26.09999990463257,
+            27.5
+          ],
+          "measuredMs": [
+            28.100000023841858,
+            26.40000009536743,
+            28.100000023841858,
+            27.59999990463257,
+            28.5,
+            28.399999976158142,
+            28.09999990463257
+          ],
+          "minMs": 26.40000009536743,
+          "medianMs": 28.100000023841858,
+          "maxMs": 28.5
+        },
+        "dense": {
+          "metric": "Native undo click event to two animation frames; redo restores identical model/history preconditions outside timing",
+          "warmupsMs": [
+            127.69999992847443,
+            149.40000009536743
+          ],
+          "measuredMs": [
+            122.89999997615814,
+            119.39999997615814,
+            131.39999997615814,
+            119.89999997615814,
+            118.59999990463257,
+            128.10000002384186,
+            121.5
+          ],
+          "minMs": 118.59999990463257,
+          "medianMs": 121.5,
+          "maxMs": 131.39999997615814
+        }
+      },
+      {
+        "width": 1440,
+        "sparse": {
+          "metric": "Native undo click event to two animation frames; redo restores identical model/history preconditions outside timing",
+          "warmupsMs": [
+            27.100000023841858,
+            27.799999952316284
+          ],
+          "measuredMs": [
+            28.200000047683716,
+            25.600000023841858,
+            27.399999976158142,
+            28,
+            28.899999976158142,
+            26.699999928474426,
+            26.600000023841858
+          ],
+          "minMs": 25.600000023841858,
+          "medianMs": 27.399999976158142,
+          "maxMs": 28.899999976158142
+        },
+        "dense": {
+          "metric": "Native undo click event to two animation frames; redo restores identical model/history preconditions outside timing",
+          "warmupsMs": [
+            125.10000002384186,
+            128.10000002384186
+          ],
+          "measuredMs": [
+            120.39999997615814,
+            118,
+            118.89999997615814,
+            126.60000002384186,
+            118.89999997615814,
+            117,
+            119.39999997615814
+          ],
+          "minMs": 117,
+          "medianMs": 118.89999997615814,
+          "maxMs": 126.60000002384186
+        }
+      }
+    ],
+    "range_disposition": "Debug dense605\u2013638ms is retained as debug outlier. Release dense117\u2013131ms is within/faster than provisional dense target150\u2013350ms; faster is acceptable. This named fixture does not close general performance/capacity."
+  },
+  "host_resource_profiles": {
+    "status": "PASS_BOUNDED_HOST_HISTORY_COUNTER_PROFILES;DENSE_UI_OUTLIER_AND_CAPACITY_OPEN",
+    "cells": [
+      {
+        "nodes": 1000,
+        "commits": 64,
+        "warmups": 2,
+        "measured": 7,
+        "edit_trajectory_us": {
+          "min": 77420,
+          "median": 83282,
+          "max": 85692
+        },
+        "retained_live_bytes_range": [
+          58462959,
+          58462959
+        ],
+        "rss_kib_range": [
+          74632,
+          74676
+        ]
+      },
+      {
+        "nodes": 1000,
+        "commits": 256,
+        "warmups": 2,
+        "measured": 7,
+        "edit_trajectory_us": {
+          "min": 311441,
+          "median": 317818,
+          "max": 324281
+        },
+        "retained_live_bytes_range": [
+          58463000,
+          58463000
+        ],
+        "rss_kib_range": [
+          74720,
+          74756
+        ]
+      },
+      {
+        "nodes": 4096,
+        "commits": 64,
+        "warmups": 2,
+        "measured": 7,
+        "edit_trajectory_us": {
+          "min": 336817,
+          "median": 355152,
+          "max": 366592
+        },
+        "retained_live_bytes_range": [
+          58377286,
+          58377286
+        ],
+        "rss_kib_range": [
+          95748,
+          95788
+        ]
+      },
+      {
+        "nodes": 4096,
+        "commits": 256,
+        "warmups": 2,
+        "measured": 7,
+        "edit_trajectory_us": {
+          "min": 1425863,
+          "median": 1467801,
+          "max": 1647850
+        },
+        "retained_live_bytes_range": [
+          58377296,
+          58377296
+        ],
+        "rss_kib_range": [
+          95744,
+          95808
+        ]
+      }
+    ],
+    "samples": 36,
+    "distinctions": "Conservative historycharge vs measured requested/live storage vs RSS kept separate; edit trajectory timings are not UI latency."
+  },
+  "cleanup": "All completed epochs have empty owned-descendant cleanup receipts; failed setup started no browser.",
+  "unresolved_required": [
+    "Actual main closure of UI/model prerequisites and held-owner gates",
+    "RR19 visible history retention/availability UX",
+    "RR18b3d bounded identifier disclosure and whole-render allocation/cost",
+    "U27/U28 dense navigation, glyphs, assistive speech, browser/device and capacity matrices",
+    "Fully Rust authored browser behavior and durable project save/reload/restart",
+    "C01 exact native artifact/source closure and all remaining feature acceptance"
+  ],
+  "rust_host_cases": {
+    "model": 74,
+    "web": 77,
+    "total": 151,
+    "features": "default only; no held raw/graph/factory execution"
+  }
+}

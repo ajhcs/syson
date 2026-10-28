@@ -1,0 +1,13 @@
+# Bounded retained history with borrowed-summary callers
+
+This composition transposes the existing RR20 history implementation into the current borrowed-summary/E/F editor without replacing the complete model file. Ownership, exact literal JSON and borrowed names/IDs remain intact through commit, failure, eviction, undo and redo. It changes no held raw/factory/initialized-graph source. The original PRs and their evidence remain preserved.
+
+Fresh default-source qualification passes 74 model and 77 web executable cases, formatting, all-target Clippy and a WASM build. Debug UI qualification has 18 distinct successful recipes. Its original inspector failure is retained: the initial check saw the shared loading heading before the inspector. One explicit readiness wait fixes that qualifier; only the failed and unexecuted remainder ran again. A new binding reuses byte-identical compiled WASM and records the changed noncompiled script.
+
+The same regression catches the actual old UI defect: an extra undo moves Revision6 to Revision5. The repaired UI preserves the 64-entry boundary and restores the exact final export after redo. One earlier baseline setup selected a stale artifact and was refused before server/browser startup; its streams remain separate.
+
+Optimized release WASM is 965797 bytes; all 18 actual UI recipes pass again on this changed artifact. At 320/1440px, the named sparse undo samples are 25.6–28.9ms and dense undo samples 117–131.4ms. These are native-event-to-two-frame observations with two warmups and seven samples, not p95. Debug dense605–638ms remains a separately attributed outlier. No native performance ratio or general capacity is established. Fresh 1000/4096-node ×64/256-commit profiles retain raw allocation/cancellation/RSS observations under separate metric meanings.
+
+Screenshots and Chromium AX evidence support the named keyboard/focus/readonly/draft and history journeys. Spoken assistive technology, broad browser/device acceptance, glyph coverage, roughly33000px dense navigation and the expanded65542-character identifier text wall remain open. Release timing success does not close those usability gaps or RR18b3d whole-render admission. RR19 visible history policy, fully Rust browser ownership and durable save/reopen remain separate work.
+
+This is a draft integration against a frozen review snapshot. Main landing waits for real prerequisites, ownership and affected checks; never merge into the snapshot. Full SysON parity remains NOT_ACCEPTED. The archive index preserves every declared raw artifact, including WASM, through identity or lossless gzip entries with both hashes.

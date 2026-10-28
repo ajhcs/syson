@@ -1,0 +1,362 @@
+diff --git a/rust/crates/syson-model/src/lib.rs b/rust/crates/syson-model/src/lib.rs
+index b188576ad..094c8bc63 100644
+--- a/rust/crates/syson-model/src/lib.rs
++++ b/rust/crates/syson-model/src/lib.rs
+@@ -9,7 +9,7 @@
+ //! Not a complete EMF implementation, database, REST API, or SysML semantic engine.
+ #![forbid(unsafe_code)]
+ use serde_json::{Value, json};
+-use std::collections::{BTreeMap, BTreeSet};
++use std::collections::{BTreeMap, BTreeSet, VecDeque};
+ use syson_domain::model::{Element, ElementId, Model};
+ mod containment;
+ mod scalar;
+@@ -38,6 +38,7 @@ pub enum ModelError {
+     StaleTransaction,
+     FailedTransaction,
+     ForeignTransaction,
++    RevisionExhausted,
+     MissingMembership,
+     UnexpectedMembership,
+ }
+@@ -517,20 +518,138 @@ fn project_node(
+ }
+ 
+ /// Proposed local snapshot editor. No persistence/network/concurrency claim.
++/// Selected in-memory retention limits, separate from publication JSON limits.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub struct HistoryLimits {
++    entries: usize,
++    charge_bytes: usize,
++}
++impl Default for HistoryLimits {
++    fn default() -> Self {
++        Self {
++            entries: 64,
++            charge_bytes: 128 * 1024 * 1024,
++        }
++    }
++}
++impl HistoryLimits {
++    /// Zero disables retention. Larger-than-default policies explicitly refuse.
++    pub fn new(entries: usize, charge_bytes: usize) -> Option<Self> {
++        let maximum = Self::default();
++        (entries <= maximum.entries && charge_bytes <= maximum.charge_bytes).then_some(Self {
++            entries,
++            charge_bytes,
++        })
++    }
++    pub fn entries(self) -> usize {
++        self.entries
++    }
++    pub fn charge_bytes(self) -> usize {
++        self.charge_bytes
++    }
++}
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum HistoryAvailability {
++    Available,
++    Empty,
++    RetentionBoundary,
++}
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum HistoryTruncation {
++    Disabled,
++    EntryBudget,
++    ByteBudget,
++    SnapshotTooLarge,
++}
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub struct HistoryState {
++    pub undo: HistoryAvailability,
++    pub redo: HistoryAvailability,
++    pub undo_entries: usize,
++    pub redo_entries: usize,
++    /// Capacity charge plus conservative container allowance, NOT measured heap
++    /// or RSS. Current document and open transactions are outside this budget.
++    pub retained_charge_bytes: usize,
++    pub limits: HistoryLimits,
++    pub discarded_undo: u64,
++    pub discarded_redo: u64,
++    pub last_truncation: Option<HistoryTruncation>,
++    pub revision_exhausted: bool,
++}
++#[derive(Debug)]
++struct HistoryEntry {
++    document: Document,
++    charge: usize,
++}
++// Charge actual String/key/Vec capacities; include Value headers and a generous
++// map base/per-slot allowance for the qualified BTreeMap backend. This is a
++// retention policy, not a portable allocator/RSS theorem. Saturation refuses
++// retaining oversized data. Number's private capacity is compacted to a fresh
++// exact-token String before caching; no generic Value parsing or normalization.
++fn history_charge(value: &mut Value, level: usize) -> usize {
++    // Editor may receive a provisional Document clone; never recurse past the
++    // publication depth even when that provisional value has not been admitted.
++    if level > JSON_DEPTH_LIMIT {
++        return usize::MAX;
++    }
++    let mut charge = std::mem::size_of::<Value>();
++    let mut add = |bytes| {
++        charge = charge.saturating_add(bytes);
++    };
++    match value {
++        Value::String(text) => add(text.capacity()),
++        Value::Number(number) => {
++            let token = number.as_str().to_owned();
++            add(token.capacity());
++            *number = serde_json::Number::from_string_unchecked(token);
++        }
++        Value::Array(rows) => {
++            add(rows.capacity().saturating_mul(std::mem::size_of::<Value>()));
++            for row in rows {
++                add(history_charge(row, level + 1));
++            }
++        }
++        Value::Object(rows) => {
++            add(1024usize.saturating_add(rows.len().saturating_mul(
++                std::mem::size_of::<String>() + std::mem::size_of::<Value>() + 128,
++            )));
++            for (key, value) in rows {
++                add(key.capacity());
++                add(history_charge(value, level + 1));
++            }
++        }
++        _ => (),
++    }
++    charge
++}
+ #[derive(Debug)]
+ pub struct Editor {
+     document: Document,
+-    undo: Vec<Document>,
+-    redo: Vec<Document>,
++    current_charge: usize,
++    undo: VecDeque<HistoryEntry>,
++    redo: VecDeque<HistoryEntry>,
++    history_limits: HistoryLimits,
++    discarded_undo: u64,
++    discarded_redo: u64,
++    last_truncation: Option<HistoryTruncation>,
+     revision: u64,
+     identity: std::sync::Arc<()>,
+ }
+ impl Editor {
+     pub fn new(document: Document) -> Self {
++        Self::with_history_limits(document, HistoryLimits::default())
++    }
++    pub fn with_history_limits(mut document: Document, limits: HistoryLimits) -> Self {
++        let current_charge = history_charge(&mut document.value, 0);
+         Self {
+             document,
+-            undo: Vec::new(),
+-            redo: Vec::new(),
++            current_charge,
++            undo: VecDeque::new(),
++            redo: VecDeque::new(),
++            history_limits: limits,
++            discarded_undo: 0,
++            discarded_redo: 0,
++            last_truncation: None,
+             revision: 0,
+             identity: std::sync::Arc::new(()),
+         }
+@@ -538,6 +657,81 @@ impl Editor {
+     pub fn document(&self) -> &Document {
+         &self.document
+     }
++    fn retained_charge(&self) -> usize {
++        self.undo
++            .iter()
++            .chain(&self.redo)
++            .fold(0usize, |sum, entry| sum.saturating_add(entry.charge))
++            .saturating_add(
++                (self.undo.capacity().saturating_add(self.redo.capacity()))
++                    .saturating_mul(std::mem::size_of::<HistoryEntry>()),
++            )
++    }
++    pub fn history_state(&self) -> HistoryState {
++        let availability = |length, discarded| {
++            if length != 0 {
++                HistoryAvailability::Available
++            } else if discarded != 0 {
++                HistoryAvailability::RetentionBoundary
++            } else {
++                HistoryAvailability::Empty
++            }
++        };
++        HistoryState {
++            undo: availability(self.undo.len(), self.discarded_undo),
++            redo: availability(self.redo.len(), self.discarded_redo),
++            undo_entries: self.undo.len(),
++            redo_entries: self.redo.len(),
++            retained_charge_bytes: self.retained_charge(),
++            limits: self.history_limits,
++            discarded_undo: self.discarded_undo,
++            discarded_redo: self.discarded_redo,
++            last_truncation: self.last_truncation,
++            revision_exhausted: self.revision == u64::MAX,
++        }
++    }
++    /// Metadata policy changes do not change document revisions. Retain nearest
++    /// undo first; discard oldest undo then farthest redo until BOTH bounds fit.
++    pub fn set_history_limits(&mut self, limits: HistoryLimits) {
++        self.history_limits = limits;
++        self.trim_history();
++    }
++    fn trim_history(&mut self) {
++        loop {
++            let length = self.undo.len().saturating_add(self.redo.len());
++            let entries = length > self.history_limits.entries;
++            let bytes = self.retained_charge() > self.history_limits.charge_bytes;
++            if !entries && !bytes {
++                break;
++            }
++            let reason =
++                if self.history_limits.entries == 0 || self.history_limits.charge_bytes == 0 {
++                    HistoryTruncation::Disabled
++                } else if bytes && length == 1 {
++                    HistoryTruncation::SnapshotTooLarge
++                } else if entries {
++                    HistoryTruncation::EntryBudget
++                } else {
++                    HistoryTruncation::ByteBudget
++                };
++            if self.undo.pop_front().is_some() {
++                self.discarded_undo = self.discarded_undo.saturating_add(1);
++            } else if self.redo.pop_front().is_some() {
++                self.discarded_redo = self.discarded_redo.saturating_add(1);
++            } else {
++                self.undo = VecDeque::new();
++                self.redo = VecDeque::new();
++                break;
++            }
++            self.last_truncation = Some(reason);
++            if self.undo.is_empty() {
++                self.undo.shrink_to_fit();
++            }
++            if self.redo.is_empty() {
++                self.redo.shrink_to_fit();
++            }
++        }
++    }
+     pub fn begin(&self) -> Transaction {
+         Transaction {
+             base: self.document.clone(),
+@@ -548,7 +742,7 @@ impl Editor {
+         }
+     }
+     /// Failed transactions are poisoned; no partial edits or history changes.
+-    pub fn commit(&mut self, transaction: Transaction) -> Result<bool> {
++    pub fn commit(&mut self, mut transaction: Transaction) -> Result<bool> {
+         if !std::sync::Arc::ptr_eq(&self.identity, &transaction.identity) {
+             return Err(ModelError::ForeignTransaction);
+         }
+@@ -562,26 +756,51 @@ impl Editor {
+         if transaction.staged == self.document {
+             return Ok(false);
+         }
++        let next_revision = self
++            .revision
++            .checked_add(1)
++            .ok_or(ModelError::RevisionExhausted)?;
+         transaction.staged.check_json_budget()?;
+-        self.undo
+-            .push(std::mem::replace(&mut self.document, transaction.staged));
++        let charge = history_charge(&mut transaction.staged.value, 0);
++        let old = HistoryEntry {
++            document: std::mem::replace(&mut self.document, transaction.staged),
++            charge: std::mem::replace(&mut self.current_charge, charge),
++        };
+         self.redo.clear();
+-        self.revision += 1;
++        self.redo.shrink_to_fit();
++        self.discarded_redo = 0;
++        self.undo.push_back(old);
++        self.trim_history();
++        self.revision = next_revision;
+         Ok(true)
+     }
+     pub fn undo(&mut self) -> bool {
+-        if let Some(doc) = self.undo.pop() {
+-            self.redo.push(std::mem::replace(&mut self.document, doc));
+-            self.revision += 1;
++        let Some(next_revision) = self.revision.checked_add(1) else {
++            return false;
++        };
++        if let Some(entry) = self.undo.pop_back() {
++            self.redo.push_back(HistoryEntry {
++                document: std::mem::replace(&mut self.document, entry.document),
++                charge: std::mem::replace(&mut self.current_charge, entry.charge),
++            });
++            self.trim_history();
++            self.revision = next_revision;
+             true
+         } else {
+             false
+         }
+     }
+     pub fn redo(&mut self) -> bool {
+-        if let Some(doc) = self.redo.pop() {
+-            self.undo.push(std::mem::replace(&mut self.document, doc));
+-            self.revision += 1;
++        let Some(next_revision) = self.revision.checked_add(1) else {
++            return false;
++        };
++        if let Some(entry) = self.redo.pop_back() {
++            self.undo.push_back(HistoryEntry {
++                document: std::mem::replace(&mut self.document, entry.document),
++                charge: std::mem::replace(&mut self.current_charge, entry.charge),
++            });
++            self.trim_history();
++            self.revision = next_revision;
+             true
+         } else {
+             false
+@@ -752,3 +971,45 @@ pub use raw_admission::{RawAdmissionError, RawAdmissionReport, attach_raw_select
+ mod port_definition_refs;
+ #[cfg(feature = "raw-factory-candidate")]
+ pub use port_definition_refs::PortDefinitionReference;
++
++#[cfg(test)]
++mod rr20_revision_tests {
++    use super::*;
++    #[test]
++    fn exhausted_revision_refuses_before_history_or_document_changes() {
++        let mut editor = Editor::new(Document::empty());
++        let mut transaction = editor.begin();
++        transaction
++            .create_package(
++                None,
++                NodeIds::new(
++                    "10000000-0000-4000-8000-000000000001",
++                    "20000000-0000-4000-8000-000000000001",
++                )
++                .unwrap(),
++                None,
++                "one",
++            )
++            .unwrap();
++        assert!(editor.commit(transaction).unwrap());
++        editor.revision = u64::MAX;
++        let mut transaction = editor.begin();
++        transaction
++            .rename("20000000-0000-4000-8000-000000000001", "two")
++            .unwrap();
++        let original = editor.document.clone();
++        let state = editor.history_state();
++        assert!(state.revision_exhausted);
++        assert_eq!(
++            editor.commit(transaction),
++            Err(ModelError::RevisionExhausted)
++        );
++        assert!(!editor.undo());
++        assert!(!editor.redo());
++        assert_eq!(editor.document, original);
++        assert_eq!(editor.history_state(), state);
++        // Noop remains a noop even when another successful revision is impossible.
++        let noop = editor.begin();
++        assert!(!editor.commit(noop).unwrap());
++    }
++}
