@@ -45,6 +45,8 @@ Existing PR prerequisites: [#79](https://github.com/ajhcs/syson/pull/79), [#90](
 - Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.
 - Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.
 
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
+
 ## Commit plan
 
 - Focused implementation and meaningful regression/caller fixtures

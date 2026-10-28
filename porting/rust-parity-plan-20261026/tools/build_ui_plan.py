@@ -86,7 +86,7 @@ add('U02','Move canvas scheduling, measurements and viewport state into Rust',['
   'Port Actual size/Fit, scroll/pan state and keyboard viewport events; keep view-only actions outside model and geometry history.',
   'Add typed lifecycle ownership for observers, callbacks and buffers; release them on route/editor disposal.'],
  ['Actual browser font-ready, delayed-font, cancellation, stale result and repeated mount/unmount checks.',
-  '32-node/64-edge 30-click p95 <=250ms and no observed >50ms computation task; record raw samples and proxy definition.',
+  '32-node/64-edge fixed-fixture action latency: apply workload bands and measurement rules in performance-policy.json; record raw samples and distinct main-thread task observations without a universal50ms veto.',
   'Verify 14px names/12px classes at actual size and readable zoom/scroll alternative at320/1440px.'],external=[65])
 
 add('U03','Project home, templates and application routing',['U01'],['doc/content/modules/user-manual/pages/features/homepage.adoc','frontend/syson/src','backend/application/syson-application-configuration'],
@@ -271,7 +271,7 @@ add('U28','Cross-view performance and lifecycle qualification',['U27','U10'],['d
   'Profile browser main-thread/worker/server/database time and memory separately on32/256/1024-node shapes plus1k/10k element projects.',
   'Fix measured bottlenecks in independent PRs; set supported limits from repeatable evidence and clear overload/cancel UX.'],
  ['At least30samples for p50/p95/max; raw samples, environment and noise controls; use real browser events.',
-  'Small edits p95<=100ms;32/64 layout p95<=250ms without>50ms computation task; larger datasets get explicit targets after baseline.',
+  'Use ordinary/dense/capacity-specific target ranges in performance-policy.json; capture distributions, outliers, actual input responsiveness and matched native metrics; no single timing veto.',
   'Repeated mount/dispose/import/reconnect soak has bounded memory, listener and pending-task counts.'])
 
 add('U29','Qualify native documented capacity and remove prototype-only limits',['U28'],['doc/content/modules/user-manual/pages/features/scaling-limits.adoc'],

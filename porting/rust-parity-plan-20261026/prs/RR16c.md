@@ -34,6 +34,8 @@ The unit must compile and pass its local behavior tests against its frozen exist
 - Independent source/data review, synthetic/static-only HTTP payload audit, complete committed artifact inventory including ignored files, pushed exact head and dependency-free main landing-tree review are required.
 - Original feature heads still lack these blobs directly. A declared committed supplement resolves archival availability; do not label the old heads self-contained or infer feature/runtime acceptance.
 
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
+
 ## Commit plan
 
 - Focused implementation and meaningful regression/caller fixtures

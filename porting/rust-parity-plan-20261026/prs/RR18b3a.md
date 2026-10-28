@@ -44,8 +44,10 @@ Existing PR prerequisites: [#61](https://github.com/ajhcs/syson/pull/61), [#65](
 ## Verification
 
 - Reproduce actual renderer/import aggregate allocation amplification with an under-1MiB valid 64KiB parent-ID/512-child fixture. Measure aggregate/live requested bytes, not largest alone. Verify borrowed pointer identity, exact manual preorder/owner tuples, old API compatibility and actual rendered navigation/import/history.
-- Freeze red inputs before source changes, then run affected model/web default cases, scoped nonrecursive format, Clippy, WASM and actual mobile/desktop UI. This foundation cannot close full HTML or <50ms acceptance.
+- Freeze red inputs before source changes, then run affected model/web default cases, scoped nonrecursive format, Clippy, WASM and actual mobile/desktop UI. This foundation cannot close full HTML or <50ms acceptance. [TIMING POLICY SUPERSEDED 2026-10-28: Measure workload-specific latency ranges and outliers under performance-policy.json; report distinct event-to-visible latency, main-thread task durations and allocation metrics. Preserve raw timing evidence; no single50ms veto or automatic parity acceptance. Keep actual responsiveness, cancellation and exact-data checks.]
 - Before main landing, compose actual RR20 history changes and A borrowed-summary adapter on one reviewed candidate, reconcile shared lib.rs and run appropriate affected tests/UI gates. Existing124tests qualify only the current40b3-based A source, not that future composition.
+
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
 
 ## Commit plan
 

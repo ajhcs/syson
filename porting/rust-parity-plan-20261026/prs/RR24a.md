@@ -35,6 +35,8 @@ Existing PR prerequisites: [#90](https://github.com/ajhcs/syson/pull/90)
 - Run all strict RR01 regressions plus manual ordered/literal oracles, escaped/nested duplicate keys, overwritten malformed data, exact physical byte/depth/value/key/scalar budgets and cancellation. Verify the actual migration adopter uses only the explicit opt-in policy.
 - Freeze exact source, preserve original failed attempts, independently review, and bind executed inputs to committed blobs. A new compatibility API is not a claim that the old strict policy was a bug.
 
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
+
 ## Commit plan
 
 - Focused implementation and meaningful regression/caller fixtures
