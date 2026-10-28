@@ -78,7 +78,6 @@ const stats = samples => {
         await page.locator('button[data-value="comment0"]').click();
         assert.equal(await page.locator('#saved-value-body').evaluate(element => element.open), false);
         assert.equal(await page.locator('#saved-value-declaredName').count(), 0);
-        assert.equal(await page.locator('#scalar-state-declaredName').innerText(), 'Saved value: "Ordinary comment"');
         // Geometry is captured before focus/click/screenshot can auto-scroll.
         const initial = await page.evaluate(() => {
           const state = document.querySelector('#scalar-state-body'), rect = state.getBoundingClientRect(), style = getComputedStyle(state);
@@ -89,6 +88,16 @@ const stats = samples => {
         assert.match(initial.stateText, /Expand Full saved value/);
         assert.ok(initial.stateHeight <= 160 && initial.stateHeight <= 6 * initial.lineHeight + 1);
         assert.ok(initial.pageWidth <= width + 1); assert.equal(initial.disclosureOpen, false);
+        await page.screenshot({path: path.join(output, `saved-initial-${width}.png`)});
+        // declaredName is an advanced property. Open its real native disclosure
+        // before checking the visible unchanged short-value presentation.
+        const advanced = page.locator('#advanced-properties > summary');
+        await advanced.focus(); await page.keyboard.press('Enter');
+        assert.equal(await page.locator('#advanced-properties').evaluate(element => element.open), true);
+        assert.equal(await page.locator('#scalar-state-declaredName').isVisible(), true);
+        assert.equal(await page.locator('#scalar-state-declaredName').innerText(), 'Saved value: "Ordinary comment"');
+        await advanced.focus(); await page.keyboard.press('Enter');
+        assert.equal(await page.locator('#advanced-properties').evaluate(element => element.open), false);
         const summary = page.locator('#saved-value-body > summary');
         // Native keyboard activates details; timing starts in the actual click
         // event and ends after two animation frames, excluding focus/transport.
