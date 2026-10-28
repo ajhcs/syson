@@ -1,0 +1,171 @@
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-ast/src/lib.rs:5:
+ //! Behavioral references and limits are recorded in porting/ast/README.md.
+ use std::collections::{BTreeMap, BTreeSet};
+ use std::sync::{
+-    atomic::{AtomicBool, AtomicU64, Ordering},
+     Arc,
++    atomic::{AtomicBool, AtomicU64, Ordering},
+ };
+ 
+ #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-ast/tests/construction.rs:1:
+ use std::sync::{
+-    atomic::{AtomicBool, Ordering},
+     Arc,
++    atomic::{AtomicBool, Ordering},
+ };
+ use syson_ast::*;
+ fn reflection() -> Reflection {
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-ast/tests/flat_array.rs:1:
+-use std::sync::{atomic::AtomicBool, Arc};
++use std::sync::{Arc, atomic::AtomicBool};
+ use syson_ast::*;
+ fn builder() -> Builder {
+     let mut reflection = Reflection::default();
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-ast/tests/ownership.rs:1:
+-use std::sync::{atomic::AtomicBool, Arc};
++use std::sync::{Arc, atomic::AtomicBool};
+ use syson_ast::*;
+ fn builder() -> Builder {
+     let mut reflection = Reflection::default();
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-ast/tests/ownership.rs:17:
+     let mut b = builder();
+     let local = b.allocate(Some("Element"), None).unwrap();
+     assert_eq!(foreign.value(), local.value());
+-    assert!(b
+-        .assign(
++    assert!(
++        b.assign(
+             foreign,
+             "injected",
+             Assignment::Set,
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-ast/tests/ownership.rs:25:
+             Datum::new(Value::Null)
+         )
+-        .is_err());
++        .is_err()
++    );
+     assert_eq!(b.node(local).unwrap().slot("injected"), Slot::Absent);
+ }
+ #[test]
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-ast/tests/ownership.rs:65:
+     let second = b.allocate(Some("Element"), None).unwrap();
+     assert!(b.merge(second, foreign).is_err());
+     assert!(b.merge(foreign, second).is_err());
+-    assert!(b
+-        .assign(root, "foreign", Assignment::Set, Datum::node(foreign))
+-        .is_err());
+-    assert!(b
+-        .assign(root, "foreign", Assignment::Append, Datum::node(foreign))
+-        .is_err());
++    assert!(
++        b.assign(root, "foreign", Assignment::Set, Datum::node(foreign))
++            .is_err()
++    );
++    assert!(
++        b.assign(root, "foreign", Assignment::Append, Datum::node(foreign))
++            .is_err()
++    );
+     assert!(b.adopt_subrule(foreign).is_err());
+     assert_eq!(b.current_node().unwrap(), root);
+     assert_eq!(b.node(root).unwrap().slot("foreign"), Slot::Absent);
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/validation/ast/tests/kernel_regressions.rs:1:
+ // SPDX-License-Identifier: EPL-2.0
+ use std::sync::{
+-    atomic::{AtomicBool, Ordering},
+     Arc,
++    atomic::{AtomicBool, Ordering},
+ };
+ use syson_ast::*;
+ fn reflection() -> Reflection {
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/validation/ast/tests/kernel_regressions.rs:46:
+         "IDs must carry arena identity, even when both local counters start at zero"
+     );
+     assert!(b.node(foreign).is_err());
+-    assert!(b
+-        .assign(foreign, "x", Assignment::Set, text("bad"))
+-        .is_err());
+-    assert!(b
+-        .assign(local, "x", Assignment::Set, Datum::node(foreign))
+-        .is_err());
+-    assert!(b
+-        .assign(
++    assert!(
++        b.assign(foreign, "x", Assignment::Set, text("bad"))
++            .is_err()
++    );
++    assert!(
++        b.assign(local, "x", Assignment::Set, Datum::node(foreign))
++            .is_err()
++    );
++    assert!(
++        b.assign(
+             local,
+             "x",
+             Assignment::Set,
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/validation/ast/tests/kernel_regressions.rs:60:
+             Datum::new(Value::Array(vec![Datum::node(foreign)]))
+         )
+-        .is_err());
++        .is_err()
++    );
+     assert!(b.defaults(foreign).is_err());
+     assert!(b.merge(local, foreign).is_err());
+     assert!(b.merge(foreign, local).is_err());
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/validation/ast/tests/kernel_regressions.rs:66:
+     assert!(b.adopt_subrule(foreign).is_err());
+     assert!(b.assign_subrule("x", Assignment::Set, foreign, 1).is_err());
+     assert!(b.associate_cst(1, foreign).is_err());
+-    assert!(b
+-        .reference(
++    assert!(
++        b.reference(
+             foreign,
+             "ref",
+             Assignment::Set,
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/validation/ast/tests/kernel_regressions.rs:74:
+             Lexeme::from_source("X", 0, 1).unwrap(),
+             "T"
+         )
+-        .is_err());
++        .is_err()
++    );
+     assert_eq!(b.current_node().unwrap(), local);
+     assert_eq!(b.node(local).unwrap().slot("x"), Slot::Absent);
+     b.end_frame().unwrap();
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/validation/ast/tests/kernel_regressions.rs:163:
+ fn action_failure_rolls_back_added_defaults_and_nested_wrappers_derive_containers() {
+     let mut b = builder();
+     let leaf = b.begin_node(Some("T"), None).unwrap();
+-    assert!(b
+-        .action("Unknown", Some(("operand", Assignment::Set)), None)
+-        .is_err());
++    assert!(
++        b.action("Unknown", Some(("operand", Assignment::Set)), None)
++            .is_err()
++    );
+     assert_eq!(b.current_node().unwrap(), leaf);
+     assert_eq!(b.node(leaf).unwrap().slot("flag"), Slot::Absent);
+     let w = b
+Diff in /workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/validation/ast/tests/kernel_regressions.rs:283:
+     let r = b.begin_node(Some("T"), None).unwrap();
+     assert_eq!(b.append_datatype("bad"), Err(Error::WrongFrame));
+     let child = b.allocate(Some("T"), None).unwrap();
+-    assert!(!b
+-        .assign_subrule("child", Assignment::Set, child, 0)
+-        .unwrap());
++    assert!(
++        !b.assign_subrule("child", Assignment::Set, child, 0)
++            .unwrap()
++    );
+     assert_eq!(b.node(r).unwrap().slot("child"), Slot::Absent);
+-    assert!(b
+-        .assign_subrule("child", Assignment::Set, child, 1)
+-        .unwrap());
++    assert!(
++        b.assign_subrule("child", Assignment::Set, child, 1)
++            .unwrap()
++    );
+     b.end_frame().unwrap();
+     assert_eq!(b.finish(r).unwrap().nodes().len(), 2);
+ }

@@ -1,0 +1,106 @@
+    Checking syson-metamodel v0.1.0 (/workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-metamodel)
+    Checking syson-initializer v0.1.0 (/workspace/worktrees/builderbob/syson/batch13-prerequisite-candidate/rust/crates/syson-initializer)
+error: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+  --> src/planner.rs:21:34
+   |
+21 |         engine.owner = NEXT_PLAN.fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+   |                                  ^^^^^^^^^^^^
+   |
+   = note: `-D deprecated` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(deprecated)]`
+help: replace the use of the deprecated method
+   |
+21 -         engine.owner = NEXT_PLAN.fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+21 +         engine.owner = NEXT_PLAN.try_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+   |
+
+error: this `if` statement can be collapsed
+   --> src/planner.rs:131:16
+    |
+131 |           } else if let Some(owner) = owner {
+    |  ________________^
+132 | |             if self.is(&owner, ClassifierId::ActionUsage)? || self.is(&owner, ClassifierId::ActionDefinition)? {
+133 | |                 let count = self.count(target, true)?;
+134 | |                 self.scalar(target, ScalarFeature::DeclaredName, Scalar::Text(format!("parameter{count}")), "caseReferenceUsage")?;
+135 | |             }
+136 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+    = note: `-D clippy::collapsible-if` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::collapsible_if)]`
+help: collapse nested if block
+    |
+131 ~         } else if let Some(owner) = owner
+132 ~             && (self.is(&owner, ClassifierId::ActionUsage)? || self.is(&owner, ClassifierId::ActionDefinition)?) {
+133 |                 let count = self.count(target, true)?;
+134 |                 self.scalar(target, ScalarFeature::DeclaredName, Scalar::Text(format!("parameter{count}")), "caseReferenceUsage")?;
+135 ~             }
+    |
+
+error: this `if` statement can be collapsed
+   --> src/planner.rs:158:9
+    |
+158 | /         if let Some(member) = self.membership(target)? {
+159 | |             if self.is(&member, ClassifierId::ObjectiveMembership)? {
+160 | |                 if let Some(owner) = self.owner_of(target)? {
+161 | |                     if self.is(&owner, ClassifierId::UseCaseUsage)? || self.is(&owner, ClassifierId::UseCaseDefinition)? {
+...   |
+170 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+158 ~         if let Some(member) = self.membership(target)?
+159 ~             && self.is(&member, ClassifierId::ObjectiveMembership)? {
+160 |                 if let Some(owner) = self.owner_of(target)? {
+...
+168 |                 }
+169 ~             }
+    |
+
+error: this `if` statement can be collapsed
+   --> src/planner.rs:159:13
+    |
+159 | /             if self.is(&member, ClassifierId::ObjectiveMembership)? {
+160 | |                 if let Some(owner) = self.owner_of(target)? {
+161 | |                     if self.is(&owner, ClassifierId::UseCaseUsage)? || self.is(&owner, ClassifierId::UseCaseDefinition)? {
+162 | |                         self.check()?;
+...   |
+169 | |             }
+    | |_____________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+159 ~             if self.is(&member, ClassifierId::ObjectiveMembership)?
+160 ~                 && let Some(owner) = self.owner_of(target)? {
+161 |                     if self.is(&owner, ClassifierId::UseCaseUsage)? || self.is(&owner, ClassifierId::UseCaseDefinition)? {
+...
+167 |                     }
+168 ~                 }
+    |
+
+error: this `if` statement can be collapsed
+   --> src/planner.rs:160:17
+    |
+160 | /                 if let Some(owner) = self.owner_of(target)? {
+161 | |                     if self.is(&owner, ClassifierId::UseCaseUsage)? || self.is(&owner, ClassifierId::UseCaseDefinition)? {
+162 | |                         self.check()?;
+...   |
+168 | |                 }
+    | |_________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+help: collapse nested if block
+    |
+160 ~                 if let Some(owner) = self.owner_of(target)?
+161 ~                     && (self.is(&owner, ClassifierId::UseCaseUsage)? || self.is(&owner, ClassifierId::UseCaseDefinition)?) {
+162 |                         self.check()?;
+...
+166 |                         self.scalar(target, ScalarFeature::DeclaredName, Scalar::Text(format!("{name}'s objective")), "caseRequirementUsage")?;
+167 ~                     }
+    |
+
+error: could not compile `syson-initializer` (lib) due to 5 previous errors

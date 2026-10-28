@@ -1,6 +1,6 @@
 # RR18b3f: Keep saved scalar and readonly value displays readable with exact full-text access
 
-Lane: rereview-repairs. State: PLANNED_NOT_IMPLEMENTED.
+Lane: rereview-repairs. State: IMPLEMENTED_BOUNDED_NOT_ACCEPTED.
 
 ## Source preparation prerequisites
 
@@ -18,8 +18,20 @@ Existing PR prerequisites: [#115](https://github.com/ajhcs/syson/pull/115), [#11
 
 - **joint gates:** None declared.
 - **children:** None declared.
-- **joint implementation inputs:** None declared.
-- **expanded implementation inputs:** None declared.
+- **joint implementation inputs:** - RR18b3e
+- **expanded implementation inputs:** - I01
+- RR01
+- RR02
+- RR04
+- RR18a
+- RR18b1
+- RR18b2
+- RR18b3a
+- RR18b3b
+- RR18b3c
+- RR18b3c2
+- RR18b3c3
+- RR18b3e
 
 ## Write scope
 
@@ -37,6 +49,7 @@ Existing PR prerequisites: [#115](https://github.com/ajhcs/syson/pull/115), [#11
 - Reproduce actual850kComment body saved-value wall from batch12 helper-scalar320 screenshot; measure bounding rectangles/page scroll extent before automation scroll, then verify bounded initial display, native disclosure/full-text access at320/1440, selection/history/CRLF/Unicode/readonly/AX and exact downloaded model bytes.
 - Use actual screenshots and UI interaction/performance observations; retain current missing glyph and global<50ms/renderer admission gates. Requalify exact affected scalar helper oracles on changed source, preserving legacy golden captures as historical data rather than relabelling them. [TIMING POLICY SUPERSEDED 2026-10-28: Measure workload-specific latency ranges and outliers under performance-policy.json; report distinct event-to-visible latency, main-thread task durations and allocation metrics. Preserve raw timing evidence; no single50ms veto or automatic parity acceptance. Keep actual responsiveness, cancellation and exact-data checks.]
 - At 320 and 1440 CSS pixels, the initial saved-state display must occupy at most six text lines and 160 CSS pixels per property, without horizontal page overflow. Full-value access must have a labelled keyboard path and a selectable native control with at most twelve visible rows and local scrolling; exact saved JSON and model downloads remain authoritative. Any required broader interaction or lazy-output protocol must be split before exceeding the source budget.
+- Retain batch13 actual wide-value counterexamples: compactJSON128-byte body126W and124-byte readonlyalias120W originally occupied7/8lines. Verify the80-byte summary threshold and exact keyboard full-value disclosure on those same inputs at320/1440; preserve originalfailure and unchangedcanonicalmodel.
 
 Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
 
@@ -59,5 +72,6 @@ Bounded readable presentation and exact full-value/model access pass actual keyb
 ## Source evidence
 
 - rereview-batch12-findings.json
+- rereview-batch13-findings.json
 
 Original lane record: [lanes/rereview.json](../lanes/rereview.json). Source snapshots stay immutable; plan.json adds the explicit coordinator dependency overlay.
