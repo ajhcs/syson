@@ -18,7 +18,7 @@ pub fn plan<C: Context>(classifier: ClassifierId, context: &mut C) -> Outcome {
     let result = (|| {
         let row = DISPATCH.iter().find(|row| row.classifier == classifier).ok_or(Problem::NotDomainClass)?;
         if !row.raw_constructible { return Err(Problem::AbstractClass); }
-        engine.owner = NEXT_PLAN.fetch_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
+        engine.owner = NEXT_PLAN.try_update(Ordering::Relaxed, Ordering::Relaxed, |n| n.checked_add(1))
             .map_err(|_| Problem::IdentitySpaceExhausted)?;
         for &case in row.sequence {
             if engine.invoke(case, &Target::Root, CallKind::GeneratedDispatch)? { return Ok(()); }
@@ -128,11 +128,10 @@ impl<C: Context> Engine<'_, C> {
         };
         if subject {
             self.scalar(target, ScalarFeature::DeclaredName, Scalar::Text("subject".into()), "caseReferenceUsage")?;
-        } else if let Some(owner) = owner {
-            if self.is(&owner, ClassifierId::ActionUsage)? || self.is(&owner, ClassifierId::ActionDefinition)? {
-                let count = self.count(target, true)?;
-                self.scalar(target, ScalarFeature::DeclaredName, Scalar::Text(format!("parameter{count}")), "caseReferenceUsage")?;
-            }
+        } else if let Some(owner) = owner
+            && (self.is(&owner, ClassifierId::ActionUsage)? || self.is(&owner, ClassifierId::ActionDefinition)?) {
+            let count = self.count(target, true)?;
+            self.scalar(target, ScalarFeature::DeclaredName, Scalar::Text(format!("parameter{count}")), "caseReferenceUsage")?;
         }
         self.scalar(target, ScalarFeature::IsComposite, Scalar::Boolean(false), "caseReferenceUsage")
     }
@@ -155,18 +154,15 @@ impl<C: Context> Engine<'_, C> {
     }
     fn requirement_usage(&mut self, target: &Target) -> R<()> {
         self.invoke("Usage", target, CallKind::DirectCase)?;
-        if let Some(member) = self.membership(target)? {
-            if self.is(&member, ClassifierId::ObjectiveMembership)? {
-                if let Some(owner) = self.owner_of(target)? {
-                    if self.is(&owner, ClassifierId::UseCaseUsage)? || self.is(&owner, ClassifierId::UseCaseDefinition)? {
-                        self.check()?;
-                        // Known(None) is Java null; Java string concatenation
-                        // yields "null's objective", not an invented empty name.
-                        let name = resolved(self.context.effective_name(&owner, &self.steps))?.unwrap_or_else(|| "null".into());
-                        self.scalar(target, ScalarFeature::DeclaredName, Scalar::Text(format!("{name}'s objective")), "caseRequirementUsage")?;
-                    }
-                }
-            }
+        if let Some(member) = self.membership(target)?
+            && self.is(&member, ClassifierId::ObjectiveMembership)?
+            && let Some(owner) = self.owner_of(target)?
+            && (self.is(&owner, ClassifierId::UseCaseUsage)? || self.is(&owner, ClassifierId::UseCaseDefinition)?) {
+            self.check()?;
+            // Known(None) is Java null; Java string concatenation
+            // yields "null's objective", not an invented empty name.
+            let name = resolved(self.context.effective_name(&owner, &self.steps))?.unwrap_or_else(|| "null".into());
+            self.scalar(target, ScalarFeature::DeclaredName, Scalar::Text(format!("{name}'s objective")), "caseRequirementUsage")?;
         }
         Ok(())
     }
