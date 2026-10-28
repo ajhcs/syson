@@ -53,6 +53,12 @@ const summary = values => {
           caret: typeof e.selectionStart === 'number' ? [e.selectionStart, e.selectionEnd, e.selectionDirection] : null,
           page: {left: scrollX, top: scrollY}, local: {left: e.scrollLeft, top: e.scrollTop}};
       });
+      const requireRepaint = async (selector, operation) => {
+        const previous = await page.locator(selector).elementHandle(); assert.ok(previous);
+        await operation();
+        assert.equal(await previous.evaluate(element => element.isConnected), false, `No repaint replaced ${selector}`);
+        await previous.dispose();
+      };
       const model = () => page.locator('#export-json').inputValue();
       const importer = () => page.locator('form[data-action="import"]');
       const importDocument = async document => {
@@ -125,7 +131,7 @@ const summary = values => {
       const readonlyNameFocus = await focusState(); assert.equal(readonlyNameFocus.id, 'full-element-name'); assert.ok(readonlyNameFocus.visible);
       assert.deepEqual(readonlyNameFocus.caret.slice(0, 2), [0, unknownName.replace(/\r\n?/g, '\n').length]);
       await page.keyboard.press('Backspace'); assert.equal(await fullReadonly.inputValue(), unknownName.replace(/\r\n?/g, '\n'));
-      await page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone')));
+      await requireRepaint('#full-element-name', () => page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone'))));
       const readonlyNameAfter = await focusState(); assert.equal(readonlyNameAfter.id, 'full-element-name'); assert.ok(readonlyNameAfter.visible);
       assert.deepEqual(readonlyNameAfter.caret, readonlyNameFocus.caret); assert.deepEqual(readonlyNameAfter.local, readonlyNameFocus.local);
       assert.equal(await model(), unknownCommitted); assert.deepEqual(JSON.parse(unknownCommitted), unknown);
@@ -146,20 +152,20 @@ const summary = values => {
       const invalid = '\n\nnot valid JSON 雪🧭\n'; await page.locator('#import-json').fill(invalid);
       await page.locator('#import-json').evaluate(element => {element.focus(); element.setSelectionRange(2, 7, 'backward');});
       const originalFocus = await focusState(); assert.ok(originalFocus.visible);
-      await importer().evaluate(form => form.requestSubmit());
+      await requireRepaint('#import-json', () => importer().evaluate(form => form.requestSubmit()));
       const rejected = await focusState();
       assert.equal(rejected.id, 'import-json'); assert.ok(rejected.visible, JSON.stringify(rejected));
       assert.deepEqual(rejected.caret, [2, 7, 'backward']);
       assert.equal(await page.locator('#import-json').inputValue(), invalid);
       assert.equal(await page.locator('#rename').inputValue(), 'Unsaved inspector draft'); assert.equal(await model(), committed);
       await page.screenshot({path: path.join(output, `focus-rejected-${width}.png`)});
-      await page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone')));
+      await requireRepaint('#import-json', () => page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone'))));
       const font = await focusState(); assert.equal(font.id, 'import-json'); assert.ok(font.visible, JSON.stringify(font));
       assert.deepEqual(font.caret, [2, 7, 'backward']); assert.equal(await model(), committed);
       await page.screenshot({path: path.join(output, `focus-font-${width}.png`)});
       // User scrolling away from a focused control must not trigger a page jump.
       await page.evaluate(() => scrollTo(0, 0)); const deliberatelyAway = await focusState(); assert.equal(deliberatelyAway.visible, false);
-      await page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone')));
+      await requireRepaint('#import-json', () => page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone'))));
       const stayedAway = await focusState(); assert.equal(stayedAway.id, 'import-json');
       assert.equal(stayedAway.visible, false); assert.deepEqual(stayedAway.page, deliberatelyAway.page);
       // Readonly focus retains native selection, without retaining/copying its value as a draft.
@@ -167,7 +173,7 @@ const summary = values => {
       await page.locator('#export-json').evaluate(e => {e.scrollLeft = 60; e.scrollTop = 15;});
       const readonlyBefore = await focusState(); assert.ok(readonlyBefore.visible);
       const panBefore = await page.locator('[data-canvas-viewport]').evaluate(e => {e.scrollLeft = 9; e.scrollTop = 3; return {left: e.scrollLeft, top: e.scrollTop};});
-      await page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone')));
+      await requireRepaint('#export-json', () => page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone'))));
       const readonlyAfter = await focusState(); assert.equal(readonlyAfter.id, 'export-json'); assert.ok(readonlyAfter.visible);
       assert.deepEqual(readonlyAfter.caret, [2, 17, 'backward']); assert.deepEqual(readonlyAfter.local, readonlyBefore.local); assert.equal(await model(), committed);
       const panAfter = await page.locator('[data-canvas-viewport]').evaluate(e => ({left: e.scrollLeft, top: e.scrollTop}));
