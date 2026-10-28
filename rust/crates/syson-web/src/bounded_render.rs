@@ -103,8 +103,12 @@ impl Sink {
 }
 // Bound the compact-JSON counter and reject long strings by byte length before
 // asking serde to scan their payload. No intermediate JSON String is owned.
+const INLINE_JSON_BYTES: usize = 80;
 fn short_saved_value(value: &serde_json::Value) -> bool {
-    if value.as_str().is_some_and(|text| text.len() > 126) {
+    if value
+        .as_str()
+        .is_some_and(|text| text.len() > INLINE_JSON_BYTES - 2)
+    {
         return false;
     }
     struct Count(usize);
@@ -113,7 +117,7 @@ fn short_saved_value(value: &serde_json::Value) -> bool {
             self.0 = self
                 .0
                 .checked_add(bytes.len())
-                .filter(|n| *n <= 128)
+                .filter(|n| *n <= INLINE_JSON_BYTES)
                 .ok_or_else(|| io::Error::other("long saved value"))?;
             Ok(bytes.len())
         }
