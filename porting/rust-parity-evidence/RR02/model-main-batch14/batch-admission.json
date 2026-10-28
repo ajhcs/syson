@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "plan_revision": "59723de8ffad72ce719e7e48c48e37f9a36ecd60",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.0",
+  "contract_lock_sha256": "14703b98ce7753ad2681dbefee90f53037adfd64254e8163375777a932f774e7",
+  "execution_owner": "/root",
+  "source_authors_max": 3,
+  "compiler_jobs": 1,
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "scope": "Exact selected PR8 default model and PR90 standalone literal JSON prerequisite landings; no blanket downstream adoption or feature acceptance. Further repair scope requires separate exact admission.",
+  "units": [
+    {
+      "pr": 8,
+      "donor_head": "a5c87ec50b542fc550c54486743ba9320994f1fa",
+      "worktree": "/workspace/worktrees/builderbob/syson/batch14-model-landing",
+      "selected_paths": [
+        "porting/domain/CREATION-CAPABILITIES.md",
+        "porting/domain/MODEL-ADAPTER.md",
+        "porting/domain/MODEL-DEPENDENCIES.md",
+        "porting/domain/MODEL-SCALARS.md",
+        "porting/validation/M4-SCALAR-INDEPENDENT-REVIEW.md",
+        "porting/validation/M6-CONSTRUCTION-TEXT-INDEPENDENT-REVIEW.md",
+        "porting/validation/fixtures/source-membership-matrix.json",
+        "rust/crates/syson-model/Cargo.lock",
+        "rust/crates/syson-model/Cargo.toml",
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/src/scalar.rs",
+        "rust/crates/syson-model/tests/creation_capabilities.rs",
+        "rust/crates/syson-model/tests/fixtures/simple-project.emf.json",
+        "rust/crates/syson-model/tests/model.rs",
+        "rust/crates/syson-model/tests/scalars.rs"
+      ]
+    },
+    {
+      "pr": 90,
+      "donor_head": "ca7029b2a6c08393b172033e7bd9a548c2a66484",
+      "worktree": "/workspace/worktrees/builderbob/syson/batch14-json-value-landing",
+      "selected_paths": [
+        "porting/rust-parity-evidence/RR01/RESULTS.md",
+        "porting/rust-parity-evidence/RR01/SHA256.json",
+        "porting/rust-parity-evidence/RR01/SOURCE-PROPOSAL.json",
+        "porting/rust-parity-evidence/RR01/batch-admission.json",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/00-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/00-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/01-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/01-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/02-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/02-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/03-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/03-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/04-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/04-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/executed-runner.py",
+        "porting/rust-parity-evidence/RR01/captures/rr01-01/receipt.json",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/00-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/00-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/01-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/01-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/02-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/02-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/03-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/03-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/04-stderr.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/04-stdout.txt",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/executed-runner.py",
+        "porting/rust-parity-evidence/RR01/captures/rr01-02/receipt.json",
+        "porting/rust-parity-evidence/RR01/executed-source-binding.json",
+        "porting/rust-parity-evidence/RR01/independent-review.json",
+        "porting/rust-parity-evidence/RR01/toolchain.json",
+        "rust/crates/syson-json-value/Cargo.lock",
+        "rust/crates/syson-json-value/Cargo.toml",
+        "rust/crates/syson-json-value/README.md",
+        "rust/crates/syson-json-value/src/lib.rs",
+        "rust/crates/syson-json-value/tests/literal.rs"
+      ]
+    }
+  ],
+  "old_holds": [
+    {
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "canonical": {
+    "canonical_head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+    "canonical_status": " M porting/execution-backlog.json\n?? porting/domain/connection-definition-factory-helper/\n?? porting/domain/factory-admission/\n?? porting/follow-ons/\n?? porting/pr-split-20261024/\n?? porting/runs/connection-definition-factory-helper-01/backlog-check-stderr.txt\n?? porting/runs/connection-definition-factory-helper-01/backlog-check-stdout.txt\n?? porting/runs/connection-definition-factory-helper-01/executed-source-wrapper.json\n?? porting/runs/connection-definition-factory-helper-01/executed-source-wrapper.sh\n?? porting/runs/connection-definition-factory-helper-01/interface-continuation-seal-01.json\n?? porting/runs/connection-definition-factory-helper-01/job-manifest.json\n?? porting/runs/connection-definition-factory-helper-01/publication-01/\n?? porting/runs/connection-definition-factory-helper-01/run_gate.py\n?? porting/runs/connection-definition-factory-helper-01/selected-admission-baseline/\n?? porting/runs/connection-definition-factory-helper-01/source-freeze.json\n?? porting/runs/connection-definition-factory-helper-01/sufficient-repair-01/\n?? porting/runs/factory-admission-01/\n",
+    "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+    "main": "59723de8ffad72ce719e7e48c48e37f9a36ecd60"
+  },
+  "gate_policy": "Compile/test/clippy on exact current main composition; independently review; record known repair dependencies before downstream exposure. Actual UI/performance gates apply to consuming UI changes, not standalone helper timing claims.",
+  "continuations": [
+    {
+      "unit": "RR02",
+      "scope": "model-side existing obligation only; bridge remainder OPEN",
+      "worktree": "/workspace/worktrees/builderbob/syson/batch14-model-adoption",
+      "root_writes": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/Cargo.toml",
+        "rust/crates/syson-model/Cargo.lock"
+      ],
+      "agent_writes": [
+        "rust/crates/syson-model/tests/rr02_regression.rs"
+      ],
+      "held_source": "none imported or enabled"
+    },
+    {
+      "unit": "RR20",
+      "scope": "reconcile existing history with current borrowed-summary/UI snapshot; actual main landing remains prerequisite-gated",
+      "worktree": "/workspace/worktrees/builderbob/syson/batch14-history-summary-joint",
+      "root_writes": [
+        "rust/crates/syson-model/src/lib.rs"
+      ],
+      "agent_writes": [
+        "rust/crates/syson-model/tests/batch14_history_summary.rs",
+        "porting/rust-parity-evidence/RR20/joint-batch14/history_summary_ui.cjs"
+      ],
+      "unchanged": [
+        "rust/crates/syson-model/src/element_summary.rs"
+      ],
+      "held_source": "inherited snapshot preserved; default-only checks; no held path writes or main promotion"
+    }
+  ],
+  "retained_attempts": [
+    "rr20-history-only.patch failed context check; no source applied; root transposed exact Editor block plus import/error/private tests instead."
+  ]
+}
