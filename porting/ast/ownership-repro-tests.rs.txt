@@ -1,0 +1,36 @@
+use std::sync::{atomic::AtomicBool, Arc};
+use syson_ast::*;
+fn builder() -> Builder {
+    let mut reflection = Reflection::default();
+    reflection.declare("Element".into(), vec![]).unwrap();
+    Builder::new(reflection, Limits::default(), Arc::new(AtomicBool::new(false)))
+}
+#[test]
+fn foreign_assignment_cannot_mutate_same_index_node() {
+    let mut a=builder(); let foreign=a.allocate(Some("Element"),None).unwrap();
+    let mut b=builder(); let local=b.allocate(Some("Element"),None).unwrap();
+    assert_eq!(foreign.value(),local.value());
+    assert!(b.assign(foreign,"injected",Assignment::Set,Datum::new(Value::Null)).is_err());
+    assert_eq!(b.node(local).unwrap().slot("injected"),Slot::Absent);
+}
+#[test]
+fn foreign_merge_and_cst_association_are_rejected() {
+    let mut a=builder(); let foreign=a.allocate(Some("Element"),None).unwrap();
+    let mut b=builder(); let local=b.allocate(Some("Element"),None).unwrap();
+    assert!(b.merge(local,foreign).is_err());
+    assert!(b.associate_cst(1,foreign).is_err());
+}
+#[test]
+fn foreign_root_cannot_finish_an_unrelated_builder() {
+    let mut a=builder(); let foreign=a.allocate(Some("Element"),None).unwrap();
+    let mut b=builder(); b.allocate(Some("Element"),None).unwrap();
+    assert!(b.finish(foreign).is_err());
+}
+#[test]
+fn arena_lookup_rejects_foreign_and_dropped_builder_handles() {
+    let foreign={ let mut a=builder(); a.allocate(Some("Element"),None).unwrap() };
+    let mut b=builder(); let local=b.allocate(Some("Element"),None).unwrap();
+    let arena=b.finish(local).unwrap();
+    assert!(arena.node(foreign).is_none());
+    assert!(arena.clone().node(local).is_some());
+}
