@@ -7,7 +7,7 @@
     "rust/crates/syson-web/tests/rr18b3f_regression.rs",
     "porting/rust-parity-evidence/RR18b3f/"
   ],
-  "repair": "Keep compact saved JSON<=128bytes byte-for-byte. Larger saved values get a short state cue and collapsed native details with labelled readonly JSON textarea rows6/wrapoff/max-height12em/local scrolling. Readonly metadata values use the same exact-value path. No CSS/loader/model mutation.",
+  "repair": "Keep compact saved JSON<=80bytes byte-for-byte. Larger saved values get a short state cue and collapsed native details with labelled readonly JSON textarea rows6/wrapoff/max-height12em/local scrolling. Readonly metadata values use the same exact-value path. No CSS/loader/model mutation.",
   "admission": "The compact-JSON probe uses bounded byte counting with long-string length fast rejection. Full saved JSON still streams through the original count-then-emit helper; hidden disclosures do not weaken total output limits or remove owned-model inspection. No intermediate full JSON string.",
   "semantics": "Saved JSON/native readonly textbox preserves exact string CRLF/NUL/Unicode, literal token authority and arrays; editable controls retain existing native normalization. Saved data/export remains authority. No readonly textarea name is submitted with scalar forms.",
   "stable_integration_ids": {
@@ -21,7 +21,7 @@
   },
   "native_regressions": [
     "Actual ABI import/select/rejected-import with long writable body and many-valued readonly aliasIds, unchanged exact canonical JSON and small ordinary control",
-    "128/129 serialized-byte boundary across126/127ASCII,21/22NUL and42/43UTF8snow characters; no model mutation"
+    "80/81 serialized-byte boundary across78/79wideASCII,13/14NUL and26/27UTF8snow characters; readonly120W alias array124bytes must disclose full exact JSON; no model mutation"
   ],
   "actual_browser_recipe": [
     "320/1440large850kComment native UI, initialstate<=6lines/160px/page-no-overflow before automation scroll",
@@ -38,8 +38,13 @@
     "production_max": 400,
     "authored_max": 900,
     "production_added_before_format": 30,
-    "rust_test_lines": 77,
-    "browser_recipe_lines": 206,
-    "status": "Below bound; root fmt may change line counts and must record final source."
+    "rust_test_lines": 126,
+    "browser_recipe_lines": 220,
+    "status": "Below400production/900authored; final root formatting/count review required."
+  },
+  "threshold_continuation": {
+    "reason": "Actual independent rendered boundary probe found old128-byte writablebody126W spans7/8lines and readonly120W alias124bytes spans7lines; six-line contract fails without overflow or model corruption.",
+    "repair": "Named80-byte INLINE_JSON_BYTES counter and78-byte UTF8 string fast path; preserve full exact JSON in disclosure, all original legacy captures and failed128-source probe history.",
+    "qualification": "Source corrected only; root must rerun fresh Rust and affected actual UI boundaries. No author execution."
   }
 }
