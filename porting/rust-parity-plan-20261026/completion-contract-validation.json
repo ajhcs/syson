@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "status": "STATIC_PLAN_VALIDATED;FEATURE_PARITY_OPEN",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.0",
+  "base_revision": "6e54ff44891bb7fd333c1e5fe985ba69abf3e27a",
+  "recorded_at": "2026-10-28T20:39:03.509998+00:00",
+  "scope": "Plan rewrite, locked obligations and structural tooling only; no application code changes, product tests, native/browser/DB launch or feature acceptance.",
+  "authority": "User explicitly requested rewrite, plan adoption, push and merge. write-with-purpose applied; separate reader edit and source-fidelity review.",
+  "contract_lock_sha256": "14703b98ce7753ad2681dbefee90f53037adfd64254e8163375777a932f774e7",
+  "packet_schema_meta_validation": "PASS;jsonschema Draft202012Validator.check_schema",
+  "structural_checks": {
+    "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+    "units": 778,
+    "source_graph_acyclic": true,
+    "readiness_graph_nodes": 1556,
+    "readiness_graph_acyclic": true,
+    "unordered_write_conflicts": 0,
+    "all_14_original_remaining_briefs_mapped": true,
+    "source_assignment_counts_verified": true,
+    "negative_gate_checks": "PASS",
+    "parity": "OPEN",
+    "open_gate_count": 779,
+    "first_open_gates": [
+      "Pinned runtime/source obligation closure remains open",
+      "Not feature-accepted: B01",
+      "Not feature-accepted: B02",
+      "Not feature-accepted: B03",
+      "Not feature-accepted: B04",
+      "Not feature-accepted: B05",
+      "Not feature-accepted: B06",
+      "Not feature-accepted: B07"
+    ]
+  },
+  "deterministic_generation": "PASS;plan/index/dispatch/778 briefs/static lock byte-identical",
+  "normalized_obligation_changes": [
+    "C99",
+    "RR16b",
+    "RR17",
+    "U05"
+  ],
+  "source_and_readiness_graphs": "unchanged",
+  "historical_preservation": {
+    "execution_records": 55,
+    "execution_bytes": "identical to base",
+    "validation_receipts": 13,
+    "audit_files": 93,
+    "canonical_dirty_work": "exact status/head/diff unchanged",
+    "explicit_owner_holds": "both unchanged"
+  },
+  "negative_controls": [
+    "changed document/schema/policy/lane/generator bytes",
+    "omitted/unknown/duplicate primary family assignment",
+    "missing unit contract binding",
+    "missing plan unit",
+    "existing graph/overlay/acceptance rejection controls"
+  ],
+  "verification_limits": [
+    "Static lock detects drift; a reviewed amendment can intentionally revise it.",
+    "Packet schema is structure, not behavioral evidence.",
+    "RR16b/RR17 Git/artifact/outcome/coverage enforcement remains planned.",
+    "No existing acceptance, inventory-complete, artifact-matched, or held-owner status promoted.",
+    "No application tests or runtime acceptance claimed."
+  ],
+  "reproduction_commands": [
+    {
+      "command": "python3 porting/rust-parity-plan-20261026/tools/build_plan.py",
+      "expected_exit": 0
+    },
+    {
+      "command": "python3 porting/rust-parity-plan-20261026/tools/verify_plan.py --self-test --check-completion",
+      "expected_exit": 2,
+      "expected_state": "OPEN"
+    }
+  ],
+  "independent_reviews": [
+    {
+      "reviewer": "/root/batch13_saved_values",
+      "scope": "Source fidelity and standalone reader review; exact unit coverage, model/parser denominators, tail obligations and native artifact/persistence boundaries.",
+      "disposition": "ACCEPT_BOUNDED_SOURCE_FIDELITY",
+      "document_sha256": "9a710edbf26cd3acf400aea607c56d5745e010317818eb4e302b60c3fcc0e8a2"
+    },
+    {
+      "reviewer": "/root/batch13_prerequisite_review",
+      "scope": "Static input lock, generators, verifier negative controls, exact unit/brief coverage, dependency/ownership preservation and final RR16b checker-path amendment.",
+      "disposition": "ACCEPT_BOUNDED_STATIC_PLAN_ADOPTION",
+      "lock_sha256": "14703b98ce7753ad2681dbefee90f53037adfd64254e8163375777a932f774e7"
+    }
+  ],
+  "reviewed_file_sha256": {
+    "COMPLETION-CONTRACT.md": "9a710edbf26cd3acf400aea607c56d5745e010317818eb4e302b60c3fcc0e8a2",
+    "completion-contract.json": "409d7302e6ac0854828d540ed876d0693403cee06265ce396a28e37b35e9f0b8",
+    "acceptance-packet.schema.json": "3b9fd1e104d9ded2df873ef69563bd1667f3637e97bf771610ecd208c29f3cd1",
+    "completion-contract.lock.json": "14703b98ce7753ad2681dbefee90f53037adfd64254e8163375777a932f774e7",
+    "plan.json": "8251d45e75c2f88d46ab4f49701c3011313715fadaa93e2799fc0463fb8db28b"
+  }
+}
