@@ -5,11 +5,13 @@ import collections
 import hashlib
 import json
 from pathlib import Path
+from completion_contract import read_contract, pointer
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--plan-dir',type=Path,default=Path(__file__).resolve().parent.parent)
 PLAN = parser.parse_args().plan_dir.resolve()
 ROOT = PLAN.parents[1]
+CONTRACT = read_contract(PLAN)
 UNITS = []
 for file in sorted((PLAN/'lanes').glob('*.json')):
     data = json.loads(file.read_text())
@@ -27,7 +29,8 @@ UNITS.append(dict(id='C99', title='Accept complete matched SysON parity and Rust
  dependencies=[u['id'] for u in UNITS], external_prs=[66],
  paths=['porting/rust-parity-evidence/final-acceptance/'],
  source_refs=['porting/PARITY-LEDGER.json','porting/source-map/behavior-boundaries.md'],
- tasks=['Require a terminal reviewed disposition for every primary and discovered obligation; required unsupported, unknown, unrun, candidate-only or preparation-only entries block acceptance.',
+ tasks=['Apply COMPLETION-CONTRACT.md and the acceptance-packet schema; resolve actual Git candidate/artifact identities and all source-obligation/case coverage, independently inspecting raw evidence.',
+        'Require a terminal reviewed disposition for every primary and discovered obligation; required unsupported, unknown, unrun, candidate-only or preparation-only entries block acceptance.',
         'Verify matched native and Rust artifacts, full production-language/process closure, all view/user-workflow evidence and capacity/usability/recovery results on the exact composed tree.',
         'Rebuild the release candidate cleanly, verify dependency/notices and archive migration/reload, and independently inspect all intentional differences.',
         'Publish explicit feature/data/API/UI/runtime compatibility evidence and remaining nonparity limits; deployment remains a separate action.'],
@@ -40,6 +43,10 @@ UNITS.append(dict(id='C99', title='Accept complete matched SysON parity and Rust
  state='PLANNED_BLOCKED_ON_ALL_REMAINING_UNITS',source_fragment='tools/build_plan.py',source_fragment_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()))
 assert len(UNITS) == len({u['id'] for u in UNITS}), 'Duplicate unit ID'
 byid = {u['id']: u for u in UNITS}
+assert set(byid) == set(CONTRACT['unit_ids']), 'Plan/contract unit coverage mismatch'
+for family, ids in CONTRACT['families'].items():
+    for uid in ids:
+        byid[uid]['completion_contract'] = pointer(CONTRACT, family)
 for u in UNITS:
     assert u['title'] and u['tasks'] and u['verification'] and u['paths'], u['id']
     for dep in u['dependencies']:
@@ -192,6 +199,7 @@ for oldid in remaining:
 result={'schema':1,'target_source':'6ba2ac64e6b16ee2b05752ad55395eebb87d4910',
  'state':'ADOPTED_REVIEWABLE_PLAN;_IMPLEMENTATION_AND_NATIVE_CLOSURE_REMAIN_OPEN',
  'unit_count':len(UNITS),'full_parity_claimed':False,
+ 'completion_contract':{'id':CONTRACT['contract_id'],'path':'completion-contract.json','lock':'completion-contract.lock.json'},
  'performance_policy':'performance-policy.json;workload-specificranges;supersedeslegacytimingveto;historicalobservationsunchanged',
  'count_meaning':'Named review units, including verification and explicitly generated source batches; discovery may add bounded children. Not a feature count, percentage or guaranteed final PR count.',
  'lane_counts':dict(collections.Counter(u['source_fragment'] for u in UNITS)),
@@ -210,6 +218,8 @@ def render(value):
     return '\n'.join('- **'+str(k).replace('_',' ')+':** '+(render(v) or 'None declared.') for k,v in value.items())
 for u in result['units']:
     sections=[f"# {u['id']}: {u['title']}",f"Lane: {u['lane']}. State: {u.get('state',u.get('status','PLANNED'))}.",
+     '## Adopted completion contract',
+     f"{CONTRACT['contract_id']}: [requirements](../{CONTRACT['document']}), [machine binding](../completion-contract.json), [acceptance packet](../{CONTRACT['packet_schema']}). Primary acceptance family: {u['completion_contract']['family']}. Common gates and cross-family caller/dependency obligations apply.",
      '## Source preparation prerequisites',render(u['dependencies']) or 'No new-plan prerequisite.',
      'Existing PR prerequisites: '+(', '.join(f'[#'+str(x)+'](https://github.com/ajhcs/syson/pull/'+str(x)+')' for x in u['external_prs']) or 'None declared; source/runtime gates still apply.'),
      '## Implementation readiness',render(u.get('implementation_ready_dependencies',u['dependencies'])) or 'The unit must compile and pass its local behavior tests against its frozen existing prerequisites.',

@@ -2,6 +2,10 @@
 
 Lane: rereview-repairs. State: PLANNED_NOT_IMPLEMENTED.
 
+## Adopted completion contract
+
+SYSON-RUST-COMPLETION/1.0.0: [requirements](../COMPLETION-CONTRACT.md), [machine binding](../completion-contract.json), [acceptance packet](../acceptance-packet.schema.json). Primary acceptance family: repairs. Common gates and cross-family caller/dependency obligations apply.
+
 ## Source preparation prerequisites
 
 - RR16a
@@ -23,6 +27,8 @@ Existing PR prerequisites: [#19](https://github.com/ajhcs/syson/pull/19), [#109]
 
 ## Write scope
 
+- porting/check_acceptance_packets.py
+- porting/tests/test_rr16b_acceptance_packets.py
 - porting/rust-parity-evidence/RR16b/
 
 ## Tasks
@@ -31,6 +37,7 @@ Existing PR prerequisites: [#19](https://github.com/ajhcs/syson/pull/19), [#109]
 - Run full fresh serialized offline Cargo/WASM/native/browser/fixture matrix and teardown where required; all omissions/held/unrun/stale/failing cases block full integration qualification and RR17 acceptance.
 - Consume RR23 joint one-candidate reader evidence as an explicit implementation input; recompose/requalify on the full candidate rather than treating #109 subset results as full integration acceptance.
 - Before any release/archive qualification, check EVERY sealed artifact entry against committed Git blobs, including ignored files, or an explicitly declared committed supplement with exact original-head/path/hash binding. Source-input closure alone is not artifact closure. Preserve old packet heads/receipts and refuse unavailable or unbound bytes.
+- Implement completion-contract packet enforcement: resolve actual Git candidates and built artifacts, parse receipt outcomes, cover every required obligation/case and reject failed/unrun/unsupported evidence. Structural hashes or accepted labels cannot replace behavioral evidence and independent review. Keep the new checker and regression suite within their named paths; coordinator orders shared runner/CI wiring. Split into reviewed child IDs before exceeding this unit's review budget.
 
 ## Verification
 
@@ -39,6 +46,7 @@ Existing PR prerequisites: [#19](https://github.com/ajhcs/syson/pull/19), [#109]
 - Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state.
 - RR16a selected checks/partial receipt is insufficient. Complete owner-admitted matrix and independent exact closure review are required; current held scopes keep this child OPEN.
 - Negative case: a sealed http.log present on disk but ignored by Git must block publication. Positive declared-supplement case must resolve exact bytes and report original-head incompleteness honestly, without replaying the original runtime.
+- Reject a non-Git 40-character candidate, stale/substituted artifact, missing obligation or split owner, parsed FAIL/UNRUN, incomplete caller packet and stale independent-review candidate; accept only a complete supported packet for the exact qualification scope.
 
 Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
 
