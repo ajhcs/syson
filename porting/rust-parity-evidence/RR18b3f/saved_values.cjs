@@ -49,6 +49,8 @@ const stats = samples => {
               local: [e.scrollLeft, e.scrollTop], visible: r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth};
           });
           const before = await state(); assert.equal(before.id, id); assert.equal(before.visible, true);
+          const previous = await control.elementHandle(); assert.ok(previous);
+          assert.equal(await previous.evaluate(element => element.isConnected), true);
           if (action === 'font') await page.evaluate(() => document.fonts.dispatchEvent(new Event('loadingdone')));
           else {
             await page.locator('form[data-action="import"]').locator('..').evaluate(element => {element.open = true;});
@@ -56,11 +58,14 @@ const stats = samples => {
             await control.evaluate(element => {element.focus(); element.setSelectionRange(2, 17, 'backward'); element.scrollLeft = 70;});
             await page.locator('form[data-action="import"]').evaluate(form => form.requestSubmit());
           }
+          // Refusal before dispatch must not masquerade as focus restoration.
+          assert.equal(await previous.evaluate(element => element.isConnected), false, `${id}/${action} did not repaint`);
+          await previous.dispose();
           // Observe native focus before screenshot/locator focus can repair it.
           const after = await state(); assert.equal(after.id, id); assert.equal(after.visible, true);
           assert.deepEqual(after.caret, before.caret); assert.deepEqual(after.local, before.local);
           assert.equal(await control.inputValue(), expected);
-          return {id, action, before, after};
+          return {id, action, actualRepaint: true, before, after};
         };
         const readonlyRepaints = [];
         const fixture = JSON.parse(await model());
