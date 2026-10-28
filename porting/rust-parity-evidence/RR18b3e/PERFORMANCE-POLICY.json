@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "status": "USER_ADOPTED_WORKLOAD_RANGE_POLICY;CALIBRATION_AND_FULL_ACCEPTANCE_OPEN",
+  "authority": "User2026-10-28: performance budget should be a range, not a hard limit; SysON parity is the priority",
+  "supersedes": "Single50ms timing veto in active plan briefs and historical execution limit strings; original receipts/findings/measurements remain immutable historical observations",
+  "range_meaning": "Initial engineering target bands for event-to-settled-visible-result latency on the pinned owned host, not lower-bound requirements, universal maxima, native-derived promises or automatic pass/fail cutoffs. Faster is acceptable. Match fixture/action/metric before comparisons.",
+  "workloads": [
+    {
+      "id": "continuous_input",
+      "scope": "Typing/caret/scroll/drag feedback already local to native controls; record input event to next visible feedback",
+      "target_ms": [
+        16,
+        50
+      ]
+    },
+    {
+      "id": "ordinary_authoring",
+      "scope": "Select/stage/cancel/commit on fixed small fixture <=50modelnodes and<=64KiB serialized model; exclude setup/networkidle",
+      "target_ms": [
+        50,
+        150
+      ]
+    },
+    {
+      "id": "dense_authoring",
+      "scope": "Named512child or32node/64edge fixture; record each action and model bytes separately",
+      "target_ms": [
+        150,
+        350
+      ]
+    },
+    {
+      "id": "large_import_export_recovery",
+      "scope": "Named accepted700258byte import/900381byte export or850k scalar; record exact input/model/output sizes, expansion and operation; do not extrapolate to native documented capacity",
+      "target_ms": [
+        250,
+        1000
+      ]
+    }
+  ],
+  "measurement": {
+    "required": "Pinned source/artifact/fixture/host/browser/viewport; raw event-to-settled latency and distinct main-thread longtask durations. Do not compare helper phase, Layout, RunTask and end-to-end as the same metric.",
+    "samples": "For new performance qualification:2warmups+7measured repetitions per named action/viewport; report all raw samples,min,median,max. Label smaller counts observations only. Claim p95 only with>=30measured samples and disclose estimator. Exclude waits/setup explicitly. Repeat only for changed code or specifically admitted measurement work.",
+    "longtask": "Record every >=50ms task and cumulative blocked time as diagnostics;50ms is no longer a universal release/feature veto. Keep operation/phase/input context.",
+    "memory": "Keep allocation requests, peak live heap and RSS separate; counts alone do not establish high-water bounds. Memory/request/admission quotas remain hard integrity constraints.",
+    "native": "Compare exact equivalent SysON/Rust user operations and same fixture/metric on pinned artifacts; archive/version deltas remain explicit. No unmatched ratios.",
+    "regression": "Report old/new distribution and outliers on equivalent qualified inputs; no broad speedup from one sample.",
+    "state_control": "Restore identical fixture, selection, pending drafts and history preconditions before every measured action; record restoration outside timing window. Disclose paired old/new order; alternate order when measuring regression to avoid warm-cache/order confounds."
+  },
+  "acceptance": "Prioritize correct usable SysON workflows. Review the workload distribution, responsiveness, cancellation and outliers; explain material excursions and assign scoped follow-up. A timing excursion alone does not veto a parity PR, and falling inside a band alone does not prove performance/usability acceptance. Data loss, corrupt state, unbounded admission and unusable controls remain correctness blockers.",
+  "unresolved": "Calibration against matched native workloads, wider browsers/devices, full renderer memory/capacity and distribution measurements remain open; earlier290/287ms task observations are neither relabelled as a pass nor a current hard-budget failure."
+}

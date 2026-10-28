@@ -1,0 +1,669 @@
+{
+  "run": "joint-regressions-01",
+  "status": "PASS",
+  "started_utc": "2026-10-28T15:08:38.786946+00:00",
+  "preview_url": "http://127.0.0.1:39545/",
+  "browser_path": "Browser plugin not available; regular installed Playwright",
+  "source_before": {
+    "porting/rust-parity-evidence/RR18b3c3/draft_normalization.cjs": "2e14940efc0c50dc191b9fe0d9991e70f6c19a68a20bc41e54ac7a66def1c8fc",
+    "porting/rust-parity-evidence/RR18b3c2/helper_refusal.cjs": "8a0a67e5b88d3fd2211c9ba4d4864ac65e4c654459f21fa9c2aef1a99cae1dc0",
+    "porting/rust-parity-evidence/RR18b3c/scalar_helpers.cjs": "236a6a61dd43c0e77f5ee26932b115d28660b5eda01b29228fb25674195eb444",
+    "porting/rust-parity-evidence/RR18b3a/borrowed_summaries.cjs": "701524324c565e0109c6826706c1f987a5440bdfc7fe13bb06d313be582bdb7b",
+    "porting/rust-parity-evidence/RR18b2/draft_recovery.cjs": "bbff3288b3a9a2ede6bc286ae78d4ae614fcf7d6718009e9fca1ecdbb72dc83d",
+    "porting/rust-parity-evidence/RR18b2/draft_limits.cjs": "b2e4324d46e7fc4c0b05f3078763a7dd409a1bfbda15b6e7b9687115d2de11b1",
+    "porting/rust-parity-evidence/RR18b2/canvas_invalidation.cjs": "cd75754b6de7562b9dc6c38dc7b149d59bcf95c8d8dc57c9efdeb773e0362bfe",
+    "porting/rust-parity-evidence/RR18b2/cancellation_failure.cjs": "cade43194c25018546b6f60dd3ae95e22c4c07efda906fd9166be1d6baafc424",
+    "porting/rust-parity-evidence/RR18b2/long_id_context.cjs": "0f38f03ae9fda55513cebe2f75fa9cbdfbb21be14d1f46171d36da51fccc7e43",
+    "porting/rust-parity-evidence/RR18b1/canvas_transport.cjs": "918bdd18450266c1ea5fc92d3fff1953fd4562e9840d0e020dc548b75c9c8ec7",
+    "porting/rust-parity-evidence/RR18a/preview_recovery.cjs": "acfaab802872d418683a5304f4807bf066bd8d6f434bc2bee919a963431b7ad5",
+    "/workspace/build/builderbob/syson-rereview-batch13-20261028/trace_phase.cjs": "5fc83b94acac92e9db2e6be925ffa5605054b50142abece76daf11a19a4d85e1",
+    "/workspace/build/builderbob/syson-rereview-batch13-20261028/page-identity.cjs": "f1bcc387467d5fe25e1b4d98b5c4aee3004a59f3684cd7d634923d65b7fe0d77",
+    "rust/browser-tests/inspector_accessibility.cjs": "155c979a07c1ffc7eeb3f8f02ace60418d4edcc3bd54b8aaa5e4360c47aadede",
+    "porting/rust-parity-evidence/RR18b3b/textarea_layout.cjs": "80e4e9f9f816dd1437bb2473f475c3b8e6a2a84118e1ab34b903e499b973e1d4",
+    "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-artifact-02/syson_web.wasm": "0598f6b435cd5b4ecbf0be9e64e4b4a3761834f76a37a2c4716008d0365bc77e",
+    "rust/crates/syson-web/web/index.html": "5c878ee5b73ab96e87384afc51dfb449179c48a0e48a1318c631d32648397251",
+    "rust/crates/syson-web/web/loader.js": "bf594217149ba39bccfc391450c9223ba6501242c3a0e956cdc3cb2263b3f763",
+    "rust/crates/syson-web/web/style.css": "bce248cd10de4ee7b9b2c3c5da39a53c607280d9fded52c90d0a2af225a47ffd",
+    "/workspace/build/builderbob/syson-rereview-batch13-20261028/RR18a/fixtures/escaped-import.json": "f767e5c4e8d61a24214ea9ec8e31ec4b57278fa372c9dcfbfea12913a910e399",
+    "porting/rust-parity-evidence/RR18a/fixtures/escaped-import.json": "f767e5c4e8d61a24214ea9ec8e31ec4b57278fa372c9dcfbfea12913a910e399",
+    "porting/rust-parity-evidence/RR18b3c/fixtures/legacy-helpers.json": "fbdd9f13014b83093bd558225789224631dd72ac263bd18c499d69d4749357db",
+    "porting/rust-parity-evidence/RR18b3a/fixtures/ownership-amplification.json": "9a1b3e8d49618aa27c6a553519441380ade9d9b93e9024dcccc118e5cce78e7c",
+    "porting/rust-parity-evidence/RR18a/fixtures/before.json": "d0435d8f25e768999a3cd3ffa394f1d9bdf8f53419b696d652491259eb5b9100"
+  },
+  "served_sha256": {
+    "index.html": "5c878ee5b73ab96e87384afc51dfb449179c48a0e48a1318c631d32648397251",
+    "loader.js": "bf594217149ba39bccfc391450c9223ba6501242c3a0e956cdc3cb2263b3f763",
+    "style.css": "bce248cd10de4ee7b9b2c3c5da39a53c607280d9fded52c90d0a2af225a47ffd",
+    "syson_web.wasm": "0598f6b435cd5b4ecbf0be9e64e4b4a3761834f76a37a2c4716008d0365bc77e"
+  },
+  "build_capture": "joint-artifact-02",
+  "commands": [
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b3c3/draft_normalization.cjs"
+      ],
+      "started_utc": "2026-10-28T15:08:38.971024+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/draft_normalization",
+      "owned_process_group": 2815954,
+      "completed_utc": "2026-10-28T15:09:00.486549+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2815969": {
+            "ppid": 2815952,
+            "group": 2815966,
+            "start": "57446999",
+            "state": "Z"
+          },
+          "2816446": {
+            "ppid": 2815952,
+            "group": 2815966,
+            "start": "57448947",
+            "state": "Z"
+          },
+          "2815968": {
+            "ppid": 2815952,
+            "group": 2815966,
+            "start": "57446999",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b3c2/helper_refusal.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:00.551974+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/helper_refusal",
+      "owned_process_group": 2816481,
+      "completed_utc": "2026-10-28T15:09:06.644065+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2816495": {
+            "ppid": 2815952,
+            "group": 2816493,
+            "start": "57449157",
+            "state": "Z"
+          },
+          "2816628": {
+            "ppid": 2815952,
+            "group": 2816493,
+            "start": "57449450",
+            "state": "Z"
+          },
+          "2816496": {
+            "ppid": 2815952,
+            "group": 2816493,
+            "start": "57449157",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b3c/scalar_helpers.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:06.705153+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/scalar_helpers",
+      "owned_process_group": 2816663,
+      "completed_utc": "2026-10-28T15:09:08.194645+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2816677": {
+            "ppid": 2815952,
+            "group": 2816675,
+            "start": "57449772",
+            "state": "Z"
+          },
+          "2816678": {
+            "ppid": 2815952,
+            "group": 2816675,
+            "start": "57449772",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b3a/borrowed_summaries.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:08.246695+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/borrowed_summaries",
+      "owned_process_group": 2816817,
+      "completed_utc": "2026-10-28T15:09:11.765654+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2816832": {
+            "ppid": 2815952,
+            "group": 2816829,
+            "start": "57449927",
+            "state": "Z"
+          },
+          "2816831": {
+            "ppid": 2815952,
+            "group": 2816829,
+            "start": "57449927",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b2/draft_recovery.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:11.818834+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/draft_recovery",
+      "owned_process_group": 2816972,
+      "completed_utc": "2026-10-28T15:09:16.155165+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2816986": {
+            "ppid": 2815952,
+            "group": 2816984,
+            "start": "57450284",
+            "state": "Z"
+          },
+          "2817091": {
+            "ppid": 2815952,
+            "group": 2816984,
+            "start": "57450490",
+            "state": "Z"
+          },
+          "2816987": {
+            "ppid": 2815952,
+            "group": 2816984,
+            "start": "57450284",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b2/draft_limits.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:16.217562+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/draft_limits",
+      "owned_process_group": 2817126,
+      "completed_utc": "2026-10-28T15:09:19.415953+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2817140": {
+            "ppid": 2815952,
+            "group": 2817138,
+            "start": "57450724",
+            "state": "Z"
+          },
+          "2817141": {
+            "ppid": 2815952,
+            "group": 2817138,
+            "start": "57450724",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b2/canvas_invalidation.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:19.468508+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/canvas_invalidation",
+      "owned_process_group": 2817645,
+      "completed_utc": "2026-10-28T15:09:20.061067+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "093fe786b742651e0c228959d5cab7aa157858b0128705bc362787acf74fcf8a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2817659": {
+            "ppid": 2815952,
+            "group": 2817657,
+            "start": "57451048",
+            "state": "Z"
+          },
+          "2817660": {
+            "ppid": 2815952,
+            "group": 2817657,
+            "start": "57451048",
+            "state": "Z"
+          },
+          "2817710": {
+            "ppid": 2815952,
+            "group": 2817657,
+            "start": "57451050",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b2/cancellation_failure.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:20.126525+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/cancellation_failure",
+      "owned_process_group": 2817764,
+      "completed_utc": "2026-10-28T15:09:21.274518+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2817778": {
+            "ppid": 2815952,
+            "group": 2817776,
+            "start": "57451114",
+            "state": "Z"
+          },
+          "2817779": {
+            "ppid": 2815952,
+            "group": 2817776,
+            "start": "57451114",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b2/long_id_context.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:21.327171+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/long_id_context",
+      "owned_process_group": 2817918,
+      "completed_utc": "2026-10-28T15:09:24.046433+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2817932": {
+            "ppid": 2815952,
+            "group": 2817930,
+            "start": "57451234",
+            "state": "Z"
+          },
+          "2817933": {
+            "ppid": 2815952,
+            "group": 2817930,
+            "start": "57451234",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b1/canvas_transport.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:24.103028+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/canvas_transport",
+      "owned_process_group": 2818211,
+      "completed_utc": "2026-10-28T15:09:27.374574+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2818225": {
+            "ppid": 2815952,
+            "group": 2818223,
+            "start": "57451512",
+            "state": "Z"
+          },
+          "2818226": {
+            "ppid": 2815952,
+            "group": 2818223,
+            "start": "57451513",
+            "state": "Z"
+          },
+          "2818329": {
+            "ppid": 2815952,
+            "group": 2818223,
+            "start": "57451669",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18a/preview_recovery.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:27.438046+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/preview_recovery",
+      "owned_process_group": 2818364,
+      "completed_utc": "2026-10-28T15:09:31.529176+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2818378": {
+            "ppid": 2815952,
+            "group": 2818376,
+            "start": "57451846",
+            "state": "Z"
+          },
+          "2818379": {
+            "ppid": 2815952,
+            "group": 2818376,
+            "start": "57451846",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/build/builderbob/syson-rereview-batch13-20261028/trace_phase.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:31.582940+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/trace_phase",
+      "owned_process_group": 2818518,
+      "completed_utc": "2026-10-28T15:09:33.877457+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "74f4cbd6d4b1378d6760e2d0ec10dcf113dcdf4a8640146b5b163cf9d4e5177f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2818532": {
+            "ppid": 2815952,
+            "group": 2818530,
+            "start": "57452260",
+            "state": "Z"
+          },
+          "2818533": {
+            "ppid": 2815952,
+            "group": 2818530,
+            "start": "57452260",
+            "state": "Z"
+          },
+          "2818644": {
+            "ppid": 2815952,
+            "group": 2818530,
+            "start": "57452368",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/build/builderbob/syson-rereview-batch13-20261028/page-identity.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:33.947842+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/page-identity",
+      "owned_process_group": 2818692,
+      "completed_utc": "2026-10-28T15:09:34.260744+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "1f393d3b8c82c7aa3be19c641f6a8eb4035ae620ef39e0655081bb646598824a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2818706": {
+            "ppid": 2815952,
+            "group": 2818704,
+            "start": "57452497",
+            "state": "Z"
+          },
+          "2818707": {
+            "ppid": 2815952,
+            "group": 2818704,
+            "start": "57452497",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/rust/browser-tests/inspector_accessibility.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:34.331991+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/inspector_accessibility",
+      "owned_process_group": 2818845,
+      "completed_utc": "2026-10-28T15:09:35.012826+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "cf6f78bd4a2ad148022d7e8c9c5bb0928045d5b234c7e0a7e0d8b310bf1736af",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2818859": {
+            "ppid": 2815952,
+            "group": 2818857,
+            "start": "57452535",
+            "state": "Z"
+          },
+          "2818860": {
+            "ppid": 2815952,
+            "group": 2818857,
+            "start": "57452535",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/rr18b3ef-joint-snapshot/porting/rust-parity-evidence/RR18b3b/textarea_layout.cjs"
+      ],
+      "started_utc": "2026-10-28T15:09:35.066994+00:00",
+      "artifacts": "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-regressions-01/textarea_layout",
+      "owned_process_group": 2818962,
+      "completed_utc": "2026-10-28T15:09:36.689362+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "descendant_cleanup": {
+        "captured": {
+          "2818977": {
+            "ppid": 2815952,
+            "group": 2818974,
+            "start": "57452608",
+            "state": "Z"
+          },
+          "2818976": {
+            "ppid": 2815952,
+            "group": 2818974,
+            "start": "57452608",
+            "state": "Z"
+          }
+        },
+        "remaining": {}
+      }
+    }
+  ],
+  "runner_sha256": "94e77a4ae2a5be0b41a92300f2b16aca60ea16d8397c636a5255662757eea10b",
+  "node_sha256": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+  "browser_sha256": "4fa61f0ba0b4f89b7bec242c32ca16d3bccf69dbfef0651924a9ba8fede5f9d6",
+  "upstream_runtime": "NOT_RUN",
+  "server_scope": "owned loopback static WASM preview only",
+  "final_descendant_cleanup": {
+    "captured": {},
+    "remaining": {}
+  },
+  "completed_utc": "2026-10-28T15:09:36.962976+00:00",
+  "source_after": {
+    "porting/rust-parity-evidence/RR18b3c3/draft_normalization.cjs": "2e14940efc0c50dc191b9fe0d9991e70f6c19a68a20bc41e54ac7a66def1c8fc",
+    "porting/rust-parity-evidence/RR18b3c2/helper_refusal.cjs": "8a0a67e5b88d3fd2211c9ba4d4864ac65e4c654459f21fa9c2aef1a99cae1dc0",
+    "porting/rust-parity-evidence/RR18b3c/scalar_helpers.cjs": "236a6a61dd43c0e77f5ee26932b115d28660b5eda01b29228fb25674195eb444",
+    "porting/rust-parity-evidence/RR18b3a/borrowed_summaries.cjs": "701524324c565e0109c6826706c1f987a5440bdfc7fe13bb06d313be582bdb7b",
+    "porting/rust-parity-evidence/RR18b2/draft_recovery.cjs": "bbff3288b3a9a2ede6bc286ae78d4ae614fcf7d6718009e9fca1ecdbb72dc83d",
+    "porting/rust-parity-evidence/RR18b2/draft_limits.cjs": "b2e4324d46e7fc4c0b05f3078763a7dd409a1bfbda15b6e7b9687115d2de11b1",
+    "porting/rust-parity-evidence/RR18b2/canvas_invalidation.cjs": "cd75754b6de7562b9dc6c38dc7b149d59bcf95c8d8dc57c9efdeb773e0362bfe",
+    "porting/rust-parity-evidence/RR18b2/cancellation_failure.cjs": "cade43194c25018546b6f60dd3ae95e22c4c07efda906fd9166be1d6baafc424",
+    "porting/rust-parity-evidence/RR18b2/long_id_context.cjs": "0f38f03ae9fda55513cebe2f75fa9cbdfbb21be14d1f46171d36da51fccc7e43",
+    "porting/rust-parity-evidence/RR18b1/canvas_transport.cjs": "918bdd18450266c1ea5fc92d3fff1953fd4562e9840d0e020dc548b75c9c8ec7",
+    "porting/rust-parity-evidence/RR18a/preview_recovery.cjs": "acfaab802872d418683a5304f4807bf066bd8d6f434bc2bee919a963431b7ad5",
+    "/workspace/build/builderbob/syson-rereview-batch13-20261028/trace_phase.cjs": "5fc83b94acac92e9db2e6be925ffa5605054b50142abece76daf11a19a4d85e1",
+    "/workspace/build/builderbob/syson-rereview-batch13-20261028/page-identity.cjs": "f1bcc387467d5fe25e1b4d98b5c4aee3004a59f3684cd7d634923d65b7fe0d77",
+    "rust/browser-tests/inspector_accessibility.cjs": "155c979a07c1ffc7eeb3f8f02ace60418d4edcc3bd54b8aaa5e4360c47aadede",
+    "porting/rust-parity-evidence/RR18b3b/textarea_layout.cjs": "80e4e9f9f816dd1437bb2473f475c3b8e6a2a84118e1ab34b903e499b973e1d4",
+    "/workspace/build/builderbob/syson-rereview-batch13-20261028/joint-artifact-02/syson_web.wasm": "0598f6b435cd5b4ecbf0be9e64e4b4a3761834f76a37a2c4716008d0365bc77e",
+    "rust/crates/syson-web/web/index.html": "5c878ee5b73ab96e87384afc51dfb449179c48a0e48a1318c631d32648397251",
+    "rust/crates/syson-web/web/loader.js": "bf594217149ba39bccfc391450c9223ba6501242c3a0e956cdc3cb2263b3f763",
+    "rust/crates/syson-web/web/style.css": "bce248cd10de4ee7b9b2c3c5da39a53c607280d9fded52c90d0a2af225a47ffd",
+    "/workspace/build/builderbob/syson-rereview-batch13-20261028/RR18a/fixtures/escaped-import.json": "f767e5c4e8d61a24214ea9ec8e31ec4b57278fa372c9dcfbfea12913a910e399",
+    "porting/rust-parity-evidence/RR18a/fixtures/escaped-import.json": "f767e5c4e8d61a24214ea9ec8e31ec4b57278fa372c9dcfbfea12913a910e399",
+    "porting/rust-parity-evidence/RR18b3c/fixtures/legacy-helpers.json": "fbdd9f13014b83093bd558225789224631dd72ac263bd18c499d69d4749357db",
+    "porting/rust-parity-evidence/RR18b3a/fixtures/ownership-amplification.json": "9a1b3e8d49618aa27c6a553519441380ade9d9b93e9024dcccc118e5cce78e7c",
+    "porting/rust-parity-evidence/RR18a/fixtures/before.json": "d0435d8f25e768999a3cd3ffa394f1d9bdf8f53419b696d652491259eb5b9100"
+  },
+  "source_unchanged": true,
+  "artifacts": {
+    "http.log": "733e13bf8eecfdff4bd2106d5a0e371cfb9b429217f9c344ff3e69d60867cc35",
+    "executed-runner.py": "94e77a4ae2a5be0b41a92300f2b16aca60ea16d8397c636a5255662757eea10b",
+    "trace_phase/trace-1440.json": "1a1dd3809cce02a8b7eb5b275c654a7e477e64a71b16551472dec64213f3269d",
+    "trace_phase/phase-recovery-320.png": "7b25355c60be37b06da240519b90ce16b7dcc73fd692b6d17797bca617cad7dc",
+    "trace_phase/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "trace_phase/stdout.txt": "74f4cbd6d4b1378d6760e2d0ec10dcf113dcdf4a8640146b5b163cf9d4e5177f",
+    "trace_phase/phase-export-1440.json": "050f87515fd4d0603c5b0c20bdf7a3a8f2ffb6a8988adfba9e52539b464b9d8e",
+    "trace_phase/phase-results.json": "bc83e79a0e02bc9d1d86b89dc58ed934b71fa001cf504815527cc30d87bb2756",
+    "trace_phase/trace-320.json": "e251e2c75054cbb84e017c92b2bceb3912035c9cd0a6b27b96849ddd7ddb1103",
+    "trace_phase/phase-export-320.json": "eaab42967982a795a8807df2c788ed13476f4d700c61d889328ccbcf1719a1d3",
+    "trace_phase/phase-recovery-1440.png": "3b17c573edf712de0c26d9df047dd36d8eedf5dab6d5b83a41209466ea321cc9",
+    "draft_recovery/draft-recovery.json": "a5d2d26b6b655673566521654b908d0d9ec5c1d08cc316e1d8cd0e91538a233b",
+    "draft_recovery/draft-recovered-1440.png": "47bdda186c79d7d0e4be6968e4d82324b6c5832c80cb361ab0560c4731b5ff35",
+    "draft_recovery/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "draft_recovery/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "draft_recovery/draft-discarded-1440.png": "9ecd875d6a351be5aa82e4ee560e599122ae80474b060ba0bf0cc74781bcda2b",
+    "draft_recovery/draft-discarded-320.png": "a48b5851856b73a4053e74a9f98c6ec39edfb627d6ada18734fea11b3d918977",
+    "draft_recovery/draft-recovered-320.png": "7402fb93e9bd92bc17953f05cbdec21e4e3d826cb3b860b117c977f9b444adb3",
+    "draft_normalization/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "draft_normalization/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "draft_normalization/draft-normalization-1440.png": "a0b141e010a3b35e4c37fca3c0045abbd3d390fc38867d60c6b4aab0f85b9b12",
+    "draft_normalization/draft-normalization-320.png": "e2be03049573d42dba4170799acdef8542b3a617bcb30ad8991672909efb0360",
+    "draft_normalization/draft-normalization.json": "4842484fef4ecb2da7ce541fe59df35b3945f09cc66da503a5626ef18a1c7e06",
+    "textarea_layout/textarea-drafts-1440.png": "1fb0a36bf30f78f1389de7ee3069b19845e6d5142008a06d9e7ec67f58546318",
+    "textarea_layout/textarea-layout.json": "df8c857de1d411fa7de7317bd90aaacdbe682b79395aaad7f14ea0fd7d59fb75",
+    "textarea_layout/textarea-rename-1440.png": "bb188c899387e9a0d6294b3a76daf5cc066a6cc3b3281f8a79054ec084b04c34",
+    "textarea_layout/textarea-draft-control-1440.png": "564e8b2ab2f81bbb49c5b89c4aa2dd5b238ef58da2bc375734ab19bf35803619",
+    "textarea_layout/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "textarea_layout/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "textarea_layout/textarea-rename-control-1440.png": "3b92721a599b9d2c697ecf673e96040a5d4fdc57dc18c81b135418571238be6d",
+    "textarea_layout/textarea-drafts-320.png": "5455241f9bd6e2c3d5c721deb217bafceb1dd5d2c62133625486bcdf1a82f4e7",
+    "textarea_layout/textarea-rename-control-320.png": "16d60d9a4a22be12232317175cf03013add402edfdbac2c192988605e6ef860b",
+    "textarea_layout/textarea-draft-control-320.png": "8a2a4082459b247fb1b4206876a1c72144867ef7818a75916b1d3ce411f6cca0",
+    "textarea_layout/textarea-rename-320.png": "e81dcd14d7883aa18c27a58f2ef515036ef1d9d20e742387c6df037afb5c4103",
+    "scalar_helpers/scalar-320.png": "fe0e8e56d3822d372977a43d7e6f6ca527994d454a6f0a6ee94a12a84b963622",
+    "scalar_helpers/scalar-helpers.json": "b2803c3cae98300993296bfd180868f9c09dafc9adabf0e51de7a3082820444f",
+    "scalar_helpers/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scalar_helpers/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scalar_helpers/scalar-1440.png": "2b0cd1942c704783fdb3e289fd1ead82fe9e187d8dcbb546ce26a279f8533e55",
+    "canvas_transport/transport-1440.png": "0ac0ef5d6f8e56f4859bc98b80cd6b3c533b4f5307dc92e4a1d025671be4c509",
+    "canvas_transport/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "canvas_transport/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "canvas_transport/transport-320.png": "0e5ce8c7abacb31cc4699b98a5e34226c979d19af65684ef1226c2a640e90ee6",
+    "canvas_transport/result.json": "02d6771a40f5fb99aca9703db8a97dc483064cbfcf7ec6e1cc9071f0eb620f3d",
+    "preview_recovery/recovery-320.png": "49890fa31a11e4c9d544ebdb5255fa947a178301a15f36ed99f71a026033e1d8",
+    "preview_recovery/recovery-1440.png": "3b17c573edf712de0c26d9df047dd36d8eedf5dab6d5b83a41209466ea321cc9",
+    "preview_recovery/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "preview_recovery/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "preview_recovery/recovery-export-1440.json": "f2ff8e72905f57b5d2614f40023ac3e555d5aa25d7c56c15e4b8255d7bdcd189",
+    "preview_recovery/recovery-export-320.json": "e148ac7acc048d4aba60107154c61b4b1c33cb2fc4dbb8f8065d1b72b518628d",
+    "preview_recovery/result.json": "8c036609e20150f07a5b2c903b75946a54cca38f49293e7bc086e2c043d8124c",
+    "borrowed_summaries/borrowed-summary-320.png": "e1ec88590aad0c8a34d020cf4f38a2b1ed4afd915dc49f204984665951bdcc3f",
+    "borrowed_summaries/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "borrowed_summaries/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "borrowed_summaries/borrowed-summary-1440.png": "5cdebb7cfc4951294414e59904d1776d13e8c7c5a12a3ee4d85788fd4f3443d3",
+    "borrowed_summaries/borrowed-summaries.json": "e7c201d905d5dd5b52ce54c98d0d6a4697e623fdcce604379ca4ad086f84e012",
+    "web/style.css": "bce248cd10de4ee7b9b2c3c5da39a53c607280d9fded52c90d0a2af225a47ffd",
+    "web/syson_web.wasm": "0598f6b435cd5b4ecbf0be9e64e4b4a3761834f76a37a2c4716008d0365bc77e",
+    "web/loader.js": "bf594217149ba39bccfc391450c9223ba6501242c3a0e956cdc3cb2263b3f763",
+    "web/index.html": "5c878ee5b73ab96e87384afc51dfb449179c48a0e48a1318c631d32648397251",
+    "helper_refusal/helper-refusal-320.png": "2373c5d4db9b73b536d5c9f0c9bf43f45b1d3f96516ec828189c02f104057caa",
+    "helper_refusal/helper-refusal.json": "8e6beb88cafeafab42ca5ba61115ada000ee06179eaff1f6bb660cd964c3c23d",
+    "helper_refusal/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "helper_refusal/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "helper_refusal/helper-committed-1440.json": "7ba3f6876ab5bcb8775ac9cf3a06642da833b379327e12144e8237ef3f5a65b6",
+    "helper_refusal/helper-committed-320.json": "7ba3f6876ab5bcb8775ac9cf3a06642da833b379327e12144e8237ef3f5a65b6",
+    "helper_refusal/helper-refusal-1440.png": "132a438026b14a2b6b685484fdd06ed41c58fd2897fcbe77df997e2dc72c7d69",
+    "helper_refusal/helper-scalar-1440.png": "4cbd42315a042909865042ee79ffd0027790af3cb9ff7ab165ecd806fdd8a998",
+    "helper_refusal/helper-scalar-320.png": "728d7478f524b2133a9f36afcdc9e3ef4aaec52daf6765714608aad3009d29e1",
+    "page-identity/initial-1365.png": "9da49dc85d4d65ad141bae1a936afe2aae60af04ad93431668d2b6ccb66fff65",
+    "page-identity/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "page-identity/stdout.txt": "1f393d3b8c82c7aa3be19c641f6a8eb4035ae620ef39e0655081bb646598824a",
+    "page-identity/initial-390.png": "86769e58bce54238677af37b64c0da544c73b185bb296ecabd6c168dd20fe068",
+    "page-identity/identity.json": "2454397490eb29972e417a8684911d8fd05e10c4f17763d3972a1dc8bacdd577",
+    "cancellation_failure/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cancellation_failure/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cancellation_failure/cancellation-failure.json": "b5b7d045b823f670a262efd0940c57fd3d0c88982c6ebce6bc132904d5a96897",
+    "long_id_context/long-id-context.json": "71a6ff88d3410c3bcaf80adc5a39cfee8c614b055a8c461c95f0974cc6aa2edd",
+    "long_id_context/long-id-1440.png": "6a7a648516ea44ebbc9995f0e518bdee46337d0aa0064b6ea38db3685319bdb5",
+    "long_id_context/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "long_id_context/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "long_id_context/long-id-320.png": "78eab2c35a13c03a3a6b73fcf0c585793d0d8af16f3aaa116ea55f5a899183f8",
+    "inspector_accessibility/inspector-scalar.png": "22ebf2d76046480ba33e7d0e7ef76ff6c52d53b004e471ca123c82633e556207",
+    "inspector_accessibility/inspector-desktop.png": "9f5b84af8513a536985cf77942da16f1e71d6b04beca89ed025306594ba7e3c6",
+    "inspector_accessibility/ax-selection.json": "37308e89b80081ad90527ad01e9eb9c2f54586d2abff7893d195096a3be51761",
+    "inspector_accessibility/inspector-mobile-320.png": "4559319195ad4e1ed31944d6b1ec6f7230422f61f1d56a367dab548d0adfe30f",
+    "inspector_accessibility/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "inspector_accessibility/stdout.txt": "cf6f78bd4a2ad148022d7e8c9c5bb0928045d5b234c7e0a7e0d8b310bf1736af",
+    "inspector_accessibility/ax-summary.json": "dbc0006e3182b4c1ae9f5f0a03b41ac246559b10d85dbcfa6743453596bd5ce7",
+    "inspector_accessibility/ax-scalar-commit.json": "b0d09f4df0e3d5924426bb7a13b1947723deadd0f9e012b605e3c2560d9ec77f",
+    "inspector_accessibility/ax-mobile-cancel.json": "21a5a516728ee93a704e15ee4380700732eb5d51102eedafa72e442b02620f4f",
+    "inspector_accessibility/focus.json": "66404e9e0ac899510b51fa0aad207d0a977f324561bb205c8920feff88a4ae35",
+    "inspector_accessibility/ax-rename-commit.json": "0343da91608d15f2fa278bad7b382c4811e5f69623d66166e4ca0989cefc2157",
+    "inspector_accessibility/inspector-mobile.png": "a126b90007fe7ed7a492f748d98b70397beae08795adb531a0131c622c0dd5bd",
+    "inspector_accessibility/live-region.json": "6f55c48696dc7140cbedd7e471821ae5d9d4632db04f8848153ba4b115978f02",
+    "canvas_invalidation/invalidation.png": "9e83d4717acebaaeb9a33da09da9c646e7cf3161e25a325279dfe10b0b5cea57",
+    "canvas_invalidation/invalidation-observation.json": "4405a7b9a793807034e1d313ee59d5d82315383b17638e45fbfdded6d520ff2c",
+    "canvas_invalidation/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "canvas_invalidation/stdout.txt": "093fe786b742651e0c228959d5cab7aa157858b0128705bc362787acf74fcf8a",
+    "draft_limits/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "draft_limits/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "draft_limits/draft-limits.json": "7e13a3eb56dff0f0db116b215e2204074bd4694c3de2ebe86b3fa3267c99578c"
+  }
+}

@@ -571,7 +571,9 @@ impl App {
                     "<form data-action=\"rename\" aria-label=\"Rename selected element\"><label for=\"rename\">Element name</label><textarea id=\"rename\" name=\"name\" rows=\"2\" required>{selected_name}</textarea><div class=\"form-actions\"><button id=\"stage-rename\" type=\"submit\">Stage rename</button></div></form>"
                 )
             } else {
-                String::new()
+                format!(
+                    "<label for=\"full-element-name\">Full element name (read only)</label><textarea id=\"full-element-name\" rows=\"2\" readonly>{selected_name}</textarea>"
+                )
             };
             let rotate_control = if has_diagram_preview(element.class) {
                 "<p><button type=\"button\" data-action=\"rotate\">Rotate preview</button></p>"
@@ -631,7 +633,7 @@ fn navigation_button(element: &ElementSummaryRef<'_>, selected: &str) -> RenderR
     let name = escape(element.name.unwrap_or("(unnamed)"))?;
     let class = escape(element.class)?;
     Ok(format!(
-        "<button id=\"select-{id}\" type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\">{name}<span class=\"kind\">{class}</span></button>",
+        "<button id=\"select-{id}\" type=\"button\" data-action=\"select\" data-value=\"{id}\" aria-pressed=\"{}\" aria-describedby=\"model-name-help\"><span class=\"model-name\">{name}</span><span class=\"kind\">{class}</span></button>",
         selected == element.element_id
     ))
 }
@@ -669,7 +671,9 @@ fn render_model_navigation(
             .or_default()
             .push(element);
     }
-    let mut html = String::from("<ul class=\"tree\" aria-label=\"Model hierarchy\">");
+    let mut html = String::from(
+        "<p id=\"model-name-help\" class=\"navigation-help\">Names use at most two lines. Select an element to read or copy its full name in Selection.</p><ul class=\"tree\" aria-label=\"Model hierarchy\">",
+    );
     let mut stack: Vec<_> = children
         .get(&None)
         .into_iter()
@@ -1307,7 +1311,7 @@ mod tests {
         assert!(html.contains("<g clip-path=\"url(#preview-label-2)\">"));
         assert!(html.contains("<title>PartUsage: frontWheel</title>"));
         assert!(
-            html.contains("aria-pressed=\"true\">frontWheel<span class=\"kind\">PartUsage</span>")
+            html.contains("aria-pressed=\"true\" aria-describedby=\"model-name-help\"><span class=\"model-name\">frontWheel</span><span class=\"kind\">PartUsage</span>")
         );
     }
     fn scalar_app(class: &str, data: Value) -> App {

@@ -135,7 +135,19 @@ try {
         const record = {id: element.id, tag: element.tagName, type, owner, scope: scope(element), value, checked: element.checked};
         snapshot.fields.push(record);
         if (element === document.activeElement) snapshot.focus = {id: record.id,
-          caret: typeof element.selectionStart === 'number' ? [element.selectionStart, element.selectionEnd, element.selectionDirection] : null};
+          caret: typeof element.selectionStart === 'number' ? [element.selectionStart, element.selectionEnd, element.selectionDirection] : null,
+          scroll: {left: element.scrollLeft, top: element.scrollTop}};
+      } else if (element === document.activeElement && element.matches('textarea[id][readonly]') && !element.disabled) {
+        // The committed value stays in Rust. Retain only native readonly focus
+        // identity and selection, never another model-sized String as a draft.
+        const owner = formKey(element), type = element.type ?? '';
+        if (element.id.length > draftLimits.id || owner.length > draftLimits.id || type.length > draftLimits.id
+          || document.getElementById(element.id) !== element) refuse();
+        charge(element.id); charge(owner); charge(type);
+        snapshot.focus = {id: element.id, tag: element.tagName, type, owner,
+          scope: element.closest('.inspector') ? 'inspector' : scope(element), readOnly: true,
+          caret: [element.selectionStart, element.selectionEnd, element.selectionDirection],
+          scroll: {left: element.scrollLeft, top: element.scrollTop}};
       } else if (element.tagName === 'DETAILS') {
         const inspector = !!element.closest('.inspector');
         if (inspector && element.open === inspectorDisclosureDefaults.get(element) && !element.contains(document.activeElement)) continue;
@@ -146,7 +158,8 @@ try {
         snapshot.details.push({key, open: element.open, scope: inspector ? 'inspector' : 'document'});
       }
     }
-    if (snapshot.fields.some(record => record.scope === 'inspector') || snapshot.details.some(record => record.scope === 'inspector')) {
+    if (snapshot.fields.some(record => record.scope === 'inspector') || snapshot.details.some(record => record.scope === 'inspector')
+      || snapshot.focus?.scope === 'inspector') {
       // Model identities are arbitrary strings, not bounded DOM control IDs.
       snapshot.selected = selected(root);
       charge(snapshot.selected);
@@ -165,7 +178,14 @@ try {
       if (element.tagName === 'SELECT' && !Array.prototype.some.call(element.options, option => option.value === record.value)) continue;
       element.value = record.value;
       if ('checked' in element) element.checked = record.checked;
-      if (snapshot.focus?.id === record.id) focus = {element, caret: snapshot.focus.caret};
+      if (snapshot.focus?.id === record.id) focus = {element, caret: snapshot.focus.caret, scroll: snapshot.focus.scroll};
+    }
+    if (snapshot.focus?.readOnly) {
+      const record = snapshot.focus, element = document.getElementById(record.id);
+      if (permitted(record) && element && root.contains(element) && element.readOnly && !element.disabled
+        && element.tagName === record.tag && element.type === record.type && formKey(element) === record.owner) {
+        focus = {element, caret: record.caret, scroll: record.scroll};
+      }
     }
     const disclosures = new Map(snapshot.details.filter(permitted).map(record => [record.key, record]));
     if (disclosures.size) {
@@ -179,9 +199,17 @@ try {
     }
     return focus;
   }
+  function intersectsViewport(element) {
+    if (!element || !root.contains(element)) return false;
+    const rect = element.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.right > 0
+      && rect.top < innerHeight && rect.left < innerWidth;
+  }
   function paint(background = false, context = null) {
     rememberCanvasPan();
     const focused = document.activeElement;
+    const visibleFocus = intersectsViewport(focused);
+    const pagePosition = {left: scrollX, top: scrollY};
     const template = document.createElement('template');
     template.innerHTML = decoder.decode(new Uint8Array(api.memory.buffer, api.output_ptr(), api.output_len()));
     const previousStatus = root.querySelector('[data-editor-status]');
@@ -238,9 +266,22 @@ try {
       for (let ancestor = next.parentElement; ancestor && ancestor !== root; ancestor = ancestor.parentElement) {
         if (ancestor.tagName === 'DETAILS') ancestor.open = true;
       }
-      next.focus({preventScroll: background});
+      // Replacing the page can clamp its scroll position before insertion. A
+      // background paint must preserve deliberate reading/panning, including
+      // when the logical focus was intentionally scrolled out of the viewport.
+      if (background) window.scrollTo({...pagePosition, behavior: 'instant'});
+      next.focus({preventScroll: true});
       if (restoredFocus?.caret && next === restoredFocus.element) next.setSelectionRange(...restoredFocus.caret);
-    }
+      if (restoredFocus?.scroll && next === restoredFocus.element) {
+        next.scrollLeft = restoredFocus.scroll.left; next.scrollTop = restoredFocus.scroll.top;
+      }
+      // Only keep previously visible focus visible on background work. Explicit
+      // actions still reveal their requested control; no focus()/screenshot
+      // from automation is needed to repair the viewport after this function.
+      if (!background || visibleFocus && next.id === focused.id) {
+        next.scrollIntoView({block: 'nearest', inline: 'nearest', behavior: 'instant'});
+      }
+    } else if (background) window.scrollTo({...pagePosition, behavior: 'instant'});
     presentationTrusted = true;
     const canvas = root.querySelector('[data-canvas-revision]');
     const {canvasTicket: ticket, canvasPhase: phase} = canvas?.dataset ?? {};
