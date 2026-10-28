@@ -259,7 +259,7 @@ fn resource_boundaries_and_cancellation_fail_without_successful_partial_results(
 #[test]
 fn same_executed_reference_fixture_is_recognized_with_semantics_not_performed() {
     let input = include_str!("../../../../porting/validation/fixtures/parser-oracle.sysml");
-    assert_eq!(input.as_bytes().len(), 37);
+    assert_eq!(input.len(), 37);
     let result = Grammar::load(Language::SysML)
         .unwrap()
         .recognize(input, Options::default())
