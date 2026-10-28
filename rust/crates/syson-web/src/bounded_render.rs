@@ -79,12 +79,53 @@ impl Sink {
         match &attribute.value {
             None => self.raw("Not set (no saved value)."),
             Some(serde_json::Value::Null) => self.raw("Explicitly empty (null)."),
-            Some(value) => {
+            Some(value) if short_saved_value(value) => {
                 self.raw("Saved value: ")?;
                 self.json(value)
             }
+            Some(_) => self.raw("Saved value is long. Expand Full saved value to read or copy it."),
         }
     }
+    fn saved_disclosure(&mut self, attribute: &AttributeDescriptor) -> Result {
+        let Some(value) = attribute
+            .value
+            .as_ref()
+            .filter(|value| !short_saved_value(value))
+        else {
+            return Ok(());
+        };
+        let name = Text(attribute.name, false);
+        let label = Label(attribute.name);
+        self.formatted(format_args!("<details id=\"saved-value-{name}\"><summary>Full saved value for {label}</summary><label for=\"saved-json-{name}\">Saved JSON value for {label}</label><textarea id=\"saved-json-{name}\" readonly rows=\"6\" wrap=\"off\" style=\"white-space:pre;overflow-wrap:normal;word-break:normal;overflow:auto;max-height:12em\">\n"))?;
+        self.json(value)?;
+        self.raw("</textarea></details>")
+    }
+}
+// Bound the compact-JSON counter and reject long strings by byte length before
+// asking serde to scan their payload. No intermediate JSON String is owned.
+const INLINE_JSON_BYTES: usize = 80;
+fn short_saved_value(value: &serde_json::Value) -> bool {
+    if value
+        .as_str()
+        .is_some_and(|text| text.len() > INLINE_JSON_BYTES - 2)
+    {
+        return false;
+    }
+    struct Count(usize);
+    impl io::Write for Count {
+        fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
+            self.0 = self
+                .0
+                .checked_add(bytes.len())
+                .filter(|n| *n <= INLINE_JSON_BYTES)
+                .ok_or_else(|| io::Error::other("long saved value"))?;
+            Ok(bytes.len())
+        }
+        fn flush(&mut self) -> io::Result<()> {
+            Ok(())
+        }
+    }
+    serde_json::to_writer(Count(0), value).is_ok()
 }
 impl fmt::Write for Sink {
     fn write_str(&mut self, text: &str) -> fmt::Result {
@@ -194,6 +235,7 @@ pub(crate) fn emit_field(out: &mut Sink, attribute: &AttributeDescriptor) -> Res
     out.formatted(format_args!("<form class=\"scalar-property\" data-action=\"attribute\" data-attribute=\"{name}\" aria-label=\"Edit {label}\"><input type=\"hidden\" name=\"attribute\" value=\"{name}\"><label for=\"scalar-{name}\">{label}</label><p id=\"scalar-state-{name}\" class=\"property-state\">"))?;
     out.state(attribute)?;
     out.raw("</p>")?;
+    out.saved_disclosure(attribute)?;
     match kind {
         ScalarType::String => {
             let rows = if attribute.name == "declaredShortName" {
@@ -311,6 +353,7 @@ pub(crate) fn emit_inspection(out: &mut Sink, inspection: &NodeInspection, activ
                 blocked_label(reason)
             ))?;
             out.state(attribute)?;
+            out.saved_disclosure(attribute)?;
             out.raw("</dd>")?;
         }
     }
