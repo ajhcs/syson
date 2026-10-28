@@ -1311,7 +1311,7 @@ mod tests {
         assert!(html.contains("<g clip-path=\"url(#preview-label-2)\">"));
         assert!(html.contains("<title>PartUsage: frontWheel</title>"));
         assert!(
-            html.contains("aria-pressed=\"true\">frontWheel<span class=\"kind\">PartUsage</span>")
+            html.contains("aria-pressed=\"true\" aria-describedby=\"model-name-help\"><span class=\"model-name\">frontWheel</span><span class=\"kind\">PartUsage</span>")
         );
     }
     fn scalar_app(class: &str, data: Value) -> App {
