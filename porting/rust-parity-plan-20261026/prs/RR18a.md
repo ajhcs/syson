@@ -40,6 +40,8 @@ Existing PR prerequisites: [#65](https://github.com/ajhcs/syson/pull/65), [#61](
 - Reproduce actual <=1MiB escaped-name destructive-import counterexample on exact baseline, then demonstrate prior document/history/selection/drafts survive refusal in real default WASM UI at desktop/mobile with keyboard/console/long-task observations. Verify fallback model download and recover/discard actions.
 - Freeze exact prerequisite/source/input hashes, preserve failing attempts and final-source tests with independent review; no held raw/graph/factory execution.
 
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
+
 ## Commit plan
 
 - Focused implementation and meaningful regression/caller fixtures

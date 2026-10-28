@@ -40,6 +40,8 @@ Existing PR prerequisites: [#19](https://github.com/ajhcs/syson/pull/19), [#109]
 - RR16a selected checks/partial receipt is insufficient. Complete owner-admitted matrix and independent exact closure review are required; current held scopes keep this child OPEN.
 - Negative case: a sealed http.log present on disk but ignored by Git must block publication. Positive declared-supplement case must resolve exact bytes and report original-head incompleteness honestly, without replaying the original runtime.
 
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
+
 ## Commit plan
 
 - Focused implementation and meaningful regression/caller fixtures

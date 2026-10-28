@@ -43,6 +43,8 @@ Existing PR prerequisites: [#61](https://github.com/ajhcs/syson/pull/61), [#65](
 - Retain sparse and512-child fixtures plus all required recovery/cancel/same-ID journeys. Actual screenshots and interaction evidence are required; logical focus alone does not close usability.
 - Measure focused-control bounding rectangle and viewport intersection immediately after repaint, before element.screenshot(), click(), focus() or another automation action can scroll it into view and hide the bug.
 
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
+
 ## Commit plan
 
 - Focused implementation and meaningful regression/caller fixtures

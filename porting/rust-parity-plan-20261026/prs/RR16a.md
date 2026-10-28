@@ -34,6 +34,8 @@ The unit must compile and pass its local behavior tests against its frozen exist
 - Adversarial owned Git/stub fixtures must catch missing tool/fixture/manifests/locks/localdeps/pins, source drift, stale generation/check failure, dirty/untracked/mode/target mismatch, command failure/timeout and unsafe resume. Run fresh admitted real subset with HELD_NOT_RUN/NOT_SELECTED scopes and full_qualification=false.
 - One root-owned serialized offline execution lease; no held initializer-graph/default or raw-factory/factory validator execution. Preserve original counterexamples and independently review exact source/evidence.
 
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
+
 ## Commit plan
 
 - Focused implementation and meaningful regression/caller fixtures

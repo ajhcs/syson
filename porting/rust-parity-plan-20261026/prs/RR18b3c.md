@@ -62,6 +62,8 @@ Existing PR prerequisites: [#61](https://github.com/ajhcs/syson/pull/61), [#65](
 - Distinguish helper-component admission from global renderer closure: the admitted 700258-byte,700000-ampersand Package expands across navigation/options/SVG/export beyond16MiB while import selection is empty. Retain actual UI refusal/model/history/draft evidence, but whole-page preallocation and responsiveness remain RR18b3d requirements; a<=1MiB scalar alone is not falsely labelled >16MiB helper output.
 - Use exact frozen legacy bytes plus independent UTF8/CR/NUL/sentinel and raw-number/private-marker-object oracles. Count whole helper wrappers, exact-fit/+1, individually fitting fields whose aggregate refuses, and swallowed-write-error fault injection. Measure successful allocation-request aggregate/largest separately from RSS/live/high-water; disclose owned inspection and the added document-size scan.
 
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
+
 ## Commit plan
 
 - Focused implementation and meaningful regression/caller fixtures

@@ -35,8 +35,10 @@ Existing PR prerequisites: [#115](https://github.com/ajhcs/syson/pull/115), [#11
 ## Verification
 
 - Reproduce actual850kComment body saved-value wall from batch12 helper-scalar320 screenshot; measure bounding rectangles/page scroll extent before automation scroll, then verify bounded initial display, native disclosure/full-text access at320/1440, selection/history/CRLF/Unicode/readonly/AX and exact downloaded model bytes.
-- Use actual screenshots and UI interaction/performance observations; retain current missing glyph and global<50ms/renderer admission gates. Requalify exact affected scalar helper oracles on changed source, preserving legacy golden captures as historical data rather than relabelling them.
+- Use actual screenshots and UI interaction/performance observations; retain current missing glyph and global<50ms/renderer admission gates. Requalify exact affected scalar helper oracles on changed source, preserving legacy golden captures as historical data rather than relabelling them. [TIMING POLICY SUPERSEDED 2026-10-28: Measure workload-specific latency ranges and outliers under performance-policy.json; report distinct event-to-visible latency, main-thread task durations and allocation metrics. Preserve raw timing evidence; no single50ms veto or automatic parity acceptance. Keep actual responsiveness, cancellation and exact-data checks.]
 - At 320 and 1440 CSS pixels, the initial saved-state display must occupy at most six text lines and 160 CSS pixels per property, without horizontal page overflow. Full-value access must have a labelled keyboard path and a selectable native control with at most twelve visible rows and local scrolling; exact saved JSON and model downloads remain authoritative. Any required broader interaction or lazy-output protocol must be split before exceeding the source budget.
+
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
 
 ## Commit plan
 

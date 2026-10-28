@@ -34,7 +34,9 @@ Existing PR prerequisites: [#61](https://github.com/ajhcs/syson/pull/61), [#65](
 ## Verification
 
 - Compare current and final actual320/1440 traces and ordinary journeys using exact700258 import/900381 export/2701179URI fixtures. Verify exact text values, local scroll, keyboard Home/End/selection/backward caret, labels/readonly AX and screenshots; collect console and whole-task observations.
-- Rerun affected recovery/boundary/cancellation/long-ID and canvas journeys on exact final CSS and reused qualified WASM, plus exact a+b composition. Keep whole-task<50ms acceptance OPEN if any required scenario fails.
+- Rerun affected recovery/boundary/cancellation/long-ID and canvas journeys on exact final CSS and reused qualified WASM, plus exact a+b composition. Keep whole-task<50ms acceptance OPEN if any required scenario fails. [TIMING POLICY SUPERSEDED 2026-10-28: Measure workload-specific latency ranges and outliers under performance-policy.json; report distinct event-to-visible latency, main-thread task durations and allocation metrics. Preserve raw timing evidence; no single50ms veto or automatic parity acceptance. Keep actual responsiveness, cancellation and exact-data checks.]
+
+Current timing policy: [workload-specific target ranges](../performance-policy.json) supersede legacy timing cutoffs; original observations remain historical.
 
 ## Commit plan
 
