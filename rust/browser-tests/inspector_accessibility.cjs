@@ -23,6 +23,7 @@ fs.mkdirSync(output, {recursive:true});
     await page.goto(url);
     await page.getByRole('heading',{name:'SysON model editor',exact:true}).waitFor();
     assert.equal(await page.title(),'SysON · Rust model editor');
+    await page.getByRole('region',{name:'Element inspector',exact:true}).waitFor({state:'visible'});
     assert.equal(await page.getByRole('region',{name:'Element inspector',exact:true}).count(),1);
     const model = () => page.locator('#export-json').inputValue();
     const press = key => page.keyboard.press(key);
