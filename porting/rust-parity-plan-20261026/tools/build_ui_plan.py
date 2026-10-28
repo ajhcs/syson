@@ -112,7 +112,7 @@ add('U05','Details forms, typed references and feature help',['U04'],['backend/s
   'Preserve unsubmitted drafts, dirty context, source-active focus and accessible live announcements.'],
  ['Matched property fixtures for every effective widget kind; null/omission/eIsSet and list ordering differences explicit.',
   'Keyboard and screen-reader task coverage, all validation states and failed command preservation.',
-  '30-sample select/stage/cancel/commit p95 <=100ms on fixed host; no universal-device claim.'],external=[61,62])
+  'Measure real select/stage/cancel/commit events against workload-specific ranges in performance-policy.json, restoring identical state between repetitions; retain raw samples and outlier explanations. Use at least30measured samples when reporting p95; no universal timing veto.'],external=[61,62])
 
 add('U06','Connected text import and positioned validation',['U05'],['backend/application/syson-sysml-import','backend/application/syson-sysml-validation','frontend/syson-components/src/extensions/InsertTextualSysMLv2Modal.tsx'],
  ['Wire actual Rust parser/importer/identity bridge/semantic validation into an editable import preview.',

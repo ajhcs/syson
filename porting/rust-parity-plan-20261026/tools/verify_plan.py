@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+from completion_contract import read_contract, validate_bindings
 
 def require(ok,message):
     if not ok:raise ValueError(message)
@@ -21,6 +22,8 @@ def acyclic(graph):
     for node in graph:visit(node)
 
 def validate(plan,root):
+    contract=read_contract(root)
+    validate_bindings(contract,plan,root)
     units=plan['units'];ids={u['id'] for u in units};byid={u['id']:u for u in units}
     require(len(ids)==len(units)==plan['unit_count'],'Duplicate/missing unit count')
     require(not plan['full_parity_claimed'],'A plan must not claim feature parity')
@@ -90,7 +93,7 @@ def validate(plan,root):
         for row in rows:
             owner=row.get('assigned_record',row.get('schema_record'))
             require(owner in ids,'Undefined model owner '+str(owner))
-    return {'units':len(units),'source_graph_acyclic':True,'readiness_graph_nodes':len(stages),'readiness_graph_acyclic':True,'unordered_write_conflicts':0,'all_14_original_remaining_briefs_mapped':True,'source_assignment_counts_verified':True}
+    return {'static_contract_integrity':'PASS;behavioral_acceptance_remains_open','units':len(units),'source_graph_acyclic':True,'readiness_graph_nodes':len(stages),'readiness_graph_acyclic':True,'unordered_write_conflicts':0,'all_14_original_remaining_briefs_mapped':True,'source_assignment_counts_verified':True}
 
 def completion(plan,state,repo):
     ids={u['id'] for u in plan['units']};errors=[];entries=state.get('units',{})
@@ -116,6 +119,33 @@ def completion(plan,state,repo):
     return errors
 
 def self_test(plan,root):
+    # Meaningful refusal controls: input drift, omitted scope, and detached briefs.
+    def rejects(action, expected):
+        try:action()
+        except ValueError as e:require(expected in str(e), 'Wrong contract rejection: '+str(e))
+        else:raise AssertionError('Contract gate accepted '+expected)
+    for path in ['COMPLETION-CONTRACT.md','acceptance-packet.schema.json',
+                 'performance-policy.json','lanes/model.json','tools/build_plan.py']:
+        rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
+                (b'\n' if name==path else b'')), 'hash mismatch')
+    contract=read_contract(root)
+    for mutation in ['omitted','unknown','duplicate']:
+        changed=copy.deepcopy(contract)
+        if mutation=='omitted':changed['families']['model'].pop()
+        elif mutation=='unknown':changed['families']['model'].append('M-unknown')
+        else:changed['families']['model'].append(changed['families']['model'][0])
+        lock=json.loads((root/'completion-contract.lock.json').read_text())
+        encoded=json.dumps(changed).encode()
+        lock['sha256']['completion-contract.json']=hashlib.sha256(encoded).hexdigest()
+        def read(name):
+            if name=='completion-contract.json':return encoded
+            if name=='completion-contract.lock.json':return json.dumps(lock).encode()
+            return (root/name).read_bytes()
+        rejects(lambda:read_contract(root,read), 'family coverage')
+    bad=copy.deepcopy(plan);bad['units'][0].pop('completion_contract')
+    rejects(lambda:validate(bad,root), 'unit contract binding')
+    bad=copy.deepcopy(plan);bad['units'].pop()
+    rejects(lambda:validate(bad,root), 'unit coverage')
     graph={'implementation:adapter':['implementation:model'],'implementation:model':[],
            'accepted:adapter':['implementation:adapter','accepted:joint'],
            'accepted:joint':['implementation:adapter','implementation:model']}
