@@ -1,0 +1,27 @@
+{
+  "test_functions": [
+    "package_part_definition_and_typed_usage_have_source_shaped_wrappers",
+    "usage_membership_depends_on_package_or_definition_body_context",
+    "qualified_typing_stays_unresolved_with_raw_name_segments_and_parenting",
+    "raw_quoted_names_preserve_quotes_escapes_and_both_span_units",
+    "anonymous_and_empty_bodies_keep_optional_names_absent",
+    "defaults_and_absent_optionals_are_distinct_from_empty_or_false_values",
+    "repeated_declarations_preserve_encounter_order_and_distinct_identity",
+    "malformed_finite_pairs_produce_no_arena_and_retain_precise_offsets",
+    "valid_source_outside_whitelist_is_explicitly_unsupported",
+    "keyword_union_never_silently_constructs_keyword_as_regular_name",
+    "all_frontend_limits_and_invalid_depths_fail_closed",
+    "kernel_limit_and_precancelled_input_never_return_partial_arena",
+    "prior_arenas_are_immutable_and_node_handles_do_not_cross_owners"
+  ],
+  "test_count": 13,
+  "expectation_kind": "MANUALLY_SOURCE_DERIVED_NOT_NATIVE_RUNTIME_GOLDENS",
+  "finite_families": [
+    "package declarations",
+    "part definitions",
+    "named typed part usage with qualified target"
+  ],
+  "body_context_wrapper": "OwningMembership in model/package; FeatureMembership for part usage in definition body",
+  "malformed_and_unsupported_separate": true,
+  "no_semantic_resolution": true
+}

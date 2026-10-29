@@ -1,0 +1,20 @@
+from pathlib import Path
+import subprocess,os,json,hashlib,time,fcntl,signal
+b=Path('/workspace/build/builderbob/syson-batch21-20261029');o=b/'construction-qualification-02';o.mkdir();(o/'tmp').mkdir();t=Path('/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools');old=Path('/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04');bundle=Path('/workspace/worktrees/builderbob/syson/batch18-construction-landing/backend/application/syson-sysml-import/src/main/resources/syside-cli.js');corpus=Path('/workspace/worktrees/builderbob/syson/batch19-construction-tools/porting/rust-parity-evidence/C09/batch19-tools/construction_corpus.json');files=[t/'reference_expectations.cjs',t/'compare_construction.py',bundle,corpus,old/'native.json',old/'rust.json',Path('/usr/bin/node')];sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();snap=lambda:{str(p):sha(p) for p in files};r={'status':'RUNNING','inputs_before':snap(),'commands':[]};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+commands=[['/usr/bin/node','--max-old-space-size=1536',str(t/'reference_expectations.cjs'),str(bundle),str(corpus),str(o/'references.json')]]
+for name,flags in [('normal',[]),('optimized',['-O'])]:commands.append(['python3',*flags,str(t/'compare_construction.py'),'--corpus',str(corpus),'--native',str(old/'native.json'),'--rust',str(old/'rust.json'),'--references',str(o/'references.json'),'--out',str(o/(name+'.json')),'--self-test'])
+try:
+ for i,argv in enumerate(commands):
+  start=time.monotonic();p=subprocess.Popen(argv,cwd=o,env=dict(os.environ,TMPDIR=str(o/'tmp'),PYTHONDONTWRITEBYTECODE='1'),stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:stdout,stderr=p.communicate(timeout=180);timed=False
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+  (o/f'{i:02}-stdout.txt').write_bytes(stdout);(o/f'{i:02}-stderr.txt').write_bytes(stderr);r['commands'].append({'argv':argv,'exit':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-start});print(json.dumps(r['commands'][-1]),flush=True)
+  if timed or (i==0 and p.returncode):raise RuntimeError('Preserve failed oracle setup')
+  if i>0:
+   report=json.loads((o/('normal.json' if i==1 else 'optimized.json')).read_text());print(json.dumps({'status':report['status'],'differences':len(report['differences']),'open_items':len(report['open_items']),'controls':report.get('controls')}),flush=True)
+   if report.get('controls',{}).get('status')!='PASS_PIPELINE_DIVERGENCE_CONTROLS':raise RuntimeError('Controls/schema failed; preserve OPEN report')
+ r['status']='CAPTURED_QUALIFICATION_DIFFERENCES_OR_OPEN_GATES' if r['commands'][-1]['exit'] else 'PASS_ASSIGNED_CAPTURE_ONLY'
+except BaseException:
+ r['status']='FAIL_TERMINAL';raise
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert r['source_unchanged']

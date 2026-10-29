@@ -1,0 +1,79 @@
+// SPDX-License-Identifier: EPL-2.0
+//! One actual finite F11 API call per process; setup and reporting are untimed.
+use serde_json::json;
+use std::process::ExitCode;
+use std::sync::{Arc, atomic::AtomicBool};
+use std::time::Instant;
+use syson_ast_adapter::{Adapter, Error, Limits};
+
+fn proc_kib(status: &str, field: &str) -> Option<u64> {
+    status
+        .lines()
+        .find(|line| line.starts_with(field))?
+        .split_whitespace()
+        .nth(1)?
+        .parse()
+        .ok()
+}
+
+fn main() -> ExitCode {
+    let declarations = std::env::args()
+        .nth(1)
+        .and_then(|value| value.parse::<usize>().ok());
+    let Some(count @ (1 | 24 | 64 | 128 | 256 | 257)) = declarations else {
+        eprintln!("usage: f11-profile DECLARATIONS (1,24,64,128,256,257)");
+        return ExitCode::from(2);
+    };
+    let source: String = (0..count)
+        .map(|index| format!("package P{index};\n"))
+        .collect();
+    let adapter = match Adapter::pinned() {
+        Ok(adapter) => adapter,
+        Err(error) => {
+            eprintln!("F11 adapter setup failed: {error:?}");
+            return ExitCode::FAILURE;
+        }
+    };
+    let limits = Limits::default();
+    let cancel = Arc::new(AtomicBool::new(false));
+    let start = Instant::now();
+    let result = adapter.construct(&source, limits, cancel);
+    let elapsed = start.elapsed();
+    // The arena remains owned by result through timing, memory capture and JSON.
+    let process_status = std::fs::read_to_string("/proc/self/status")
+        .expect("Linux process memory observation is required for this profile");
+    let (node_count, error, expected) = match &result {
+        Ok(arena) => {
+            let nodes = arena.nodes().len();
+            (Some(nodes), None, count <= 256 && nodes == 2 * count + 1)
+        }
+        Err(error) => (
+            None,
+            Some(format!("{error:?}")),
+            count == 257 && matches!(error, Error::Limit),
+        ),
+    };
+    println!(
+        "{}",
+        json!({
+            "scope": "One finite F11 construct call with default limits",
+            "declarations": count,
+            "source_bytes": source.len(),
+            "source": source,
+            "default_declaration_quota": limits.declarations,
+            "api_elapsed_ns": elapsed.as_nanos(),
+            "node_count": node_count,
+            "expected_node_count": if count <= 256 { Some(2 * count + 1) } else { None },
+            "error": error,
+            "expected_result": expected,
+            "rss_after_kib": proc_kib(&process_status, "VmRSS:"),
+            "process_hwm_kib": proc_kib(&process_status, "VmHWM:"),
+            "memory_scope": "Post-call process RSS/HWM includes setup/source; not API allocation high-water",
+            "timing_scope": "construct only; excludes setup/source generation, reporting and arena destruction",
+            "native_comparison": "NOT_RUN; no event-to-visible or application capacity claim"
+        })
+    );
+    // Explicit drop keeps the arena alive through both measurements and output.
+    drop(result);
+    if expected { ExitCode::SUCCESS } else { ExitCode::FAILURE }
+}
