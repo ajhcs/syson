@@ -11,8 +11,8 @@ driver = Path(sys.argv[1])
 unit, cookie, proof_path, controls_path = sys.argv[4:]
 proof = ownership['attest'](unit, cookie, 'syson-u11b-search-profile-', proof_path, os.environ)
 group = Path('/sys/fs/cgroup') / proof['control_group'].lstrip('/')
-expected = {'cpu.max': '200000 100000', 'memory.high': '2147483648',
-            'memory.max': '3221225472', 'memory.swap.max': '0', 'pids.max': '128'}
+expected = {'cpu.max': '200000 100000', 'memory.high': '1073741824',
+            'memory.max': '1610612736', 'memory.swap.max': '0', 'pids.max': '128'}
 actual = {name: (group / name).read_text().strip() for name in expected}
 if actual != expected:
     raise RuntimeError('actual search profiling resource controls differ')

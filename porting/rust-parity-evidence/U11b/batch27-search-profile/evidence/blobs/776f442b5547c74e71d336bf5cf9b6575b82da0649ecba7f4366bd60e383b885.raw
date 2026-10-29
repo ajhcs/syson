@@ -1,0 +1,131 @@
+{
+  "status": "PASS_34_CANDIDATE_ROUTING_CASES_FMT_CLIPPY_WASM;PARENT_ACCEPTANCE_OPEN",
+  "inputs_before": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/workspace/build/builderbob/syson-batch27-20261029/run_u11b_checks_01.py": "cac7d26e00a2e10182a1246fafe871117c3ac123b1dc32d2ab4d099cfddad29b",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/clippy-driver": "89b6cc8d0d988b00a3f65bc90c76fedbaedb6bcb442b34563aefe3621f26544b",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustfmt": "68cb47a2a38daa8ff2ec6d623a2374b0a165d77ec74f1f654216665018c04598",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/Cargo.lock": "f42752ea0ff35cd2c33d1ddc16b2d6b1048c211c5131e78bab20f3122e5e6ab9",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/Cargo.toml": "d32e1c499c9c20393c897367ae0cba379f2449e7f5b7b947f2057b388394f3b2",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/NOTICE.md": "5ef7c2864d35e71ee8124ed54846b717277a63d376663952fbe6523ad698be40",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/src/admission.rs": "6d1e1f41bb433fcb4a88e93ba1796497c6d0bffd39e2f9867cb9a91ba467efb2",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/src/lib.rs": "b25b60441094da0104992ab44911bcfe658f4e9f553222d2c2cb9a863b04f677",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/src/placement.rs": "cd5de614196e30f55082c0ec68ffe9680936678dde19e3f5faa141fb2bbcfb01",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/src/types.rs": "35de35516616e84226ee0812767e92f86ed3eae618ba28abb6fa806e6349f55f",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/tests/admission.rs": "6e5ce1888cd86004b948dc65b0120373534451bda7b4bd2ee1ad0a8baa8f1464",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/tests/layout.rs": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/Cargo.lock": "cbeb1ec0e9bb18f268a50a5e180b3b41adc56c6d5d906ac4b8f6ed3cf4ad0339",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/Cargo.toml": "a19cd635eca728f7c1778913ad3a67d39a2a68d306355090727c8d3c00a6be38",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/NOTICE.md": "4f6aa487b58feb5f1d24aec51013541d2d6c030f1e1cfc0761531d33a442996d",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/src/admission.rs": "62e43c1a62e12bee37b8067378b688f4d98d13f51a4dbabb3be1c435ade886c1",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/src/lib.rs": "7cab183cced836ece2bae8331a8ec770a93869b1ef544242e23db4368ea9676d",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/src/search.rs": "f7425fbdba9afbd4caece1fb0a87a04bcd28fe6fce1ff2d691d5e27101d37cd8",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/tests/admission.rs": "4d73f7346790c510bf4487ded825e849a228b304f55a8ec88839d120a8cdd383",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/tests/routing.rs": "d0d38c1511f556bcba2c1286225bb22a0474a814e87e82d0968cc2621509eb5d"
+  },
+  "commands": [
+    {
+      "label": "format",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "failure": null,
+      "wall_seconds": 0.03976425505243242,
+      "test_cases_passed": 0
+    },
+    {
+      "label": "tests",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "failure": null,
+      "wall_seconds": 2.1761673419969156,
+      "test_cases_passed": 34
+    },
+    {
+      "label": "clippy",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "failure": null,
+      "wall_seconds": 0.26361434697173536,
+      "test_cases_passed": 0
+    },
+    {
+      "label": "wasm",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit": 0,
+      "failure": null,
+      "wall_seconds": 0.18398896104190499,
+      "test_cases_passed": 0
+    }
+  ],
+  "scope": "34 actual candidate admission/search cases against landed U11a/U10b; native/UI/capacity acceptance open",
+  "inputs_after": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/workspace/build/builderbob/syson-batch27-20261029/run_u11b_checks_01.py": "cac7d26e00a2e10182a1246fafe871117c3ac123b1dc32d2ab4d099cfddad29b",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/clippy-driver": "89b6cc8d0d988b00a3f65bc90c76fedbaedb6bcb442b34563aefe3621f26544b",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustfmt": "68cb47a2a38daa8ff2ec6d623a2374b0a165d77ec74f1f654216665018c04598",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/Cargo.lock": "f42752ea0ff35cd2c33d1ddc16b2d6b1048c211c5131e78bab20f3122e5e6ab9",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/Cargo.toml": "d32e1c499c9c20393c897367ae0cba379f2449e7f5b7b947f2057b388394f3b2",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/NOTICE.md": "5ef7c2864d35e71ee8124ed54846b717277a63d376663952fbe6523ad698be40",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/src/admission.rs": "6d1e1f41bb433fcb4a88e93ba1796497c6d0bffd39e2f9867cb9a91ba467efb2",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/src/lib.rs": "b25b60441094da0104992ab44911bcfe658f4e9f553222d2c2cb9a863b04f677",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/src/placement.rs": "cd5de614196e30f55082c0ec68ffe9680936678dde19e3f5faa141fb2bbcfb01",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/src/types.rs": "35de35516616e84226ee0812767e92f86ed3eae618ba28abb6fa806e6349f55f",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/tests/admission.rs": "6e5ce1888cd86004b948dc65b0120373534451bda7b4bd2ee1ad0a8baa8f1464",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-layout/tests/layout.rs": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/Cargo.lock": "cbeb1ec0e9bb18f268a50a5e180b3b41adc56c6d5d906ac4b8f6ed3cf4ad0339",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/Cargo.toml": "a19cd635eca728f7c1778913ad3a67d39a2a68d306355090727c8d3c00a6be38",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/NOTICE.md": "4f6aa487b58feb5f1d24aec51013541d2d6c030f1e1cfc0761531d33a442996d",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/src/admission.rs": "62e43c1a62e12bee37b8067378b688f4d98d13f51a4dbabb3be1c435ade886c1",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/src/lib.rs": "7cab183cced836ece2bae8331a8ec770a93869b1ef544242e23db4368ea9676d",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/src/search.rs": "f7425fbdba9afbd4caece1fb0a87a04bcd28fe6fce1ff2d691d5e27101d37cd8",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/tests/admission.rs": "4d73f7346790c510bf4487ded825e849a228b304f55a8ec88839d120a8cdd383",
+    "/workspace/worktrees/builderbob/syson/batch27-routing-search/rust/crates/syson-routing/tests/routing.rs": "d0d38c1511f556bcba2c1286225bb22a0474a814e87e82d0968cc2621509eb5d"
+  }
+}

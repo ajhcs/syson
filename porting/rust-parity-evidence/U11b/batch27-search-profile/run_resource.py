@@ -2,7 +2,7 @@
 from pathlib import Path
 import contextlib, hashlib, json, os, pwd, signal, subprocess, sys, time
 base = Path(__file__).resolve().parent
-output = Path('/workspace/build/builderbob/syson-batch27-20261029/u11b-search-resource-02')
+output = Path('/workspace/build/builderbob/syson-batch27-20261029/u11b-search-resource-04')
 output.mkdir(mode=0o700)
 driver, profile = base / 'run_profile.py', base / 'profile.rs'
 helper = Path('/workspace/worktrees/builderbob/syson/batch26-scope-ownership/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py')
@@ -14,7 +14,7 @@ sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
 snapshot = lambda: {str(path): sha(path) for path in sorted(files)}
 record = {'status': 'FAIL_PRESERVED', 'exit': None, 'timed_out': False,
           'scope': 'Actual integer search observations only; fractional/native/UI/p95/capacity remain OPEN',
-          'allocation': 'Experimental outer 02: 2 GiB high/3 GiB max; fresh 7 GiB host minimum preserves 4 GiB arithmetic margin, not a memory-capacity claim'}
+          'allocation': 'Experimental outer 04: 1 GiB high/1536 MiB max; fresh 5.5 GiB host minimum preserves 4 GiB arithmetic margin; release peak unproven'}
 child, ownership, unit, cookie, attempted = None, None, None, None, False
 proof_path = output / 'ownership.json'
 env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ.get('HOME'), 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8',
@@ -44,7 +44,7 @@ try:
     mem = {line.split(':')[0]: int(line.split()[1]) for line in Path('/proc/meminfo').read_text().splitlines()}
     disk = os.statvfs('/workspace')
     record['headroom'] = {'available_memory_kib': mem['MemAvailable'], 'available_disk_bytes': disk.f_bavail * disk.f_frsize}
-    if mem['MemAvailable'] < 7 * 1024**2 or disk.f_bavail * disk.f_frsize < 30 * 1024**3:
+    if mem['MemAvailable'] < 5767168 or disk.f_bavail * disk.f_frsize < 30 * 1024**3:
         raise RuntimeError('insufficient fresh headroom')
     unit, cookie = ownership['new_attempt']('syson-u11b-search-profile-')
     record['unit'], record['cookie'] = unit, cookie
@@ -52,7 +52,7 @@ try:
     if record['initial_state']['LoadState'] != 'not-found':
         raise RuntimeError('fresh search profile unit exists; preserve it')
     argv = ['/usr/bin/systemd-run', '--user', '--scope', '--collect', '--quiet', '--unit=' + unit,
-            '-p', 'CPUQuota=200%', '-p', 'MemoryHigh=2G', '-p', 'MemoryMax=3G',
+            '-p', 'CPUQuota=200%', '-p', 'MemoryHigh=1G', '-p', 'MemoryMax=1536M',
             '-p', 'MemorySwapMax=0', '-p', 'TasksMax=128', '-p', 'RuntimeMaxSec=720s',
             '/usr/bin/python3', '-I', '-B', str(base / 'entry.py'), str(driver),
             record['inputs_before'][str(driver)], record['inputs_before'][str(profile)],
