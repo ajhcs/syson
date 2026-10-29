@@ -1,0 +1,43 @@
+from pathlib import Path
+import hashlib, json, os, subprocess, time
+b = Path(__file__).parent
+o = b / 'c09a-checks-01'
+o.mkdir()
+(o / 'tmp').mkdir()
+w = Path('/workspace/worktrees/builderbob/syson/batch23-capture-admission')
+module = w / 'porting/rust-parity-evidence/C09/batch22-comment-comparison'
+constructor = Path('/workspace/worktrees/builderbob/syson/plan-remaining-rewrite/porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py')
+config = {'constructor_comparator': str(constructor), 'temporary_root': str(o / 'tmp'), 'epochs': {}}
+for epoch, attempt, corpus in [('15', 'p01-qualification-05', 'p01-corpus.json'), ('25', 'p01-qualification-06', 'p01-corpus-v2.json')]:
+    config['epochs'][epoch] = {name: str(path) for name, path in {'corpus': b / corpus, 'native': b / attempt / 'native-comments.json', 'rust': b / attempt / 'rust-comments.json', 'receipt': b / attempt / 'receipt.json'}.items()}
+manifest = o / 'fixtures.json'
+manifest.write_text(json.dumps(config, indent=2) + '\n')
+(o / 'executed-runner.py').write_bytes(Path(__file__).read_bytes())
+files = {Path(__file__), manifest, constructor, module / 'capture_p01.py', module / 'tests/test_capture_p01.py'}
+files.update(Path(path) for epoch in config['epochs'].values() for path in epoch.values())
+sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+snapshot = lambda: {str(p): sha(p) for p in sorted(files)}
+record = {'status': 'RUNNING', 'inputs_before': snapshot(), 'commands': [], 'scope': 'C09a capture schema and receipt declarations only; no native execution causality or parent parity acceptance.'}
+env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ['HOME'], 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8', 'TMPDIR': str(o / 'tmp'), 'PYTHONDONTWRITEBYTECODE': '1', 'SYSON_C09A_FIXTURES': str(manifest)}
+try:
+    for label, flags in [('normal', []), ('optimized', ['-O'])]:
+        argv = ['/usr/bin/python3', '-B', *flags, str(module / 'tests/test_capture_p01.py'), '-v']
+        started = time.monotonic()
+        result = subprocess.run(argv, cwd=o, env=env, capture_output=True, timeout=120)
+        (o / (label + '-stdout.txt')).write_bytes(result.stdout)
+        (o / (label + '-stderr.txt')).write_bytes(result.stderr)
+        row = {'label': label, 'argv': argv, 'exit': result.returncode, 'wall_seconds': time.monotonic() - started}
+        record['commands'].append(row)
+        print(json.dumps(row), flush=True)
+        if result.returncode != 0 or b'Ran 17 tests' not in result.stderr:
+            raise ValueError('Actual17tests failed: ' + label)
+    record['status'] = 'PASS_17_PUBLIC_ADMISSION_TESTS_NORMAL_AND_OPTIMIZED'
+except BaseException as error:
+    record.update(status='FAIL_TERMINAL', error=repr(error))
+    raise
+finally:
+    record['inputs_after'] = snapshot()
+    record['source_unchanged'] = record['inputs_before'] == record['inputs_after']
+    (o / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    if not record['source_unchanged']:
+        raise ValueError('Source drift')

@@ -1,0 +1,342 @@
+"""Public admission tests against retained raw epochs, not a schema mirror.
+
+Set SYSON_C09A_FIXTURES to a JSON manifest containing constructor_comparator,
+temporary_root (an existing owned /workspace directory), and epochs keyed by
+'15'/'25', each with corpus/native/rust/receipt file paths. No root-disk fallback.
+"""
+import copy
+import hashlib
+import json
+import os
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import capture_p01 as capture
+
+
+class CaptureAdmissionTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.config = json.loads(Path(os.environ['SYSON_C09A_FIXTURES']).read_bytes())
+        cls.constructor = Path(cls.config['constructor_comparator'])
+        cls.temporary_root = Path(cls.config['temporary_root']).resolve()
+        if not cls.temporary_root.is_relative_to('/workspace') or not cls.temporary_root.is_dir():
+            raise ValueError('tests require an existing owned Samsung workspace directory')
+        cls.raw = {
+            epoch: {name: Path(path).read_bytes() for name, path in paths.items()}
+            for epoch, paths in cls.config['epochs'].items()
+        }
+        if set(cls.raw) != {'15', '25'} or any(
+            set(blobs) != {'corpus', 'native', 'rust', 'receipt'} for blobs in cls.raw.values()
+        ):
+            raise ValueError('both complete epoch fixture sets are required')
+
+    def admit(self, raw=None, epoch='25', constructor=None):
+        blobs = self.raw[epoch] if raw is None else raw
+        return capture.admit(*(blobs[name] for name in ['corpus', 'native', 'rust', 'receipt']),
+                             constructor or self.constructor)
+
+    def modified(self, name, change):
+        blobs = dict(self.raw['25'])
+        doc = json.loads(blobs[name])
+        change(doc)
+        blobs[name] = json.dumps(doc).encode()
+        return blobs
+
+    def rejected(self, name, change):
+        with self.assertRaises(ValueError):
+            self.admit(self.modified(name, change))
+
+    def test_both_complete_epochs_use_the_real_pinned_validator(self):
+        for epoch in ['15', '25']:
+            with self.subTest(epoch=epoch):
+                context = self.admit(epoch=epoch)
+                self.assertEqual(context['status'], 'ADMITTED_SCHEMA_AND_DECLARATIONS_ONLY')
+                self.assertEqual(len(context['native']['cases']), int(epoch))
+                self.assertEqual(len(context['native_tables']), int(epoch))
+                self.assertEqual(context['native'], json.loads(self.raw[epoch]['native']))
+                self.assertEqual(context['rust'], json.loads(self.raw[epoch]['rust']))
+                self.assertEqual(context['validator'].__name__, 'validate_rust_capture')
+                self.assertEqual(context['validator'].__globals__['__file__'], str(self.constructor))
+                self.assertEqual(context['input_sha256']['corpus'],
+                                 hashlib.sha256(self.raw[epoch]['corpus']).hexdigest())
+
+    def test_malformed_duplicate_and_nonfinite_json_are_refused(self):
+        for raw in [b'{', b'{"x":1,"x":2}', b'NaN', b'Infinity', b'-Infinity', b'1e999', b'\xff']:
+            with self.subTest(raw=raw):
+                blobs = dict(self.raw['25'], native=raw)
+                with self.assertRaises(ValueError):
+                    self.admit(blobs)
+        with self.assertRaises(ValueError):
+            self.admit(dict(self.raw['25'], native='not byte input'))
+
+    def test_raw_epoch_bytes_and_coherent_corpus_changes_are_refused(self):
+        with self.assertRaisesRegex(ValueError, 'pinned exact corpus bytes'):
+            self.admit(dict(self.raw['25'], corpus=self.raw['25']['corpus'] + b'\n'))
+        for change in ['truncate', 'reverse', 'origin']:
+            with self.subTest(change=change):
+                docs = {name: json.loads(raw) for name, raw in self.raw['25'].items()}
+                for name in ['corpus', 'native', 'rust']:
+                    if change == 'truncate':
+                        docs[name]['cases'].pop()
+                    elif change == 'reverse':
+                        docs[name]['cases'].reverse()
+                if change == 'origin':
+                    docs['corpus']['cases'][0]['origin'] += '-changed'
+                corpus_bytes = json.dumps(docs['corpus']).encode()
+                new_hash = hashlib.sha256(corpus_bytes).hexdigest()
+                docs['native']['provenance']['corpus_sha256'] = new_hash
+                docs['native']['provenance']['corpus_cases'] = len(docs['corpus']['cases'])
+                command = next(c for c in docs['receipt']['commands'] if c['label'] == 'rust-comments')
+                for name in ['inputs_before', 'prepared_inputs_before', 'inputs_after']:
+                    docs['receipt'][name][command['argv'][-1]] = new_hash
+                blobs = {name: json.dumps(doc).encode() for name, doc in docs.items()}
+                with self.assertRaisesRegex(ValueError, 'pinned exact corpus bytes'):
+                    self.admit(blobs)
+
+    def test_capture_case_ids_coverage_and_order_must_match(self):
+        for name in ['native', 'rust']:
+            for operation in ['missing', 'duplicate', 'reverse', 'identity']:
+                with self.subTest(name=name, operation=operation):
+                    def change(doc):
+                        if operation == 'missing':
+                            doc['cases'].pop()
+                        elif operation == 'duplicate':
+                            doc['cases'].append(copy.deepcopy(doc['cases'][0]))
+                        elif operation == 'reverse':
+                            doc['cases'].reverse()
+                        else:
+                            doc['cases'][0]['id'] += '-changed'
+                    self.rejected(name, change)
+
+    def test_case_source_and_rust_top_level_schema_are_not_guessed(self):
+        for name in ['native', 'rust']:
+            self.rejected(name, lambda d: d['cases'][0].update(source='different source'))
+        for value in [True, 2, '1']:
+            self.rejected('rust', lambda d: d.update(schema=value))
+        self.rejected('rust', lambda d: d.update(scope=False))
+        self.rejected('rust', lambda d: d.update(unexpected='field'))
+
+    def test_native_source_module_and_corpus_provenance_pins(self):
+        for key in ['bundle_sha256', 'source_baseline', 'source_candidate',
+                    'evaluated_prefix_sha256', 'evaluated_prefix_bytes',
+                    'embedded_module_sha256', 'corpus_sha256', 'corpus_cases']:
+            with self.subTest(key=key):
+                def change(doc):
+                    doc['provenance'][key] = False
+                self.rejected('native', change)
+
+    def test_native_data_descriptors_require_values_and_boolean_flags(self):
+        self.rejected('native', lambda d: d['cases'][0]['tree']['objects'][0]['properties'][0].pop('value'))
+        self.rejected('native', lambda d: d['cases'][0]['tree']['objects'][0]['properties'][0]['descriptor'].update(writable=1))
+        self.rejected('native', lambda d: d['cases'][0]['tree']['objects'][0]['property_keys'].pop())
+        def duplicate(doc):
+            obj = doc['cases'][0]['tree']['objects'][0]
+            obj['properties'].append(copy.deepcopy(obj['properties'][0]))
+            obj['property_keys'].append(obj['property_keys'][0])
+        self.rejected('native', duplicate)
+        def accessor(doc):
+            obj = next(o for o in doc['cases'][0]['tree']['objects'] if o['kind'] == 'reference')
+            row = next(p for p in obj['properties'] if p['descriptor'].get('accessor'))
+            row['descriptor'].pop('getter')
+        self.rejected('native', accessor)
+
+    def test_every_native_cst_span_and_object_link_is_validated(self):
+        for operation in ['missing', 'range-link', 'text', 'boolean-offset', 'length', 'object-link']:
+            with self.subTest(operation=operation):
+                def change(doc):
+                    tree = doc['cases'][0]['tree']
+                    span = tree['cst'][0]['span']
+                    if operation == 'missing':
+                        tree['cst'].pop(0)
+                    elif operation == 'range-link':
+                        span['range'] = {'$object': 'not-captured'}
+                    elif operation == 'text':
+                        span['text'] += '-wrong'
+                    elif operation == 'boolean-offset':
+                        span['offset'] = False
+                    elif operation == 'length':
+                        span['length'] += 1
+                    else:
+                        row = next(p for p in tree['objects'][0]['properties'] if p['key'] == 'children')
+                        row['value'] = {'$object': 'not-captured'}
+                self.rejected('native', change)
+
+    def test_native_cst_ranges_bind_typed_positions_to_whole_source(self):
+        for operation in ['false', 'existing-object', 'missing-field', 'boolean', 'coordinate']:
+            with self.subTest(operation=operation):
+                def change(doc):
+                    tree = doc['cases'][0]['tree']
+                    span = tree['cst'][0]['span']
+                    objects = {row['id']: row for row in tree['objects']}
+                    if operation == 'false':
+                        span['range'] = False
+                    elif operation == 'existing-object':
+                        span['range'] = {'$object': tree['objects'][0]['id']}
+                    else:
+                        bounds = objects[span['range']['$object']]
+                        start = next(p['value'] for p in bounds['properties'] if p['key'] == 'start')
+                        position = objects[start['$object']]
+                        if operation == 'missing-field':
+                            position['properties'] = [p for p in position['properties'] if p['key'] != 'line']
+                            position['property_keys'].remove('line')
+                        else:
+                            row = next(p for p in position['properties'] if p['key'] == 'line')
+                            row['value'] = False if operation == 'boolean' else row['value'] + 1
+                self.rejected('native', change)
+
+    def test_exact_native_recovery_coordinates_remain_raw_and_strict(self):
+        for offset in [17, 18, 32]:
+            with self.subTest(offset=offset):
+                def change(doc):
+                    case = next(c for c in doc['cases'] if c['id'] == 'quoted-error-offset')
+                    tree = case['tree']
+                    objects = {row['id']: row for row in tree['objects']}
+                    node = next(n for n in tree['cst'] if offset in [n['span']['offset'], n['span']['end']])
+                    name = 'start' if node['span']['offset'] == offset else 'end'
+                    bounds = objects[node['span']['range']['$object']]
+                    position_ref = next(p['value'] for p in bounds['properties'] if p['key'] == name)
+                    position = objects[position_ref['$object']]
+                    next(p for p in position['properties'] if p['key'] == 'character')['value'] += 1
+                self.rejected('native', change)
+
+    def test_nested_native_descriptors_have_the_public_refusal_type(self):
+        native = json.loads(self.raw['25']['native'])
+        obj = native['cases'][0]['tree']['objects'][0]
+        obj['property_keys'].append('deep')
+        obj['properties'].append({'key': 'deep', 'descriptor': {
+            'enumerable': True, 'configurable': True, 'writable': True},
+            'value': '__c09a_nested_value__'})
+        raw = json.dumps(native).encode()
+        prefix = (b'{"kind":"grammar_context","property_keys":["nested"],"properties":['
+                  b'{"key":"nested","descriptor":{"enumerable":true,"configurable":true,'
+                  b'"writable":true},"value":')
+        nested = prefix * 1100 + b'{"kind":"undefined"}' + b'}]}' * 1100
+        self.assertEqual(raw.count(b'"__c09a_nested_value__"'), 1)
+        raw = raw.replace(b'"__c09a_nested_value__"', nested, 1)
+        with self.assertRaisesRegex(ValueError, 'malformed capture shape'):
+            self.admit(dict(self.raw['25'], native=raw))
+
+    def test_native_diagnostic_records_and_scalar_data_are_bound(self):
+        def record(doc):
+            case = next(c for c in doc['cases'] if c['id'] == '09-commented-closing-brace')
+            case['parser_errors'][0]['record'] = {'$object': 'not-captured'}
+        self.rejected('native', record)
+        def scalar(doc):
+            case = next(c for c in doc['cases'] if c['id'] == '09-commented-closing-brace')
+            case['parser_errors'][0]['scalar_fields']['message'] += '-changed'
+        self.rejected('native', scalar)
+        def missing_message(doc):
+            case = next(c for c in doc['cases'] if c['id'] == '09-commented-closing-brace')
+            case['parser_errors'][0]['scalar_fields'].pop('message')
+        self.rejected('native', missing_message)
+        def empty_summary(doc):
+            case = next(c for c in doc['cases'] if c['id'] == '09-commented-closing-brace')
+            case['parser_errors'][0]['scalar_fields'].clear()
+        self.rejected('native', empty_summary)
+
+    def test_real_public_rust_schema_rejects_boolean_handles_and_missing_data(self):
+        def change(doc, operation):
+            arena = doc['cases'][0]['outcome']
+            if operation == 'root':
+                arena['root'] = False
+            elif operation == 'node':
+                arena['nodes'][0]['id'] = False
+            elif operation == 'origin':
+                next(n for n in arena['nodes'] if n['node_type'] == 'FeatureTyping').pop('origin')
+            elif operation == 'Datum':
+                arena['nodes'][0]['fields']['$children'].pop('lexeme')
+            else:
+                arena['nodes'][0]['fields']['$children']['value']['kind'] = 'unknown-kind'
+        for operation in ['root', 'node', 'origin', 'Datum', 'kind']:
+            with self.subTest(operation=operation):
+                self.rejected('rust', lambda d: change(d, operation))
+
+    def test_all_rust_node_origins_and_nested_datum_lexemes_bind_source(self):
+        for operation in ['node', 'nested', 'default', 'utf16']:
+            with self.subTest(operation=operation):
+                def change(doc):
+                    arena = doc['cases'][0]['outcome']
+                    node = next(n for n in arena['nodes'] if n['node_type'] == 'TypeReference')
+                    if operation == 'node':
+                        node['origin']['text'] += '-wrong'
+                    elif operation == 'nested':
+                        node['fields']['parts']['value']['items'][0]['lexeme']['text'] += '-wrong'
+                    elif operation == 'default':
+                        node['fields']['$children']['lexeme'] = {'bytes': [0, 0], 'utf16': [0, 0], 'text': 'wrong'}
+                    else:
+                        node['origin']['utf16'][0] += 1
+                self.rejected('rust', change)
+
+    def test_unavailable_accessors_and_unknown_ast_types_are_retained(self):
+        blobs = dict(self.raw['25'])
+        native, rust = (json.loads(blobs[name]) for name in ['native', 'rust'])
+        reference = next(o for o in native['cases'][0]['tree']['objects'] if o['kind'] == 'reference')
+        reference['properties'] = [p for p in reference['properties'] if p['key'] != '$refNode']
+        reference['property_keys'].remove('$refNode')
+        next(n for n in rust['cases'][0]['outcome']['nodes'] if n['node_type'] == 'TypeReference')['node_type'] = 'UnknownAstType'
+        blobs.update(native=json.dumps(native).encode(), rust=json.dumps(rust).encode())
+        context = self.admit(blobs)
+        self.assertEqual(context['native'], native)
+        self.assertEqual(context['rust'], rust)
+        fields = context['native_tables'][native['cases'][0]['id']][2][reference['id']]
+        self.assertEqual(fields['ref'], {'kind': 'unevaluated_accessor'})
+        self.assertFalse(context['full_parity_claimed'])
+
+    def test_receipt_input_maps_source_drift_and_kernel_pin(self):
+        for operation in ['drift', 'initial', 'prepared', 'kernel']:
+            with self.subTest(operation=operation):
+                def change(doc):
+                    if operation == 'drift':
+                        doc['source_unchanged'] = False
+                    elif operation == 'initial':
+                        doc['inputs_before'][next(iter(doc['inputs_before']))] = '0' * 64
+                    elif operation == 'prepared':
+                        doc['prepared_inputs_before']['/unadmitted/input'] = '0' * 64
+                    else:
+                        for name in ['inputs_before', 'prepared_inputs_before', 'inputs_after']:
+                            for path in doc[name]:
+                                if path.endswith('/rust/crates/syson-ast/src/lib.rs'):
+                                    doc[name][path] = '0' * 64
+                self.rejected('receipt', change)
+
+    def test_receipt_argv_exit_timeout_and_command_identity(self):
+        for operation in ['argv', 'exit', 'expected', 'timeout', 'missing', 'duplicate']:
+            with self.subTest(operation=operation):
+                def change(doc):
+                    command = next(c for c in doc['commands'] if c['label'] == 'rust-comments')
+                    if operation == 'argv':
+                        command['argv'][-1] = '/unbound/corpus.json'
+                    elif operation == 'exit':
+                        command['exit'] = False
+                    elif operation == 'expected':
+                        command['expected_exit'] = False
+                    elif operation == 'timeout':
+                        command['timed_out'] = 0
+                    elif operation == 'missing':
+                        command['label'] = 'not-rust-comments'
+                    else:
+                        doc['commands'].append(copy.deepcopy(command))
+                self.rejected('receipt', change)
+
+    def test_declaration_binding_does_not_claim_output_causality(self):
+        context = self.admit()
+        self.assertIn('no output digest', context['qualification_binding']['limit'])
+        self.assertIn('independent artifact/stdout review', context['qualification_binding']['limit'])
+        self.assertFalse(context['full_parity_claimed'])
+
+    def test_changed_constructor_is_rejected_before_its_code_executes(self):
+        with tempfile.TemporaryDirectory(dir=self.temporary_root, prefix='c09a-module-') as tmp:
+            root = Path(tmp)
+            marker, module = root / 'executed', root / 'changed.py'
+            module.write_text('from pathlib import Path\nPath(' + repr(str(marker)) + ").write_text('ran')\n")
+            with self.assertRaisesRegex(ValueError, 'constructor comparator source hash mismatch'):
+                self.admit(constructor=module)
+            self.assertFalse(marker.exists())
+
+
+if __name__ == '__main__':
+    unittest.main()

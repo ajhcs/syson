@@ -1,0 +1,120 @@
+test_all_rust_node_origins_and_nested_datum_lexemes_bind_source (__main__.CaptureAdmissionTests.test_all_rust_node_origins_and_nested_datum_lexemes_bind_source) ... ok
+test_both_complete_epochs_use_the_real_pinned_validator (__main__.CaptureAdmissionTests.test_both_complete_epochs_use_the_real_pinned_validator) ... 
+  test_both_complete_epochs_use_the_real_pinned_validator (__main__.CaptureAdmissionTests.test_both_complete_epochs_use_the_real_pinned_validator) (epoch='15') ... ERROR
+  test_both_complete_epochs_use_the_real_pinned_validator (__main__.CaptureAdmissionTests.test_both_complete_epochs_use_the_real_pinned_validator) (epoch='25') ... ERROR
+test_capture_case_ids_coverage_and_order_must_match (__main__.CaptureAdmissionTests.test_capture_case_ids_coverage_and_order_must_match) ... ok
+test_case_source_and_rust_top_level_schema_are_not_guessed (__main__.CaptureAdmissionTests.test_case_source_and_rust_top_level_schema_are_not_guessed) ... ok
+test_changed_constructor_is_rejected_before_its_code_executes (__main__.CaptureAdmissionTests.test_changed_constructor_is_rejected_before_its_code_executes) ... ok
+test_declaration_binding_does_not_claim_output_causality (__main__.CaptureAdmissionTests.test_declaration_binding_does_not_claim_output_causality) ... ERROR
+test_every_native_cst_span_and_object_link_is_validated (__main__.CaptureAdmissionTests.test_every_native_cst_span_and_object_link_is_validated) ... ok
+test_malformed_duplicate_and_nonfinite_json_are_refused (__main__.CaptureAdmissionTests.test_malformed_duplicate_and_nonfinite_json_are_refused) ... ok
+test_native_cst_ranges_bind_typed_positions_to_whole_source (__main__.CaptureAdmissionTests.test_native_cst_ranges_bind_typed_positions_to_whole_source) ... ok
+test_native_data_descriptors_require_values_and_boolean_flags (__main__.CaptureAdmissionTests.test_native_data_descriptors_require_values_and_boolean_flags) ... ok
+test_native_diagnostic_records_and_scalar_data_are_bound (__main__.CaptureAdmissionTests.test_native_diagnostic_records_and_scalar_data_are_bound) ... ok
+test_native_source_module_and_corpus_provenance_pins (__main__.CaptureAdmissionTests.test_native_source_module_and_corpus_provenance_pins) ... ok
+test_raw_epoch_bytes_and_coherent_corpus_changes_are_refused (__main__.CaptureAdmissionTests.test_raw_epoch_bytes_and_coherent_corpus_changes_are_refused) ... ok
+test_real_public_rust_schema_rejects_boolean_handles_and_missing_data (__main__.CaptureAdmissionTests.test_real_public_rust_schema_rejects_boolean_handles_and_missing_data) ... ok
+test_receipt_argv_exit_timeout_and_command_identity (__main__.CaptureAdmissionTests.test_receipt_argv_exit_timeout_and_command_identity) ... ok
+test_receipt_input_maps_source_drift_and_kernel_pin (__main__.CaptureAdmissionTests.test_receipt_input_maps_source_drift_and_kernel_pin) ... ok
+test_unavailable_accessors_and_unknown_ast_types_are_retained (__main__.CaptureAdmissionTests.test_unavailable_accessors_and_unknown_ast_types_are_retained) ... ERROR
+
+======================================================================
+ERROR: test_both_complete_epochs_use_the_real_pinned_validator (__main__.CaptureAdmissionTests.test_both_complete_epochs_use_the_real_pinned_validator) (epoch='15')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py", line 56, in test_both_complete_epochs_use_the_real_pinned_validator
+    context = self.admit(epoch=epoch)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py", line 39, in admit
+    return capture.admit(*(blobs[name] for name in ['corpus', 'native', 'rust', 'receipt']),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 397, in admit
+    return _admit(corpus_raw, native_raw, rust_raw, receipt_raw, constructor_comparator)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 380, in _admit
+    native_tables[cid] = native_records(n)
+                         ^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 317, in native_records
+    validate_range(node['span'])
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 290, in validate_range
+    require(all(type(v) is int for v in location.values()) and
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 51, in require
+    raise ValueError(message)
+ValueError: native CST range/source mismatch
+
+======================================================================
+ERROR: test_both_complete_epochs_use_the_real_pinned_validator (__main__.CaptureAdmissionTests.test_both_complete_epochs_use_the_real_pinned_validator) (epoch='25')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py", line 56, in test_both_complete_epochs_use_the_real_pinned_validator
+    context = self.admit(epoch=epoch)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py", line 39, in admit
+    return capture.admit(*(blobs[name] for name in ['corpus', 'native', 'rust', 'receipt']),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 397, in admit
+    return _admit(corpus_raw, native_raw, rust_raw, receipt_raw, constructor_comparator)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 380, in _admit
+    native_tables[cid] = native_records(n)
+                         ^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 317, in native_records
+    validate_range(node['span'])
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 290, in validate_range
+    require(all(type(v) is int for v in location.values()) and
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 51, in require
+    raise ValueError(message)
+ValueError: native CST range/source mismatch
+
+======================================================================
+ERROR: test_declaration_binding_does_not_claim_output_causality (__main__.CaptureAdmissionTests.test_declaration_binding_does_not_claim_output_causality)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py", line 294, in test_declaration_binding_does_not_claim_output_causality
+    context = self.admit()
+              ^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py", line 39, in admit
+    return capture.admit(*(blobs[name] for name in ['corpus', 'native', 'rust', 'receipt']),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 397, in admit
+    return _admit(corpus_raw, native_raw, rust_raw, receipt_raw, constructor_comparator)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 380, in _admit
+    native_tables[cid] = native_records(n)
+                         ^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 317, in native_records
+    validate_range(node['span'])
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 290, in validate_range
+    require(all(type(v) is int for v in location.values()) and
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 51, in require
+    raise ValueError(message)
+ValueError: native CST range/source mismatch
+
+======================================================================
+ERROR: test_unavailable_accessors_and_unknown_ast_types_are_retained (__main__.CaptureAdmissionTests.test_unavailable_accessors_and_unknown_ast_types_are_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py", line 250, in test_unavailable_accessors_and_unknown_ast_types_are_retained
+    context = self.admit(blobs)
+              ^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py", line 39, in admit
+    return capture.admit(*(blobs[name] for name in ['corpus', 'native', 'rust', 'receipt']),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 397, in admit
+    return _admit(corpus_raw, native_raw, rust_raw, receipt_raw, constructor_comparator)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 380, in _admit
+    native_tables[cid] = native_records(n)
+                         ^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 317, in native_records
+    validate_range(node['span'])
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 290, in validate_range
+    require(all(type(v) is int for v in location.values()) and
+  File "/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py", line 51, in require
+    raise ValueError(message)
+ValueError: native CST range/source mismatch
+
+----------------------------------------------------------------------
+Ran 17 tests in 1.661s
+
+FAILED (errors=4)
