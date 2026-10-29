@@ -1,0 +1,27 @@
+from pathlib import Path
+import json,subprocess,os,time,hashlib,fcntl,signal,re
+b=Path(__file__).parent;o=b/'checks-01';o.mkdir();tmp=o/'tmp';tmp.mkdir();(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+roots={'references':Path('/workspace/worktrees/builderbob/syson/batch17-references'),'reflection':Path('/workspace/worktrees/builderbob/syson/batch17-reflection')};folders={'references':'rust/crates/syson-references','reflection':'rust/crates/syson-reflection'}
+files={k:sorted(p for p in (w/folders[k]).rglob('*') if p.is_file()) for k,w in roots.items()}
+# External include_str source fixtures and generator preparation are real inputs.
+refs=roots['references'];files['references'] += [refs/'backend/application/syson-application-configuration/src/main/resources/templates/Batmobile.json',refs/'backend/application/syson-application-configuration/src/main/resources/sysml.libraries/StandardViewDefinitions.json']
+ref=roots['reflection'];files['reflection'] += sorted(p for p in (ref/'porting/ast/reflection-preparation').rglob('*') if p.is_file())
+snap=lambda:{k:{str(p.relative_to(roots[k])):sha(p) for p in ps} for k,ps in files.items()}
+r={'status':'RUNNING','source_before':snap(),'commands':[],'scope':'Frozen F04/F08 components on current main; actualcaller/native/UI/fullfeature gates remain separate.'};lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+env=dict(os.environ,CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(tmp),PYTHONDONTWRITEBYTECODE='1')
+try:
+ for key,w in roots.items():
+  m=str(w/folders[key]/'Cargo.toml');rs=[str(p) for p in files[key] if p.suffix=='.rs']
+  commands=[['rustfmt','--edition','2024','--config','skip_children=true','--check',*rs],['cargo','test','--offline','--locked','--jobs','1','--manifest-path',m,'--','--test-threads=1','--nocapture'],['cargo','clippy','--offline','--locked','--jobs','1','--manifest-path',m,'--all-targets','--','-D','warnings'],['cargo','check','--offline','--locked','--jobs','1','--manifest-path',m,'--target','wasm32-unknown-unknown']]
+  # Preserve generator output comparison at its expected own evidence locator.
+  if key=='reflection':
+   evidence=w/'porting/follow-ons/F08';evidence.mkdir(parents=True,exist_ok=True);data=subprocess.check_output(['git','show','7d1eb8a1a05c292c78ca27482158c6dfe5196c3b:porting/follow-ons/F08/source-mapping.json'],cwd=w);(evidence/'source-mapping.json').write_bytes(data);commands.append(['python3',str(w/folders[key]/'tools/generate.py'),'--check'])
+  for argv in commands:
+   t=time.monotonic();p=subprocess.Popen(argv,cwd=w,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+   try:stdout,stderr=p.communicate(timeout=180);timed=False
+   except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+   i=len(r['commands']);(o/f'{i:02}-stdout.txt').write_bytes(stdout);(o/f'{i:02}-stderr.txt').write_bytes(stderr);row={'scope':key,'argv':argv,'exit_code':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t,'tests_passed':sum(map(int,re.findall(rb'test result: ok\. (\d+) passed;',stdout)))};r['commands'].append(row);(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(row),flush=True)
+   if p.returncode or timed:raise RuntimeError('Affected gate failed; preserve output')
+ r['status']='PASS_FROZEN_COMPONENT_GATES;NATIVE_UI_AND_CONSUMING_WORKFLOW_OPEN'
+finally:
+ r['source_after']=snap();r['source_unchanged']=r['source_before']==r['source_after'];r['artifacts']={p.name:sha(p) for p in o.iterdir() if p.is_file() and p.name!='receipt.json'};(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert r['source_unchanged'],'source drift'

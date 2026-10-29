@@ -1,0 +1,253 @@
+{
+  "status": "PASS_FROZEN_COMPONENT_GATES;NATIVE_UI_AND_CONSUMING_WORKFLOW_OPEN",
+  "source_before": {
+    "references": {
+      "rust/crates/syson-references/Cargo.lock": "0583897502f6a96b5fae9a8434c747f5a19eba6e5c686b0364744c40c36e6f6e",
+      "rust/crates/syson-references/Cargo.toml": "4ea6062fbcb6a577e12b31efd00f154d039fcdc3894939f1b8b863b8ee33677d",
+      "rust/crates/syson-references/src/lib.rs": "680480f1b961226a3f68d4eaf9aae113f83e2c7359b5ca6923c7011e4f4ff453",
+      "rust/crates/syson-references/tests/references.rs": "42d299c6f6e40a1c3ecf6414e4a7fe3458e22f2844ef44d97beca040d2c4e67c",
+      "backend/application/syson-application-configuration/src/main/resources/templates/Batmobile.json": "9d5af374c3823ee9ac439d21fb94023a566fab6f5dcbf3dc5e3b939eca86d505",
+      "backend/application/syson-application-configuration/src/main/resources/sysml.libraries/StandardViewDefinitions.json": "7c9b3caa33dd1a08ba7a8b95ce05086781857c65e68626e0c706ef84230a1ac8"
+    },
+    "reflection": {
+      "rust/crates/syson-reflection/Cargo.lock": "13e69271935b9a25a3724e23b972f0380fa37aa83444733806d7e9a04cba8e04",
+      "rust/crates/syson-reflection/Cargo.toml": "0cc1aa2f8c2f035614876c29d425051e6311d0056948ba8c7a7df33e3dcef3ca",
+      "rust/crates/syson-reflection/NOTICE.md": "b11c95fd99fc89ca43ddd5bd0b103136bc2793da2dd7194677eeadc880a62bf7",
+      "rust/crates/syson-reflection/src/generated.rs": "39651ef2b972a3628747a24f9aff5e13ca95eec70cbec7e50165518f9737ffb1",
+      "rust/crates/syson-reflection/src/lib.rs": "73ead0b106d3fb1186fcaed5050225af2eb36897401795901f7df735265dea20",
+      "rust/crates/syson-reflection/tests/reflection.rs": "3eed21dd7c7d196307345d40b089911bf89fa6fc7a6020310afe90d8212f4744",
+      "rust/crates/syson-reflection/tests/source_tables.tsv": "d40b4a5551176d4f87a573c471fd21558d7b354a50a1c9039f7fd74850b88576",
+      "rust/crates/syson-reflection/tools/generate.py": "43e5c7ca5460bdbef28b00b736fa4419a663c34039053cf669c6bf045c1c6a8e",
+      "porting/ast/reflection-preparation/README.md": "8d22d93d4a78d2f7088082d2554a86f99562234b5d9fd91b59017107b1cb7173",
+      "porting/ast/reflection-preparation/candidate-source-documents.jsonl": "4e476baba509598443591b54d68064d25a3d3c20dc36065bddfb35a0c683b5ce",
+      "porting/ast/reflection-preparation/embedded-module-documents.jsonl": "fbb998d0283170874f7b8c4c9357f87a4e4f34cf3e2683bcc1ec50145f625ba9",
+      "porting/ast/reflection-preparation/generated-subtype-clauses.jsonl": "13b6b15bf733df4db576278f0a02753a34bc89a31608ca12afb31be023999856",
+      "porting/ast/reflection-preparation/generated-type-declarations.jsonl": "42c01266563bc83917f4040ce8ec41397f420b58a663a62ec1283394da131fb0",
+      "porting/ast/reflection-preparation/prepare_reflection.py": "ce203b70bc6d422c826c937a35bde062c2254c80357349efe7aa0abe7caed11d",
+      "porting/ast/reflection-preparation/qualification-gaps.json": "b7363a085d2157cd8a24f5a8b77a799f8dedf5ac4d53fbfd895b74e277c4f3ab",
+      "porting/ast/reflection-preparation/summary.json": "29e49aeb680d84783a94f472e48cbe125bfd95d9af0da23fbc567deb6c53d1d2",
+      "porting/ast/reflection-preparation/typeindex-call-sites.jsonl": "a6dc28625772d3a80858fc87809835bbd456adf0931ddf1177ed75ba98759e5e"
+    }
+  },
+  "commands": [
+    {
+      "scope": "references",
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--config",
+        "skip_children=true",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch17-references/rust/crates/syson-references/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/batch17-references/rust/crates/syson-references/tests/references.rs"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.010896146995946765,
+      "tests_passed": 0
+    },
+    {
+      "scope": "references",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch17-references/rust/crates/syson-references/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 1.067027092911303,
+      "tests_passed": 18
+    },
+    {
+      "scope": "references",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch17-references/rust/crates/syson-references/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.35607082303613424,
+      "tests_passed": 0
+    },
+    {
+      "scope": "references",
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch17-references/rust/crates/syson-references/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.2795747999334708,
+      "tests_passed": 0
+    },
+    {
+      "scope": "reflection",
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--config",
+        "skip_children=true",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch17-reflection/rust/crates/syson-reflection/src/generated.rs",
+        "/workspace/worktrees/builderbob/syson/batch17-reflection/rust/crates/syson-reflection/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/batch17-reflection/rust/crates/syson-reflection/tests/reflection.rs"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.009333264082670212,
+      "tests_passed": 0
+    },
+    {
+      "scope": "reflection",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch17-reflection/rust/crates/syson-reflection/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.3269700719974935,
+      "tests_passed": 10
+    },
+    {
+      "scope": "reflection",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch17-reflection/rust/crates/syson-reflection/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.13814389903564006,
+      "tests_passed": 0
+    },
+    {
+      "scope": "reflection",
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch17-reflection/rust/crates/syson-reflection/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.05443818401545286,
+      "tests_passed": 0
+    },
+    {
+      "scope": "reflection",
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch17-reflection/rust/crates/syson-reflection/tools/generate.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.020426496979780495,
+      "tests_passed": 0
+    }
+  ],
+  "scope": "Frozen F04/F08 components on current main; actualcaller/native/UI/fullfeature gates remain separate.",
+  "source_after": {
+    "references": {
+      "rust/crates/syson-references/Cargo.lock": "0583897502f6a96b5fae9a8434c747f5a19eba6e5c686b0364744c40c36e6f6e",
+      "rust/crates/syson-references/Cargo.toml": "4ea6062fbcb6a577e12b31efd00f154d039fcdc3894939f1b8b863b8ee33677d",
+      "rust/crates/syson-references/src/lib.rs": "680480f1b961226a3f68d4eaf9aae113f83e2c7359b5ca6923c7011e4f4ff453",
+      "rust/crates/syson-references/tests/references.rs": "42d299c6f6e40a1c3ecf6414e4a7fe3458e22f2844ef44d97beca040d2c4e67c",
+      "backend/application/syson-application-configuration/src/main/resources/templates/Batmobile.json": "9d5af374c3823ee9ac439d21fb94023a566fab6f5dcbf3dc5e3b939eca86d505",
+      "backend/application/syson-application-configuration/src/main/resources/sysml.libraries/StandardViewDefinitions.json": "7c9b3caa33dd1a08ba7a8b95ce05086781857c65e68626e0c706ef84230a1ac8"
+    },
+    "reflection": {
+      "rust/crates/syson-reflection/Cargo.lock": "13e69271935b9a25a3724e23b972f0380fa37aa83444733806d7e9a04cba8e04",
+      "rust/crates/syson-reflection/Cargo.toml": "0cc1aa2f8c2f035614876c29d425051e6311d0056948ba8c7a7df33e3dcef3ca",
+      "rust/crates/syson-reflection/NOTICE.md": "b11c95fd99fc89ca43ddd5bd0b103136bc2793da2dd7194677eeadc880a62bf7",
+      "rust/crates/syson-reflection/src/generated.rs": "39651ef2b972a3628747a24f9aff5e13ca95eec70cbec7e50165518f9737ffb1",
+      "rust/crates/syson-reflection/src/lib.rs": "73ead0b106d3fb1186fcaed5050225af2eb36897401795901f7df735265dea20",
+      "rust/crates/syson-reflection/tests/reflection.rs": "3eed21dd7c7d196307345d40b089911bf89fa6fc7a6020310afe90d8212f4744",
+      "rust/crates/syson-reflection/tests/source_tables.tsv": "d40b4a5551176d4f87a573c471fd21558d7b354a50a1c9039f7fd74850b88576",
+      "rust/crates/syson-reflection/tools/generate.py": "43e5c7ca5460bdbef28b00b736fa4419a663c34039053cf669c6bf045c1c6a8e",
+      "porting/ast/reflection-preparation/README.md": "8d22d93d4a78d2f7088082d2554a86f99562234b5d9fd91b59017107b1cb7173",
+      "porting/ast/reflection-preparation/candidate-source-documents.jsonl": "4e476baba509598443591b54d68064d25a3d3c20dc36065bddfb35a0c683b5ce",
+      "porting/ast/reflection-preparation/embedded-module-documents.jsonl": "fbb998d0283170874f7b8c4c9357f87a4e4f34cf3e2683bcc1ec50145f625ba9",
+      "porting/ast/reflection-preparation/generated-subtype-clauses.jsonl": "13b6b15bf733df4db576278f0a02753a34bc89a31608ca12afb31be023999856",
+      "porting/ast/reflection-preparation/generated-type-declarations.jsonl": "42c01266563bc83917f4040ce8ec41397f420b58a663a62ec1283394da131fb0",
+      "porting/ast/reflection-preparation/prepare_reflection.py": "ce203b70bc6d422c826c937a35bde062c2254c80357349efe7aa0abe7caed11d",
+      "porting/ast/reflection-preparation/qualification-gaps.json": "b7363a085d2157cd8a24f5a8b77a799f8dedf5ac4d53fbfd895b74e277c4f3ab",
+      "porting/ast/reflection-preparation/summary.json": "29e49aeb680d84783a94f472e48cbe125bfd95d9af0da23fbc567deb6c53d1d2",
+      "porting/ast/reflection-preparation/typeindex-call-sites.jsonl": "a6dc28625772d3a80858fc87809835bbd456adf0931ddf1177ed75ba98759e5e"
+    }
+  },
+  "source_unchanged": true,
+  "artifacts": {
+    "07-stderr.txt": "e0e7fed372a395e48742f66f77254fa0e6763c38257cd24b159bd119abbd9460",
+    "03-stderr.txt": "f9feb3792f4b0dcf8eb13372a15910bd272ca7414f6bcd8c010cd9db3966c95a",
+    "02-stderr.txt": "b2d41e9ea0a087c0f79106783a453981a12cffdb7ea6d6109a41ae645f77d137",
+    "07-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "04-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "01-stdout.txt": "c4c421ec3d7c7c923c6e452d5af81d59a4064d9a9df2a35664185da1270ae22b",
+    "06-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "executed-runner.py": "dfa999c422bf5314df72a2daf8e07412e7c7116ad4f9506fb92813e77a3de19f",
+    "04-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "08-stdout.txt": "486070ecad48d5f5d941fac51de228d295d77bbe81033ee58a0d888b8e964ee3",
+    "08-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "01-stderr.txt": "c6818931df7dd32b4e927ced64e74cd6fdfff5b050881f2ea2e96977e70c56d7",
+    "06-stderr.txt": "b7d2ebbb843b1574a90f9278de915c84715b875e27eff0f8adafb88ddd3b8cfb",
+    "00-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "03-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "02-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "05-stdout.txt": "6c657355b66c77983d2f4ab28862a3de386db97cc19e17a5a85545491d548cbd",
+    "05-stderr.txt": "7f048c8fdcbfd3c762c68876ffe1bcc3df0cacd89d89a425fa440b2f6d47f8d3"
+  }
+}

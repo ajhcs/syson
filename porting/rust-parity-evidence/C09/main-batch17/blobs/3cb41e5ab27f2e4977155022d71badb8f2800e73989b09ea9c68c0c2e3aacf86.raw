@@ -1,0 +1,18 @@
+"""Development-only native ResourceSet probe, serialized by the coordinator."""
+from pathlib import Path
+import argparse,fcntl,hashlib,json,os,signal,subprocess,time
+p=argparse.ArgumentParser();p.add_argument('--classpath',type=Path,required=True);p.add_argument('--java',type=Path,required=True);p.add_argument('--javac',type=Path,required=True);p.add_argument('--fixture',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
+a.out.mkdir();classes=a.out/'classes';classes.mkdir();empty=a.out/'empty';empty.mkdir();tmp=a.out/'tmp';tmp.mkdir();source=Path(__file__).with_name('ReferenceObserver.java');sha=lambda f:hashlib.sha256(Path(f).read_bytes()).hexdigest()
+(a.out/'ReferenceObserver.java').write_bytes(source.read_bytes());(a.out/'executed-runner.py').write_bytes(Path(__file__).read_bytes());cp=json.loads(a.classpath.read_text());inputs={x['path']:x['sha256'] for x in cp['classpath']};inputs.update({str(x):sha(x) for x in [source,Path(__file__),a.classpath,a.java,a.javac,a.fixture]});assert all(sha(f)==h for f,h in inputs.items())
+lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);classpath=os.pathsep.join(x['path'] for x in cp['classpath'])
+commands=[[str(a.javac),'-J-Xmx512m','--release','21','-proc:none','-implicit:none','-sourcepath',str(empty),'-classpath',classpath,'-d',str(classes),str(source)],[str(a.java),'-Xmx1536m','-XX:ActiveProcessorCount=2','-Djava.io.tmpdir='+str(tmp),'-classpath',str(classes)+os.pathsep+classpath,'ReferenceObserver',str(a.fixture),str(a.out/'observation.json')]]
+r={'status':'FAIL','inputs_before':inputs,'commands':[],'scope':'Actual selected native ResourceSet/eGet; no database/app/UI/whole-source closure.'}
+try:
+ for i,argv in enumerate(commands):
+  t=time.monotonic();child=subprocess.Popen(argv,cwd=a.out,env={k:os.environ[k] for k in ['HOME','PATH']}|{'LANG':'C.UTF-8','LC_ALL':'C.UTF-8'},stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:out,err=child.communicate(timeout=180);timed=False
+  except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);out,err=child.communicate();timed=True
+  (a.out/f'{i:02}-stdout.txt').write_bytes(out);(a.out/f'{i:02}-stderr.txt').write_bytes(err);r['commands'].append({'argv':argv,'pid':child.pid,'exit':child.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t});print(json.dumps({'stage':i,'exit':child.returncode}),flush=True);assert child.returncode==0 and not timed,err.decode()[-1000:]
+ r['status']='PASS_ACTUAL_SELECTED_NATIVE_OBSERVATION'
+finally:
+ r['inputs_after']={f:sha(f) for f in inputs};r['source_unchanged']=r['inputs_before']==r['inputs_after'];r['artifacts']={str(f.relative_to(a.out)):sha(f) for f in a.out.rglob('*') if f.is_file() and f.name!='receipt.json'};(a.out/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
