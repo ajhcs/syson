@@ -101,6 +101,9 @@ def validate(plan,root):
             require(owner in ids,'Undefined model owner '+str(owner))
     # Keep precise legacy diagnostic guards first; the full verifier always checks all old records.
     validate_routing_splits(contract, plan)
+    from team_policy import validate_teams
+    expected = validate_teams(json.loads((root/'teams.json').read_bytes()), plan)
+    require(json.loads((root/'team-dispatch.json').read_bytes()) == expected, 'Team dispatch drift')
     return {'static_contract_integrity':'PASS;behavioral_acceptance_remains_open','units':len(units),'source_graph_acyclic':True,'readiness_graph_nodes':len(stages),'readiness_graph_acyclic':True,'unordered_write_conflicts':0,'all_14_original_remaining_briefs_mapped':True,'source_assignment_counts_verified':True}
 
 def completion(plan,state,repo):
@@ -143,6 +146,8 @@ def self_test(plan,root):
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('comparison_repairs', {}).values()]
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('routing_kernel_splits', {}).values()]
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('forest_kernel_splits', {}).values()]
+    if contract.get('team_execution'):
+        amendment_paths.append(contract['team_execution']['amendment']['path'])
     for amendment_path in amendment_paths:
         rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
                 (b'\n' if name==amendment_path else b'')), 'amendment hash mismatch')

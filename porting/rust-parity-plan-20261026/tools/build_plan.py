@@ -209,6 +209,10 @@ result={'schema':1,'target_source':'6ba2ac64e6b16ee2b05752ad55395eebb87d4910',
  'readiness_graph':stage_edges,'readiness_graph_acyclic':True,
  'readiness_meaning':overlay['milestones'],
  'source_author_dispatch_waves':waves,'units':sorted(UNITS,key=lambda u:u['id'])}
+from team_policy import validate_teams
+result['team_execution'] = CONTRACT['team_execution']
+team_dispatch = validate_teams(json.loads((PLAN/'teams.json').read_bytes()), result)
+(PLAN/'team-dispatch.json').write_text(json.dumps(team_dispatch, indent=2)+'\n')
 (PLAN/'plan.json').write_text(json.dumps(result,indent=2)+'\n')
 briefs=PLAN/'prs';briefs.mkdir(exist_ok=True)
 def render(value):

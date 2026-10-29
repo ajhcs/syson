@@ -34,7 +34,7 @@ def validate(root, read=None):
     require(lock['base_main'] == register['base_main'], 'base identity')
     required = {'README.md', 'REMAINING-WORK.md', 'plan.json', 'execution.json',
                 'dispatch.json', 'PR-INDEX.md', 'completion-contract.lock.json',
-                'remaining-work/units.json', 'remaining-work/verify_snapshot.py'}
+                'remaining-work/units.json', 'remaining-work/verify_snapshot.py', 'team-dispatch.json'}
     required.update(lock.get('progress_inputs', []))
     required.update(contract_lock['sha256'])
     required.update('prs/' + unit['id'] + '.md' for unit in plan['units'])
