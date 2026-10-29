@@ -1,0 +1,2797 @@
+{
+  "source_baseline": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "source_candidate": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+  "retained_source_sha256": {
+    "packages/syside-languageserver/src/generated/ast.ts": "982a5b2415abbc4ad8f29cab3facbf5fbe29a9dc7cc7bde42a58ad0849de9c02",
+    "packages/syside-languageserver/src/model/types.ts": "61c221ebe23bee6f61757a72f515ce2aeafb111a8bbf3cc6fce9c3a9415c4f3c",
+    "packages/syside-languageserver/src/services/sysml-ast-reflection.ts": "9f43aba6051f1ef68b36730212e5ebdbb906816fac746a644be7cd6e89c9607b",
+    "packages/syside-languageserver/src/model/__tests__/type-index.test.ts": "d2e1acbb3888d0d9d6f95170e6975ef9b7ce2c8338fed76467d1e86d51698a15"
+  },
+  "prepared_input_sha256": {
+    "generated-type-declarations.jsonl": "42c01266563bc83917f4040ce8ec41397f420b58a663a62ec1283394da131fb0",
+    "summary.json": "29e49aeb680d84783a94f472e48cbe125bfd95d9af0da23fbc567deb6c53d1d2"
+  },
+  "generated_names": 189,
+  "filtered_ast_names": 184,
+  "maximum_sort_partition": 13,
+  "ordering_policy": "SOURCE_DERIVED_STABLE_SHORT_SORT_CANDIDATE",
+  "ordering_limits": "Partial subtype comparator is not a strict weak order. CPython fixture sort and Rust explicit stable short-sort agreement is static cross-check evidence, not proof of original JavaScript order.",
+  "strict_source_chain_expectations": {
+    "Element": [],
+    "Comment": [
+      "TextualAnnotatingElement",
+      "AnnotatingElement",
+      "Element"
+    ],
+    "Feature": [
+      "Type",
+      "Namespace",
+      "Element"
+    ],
+    "OperatorExpression": [
+      "InvocationExpression",
+      "InlineExpression",
+      "Expression",
+      "Step",
+      "Feature",
+      "Type",
+      "Namespace",
+      "Element"
+    ]
+  },
+  "input_partitions": [
+    {
+      "type": "AcceptActionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ActionDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Behavior",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ActionUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ActorMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "ParameterMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "AllocationDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Association",
+        "AssociationStructure",
+        "Class",
+        "Classifier",
+        "ConnectionDefinition",
+        "Definition",
+        "ItemDefinition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "PartDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "AllocationUsage",
+      "unions": [],
+      "namespace_types": [
+        "ConnectionUsage",
+        "Connector",
+        "ConnectorAsUsage",
+        "Feature",
+        "ItemUsage",
+        "Namespace",
+        "OccurrenceUsage",
+        "PartUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "AnalysisCaseDefinition",
+      "unions": [],
+      "namespace_types": [
+        "ActionDefinition",
+        "Behavior",
+        "CalculationDefinition",
+        "CaseDefinition",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "AnalysisCaseUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "CalculationUsage",
+        "CaseUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "AnnotatingElement",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Annotation",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "AssertConstraintUsage",
+      "unions": [],
+      "namespace_types": [
+        "BooleanExpression",
+        "ConstraintUsage",
+        "Expression",
+        "Feature",
+        "Invariant",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "AssignmentActionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Association",
+      "unions": [],
+      "namespace_types": [
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "AssociationStructure",
+      "unions": [],
+      "namespace_types": [
+        "Association",
+        "Class",
+        "Classifier",
+        "Namespace",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "AttributeDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Classifier",
+        "DataType",
+        "Definition",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "AttributeUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Behavior",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "BindingConnector",
+      "unions": [],
+      "namespace_types": [
+        "Connector",
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "BindingConnectorAsUsage",
+      "unions": [],
+      "namespace_types": [
+        "BindingConnector",
+        "Connector",
+        "ConnectorAsUsage",
+        "Feature",
+        "Namespace",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "BooleanExpression",
+      "unions": [],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "CalculationDefinition",
+      "unions": [],
+      "namespace_types": [
+        "ActionDefinition",
+        "Behavior",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "CalculationUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "CaseDefinition",
+      "unions": [],
+      "namespace_types": [
+        "ActionDefinition",
+        "Behavior",
+        "CalculationDefinition",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "CaseUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "CalculationUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Class",
+      "unions": [],
+      "namespace_types": [
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Classifier",
+      "unions": [],
+      "namespace_types": [
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ClassifierReference",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "ElementReference",
+        "NamespaceReference",
+        "TypeReference"
+      ]
+    },
+    {
+      "type": "CollectExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "InvocationExpression",
+        "Namespace",
+        "OperatorExpression",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Comment",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "AnnotatingElement",
+        "Element",
+        "TextualAnnotatingElement"
+      ]
+    },
+    {
+      "type": "ConcernDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Behavior",
+        "Class",
+        "Classifier",
+        "ConstraintDefinition",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Predicate",
+        "RequirementDefinition",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ConcernUsage",
+      "unions": [],
+      "namespace_types": [
+        "BooleanExpression",
+        "ConstraintUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "RequirementUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ConjugatedPortDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "PortDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ConjugatedPortReference",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "ClassifierReference",
+        "ElementReference",
+        "NamespaceReference",
+        "TypeReference"
+      ]
+    },
+    {
+      "type": "ConjugatedPortTyping",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureTyping",
+        "Inheritance",
+        "Relationship",
+        "Specialization"
+      ]
+    },
+    {
+      "type": "Conjugation",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Inheritance",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ConnectionDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Association",
+        "AssociationStructure",
+        "Class",
+        "Classifier",
+        "Definition",
+        "ItemDefinition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "PartDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ConnectionUsage",
+      "unions": [],
+      "namespace_types": [
+        "Connector",
+        "ConnectorAsUsage",
+        "Feature",
+        "ItemUsage",
+        "Namespace",
+        "OccurrenceUsage",
+        "PartUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Connector",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ConnectorAsUsage",
+      "unions": [],
+      "namespace_types": [
+        "Connector",
+        "Feature",
+        "Namespace",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ConstraintDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Behavior",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Predicate",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ConstraintUsage",
+      "unions": [],
+      "namespace_types": [
+        "BooleanExpression",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ControlNode",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "CrossSubsetting",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Inheritance",
+        "Relationship",
+        "Specialization",
+        "Subsetting"
+      ]
+    },
+    {
+      "type": "DataType",
+      "unions": [],
+      "namespace_types": [
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "DecisionNode",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "ControlNode",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Definition",
+      "unions": [],
+      "namespace_types": [
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Dependency",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Differencing",
+      "unions": [
+        "FeatureRelationship",
+        "TypeRelationship"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Disjoining",
+      "unions": [
+        "FeatureRelationship",
+        "TypeRelationship"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Documentation",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "AnnotatingElement",
+        "Comment",
+        "Element",
+        "TextualAnnotatingElement"
+      ]
+    },
+    {
+      "type": "Element",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": []
+    },
+    {
+      "type": "ElementFilterMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ElementReference",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": []
+    },
+    {
+      "type": "EndFeatureMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "EnumerationDefinition",
+      "unions": [],
+      "namespace_types": [
+        "AttributeDefinition",
+        "Classifier",
+        "DataType",
+        "Definition",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "EnumerationUsage",
+      "unions": [],
+      "namespace_types": [
+        "AttributeUsage",
+        "Feature",
+        "Namespace",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "EventOccurrenceUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ExhibitStateUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "EventOccurrenceUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "PerformActionUsage",
+        "StateUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Expose",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Import",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Expression",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Feature",
+      "unions": [],
+      "namespace_types": [
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "FeatureChainExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "InvocationExpression",
+        "Namespace",
+        "OperatorExpression",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "FeatureChaining",
+      "unions": [
+        "FeatureRelationship"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "FeatureInverting",
+      "unions": [
+        "FeatureRelationship"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "FeatureMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "FeatureReference",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "ElementReference",
+        "NamespaceReference",
+        "TypeReference"
+      ]
+    },
+    {
+      "type": "FeatureReferenceExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "FeatureRelationship",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": []
+    },
+    {
+      "type": "FeatureTyping",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Inheritance",
+        "Relationship",
+        "Specialization"
+      ]
+    },
+    {
+      "type": "FeatureValue",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Featuring",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "FlowConnectionDefinition",
+      "unions": [],
+      "namespace_types": [
+        "ActionDefinition",
+        "Association",
+        "Behavior",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Interaction",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "FlowConnectionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Connector",
+        "ConnectorAsUsage",
+        "Feature",
+        "ItemFlow",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ForLoopActionUsage",
+      "unions": [
+        "TransparentElement"
+      ],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "LoopActionUsage",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ForkNode",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "ControlNode",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "FramedConcernMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship",
+        "RequirementConstraintMembership"
+      ]
+    },
+    {
+      "type": "IfActionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Import",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "IncludeUseCaseUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "CalculationUsage",
+        "CaseUsage",
+        "EventOccurrenceUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "PerformActionUsage",
+        "Step",
+        "Type",
+        "Usage",
+        "UseCaseUsage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "IndexExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "InvocationExpression",
+        "Namespace",
+        "OperatorExpression",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Inheritance",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "InlineExpression",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": []
+    },
+    {
+      "type": "Interaction",
+      "unions": [],
+      "namespace_types": [
+        "Association",
+        "Behavior",
+        "Class",
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "InterfaceDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Association",
+        "AssociationStructure",
+        "Class",
+        "Classifier",
+        "ConnectionDefinition",
+        "Definition",
+        "ItemDefinition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "PartDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "InterfaceUsage",
+      "unions": [],
+      "namespace_types": [
+        "ConnectionUsage",
+        "Connector",
+        "ConnectorAsUsage",
+        "Feature",
+        "ItemUsage",
+        "Namespace",
+        "OccurrenceUsage",
+        "PartUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Intersecting",
+      "unions": [
+        "FeatureRelationship",
+        "TypeRelationship"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Invariant",
+      "unions": [],
+      "namespace_types": [
+        "BooleanExpression",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "InvocationExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ItemDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ItemFeature",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ItemFlow",
+      "unions": [],
+      "namespace_types": [
+        "Connector",
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ItemFlowEnd",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ItemUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "JoinNode",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "ControlNode",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "LibraryPackage",
+      "unions": [],
+      "namespace_types": [
+        "Namespace",
+        "Package"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "LifeClass",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "LiteralBoolean",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "LiteralExpression",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "LiteralExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "LiteralInfinity",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "LiteralExpression",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "LiteralNumber",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "LiteralExpression",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "LiteralString",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "LiteralExpression",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "LoopActionUsage",
+      "unions": [
+        "TransparentElement"
+      ],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Membership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "MembershipExpose",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Expose",
+        "Import",
+        "MembershipImport",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "MembershipImport",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Import",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "MembershipReference",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "ElementReference"
+      ]
+    },
+    {
+      "type": "MergeNode",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "ControlNode",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Metaclass",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Namespace",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "MetaclassReference",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "ClassifierReference",
+        "ElementReference",
+        "NamespaceReference",
+        "TypeReference"
+      ]
+    },
+    {
+      "type": "MetadataAccessExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "MetadataDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Definition",
+        "ItemDefinition",
+        "Metaclass",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "MetadataFeature",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "AnnotatingElement",
+        "Element"
+      ]
+    },
+    {
+      "type": "MetadataUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "ItemUsage",
+        "MetadataFeature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "AnnotatingElement",
+        "Element"
+      ]
+    },
+    {
+      "type": "Multiplicity",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "MultiplicityRange",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Multiplicity",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Namespace",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "NamespaceExpose",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Expose",
+        "Import",
+        "NamespaceImport",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "NamespaceImport",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Import",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "NamespaceReference",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "ElementReference"
+      ]
+    },
+    {
+      "type": "NonOwnerType",
+      "unions": [
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": []
+    },
+    {
+      "type": "NullExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ObjectiveMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "OccurrenceDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "OccurrenceUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "OperatorExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "InvocationExpression",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "OwningMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Membership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Package",
+      "unions": [],
+      "namespace_types": [
+        "Namespace"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ParameterMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "PartDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Definition",
+        "ItemDefinition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "PartUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "ItemUsage",
+        "Namespace",
+        "OccurrenceUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "PerformActionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "EventOccurrenceUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "PortConjugation",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Conjugation",
+        "Element",
+        "Inheritance",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "PortDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "PortUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Predicate",
+      "unions": [],
+      "namespace_types": [
+        "Behavior",
+        "Class",
+        "Classifier",
+        "Namespace",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Redefinition",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Inheritance",
+        "Relationship",
+        "Specialization",
+        "Subsetting"
+      ]
+    },
+    {
+      "type": "ReferenceSubsetting",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Inheritance",
+        "Relationship",
+        "Specialization",
+        "Subsetting"
+      ]
+    },
+    {
+      "type": "ReferenceUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Relationship",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "RenderingDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Definition",
+        "ItemDefinition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "PartDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "RenderingUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "ItemUsage",
+        "Namespace",
+        "OccurrenceUsage",
+        "PartUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "RequirementConstraintMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "RequirementDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Behavior",
+        "Class",
+        "Classifier",
+        "ConstraintDefinition",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Predicate",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "RequirementUsage",
+      "unions": [],
+      "namespace_types": [
+        "BooleanExpression",
+        "ConstraintUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "RequirementVerificationMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship",
+        "RequirementConstraintMembership"
+      ]
+    },
+    {
+      "type": "ResultExpressionMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ReturnParameterMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "ParameterMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "SatisfyRequirementUsage",
+      "unions": [],
+      "namespace_types": [
+        "AssertConstraintUsage",
+        "BooleanExpression",
+        "ConstraintUsage",
+        "Expression",
+        "Feature",
+        "Invariant",
+        "Namespace",
+        "OccurrenceUsage",
+        "RequirementUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "SelectExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "InvocationExpression",
+        "Namespace",
+        "OperatorExpression",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "SendActionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Specialization",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Inheritance",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "StakeholderMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "ParameterMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "StateDefinition",
+      "unions": [],
+      "namespace_types": [
+        "ActionDefinition",
+        "Behavior",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "StateSubactionMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "StateUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Step",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Structure",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Subclassification",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Inheritance",
+        "Relationship",
+        "Specialization"
+      ]
+    },
+    {
+      "type": "SubjectMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "ParameterMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Subsetting",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Inheritance",
+        "Relationship",
+        "Specialization"
+      ]
+    },
+    {
+      "type": "Succession",
+      "unions": [],
+      "namespace_types": [
+        "Connector",
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "SuccessionAsUsage",
+      "unions": [],
+      "namespace_types": [
+        "Connector",
+        "ConnectorAsUsage",
+        "Feature",
+        "Namespace",
+        "Succession",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "SuccessionFlowConnectionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Connector",
+        "ConnectorAsUsage",
+        "Feature",
+        "FlowConnectionUsage",
+        "ItemFlow",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Succession",
+        "SuccessionItemFlow",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "SuccessionItemFlow",
+      "unions": [],
+      "namespace_types": [
+        "Connector",
+        "Feature",
+        "ItemFlow",
+        "Namespace",
+        "Step",
+        "Succession",
+        "Type"
+      ],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "SysMLFunction",
+      "unions": [],
+      "namespace_types": [
+        "Behavior",
+        "Class",
+        "Classifier",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "TerminateActionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "TextualAnnotatingElement",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "AnnotatingElement",
+        "Element"
+      ]
+    },
+    {
+      "type": "TextualRepresentation",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "AnnotatingElement",
+        "Element",
+        "TextualAnnotatingElement"
+      ]
+    },
+    {
+      "type": "TransitionFeatureMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "TransitionUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "TransparentElement",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": []
+    },
+    {
+      "type": "TriggerInvocationExpression",
+      "unions": [
+        "InlineExpression"
+      ],
+      "namespace_types": [
+        "Expression",
+        "Feature",
+        "InvocationExpression",
+        "Namespace",
+        "Step",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "Type",
+      "unions": [],
+      "namespace_types": [
+        "Namespace"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "TypeFeaturing",
+      "unions": [
+        "FeatureRelationship"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Featuring",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "TypeReference",
+      "unions": [],
+      "namespace_types": [],
+      "relationships": [
+        "ElementReference",
+        "NamespaceReference"
+      ]
+    },
+    {
+      "type": "TypeRelationship",
+      "unions": [
+        "FeatureRelationship"
+      ],
+      "namespace_types": [],
+      "relationships": []
+    },
+    {
+      "type": "Unioning",
+      "unions": [
+        "FeatureRelationship",
+        "TypeRelationship"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "Usage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "Namespace",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "UseCaseDefinition",
+      "unions": [],
+      "namespace_types": [
+        "ActionDefinition",
+        "Behavior",
+        "CalculationDefinition",
+        "CaseDefinition",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "UseCaseUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "CalculationUsage",
+        "CaseUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "VariantMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "VerificationCaseDefinition",
+      "unions": [],
+      "namespace_types": [
+        "ActionDefinition",
+        "Behavior",
+        "CalculationDefinition",
+        "CaseDefinition",
+        "Class",
+        "Classifier",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "VerificationCaseUsage",
+      "unions": [],
+      "namespace_types": [
+        "ActionUsage",
+        "CalculationUsage",
+        "CaseUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ViewDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Class",
+        "Classifier",
+        "Definition",
+        "ItemDefinition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "PartDefinition",
+        "Structure",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ViewRenderingMembership",
+      "unions": [
+        "NonOwnerType",
+        "TransparentElement"
+      ],
+      "namespace_types": [],
+      "relationships": [
+        "Element",
+        "FeatureMembership",
+        "Featuring",
+        "Membership",
+        "OwningMembership",
+        "Relationship"
+      ]
+    },
+    {
+      "type": "ViewUsage",
+      "unions": [],
+      "namespace_types": [
+        "Feature",
+        "ItemUsage",
+        "Namespace",
+        "OccurrenceUsage",
+        "PartUsage",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ViewpointDefinition",
+      "unions": [],
+      "namespace_types": [
+        "Behavior",
+        "Class",
+        "Classifier",
+        "ConstraintDefinition",
+        "Definition",
+        "Namespace",
+        "OccurrenceDefinition",
+        "Predicate",
+        "RequirementDefinition",
+        "SysMLFunction",
+        "Type"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "ViewpointUsage",
+      "unions": [],
+      "namespace_types": [
+        "BooleanExpression",
+        "ConstraintUsage",
+        "Expression",
+        "Feature",
+        "Namespace",
+        "OccurrenceUsage",
+        "RequirementUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    },
+    {
+      "type": "WhileLoopActionUsage",
+      "unions": [
+        "TransparentElement"
+      ],
+      "namespace_types": [
+        "ActionUsage",
+        "Feature",
+        "LoopActionUsage",
+        "Namespace",
+        "OccurrenceUsage",
+        "Step",
+        "Type",
+        "Usage"
+      ],
+      "relationships": [
+        "Element"
+      ]
+    }
+  ],
+  "upstream_runtime": "NOT_RUN",
+  "upstream_order_parity_verified": false
+}
