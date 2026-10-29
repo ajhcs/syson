@@ -1,0 +1,106 @@
+{
+  "status": "RAW_DISPATCH_OBSERVATIONS_CAPTURED;COMPARISON_OPEN",
+  "inputs_before": {
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/Cargo.lock": "e2c47e4c5a0631c9eed7fbb72103960c78585308b02948ef4d0e87ca20248536",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/Cargo.toml": "c91cbed4e441ac92b1d4abf37e8f86c6362ccb2a8a072c57df6312ba10018508",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/NOTICE.md": "03bdf379ae4ee9ae3594604d6168cf984fbb0a60aa1fcde2cce4822b53aca9ab",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/src/lib.rs": "5d7ff68a4a1580fc71df734e1b82a6dbe23bc4b9503c671fe40bc38eedab1ce0",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/tests/dispatch.rs": "3fc744649b49ae82fa04adb9112aabcbd77c3383ab8ac15776c2e7dc9b503186",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/Cargo.lock": "13e69271935b9a25a3724e23b972f0380fa37aa83444733806d7e9a04cba8e04",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/Cargo.toml": "0cc1aa2f8c2f035614876c29d425051e6311d0056948ba8c7a7df33e3dcef3ca",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/NOTICE.md": "b11c95fd99fc89ca43ddd5bd0b103136bc2793da2dd7194677eeadc880a62bf7",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/src/generated.rs": "39651ef2b972a3628747a24f9aff5e13ca95eec70cbec7e50165518f9737ffb1",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/src/lib.rs": "73ead0b106d3fb1186fcaed5050225af2eb36897401795901f7df735265dea20",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/tests/reflection.rs": "3eed21dd7c7d196307345d40b089911bf89fa6fc7a6020310afe90d8212f4744",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/tests/source_tables.tsv": "d40b4a5551176d4f87a573c471fd21558d7b354a50a1c9039f7fd74850b88576",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/tools/generate.py": "43e5c7ca5460bdbef28b00b736fa4419a663c34039053cf669c6bf045c1c6a8e",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_oracle.cjs": "92b10af3b0090d6806e958a9e532247fcee29b0463cf6cbeee48a1fdd9054008",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_corpus.json": "2a0416405914ed4c26273d0d17796fbf04f2d093001ecc05e9282a4e68664f54",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_dump.rs": "663d940c0c3de5c298c1ec690428a7f8ee1598a53e3060670a26a86eb880e154",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/backend/application/syson-sysml-import/src/main/resources/syside-cli.js": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "/workspace/build/builderbob/syson-batch20-20261029/dispatch-differential-01/consumer/Cargo.toml": "3719bcd3813673a86e3a8fbf88d841b85c4489e5f114b6c3b3e25bf175f6f711",
+    "/usr/bin/node": "f3f93db342d5ac5bb61656d0599a603a73779e98befd9342171e550002725f4d"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/node",
+        "--max-old-space-size=1536",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_oracle.cjs",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch/backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_corpus.json",
+        "/workspace/build/builderbob/syson-batch20-20261029/dispatch-differential-01/native.json"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.2116451560286805
+    },
+    {
+      "argv": [
+        "cargo",
+        "generate-lockfile",
+        "--offline",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch20-20261029/dispatch-differential-01/consumer/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.035941765061579645
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--release",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch20-20261029/dispatch-differential-01/consumer/Cargo.toml",
+        "--bin",
+        "dispatch-dump",
+        "--",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_corpus.json"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 1.271004754002206
+    }
+  ],
+  "inputs_after": {
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/Cargo.lock": "e2c47e4c5a0631c9eed7fbb72103960c78585308b02948ef4d0e87ca20248536",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/Cargo.toml": "c91cbed4e441ac92b1d4abf37e8f86c6362ccb2a8a072c57df6312ba10018508",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/NOTICE.md": "03bdf379ae4ee9ae3594604d6168cf984fbb0a60aa1fcde2cce4822b53aca9ab",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/src/lib.rs": "5d7ff68a4a1580fc71df734e1b82a6dbe23bc4b9503c671fe40bc38eedab1ce0",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/tests/dispatch.rs": "3fc744649b49ae82fa04adb9112aabcbd77c3383ab8ac15776c2e7dc9b503186",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/Cargo.lock": "13e69271935b9a25a3724e23b972f0380fa37aa83444733806d7e9a04cba8e04",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/Cargo.toml": "0cc1aa2f8c2f035614876c29d425051e6311d0056948ba8c7a7df33e3dcef3ca",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/NOTICE.md": "b11c95fd99fc89ca43ddd5bd0b103136bc2793da2dd7194677eeadc880a62bf7",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/src/generated.rs": "39651ef2b972a3628747a24f9aff5e13ca95eec70cbec7e50165518f9737ffb1",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/src/lib.rs": "73ead0b106d3fb1186fcaed5050225af2eb36897401795901f7df735265dea20",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/tests/reflection.rs": "3eed21dd7c7d196307345d40b089911bf89fa6fc7a6020310afe90d8212f4744",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/tests/source_tables.tsv": "d40b4a5551176d4f87a573c471fd21558d7b354a50a1c9039f7fd74850b88576",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-reflection/tools/generate.py": "43e5c7ca5460bdbef28b00b736fa4419a663c34039053cf669c6bf045c1c6a8e",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_oracle.cjs": "92b10af3b0090d6806e958a9e532247fcee29b0463cf6cbeee48a1fdd9054008",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_corpus.json": "2a0416405914ed4c26273d0d17796fbf04f2d093001ecc05e9282a4e68664f54",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools/dispatch_dump.rs": "663d940c0c3de5c298c1ec690428a7f8ee1598a53e3060670a26a86eb880e154",
+    "/workspace/worktrees/builderbob/syson/batch20-dispatch/backend/application/syson-sysml-import/src/main/resources/syside-cli.js": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "/workspace/build/builderbob/syson-batch20-20261029/dispatch-differential-01/consumer/Cargo.toml": "3719bcd3813673a86e3a8fbf88d841b85c4489e5f114b6c3b3e25bf175f6f711",
+    "/usr/bin/node": "f3f93db342d5ac5bb61656d0599a603a73779e98befd9342171e550002725f4d"
+  },
+  "source_unchanged": true,
+  "artifacts": {
+    "02-stderr.txt": "cc32f4b88050338419413fc20697a52dfbce01dfcc1d51e42aad55c1657697c0",
+    "01-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native.json": "70faeaabff3c04e09b09d3e446c10804087f80ae0cd0f54a93ac8e2863cead5e",
+    "executed-runner.py": "d0b7bff80aa30b485f9e1e77c9e0df69e2e18a641cf4519f338c737763426af7",
+    "01-stderr.txt": "81c5f798b12a9fbb766f002b857f5415e2a7f15c3402a26045073bb7d07b8112",
+    "00-stdout.txt": "8ff7fdb7ca7149cb27f84b71a64fc7323aa960eee6d8ce32003666f87624a252",
+    "00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "02-stdout.txt": "93be15f4af838d6a344cd49b2cb33fbaf155f2675320e1ccf8d130f17b8e00ad",
+    "rust.json": "93be15f4af838d6a344cd49b2cb33fbaf155f2675320e1ccf8d130f17b8e00ad",
+    "consumer/Cargo.lock": "d5194baa498c5f8cf4f0ce703143ddf2c1cf46f9da7cc6715a962914029269f4",
+    "consumer/Cargo.toml": "3719bcd3813673a86e3a8fbf88d841b85c4489e5f114b6c3b3e25bf175f6f711"
+  }
+}
