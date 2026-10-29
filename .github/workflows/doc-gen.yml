@@ -20,6 +20,7 @@ permissions:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
+    if: github.repository == 'eclipse-syson/syson'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

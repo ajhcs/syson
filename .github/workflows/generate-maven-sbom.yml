@@ -23,6 +23,7 @@ permissions:
 
 jobs:
   generate-sbom:
+    if: github.repository == 'eclipse-syson/syson'
     name: Generate SBOM for backend
     runs-on: ubuntu-latest
     permissions:
