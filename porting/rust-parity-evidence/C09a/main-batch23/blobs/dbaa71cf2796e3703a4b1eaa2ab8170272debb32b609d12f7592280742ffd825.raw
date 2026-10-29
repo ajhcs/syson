@@ -1,0 +1,61 @@
+from pathlib import Path
+import copy, hashlib, json, sys, types
+b = Path(__file__).parent
+o = b / 'c09a-blindspots-01'
+o.mkdir()
+source = Path('/workspace/worktrees/builderbob/syson/batch23-capture-admission/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py')
+constructor = Path('/workspace/worktrees/builderbob/syson/plan-remaining-rewrite/porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py')
+sha = lambda raw: hashlib.sha256(raw).hexdigest()
+raw_source = source.read_bytes()
+if sha(raw_source) != 'd52374c80d0847e7fdf9c19682fc3d5bbba74263db3152a9d61c9654b9e48225':
+    raise ValueError('Unreviewed source')
+(o / 'executed-capture_p01.py').write_bytes(raw_source)
+(o / 'executed-runner.py').write_bytes(Path(__file__).read_bytes())
+module = types.ModuleType('frozen_c09a')
+module.__file__ = str(source)
+exec(compile(raw_source, str(source), 'exec'), module.__dict__)
+inputs = {str(source): sha(raw_source), str(constructor): sha(constructor.read_bytes())}
+fixtures = {}
+for epoch, attempt, corpus in [('15', 'p01-qualification-05', 'p01-corpus.json'), ('25', 'p01-qualification-06', 'p01-corpus-v2.json')]:
+    paths = {'corpus': b / corpus, 'native': b / attempt / 'native-comments.json', 'rust': b / attempt / 'rust-comments.json', 'receipt': b / attempt / 'receipt.json'}
+    fixtures[epoch] = {key: path.read_bytes() for key, path in paths.items()}
+    inputs.update({str(path): sha(path.read_bytes()) for path in paths.values()})
+results = []
+def admit(raw):
+    return module.admit(*(raw[k] for k in ['corpus', 'native', 'rust', 'receipt']), constructor)
+for epoch, blobs in fixtures.items():
+    context = admit(blobs)
+    results.append({'case': 'baseline-' + epoch, 'status': context['status']})
+for kind in ['range-false', 'range-existing-wrong-object', 'range-boolean-coordinate', 'range-coordinate-drift', 'diagnostic-missing-message', 'diagnostic-empty-scalars']:
+    raw = dict(fixtures['25'])
+    native = json.loads(raw['native'])
+    tree = native['cases'][0]['tree']
+    span = tree['cst'][0]['span']
+    objects = {r['id']: r for r in tree['objects']}
+    if kind == 'range-false':
+        span['range'] = False
+    elif kind == 'range-existing-wrong-object':
+        span['range'] = {'$object': tree['objects'][0]['id']}
+    elif kind.startswith('range-'):
+        range_obj = objects[span['range']['$object']]
+        start_ref = next(p['value'] for p in range_obj['properties'] if p['key'] == 'start')
+        position = objects[start_ref['$object']]
+        row = next(p for p in position['properties'] if p['key'] == 'line')
+        row['value'] = False if kind == 'range-boolean-coordinate' else row['value'] + 1
+    else:
+        case = next(c for c in native['cases'] if c['id'] == '09-commented-closing-brace')
+        scalar = case['parser_errors'][0]['scalar_fields']
+        if kind == 'diagnostic-empty-scalars':
+            scalar.clear()
+        else:
+            del scalar['message']
+    raw['native'] = json.dumps(native).encode()
+    (o / (kind + '-native.json')).write_bytes(raw['native'])
+    context = admit(raw)
+    results.append({'case': kind, 'status': context['status'], 'actual_silent_schema_pass': True, 'mutated_native_sha256': sha(raw['native'])})
+after = {path: sha(Path(path).read_bytes()) for path in inputs}
+if after != inputs:
+    raise ValueError('Input drift')
+record = {'status': 'REPRODUCED_6_REAL_SCHEMA_SILENT_PASSES', 'inputs_before': inputs, 'inputs_after': after, 'results': results, 'full_parity_claimed': False}
+(o / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+print(json.dumps({'status': record['status'], 'baseline_epochs': 2, 'actual_silent_passes': 6, 'source_unchanged': after == inputs}))
