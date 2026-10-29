@@ -1,0 +1,35 @@
+from pathlib import Path
+import hashlib,json,os,shutil,signal,subprocess,time
+b=Path(__file__).parent;o=b/'numeric-terminal-controls-02';o.mkdir();src=Path('/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric');rows=[]
+def identity(pid):
+ try:
+  x=Path(f'/proc/{pid}/stat').read_text().rsplit(')',1)[1].split();return {'pid':pid,'state':x[0],'start':x[19]}
+ except FileNotFoundError:return None
+for mode in ['term','post-popen']:
+ for version in ['old','new']:
+  case=o/(mode+'-'+version);case.mkdir();t=case/'tools';t.mkdir()
+  for p in src.iterdir():
+   if p.is_file():shutil.copy2(p,t/p.name)
+  p=t/'build_capture.py';raw=(b/'numeric-before-terminal-repair/build_capture.py').read_text() if version=='old' else p.read_text();marker=case/'ready';capture=case/'capture'
+  helper="import time;from pathlib import Path;Path("+repr(str(marker))+").write_text('running');time.sleep(60)"
+  if mode=='term':
+   needle="run('cargo-version', [cargo, '--version', '--verbose'])";assert raw.count(needle)==1;raw=raw.replace(needle,"run('wait-probe', ["+repr(shutil.which('python3'))+", '-c', "+repr(helper)+"])")
+  else:
+   needle="[rustup, 'which', 'cargo']";assert raw.count(needle)==1;raw=raw.replace(needle,"["+repr(shutil.which('python3'))+", '-c', "+repr(helper)+"]")
+   needle="            row['pid'] = child.pid";assert raw.count(needle)==1;raw=raw.replace(needle,needle+"\n            Path("+repr(str(marker))+ ").write_text(str(child.pid))\n            raise RuntimeError('controlled after-Popen exception')")
+  p.write_text(raw);argv=['python3',str(p),'--repo',str(src.parents[3]),'--corpus','/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json','--out',str(capture),'--target-dir','/workspace/build/builderbob/syson-batch15-20261029/target','--cargo-home','/workspace/cache/builderbob/global-tools/cargo']
+  with (case/'stdout.txt').open('wb') as stdout,(case/'stderr.txt').open('wb') as stderr:
+   proc=subprocess.Popen(argv,stdout=stdout,stderr=stderr,start_new_session=True);deadline=time.monotonic()+12;owned=None
+   while not marker.exists() and proc.poll() is None and time.monotonic()<deadline:time.sleep(.01)
+   if mode=='term':
+    assert marker.exists();children=Path(f'/proc/{proc.pid}/task/{proc.pid}/children').read_text().split();assert len(children)==1;owned=identity(int(children[0]));os.kill(proc.pid,signal.SIGTERM)
+   else:
+    assert marker.exists();owned=identity(int(marker.read_text()))
+   proc.wait(timeout=15)
+  time.sleep(.1);now=identity(owned['pid']) if owned else None;survives=bool(now and now['start']==owned['start'] and now['state']!='Z');receipt=json.loads((capture/'receipt.json').read_text()) if (capture/'receipt.json').exists() else None
+  row={'case':mode,'version':version,'exit':proc.returncode,'owned':owned,'survives':survives,'terminal_receipt':receipt and receipt['status'],'source_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'argv':argv}
+  if survives:os.killpg(owned['pid'],signal.SIGKILL);row['owned_cleanup']='killed confirmed probe child session'
+  rows.append(row)
+  if version=='old':assert survives,'old failure not reproduced'
+  else:assert not survives and receipt['status']=='FAIL_TERMINAL' and all(r['child_reaped'] for r in receipt['commands'])
+(o/'receipt.json').write_text(json.dumps({'status':'PASS_2_GENUINE_OLD_FAILURES_AND_2_FIXED_TERMINAL_CONTROLS','cases':rows},indent=2)+'\n');print(json.dumps({'status':'PASS_OLD_NEW_TERMINATION_AND_POST_POPEN','cases':len(rows)}))

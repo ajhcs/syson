@@ -1,0 +1,241 @@
+# SPDX-License-Identifier: EPL-2.0
+"""Build and capture the actual finite Rust measurement bridge without network."""
+import argparse
+import fcntl
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import signal
+import subprocess
+import time
+
+
+def require(ok, message):
+    if not ok:
+        raise ValueError(message)
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def snapshot(paths):
+    result = {}
+    for path in sorted(paths):
+        try:
+            path.stat()
+            require(path.is_file(), 'not a regular input file')
+            result[str(path)] = digest(path)
+        except FileNotFoundError:
+            result[str(path)] = None
+            if path.is_symlink():
+                record.setdefault('hash_errors', []).append({'path': str(path), 'error': 'dangling symlink'})
+        except (OSError, ValueError) as error:
+            result[str(path)] = None
+            record.setdefault('hash_errors', []).append({'path': str(path), 'error': repr(error)})
+    return result
+
+
+def workspace_path(value):
+    path = Path(value)
+    require(path.is_absolute(), 'absolute workspace path required')
+    resolved = path.resolve()
+    require(resolved.is_relative_to(Path('/workspace').resolve()), 'workspace path required')
+    require(not path.is_symlink(), 'symlink leaf is not an admitted input/output')
+    return resolved
+
+
+parser = argparse.ArgumentParser(description=__doc__)
+for name in ('repo', 'corpus', 'out', 'target-dir', 'cargo-home'):
+    parser.add_argument('--' + name, type=workspace_path, required=True)
+args = parser.parse_args()
+require(args.repo.is_dir() and args.corpus.is_file() and args.cargo_home.is_dir(),
+        'existing repo, corpus and installed workspace Cargo home required')
+require(not args.out.exists(), 'new output directory required')
+require(args.out.parent.is_dir(), 'existing output parent required')
+tools = Path(__file__).resolve().parent
+for output in (args.out, args.target_dir):
+    require(not output.is_relative_to(args.repo) and not output.is_relative_to(tools),
+            'build outputs must be outside source directories')
+require(not args.out.is_relative_to(args.target_dir) and not args.target_dir.is_relative_to(args.out),
+        'capture and target directories must not overlap')
+args.out.mkdir()
+(args.out / 'tmp').mkdir()
+record = {'status': 'RUNNING', 'commands': [], 'scope': 'Developer build/capture only'}
+record['parameters'] = {name: str(value) for name, value in vars(args).items()}
+environment = dict(os.environ, CARGO_HOME=str(args.cargo_home),
+                   CARGO_BUILD_JOBS='1', CARGO_INCREMENTAL='0',
+                   CARGO_NET_OFFLINE='true', CARGO_TARGET_DIR=str(args.target_dir),
+                   RUST_TEST_THREADS='1', TMPDIR=str(args.out / 'tmp'))
+lock = None
+inputs = set()
+configurations = set()
+
+
+def run(label, argv):
+    start = time.monotonic()
+    row = {'label': label, 'argv': list(map(str, argv)), 'timed_out': False}
+    record['commands'].append(row)
+    stdout = args.out / (label + '-stdout.txt')
+    stderr = args.out / (label + '-stderr.txt')
+    child = None
+    try:
+        with stdout.open('xb') as output, stderr.open('xb') as errors:
+            child = subprocess.Popen(row['argv'], cwd=args.out, env=environment,
+                                     stdout=output, stderr=errors, start_new_session=True)
+            row['pid'] = child.pid
+            Path('/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/post-popen-new/ready').write_text(str(child.pid))
+            raise RuntimeError('controlled after-Popen exception')
+            try:
+                row['pid_start_ticks'] = Path(f'/proc/{child.pid}/stat').read_text().rsplit(')', 1)[1].split()[19]
+            except FileNotFoundError:
+                row['pid_start_ticks'] = None
+            try:
+                child.wait(timeout=180)
+            except subprocess.TimeoutExpired:
+                row['timed_out'] = True
+            finally:
+                if child.poll() is None:
+                    try:
+                        os.killpg(child.pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                    child.wait(timeout=10)
+    finally:
+        if child is not None and child.poll() is None:
+            try:
+                os.killpg(child.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            child.wait(timeout=10)
+        row['child_reaped'] = child is None or child.poll() is not None
+        row.update(exit_code=child.returncode if child else None,
+                   wall_seconds=time.monotonic() - start)
+        row['stdout_sha256'] = digest(stdout) if stdout.exists() else None
+        row['stderr_sha256'] = digest(stderr) if stderr.exists() else None
+        print(json.dumps(row), flush=True)
+    require(row['exit_code'] == 0 and not row['timed_out'], 'command failed: ' + label)
+    return stdout.read_bytes()
+
+
+def terminate(signum, frame):
+    raise InterruptedError(f"termination signal {signum}")
+
+
+signal.signal(signal.SIGTERM, terminate)
+
+try:
+    lock = open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    require(args.target_dir != args.out, 'separate target and capture directories required')
+    args.target_dir.mkdir(parents=True, exist_ok=True)
+    inputs = {p for p in tools.iterdir() if p.is_file()}
+    inputs.add(args.corpus)
+    cargo_home = args.cargo_home
+    require(cargo_home.is_absolute(), 'absolute Cargo home required')
+    configurations = {root / '.cargo' / name for root in (args.out, *args.out.parents)
+                      for name in ('config', 'config.toml')}
+    configurations.update(cargo_home / name for name in ('config', 'config.toml'))
+    record['configuration_before'] = snapshot(configurations)
+    record['configuration_policy'] = 'Presence/hashes only; raw user configuration is not a source payload'
+    require(not record.get('hash_errors'), 'configuration could not be hashed')
+    for name in ('syson-node-measurement', 'syson-editor'):
+        crate = args.repo / 'rust/crates' / name
+        require(crate.is_dir(), 'missing real crate: ' + name)
+        inputs.update(p for p in crate.rglob('*')
+                      if p.is_file() and p.relative_to(crate).parts[0] != 'target')
+    initial = snapshot(inputs)
+    require(all(initial.values()), 'initial source hash unavailable')
+    rustup = shutil.which('rustup')
+    require(rustup is not None, 'installed rustup/toolchain required; no installation is attempted')
+    rustup = Path(rustup).absolute()
+    # Keep argv[0]: installed dispatch wrappers can depend on the invocation name.
+    inputs.update((rustup, rustup.resolve(strict=True)))
+    record['tool_inputs_before'] = snapshot((rustup, rustup.resolve(strict=True)))
+    require(all(record['tool_inputs_before'].values()), 'rustup hash unavailable')
+    cargo = Path(run('cargo-path', ['/usr/bin/python3', '-c', "import time;from pathlib import Path;Path('/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/post-popen-new/ready').write_text('running');time.sleep(60)"]).decode().strip())
+    rustc = Path(run('rustc-path', [rustup, 'which', 'rustc']).decode().strip())
+    require(cargo.is_absolute() and rustc.is_absolute() and cargo.is_file() and rustc.is_file(),
+            'existing absolute compiler and Cargo paths required')
+    require(record['tool_inputs_before'] == snapshot(Path(name) for name in record['tool_inputs_before']),
+            'rustup changed while resolving tools')
+    selected = snapshot((cargo, rustc))
+    require(all(selected.values()), 'selected tool hash unavailable')
+    for name, expected in selected.items():
+        require(record['tool_inputs_before'].get(name, expected) == expected, 'tool binding conflict')
+        record['tool_inputs_before'][name] = expected
+    inputs.update((cargo, rustc))
+    environment['RUSTC'] = str(rustc)
+    record['environment'] = {name: environment.get(name) for name in
+                             ('RUSTC', 'RUSTUP_TOOLCHAIN', 'RUSTFLAGS', 'CARGO_ENCODED_RUSTFLAGS',
+                              'RUSTC_WRAPPER', 'RUSTC_WORKSPACE_WRAPPER', 'CARGO_TARGET_DIR')}
+    run('cargo-version', [cargo, '--version', '--verbose'])
+    version = run('rustc-version', [rustc, '-vV']).decode()
+    host = next(line.removeprefix('host: ') for line in version.splitlines()
+                if line.startswith('host: '))
+    consumer = args.out / 'consumer'
+    consumer.mkdir()
+    manifest = consumer / 'Cargo.toml'
+    quote = lambda path: json.dumps(str(path), ensure_ascii=False)
+    manifest.write_text(f'''[package]
+name = "measurement-bridge"
+version = "0.0.0"
+edition = "2024"
+publish = false
+[dependencies]
+syson-node-measurement = {{ path = {quote(args.repo / 'rust/crates/syson-node-measurement')} }}
+serde_json = "=1.0.151"
+[lib]
+path = {quote(tools / 'measurement_bridge.rs')}
+crate-type = ["cdylib", "rlib"]
+[[bin]]
+name = "measurement-dump"
+path = {quote(tools / 'measurement_dump.rs')}
+[workspace]
+''')
+    run('lock', [cargo, 'generate-lockfile', '--offline', '--manifest-path', manifest])
+    metadata = run('metadata', [cargo, 'metadata', '--offline', '--locked',
+                                '--format-version', '1', '--manifest-path', manifest])
+    (args.out / 'metadata.json').write_bytes(metadata)
+    for package in json.loads(metadata)['packages']:
+        root = Path(package['manifest_path']).parent
+        inputs.update(p for p in root.rglob('*')
+                      if p.is_file() and p.relative_to(root).parts[0] not in ('.git', 'target'))
+    inputs.update((manifest, consumer / 'Cargo.lock', args.out / 'metadata.json'))
+    require(initial == snapshot(Path(name) for name in initial), 'source changed while preparing the build')
+    require(record['tool_inputs_before'] == snapshot(Path(name) for name in record['tool_inputs_before']),
+            'selected tool changed while preparing the build')
+    require(not record.get('hash_errors'), 'preparation input could not be hashed')
+    record.update(initial_inputs=initial, inputs_before=snapshot(inputs))
+    require(all(record['inputs_before'].values()), 'prepared input hash unavailable')
+    command = [cargo, 'build', '--release', '--offline', '--locked', '--jobs', '1',
+               '--manifest-path', manifest]
+    run('native-build', command + ['--bin', 'measurement-dump', '--target', host])
+    native = args.out / 'measurement-dump'
+    shutil.copy2(args.target_dir / host / 'release/measurement-dump', native)
+    raw = run('native-capture', [native, args.corpus])
+    require(type(json.loads(raw).get('rows')) is list, 'native observation rows required')
+    (args.out / 'rust.json').write_bytes(raw)
+    run('wasm-build', command + ['--lib', '--target', 'wasm32-unknown-unknown'])
+    wasm = args.out / 'measurement_bridge.wasm'
+    shutil.copy2(args.target_dir / 'wasm32-unknown-unknown/release/measurement_bridge.wasm', wasm)
+    record.update(status='PASS_BUILD_AND_CAPTURE;COMPARISON_OPEN', wasm_sha256=digest(wasm),
+                  native_sha256=digest(native), native_observations_sha256=digest(args.out / 'rust.json'))
+except BaseException as error:
+    record.update(status='FAIL_TERMINAL', error=repr(error))
+finally:
+    record['inputs_after'] = snapshot(inputs)
+    record['configuration_after'] = snapshot(configurations)
+    record['tool_inputs_after'] = snapshot(Path(name) for name in record.get('tool_inputs_before', {}))
+    record['source_unchanged'] = (record.get('inputs_before') == record['inputs_after'] and
+                                  record.get('configuration_before') == record['configuration_after'] and
+                                  record.get('tool_inputs_before') == record['tool_inputs_after'] and
+                                  not record.get('hash_errors'))
+    if not record['source_unchanged']:
+        record['status'] = 'FAIL_TERMINAL'
+    (args.out / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    if lock is not None:
+        lock.close()
+raise SystemExit(0 if record['status'].startswith('PASS_BUILD_AND_CAPTURE') else 1)
