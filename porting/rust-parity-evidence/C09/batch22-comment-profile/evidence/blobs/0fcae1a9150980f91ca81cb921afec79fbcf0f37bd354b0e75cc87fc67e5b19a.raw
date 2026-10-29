@@ -1,0 +1,32 @@
+from pathlib import Path
+import fcntl,hashlib,json,os,signal,statistics,subprocess,time
+b=Path(__file__).parent;o=b/'p01-profile-01';o.mkdir();(o/'tmp').mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch22-line-comments');source=b/'p01_profile.rs';tool=Path('/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin');cargo=tool/'cargo';files={Path(__file__),source,cargo,tool/'rustc'}
+for crate in ['syson-ast','syson-ast-adapter','syson-ast-values','syson-ast-dispatch','syson-reflection']:files.update(f for f in (w/'rust/crates'/crate).rglob('*') if f.is_file())
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();snap=lambda:{str(f):sha(f) for f in sorted(files)};r={'status':'RUNNING','scope':'Actual comment-heavy finite Adapter API; small/typical/default-source-limit and+1, not UI/native/full-language capacity','inputs_before':snap(),'commands':[]};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);env=dict(os.environ,PATH=str(tool)+':/usr/bin:/bin',CARGO_HOME='/workspace/cache/builderbob/global-tools/cargo',RUSTUP_HOME='/workspace/cache/builderbob/global-tools/rustup',RUSTUP_TOOLCHAIN='1.99.1-x86_64-unknown-linux-gnu',CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR=str(b/'target-p01-profile'),TMPDIR=str(o/'tmp'));child=None
+signal.signal(signal.SIGTERM,lambda *_:(_ for _ in ()).throw(RuntimeError('SIGTERM')))
+def run(label,argv,expected=0):
+ global child
+ start=time.monotonic();child=subprocess.Popen(list(map(str,argv)),cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:out,err=child.communicate(timeout=180);timed=False
+ except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);out,err=child.communicate(timeout=10);timed=True
+ (o/(label+'-stdout.json')).write_bytes(out);(o/(label+'-stderr.txt')).write_bytes(err);r['commands'].append({'label':label,'argv':list(map(str,argv)),'exit':child.returncode,'expected_exit':expected,'timeout':timed,'wall_seconds':time.monotonic()-start});child=None
+ if r['commands'][-1]['exit']!=expected or timed:raise RuntimeError('Preserve '+label)
+ return out
+try:
+ q=lambda p:json.dumps(str(p));manifest=o/'Cargo.toml';manifest.write_text('[package]\nname="p01-comment-profile"\nversion="0.0.0"\nedition="2024"\n[dependencies]\nserde_json="=1.0.151"\nsyson-ast-adapter={path='+q(w/'rust/crates/syson-ast-adapter')+'}\n[[bin]]\nname="p01-profile"\npath='+q(source)+'\n[workspace]\n');run('lock',[cargo,'generate-lockfile','--offline','--manifest-path',manifest]);files.update([manifest,o/'Cargo.lock']);r['prepared_inputs_before']=snap();run('format',[tool/'rustfmt','--edition','2024','--check',source]);run('clippy',[cargo,'clippy','--release','--offline','--locked','--jobs','1','--manifest-path',manifest,'--all-targets','--','-D','warnings']);run('build',[cargo,'build','--release','--offline','--locked','--jobs','1','--manifest-path',manifest]);exe=b/'target-p01-profile/release/p01-profile';r['executable_sha256']=sha(exe);samples=[];summary=[]
+ for note_only in [False,True]:
+  for size in [64,8192,65536,65537]:
+   suffix=b'' if note_only else b'\npackage P;';input_bytes=b'//'+b'x'*(size-2-len(suffix))+suffix;label=('note-only' if note_only else 'note-package')+'-'+str(size);measured=[]
+   for repetition in range(9):
+    argv=[exe,str(size)]+(['--note-only'] if note_only else []);data=json.loads(run(label+'-'+str(repetition),argv));assert data['source_bytes']==size and data['note_only']==note_only and data['expected_outcome'];assert data['status']==('EXPECTED_SOURCE_LIMIT' if size>65536 else 'COMPLETE_COMMENT_HEAVY_CONSTRUCT');assert size>65536 or data['root_matches_source'];row={'workload':label,'phase':'warmup' if repetition<2 else 'measured','repetition':repetition,'source_sha256':hashlib.sha256(input_bytes).hexdigest(),'data':data};samples.append(row)
+    if repetition>=2:measured.append(data)
+   values=[x['api_ns']/1e6 for x in measured];summary.append({'workload':label,'measured':7,'api_ms':{'min':min(values),'median':statistics.median(values),'max':max(values)},'requested_bytes':sorted({x['allocations']['requested_bytes'] for x in measured}),'phase_peak_live_bytes':sorted({x['allocations']['phase_peak_live_bytes'] for x in measured}),'phase_peak_above_initial_live_bytes':sorted({x['allocations']['phase_peak_above_initial_live'] for x in measured}),'process_hwm_kib':{'min':min(x['process_peak_rss_kib'] for x in measured),'max':max(x['process_peak_rss_kib'] for x in measured)}});print(json.dumps(summary[-1]),flush=True)
+ for note_only in [False,True]:
+  d=json.loads(run('cancel-'+str(note_only),[exe,'65536','--cancel-before']+(['--note-only'] if note_only else [])));assert d['status']=='EXPECTED_CANCELLED' and d['allocations']['requested_bytes']==0
+ for i,args in enumerate([['63'],['64','--bad'],['64','--cancel-before','--cancel-before']]):run('invalid-cli-'+str(i),[exe,*args],2)
+ (o/'samples.json').write_text(json.dumps(samples,indent=2)+'\n');(o/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');r.update(status='PASS_72_NAMED_SAMPLES_TWO_WARMUPS_SEVEN_MEASURED_EACH;2_PRECALL_CANCEL_AND3_CLI_REFUSALS',samples=72,summary=summary,p95_claimed=False)
+except BaseException as e:r.update(status='FAIL_TERMINAL',error=repr(e));raise
+finally:
+ if child is not None and child.poll() is None:os.killpg(child.pid,signal.SIGKILL);child.communicate(timeout=10)
+ r['inputs_after']=snap();r['source_unchanged']=all(r['inputs_after'].get(k)==v for k,v in r['inputs_before'].items());(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+ if not r['source_unchanged']:raise RuntimeError('Source drift')
