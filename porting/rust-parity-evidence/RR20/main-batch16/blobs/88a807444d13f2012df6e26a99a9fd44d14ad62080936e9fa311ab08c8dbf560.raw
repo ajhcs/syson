@@ -1,0 +1,36 @@
+from pathlib import Path
+import subprocess,os,json,time,hashlib,fcntl,signal,shutil,statistics
+b=Path(__file__).parent;o=b/'profiles-01';o.mkdir();scratch=o/'scratch';scratch.mkdir();(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());digest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+probe=Path('/workspace/worktrees/builderbob/syson/rr20-history-budgets/porting/rust-parity-evidence/RR20/history_probe.rs').read_bytes();assert hashlib.sha256(probe).hexdigest()=='a918e88e41a2567cf7d9ff86c6258711c4b031046aaf7ee68bfcdcc979092dc7'
+roots={'baseline':Path('/workspace/worktrees/builderbob/syson/batch15-writer-landing'),'repaired':Path('/workspace/worktrees/builderbob/syson/batch16-model-history')}
+files={k:sorted(p for folder in ['rust/crates/syson-model','rust/crates/syson-json-value','rust/crates/syson-domain','rust/crates/syson-metamodel'] for p in (w/folder).rglob('*') if p.is_file()) for k,w in roots.items()};snap=lambda:{k:{str(p.relative_to(roots[k])):digest(p) for p in paths} for k,paths in files.items()}
+lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(scratch),PYTHONDONTWRITEBYTECODE='1')
+r={'status':'RUNNING','source_before':snap(),'commands':[],'samples':[],'binaries':{},'scope':'Actual public Editor API retention/copy-request/RSS/cancel workloads; not GUI or preemptive cancellation. Fresh process per repetition; alternating mode order;two warmups+seven measured per four workloads per mode.'}
+def save(): (o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+def run(argv,cwd,timeout=180):
+ i=len(r['commands']);t=time.monotonic();p=subprocess.Popen(argv,cwd=cwd,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:stdout,stderr=p.communicate(timeout=timeout);timed=False
+ except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+ (o/f'{i:03}-stdout.txt').write_bytes(stdout);(o/f'{i:03}-stderr.txt').write_bytes(stderr);row={'argv':argv,'cwd':str(cwd),'exit_code':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t,'stdout':f'{i:03}-stdout.txt','stderr':f'{i:03}-stderr.txt'};r['commands'].append(row);save();assert p.returncode==0 and not timed,(argv,stderr[:500]);return stdout,row
+try:
+ for mode,w in roots.items():
+  c=o/('observer-'+mode);(c/'src').mkdir(parents=True);(c/'src/main.rs').write_bytes(probe)
+  (c/'Cargo.toml').write_text('[package]\nname="batch16-history-'+mode+'"\nversion="0.0.0"\nedition="2024"\n[workspace]\n[dependencies]\nsyson-model={path="'+str(w/'rust/crates/syson-model')+'"}\nserde_json="=1.0.151"\n')
+  run(['cargo','generate-lockfile','--offline','--manifest-path',str(c/'Cargo.toml')],c)
+  out,row=run(['cargo','build','--release','--offline','--locked','--jobs','1','--message-format=json-render-diagnostics','--manifest-path',str(c/'Cargo.toml')],c)
+  artifacts=[json.loads(line) for line in out.splitlines() if line.startswith(b'{')];exe=[Path(x['executable']) for x in artifacts if x.get('executable') and x.get('reason')=='compiler-artifact'];assert len(exe)==1,exe
+  dest=o/('history-'+mode);shutil.copyfile(exe[0],dest);dest.chmod(0o700);r['binaries'][mode]={'path':str(dest),'sha256':digest(dest)};save()
+ for nodes in [1000,4096]:
+  for commits in [64,256]:
+   for rep in range(9):
+    for mode in (['baseline','repaired'] if rep%2==0 else ['repaired','baseline']):
+     label=f'{nodes}-{commits}-{rep:02}-{mode}';timefile=o/(label+'-time.txt');argv=['/usr/bin/time','-v','-o',str(timefile),r['binaries'][mode]['path'],str(nodes),str(commits)];out,command=run(argv,o,240);data=json.loads(out)
+     assert data['nodes']==nodes and data['commits']==commits and data['undo_steps']==data['redo_steps']
+     assert data['cancel_live_delta']==0
+     if mode=='baseline':assert data['undo_steps']==commits
+     else:assert data['undo_steps']<=64
+     sample={'mode':mode,'nodes':nodes,'commits':commits,'repetition':rep,'warmup':rep<2,'command_index':len(r['commands'])-1,'timefile':timefile.name,'data':data};r['samples'].append(sample);save();print(json.dumps({'mode':mode,'nodes':nodes,'commits':commits,'rep':rep,'wall_seconds':round(command['wall_seconds'],3),'undo':data['undo_steps'],'retained_live':data['retained_live'],'peak_live':data['peak_live']}),flush=True)
+ r['status']='PASS_72_FRESH_PUBLIC_API_RESOURCE_PROFILES;UI_AND_FULL_RR20_ACCEPTANCE_OPEN'
+finally:
+ r['source_after']=snap();r['source_unchanged']=r['source_before']==r['source_after'];r['artifacts']={str(p.relative_to(o)):digest(p) for p in o.rglob('*') if p.is_file() and p.name!='receipt.json'};save();assert r['source_unchanged'],'source drift'

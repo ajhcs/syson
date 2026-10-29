@@ -1,0 +1,515 @@
+{
+  "status": "PASS_BOUNDED_MODEL_AND_NAMED_HOST_PROFILES;UI_FULL_RR20_OPEN",
+  "tests": 77,
+  "checks": [
+    "format",
+    "offline_locked_model_tests",
+    "all_target_Clippy",
+    "WASM_check"
+  ],
+  "profiles": {
+    "status": "PASS_NAMED_HOST_WORKLOADS_ONLY",
+    "samples": 72,
+    "warmups_per_group": 2,
+    "measured_per_group": 7,
+    "alternating_mode_order": true,
+    "units": "Raw requested allocator bytes,API microseconds and external process RSS kept separate. Timing includes whole batch operations; no GUI latency/native ratios/p95/exact-copy or preemptive-cancellation claim.",
+    "groups": [
+      {
+        "mode": "baseline",
+        "nodes": 1000,
+        "commits": 64,
+        "samples": 7,
+        "undo_steps": [
+          64,
+          64,
+          64
+        ],
+        "retained_requested_live_bytes": [
+          92683148,
+          92683148,
+          92683148
+        ],
+        "peak_requested_live_bytes": [
+          95534912,
+          95534912,
+          95534912
+        ],
+        "edit_total_us": [
+          80468,
+          82363,
+          86204
+        ],
+        "cancel_us": [
+          783,
+          795,
+          804
+        ],
+        "undo_total_us": [
+          182,
+          184,
+          188
+        ],
+        "redo_total_us": [
+          0,
+          0,
+          0
+        ],
+        "external_peak_RSS_KiB": [
+          111744,
+          112128
+        ],
+        "begin_requested_bytes": [
+          182510442,
+          182510442,
+          182510442
+        ],
+        "apply_requested_bytes": [
+          91257324,
+          91257324,
+          91257324
+        ],
+        "commit_requested_bytes": [
+          10892160,
+          10892160,
+          10892160
+        ],
+        "cancel_live_delta_zero": true
+      },
+      {
+        "mode": "baseline",
+        "nodes": 1000,
+        "commits": 256,
+        "samples": 7,
+        "undo_steps": [
+          256,
+          256,
+          256
+        ],
+        "retained_requested_live_bytes": [
+          366455145,
+          366455145,
+          366455145
+        ],
+        "peak_requested_live_bytes": [
+          369306912,
+          369306912,
+          369306912
+        ],
+        "edit_total_us": [
+          325291,
+          328935,
+          349234
+        ],
+        "cancel_us": [
+          806,
+          818,
+          903
+        ],
+        "undo_total_us": [
+          201,
+          204,
+          207
+        ],
+        "redo_total_us": [
+          0,
+          0,
+          0
+        ],
+        "external_peak_RSS_KiB": [
+          418368,
+          418560
+        ],
+        "begin_requested_bytes": [
+          730042146,
+          730042146,
+          730042146
+        ],
+        "apply_requested_bytes": [
+          365029669,
+          365029669,
+          365029669
+        ],
+        "commit_requested_bytes": [
+          43569024,
+          43569024,
+          43569024
+        ],
+        "cancel_live_delta_zero": true
+      },
+      {
+        "mode": "baseline",
+        "nodes": 4096,
+        "commits": 64,
+        "samples": 7,
+        "undo_steps": [
+          64,
+          64,
+          64
+        ],
+        "retained_requested_live_bytes": [
+          379450148,
+          379450148,
+          379450148
+        ],
+        "peak_requested_live_bytes": [
+          391125512,
+          391125512,
+          391125512
+        ],
+        "edit_total_us": [
+          341829,
+          352065,
+          365787
+        ],
+        "cancel_us": [
+          3910,
+          4012,
+          4284
+        ],
+        "undo_total_us": [
+          8,
+          8,
+          9
+        ],
+        "redo_total_us": [
+          0,
+          0,
+          0
+        ],
+        "external_peak_RSS_KiB": [
+          452400,
+          452880
+        ],
+        "begin_requested_bytes": [
+          747220842,
+          747220842,
+          747220842
+        ],
+        "apply_requested_bytes": [
+          373612524,
+          373612524,
+          373612524
+        ],
+        "commit_requested_bytes": [
+          44465024,
+          44465024,
+          44465024
+        ],
+        "cancel_live_delta_zero": true
+      },
+      {
+        "mode": "baseline",
+        "nodes": 4096,
+        "commits": 256,
+        "samples": 7,
+        "undo_steps": [
+          256,
+          256,
+          256
+        ],
+        "retained_requested_live_bytes": [
+          1500287745,
+          1500287745,
+          1500287745
+        ],
+        "peak_requested_live_bytes": [
+          1511963112,
+          1511963112,
+          1511963112
+        ],
+        "edit_total_us": [
+          1363572,
+          1383766,
+          1780473
+        ],
+        "cancel_us": [
+          3882,
+          4009,
+          5470
+        ],
+        "undo_total_us": [
+          22,
+          24,
+          25
+        ],
+        "redo_total_us": [
+          0,
+          0,
+          1
+        ],
+        "external_peak_RSS_KiB": [
+          1706120,
+          1706636
+        ],
+        "begin_requested_bytes": [
+          2988883746,
+          2988883746,
+          2988883746
+        ],
+        "apply_requested_bytes": [
+          1494450469,
+          1494450469,
+          1494450469
+        ],
+        "commit_requested_bytes": [
+          177860480,
+          177860480,
+          177860480
+        ],
+        "cancel_live_delta_zero": true
+      },
+      {
+        "mode": "repaired",
+        "nodes": 1000,
+        "commits": 64,
+        "samples": 7,
+        "undo_steps": [
+          40,
+          40,
+          40
+        ],
+        "retained_requested_live_bytes": [
+          58462959,
+          58462959,
+          58462959
+        ],
+        "peak_requested_live_bytes": [
+          62740586,
+          62740586,
+          62740586
+        ],
+        "edit_total_us": [
+          81595,
+          85983,
+          87752
+        ],
+        "cancel_us": [
+          575,
+          582,
+          1186
+        ],
+        "undo_total_us": [
+          169,
+          172,
+          174
+        ],
+        "redo_total_us": [
+          1,
+          1,
+          1
+        ],
+        "external_peak_RSS_KiB": [
+          73920,
+          74304
+        ],
+        "begin_requested_bytes": [
+          182510442,
+          182510442,
+          182510442
+        ],
+        "apply_requested_bytes": [
+          91257324,
+          91257324,
+          91257324
+        ],
+        "commit_requested_bytes": [
+          10893152,
+          10893152,
+          10893152
+        ],
+        "cancel_live_delta_zero": true
+      },
+      {
+        "mode": "repaired",
+        "nodes": 1000,
+        "commits": 256,
+        "samples": 7,
+        "undo_steps": [
+          40,
+          40,
+          40
+        ],
+        "retained_requested_live_bytes": [
+          58463000,
+          58463000,
+          58463000
+        ],
+        "peak_requested_live_bytes": [
+          62740631,
+          62740631,
+          62740631
+        ],
+        "edit_total_us": [
+          324837,
+          330116,
+          337549
+        ],
+        "cancel_us": [
+          683,
+          693,
+          725
+        ],
+        "undo_total_us": [
+          3,
+          4,
+          4
+        ],
+        "redo_total_us": [
+          1,
+          1,
+          1
+        ],
+        "external_peak_RSS_KiB": [
+          73920,
+          74304
+        ],
+        "begin_requested_bytes": [
+          730042146,
+          730042146,
+          730042146
+        ],
+        "apply_requested_bytes": [
+          365029669,
+          365029669,
+          365029669
+        ],
+        "commit_requested_bytes": [
+          43557728,
+          43557728,
+          43557728
+        ],
+        "cancel_live_delta_zero": true
+      },
+      {
+        "mode": "repaired",
+        "nodes": 4096,
+        "commits": 64,
+        "samples": 7,
+        "undo_steps": [
+          9,
+          9,
+          9
+        ],
+        "retained_requested_live_bytes": [
+          58377286,
+          58377286,
+          58377286
+        ],
+        "peak_requested_live_bytes": [
+          75890313,
+          75890313,
+          75890313
+        ],
+        "edit_total_us": [
+          353979,
+          362785,
+          442964
+        ],
+        "cancel_us": [
+          3078,
+          3111,
+          5029
+        ],
+        "undo_total_us": [
+          2,
+          2,
+          2
+        ],
+        "redo_total_us": [
+          0,
+          0,
+          0
+        ],
+        "external_peak_RSS_KiB": [
+          95164,
+          95376
+        ],
+        "begin_requested_bytes": [
+          747220842,
+          747220842,
+          747220842
+        ],
+        "apply_requested_bytes": [
+          373612524,
+          373612524,
+          373612524
+        ],
+        "commit_requested_bytes": [
+          44462176,
+          44462176,
+          44462176
+        ],
+        "cancel_live_delta_zero": true
+      },
+      {
+        "mode": "repaired",
+        "nodes": 4096,
+        "commits": 256,
+        "samples": 7,
+        "undo_steps": [
+          9,
+          9,
+          9
+        ],
+        "retained_requested_live_bytes": [
+          58377296,
+          58377296,
+          58377296
+        ],
+        "peak_requested_live_bytes": [
+          75890327,
+          75890327,
+          75890327
+        ],
+        "edit_total_us": [
+          1340620,
+          1405389,
+          1729045
+        ],
+        "cancel_us": [
+          2948,
+          2996,
+          3613
+        ],
+        "undo_total_us": [
+          2,
+          2,
+          3
+        ],
+        "redo_total_us": [
+          0,
+          0,
+          0
+        ],
+        "external_peak_RSS_KiB": [
+          95032,
+          95568
+        ],
+        "begin_requested_bytes": [
+          2988883746,
+          2988883746,
+          2988883746
+        ],
+        "apply_requested_bytes": [
+          1494450469,
+          1494450469,
+          1494450469
+        ],
+        "commit_requested_bytes": [
+          177845344,
+          177845344,
+          177845344
+        ],
+        "cancel_live_delta_zero": true
+      }
+    ]
+  },
+  "artifact_count": 246,
+  "scope": "Original main publication/refusal/ownership/canonicalbytes cases compose with complete model history policy; no native/UI/persistence/historyfullacceptance.",
+  "open_coverage": [
+    "Available redo at revision exhaustion is source reviewed, not independently exercised by the private unit.",
+    "Isolated multiple-entry ByteBudget reason and tiny-policy deque overhead cases remain unrun.",
+    "History charge excludes current/open transactions, temporary copying and allocator overhead; continue actual UI and broader capacity qualification."
+  ]
+}

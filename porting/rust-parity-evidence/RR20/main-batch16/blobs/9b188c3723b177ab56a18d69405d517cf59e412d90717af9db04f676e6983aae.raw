@@ -1,0 +1,132 @@
+{
+  "status": "PASS_BOUNDED_MODEL_HISTORY;UI_AND_PARENT_ACCEPTANCE_OPEN",
+  "source_before": {
+    "rust/crates/syson-model/Cargo.lock": "4242272f5f97f1e96b3f0f2607c3a4bce56488785674092ae7398c9d9d4bd842",
+    "rust/crates/syson-model/Cargo.toml": "2fb33c209ab50cd691834e7ff8da68d827e8af5ff75bc4b76189d53c29d93ce8",
+    "rust/crates/syson-model/src/containment.rs": "353a750d15425dbfc161e98eaf5f69e6fd17a2bc55be5e5ebd52c7985223382b",
+    "rust/crates/syson-model/src/lib.rs": "cdab6f071eb2e91116aed4b64d8139c007acc5e19e911bc901ce0b47dac1db62",
+    "rust/crates/syson-model/src/scalar.rs": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+    "rust/crates/syson-model/tests/batch15_containment_regression.rs": "6eae2469c589344776a349407cec0436abd6ec9b28cd5e1bd44d68445d200aa5",
+    "rust/crates/syson-model/tests/containment.rs": "c6498b45977f2607754a2f869dd93762a71f49d033ea5de531bdebb1170e4ab6",
+    "rust/crates/syson-model/tests/creation_capabilities.rs": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+    "rust/crates/syson-model/tests/fixtures/simple-project.emf.json": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d",
+    "rust/crates/syson-model/tests/model.rs": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+    "rust/crates/syson-model/tests/rr02_regression.rs": "ca70e6c35a7eb2e8bce062b464051cc7e383268283925b90232cd80f2184d515",
+    "rust/crates/syson-model/tests/rr04_regression.rs": "e974bc3ab219c1a25ab12840384379fe2b583fd9f91f76503ce82c4fa988a0ee",
+    "rust/crates/syson-model/tests/rr20_regression.rs": "829dcef07fe0c5d4e08d253c612d749f3e57c08ba957584f35818b04b1615bd7",
+    "rust/crates/syson-model/tests/scalars.rs": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d"
+  },
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--config",
+        "skip_children=true",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/src/containment.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/src/scalar.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/tests/batch15_containment_regression.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/tests/containment.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/tests/creation_capabilities.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/tests/model.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/tests/rr02_regression.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/tests/rr04_regression.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/tests/rr20_regression.rs",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/tests/scalars.rs"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.028719600988551974,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 6.501757747028023,
+      "tests_passed": 77
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.6271275889594108,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch16-model-history/rust/crates/syson-model/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.328233903972432,
+      "tests_passed": 0
+    }
+  ],
+  "scope": "Complete existing RR20 model policy only; not UI/semantic history/persistence/full acceptance.",
+  "source_after": {
+    "rust/crates/syson-model/Cargo.lock": "4242272f5f97f1e96b3f0f2607c3a4bce56488785674092ae7398c9d9d4bd842",
+    "rust/crates/syson-model/Cargo.toml": "2fb33c209ab50cd691834e7ff8da68d827e8af5ff75bc4b76189d53c29d93ce8",
+    "rust/crates/syson-model/src/containment.rs": "353a750d15425dbfc161e98eaf5f69e6fd17a2bc55be5e5ebd52c7985223382b",
+    "rust/crates/syson-model/src/lib.rs": "cdab6f071eb2e91116aed4b64d8139c007acc5e19e911bc901ce0b47dac1db62",
+    "rust/crates/syson-model/src/scalar.rs": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+    "rust/crates/syson-model/tests/batch15_containment_regression.rs": "6eae2469c589344776a349407cec0436abd6ec9b28cd5e1bd44d68445d200aa5",
+    "rust/crates/syson-model/tests/containment.rs": "c6498b45977f2607754a2f869dd93762a71f49d033ea5de531bdebb1170e4ab6",
+    "rust/crates/syson-model/tests/creation_capabilities.rs": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+    "rust/crates/syson-model/tests/fixtures/simple-project.emf.json": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d",
+    "rust/crates/syson-model/tests/model.rs": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+    "rust/crates/syson-model/tests/rr02_regression.rs": "ca70e6c35a7eb2e8bce062b464051cc7e383268283925b90232cd80f2184d515",
+    "rust/crates/syson-model/tests/rr04_regression.rs": "e974bc3ab219c1a25ab12840384379fe2b583fd9f91f76503ce82c4fa988a0ee",
+    "rust/crates/syson-model/tests/rr20_regression.rs": "829dcef07fe0c5d4e08d253c612d749f3e57c08ba957584f35818b04b1615bd7",
+    "rust/crates/syson-model/tests/scalars.rs": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d"
+  },
+  "source_unchanged": true,
+  "artifacts": {
+    "03-stderr.txt": "2879d9bf32b0278bc6618ba9eedd7132276266ccab84d4ad5b88f0c22e0ab337",
+    "02-stderr.txt": "d3bc48dfa77b1bf181c4912eb66a607c40a3ba558477dae05200f180eb3184ab",
+    "01-stdout.txt": "0146feb44221493d2415d34c843cda0673c01b383040b41a7220a3bdfd7361ba",
+    "executed-runner.py": "6947704420ce41d1f6ac175c280a7e7e9f5344bcc232841446463a66636fede8",
+    "01-stderr.txt": "8c79df88562f659e24b994e8a8dd756c27f13361453b8e61ff063d22e81b7616",
+    "00-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "03-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "02-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
