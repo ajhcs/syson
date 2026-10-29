@@ -1,0 +1,27 @@
+from pathlib import Path
+import hashlib
+import json
+import sys
+
+path = Path(sys.argv[1])
+raw = path.read_bytes()
+if hashlib.sha256(raw).hexdigest() != sys.argv[2]:
+    raise RuntimeError('reviewed profiling driver changed before compilation')
+profile = path.parent / 'u11a_profile.rs'
+if hashlib.sha256(profile.read_bytes()).hexdigest() != sys.argv[3]:
+    raise RuntimeError('reviewed profiler changed before execution')
+relative = next(line.split(':', 2)[2] for line in Path('/proc/self/cgroup').read_text().splitlines()
+                if line.startswith('0::'))
+if not relative.endswith('/syson-u11a-profile-01.scope') or '..' in relative.split('/'):
+    raise RuntimeError('unexpected profiling cgroup')
+group = Path('/sys/fs/cgroup') / relative.lstrip('/')
+expected = {'cpu.max': '200000 100000', 'memory.high': '4294967296',
+            'memory.max': '6442450944', 'memory.swap.max': '0', 'pids.max': '128'}
+actual = {name: (group / name).read_text().strip() for name in expected}
+if actual != expected:
+    raise RuntimeError('actual profiling resource controls differ')
+record = {'cgroup': relative, 'actual': actual, 'driver_sha256': sys.argv[2],
+          'profiler_sha256': sys.argv[3]}
+(path.parent / 'u11a-profile-resource-01/actual-controls.json').write_text(json.dumps(record, indent=2) + '\n')
+sys.argv = [str(path), sys.argv[3]]
+exec(compile(raw, str(path), 'exec'), {'__name__': '__main__', '__file__': str(path)})

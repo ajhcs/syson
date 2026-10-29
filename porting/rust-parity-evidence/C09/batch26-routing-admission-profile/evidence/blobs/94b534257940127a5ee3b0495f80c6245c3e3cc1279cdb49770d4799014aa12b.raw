@@ -1,0 +1,44 @@
+from pathlib import Path
+import fcntl
+import hashlib
+import json
+import os
+import subprocess
+
+b = Path(__file__).parent
+source = b
+out = b / 'u11a-resource-controls-01'
+out.mkdir()
+fixtures = out / 'fixtures'
+fixtures.mkdir()
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+inputs = {str(b / name): sha(b / name) for name in ['u11a_profile.rs', 'run_u11a_profile_01.py',
+          'u11a_profile_entry.py', 'run_u11a_resource_01.py', 'test_u11a_resource_ownership.py']}
+inputs[str(Path(__file__))] = sha(Path(__file__))
+record = {'status': 'FAIL', 'inputs_before': inputs, 'checks': [], 'network_or_acquired_execution': False}
+lock = open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock')
+fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ['HOME'], 'LANG': 'C.UTF-8',
+       'SYSON_U11A_RESOURCE_SOURCE_SHA256': 'edd1a3eb64f1b00d27c62bb6e35ac9ae0d33b5cc250bdc4642d1def0b52b0b70',
+       'SYSON_U11A_RESOURCE_TEST_TMP': str(fixtures)}
+try:
+    for mode, flags in [('normal', []), ('optimized', ['-O'])]:
+        argv = ['/usr/bin/python3', '-I', '-B'] + flags + [str(source / 'test_u11a_resource_ownership.py'), '-v']
+        result = subprocess.run(argv, env=env, capture_output=True, timeout=120)
+        (out / (mode + '-stdout.txt')).write_bytes(result.stdout)
+        (out / (mode + '-stderr.txt')).write_bytes(result.stderr)
+        record['checks'].append({'mode': mode, 'argv': argv, 'exit': result.returncode})
+        if result.returncode != 0 or b'Ran 10 tests' not in result.stderr:
+            raise RuntimeError('mocked controls failed: ' + mode)
+    record['status'] = 'PASS_10_OWNERSHIP_FAULT_METHODS_EACH_MODE_ONLY'
+except BaseException as error:
+    record['error'] = repr(error)
+    raise
+finally:
+    record['inputs_after'] = {name: sha(Path(name)) for name in inputs}
+    if record['inputs_before'] != record['inputs_after']:
+        record['status'] = 'FAIL_SOURCE_DRIFT'
+    (out / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    if record['status'] == 'FAIL_SOURCE_DRIFT':
+        raise RuntimeError('mocked-control input drift')
+print(json.dumps({'status': record['status'], 'checks': len(record['checks'])}))
