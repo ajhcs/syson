@@ -1,0 +1,143 @@
+{
+  "status": "PASS_DISPATCH_COMPONENT_GATES;NATIVE_AND_CALLER_GATES_OPEN",
+  "source_before": {
+    "rust/crates/syson-ast-dispatch/Cargo.lock": "e2c47e4c5a0631c9eed7fbb72103960c78585308b02948ef4d0e87ca20248536",
+    "rust/crates/syson-ast-dispatch/Cargo.toml": "c91cbed4e441ac92b1d4abf37e8f86c6362ccb2a8a072c57df6312ba10018508",
+    "rust/crates/syson-ast-dispatch/NOTICE.md": "03bdf379ae4ee9ae3594604d6168cf984fbb0a60aa1fcde2cce4822b53aca9ab",
+    "rust/crates/syson-ast-dispatch/src/lib.rs": "5d7ff68a4a1580fc71df734e1b82a6dbe23bc4b9503c671fe40bc38eedab1ce0",
+    "rust/crates/syson-ast-dispatch/tests/dispatch.rs": "3fc744649b49ae82fa04adb9112aabcbd77c3383ab8ac15776c2e7dc9b503186",
+    "rust/crates/syson-reflection/Cargo.lock": "13e69271935b9a25a3724e23b972f0380fa37aa83444733806d7e9a04cba8e04",
+    "rust/crates/syson-reflection/Cargo.toml": "0cc1aa2f8c2f035614876c29d425051e6311d0056948ba8c7a7df33e3dcef3ca",
+    "rust/crates/syson-reflection/NOTICE.md": "b11c95fd99fc89ca43ddd5bd0b103136bc2793da2dd7194677eeadc880a62bf7",
+    "rust/crates/syson-reflection/src/generated.rs": "39651ef2b972a3628747a24f9aff5e13ca95eec70cbec7e50165518f9737ffb1",
+    "rust/crates/syson-reflection/src/lib.rs": "73ead0b106d3fb1186fcaed5050225af2eb36897401795901f7df735265dea20",
+    "rust/crates/syson-reflection/tests/reflection.rs": "3eed21dd7c7d196307345d40b089911bf89fa6fc7a6020310afe90d8212f4744",
+    "rust/crates/syson-reflection/tests/source_tables.tsv": "d40b4a5551176d4f87a573c471fd21558d7b354a50a1c9039f7fd74850b88576",
+    "rust/crates/syson-reflection/tools/generate.py": "43e5c7ca5460bdbef28b00b736fa4419a663c34039053cf669c6bf045c1c6a8e"
+  },
+  "commands": [
+    {
+      "argv": [
+        "rustc",
+        "-vV"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.005216990946792066,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "-V"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.003947795019485056,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/tests/dispatch.rs"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.008278733002953231,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.47232427494600415,
+      "tests_passed": 15
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.1494017030345276,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch20-dispatch/rust/crates/syson-ast-dispatch/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.07662822597194463,
+      "tests_passed": 0
+    }
+  ],
+  "scope": "F10 primitive values only. Actual importer/nativeUI/sourceclosure/aggregatecapacity remain separate.",
+  "source_after": {
+    "rust/crates/syson-ast-dispatch/Cargo.lock": "e2c47e4c5a0631c9eed7fbb72103960c78585308b02948ef4d0e87ca20248536",
+    "rust/crates/syson-ast-dispatch/Cargo.toml": "c91cbed4e441ac92b1d4abf37e8f86c6362ccb2a8a072c57df6312ba10018508",
+    "rust/crates/syson-ast-dispatch/NOTICE.md": "03bdf379ae4ee9ae3594604d6168cf984fbb0a60aa1fcde2cce4822b53aca9ab",
+    "rust/crates/syson-ast-dispatch/src/lib.rs": "5d7ff68a4a1580fc71df734e1b82a6dbe23bc4b9503c671fe40bc38eedab1ce0",
+    "rust/crates/syson-ast-dispatch/tests/dispatch.rs": "3fc744649b49ae82fa04adb9112aabcbd77c3383ab8ac15776c2e7dc9b503186",
+    "rust/crates/syson-reflection/Cargo.lock": "13e69271935b9a25a3724e23b972f0380fa37aa83444733806d7e9a04cba8e04",
+    "rust/crates/syson-reflection/Cargo.toml": "0cc1aa2f8c2f035614876c29d425051e6311d0056948ba8c7a7df33e3dcef3ca",
+    "rust/crates/syson-reflection/NOTICE.md": "b11c95fd99fc89ca43ddd5bd0b103136bc2793da2dd7194677eeadc880a62bf7",
+    "rust/crates/syson-reflection/src/generated.rs": "39651ef2b972a3628747a24f9aff5e13ca95eec70cbec7e50165518f9737ffb1",
+    "rust/crates/syson-reflection/src/lib.rs": "73ead0b106d3fb1186fcaed5050225af2eb36897401795901f7df735265dea20",
+    "rust/crates/syson-reflection/tests/reflection.rs": "3eed21dd7c7d196307345d40b089911bf89fa6fc7a6020310afe90d8212f4744",
+    "rust/crates/syson-reflection/tests/source_tables.tsv": "d40b4a5551176d4f87a573c471fd21558d7b354a50a1c9039f7fd74850b88576",
+    "rust/crates/syson-reflection/tools/generate.py": "43e5c7ca5460bdbef28b00b736fa4419a663c34039053cf669c6bf045c1c6a8e"
+  },
+  "source_unchanged": true,
+  "artifacts": {
+    "03-stderr.txt": "f1f3abfa236554f67a7b93b6ec0ae8359b9856fc6662f032b05faed5a86c1f71",
+    "02-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "04-stderr.txt": "17db7932f27dd470e8eb1cf70c9a3ad4ed0e63ca25b74f68f3e0c156085bdd05",
+    "01-stdout.txt": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6",
+    "executed-runner.py": "251ce7eed331080fe0090069aa0f5f06d07a3f1b96b6d4a4826260fd0a6bead0",
+    "04-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "01-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "00-stdout.txt": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+    "00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "03-stdout.txt": "75617c8c4c48a35628762805696d12016c9fa9b4e51b697ac462a36a2215e038",
+    "02-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "05-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "05-stderr.txt": "8b08ffa33346b9ec31d77656814b5d387d8cd813b20d64c11125476c5e097e88"
+  }
+}

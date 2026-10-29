@@ -1,0 +1,12 @@
+from pathlib import Path
+import json,hashlib,subprocess,fcntl,time
+b=Path(__file__).parent;o=b/'dispatch-comparison-01';o.mkdir();t=Path('/workspace/worktrees/builderbob/syson/batch20-dispatch-tools/porting/rust-parity-evidence/C09/batch20-dispatch-tools');previous=Path('/workspace/build/builderbob/syson-batch20-20261029/dispatch-differential-01');files=[t/'compare_dispatch.py',t/'dispatch_corpus.json',previous/'native.json',previous/'rust.json'];sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();snap=lambda:{str(p):sha(p) for p in files};r={'status':'RUNNING','inputs_before':snap(),'commands':[]};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+try:
+ for label,opts in [('normal',[]),('optimized',['-O'])]:
+  argv=['python3',*opts,str(files[0]),'--corpus',str(files[1]),'--native',str(files[2]),'--rust',str(files[3]),'--output',str(o/(label+'.json')),'--self-test'];start=time.monotonic();p=subprocess.run(argv,capture_output=True,timeout=30);(o/(label+'-stdout.txt')).write_bytes(p.stdout);(o/(label+'-stderr.txt')).write_bytes(p.stderr);r['commands'].append({'argv':argv,'exit':p.returncode,'wall_seconds':time.monotonic()-start});print(p.returncode,p.stdout.decode()[:450],p.stderr.decode()[:450],flush=True)
+  if p.returncode:raise RuntimeError('F09 comparison failed')
+ r['status']='PASS_42_SELECTED_DISPATCH_OBSERVATIONS_AND17_CONTROLS_NORMAL_AND_OPTIMIZED'
+except BaseException as e:r['status']='FAIL_TERMINAL';r['error']=repr(e);raise
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+ if not r['source_unchanged']:raise RuntimeError('source drift')
