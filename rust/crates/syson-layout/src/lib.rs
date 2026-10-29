@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: EPL-2.0
 #![forbid(unsafe_code)]
 mod admission;
+pub mod containers;
 mod placement;
 mod types;
 pub use admission::{AdmittedGraph, Guard, PreparedGraph, admit};
