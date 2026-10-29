@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "contract_id": "SYSON-RUST-COMPLETION/1.0.0",
-  "version": "1.0.0",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.1",
+  "version": "1.0.1",
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "document": "COMPLETION-CONTRACT.md",
   "packet_schema": "acceptance-packet.schema.json",
@@ -1616,5 +1616,48 @@
     "progress": "Update execution/evidence without changing locked obligations. Historical owner holds remain active until explicitly released by the owner.",
     "amendments": "Increment contract version; record rationale, compatibility impact and changed gates/obligations; regenerate and independently review the new lock."
   },
-  "enforcement_boundary": "This adoption validates static plan integrity. RR16b/RR17 still own stronger Git/artifact, parsed-outcome and behavioral-coverage enforcement; independent review decides acceptance."
+  "enforcement_boundary": "This adoption validates static plan integrity. RR16b/RR17 still own stronger Git/artifact, parsed-outcome and behavioral-coverage enforcement; independent review decides acceptance.",
+  "legacy_prerequisite_budget_dispositions": {
+    "amendment": {
+      "path": "amendments/1.0.1-budget-disposition.md",
+      "sha256": "39dca561745da9b763c8ef363bf2eb0df596b734ec08231a1a35d829a3ae60df"
+    },
+    "effective_condition": "Independent review and adoption of contract 1.0.1 and its refreshed lock; freeze exact source composition before F10/F11 execution.",
+    "meaning": "Narrow source-review caps for the named donor-derived prerequisite adoptions only; no resource/application support, source correspondence, execution or acceptance claim. All other unit caps remain unchanged.",
+    "additional_code": "Review every addition and changed dependency input in the exact composition, even below these caps. Above either cap, obtain another reviewed disposition or named split before execution. Preserve APIs, all original tests, notices and source qualifications.",
+    "F10": {
+      "legacy_pr": 25,
+      "donor_revision": "48ee69e41c4f29346f1d95075278d84aefc48057",
+      "crate": "rust/crates/syson-ast-values",
+      "production_lines_max": 420,
+      "authored_lines_max": 900,
+      "observed_production_lines": 409,
+      "observed_test_lines": 372,
+      "observed_rust_authored_lines": 781,
+      "original_tests_required": 16,
+      "source_blobs": {
+        "src/lib.rs": "dbc4a288746469e4980e6f7819a9100cb4c41f0a",
+        "tests/conversion.rs": "0493f91fc935c00ed3e4e0fe2757d53be44df71c"
+      }
+    },
+    "F11": {
+      "legacy_pr": 40,
+      "donor_revision": "ca1c4b3ab364db7dc9da835c66cba72912c3417f",
+      "crate": "rust/crates/syson-ast-adapter",
+      "production_lines_max": 460,
+      "authored_lines_max": 900,
+      "observed_production_lines": 447,
+      "observed_test_lines": 358,
+      "observed_rust_authored_lines": 805,
+      "original_tests_required": 13,
+      "generated_keyword_lines": 173,
+      "generated_review": "Separately review source derivation and exact reserved.rs bytes; excluded from handwritten implementation/authored-code budgets under existing policy.",
+      "source_blobs": {
+        "src/lib.rs": "67c21157cfe9fdeffafba8e1c2317d53238a0493",
+        "tests/construction.rs": "67d4915f1384182c5eec4c0551368db7c455314f",
+        "src/reserved.rs": "3d11a62cea8ea475b98b14eaea849163bcca7b89"
+      }
+    },
+    "preserved": "All 778 current unit IDs, 55 historical implementation/evidence records, scope, dependencies, ownership, cases, performance policy and holds; actual finite-import consuming gates and downstream caller obligations remain required. No retroactive promotion."
+  }
 }

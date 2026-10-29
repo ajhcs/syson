@@ -2,7 +2,7 @@
 
 A required feature is complete when a user can perform it through the Rust application, its results match the agreed SysON behavior, and its data and recovery behavior have been verified on the integrated candidate. The feature must have independently reviewed evidence for its required success, failure and boundary cases.
 
-This version locks the execution priorities and acceptance criteria for the current plan. The target remains SysON source `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`. Scope includes the features enabled in that target and their effective inherited services. Reviewed improvements may change the interaction while preserving the required semantic, reference, API and persistence outcomes.
+Version `SYSON-RUST-COMPLETION/1.0.1` locks the execution priorities and acceptance criteria for the current plan. The target remains SysON source `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`. Scope includes the features enabled in that target and their effective inherited services. Reviewed improvements may change the interaction while preserving the required semantic, reference, API and persistence outcomes.
 
 At adoption, main is `6e54ff44891bb7fd333c1e5fe985ba69abf3e27a`. The execution ledger contains 55 bounded implementation/evidence records: 54 draft PRs and one merged archival supplement. Foundation and planning merges are tracked separately. All 55 records remain `NOT_ACCEPTED`. The plan assigns 778 review units, including generated batches and verification work. These counts describe work and evidence; they do not establish a feature-completion percentage.
 
@@ -102,3 +102,10 @@ C99 closes when C01's scope is complete, all required primary/discovered obligat
 The hash lock binds this contract, schema, performance policy, lane/overlay obligations and plan-generation/verification tools. Generators never refresh it. A source/gate/scope change requires a versioned reviewed amendment with the changed obligations, rationale, compatibility impact, new owners/dependencies/cases and preserved prior evidence. C01 discovery adds required units before coding. Progress and evidence updates belong in the execution ledger and do not release holds or rewrite old receipts.
 
 Routine implementation choices within the adopted scope follow the existing autonomy and ownership rules. This adoption neither promotes a feature to accepted nor releases any raw/factory/initialized-graph hold.
+
+
+**Amendment 1.0.1: narrow legacy prerequisite budgets**
+
+[Amendment 1.0.1](amendments/1.0.1-budget-disposition.md) binds the exact donor source and rationale for F10 #25 (`48ee69e41c4f29346f1d95075278d84aefc48057`) at 420 handwritten production/900 authored lines and F11 #40 (`ca1c4b3ab364db7dc9da835c66cba72912c3417f`) at 460/900. Observed Rust implementation/tests are 409/372 and 447/358 respectively. F11's 173 generated keyword lines remain a separately reviewed generated block. The machine contract binds the amendment note by SHA-256. These two exceptions take effect only with independent review, explicit adoption and the refreshed versioned hash lock, before any F10/F11 execution on frozen composition inputs.
+
+These are source review caps, with unchanged APIs and all 16 F10 and 13 F11 tests preserved. Any additional code or changed dependency input requires review in the exact composition, even below the caps; exceeding a cap requires another reviewed disposition or named split. The 778 units, 55 historical implementation/evidence records and every other budget, obligation, dependency, case, owner, hold and performance requirement remain unchanged. No native correspondence, resource/application support, executed result or acceptance state follows from this amendment. The actual F08/F10/F11/F13/F04/F14 finite-import path and declared downstream caller gates remain required; held graph consumers and F33's mandatory F05 GeneralView round trip retain their gates.
