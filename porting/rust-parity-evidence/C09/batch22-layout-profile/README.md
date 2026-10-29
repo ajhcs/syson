@@ -1,0 +1,11 @@
+# Canonical graph-admission API profiler
+
+This development-only tool measures actual `syson_layout::admit` on a named source candidate. It does not measure placement, native ELK, a worker, UI latency or supported capacity. The exact U10a candidate and default limits are retained as inputs; this packet does not assert that candidate is already on main.
+
+Build a fresh owned Cargo package on `/workspace` with edition 2024, pinned `serde_json = "=1.0.151"` and an explicit candidate `syson-layout` path dependency. Point a `u10a-profile` bin at this source and use an offline/locked release build with the reviewed toolchain. The retained manifests/runners record exact original execution paths, not a portable launcher.
+
+Run `u10a-profile NODES(64|128|256|1024) EDGES_PER_NODE(1|2) [--cancel-before]` in fresh processes. IDs are 27 bytes; rectangles have fractional dimensions. Retain two warmups/seven measured observations per group. Default guards remain 4,096 nodes, 16,384 edges, 100 million work units, 16 MiB logical workspace and 1,024 ID bytes; no quota is relaxed to make a target count pass.
+
+All workloads with 64, 128 or 256 nodes admit actual immutable borrowed canonical graphs. Both workloads with 1,024 nodes return typed Work refusal: their timings are refusal latency, not throughput or capacity. Allocation requests, absolute/incremental live peaks and whole-process VmHWM remain distinct. Fixture creation precedes timing; counters precede `/proc`, verification and JSON, while owners remain live. Precancellation does not qualify interior cancellation; seven samples do not justify p95.
+
+The original controller completed 72 measurements before expecting the wrong abbreviated cancellation status. Its failed receipt stays unchanged. A follow-up verifies every unchanged input/binary/raw sample, recomputes ranges and finishes the remaining controls. Final evidence contains 72 observations, two precancellation checks with zero API allocation and three invalid-CLI refusals. Formatting changed the preparatory source with 234 lines to the executed source with 250 lines; final source and runtime were independently reviewed. Full compiler/sysroot, source/artifact, placement/native/UI/worker and capacity acceptance remain open.
