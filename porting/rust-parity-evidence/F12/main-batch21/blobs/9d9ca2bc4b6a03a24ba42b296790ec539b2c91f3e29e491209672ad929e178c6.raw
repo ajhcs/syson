@@ -1,0 +1,21 @@
+from pathlib import Path
+import os,subprocess,json,hashlib,time,fcntl,re,signal
+b=Path('/workspace/build/builderbob/syson-batch21-20261029');o=b/'operator-component-01';o.mkdir();tmp=o/'tmp';tmp.mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch21-operator-landing');crate=w/'rust/crates/syson-ast-adapter';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();files=sorted(p for name in ['syson-ast-adapter','syson-ast','syson-ast-values','syson-reflection','syson-ast-dispatch'] for p in (w/'rust/crates'/name).rglob('*') if p.is_file())+sorted(p for p in (w/'porting/follow-ons/F11').rglob('*') if p.is_file());setup=subprocess.run(['cargo','generate-lockfile','--offline','--manifest-path',str(crate/'Cargo.toml')],cwd=w,capture_output=True,timeout=30);(o/'lock-stdout.txt').write_bytes(setup.stdout);(o/'lock-stderr.txt').write_bytes(setup.stderr)
+if setup.returncode:raise RuntimeError('Preserve lock setup failure')
+snap=lambda:{str(p.relative_to(w)):sha(p) for p in files}
+(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+env=dict(os.environ,CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(tmp),PYTHONDONTWRITEBYTECODE='1')
+r={'status':'RUNNING','source_before':snap(),'commands':[],'scope':'Current-main F11+F09+F12 finite component only;15constructor+12operator cases. Nativehandler,RR08copyworkrepair,actualexpressionparser/importer/UI/fullacceptance remainOPEN.'}
+commands=[['rustc','-vV'],['cargo','-V'],['rustfmt','--edition','2024','--check',str(crate/'src/lib.rs'),str(crate/'tests/construction.rs'),str(crate/'src/operator_expression.rs'),str(crate/'tests/operator_expression.rs')],['cargo','test','--offline','--locked','--jobs','1','--manifest-path',str(crate/'Cargo.toml'),'--','--test-threads=1','--nocapture'],['cargo','clippy','--offline','--locked','--jobs','1','--manifest-path',str(crate/'Cargo.toml'),'--all-targets','--','-D','warnings'],['cargo','check','--offline','--locked','--jobs','1','--manifest-path',str(crate/'Cargo.toml'),'--target','wasm32-unknown-unknown']]
+try:
+ for i,argv in enumerate(commands):
+  t=time.monotonic();p=subprocess.Popen(argv,cwd=w,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:stdout,stderr=p.communicate(timeout=180);timed=False
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+  (o/f'{i:02}-stdout.txt').write_bytes(stdout);(o/f'{i:02}-stderr.txt').write_bytes(stderr);row={'argv':argv,'exit_code':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t,'tests_passed':sum(map(int,re.findall(rb'test result: ok\. (\d+) passed;',stdout)))};r['commands'].append(row);(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(row),flush=True)
+  if p.returncode or timed:raise RuntimeError('Affected gate failed; preserve source/streams')
+ r['status']='PASS_27_COMPOSED_OPERATOR_CONSTRUCTOR_CASES;NATIVE_AND_RR08_GATES_OPEN'
+except BaseException as e:
+ r['status']='FAIL_TERMINAL';r['error']=repr(e);raise
+finally:
+ r['source_after']=snap();r['source_unchanged']=r['source_before']==r['source_after'];r['artifacts']={p.name:sha(p) for p in o.iterdir() if p.is_file() and p.name!='receipt.json'};(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert r['source_unchanged'],'source drift'
