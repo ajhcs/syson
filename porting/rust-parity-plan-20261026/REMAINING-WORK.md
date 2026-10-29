@@ -18,7 +18,7 @@ The [complete remaining task register](remaining-work/units.json) contains all 7
 
 ## Execute the next PRs in this order
 
-The next batch has three separate tracks: finish constructor/dispatch qualification; finish measurement qualification; and prepare the actual UI/project composition. Treat local passing checks as evidence for their named cases. Do not merge a scope whose required differences, callers or ownership are unresolved.
+The next batch qualifies the finite F12 operator prerequisite and its tools, then admits RR08a followed by RR08b and parent integration. Independent UI/project preparation continues where dependencies and ownership permit. Treat local passing checks as evidence for their named cases. Do not merge a scope whose required differences, callers or ownership are unresolved.
 
 The [current PR queue](rereview-batch21-next-prs.md) gives each immediate scope its tasks, prerequisite gate, verification and stop condition. Earlier batch queues remain dated evidence. F09–F18 below are legacy prerequisite labels, not new unit IDs; their landings support the existing plan obligations. At dispatch, read the actual implementation and acceptance graph again. A prerequisite may land before its parent's full acceptance when its own finite contract and gates are satisfied. No edge, acceptance requirement or owner hold is waived by this schedule.
 
