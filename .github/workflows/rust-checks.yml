@@ -30,8 +30,6 @@ jobs:
           - syson-routing
           - syson-node-measurement
     env:
-      CARGO_HOME: ${{ runner.temp }}/cargo-home
-      CARGO_TARGET_DIR: ${{ runner.temp }}/cargo-target
       CARGO_TERM_COLOR: always
       MANIFEST: rust/crates/${{ matrix.crate }}/Cargo.toml
     defaults:
@@ -44,6 +42,9 @@ jobs:
           persist-credentials: false
 
       - name: Select the qualified Rust toolchain
+        env:
+          CARGO_HOME: ${{ runner.temp }}/cargo-home
+          CARGO_TARGET_DIR: ${{ runner.temp }}/cargo-target
         run: |
           rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --no-self-update
           rustc +1.99.1 -Vv
@@ -51,12 +52,21 @@ jobs:
 
       # No shared cache: each job can obtain its locked dependencies publicly.
       - name: Check formatting
+        env:
+          CARGO_HOME: ${{ runner.temp }}/cargo-home
+          CARGO_TARGET_DIR: ${{ runner.temp }}/cargo-target
         run: cargo +1.99.1 fmt --manifest-path "$MANIFEST" -- --check
 
       - name: Run unit, integration and documentation tests
+        env:
+          CARGO_HOME: ${{ runner.temp }}/cargo-home
+          CARGO_TARGET_DIR: ${{ runner.temp }}/cargo-target
         run: cargo +1.99.1 test --locked --manifest-path "$MANIFEST"
 
       # All targets includes future examples and tests without guessing names.
       # Examples are compiled/linted here; their main functions are not run.
       - name: Lint every target
+        env:
+          CARGO_HOME: ${{ runner.temp }}/cargo-home
+          CARGO_TARGET_DIR: ${{ runner.temp }}/cargo-target
         run: cargo +1.99.1 clippy --locked --manifest-path "$MANIFEST" --all-targets -- -D warnings
