@@ -21,6 +21,10 @@ pub enum ModelError {
     Attribute(AttributeError),
     Json(String),
     JsonAdmission(syson_json_value::Error),
+    JsonOutputIo {
+        kind: std::io::ErrorKind,
+        written: usize,
+    },
     Shape(String),
     InvalidId(String),
     DuplicateId(String),
@@ -46,6 +50,72 @@ impl std::error::Error for ModelError {}
 type Result<T> = std::result::Result<T, ModelError>;
 const JSON_BYTES_LIMIT: usize = 4 * 1024 * 1024;
 const JSON_DEPTH_LIMIT: usize = 128;
+
+fn json_cancelled(cancelled: &mut impl FnMut() -> bool) -> Result<()> {
+    if cancelled() {
+        Err(ModelError::JsonAdmission(
+            syson_json_value::Error::Cancelled,
+        ))
+    } else {
+        Ok(())
+    }
+}
+struct JsonWriter<'a, W: ?Sized, F> {
+    target: &'a mut W,
+    cancelled: &'a mut F,
+    limit: usize,
+    written: usize,
+    failure: Option<ModelError>,
+}
+impl<W: std::io::Write + ?Sized, F: FnMut() -> bool> std::io::Write for JsonWriter<'_, W, F> {
+    fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+        if self.failure.is_some() {
+            return Err(std::io::Error::other("JSON writer already refused"));
+        }
+        if let Err(error) = json_cancelled(self.cancelled) {
+            self.failure = Some(error);
+            return Err(std::io::Error::other("JSON output cancelled"));
+        }
+        if bytes.len() > self.limit.saturating_sub(self.written) {
+            self.failure = Some(ModelError::JsonAdmission(syson_json_value::Error::Limit(
+                syson_json_value::Limit::Bytes,
+            )));
+            return Err(std::io::Error::other("JSON output byte limit"));
+        }
+        match self.target.write(bytes) {
+            Ok(count) if count <= bytes.len() && (count != 0 || bytes.is_empty()) => {
+                self.written += count;
+                Ok(count)
+            }
+            Ok(count) => {
+                let kind = if count == 0 {
+                    std::io::ErrorKind::WriteZero
+                } else {
+                    std::io::ErrorKind::InvalidData
+                };
+                self.failure = Some(ModelError::JsonOutputIo {
+                    kind,
+                    written: self.written,
+                });
+                Err(std::io::Error::new(kind, "invalid JSON sink write count"))
+            }
+            // serde's write_all retries Interrupted. The retry re-enters this
+            // wrapper and polls cancellation again instead of hiding the loop.
+            Err(error) if error.kind() == std::io::ErrorKind::Interrupted => Err(error),
+            Err(error) => {
+                self.failure = Some(ModelError::JsonOutputIo {
+                    kind: error.kind(),
+                    written: self.written,
+                });
+                Err(error)
+            }
+        }
+    }
+    // This API never flushes the caller's writer or promises durability.
+    fn flush(&mut self) -> std::io::Result<()> {
+        Ok(())
+    }
+}
 
 /// Separate UUIDs: EMF resource identity must not overwrite SysML elementId.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -124,11 +194,24 @@ impl Document {
         document.check_json_budget()?;
         Ok(document)
     }
-    // The raw-input cap alone cannot guarantee that pretty save is reloadable.
-    // Count without constructing output; run once at load or changed publication,
-    // never in per-operation validate. RR04 can promote this private primitive.
     fn check_json_budget(&self) -> Result<()> {
-        fn depth(value: &Value, level: usize) -> Result<()> {
+        self.json_size(JSON_BYTES_LIMIT, || false).map(|_| ())
+    }
+    /// Count canonical pretty JSON without allocating its output. Limits above
+    /// 4 MiB refuse; provisional values must also fit the publication depth128.
+    /// This is serialization admission, not validation of provisional semantics.
+    pub fn json_size(
+        &self,
+        max_bytes: usize,
+        mut cancelled: impl FnMut() -> bool,
+    ) -> Result<usize> {
+        if max_bytes > JSON_BYTES_LIMIT {
+            return Err(ModelError::JsonAdmission(
+                syson_json_value::Error::InvalidLimits,
+            ));
+        }
+        fn depth(value: &Value, level: usize, cancelled: &mut impl FnMut() -> bool) -> Result<()> {
+            json_cancelled(cancelled)?;
             if level > JSON_DEPTH_LIMIT {
                 return Err(ModelError::JsonAdmission(syson_json_value::Error::Limit(
                     syson_json_value::Limit::Depth,
@@ -137,52 +220,79 @@ impl Document {
             match value {
                 Value::Array(rows) => {
                     for row in rows {
-                        depth(row, level + 1)?;
+                        depth(row, level + 1, cancelled)?;
                     }
                 }
                 Value::Object(rows) => {
                     for row in rows.values() {
-                        depth(row, level + 1)?;
+                        depth(row, level + 1, cancelled)?;
                     }
                 }
                 _ => (),
             }
             Ok(())
         }
-        struct Count {
-            bytes: usize,
-            exceeded: bool,
-        }
-        impl std::io::Write for Count {
-            fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
-                if bytes.len() > JSON_BYTES_LIMIT.saturating_sub(self.bytes) {
-                    self.exceeded = true;
-                    return Err(std::io::Error::other("model canonical JSON byte limit"));
-                }
-                self.bytes += bytes.len();
-                Ok(bytes.len())
-            }
-            fn flush(&mut self) -> std::io::Result<()> {
-                Ok(())
-            }
-        }
-        depth(&self.value, 1)?;
-        let mut count = Count {
-            bytes: 0,
-            exceeded: false,
+        depth(&self.value, 1, &mut cancelled)?;
+        self.emit_json(&mut std::io::sink(), max_bytes, &mut cancelled)
+    }
+    // One serializer and bounded/cancellable writer serve counting and emission.
+    // Callers admit/count first; the exact admitted size bounds the second pass.
+    fn emit_json<W: std::io::Write + ?Sized>(
+        &self,
+        target: &mut W,
+        limit: usize,
+        cancelled: &mut impl FnMut() -> bool,
+    ) -> Result<usize> {
+        let mut writer = JsonWriter {
+            target,
+            cancelled,
+            limit,
+            written: 0,
+            failure: None,
         };
-        serde_json::to_writer_pretty(&mut count, &self.value).map_err(|error| {
-            if count.exceeded {
-                ModelError::JsonAdmission(syson_json_value::Error::Limit(
-                    syson_json_value::Limit::Bytes,
-                ))
-            } else {
-                ModelError::Json(error.to_string())
-            }
-        })
+        let encoded = serde_json::to_writer_pretty(&mut writer, &self.value);
+        if let Some(error) = writer.failure.take() {
+            return Err(error);
+        }
+        encoded.map_err(|error| ModelError::Json(error.to_string()))?;
+        json_cancelled(writer.cancelled)?;
+        Ok(writer.written)
+    }
+    /// Write after a complete counting/depth pass, with no owned output buffer.
+    /// Admission/early cancellation touches no writer. Later I/O/cancellation can
+    /// leave a prefix or complete output: the caller owns transport rollback.
+    /// JsonOutputIo.written counts acknowledged bytes, not actual side effects
+    /// of a writer that mutates before returning Err. No flush/durability promise.
+    /// Cancellation is cooperative between value/write steps; library and caller
+    /// writer calls are not internally preemptible or wall-clock bounded.
+    pub fn write_json<W: std::io::Write + ?Sized>(
+        &self,
+        target: &mut W,
+        max_bytes: usize,
+        mut cancelled: impl FnMut() -> bool,
+    ) -> Result<usize> {
+        let size = self.json_size(max_bytes, &mut cancelled)?;
+        self.emit_json(target, size, &mut cancelled)
+    }
+    /// Return complete canonical output or an error; no partial String escapes.
+    /// Count/depth admission precedes the fallible exact-size buffer reservation.
+    /// Provisional staged values do not bypass the same 4MiB/depth128 ceilings.
+    pub fn to_json_bounded(
+        &self,
+        max_bytes: usize,
+        mut cancelled: impl FnMut() -> bool,
+    ) -> Result<String> {
+        let size = self.json_size(max_bytes, &mut cancelled)?;
+        json_cancelled(&mut cancelled)?;
+        let mut output = Vec::new();
+        output
+            .try_reserve_exact(size)
+            .map_err(|_| ModelError::JsonAdmission(syson_json_value::Error::Allocation))?;
+        self.emit_json(&mut output, size, &mut cancelled)?;
+        String::from_utf8(output).map_err(|error| ModelError::Json(error.to_string()))
     }
     pub fn to_json(&self) -> Result<String> {
-        serde_json::to_string_pretty(&self.value).map_err(|e| ModelError::Json(e.to_string()))
+        self.to_json_bounded(JSON_BYTES_LIMIT, || false)
     }
     pub fn value(&self) -> &Value {
         &self.value
