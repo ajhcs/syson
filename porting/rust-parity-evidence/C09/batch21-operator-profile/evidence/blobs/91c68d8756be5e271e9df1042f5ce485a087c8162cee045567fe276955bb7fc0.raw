@@ -1,0 +1,154 @@
+//! Instrumented synthetic F12 API baseline; not parser, native or UI timing.
+use std::alloc::{GlobalAlloc, Layout, System};
+use std::sync::{Arc, atomic::{AtomicBool, AtomicU64, Ordering::SeqCst}};
+use std::time::Instant;
+use syson_ast::{Assignment, Datum, Limits, Value};
+use syson_ast_adapter::operator_expression::{OperatorPostprocessor, Report};
+
+struct Allocator;
+static REQUESTS: AtomicU64 = AtomicU64::new(0);
+static REQUESTED: AtomicU64 = AtomicU64::new(0);
+static DEALLOCS: AtomicU64 = AtomicU64::new(0);
+static FREED: AtomicU64 = AtomicU64::new(0);
+static LIVE: AtomicU64 = AtomicU64::new(0);
+static PEAK: AtomicU64 = AtomicU64::new(0);
+static PHASE_PEAK: AtomicU64 = AtomicU64::new(0);
+
+fn added(size: usize) {
+    let live = LIVE.fetch_add(size as u64, SeqCst) + size as u64;
+    PEAK.fetch_max(live, SeqCst);
+    PHASE_PEAK.fetch_max(live, SeqCst);
+}
+fn removed(size: usize) {
+    FREED.fetch_add(size as u64, SeqCst);
+    DEALLOCS.fetch_add(1, SeqCst);
+    LIVE.fetch_sub(size as u64, SeqCst);
+}
+unsafe impl GlobalAlloc for Allocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        REQUESTS.fetch_add(1, SeqCst);
+        REQUESTED.fetch_add(layout.size() as u64, SeqCst);
+        let result = unsafe { System.alloc(layout) };
+        if !result.is_null() { added(layout.size()); }
+        result
+    }
+    unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+        unsafe { System.dealloc(ptr, layout) };
+        removed(layout.size());
+    }
+    unsafe fn realloc(&self, ptr: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        REQUESTS.fetch_add(1, SeqCst);
+        REQUESTED.fetch_add(size as u64, SeqCst);
+        let result = unsafe { System.realloc(ptr, layout, size) };
+        if !result.is_null() {
+            removed(layout.size());
+            added(size);
+        }
+        result
+    }
+}
+#[global_allocator]
+static ALLOCATOR: Allocator = Allocator;
+
+#[derive(Clone, Copy)]
+struct Counters { requests: u64, requested: u64, deallocs: u64, freed: u64, live: u64, peak: u64 }
+fn counters() -> Counters {
+    Counters { requests: REQUESTS.load(SeqCst), requested: REQUESTED.load(SeqCst),
+        deallocs: DEALLOCS.load(SeqCst), freed: FREED.load(SeqCst),
+        live: LIVE.load(SeqCst), peak: PEAK.load(SeqCst) }
+}
+fn delta(a: Counters, b: Counters, phase_peak: u64) -> serde_json::Value {
+    serde_json::json!({"allocation_requests": b.requests-a.requests,
+        "requested_bytes": b.requested-a.requested, "deallocation_events": b.deallocs-a.deallocs,
+        "freed_bytes": b.freed-a.freed, "live_bytes_before": a.live, "live_bytes_after": b.live,
+        "global_peak_before": a.peak, "global_peak_after": b.peak,
+        "phase_peak_live_bytes": phase_peak,
+        "phase_peak_above_initial_live": phase_peak.saturating_sub(a.live)})
+}
+fn rss_kib() -> Option<u64> {
+    std::fs::read_to_string("/proc/self/status").ok()?.lines()
+        .find(|line| line.starts_with("VmHWM:"))?.split_whitespace().nth(1)?.parse().ok()
+}
+fn run(n: usize, cancelled_before_apply: bool) -> Result<serde_json::Value, String> {
+    let setup_before = counters();
+    PHASE_PEAK.store(setup_before.live, SeqCst);
+    let started = Instant::now();
+    let processor = OperatorPostprocessor::pinned().map_err(|e| format!("processor: {e:?}"))?;
+    let cancelled = Arc::new(AtomicBool::new(false));
+    let limits = Limits { max_nodes: 20_001, max_frames: 1024, max_work: 10_000_000 };
+    let mut builder = processor.builder(limits, cancelled.clone()).map_err(|e| format!("builder: {e:?}"))?;
+    let root = builder.allocate(Some("OperatorExpression"), None).map_err(|e| format!("root: {e:?}"))?;
+    builder.defaults(root).map_err(|e| format!("root defaults: {e:?}"))?;
+    builder.assign(root, "operator", Assignment::Set, Datum::new(Value::String("+".into())))
+        .map_err(|e| format!("root operator: {e:?}"))?;
+    let mut targets = Vec::with_capacity(n);
+    for _ in 0..n {
+        let id = builder.allocate(Some("OperatorExpression"), None).map_err(|e| format!("input: {e:?}"))?;
+        builder.defaults(id).map_err(|e| format!("input defaults: {e:?}"))?;
+        builder.assign(id, "operator", Assignment::Set, Datum::new(Value::String("as".into())))
+            .map_err(|e| format!("input operator: {e:?}"))?;
+        builder.assign(root, "operands", Assignment::Append, Datum::node(id))
+            .map_err(|e| format!("root attachment: {e:?}"))?;
+        targets.push(id);
+    }
+    let setup_ns = started.elapsed().as_nanos();
+    let setup_after = counters();
+    let setup_peak = PHASE_PEAK.load(SeqCst);
+    cancelled.store(cancelled_before_apply, SeqCst);
+    PHASE_PEAK.store(setup_after.live, SeqCst);
+    let started = Instant::now();
+    let mut inserted = 0usize;
+    let mut failure = None;
+    for &id in &targets {
+        match processor.apply(&mut builder, id) {
+            Ok(Report::Inserted { normalized_operands: false, .. }) => inserted += 1,
+            other => { failure = Some(other); break; }
+        }
+    }
+    let apply_ns = started.elapsed().as_nanos();
+    let apply_after = counters();
+    let apply_peak = PHASE_PEAK.load(SeqCst);
+    PHASE_PEAK.store(apply_after.live, SeqCst);
+    let started = Instant::now();
+    let finished = builder.finish(root);
+    let finish_ns = started.elapsed().as_nanos();
+    let finish_after = counters();
+    let finish_peak = PHASE_PEAK.load(SeqCst);
+    // All measured counters precede formatting, JSON and /proc allocations.
+    let rss = rss_kib();
+    let finish_error = finished.as_ref().err().map(|e| format!("{e:?}"));
+    let final_nodes = finished.as_ref().ok().map(|arena| arena.nodes().len());
+    let expected_nodes = 1 + 4 * n;
+    let complete = failure.is_none() && inserted == n && final_nodes == Some(expected_nodes);
+    Ok(serde_json::json!({"status": if complete {"COMPLETE_SYNTHETIC_API_BASELINE"} else {"TYPED_FAILURE"},
+        "scope": "Instrumented Rust synthetic F12 API only; setup/apply/finish separate; no native/parser/UI parity or capacity acceptance",
+        "input_operator_nodes": n, "input_total_nodes": n+1, "expected_final_nodes": expected_nodes,
+        "inserted_reports": inserted, "actual_final_nodes": final_nodes,
+        "cancelled_before_apply": cancelled_before_apply, "apply_failure": failure.map(|e| format!("{e:?}")),
+        "finish_failure": finish_error, "limits": {"max_nodes":20_001,"max_frames":1024,"max_work":10_000_000},
+        "setup_ns":setup_ns,"apply_ns":apply_ns,"finish_ns":finish_ns,"process_peak_rss_kib":rss,
+        "setup_allocations":delta(setup_before,setup_after,setup_peak),
+        "apply_allocations":delta(setup_after,apply_after,apply_peak),
+        "finish_allocations":delta(apply_after,finish_after,finish_peak),
+        "accounting":"SeqCst counting System allocator; successful realloc counts old storage freed/new storage live; requested bytes include failed requests; RSS is separate; unmetered State-clone concern remains RR08 OPEN"}))
+}
+fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    let n = args.get(1).and_then(|s| s.parse::<usize>().ok());
+    let cancel = args.get(2).map(String::as_str) == Some("--cancel-before-apply");
+    if args.len() < 2 || args.len() > 3 || (args.len() == 3 && !cancel) || !n.is_some_and(|n| (1..=5000).contains(&n)) {
+        eprintln!("usage: operator-profile N(1..=5000) [--cancel-before-apply]");
+        std::process::exit(2);
+    }
+    match run(n.unwrap(), cancel) {
+        Ok(value) => {
+            let complete = value["status"] == "COMPLETE_SYNTHETIC_API_BASELINE";
+            println!("{value}");
+            if !complete { std::process::exit(1); }
+        }
+        Err(error) => {
+            println!("{}", serde_json::json!({"status":"SETUP_FAILURE","error":error}));
+            std::process::exit(1);
+        }
+    }
+}
