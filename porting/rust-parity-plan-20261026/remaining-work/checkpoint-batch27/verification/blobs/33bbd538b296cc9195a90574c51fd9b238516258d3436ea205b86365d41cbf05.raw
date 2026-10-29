@@ -1,0 +1,70 @@
+from pathlib import Path
+import hashlib, json, subprocess
+w=Path('/workspace/worktrees/builderbob/syson/batch27-team-plan')
+p=w/'porting/rust-parity-plan-20261026'
+b=Path(__file__).parent/'team-validation-01'
+b.mkdir()
+sha=lambda path:hashlib.sha256(path.read_bytes()).hexdigest()
+def base(name):
+    return json.loads(subprocess.check_output(['git','show','3b3b46eda510587c69188d5dcd851932f8cec70b:porting/rust-parity-plan-20261026/'+name],cwd=w))
+def normalized(unit):
+    return {k:v for k,v in unit.items() if k not in ['completion_contract','source_fragment_sha256']}
+receipt={'status':'FAIL_PRESERVED','checks':[],'full_parity_claimed':False}
+try:
+    snapshot=json.loads((p/'remaining-work/snapshot.lock.json').read_bytes())
+    paths=set(snapshot['sha256'])|{'remaining-work/snapshot.lock.json'}
+    before={n:sha(p/n) for n in sorted(paths)}
+    receipt['inputs_before']=before
+    receipt['verification_source_sha256']=sha(Path(__file__))
+    receipt['python_sha256']=sha(Path('/usr/bin/python3').resolve())
+    for optimized in [False,True]:
+        for label,script,tail,expected in [
+            ('teams','tools/test_team_policy.py',['-v'],0),
+            ('contract','tools/verify_plan.py',['--self-test','--check-completion'],2),
+            ('snapshot','remaining-work/verify_snapshot.py',['--self-test'],0)]:
+            stem=('optimized-' if optimized else 'normal-')+label
+            argv=['/usr/bin/python3','-B']+(['-O'] if optimized else [])+[str(p/script)]+tail
+            try:
+                r=subprocess.run(argv,cwd=w,capture_output=True,timeout=240)
+            except subprocess.TimeoutExpired as error:
+                (b/(stem+'-stdout.txt')).write_bytes(error.stdout or b'')
+                (b/(stem+'-stderr.txt')).write_bytes(error.stderr or b'')
+                receipt['checks'].append({'label':stem,'argv':argv,'exit':None,'timed_out':True})
+                raise
+            (b/(stem+'-stdout.txt')).write_bytes(r.stdout)
+            (b/(stem+'-stderr.txt')).write_bytes(r.stderr)
+            row={'label':stem,'argv':argv,'exit':r.returncode,'expected':expected}
+            receipt['checks'].append(row)
+            if r.returncode!=expected: raise RuntimeError('unexpected result: '+stem)
+            if label=='teams' and b'Ran 16 tests' not in r.stderr:
+                raise RuntimeError('expected all16 team test methods')
+            if label!='teams':
+                row['result']=json.loads(r.stdout)
+                if label=='contract' and (row['result'].get('parity')!='OPEN' or row['result'].get('open_gate_count')!=791):
+                    raise RuntimeError('unexpected completion state')
+    plan=json.loads((p/'plan.json').read_bytes()); previous=base('plan.json')
+    if [normalized(u) for u in plan['units']] != [normalized(u) for u in previous['units']]:
+        raise RuntimeError('prior790 obligations changed')
+    if plan['readiness_graph']!=previous['readiness_graph']: raise RuntimeError('readiness edges changed')
+    contract=json.loads((p/'completion-contract.json').read_bytes()); previous_contract=base('completion-contract.json')
+    if {k:v for k,v in contract.items() if k not in ['contract_id','version','team_execution']} != {k:v for k,v in previous_contract.items() if k not in ['contract_id','version']}:
+        raise RuntimeError('prior contract policy changed')
+    state=json.loads((p/'execution.json').read_bytes()); previous_state=base('execution.json')
+    if state['units']!=previous_state['units'] or len(state['units'])!=55:
+        raise RuntimeError('historical execution record changed')
+    if state['integration_history']!=previous_state['integration_history']+[previous_state['current_integration']]:
+        raise RuntimeError('historical timeline changed')
+    if state['contract_adoptions'][:-1]!=previous_state['contract_adoptions']: raise RuntimeError('adoption history changed')
+    previous_performance=subprocess.check_output(['git','show','3b3b46eda510587c69188d5dcd851932f8cec70b:porting/rust-parity-plan-20261026/performance-policy.json'],cwd=w)
+    if (p/'performance-policy.json').read_bytes()!=previous_performance:
+        raise RuntimeError('performance policy changed')
+    receipt['inputs_after']={n:sha(p/n) for n in before}
+    if before!=receipt['inputs_after']: raise RuntimeError('verification input drift')
+    receipt.update(status='PASS_STATIC_TEAM_PLAN_AND_SNAPSHOT_ONLY',preserved_units=790,preserved_historical_records=55)
+except BaseException as error:
+    receipt['status']='FAIL_PRESERVED'
+    receipt['error']=repr(error)
+    raise
+finally:
+    (b/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps({'status':receipt['status'],'checks':[(x['label'],x['exit']) for x in receipt['checks']]}))
