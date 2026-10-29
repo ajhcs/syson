@@ -1,0 +1,25 @@
+- main:
+  - heading "Measurement qualification" [level=1]
+  - paragraph: This developer probe runs selected pinned source methods and the actual Rust measurement API in WebAssembly. It does not load the complete application.
+  - group "Rendered label":
+    - text: Rendered label Label text
+    - textbox "Label text": Vehicle 雪 🧭 Second line
+    - text: Font size
+    - combobox "Font size":
+      - option "14 px"
+      - option "18 px"
+      - option "24 px" [selected]
+    - checkbox "Retain previous size"
+    - text: Retain previous size
+    - checkbox "Missing label"
+    - text: Missing label
+    - checkbox "Stale font observation"
+    - text: Stale font observation
+    - button "Measure labels"
+  - status: Original source and Rust agree for all rendered labels.
+  - heading "Package" [level=2]
+  - text: "Vehicle 雪 🧭 Second line Original: 150 × 83.1875 Rust bits match: true Label: 142.02 × 67.19"
+  - heading "ViewFrame" [level=2]
+  - text: "Vehicle 雪 🧭 Second line Original: 150 × 83.1875 Rust bits match: true Label: 142.02 × 67.19"
+  - heading "Note" [level=2]
+  - text: "Vehicle 雪 🧭 Second line Original: 200 × 70 Rust bits match: true Label: 142.02 × 67.19 Package and view-frame methods read these real DOM rectangles. Note receives its model label height through an explicit fixture assignment from the measured rectangle. Local scrolling preserves long labels; full application rendering, accessibility and native artifact correspondence remain separate gates."
