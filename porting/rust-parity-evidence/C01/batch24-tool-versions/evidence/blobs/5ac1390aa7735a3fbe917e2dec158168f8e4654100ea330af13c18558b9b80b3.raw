@@ -1,0 +1,80 @@
+{
+  "status": "PASS_VERSION_PHASE_ONLY;BUILD_NATIVE_UI_GATES_OPEN",
+  "inputs_before": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63",
+    "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/check_versions.py": "7152a30458be0240a08d44d4d178cc5d1de8c4ad0ddd509cef576bf42fd68d82",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/configs/maven-public.xml": "a11e6a024b5aaf2a1dd2c9a02e35abe28b3e6baff4e14db3ebf3a8b64f5b4458",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/configs/npm-global.rc": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/configs/npm-user.rc": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/entry.py": "70533004abadbf160f2811c1e84655846ebfd74f5e1677f5e1089d1919a18cfd",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/proposal.json": "ac7393022ef1bc89320bbd2d580f6d20a3c0bcf230b32cedffbcafc812c76ed9",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/run_versions.py": "8aea33adb913504b92158c63886ccece9df47dd2732129215baa584e3b3c40d4",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/tests/test_version_admission.py": "02d938243b7e396d5f4580864a36903557b23087a168ae57fc0f4023ba151a47"
+  },
+  "scope": "Fixed version handlers only; no build, dependency, native application or UI acceptance.",
+  "headroom": {
+    "available_memory_kib": 25159528,
+    "available_disk_bytes": 1214057267200
+  },
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--collect",
+    "--unit=syson-c01-versions-01.scope",
+    "-p",
+    "CPUQuota=200%",
+    "-p",
+    "MemoryHigh=4G",
+    "-p",
+    "MemoryMax=6G",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "TasksMax=128",
+    "-p",
+    "RuntimeMaxSec=300s",
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/entry.py",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/check_versions.py",
+    "7152a30458be0240a08d44d4d178cc5d1de8c4ad0ddd509cef576bf42fd68d82",
+    "3"
+  ],
+  "initial_scope": {
+    "ControlGroup": "",
+    "LoadState": "not-found",
+    "ActiveState": "inactive"
+  },
+  "timed_out": false,
+  "exit": 0,
+  "wall_seconds": 2.65241356799379,
+  "scope_cleanup": {
+    "confirmed_empty_or_absent": true,
+    "observations": [
+      {
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "ActiveState": "inactive"
+      }
+    ]
+  },
+  "inputs_after": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63",
+    "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/check_versions.py": "7152a30458be0240a08d44d4d178cc5d1de8c4ad0ddd509cef576bf42fd68d82",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/configs/maven-public.xml": "a11e6a024b5aaf2a1dd2c9a02e35abe28b3e6baff4e14db3ebf3a8b64f5b4458",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/configs/npm-global.rc": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/configs/npm-user.rc": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/entry.py": "70533004abadbf160f2811c1e84655846ebfd74f5e1677f5e1089d1919a18cfd",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/proposal.json": "ac7393022ef1bc89320bbd2d580f6d20a3c0bcf230b32cedffbcafc812c76ed9",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/run_versions.py": "8aea33adb913504b92158c63886ccece9df47dd2732129215baa584e3b3c40d4",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-version-admission/tests/test_version_admission.py": "02d938243b7e396d5f4580864a36903557b23087a168ae57fc0f4023ba151a47"
+  },
+  "inputs_unchanged": true
+}
