@@ -1,0 +1,251 @@
+"""Qualify the composed CLI against actual admitted captures and source pins.
+
+SYSON_C09B2_FIXTURES uses the C09a two-epoch fixture schema plus compare_sha256.
+Optional projection_kernel/capture_admission override sibling module paths for
+public API checks. The CLI always uses its own checked sibling source files.
+The root job admits all paths, source hashes, outputs and runtime resources.
+"""
+from contextlib import redirect_stdout
+import copy
+import hashlib
+import io
+import json
+import os
+from pathlib import Path
+import tempfile
+from types import ModuleType
+import unittest
+
+
+class ComparisonCliTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.config = json.loads(Path(os.environ['SYSON_C09B2_FIXTURES']).read_bytes())
+        directory = Path(__file__).resolve().parents[1]
+        source = directory / 'compare_p01.py'
+        raw = source.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != cls.config['compare_sha256']:
+            raise ValueError('unreviewed CLI test subject')
+        cls.subject = ModuleType('reviewed_p01_comparison_cli')
+        cls.subject.__file__ = str(source)
+        exec(compile(raw, str(source), 'exec'), cls.subject.__dict__)
+        cls.projection = Path(cls.config.get('projection_kernel', directory / 'projection_p01.py'))
+        cls.capture = Path(cls.config.get('capture_admission', directory / 'capture_p01.py'))
+        cls.constructor = Path(cls.config['constructor_comparator'])
+        cls.temporary_root = Path(cls.config['temporary_root']).resolve()
+        if not cls.temporary_root.is_relative_to('/workspace') or not cls.temporary_root.is_dir():
+            raise ValueError('tests require an existing admitted Samsung temporary directory')
+        cls.raw = {epoch: {name: Path(path).read_bytes() for name, path in paths.items()}
+                   for epoch, paths in cls.config['epochs'].items()}
+        if set(cls.raw) != {'15', '25'} or any(
+            set(blobs) != {'corpus', 'native', 'rust', 'receipt'} for blobs in cls.raw.values()
+        ):
+            raise ValueError('both complete fixture epochs are required')
+        contract = directory.parents[2] / 'rust-parity-plan-20261026' / 'completion-contract.json'
+        cls.contract = json.loads(contract.read_bytes())
+
+    def compare(self, docs=None, epoch='25', **paths):
+        blobs = dict(self.raw[epoch])
+        if docs is not None:
+            for name, raw in blobs.items():
+                if docs[name] != json.loads(raw):
+                    blobs[name] = json.dumps(docs[name]).encode()
+        return self.subject.compare(blobs, paths.get('constructor', self.constructor),
+                                    paths.get('projection', self.projection),
+                                    paths.get('capture', self.capture))
+
+    def cli(self, epoch='25', self_test=False, overrides=None):
+        paths = dict(self.config['epochs'][epoch])
+        paths['constructor-comparator'] = str(self.constructor)
+        paths['rust-receipt'] = paths.pop('receipt')
+        paths.update(overrides or {})
+        args = [part for name, path in paths.items() for part in ['--' + name, str(path)]]
+        if self_test:
+            args.append('--self-test')
+        stdout = io.StringIO()
+        with redirect_stdout(stdout):
+            status = self.subject.main(args)
+        return status, json.loads(stdout.getvalue())
+
+    def documents(self, epoch='25'):
+        return {name: json.loads(raw) for name, raw in self.raw[epoch].items()}
+
+    def test_cli_preserves_typed_old_red_and_current_match_with_open(self):
+        for epoch, expected_exit, differences in [('15', 1, 2), ('25', 0, 0)]:
+            with self.subTest(epoch=epoch):
+                status, report = self.cli(epoch)
+                self.assertEqual((status, report['difference_count']), (expected_exit, differences))
+                self.assertEqual(len(report['cases']), int(epoch))
+                self.assertFalse(report['full_parity_claimed'])
+                self.assertTrue(any(row['status'] == 'OPEN' for row in report['cases']))
+                red = [row for row in report['cases'] if row['differences']]
+                if epoch == '15':
+                    self.assertEqual({row['id'] for row in red},
+                                     {'04-comment-only-EOF', 'comment-only-root'})
+                    self.assertTrue(all(row['differences'] == ['root_origin'] for row in red))
+
+    def test_all_45_composed_controls_match_adopted_identity_and_outcome(self):
+        frozen = self.contract['tooling_comparator_splits']['C09']['frozen_prototype']['original_controls']
+        repair = self.contract['comparison_repairs']['C09b']
+        required = frozen + repair['additional_controls']
+        self.assertEqual((len(frozen), len(required), len(set(required))), (35, 45, 45))
+        for epoch in ['15', '25']:
+            with self.subTest(epoch=epoch):
+                status, report = self.cli(epoch, self_test=True)
+                self.assertEqual(status, 1 if epoch == '15' else 0)
+                controls = report['negative_controls']
+                self.assertEqual((controls['status'], controls['count'], controls['required_count']),
+                                 ('PASS', 45, 45))
+                self.assertEqual(controls['cases'], required)
+                self.assertEqual([row['name'] for row in controls['outcomes']], required)
+                results = {row['name']: row for row in controls['outcomes']}
+                self.assertEqual(results['native-root']['status'], 'DIVERGED')
+                self.assertIn('root_origin', results['native-root']['differences'])
+                for name in ['missing-first-ref-origin-only', 'missing-first-ref-text-only',
+                             'missing-typeref-origin-only', 'missing-native-reference-info']:
+                    self.assertEqual(results[name]['status'], 'OPEN')
+                    self.assertEqual(results[name]['differences'], [])
+                for name in ['constructor-source-hash', 'capture-module-source-hash',
+                             'projection-module-source-hash']:
+                    self.assertEqual(results[name]['status'], 'MALFORMED_CAPTURE')
+                    self.assertTrue(results[name]['error'].endswith('source hash mismatch'))
+
+    def test_cli_binds_raw_paths_all_source_layers_and_receipt_limit(self):
+        status, report = self.cli()
+        self.assertEqual(status, 0)
+        for name, raw in self.raw['25'].items():
+            label = 'rust-receipt' if name == 'receipt' else name
+            self.assertEqual(report['inputs'][label], {
+                'path': self.config['epochs']['25'][name],
+                'sha256': hashlib.sha256(raw).hexdigest()})
+        for label, path in [('projection-module', self.projection),
+                            ('capture-module', self.capture),
+                            ('constructor-comparator', self.constructor)]:
+            self.assertEqual(report['inputs'][label], {
+                'path': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()})
+        self.assertIn('no output digest', report['qualification_binding']['limit'])
+        known = {'07-semantic-block-comment', '08-overlap-multiline-note', 'late-overlap',
+                 '09-commented-closing-brace', '10-no-token-merging', 'quoted-error-offset'}
+        for row in report['cases']:
+            if row['id'] in known:
+                self.assertEqual(row['status'], 'OPEN')
+                self.assertTrue(row['open_reason'])
+            if row['id'] == 'quoted-error-offset':
+                self.assertTrue(any('17, 18, 32' in item for item in row['open_items']))
+
+    def test_root_mutation_preserves_original_shared_records_and_is_admitted(self):
+        docs = self.documents()
+        native = next(row for row in docs['native']['cases'] if row['id'] == '01-LF')
+        old_objects, old_cst = copy.deepcopy(native['tree']['objects']), copy.deepcopy(native['tree']['cst'])
+        objects = {obj['id']: obj for obj in old_objects}
+        root = objects[native['tree']['root']['$object']]
+        root_cst = next(row['value']['$cst'] for row in root['properties'] if row['key'] == '$cstNode')
+        self.subject.clone_root_range(native)
+        self.assertEqual(native['tree']['objects'][:len(old_objects)], old_objects)
+        additions = native['tree']['objects'][len(old_objects):]
+        self.assertEqual(len(additions), 3)
+        self.assertEqual(len({obj['id'] for obj in additions}), 3)
+        self.assertFalse(set(objects) & {obj['id'] for obj in additions})
+        self.assertEqual([node for node in native['tree']['cst'] if node['id'] != root_cst],
+                         [node for node in old_cst if node['id'] != root_cst])
+        row = next(row for row in self.compare(docs)['cases'] if row['id'] == '01-LF')
+        self.assertEqual((row['status'], row['differences']), ('DIVERGED', ['root_origin']))
+
+    def test_root_control_refuses_colliding_ids_before_reusing_records(self):
+        docs = self.documents()
+        native = next(row for row in docs['native']['cases'] if row['id'] == '01-LF')
+        native['tree']['objects'].append({'id': 'control-root-range'})
+        with self.assertRaisesRegex(ValueError, '^root control ID collision$'):
+            self.subject.clone_root_range(native)
+
+    def test_cli_malformed_json_source_and_receipt_are_exit_two(self):
+        with tempfile.TemporaryDirectory(dir=self.temporary_root) as directory:
+            path = Path(directory) / 'changed.json'
+            variants = [('rust', b'{', 'Expecting property name'),
+                        ('corpus', self.raw['25']['corpus'] + b' ', 'pinned exact corpus bytes changed')]
+            receipt = json.loads(self.raw['25']['receipt'])
+            receipt['source_unchanged'] = False
+            variants.append(('rust-receipt', json.dumps(receipt).encode(),
+                             'Rust qualification source drift or absent receipt'))
+            for name, raw, message in variants:
+                with self.subTest(input=name):
+                    path.write_bytes(raw)
+                    status, report = self.cli(overrides={name: path})
+                    self.assertEqual((status, report['status']), (2, 'MALFORMED_CAPTURE'))
+                    self.assertIn(message, report['error'])
+
+    def test_valid_divergent_native_retains_json_and_reports_controls_not_applicable(self):
+        docs = self.documents()
+        native = next(row for row in docs['native']['cases'] if row['id'] == '01-LF')
+        package = next(obj for obj in native['tree']['objects'] if obj.get('node_type') == 'Package')
+        package['node_type'] = 'PartUsage'
+        next(row for row in package['properties'] if row['key'] == '$type')['value'] = 'PartUsage'
+        with tempfile.TemporaryDirectory(dir=self.temporary_root) as directory:
+            path = Path(directory) / 'native.json'
+            path.write_text(json.dumps(docs['native']))
+            status, baseline = self.cli(overrides={'native': path})
+            checked_status, checked = self.cli(self_test=True, overrides={'native': path})
+        self.assertEqual((status, checked_status), (1, 1))
+        self.assertNotIn('status', checked)
+        self.assertEqual(checked['cases'], baseline['cases'])
+        self.assertGreater(checked['difference_count'], 0)
+        self.assertEqual(checked['difference_count'], baseline['difference_count'])
+        controls = checked['negative_controls']
+        self.assertEqual((controls['status'], controls['count'], controls['required_count']),
+                         ('NOT_APPLICABLE', 0, 45))
+        self.assertEqual([row['name'] for row in controls['outcomes']], self.subject.CONTROLS)
+        self.assertTrue(all(row['status'] == 'NOT_RUN_BASELINE_DIVERGED' for row in controls['outcomes']))
+        self.assertEqual(checked['verification_failure']['status'], 'NOT_APPLICABLE')
+
+    def test_valid_missing_only_input_cannot_exit_zero_when_control_preconditions_fail(self):
+        docs = self.documents()
+        native = next(row for row in docs['native']['cases'] if row['id'] == '01-LF')
+        owner = next(obj for obj in native['tree']['objects'] if obj.get('node_type') == 'TypeReference')
+        owner['properties'] = [row for row in owner['properties'] if row['key'] != 'parts']
+        owner['property_keys'].remove('parts')
+        with tempfile.TemporaryDirectory(dir=self.temporary_root) as directory:
+            path = Path(directory) / 'native.json'
+            path.write_text(json.dumps(docs['native']))
+            status, baseline = self.cli(overrides={'native': path})
+            checked_status, checked = self.cli(self_test=True, overrides={'native': path})
+        self.assertEqual((status, checked_status), (0, 1))
+        self.assertEqual((baseline['difference_count'], checked['difference_count']), (0, 0))
+        self.assertEqual(checked['cases'], baseline['cases'])
+        row = next(row for row in checked['cases'] if row['id'] == '01-LF')
+        self.assertEqual(row['status'], 'OPEN')
+        controls = checked['negative_controls']
+        self.assertEqual(controls['status'], 'FAILED')
+        self.assertLess(controls['count'], 45)
+        self.assertEqual(controls['required_count'], 45)
+        self.assertEqual([row['name'] for row in controls['outcomes']], self.subject.CONTROLS)
+        self.assertEqual(sum(row['status'] == 'FAILED_CONTROL' for row in controls['outcomes']), 1)
+        self.assertTrue(any(row['status'] == 'NOT_RUN_AFTER_CONTROL_FAILURE' for row in controls['outcomes']))
+        self.assertTrue(checked['verification_failure']['reason'])
+
+
+    def test_source_pins_are_rechecked_each_call_and_no_sentinel_executes(self):
+        expected = {'constructor': 'constructor comparator', 'projection': 'projection module',
+                    'capture': 'capture admission'}
+        for role in expected:
+            with self.subTest(role=role), tempfile.TemporaryDirectory(dir=self.temporary_root) as directory:
+                path, sentinel = Path(directory) / 'source.py', Path(directory) / 'executed'
+                path.write_bytes(getattr(self, role).read_bytes())
+                self.assertEqual(self.compare(**{role: path})['difference_count'], 0)
+                path.write_text('from pathlib import Path\nPath(' + repr(str(sentinel)) + ').touch()\n')
+                with self.assertRaisesRegex(ValueError, '^' + expected[role] + ' source hash mismatch$'):
+                    self.compare(**{role: path})
+                self.assertFalse(sentinel.exists())
+
+    def test_control_execution_preserves_fixture_bytes_and_fresh_baseline(self):
+        before = {epoch: {name: hashlib.sha256(raw).hexdigest() for name, raw in blobs.items()}
+                  for epoch, blobs in self.raw.items()}
+        report = self.subject.self_test(self.raw['25'], self.constructor, self.projection,
+                                        self.capture, self.temporary_root)
+        self.assertEqual(report['count'], 45)
+        self.assertEqual(before, {epoch: {name: hashlib.sha256(raw).hexdigest() for name, raw in blobs.items()}
+                                  for epoch, blobs in self.raw.items()})
+        self.assertEqual(self.compare()['difference_count'], 0)
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,0 +1,87 @@
+from pathlib import Path
+import fcntl, hashlib, json, os, subprocess, time
+b = Path(__file__).parent
+o = b / 'c09b2-checks-01'
+o.mkdir()
+(o / 'tmp').mkdir()
+w = Path('/workspace/worktrees/builderbob/syson/batch24-comment-cli')
+module = w / 'porting/rust-parity-evidence/C09/batch22-comment-comparison'
+constructor = w / 'porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py'
+contract = w / 'porting/rust-parity-plan-20261026/completion-contract.json'
+sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+config = json.loads((b / 'c09a-checks-03/fixtures.json').read_bytes())
+config.update(constructor_comparator=str(constructor), temporary_root=str(o / 'tmp'),
+              compare_sha256='502ef0ac27170a2c8e3a1c276d1b40eeeb7ef6bc3bca71cbd78726b0e506824f')
+manifest = o / 'fixtures.json'
+manifest.write_text(json.dumps(config, indent=2) + '\n')
+(o / 'executed-runner.py').write_bytes(Path(__file__).read_bytes())
+files = {Path('/usr/bin/python3'), Path(__file__), manifest, constructor, contract,
+         module / 'projection_p01.py', module / 'capture_p01.py',
+         module / 'compare_p01.py', module / 'tests/test_compare_p01.py'}
+files.update(Path(p) for epoch in config['epochs'].values() for p in epoch.values())
+snapshot = lambda: {str(p): sha(p) for p in sorted(files)}
+record = {'status': 'RUNNING', 'inputs_before': snapshot(), 'commands': [],
+          'scope': 'Actual source-pinned CLI/tests and all 45 typed controls on both epochs; parent/native/UI parity remains OPEN.'}
+policy = json.loads(contract.read_bytes())
+controls = (policy['tooling_comparator_splits']['C09']['frozen_prototype']['original_controls'] +
+            policy['comparison_repairs']['C09b']['additional_controls'])
+env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ['HOME'], 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8',
+       'TMPDIR': str(o / 'tmp'), 'PYTHONDONTWRITEBYTECODE': '1', 'SYSON_C09B2_FIXTURES': str(manifest)}
+def run(label, argv, expected):
+    start = time.monotonic()
+    timed_out = False
+    try:
+        result = subprocess.run(argv, cwd=o, env=env, capture_output=True, timeout=180)
+    except subprocess.TimeoutExpired as error:
+        timed_out = True
+        result = subprocess.CompletedProcess(argv, -1, error.stdout or b'', error.stderr or b'')
+    (o / (label + '-stdout.json')).write_bytes(result.stdout)
+    (o / (label + '-stderr.txt')).write_bytes(result.stderr)
+    record['commands'].append({'label': label, 'argv': argv, 'exit': result.returncode,
+                               'wall_seconds': time.monotonic() - start, 'timed_out': timed_out,
+                               'stdout_sha256': hashlib.sha256(result.stdout).hexdigest(),
+                               'stderr_sha256': hashlib.sha256(result.stderr).hexdigest()})
+    if timed_out or result.returncode != expected:
+        raise RuntimeError('unexpected exit: ' + label)
+    return result
+try:
+    if (len(controls) != 45 or sha(module / 'compare_p01.py') != config['compare_sha256'] or
+            sha(module / 'tests/test_compare_p01.py') != '3f4d23d70c9c7bce86000a0837e3223d525ec2365d3329e2c122beed25d36edb'):
+        raise RuntimeError('reviewed CLI/tests or adopted control inventory changed')
+    lock = open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    for optimized in (False, True):
+        stem = 'optimized' if optimized else 'normal'
+        python = ['/usr/bin/python3', '-B'] + (['-O'] if optimized else [])
+        result = run(stem + '-tests', python + [str(module / 'tests/test_compare_p01.py'), '-v'], 0)
+        if b'Ran 10 tests' not in result.stderr:
+            raise RuntimeError('expected 10 actual CLI regression tests')
+        for epoch, expected_exit, expected_diff in [('15', 1, 2), ('25', 0, 0)]:
+            paths = config['epochs'][epoch]
+            argv = python + [str(module / 'compare_p01.py'), '--self-test', '--constructor-comparator', str(constructor)]
+            for name, flag in [('corpus', 'corpus'), ('native', 'native'), ('rust', 'rust'), ('receipt', 'rust-receipt')]:
+                argv.extend(['--' + flag, paths[name]])
+            report = json.loads(run(stem + '-epoch' + epoch, argv, expected_exit).stdout)
+            checks = report['negative_controls']
+            if (report['difference_count'] != expected_diff or report['full_parity_claimed'] or
+                    len(report['cases']) != int(epoch) or checks['status'] != 'PASS' or
+                    checks['count'] != 45 or checks['required_count'] != 45 or checks['cases'] != controls or
+                    [row['name'] for row in checks['outcomes']] != controls or
+                    any(row['status'] not in {'MALFORMED_CAPTURE', 'DIVERGED', 'OPEN'} for row in checks['outcomes'])):
+                raise RuntimeError('typed 45-control/report qualification failed')
+    record['status'] = 'PASS_10_TESTS_NORMAL_OPTIMIZED_AND_45_CONTROLS_EACH_EPOCH_MODE'
+except BaseException as error:
+    record.update(status='FAIL_TERMINAL', error=repr(error))
+    raise
+finally:
+    try:
+        record['inputs_after'] = snapshot()
+        record['source_unchanged'] = record['inputs_before'] == record['inputs_after']
+    except OSError as error:
+        record.update(source_unchanged=False, inputs_after_error=repr(error))
+    if not record['source_unchanged']:
+        record.update(status='FAIL_TERMINAL', error='selected input drift')
+    (o / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    if not record['source_unchanged']:
+        raise RuntimeError('selected input drift')
+print(json.dumps({'status': record['status'], 'commands': len(record['commands']), 'source_unchanged': record['source_unchanged']}))

@@ -1,0 +1,378 @@
+"""Compare the two frozen P01 capture epochs through source-pinned admission.
+
+Exit 0 means selected projections match and any requested controls PASS,
+with explicit OPEN limitations. Exit 1 records semantic differences or failed/
+unqualified requested verification; exit 2 rejects malformed inputs.
+Full parser, reference-target/getter/lifecycle, native artifact and UI parity
+remain unqualified. All 35 original and ten compound/source controls remain.
+"""
+import argparse
+import copy
+import hashlib
+import json
+from pathlib import Path
+import tempfile
+from types import ModuleType
+
+PROJECTION_SHA256 = '1d55ed1c83418f1019611c0f48b93cb885e3007cbffd449fb8589eb85acb57dc'
+INPUT_NAMES = ['corpus', 'native', 'rust', 'receipt']
+CONTROLS = [
+    'native-type', 'native-root', 'native-name', 'Rust-root', 'Rust-name', 'Rust-source',
+    'duplicate', 'missing', 'schema', 'bool-root', 'missing-node-origin', 'missing-Datum-lexeme',
+    'unknown-node', 'native-missing-data-value', 'native-descriptor-flag', 'missing-CST',
+    'dangling-object', 'remove-TypeReference', 'remove-FeatureTyping', 'selected-origin',
+    'nonselected-origin', 'bad-default-lexeme', 'reference-text', 'reference-span',
+    'coherent-truncation', 'coherent-reorder', 'wrong-bundle', 'wrong-prefix',
+    'fake-comment-interior-refusal', 'truncated-Malformed', 'missing-native-reference-info',
+    'receipt-kernel', 'receipt-corpus', 'receipt-timeout', 'constructor-source-hash',
+    'partial-reference-info-namespace-name', 'missing-first-ref-origin-later-text',
+    'missing-first-ref-origin-same-text', 'missing-first-ref-text-later-origin',
+    'missing-typeref-origin-later-text', 'missing-first-ref-origin-only',
+    'missing-first-ref-text-only', 'missing-typeref-origin-only',
+    'capture-module-source-hash', 'projection-module-source-hash',
+]
+MALFORMED = {
+    'Rust-source': 'case/source mismatch: 01-LF',
+    'duplicate': 'Rust cases duplicate ID',
+    'missing': 'missing/extra/reordered capture case',
+    'schema': 'Rust capture schema',
+    'bool-root': 'Rust arena root/IDs',
+    'missing-node-origin': 'Rust node keys',
+    'missing-Datum-lexeme': 'Rust Datum keys',
+    'native-missing-data-value': 'native data property keys',
+    'native-descriptor-flag': 'native descriptor flags',
+    'missing-CST': 'native dangling record reference',
+    'dangling-object': 'native dangling record reference',
+    'nonselected-origin': 'Rust source/UTF-16 mismatch',
+    'bad-default-lexeme': 'Rust source/UTF-16 mismatch',
+    'coherent-truncation': 'pinned exact corpus bytes changed',
+    'coherent-reorder': 'pinned exact corpus bytes changed',
+    'wrong-bundle': 'native provenance pin: bundle_sha256',
+    'wrong-prefix': 'native provenance pin: evaluated_prefix_sha256',
+    'truncated-Malformed': 'malformed or unrecognized Rust error payload',
+    'receipt-kernel': 'qualification source pin: rust/crates/syson-ast/src/lib.rs',
+    'receipt-corpus': 'qualification Rust/native corpus invocation binding mismatch',
+    'receipt-timeout': 'Rust comments invocation did not succeed',
+}
+
+
+def require(ok, message):
+    if not ok:
+        raise ValueError(message)
+
+
+def load_projection(path):
+    raw = path.read_bytes()
+    require(hashlib.sha256(raw).hexdigest() == PROJECTION_SHA256,
+            'projection module source hash mismatch')
+    module = ModuleType('p01_pinned_projection')
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), 'exec'), module.__dict__)
+    return module
+
+
+def compare(blobs, constructor_path, projection_path, capture_path):
+    projection = load_projection(projection_path)
+    report = projection.compare(*(blobs[name] for name in INPUT_NAMES),
+                                constructor_path, capture_path)
+    report['projection_module'] = {'path': str(projection_path), 'sha256': PROJECTION_SHA256}
+    return report
+
+
+def property_row(record, key):
+    return next(row for row in record['properties'] if row['key'] == key)
+
+
+def value(record, key):
+    return property_row(record, key)['value']
+
+
+def drop(record, key):
+    record['properties'].remove(property_row(record, key))
+    record['property_keys'].remove(key)
+
+
+def case(doc, cid):
+    return next(row for row in doc['cases'] if row['id'] == cid)
+
+
+def native_references(native):
+    objects = {obj['id']: obj for obj in native['tree']['objects']}
+    owner = next(obj for obj in objects.values() if obj.get('node_type') == 'TypeReference')
+    array = objects[value(owner, 'parts')['$object']]
+    return owner, [objects[value(array, str(i))['$object']] for i in range(value(array, 'length'))]
+
+
+def clone_root_range(native):
+    objects = {obj['id']: obj for obj in native['tree']['objects']}
+    root = objects[native['tree']['root']['$object']]
+    cst_id = value(root, '$cstNode')['$cst']
+    cst = next(node for node in native['tree']['cst'] if node['id'] == cst_id)
+    old_objects, old_cst = copy.deepcopy(native['tree']['objects']), copy.deepcopy(native['tree']['cst'])
+    cloned_range = copy.deepcopy(objects[cst['span']['range']['$object']])
+    cloned_range['id'] = 'control-root-range'
+    additions = [cloned_range]
+    for endpoint in ['start', 'end']:
+        position = copy.deepcopy(objects[value(cloned_range, endpoint)['$object']])
+        position['id'] = 'control-root-' + endpoint
+        for field in position['properties']:
+            field['value'] = 0
+        additions.append(position)
+        property_row(cloned_range, endpoint)['value'] = {'$object': position['id']}
+    require(not set(objects).intersection(obj['id'] for obj in additions), 'root control ID collision')
+    native['tree']['objects'].extend(additions)
+    cst['span'].update(offset=0, end=0, length=0, text='', range={'$object': cloned_range['id']})
+    require(native['tree']['objects'][:len(old_objects)] == old_objects,
+            'root control changed original object/position records')
+    require([node for node in native['tree']['cst'] if node['id'] != cst_id] ==
+            [node for node in old_cst if node['id'] != cst_id], 'root control changed non-root CST')
+
+
+def mutate(name, docs):
+    corpus, native, rust, receipt = (docs[key] for key in INPUT_NAMES)
+    two_parts = name.startswith('missing-first-') or name.startswith('missing-typeref-')
+    cid = '05-quoted-slashes' if two_parts else '01-LF'
+    nc, rc = case(native, cid), case(rust, cid)
+    named = next(obj for obj in nc['tree']['objects'] if obj.get('node_type') == 'Package')
+    rn = next(node for node in rc['outcome']['nodes'] if node['node_type'] == 'Package')
+    reference = next(node for node in rc['outcome']['nodes'] if node['node_type'] == 'TypeReference')
+    default = next(iter(rn['fields'].values()))
+    expected = 'references'
+    if name == 'native-type':
+        named['node_type'] = 'PartUsage'
+        property_row(named, '$type')['value'] = 'PartUsage'
+        expected = 'ast_type_census'
+    elif name == 'native-root':
+        clone_root_range(nc)
+        expected = 'root_origin'
+    elif name == 'native-name':
+        property_row(named, 'declaredName')['value'] += '_changed'
+        expected = 'selected'
+    elif name == 'Rust-root':
+        next(node for node in rc['outcome']['nodes'] if node['id'] == rc['outcome']['root'])['origin'] = empty_span()
+        expected = 'root_origin'
+    elif name == 'Rust-name':
+        rn['fields']['declaredName']['value']['units'] += [88]
+        expected = 'selected'
+    elif name == 'Rust-source':
+        rc['source'] += ' changed'
+    elif name == 'duplicate':
+        rust['cases'].append(copy.deepcopy(rc))
+    elif name == 'missing':
+        rust['cases'].pop()
+    elif name == 'schema':
+        rust['schema'] = 2
+    elif name == 'bool-root':
+        rc['outcome']['root'] = False
+    elif name == 'missing-node-origin':
+        reference.pop('origin')
+    elif name == 'missing-Datum-lexeme':
+        default.pop('lexeme')
+    elif name == 'unknown-node':
+        reference['node_type'] = 'UnknownAstType'
+        expected = 'ast_type_census'
+    elif name == 'native-missing-data-value':
+        named['properties'][0].pop('value')
+    elif name == 'native-descriptor-flag':
+        named['properties'][0]['descriptor']['writable'] = 1
+    elif name == 'missing-CST':
+        ident = value(named, '$cstNode')['$cst']
+        nc['tree']['cst'] = [node for node in nc['tree']['cst'] if node['id'] != ident]
+    elif name == 'dangling-object':
+        nc['tree']['objects'].remove(named)
+    elif name in {'remove-TypeReference', 'remove-FeatureTyping'}:
+        removed = {reference['id']}
+        typing = next(node for node in rc['outcome']['nodes'] if node['node_type'] == 'FeatureTyping')
+        if name == 'remove-TypeReference':
+            typing['fields'].pop('targetRef')
+        else:
+            removed.add(typing['id'])
+            owner = next(node for node in rc['outcome']['nodes'] if node['id'] == typing['container']['node'])
+            owner['fields']['heritage']['value']['items'] = []
+        rc['outcome']['nodes'] = [node for node in rc['outcome']['nodes'] if node['id'] not in removed]
+        expected = 'ast_type_census'
+    elif name == 'selected-origin':
+        rn['origin'] = empty_span()
+        expected = 'selected_node_origins'
+    elif name == 'nonselected-origin':
+        reference['origin']['text'] += 'wrong'
+    elif name == 'bad-default-lexeme':
+        default['lexeme'] = dict(empty_span(), text='wrong')
+    elif name == 'reference-text':
+        reference['fields']['parts']['value']['items'][0]['value']['text'] += '_changed'
+    elif name == 'reference-span':
+        reference['fields']['parts']['value']['items'][0]['lexeme'] = empty_span()
+    elif name == 'coherent-truncation':
+        for doc in [corpus, native, rust]:
+            doc['cases'].pop()
+        native['provenance']['corpus_cases'] -= 1
+    elif name == 'coherent-reorder':
+        for doc in [corpus, native, rust]:
+            doc['cases'].reverse()
+    elif name == 'wrong-bundle':
+        native['provenance']['bundle_sha256'] = '0' * 64
+    elif name == 'wrong-prefix':
+        native['provenance']['evaluated_prefix_sha256'] = '0' * 64
+    elif name == 'fake-comment-interior-refusal':
+        cid = '04-comment-only-EOF'
+        rc = case(rust, cid)
+        offset = rc['source'].encode().index(b'/*')
+        rc['outcome'] = {'kind': 'rust_error', 'error': 'Unsupported { offset: ' + str(offset) + ' }'}
+        expected = 'unexpected_Rust_refusal'
+    elif name == 'truncated-Malformed':
+        case(rust, '09-commented-closing-brace')['outcome']['error'] = 'Malformed { offset: 21'
+    elif name == 'receipt-kernel':
+        for key in ['inputs_before', 'prepared_inputs_before', 'inputs_after']:
+            for path in receipt[key]:
+                if path.endswith('/rust/crates/syson-ast/src/lib.rs'):
+                    receipt[key][path] = '0' * 64
+    elif name in {'receipt-corpus', 'receipt-timeout'}:
+        command = next(row for row in receipt['commands'] if row.get('label') == 'rust-comments')
+        if name == 'receipt-corpus':
+            command['argv'][-1] = '/unbound/corpus.json'
+        else:
+            command['timed_out'] = True
+    else:
+        owner, parts = native_references(nc)
+        if name == 'missing-typeref-origin-later-text' or name == 'missing-typeref-origin-only':
+            drop(owner, '$cstNode')
+        else:
+            drop(parts[0], '$refText' if name.startswith('missing-first-ref-text') else '$refNode')
+        items = reference['fields']['parts']['value']['items']
+        if name == 'partial-reference-info-namespace-name':
+            root = next(node for node in rc['outcome']['nodes'] if node['id'] == rc['outcome']['root'])
+            root['fields']['declaredName'] = {'lexeme': None, 'value': {'kind': 'string', 'units': [88]}}
+            expected = 'selected/0/name_units'
+        elif name.endswith('later-text') or name.endswith('same-text'):
+            index = 0 if name.endswith('same-text') else 1
+            items[index]['value']['text'] += '_changed'
+            expected = 'references/0/parts/' + str(index) + '/text_units'
+        elif name.endswith('later-origin'):
+            items[1]['lexeme'] = empty_span()
+            expected = 'references/0/parts/1/origin'
+        else:
+            expected = 'OPEN'
+    return cid, expected
+
+
+def empty_span():
+    return {'bytes': [0, 0], 'utf16': [0, 0], 'text': ''}
+
+
+def _control_blobs(blobs, originals, docs):
+    """Keep exact unchanged bytes; JSON encoding distinguishes bool/int/float."""
+    changed = {}
+    for name, raw in blobs.items():
+        before = json.dumps(originals[name], sort_keys=True, ensure_ascii=False, allow_nan=False)
+        after = json.dumps(docs[name], sort_keys=True, ensure_ascii=False, allow_nan=False)
+        changed[name] = raw if before == after else after.encode()
+    return changed
+
+
+def _run_controls(blobs, constructor_path, projection_path, capture_path, temporary_root, baseline, outcomes):
+    originals = {name: json.loads(raw) for name, raw in blobs.items()}
+    for name in CONTROLS:
+        if name.endswith('source-hash'):
+            with tempfile.TemporaryDirectory(dir=temporary_root) as directory:
+                path, sentinel = Path(directory) / 'untrusted.py', Path(directory) / 'executed'
+                path.write_text('from pathlib import Path\nPath(' + repr(str(sentinel)) + ').touch()\n')
+                paths = dict(constructor=constructor_path, projection=projection_path, capture=capture_path)
+                role = name.split('-')[0]
+                paths[role] = path
+                message = {'constructor': 'constructor comparator', 'projection': 'projection module',
+                           'capture': 'capture admission'}[role] + ' source hash mismatch'
+                try:
+                    compare(blobs, paths['constructor'], paths['projection'], paths['capture'])
+                except ValueError as error:
+                    require(str(error) == message and not sentinel.exists(), 'wrong source-pin rejection: ' + name)
+                else:
+                    raise ValueError('unverified source executed or admitted: ' + name)
+            outcomes.append({'name': name, 'status': 'MALFORMED_CAPTURE', 'error': message})
+            continue
+        docs = copy.deepcopy(originals)
+        cid, expected = mutate(name, docs)
+        changed = _control_blobs(blobs, originals, docs)
+        try:
+            result = compare(changed, constructor_path, projection_path, capture_path)
+        except ValueError as error:
+            require(name in MALFORMED and str(error) == MALFORMED[name],
+                    'wrong control rejection: ' + name + ': ' + str(error))
+            outcomes.append({'name': name, 'status': 'MALFORMED_CAPTURE', 'error': str(error)})
+            continue
+        require(name not in MALFORMED, 'malformed control admitted: ' + name)
+        row = case(result, cid)
+        if expected == 'OPEN':
+            require(row['status'] == 'OPEN' and not row['differences'] and row['open_items'],
+                    'missing-only control concealed or invented a difference: ' + name)
+        else:
+            require(row['status'] == 'DIVERGED' and
+                    (expected in row['differences'] or any(
+                        path == expected or path.startswith(expected + '/')
+                        for path in row['difference_paths'])),
+                    'intended semantic difference absent: ' + name)
+        require([row for row in result['cases'] if row['id'] != cid] ==
+                [row for row in baseline['cases'] if row['id'] != cid], 'control changed unrelated case: ' + name)
+        outcomes.append({'name': name, 'status': row['status'], 'expected': expected,
+                         'differences': row['differences'], 'difference_paths': row['difference_paths']})
+    return {'status': 'PASS', 'count': len(outcomes), 'required_count': len(CONTROLS),
+            'cases': list(CONTROLS), 'outcomes': outcomes}
+
+
+def self_test(blobs, constructor_path, projection_path, capture_path, temporary_root):
+    baseline = compare(blobs, constructor_path, projection_path, capture_path)
+    differences = {row['id']: row['differences'] for row in baseline['cases'] if row['differences']}
+    known = {cid: ['root_origin'] for cid in ['04-comment-only-EOF', 'comment-only-root']}
+    expected = known if len(baseline['cases']) == 15 else {}
+    outcomes = []
+    if differences != expected:
+        status, reason = 'NOT_APPLICABLE', 'Baseline differs from the qualified control epoch'
+    else:
+        try:
+            return _run_controls(blobs, constructor_path, projection_path, capture_path,
+                                 temporary_root, baseline, outcomes)
+        except (OSError, ValueError, KeyError, TypeError, IndexError, StopIteration,
+                UnicodeError, RecursionError) as error:
+            status, reason = 'FAILED', type(error).__name__ + ': ' + str(error)
+    remaining = [{'name': name, 'status': 'NOT_RUN_BASELINE_DIVERGED' if status == 'NOT_APPLICABLE'
+                  else 'FAILED_CONTROL' if index == 0 else 'NOT_RUN_AFTER_CONTROL_FAILURE'}
+                 for index, name in enumerate(CONTROLS[len(outcomes):])]
+    return {'status': status, 'reason': reason, 'count': len(outcomes),
+            'required_count': len(CONTROLS), 'cases': list(CONTROLS),
+            'outcomes': outcomes + remaining}
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in ['corpus', 'native', 'rust', 'constructor-comparator', 'rust-receipt']:
+        parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--self-test', action='store_true')
+    args = parser.parse_args(argv)
+    try:
+        directory = Path(__file__).resolve().parent
+        projection_path, capture_path = directory / 'projection_p01.py', directory / 'capture_p01.py'
+        paths = dict(corpus=args.corpus, native=args.native, rust=args.rust, receipt=args.rust_receipt)
+        blobs = {name: path.read_bytes() for name, path in paths.items()}
+        result = compare(blobs, args.constructor_comparator, projection_path, capture_path)
+        result['inputs'] = {('rust-receipt' if name == 'receipt' else name):
+                            {'path': str(path), 'sha256': hashlib.sha256(blobs[name]).hexdigest()}
+                            for name, path in paths.items()}
+        for name, key in [('constructor-comparator', 'constructor_comparator'),
+                          ('capture-module', 'capture_module'), ('projection-module', 'projection_module')]:
+            result['inputs'][name] = result[key]
+        if args.self_test:
+            temporary_root = args.rust_receipt.resolve().parent
+            require(temporary_root.is_relative_to('/workspace'), 'controls require Samsung workspace')
+            result['negative_controls'] = self_test(blobs, args.constructor_comparator,
+                                                    projection_path, capture_path, temporary_root)
+            if result['negative_controls']['status'] != 'PASS':
+                result['verification_failure'] = {'status': result['negative_controls']['status'],
+                                                  'reason': result['negative_controls']['reason']}
+        print(json.dumps(result, ensure_ascii=True, sort_keys=True, indent=2))
+        return 1 if result['difference_count'] or 'verification_failure' in result else 0
+    except (OSError, ValueError, KeyError, TypeError, UnicodeError, RecursionError) as error:
+        print(json.dumps({'schema': 1, 'status': 'MALFORMED_CAPTURE', 'error': str(error)}))
+        return 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

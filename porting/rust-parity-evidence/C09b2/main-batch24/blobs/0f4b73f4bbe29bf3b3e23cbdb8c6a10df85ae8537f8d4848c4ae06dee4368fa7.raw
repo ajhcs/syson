@@ -1,0 +1,49 @@
+{
+  "scope": "Actual pre-fix CLI report loss for valid divergent capture",
+  "commands": [
+    {
+      "label": "normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/workspace/build/builderbob/syson-batch22-20261029/c09b2-before-preconditions/compare_p01.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus-v2.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch22-20261029/c09b2-before-preconditions/valid-divergent-native.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/rust-comments.json",
+        "--rust-receipt",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/receipt.json",
+        "--constructor-comparator",
+        "/workspace/worktrees/builderbob/syson/batch24-comment-cli/porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py"
+      ],
+      "exit": 1,
+      "stdout_sha256": "fecd66ba9158b084435e21974810b3a76d69718ed6d8944b174cb1db7eded267",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "self-test",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/workspace/build/builderbob/syson-batch22-20261029/c09b2-before-preconditions/compare_p01.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus-v2.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch22-20261029/c09b2-before-preconditions/valid-divergent-native.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/rust-comments.json",
+        "--rust-receipt",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/receipt.json",
+        "--constructor-comparator",
+        "/workspace/worktrees/builderbob/syson/batch24-comment-cli/porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py",
+        "--self-test"
+      ],
+      "exit": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "802a55789466f47a83da32b249384097c989186704a499620bdda9de1a4a7419"
+    }
+  ],
+  "status": "REPRODUCED_VALID_DIVERGENCE_LOSES_JSON_WITH_SELF_TEST"
+}
