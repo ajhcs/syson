@@ -264,3 +264,14 @@ fn leaf_retention_comparison_preserves_nan_and_infinity_behavior() {
         f64::INFINITY
     );
 }
+
+#[test]
+fn leaf_padding_keeps_the_original_binary64_operation_order() {
+    let height = 2f64.powi(56);
+    let size = syson_editor::layout_package_leaf(syson_editor::LeafLayout {
+        measured_label_height: Some(height),
+        ..Default::default()
+    });
+    // Captured original source handler evaluates (8 + height) + 8.
+    assert_eq!(size.height.to_bits(), height.to_bits());
+}
