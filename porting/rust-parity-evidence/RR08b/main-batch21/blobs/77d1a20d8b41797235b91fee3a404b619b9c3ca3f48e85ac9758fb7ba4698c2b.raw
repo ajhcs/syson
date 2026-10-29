@@ -1,0 +1,40 @@
+from pathlib import Path
+import subprocess,json,hashlib,os,fcntl,statistics,time,signal
+b=Path(__file__).parent;o=b/'rr08b-f11-api-profiles-01';o.mkdir();(o/'tmp').mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch21-rr08b');c=o/'consumer';c.mkdir();manifest=c/'Cargo.toml';manifest.write_text(f'''[package]
+name="f11-profile"
+version="0.0.0"
+edition="2024"
+[dependencies]
+syson-ast-adapter={{path="{w}/rust/crates/syson-ast-adapter"}}
+serde_json="=1.0.151"
+[[bin]]
+name="f11-profile"
+path="{b}/f11-profile.rs"
+[workspace]
+''');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();files=[manifest,b/'f11-profile.rs']+[p for name in ['syson-ast-adapter','syson-ast-values','syson-reflection','syson-ast','syson-ast-dispatch'] for p in sorted((w/'rust/crates'/name).rglob('*')) if p.is_file()];snap=lambda:{str(p):sha(p) for p in files};r={'status':'RUNNING','inputs_before':snap(),'commands':[],'samples':[]};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',RUST_TEST_THREADS='1',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(o/'tmp'));lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+def execute(argv,label):
+ start=time.monotonic();p=subprocess.Popen(argv,cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:out,err=p.communicate(timeout=90);timed=False
+ except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);out,err=p.communicate();timed=True
+ (o/(label+'-stdout.txt')).write_bytes(out);(o/(label+'-stderr.txt')).write_bytes(err);r['commands'].append({'argv':argv,'exit':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-start})
+ if p.returncode or timed:raise RuntimeError('Preserve failed profile: '+label)
+ return out
+try:
+ execute(['cargo','generate-lockfile','--offline','--manifest-path',str(manifest)],'lock')
+ execute(['cargo','build','--release','--offline','--locked','--jobs','1','--manifest-path',str(manifest)],'build')
+ executable=Path(env['CARGO_TARGET_DIR'])/'release/f11-profile';(o/'f11-profile').write_bytes(executable.read_bytes());(o/'f11-profile').chmod(0o755);r['executable_sha256']=sha(o/'f11-profile')
+ counts=[1,24,64,128,256,257]
+ for repeat in range(9):
+  order=counts[repeat%len(counts):]+counts[:repeat%len(counts)]
+  for count in order:
+   row=json.loads(execute([str(o/'f11-profile'),str(count)],f'{repeat:02}-{count}'));row.update(phase='warmup' if repeat<2 else 'measured',repeat=repeat,source_sha256=hashlib.sha256(row['source'].encode()).hexdigest());r['samples'].append(row)
+ summaries=[]
+ for count in counts:
+  samples=[s for s in r['samples'] if s['declarations']==count and s['phase']=='measured'];assert len(samples)==7 and len({s['source_sha256'] for s in samples})==1 and all(s['expected_result'] for s in samples)
+  values=[s['api_elapsed_ns']/1e6 for s in samples];summaries.append({'declarations':count,'nodes':samples[0]['node_count'],'error':samples[0]['error'],'api_ms':{'min':min(values),'median':statistics.median(values),'max':max(values)},'rss_after_kib':[min(s['rss_after_kib'] for s in samples),max(s['rss_after_kib'] for s in samples)],'process_hwm_kib':[min(s['process_hwm_kib'] for s in samples),max(s['process_hwm_kib'] for s in samples)]})
+ r.update(status='PASS_NAMED_FINITE_API_PROFILES_AND_DEFAULT_QUOTA_REFUSALS',summary=summaries,scope='Actual default-limits Rust construct API only;no native ratio,event-to-visible,allocation or whole-productcapacity claim;RR08stress100/1000/5000 remains separate')
+ print(json.dumps({'status':r['status'],'fresh_processes':len(r['samples']),'summary':summaries},indent=2),flush=True)
+except BaseException as e:r['status']='FAIL_TERMINAL';r['error']=repr(e);raise
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+ if not r['source_unchanged']:raise RuntimeError('source drift')

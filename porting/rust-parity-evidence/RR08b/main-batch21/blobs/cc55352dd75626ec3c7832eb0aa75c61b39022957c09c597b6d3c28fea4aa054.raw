@@ -1,0 +1,11 @@
+from pathlib import Path
+import fcntl,json,hashlib,os,subprocess,time
+b=Path(__file__).parent;o=b/'rr08b-publication-probes-01';o.mkdir();(o/'tmp').mkdir();lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(o/'tmp'));source=b/'probe_rr08b_publication.rs';rows=[]
+for label,folder,expected_failed in [('originalA','batch21-rr08a',3),('journalBeforeValidationFix','batch21-rr08b',1)]:
+ w=Path('/workspace/worktrees/builderbob/syson')/folder;c=o/label;c.mkdir();manifest=c/'Cargo.toml';q=lambda p:json.dumps(str(p));manifest.write_text('[package]\nname="rr08-publication-probes"\nversion="0.0.0"\nedition="2021"\n[dependencies]\nsyson-ast={path='+q(w/'rust/crates/syson-ast')+'}\n[[test]]\nname="publication"\npath='+q(source)+'\n[workspace]\n')
+ before=hashlib.sha256((w/'rust/crates/syson-ast/src/lib.rs').read_bytes()).hexdigest()
+ for name,argv,expected in [('lock',['cargo','generate-lockfile','--offline','--manifest-path',str(manifest)],0),('tests',['cargo','test','--offline','--locked','--jobs','1','--manifest-path',str(manifest),'--test','publication','--','--test-threads=1','--nocapture'],101)]:
+  r=subprocess.run(argv,env=env,capture_output=True,timeout=120);(c/(name+'-stdout.txt')).write_bytes(r.stdout);(c/(name+'-stderr.txt')).write_bytes(r.stderr);assert r.returncode==expected,(r.stdout,r.stderr)
+  if name=='tests':assert (str(expected_failed)+' failed').encode() in r.stdout
+ after=hashlib.sha256((w/'rust/crates/syson-ast/src/lib.rs').read_bytes()).hexdigest();assert before==after;rows.append({'label':label,'kernel_sha256':before,'expected_failed':expected_failed,'source_unchanged':True})
+(o/'receipt.json').write_text(json.dumps({'status':'REPRODUCED_INHERITED_VALIDATION_ALLOCATION_HOLE;JOURNAL_PUBLICATION_GUARDS_VERIFIED','cases':rows,'probe_sha256':hashlib.sha256(source.read_bytes()).hexdigest()},indent=2)+'\n');print(json.dumps(rows))
