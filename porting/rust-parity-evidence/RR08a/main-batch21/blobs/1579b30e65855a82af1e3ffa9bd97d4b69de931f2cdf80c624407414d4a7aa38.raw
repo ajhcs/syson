@@ -1,0 +1,27 @@
+   Compiling syson-ast v0.1.0 (/workspace/worktrees/builderbob/syson/batch21-rr08a/rust/crates/syson-ast)
+   Compiling rr08-admission-probes v0.0.0 (/workspace/build/builderbob/syson-batch21-20261029/rr08a-checks-02/fixed)
+warning: unused imports: `Lexeme` and `Slot`
+  --> /workspace/build/builderbob/syson-batch21-20261029/rr08a-checks-02/admission.rs:11:52
+   |
+11 | use syson_ast::{Assignment, Builder, Datum, Error, Lexeme, Limits, Reflection, Slot, Value};
+   |                                                    ^^^^^^                      ^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `string` is never used
+  --> /workspace/build/builderbob/syson-batch21-20261029/rr08a-checks-02/admission.rs:82:4
+   |
+82 | fn string(text: &str) -> Datum {
+   |    ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `assign` is never used
+  --> /workspace/build/builderbob/syson-batch21-20261029/rr08a-checks-02/admission.rs:85:4
+   |
+85 | fn assign(builder: &mut Builder, node: syson_ast::NodeId, key: &str, value: Datum) {
+   |    ^^^^^^
+
+warning: `rr08-admission-probes` (test "admission") generated 3 warnings (run `cargo fix --test "admission" -p rr08-admission-probes` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+     Running /workspace/build/builderbob/syson-batch21-20261029/rr08a-checks-02/admission.rs (/workspace/build/builderbob/syson-batch15-20261029/target/debug/deps/admission-181ea258208fce09)
