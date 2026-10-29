@@ -1,0 +1,354 @@
+#!/usr/bin/python3
+"""Narrow, local Builder Bob administrative interface."""
+
+from __future__ import annotations
+
+import fcntl
+import json
+import os
+import stat
+import subprocess
+import sys
+import syslog
+from pathlib import Path
+
+VERSION = "builderbob-autonomy-v1.1-candidate"
+POLICY_REF = "builderbob-operator-amendment-1"
+WORKSPACE = "/workspace"
+EXPECTED_UUID = "dcb87552-b22f-411c-bd86-4e2da80f1c6f"
+EXPECTED_PARTUUID = "0b7f0877-8d9e-44e4-9089-3cf97b1944c9"
+EXPECTED_SERIAL = "S7L9NS0L303989X"
+EXPECTED_WWN = "eui.00253843614122d4"
+EXPECTED_FSTYPE = "ext4"
+EXPECTED_DEVICE_ALIAS = "/dev/disk/by-id/nvme-Samsung_SSD_990_PRO_2TB_S7L9NS0L303989X-part1"
+BUILDERBOB_UID = 1000
+BUILDERBOB_GID = 1000
+LAYOUT = ("repos", "worktrees", "build", "cache", "tmp")
+PRIVILEGED = frozenset(("workspace-mount", "workspace-prepare"))
+OPERATIONS = frozenset(("capabilities", "workspace-status", *PRIVILEGED))
+CONTROLLED_ENV = {
+    "PATH": "/usr/sbin:/usr/bin:/sbin:/bin",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+}
+
+
+class Refusal(Exception):
+    def __init__(self, code: int, reason: str, detail: str):
+        super().__init__(detail)
+        self.code = code
+        self.reason = reason
+        self.detail = detail
+
+
+def emit(operation: str, outcome: str, *, reason: str = "OK", detail: str = "", **extra: object) -> None:
+    value = {
+        "schema": "bob-admin-result-v1",
+        "version": VERSION,
+        "policy_ref": POLICY_REF,
+        "operation": operation,
+        "target": WORKSPACE if operation.startswith("workspace-") else "local",
+        "outcome": outcome,
+        "reason": reason,
+        "detail": detail,
+    }
+    value.update(extra)
+    print(json.dumps(value, sort_keys=True, separators=(",", ":")))
+
+
+def audit(operation: str, outcome: str, reason: str) -> None:
+    if os.geteuid() != 0:
+        return
+    syslog.openlog("bob-admin", syslog.LOG_PID, syslog.LOG_AUTHPRIV)
+    syslog.syslog(
+        syslog.LOG_NOTICE,
+        f"version={VERSION} policy={POLICY_REF} operation={operation} "
+        f"target={WORKSPACE} outcome={outcome} reason={reason}",
+    )
+
+
+def decode_mount_field(value: str) -> str:
+    for encoded, decoded in (("\\040", " "), ("\\011", "\t"), ("\\012", "\n"), ("\\134", "\\")):
+        value = value.replace(encoded, decoded)
+    return value
+
+
+def mount_records() -> list[dict[str, object]]:
+    records: list[dict[str, object]] = []
+    with open("/proc/self/mountinfo", "r", encoding="utf-8") as handle:
+        for line in handle:
+            before, after = line.rstrip("\n").split(" - ", 1)
+            left = before.split()
+            right = after.split()
+            records.append(
+                {
+                    "mount_id": left[0],
+                    "major_minor": left[2],
+                    "root": decode_mount_field(left[3]),
+                    "target": decode_mount_field(left[4]),
+                    "options": sorted(set(left[5].split(",")) | set(right[2].split(","))),
+                    "fstype": right[0],
+                    "source": decode_mount_field(right[1]),
+                }
+            )
+    return records
+
+
+def exact_workspace_mount() -> dict[str, object] | None:
+    matches = [item for item in mount_records() if item["target"] == WORKSPACE]
+    if len(matches) > 1:
+        raise Refusal(10, "MOUNT_AMBIGUOUS", "multiple exact /workspace mounts are visible")
+    return matches[0] if matches else None
+
+
+def read_text(path: str) -> str:
+    return Path(path).read_text(encoding="utf-8").strip()
+
+
+def device_facts() -> dict[str, str]:
+    uuid_path = Path(f"/dev/disk/by-uuid/{EXPECTED_UUID}")
+    partuuid_path = Path(f"/dev/disk/by-partuuid/{EXPECTED_PARTUUID}")
+    alias_path = Path(EXPECTED_DEVICE_ALIAS)
+    for path in (uuid_path, partuuid_path, alias_path):
+        if not path.is_symlink():
+            raise Refusal(10, "DEVICE_ALIAS_MISSING", f"required device alias is absent: {path}")
+    resolved = uuid_path.resolve(strict=True)
+    if partuuid_path.resolve(strict=True) != resolved or alias_path.resolve(strict=True) != resolved:
+        raise Refusal(10, "DEVICE_ALIAS_MISMATCH", "UUID, PARTUUID, and approved by-id aliases disagree")
+    dev_stat = os.stat(resolved)
+    if not stat.S_ISBLK(dev_stat.st_mode):
+        raise Refusal(10, "DEVICE_TYPE_MISMATCH", "approved workspace target is not a block device")
+    partition = resolved.name
+    sys_partition = Path("/sys/class/block") / partition
+    parent = sys_partition.resolve(strict=True).parent.name
+    serial = read_text(f"/sys/class/block/{parent}/device/serial")
+    model = read_text(f"/sys/class/block/{parent}/device/model")
+    wwn = read_text(f"/sys/class/block/{parent}/wwid")
+    if serial != EXPECTED_SERIAL or wwn != EXPECTED_WWN:
+        raise Refusal(10, "PHYSICAL_IDENTITY_MISMATCH", f"unexpected device identity serial={serial} wwn={wwn}")
+    return {
+        "device": str(resolved),
+        "major_minor": f"{os.major(dev_stat.st_rdev)}:{os.minor(dev_stat.st_rdev)}",
+        "partition": partition,
+        "parent": parent,
+        "model": model,
+        "serial": serial,
+        "wwn": wwn,
+        "uuid": EXPECTED_UUID,
+        "partuuid": EXPECTED_PARTUUID,
+    }
+
+
+def verify_workspace_mount() -> dict[str, object]:
+    if os.path.islink(WORKSPACE):
+        raise Refusal(13, "UNSAFE_MOUNTPOINT", "/workspace must not be a symlink")
+    facts = device_facts()
+    mounted = exact_workspace_mount()
+    if mounted is None:
+        raise Refusal(10, "WORKSPACE_NOT_MOUNTED", "approved workspace is not mounted")
+    if mounted["major_minor"] != facts["major_minor"]:
+        raise Refusal(10, "MOUNT_DEVICE_MISMATCH", "mounted device is not the approved partition")
+    if mounted["root"] != "/":
+        raise Refusal(10, "MOUNT_ROOT_MISMATCH", "workspace must expose the filesystem root")
+    if mounted["fstype"] != EXPECTED_FSTYPE:
+        raise Refusal(10, "FILESYSTEM_MISMATCH", f"expected {EXPECTED_FSTYPE}, found {mounted['fstype']}")
+    missing_options = {"rw", "nodev", "nosuid"} - set(mounted["options"])
+    if missing_options:
+        raise Refusal(10, "MOUNT_OPTIONS_MISMATCH", f"missing required options: {','.join(sorted(missing_options))}")
+    workspace_stat = os.lstat(WORKSPACE)
+    if not stat.S_ISDIR(workspace_stat.st_mode):
+        raise Refusal(13, "UNSAFE_MOUNTPOINT", "/workspace is not a directory")
+    return {"mount": mounted, "device": facts}
+
+
+def require_privileged_invocation() -> None:
+    if os.geteuid() != 0:
+        raise Refusal(11, "ROOT_REQUIRED", "invoke this approved operation with sudo -n")
+    sudo_user = os.environ.get("SUDO_USER")
+    if sudo_user and sudo_user != "builderbob":
+        raise Refusal(11, "CALLER_REJECTED", f"sudo caller is not builderbob: {sudo_user}")
+
+
+def acquire_lock() -> object:
+    path = "/run/lock/bob-admin.lock"
+    flags = os.O_RDWR | os.O_CREAT | os.O_CLOEXEC | os.O_NOFOLLOW
+    fd = os.open(path, flags, 0o600)
+    info = os.fstat(fd)
+    if (
+        not stat.S_ISREG(info.st_mode)
+        or info.st_uid != 0
+        or info.st_gid != 0
+        or stat.S_IMODE(info.st_mode) != 0o600
+    ):
+        os.close(fd)
+        raise Refusal(12, "LOCK_UNSAFE", "operation lock is not a root-owned regular file")
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError as error:
+        os.close(fd)
+        raise Refusal(12, "OPERATION_CONFLICT", "another bob-admin operation is active") from error
+    return os.fdopen(fd, "r+")
+
+
+def ensure_unmounted_mountpoint_safe() -> None:
+    if exact_workspace_mount() is not None:
+        return
+    item = os.lstat(WORKSPACE)
+    if not stat.S_ISDIR(item.st_mode) or stat.S_ISLNK(item.st_mode):
+        raise Refusal(13, "UNSAFE_MOUNTPOINT", "unmounted /workspace is not a real directory")
+    mode = stat.S_IMODE(item.st_mode)
+    if (item.st_uid, item.st_gid, mode) != (0, 0, 0):
+        raise Refusal(13, "UNPROTECTED_MOUNTPOINT", f"expected root:root 0000, found {item.st_uid}:{item.st_gid} {mode:04o}")
+    if os.listdir(WORKSPACE):
+        raise Refusal(13, "UNDERLYING_CONTENT_PRESENT", "unmounted /workspace is not empty")
+    if os.stat(WORKSPACE).st_dev != os.stat("/").st_dev:
+        raise Refusal(13, "UNEXPECTED_UNDERLYING_FS", "unmounted /workspace is not on the Intel root filesystem")
+
+
+def run_fixed(argv: list[str]) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(argv, env=CONTROLLED_ENV, text=True, capture_output=True, check=False)
+
+
+def operation_mount() -> tuple[str, str, dict[str, object]]:
+    require_privileged_invocation()
+    with acquire_lock():
+        existing = exact_workspace_mount()
+        if existing is not None:
+            verified = verify_workspace_mount()
+            return "already_mounted", "approved workspace was already mounted and verified", verified
+        device_facts()
+        ensure_unmounted_mountpoint_safe()
+        result = run_fixed(["/usr/bin/mount", WORKSPACE])
+        if result.returncode != 0:
+            raise Refusal(14, "MOUNT_FAILED", result.stderr.strip() or "mount returned nonzero")
+        try:
+            verified = verify_workspace_mount()
+        except Exception:
+            run_fixed(["/usr/bin/umount", WORKSPACE])
+            raise
+        return "mounted", "approved workspace mounted from the existing fstab entry", verified
+
+
+def open_directory(name: str, *, dir_fd: int | None = None) -> int:
+    return os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC | os.O_NOFOLLOW, dir_fd=dir_fd)
+
+
+def verify_directory(fd: int, uid: int, gid: int, mode: int, label: str) -> None:
+    item = os.fstat(fd)
+    actual = (item.st_uid, item.st_gid, stat.S_IMODE(item.st_mode))
+    expected = (uid, gid, mode)
+    if not stat.S_ISDIR(item.st_mode) or actual != expected:
+        raise Refusal(15, "LAYOUT_MISMATCH", f"{label}: expected {expected}, found {actual}")
+
+
+def verify_mount_fd(fd: int, verified: dict[str, object]) -> None:
+    """Bind admission to the opened mount, including same-device bind mounts."""
+    info = os.fstat(fd)
+    expected = verified["mount"]
+    actual_device = f"{os.major(info.st_dev)}:{os.minor(info.st_dev)}"
+    fields = dict(line.split(":", 1) for line in read_text(f"/proc/self/fdinfo/{fd}").splitlines())
+    actual_mount = fields.get("mnt_id", "").strip()
+    if actual_device != expected["major_minor"] or actual_mount != expected["mount_id"]:
+        raise Refusal(10, "OPENED_MOUNT_MISMATCH", "opened directory is not on the admitted workspace mount")
+
+
+def operation_prepare() -> tuple[str, str, dict[str, object]]:
+    require_privileged_invocation()
+    with acquire_lock():
+        verified = verify_workspace_mount()
+        root_fd = open_directory(WORKSPACE)
+        created: list[str] = []
+        try:
+            verify_mount_fd(root_fd, verified)
+            verify_directory(root_fd, 0, 0, 0o755, WORKSPACE)
+            for category in LAYOUT:
+                category_fd = open_directory(category, dir_fd=root_fd)
+                try:
+                    verify_mount_fd(category_fd, verified)
+                    verify_directory(category_fd, 0, 0, 0o755, f"{WORKSPACE}/{category}")
+                    try:
+                        child_fd = open_directory("builderbob", dir_fd=category_fd)
+                    except FileNotFoundError:
+                        os.mkdir("builderbob", 0o700, dir_fd=category_fd)
+                        child_fd = open_directory("builderbob", dir_fd=category_fd)
+                        verify_mount_fd(child_fd, verified)
+                        os.fchown(child_fd, BUILDERBOB_UID, BUILDERBOB_GID)
+                        os.fchmod(child_fd, 0o700)
+                        created.append(f"{WORKSPACE}/{category}/builderbob")
+                    try:
+                        verify_mount_fd(child_fd, verified)
+                        verify_directory(child_fd, BUILDERBOB_UID, BUILDERBOB_GID, 0o700, f"{WORKSPACE}/{category}/builderbob")
+                    finally:
+                        os.close(child_fd)
+                finally:
+                    os.close(category_fd)
+        finally:
+            os.close(root_fd)
+        detail = "workspace layout verified" if not created else "created missing fixed workspace directories"
+        return "prepared", detail, {"created": created, "verified": list(LAYOUT), **verified}
+
+
+def capabilities() -> list[dict[str, object]]:
+    return [
+        {
+            "operation": "capabilities",
+            "privileged": False,
+            "inputs": [],
+            "effect": "list the fixed interface",
+            "routine": True,
+        },
+        {
+            "operation": "workspace-status",
+            "privileged": False,
+            "inputs": [],
+            "effect": "verify the approved mount and physical identity without writes",
+            "routine": True,
+        },
+        {
+            "operation": "workspace-mount",
+            "privileged": True,
+            "inputs": [],
+            "effect": "mount only /workspace via the existing fstab entry after fixed identity and mountpoint checks",
+            "routine": True,
+        },
+        {
+            "operation": "workspace-prepare",
+            "privileged": True,
+            "inputs": [],
+            "effect": "create only missing fixed builderbob directories below approved category roots and verify ownership/modes",
+            "routine": True,
+        },
+    ]
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) != 1 or argv[0] not in OPERATIONS:
+        emit("invalid", "rejected", reason="UNSUPPORTED_OPERATION", detail="accepted operations: " + ", ".join(sorted(OPERATIONS)))
+        return 2
+    operation = argv[0]
+    try:
+        if operation == "capabilities":
+            emit(operation, "ok", capabilities=capabilities())
+        elif operation == "workspace-status":
+            emit(operation, "ok", **verify_workspace_mount())
+        elif operation == "workspace-mount":
+            outcome, detail, evidence = operation_mount()
+            audit(operation, "ok", outcome)
+            emit(operation, "ok", reason=outcome.upper(), detail=detail, **evidence)
+        else:
+            outcome, detail, evidence = operation_prepare()
+            audit(operation, "ok", outcome)
+            emit(operation, "ok", reason=outcome.upper(), detail=detail, **evidence)
+        return 0
+    except Refusal as error:
+        audit(operation, "rejected", error.reason)
+        emit(operation, "rejected", reason=error.reason, detail=error.detail)
+        return error.code
+    except Exception as error:
+        audit(operation, "failed", "INTERNAL_ERROR")
+        emit(operation, "failed", reason="INTERNAL_ERROR", detail=f"{type(error).__name__}: {error}")
+        return 70
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
