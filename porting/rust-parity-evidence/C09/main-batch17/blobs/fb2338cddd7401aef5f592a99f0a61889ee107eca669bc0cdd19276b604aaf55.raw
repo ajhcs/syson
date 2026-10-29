@@ -1,0 +1,25 @@
+"""Root-serialized development consumers; arguments identify frozen component roots."""
+from pathlib import Path
+import argparse,os,fcntl,hashlib,json,signal,subprocess,time,shutil
+p=argparse.ArgumentParser();p.add_argument('--references',type=Path,required=True);p.add_argument('--reflection',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args();a.out.mkdir();(a.out/'tmp').mkdir();consumer=a.out/'consumer';consumer.mkdir();tools=Path(__file__).parent;sha=lambda f:hashlib.sha256(Path(f).read_bytes()).hexdigest()
+for name in ['reflection_dump.rs','reference_probe.rs']:shutil.copyfile(tools/name,consumer/name)
+(consumer/'Cargo.toml').write_text('[package]\nname="batch17-public-consumers"\nversion="0.0.0"\nedition="2024"\n[workspace]\n[[bin]]\nname="reflection-dump"\npath="reflection_dump.rs"\n[[bin]]\nname="reference-probe"\npath="reference_probe.rs"\n[dependencies]\nserde_json="=1.0.151"\nsyson-references={path="'+str(a.references/'rust/crates/syson-references')+'"}\nsyson-model={path="'+str(a.references/'rust/crates/syson-model')+'"}\nsyson-metamodel={path="'+str(a.references/'rust/crates/syson-metamodel')+'"}\nsyson-reflection={path="'+str(a.reflection/'rust/crates/syson-reflection')+'"}\n')
+lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(a.out/'tmp'));(a.out/'executed-runner.py').write_bytes(Path(__file__).read_bytes());files=sorted(set(f for w in [a.references,a.reflection] for folder in ['rust/crates/syson-references','rust/crates/syson-model','rust/crates/syson-metamodel','rust/crates/syson-domain','rust/crates/syson-json-value','rust/crates/syson-reflection'] if (w/folder).exists() for f in (w/folder).rglob('*') if f.is_file()));snap=lambda:{str(f):sha(f) for f in files};r={'status':'FAIL','source_before':snap(),'commands':[],'samples':[],'binaries':{}}
+def run(argv,cwd,limit=180):
+ i=len(r['commands']);t=time.monotonic();child=subprocess.Popen(argv,cwd=cwd,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:out,err=child.communicate(timeout=limit);timed=False
+ except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);out,err=child.communicate();timed=True
+ (a.out/f'{i:02}-stdout.txt').write_bytes(out);(a.out/f'{i:02}-stderr.txt').write_bytes(err);r['commands'].append({'argv':argv,'exit':child.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t});assert child.returncode==0 and not timed,err.decode()[-1000:];return out
+try:
+ m=str(consumer/'Cargo.toml');run(['cargo','generate-lockfile','--offline','--manifest-path',m],consumer);out=run(['cargo','build','--release','--offline','--locked','--jobs','1','--message-format=json-render-diagnostics','--manifest-path',m],consumer)
+ for line in out.splitlines():
+  data=json.loads(line)
+  if data.get('executable'):
+   source=Path(data['executable']);target=a.out/source.name;shutil.copyfile(source,target);target.chmod(0o700);r['binaries'][source.name]={'path':str(target),'sha256':sha(target)}
+ out=run([r['binaries']['reflection-dump']['path']],consumer);(a.out/'reflection.json').write_bytes(out)
+ for nodes in [256,1024,4096]:
+  for rep in range(9):
+   timefile=a.out/f'{nodes}-{rep:02}-time.txt';out=run(['/usr/bin/time','-v','-o',str(timefile),r['binaries']['reference-probe']['path'],str(nodes)],consumer);sample=json.loads(out);assert sample['drop_live']==0;r['samples'].append({'nodes':nodes,'repetition':rep,'warmup':rep<2,'data':sample,'timefile':timefile.name});print(json.dumps({'nodes':nodes,'rep':rep,'build_us':sample['build_us'],'lookup_us':sample['lookup_batch_us']}),flush=True)
+ r['status']='PASS_PUBLIC_REFLECTION_DUMP_AND_27_REFERENCE_RAMP_PROCESSES;FULL_WORKFLOW_OPEN'
+finally:
+ r['source_after']=snap();r['source_unchanged']=r['source_before']==r['source_after'];r['artifacts']={str(f.relative_to(a.out)):sha(f) for f in a.out.rglob('*') if f.is_file() and f.name!='receipt.json'};(a.out/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert r['source_unchanged']
