@@ -1,0 +1,1302 @@
+{
+  "status": "PASS_72_LAYOUT_OR_REFUSAL_OBSERVATIONS_5_REAL_CONTINUATION_CANCEL_CONTROLS_5_CLI_REFUSALS",
+  "scope": "Fixed U10b qualification cases only; not a reusable sampler or runtime helper.",
+  "inputs_before": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/workspace/build/builderbob/syson-batch22-20261029/run_u10b_profile.py": "e6b2df33dadb7c4364c7f0690bfcdbf2ccc080b8cbf7d1ca6853eb08d88bc3a6",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/clippy-driver": "89b6cc8d0d988b00a3f65bc90c76fedbaedb6bcb442b34563aefe3621f26544b",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustfmt": "68cb47a2a38daa8ff2ec6d623a2374b0a165d77ec74f1f654216665018c04598",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/Cargo.lock": "f42752ea0ff35cd2c33d1ddc16b2d6b1048c211c5131e78bab20f3122e5e6ab9",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/Cargo.toml": "d32e1c499c9c20393c897367ae0cba379f2449e7f5b7b947f2057b388394f3b2",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/NOTICE.md": "5ef7c2864d35e71ee8124ed54846b717277a63d376663952fbe6523ad698be40",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/admission.rs": "6d1e1f41bb433fcb4a88e93ba1796497c6d0bffd39e2f9867cb9a91ba467efb2",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/lib.rs": "b25b60441094da0104992ab44911bcfe658f4e9f553222d2c2cb9a863b04f677",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/placement.rs": "cd5de614196e30f55082c0ec68ffe9680936678dde19e3f5faa141fb2bbcfb01",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/types.rs": "35de35516616e84226ee0812767e92f86ed3eae618ba28abb6fa806e6349f55f",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/tests/admission.rs": "6e5ce1888cd86004b948dc65b0120373534451bda7b4bd2ee1ad0a8baa8f1464",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/tests/layout.rs": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a",
+    "/workspace/worktrees/builderbob/syson/batch23-placement-profile/porting/rust-parity-evidence/C09/batch23-placement-profile/u10b_profile.rs": "912e8d5739b3227c2dc4cf03fb39fdbb2c8ec8ec9894b16337d24ffc9a613fce"
+  },
+  "commands": [
+    {
+      "label": "lock",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "generate-lockfile",
+        "--offline",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch22-20261029/u10b-profile-01/Cargo.toml"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.041231513023376465,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "eb033200af4dfb9f8d34c434ef2caa645584b2a051757aecda3da0ff706574e4"
+    },
+    {
+      "label": "format",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch23-placement-profile/porting/rust-parity-evidence/C09/batch23-placement-profile/u10b_profile.rs"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.007941943011246622,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "clippy",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "clippy",
+        "--release",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch22-20261029/u10b-profile-01/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 1.2266477670054883,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6b50324440fa8cd4fee6b061f95c78c2deb778f5291073071e1496f3ff232f7a"
+    },
+    {
+      "label": "build",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch22-20261029/u10b-profile-01/Cargo.toml"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 4.801184236072004,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "a80a7cee34673fcfd0b83d3e29d1d74655a3bf0cfa140ef4333d90ab8ef0c0f5"
+    },
+    {
+      "label": "64-1-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005727550014853477,
+      "stdout_sha256": "f661befc5bc5e68a03ea1b0137abc436eff94d8758db83b93eb71ed02258c180",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-1-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00043594406452029943,
+      "stdout_sha256": "4bba224e0cd030c7fdd24b391c238d37d2ea70316d38626b113b006d4d579eeb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-1-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004234599182382226,
+      "stdout_sha256": "01906cf9e18cdb312e1afc323b6975f1bd80bc7940f5bb732f3b4bab1ab65381",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-1-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00036350497975945473,
+      "stdout_sha256": "35b56afbb05e95ea1a9abdb5ee01b0ac4706d015a32eb6758bd5d7755b9baf0a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-1-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004028399707749486,
+      "stdout_sha256": "eb15aa2741dbefa9e579585ab82ac69df33149d460035d344b03b442d04830b6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-1-5",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003589170519262552,
+      "stdout_sha256": "b0d94340f701d13180bdec6a7564f4bf968301bc3da4424f6ff9c2053c64abad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-1-6",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003663600655272603,
+      "stdout_sha256": "f5b1fbf2cf7c0b66ca3df9a72c5d4274965acb78b2dc4b9764b82a273214f9b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-1-7",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00044663401786237955,
+      "stdout_sha256": "0edd846433d2cf6ef486b46a923651c85d22f71409545e16c8579fc3b19412cd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-1-8",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.000385657069273293,
+      "stdout_sha256": "09ecbd6fe6ac60f1876be06623d0535b7eb43eb28d39a871e5f65bd8542fc099",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0007160489913076162,
+      "stdout_sha256": "fbc81a03667d1c045afd6a611b7f67e76e7e01513bf50c59ac069313fbb53fa5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005661030299961567,
+      "stdout_sha256": "e3fa09e9a5be3774a1680b838444e179c00221d8c01b800467b50a4ca8da28f7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00039606692735105753,
+      "stdout_sha256": "5d298fe6806fd2371f6ec78c7e0672ebdd913175fccf984b3ceda39e9ba1273b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003649280406534672,
+      "stdout_sha256": "c71e6615ffa060b8ea3ab0b0647198c314996f07849712b51a436b431db5e2a8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00036197202280163765,
+      "stdout_sha256": "4fc88dba64e7590de907a7146e4b5bf840bbb567ddb61ea22ae10dcb25addfa8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-5",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003535859286785126,
+      "stdout_sha256": "ca992de26f6b8ff5a725de3785bbc73e94a7e1078da375c285318e215b9b02b8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-6",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003665609983727336,
+      "stdout_sha256": "4f6aeaf5f751ed9a590b88c00f20c3b1ee8a6d937d77e4f3d0890e050e92e229",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-7",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003518130397424102,
+      "stdout_sha256": "684a9f4f276f8e495b3be76db232ba9192d22747b2c027dc8983ceeee57ff0e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "64-2-8",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003500189632177353,
+      "stdout_sha256": "ff823e1583a2ccca3c1b9de60e4c515acc4ba8080e3448e9de6fb1946c0c1e8c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004591679899021983,
+      "stdout_sha256": "758dadce52383b54383ae10e9ed482cbc3b667a7e5392b0c26b8716c1a2ef8ab",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00045779591891914606,
+      "stdout_sha256": "c3d93df0e11793157d2a7be25ca04021c320740099bb1f9f44d4e9e8c61c4820",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.000444800010882318,
+      "stdout_sha256": "e7870441aada33db5b37828831a13dd6d94b41022483b1326dd26ee452ea95ef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00041906104888767004,
+      "stdout_sha256": "211799e18434392d2b146214e725876d653d17e2c2a1fdfc850152cd53dc4973",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004645779263228178,
+      "stdout_sha256": "74e186da82a3b98bcfc85376bbeff10f5f7d7cecd7376c88a23d21a5e6776185",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-5",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005686769727617502,
+      "stdout_sha256": "790a9471ad58dea8b91b736c556cfeefbd4f67cb6ed98916fdbf16f6c24dbaec",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-6",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004793560365214944,
+      "stdout_sha256": "57545c826793f4ffca1e88cd9f1ec4eeefdebb269b75115597e77d164b7aae68",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-7",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004436679882928729,
+      "stdout_sha256": "281f76e65670ef0f067fa98183ba760cb99c9f789a47822b08425af3bd1f3a39",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-1-8",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004684759769588709,
+      "stdout_sha256": "3199c0f9b7524b3b70e0de65e88b8b7c5c0aefe42dbef6b347662a5f18654956",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00042296794708818197,
+      "stdout_sha256": "44ba36adfee10823d89dd80007fd7d204adb13481d27625e19777b5f3f3ff12d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00039386295247823,
+      "stdout_sha256": "c364ab91ff755f1a21eeeb1223f29040d93bb8b8cba9d910eb86ec8aa0190085",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003799570258706808,
+      "stdout_sha256": "b544760dce0886cfb4ab8bc47ed3a148fa1f2485fd4dfd7c850f9397314766c4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003738140221685171,
+      "stdout_sha256": "5eab08bf615ca91d02950bb386c76bde8484ed70479c73955dab1183ac991fb5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00038848293479532003,
+      "stdout_sha256": "b6487f6f0c156146f1dac751597580156eabc06a5d306c988a543222b0f34cba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-5",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003852070076391101,
+      "stdout_sha256": "1cb5845703bd0100c95ea011533a6d8503fae1e7e083413ce28a7d6905743624",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-6",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00042434106580913067,
+      "stdout_sha256": "561841e683e162137ca271813d402cb9626a16abe833cca0666010ec71bce285",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-7",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003846649779006839,
+      "stdout_sha256": "acf947b0016a0020cb07676ddbb0f27b38b928baa2f12c7bf8836b82d735652a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "128-2-8",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00040707807056605816,
+      "stdout_sha256": "afbf2434d0b49e4aa1bb8157482c6f23464b880d4d139c95e57298765e479ccd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005975229432806373,
+      "stdout_sha256": "649cd46fd21a035332278713feb387da385f8c360b4431a415c4396abfeb3c6b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00046599109191447496,
+      "stdout_sha256": "e59161325672cad291bcac7690bb79a962e8c63d427080d038fcf7eb45c3ad66",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005084220319986343,
+      "stdout_sha256": "7103a5f4fc8055ced19f173720b3d5b0d95481872a80da431af42d348a3d71fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004519340582191944,
+      "stdout_sha256": "9406175965c5b6df8cb1acd195c29e614617bb9d8fb44283b910d1f43e2d737a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004595089703798294,
+      "stdout_sha256": "9ed2e8f38a9083b5a1b49e61143e38a02976d3de6667dedca9963af501aabf1a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-5",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00043613300658762455,
+      "stdout_sha256": "e439cedcf986cd20e841a289caa189232db983dedb0dafffa6b77464f9af8b89",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-6",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004742169985547662,
+      "stdout_sha256": "2ef2b15a7d50f84bb0782f3154740f2f5a2570bcc06cefe7314a061ba1fb976b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-7",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00044040195643901825,
+      "stdout_sha256": "afac23cc78e3eb95d4304b73d401c414ab78f86b060c60cba658c918f4d0e7d4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-1-8",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004153940826654434,
+      "stdout_sha256": "4f3f79ea9d83e19fa23a31182eebaa2de8252e19e2a8c446789be7d2672e3938",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00047701201401650906,
+      "stdout_sha256": "7142b0a976d66cd913ec5a618d63bbfb63a6fc27d86ed24c539ef488c1324f00",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.000494754989631474,
+      "stdout_sha256": "089b9174001229c6ae8c6769ca3275257276ec7c884f2d24961da6e339469005",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004789449740201235,
+      "stdout_sha256": "09cf7dce2f4fd5ecd0db68b52882c2e5ae09437a4d103acd455c11a8f746b872",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005005669081583619,
+      "stdout_sha256": "d643c173cfc1bf06689d5332801b24e6ee1ed9eb0ac443c33eb7069e9c23a1f2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00047090102452784777,
+      "stdout_sha256": "d516646fe6a2ae714b13dc3793de50070a5a1742b374f9df04edf04f1432cba8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-5",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00047707208432257175,
+      "stdout_sha256": "80df73779eac409ba7ced772f1d743010c4010299517c1c9e733dbc8409a082e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-6",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00047293398529291153,
+      "stdout_sha256": "66e964dcb1eeff65f18e158fcc1a5c0691f6c18705e2dbf2cf29c21e52b3a7b2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-7",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004828530363738537,
+      "stdout_sha256": "cd1cd814d91a3f6c812eaca0bb3527676be6d1ee47555a7497f40fb5f6efbc54",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "256-2-8",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "256",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0004727640189230442,
+      "stdout_sha256": "a57451173fa86c53f53364d6aedbd0c90cac1b4e1528fdc09fc3549929704258",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0007167409639805555,
+      "stdout_sha256": "2f3e50c998e07bd7f349ae41b8338dcb57a6317044933bd1cd4dbf0e7f8c3074",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0006672859890386462,
+      "stdout_sha256": "25fb1d158ad1332a9ee41122450d7926f9c0958dfecce5aaadd633fda7f37993",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0007408260134980083,
+      "stdout_sha256": "79dae8f1d249d6106e8a32b6320cde7fedd37d0be1a7af982c07fd8844425c0c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0006841180147603154,
+      "stdout_sha256": "c0f84ecddda9c5e880a7bae40189a081a8b120c68699d4c80387c4548442a5eb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0006951389368623495,
+      "stdout_sha256": "622d48a145597d6c7a1079d131e2a3ddfa846d71dcbc439141f221dc87591a6c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-5",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0006882359739392996,
+      "stdout_sha256": "6c961111694a91483dd358850c559ed65c4a6747e4ea461d8f669c6685c25b12",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-6",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0006611141143366694,
+      "stdout_sha256": "cd080a92e8916f3aa968a56ae354e589ae66df169f2fcef0ec46c81df6b44cc7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-7",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0007086950354278088,
+      "stdout_sha256": "34e958436ce76e4d3024b6d553565b72058a9e26f7e34bd1d332c36992d2ecae",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-1-8",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "1"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0007259879494085908,
+      "stdout_sha256": "b226ab709401b5c6b6cc6b61894f703e02a51c8a1d004a80cdd0b15c3e98f4f4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005756099708378315,
+      "stdout_sha256": "7d3174e64d4cda59969ac59c1f9e8c6b2855bfc4cb36c2446b038f41f6c7a798",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.000566242029890418,
+      "stdout_sha256": "327efdb4fd12e0c31ebf1ffbdc24f7bec60cb90a252be5a24da9f086b7e0818b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005772230215370655,
+      "stdout_sha256": "41d66bf488de763043ed77dd7616abd332dd83d4636d146b554b3c60c6710b90",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005532170180231333,
+      "stdout_sha256": "9301358841a431b74e12aa37da7b31f313bfe0075b778f56c7f0c69f7349d4c2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0006492510437965393,
+      "stdout_sha256": "27e773f49cc34f9dcbb29c900f82397e67bca9496a6e031b20e7778b5e07f81b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-5",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005581970326602459,
+      "stdout_sha256": "bad061dc58f6889bac190485963ea544384f3f85b383d844fb5346fbb00e60f6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-6",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005889059975743294,
+      "stdout_sha256": "9702cfaa2266bc1e1bf76f03c98458578c8b1674375c54aed2f7baa263c99bf9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-7",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0005544000305235386,
+      "stdout_sha256": "8d70a4ab61f38dd567f5a619e548cb99bdf9a6ccc502da9e7b693856bda1a6a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "1024-2-8",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "1024",
+        "2"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.000560590997338295,
+      "stdout_sha256": "f61d6c80318e7acfefa834642bd0fb68f6656296b126038e45b527ec85142c6e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "cancel-before-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1",
+        "--cancel-before"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003139500040560961,
+      "stdout_sha256": "1a53af7e0a34238feb065f7dd69a83b0b4b16bc8bd46686c06f0eac472f5cde3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "cancel-before-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "2",
+        "--cancel-before"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003090610262006521,
+      "stdout_sha256": "91d692fc4f777af322dc79b3dbadb87743ae07e5a1fefa4f738afb8dd8438e9b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "continuation",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1",
+        "--continuation"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00035966699942946434,
+      "stdout_sha256": "251dfe00e6a213bc35fad40c4ea833df6fadc40bc1ec1ed13f783ced2af5c7a7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "budget-continuation",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1",
+        "--budget-continuation"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0003582850331440568,
+      "stdout_sha256": "ec0273a3a2a75cf4ef7e93fad603447f1b781a6792e43dd4eedb2d9702cd4e4a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "cancel-between",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1",
+        "--cancel-between"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00032536208163946867,
+      "stdout_sha256": "ca411dc544ea36a88ecab6630aec361704656884d5347bfde8fac18046b6955a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "invalid-cli-0",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "63",
+        "1"
+      ],
+      "exit": 2,
+      "expected_exit": 2,
+      "timed_out": false,
+      "wall_seconds": 0.0002666900400072336,
+      "stdout_sha256": "bdcd57b428c9e2ba249b0051d25cde0f116f7877908805a8519ba646dc6ca426",
+      "stderr_sha256": "b14c0b08aad653c014dc4c935c4d6ed92ca8560783fb4bf15ac37e330a00a880"
+    },
+    {
+      "label": "invalid-cli-1",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "3"
+      ],
+      "exit": 2,
+      "expected_exit": 2,
+      "timed_out": false,
+      "wall_seconds": 0.00026566802989691496,
+      "stdout_sha256": "bdcd57b428c9e2ba249b0051d25cde0f116f7877908805a8519ba646dc6ca426",
+      "stderr_sha256": "b14c0b08aad653c014dc4c935c4d6ed92ca8560783fb4bf15ac37e330a00a880"
+    },
+    {
+      "label": "invalid-cli-2",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1",
+        "--unknown"
+      ],
+      "exit": 2,
+      "expected_exit": 2,
+      "timed_out": false,
+      "wall_seconds": 0.0002813580213114619,
+      "stdout_sha256": "bdcd57b428c9e2ba249b0051d25cde0f116f7877908805a8519ba646dc6ca426",
+      "stderr_sha256": "b14c0b08aad653c014dc4c935c4d6ed92ca8560783fb4bf15ac37e330a00a880"
+    },
+    {
+      "label": "invalid-cli-3",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "128",
+        "1",
+        "--continuation"
+      ],
+      "exit": 2,
+      "expected_exit": 2,
+      "timed_out": false,
+      "wall_seconds": 0.00026369502302259207,
+      "stdout_sha256": "bdcd57b428c9e2ba249b0051d25cde0f116f7877908805a8519ba646dc6ca426",
+      "stderr_sha256": "b14c0b08aad653c014dc4c935c4d6ed92ca8560783fb4bf15ac37e330a00a880"
+    },
+    {
+      "label": "invalid-cli-4",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/target-u10b-profile/release/u10b-profile",
+        "64",
+        "1",
+        "--continuation",
+        "--cancel-between"
+      ],
+      "exit": 2,
+      "expected_exit": 2,
+      "timed_out": false,
+      "wall_seconds": 0.0002501480048522353,
+      "stdout_sha256": "bdcd57b428c9e2ba249b0051d25cde0f116f7877908805a8519ba646dc6ca426",
+      "stderr_sha256": "b14c0b08aad653c014dc4c935c4d6ed92ca8560783fb4bf15ac37e330a00a880"
+    }
+  ],
+  "prepared_inputs_before": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/workspace/build/builderbob/syson-batch22-20261029/run_u10b_profile.py": "e6b2df33dadb7c4364c7f0690bfcdbf2ccc080b8cbf7d1ca6853eb08d88bc3a6",
+    "/workspace/build/builderbob/syson-batch22-20261029/u10b-profile-01/Cargo.lock": "26ee83d90ae11cf1439b76523f87fdcd35ae507ca9b9e3db69b38f52c78724b6",
+    "/workspace/build/builderbob/syson-batch22-20261029/u10b-profile-01/Cargo.toml": "0fbe574098086dc035c94d366171f8468ab4d47b52201797f1f460b230065c18",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/clippy-driver": "89b6cc8d0d988b00a3f65bc90c76fedbaedb6bcb442b34563aefe3621f26544b",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustfmt": "68cb47a2a38daa8ff2ec6d623a2374b0a165d77ec74f1f654216665018c04598",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/Cargo.lock": "f42752ea0ff35cd2c33d1ddc16b2d6b1048c211c5131e78bab20f3122e5e6ab9",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/Cargo.toml": "d32e1c499c9c20393c897367ae0cba379f2449e7f5b7b947f2057b388394f3b2",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/NOTICE.md": "5ef7c2864d35e71ee8124ed54846b717277a63d376663952fbe6523ad698be40",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/admission.rs": "6d1e1f41bb433fcb4a88e93ba1796497c6d0bffd39e2f9867cb9a91ba467efb2",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/lib.rs": "b25b60441094da0104992ab44911bcfe658f4e9f553222d2c2cb9a863b04f677",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/placement.rs": "cd5de614196e30f55082c0ec68ffe9680936678dde19e3f5faa141fb2bbcfb01",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/types.rs": "35de35516616e84226ee0812767e92f86ed3eae618ba28abb6fa806e6349f55f",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/tests/admission.rs": "6e5ce1888cd86004b948dc65b0120373534451bda7b4bd2ee1ad0a8baa8f1464",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/tests/layout.rs": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a",
+    "/workspace/worktrees/builderbob/syson/batch23-placement-profile/porting/rust-parity-evidence/C09/batch23-placement-profile/u10b_profile.rs": "912e8d5739b3227c2dc4cf03fb39fdbb2c8ec8ec9894b16337d24ffc9a613fce"
+  },
+  "executable_sha256": "20805001e9a412185b6712ec756442e50e6da814488c8f78b93e5193b5807d56",
+  "p95_claimed": false,
+  "inputs_after": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/workspace/build/builderbob/syson-batch22-20261029/run_u10b_profile.py": "e6b2df33dadb7c4364c7f0690bfcdbf2ccc080b8cbf7d1ca6853eb08d88bc3a6",
+    "/workspace/build/builderbob/syson-batch22-20261029/u10b-profile-01/Cargo.lock": "26ee83d90ae11cf1439b76523f87fdcd35ae507ca9b9e3db69b38f52c78724b6",
+    "/workspace/build/builderbob/syson-batch22-20261029/u10b-profile-01/Cargo.toml": "0fbe574098086dc035c94d366171f8468ab4d47b52201797f1f460b230065c18",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/clippy-driver": "89b6cc8d0d988b00a3f65bc90c76fedbaedb6bcb442b34563aefe3621f26544b",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustfmt": "68cb47a2a38daa8ff2ec6d623a2374b0a165d77ec74f1f654216665018c04598",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/Cargo.lock": "f42752ea0ff35cd2c33d1ddc16b2d6b1048c211c5131e78bab20f3122e5e6ab9",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/Cargo.toml": "d32e1c499c9c20393c897367ae0cba379f2449e7f5b7b947f2057b388394f3b2",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/NOTICE.md": "5ef7c2864d35e71ee8124ed54846b717277a63d376663952fbe6523ad698be40",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/admission.rs": "6d1e1f41bb433fcb4a88e93ba1796497c6d0bffd39e2f9867cb9a91ba467efb2",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/lib.rs": "b25b60441094da0104992ab44911bcfe658f4e9f553222d2c2cb9a863b04f677",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/placement.rs": "cd5de614196e30f55082c0ec68ffe9680936678dde19e3f5faa141fb2bbcfb01",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/src/types.rs": "35de35516616e84226ee0812767e92f86ed3eae618ba28abb6fa806e6349f55f",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/tests/admission.rs": "6e5ce1888cd86004b948dc65b0120373534451bda7b4bd2ee1ad0a8baa8f1464",
+    "/workspace/worktrees/builderbob/syson/batch23-layout-placement/rust/crates/syson-layout/tests/layout.rs": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a",
+    "/workspace/worktrees/builderbob/syson/batch23-placement-profile/porting/rust-parity-evidence/C09/batch23-placement-profile/u10b_profile.rs": "912e8d5739b3227c2dc4cf03fb39fdbb2c8ec8ec9894b16337d24ffc9a613fce"
+  },
+  "source_unchanged": true,
+  "executable_sha256_after": "20805001e9a412185b6712ec756442e50e6da814488c8f78b93e5193b5807d56",
+  "binary_unchanged": true
+}
