@@ -1,0 +1,123 @@
+from pathlib import Path
+import fcntl, hashlib, json, os, signal, subprocess, time
+base = Path(__file__).parent
+outdir = base.parent / 'c01-version-resource-01'
+outdir.mkdir(mode=0o700)
+child = None
+scope_owned = False
+sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+files = {Path(__file__), base / 'entry.py', base / 'check_versions.py', base / 'proposal.json',
+         Path('/usr/bin/python3'), Path('/usr/bin/systemd-run'), Path('/usr/bin/systemctl')}
+files.update(p for p in (base / 'configs').iterdir() if p.is_file())
+files.update(p for p in (base / 'tests').rglob('*.py') if p.is_file())
+snapshot = lambda: {str(p): sha(p) for p in sorted(files)}
+record = {'status': 'PREPARING', 'inputs_before': snapshot(), 'scope': 'Fixed version handlers only; no build, dependency, native application or UI acceptance.'}
+(outdir / 'executed-wrapper.py').write_bytes(Path(__file__).read_bytes())
+lock = open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock')
+fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ['HOME'], 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8',
+       'XDG_RUNTIME_DIR': os.environ.get('XDG_RUNTIME_DIR', '/run/user/' + str(os.getuid()))}
+def interrupted(*args):
+    raise RuntimeError('version wrapper interrupted')
+signal.signal(signal.SIGTERM, interrupted)
+def scope_state():
+    argv = ['/usr/bin/systemctl', '--user', 'show', 'syson-c01-versions-01.scope',
+            '--property=LoadState', '--property=ActiveState', '--property=ControlGroup']
+    result = subprocess.run(argv, env=env, capture_output=True, timeout=10)
+    values = dict(line.split('=', 1) for line in result.stdout.decode().splitlines() if '=' in line)
+    if result.returncode not in (0, 4) or values.get('LoadState') not in ('loaded', 'not-found'):
+        raise RuntimeError('owned scope state is unobservable')
+    return values
+
+def cleanup_scope():
+    states = []
+    for attempt in range(5):
+        state = scope_state()
+        states.append(state)
+        if state['LoadState'] == 'not-found':
+            return {'confirmed_empty_or_absent': True, 'observations': states}
+        relative = state.get('ControlGroup', '')
+        if relative:
+            if not relative.endswith('/syson-c01-versions-01.scope') or '..' in relative.split('/'):
+                raise RuntimeError('unexpected owned cgroup identity')
+            group = Path('/sys/fs/cgroup') / relative.lstrip('/')
+            try:
+                state['events'] = (group / 'cgroup.events').read_text()
+                state['processes'] = (group / 'cgroup.procs').read_text()
+                if 'populated 0' in state['events'].splitlines() and not state['processes'].strip():
+                    return {'confirmed_empty_or_absent': True, 'observations': states}
+            except FileNotFoundError:
+                pass
+        if attempt == 0:
+            killed = subprocess.run(['/usr/bin/systemctl', '--user', 'kill', '--kill-whom=all',
+                                     '--signal=SIGKILL', 'syson-c01-versions-01.scope'],
+                                    env=env, capture_output=True, timeout=10)
+            state['kill_exit'] = killed.returncode
+        time.sleep(0.2)
+    raise RuntimeError('owned scope cleanup not confirmed')
+try:
+    mount = subprocess.run(['/usr/local/sbin/bob-admin', 'workspace-status'], env=env, capture_output=True, timeout=15)
+    (outdir / 'workspace-status.json').write_bytes(mount.stdout)
+    if mount.returncode != 0 or json.loads(mount.stdout).get('outcome') != 'ok':
+        raise RuntimeError('Samsung workspace identity not verified')
+    mem = {row.split(':')[0]: int(row.split()[1]) for row in Path('/proc/meminfo').read_text().splitlines()}
+    disk = os.statvfs('/workspace')
+    record['headroom'] = {'available_memory_kib': mem['MemAvailable'], 'available_disk_bytes': disk.f_bavail * disk.f_frsize}
+    if mem['MemAvailable'] < 10 * 1024**2 or disk.f_bavail * disk.f_frsize < 30 * 1024**3:
+        raise RuntimeError('insufficient fresh headroom')
+    argv = ['/usr/bin/systemd-run', '--user', '--scope', '--quiet', '--collect',
+            '--unit=syson-c01-versions-01.scope', '-p', 'CPUQuota=200%', '-p', 'MemoryHigh=4G',
+            '-p', 'MemoryMax=6G', '-p', 'MemorySwapMax=0', '-p', 'TasksMax=128',
+            '-p', 'RuntimeMaxSec=300s', '/usr/bin/python3', '-I', '-B', str(base / 'entry.py'),
+            str(base / 'check_versions.py'), record['inputs_before'][str(base / 'check_versions.py')], str(lock.fileno())]
+    record['argv'] = argv
+    start = time.monotonic()
+    record['initial_scope'] = scope_state()
+    if record['initial_scope']['LoadState'] != 'not-found':
+        raise RuntimeError('version scope already exists; preserve its owner')
+    scope_owned = True
+    child = subprocess.Popen(argv, env=env, pass_fds=(lock.fileno(),), stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+    try:
+        stdout, stderr = child.communicate(timeout=240)
+        record['timed_out'] = False
+    except subprocess.TimeoutExpired:
+        record['timed_out'] = True
+        os.killpg(child.pid, signal.SIGTERM)
+        try:
+            stdout, stderr = child.communicate(timeout=10)
+        except subprocess.TimeoutExpired:
+            os.killpg(child.pid, signal.SIGKILL)
+            stdout, stderr = child.communicate(timeout=10)
+    (outdir / 'stdout.txt').write_bytes(stdout)
+    (outdir / 'stderr.txt').write_bytes(stderr)
+    record.update(exit=child.returncode, wall_seconds=time.monotonic() - start)
+    if child.returncode != 0 or record['timed_out']:
+        raise RuntimeError('version phase failed; retain attempt')
+    record['status'] = 'PASS_VERSION_PHASE_ONLY;BUILD_NATIVE_UI_GATES_OPEN'
+except BaseException as error:
+    record.update(status='FAIL_PRESERVED', error=repr(error))
+    raise
+finally:
+    if child is not None and child.poll() is None:
+        os.killpg(child.pid, signal.SIGTERM)
+        try:
+            child.communicate(timeout=10)
+        except subprocess.TimeoutExpired:
+            os.killpg(child.pid, signal.SIGKILL)
+            child.communicate(timeout=10)
+    if scope_owned:
+        try:
+            record['scope_cleanup'] = cleanup_scope()
+        except Exception as error:
+            record.update(status='FAIL_PRESERVED', scope_cleanup_error=repr(error))
+    try:
+        record['inputs_after'] = snapshot()
+        record['inputs_unchanged'] = record['inputs_before'] == record['inputs_after']
+    except OSError as error:
+        record.update(status='FAIL_PRESERVED', inputs_unchanged=False, inputs_after_error=repr(error))
+    if not record['inputs_unchanged']:
+        record.update(status='FAIL_PRESERVED', error='selected input drift')
+    (outdir / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    if not record['inputs_unchanged'] or record.get('scope_cleanup_error'):
+        raise RuntimeError('version input or owned-scope teardown failure')
+print(json.dumps({'status': record['status'], 'exit': record['exit'], 'inputs_unchanged': record['inputs_unchanged']}))
