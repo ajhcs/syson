@@ -1,0 +1,251 @@
+{
+  "schema": 1,
+  "status": "BOUNDED_COMPONENTS_LANDED;PARENT_FEATURE_ACCEPTANCE_OPEN",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.0",
+  "normative_inputs_changed": false,
+  "new_feature_acceptance": false,
+  "landing_evidence": "rereview-batch15-merge-status.json",
+  "main_after_batch": "14dc35e56c7f4d0f458559fd4ecf593f15861005",
+  "landings": [
+    {
+      "scope": "Pure S08 containment prerequisite",
+      "owner_units": [
+        "M04",
+        "RR04"
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/133",
+      "merge": "85eba7ccdc3c21a7bd2ad92e13473885cfaaef43",
+      "resulting_tree_verified_by_coordinator": true,
+      "evidence": "../rust-parity-evidence/S08-containment/main-batch15/verification.json",
+      "remaining": "Inverse ownership, detach/reparent/delete, native behavior and full M04 remain open. No held raw/factory/initializer source was admitted."
+    },
+    {
+      "scope": "RR04 bounded canonical model writer",
+      "owner_units": [
+        "RR04"
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/134",
+      "merge": "a2819d26abc0d612983f644ad62b5257e9f0bba0",
+      "resulting_tree_verified_by_coordinator": true,
+      "evidence": "../rust-parity-evidence/RR04/main-batch15/verification.json",
+      "remaining": "Actual main load and changed-commit publication qualify as internal consumers. Downstream bridge/UI/native, capacity and full feature acceptance remain open; external output may be partial or complete on IO failure/cancellation and is not flushed or durable by this API."
+    },
+    {
+      "scope": "C01g standalone physical catalogue foundation",
+      "owner_units": [
+        "C01g"
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/135",
+      "merge": "4c268b0a2ecd8b96c08747695261d16d74db01d5",
+      "resulting_tree_verified_by_coordinator": true,
+      "evidence": "../rust-parity-evidence/C01g/main-batch15/verification.json",
+      "budget_disposition": "Existing locked cohesive exception: 450 production lines, 900 authored-line ceiling. Baseline and RR03 delta remain separate review blocks.",
+      "remaining": "The C01e preparation edge and full C01 remain open. Known baseline marker defects remain recorded; the baseline is not eligible for consumer exposure without its separately qualified RR03 repair."
+    },
+    {
+      "scope": "RR03 literal-safe catalogue and manifest adoption",
+      "owner_units": [
+        "RR03",
+        "C01g"
+      ],
+      "pull_request": "https://github.com/ajhcs/syson/pull/136",
+      "merge": "14dc35e56c7f4d0f458559fd4ecf593f15861005",
+      "resulting_tree_verified_by_coordinator": true,
+      "evidence": "../rust-parity-evidence/RR03/main-batch15/verification.json",
+      "remaining": "Physical indexing only. Semantic loading, native fragment aliases/reference resolution, UI callers, complete guard qualification and parent acceptance remain open."
+    }
+  ],
+  "coverage": {
+    "final_unique_named_cases": 95,
+    "final_model_cases": 66,
+    "final_catalogue_cases": 18,
+    "RR01_consumer_feature_union_cases": 11,
+    "overlapping_baseline_runs": {
+      "containment_model": 54,
+      "catalogue": 9
+    },
+    "count_meaning": "The baseline runs overlap the final suites. 158 is a sum of passing test executions, not a unique-case count, feature count or acceptance percentage.",
+    "hosted_checks_per_landed_PR": 0,
+    "commit_statuses_per_landed_PR": 0,
+    "hosted_evidence_meaning": "Absent; local qualification is not a hosted CI pass.",
+    "new_native_epoch": false,
+    "new_rendered_UI_qualification": false
+  },
+  "bounded_observations": {
+    "model_writer": {
+      "compact_fixture_bytes": 500536,
+      "baseline_output_bytes": 14209894,
+      "baseline_largest_allocation_request_bytes": 16777216,
+      "repaired_largest_allocation_request_bytes": 40,
+      "repaired_observed_peak_live_bytes": 126,
+      "repaired_live_at_return_bytes": 0,
+      "sampling": "Two warmups and seven measured processes per version through the public attachment and common to_json API; committed and provisional values preserved.",
+      "limits": "Requested API allocations, not allocator overhead, RSS, leak proof, UI responsiveness or native speed equivalence."
+    },
+    "catalogue": {
+      "resources": 94,
+      "payload_bytes": 20874941,
+      "physical_identity_class_name_tuples": 109673,
+      "native_diagnostics_retained": 12162,
+      "historical_native_inputs_rehashed": 316,
+      "container_depth": 208,
+      "literal_value_depth": 209,
+      "measured_wall_seconds_min_median_max": [
+        0.4,
+        0.4,
+        0.41
+      ],
+      "measured_RSS_KiB_min_max": [
+        150724,
+        151208
+      ],
+      "sampling": "Two warmups and seven measured full release CLI processes, including reading/indexing/output; all output indices agree.",
+      "limits": "Hash-verified historical native physical tuples, not a new native epoch, p95, API latency, semantic/EMF parity, clean native loading or general capacity. The 125-path target/artifact gap remains open."
+    }
+  },
+  "remaining_work": [
+    {
+      "owner_units": [
+        "RR20"
+      ],
+      "priority": 1,
+      "scope": "Model-only RR20 adoption on actual main",
+      "prerequisites": "RR04 is landed. Recheck actual main, original prerequisite dispositions and explicit held-owner gates; root serializes the shared model lib.rs lease.",
+      "work": "Extract only admitted history implementation and original regressions. Preserve owner/revision refusal, rollback, redo invalidation, retention budgets and typed availability; exclude the full #130 snapshot and held raw/factory/initializer source.",
+      "verify": [
+        "Exact composed model and retained counterexamples",
+        "Retained bytes, copy work, RSS and cancellation on declared 1000/4096-element and 64/256-commit workloads",
+        "Full RR20 UI and consuming-caller acceptance remains open after model-only landing"
+      ]
+    },
+    {
+      "owner_units": [
+        "RR20",
+        "RR18b3a",
+        "RR18b3d"
+      ],
+      "priority": 2,
+      "scope": "Borrowed-summary and UI caller composition from #130 on actual main",
+      "prerequisites": "Qualified model-only RR20 landing, actual UI/model prerequisite closure, explicit owner handoffs and serialized registration. Review snapshots are not merge destinations.",
+      "work": "Reconstruct only admitted donor changes, retaining exact borrowed traversal ordering/owner semantics and all renderer obligations.",
+      "verify": [
+        "Affected model/host/renderer suites and actual release UI undo/redo",
+        "Refusal, drafts, focus/caret, state preservation and repeated retention memory",
+        "Original 151 host cases and 18 UI recipes keep original composition attribution; no automatic reuse for changed source"
+      ]
+    },
+    {
+      "owner_units": [
+        "RR02",
+        "RR05",
+        "I01"
+      ],
+      "scope": "Remaining identity bridges and pre-copy interchange admission",
+      "prerequisites": "Actual reference/view-usage/text-import/interchange prerequisite closure. Preserve original #91 and model-only #129 attribution.",
+      "verify": [
+        "Both identity directions through actual import/load/save callers",
+        "Marker/phantom/numeric/domain-collision cases and exact raw authority",
+        "RR04 pre-copy admission, per-resource/aggregate boundaries, cancellation, unchanged committed state and reloadability"
+      ]
+    },
+    {
+      "owner_units": [
+        "RR03",
+        "C01g"
+      ],
+      "scope": "Remaining advertised guard qualification",
+      "work": "Retain qualification within existing units; coordinate implementation changes and preserve the approved baseline exception separately.",
+      "verify": [
+        "128/129 distinct resources and manifest rows without duplicate-path confounding",
+        "Exact/over 32-MiB aggregate raw bytes",
+        "Independently reachable physical-node, index-string and traversal-string limits",
+        "Exact pointer, path, class and declared-name boundaries",
+        "Filesystem refusal, interior cancellation and output-transport failure behavior",
+        "Explain valid-input dominated bounds separately from executed boundary evidence; retain malformed lexical-stream dispositions"
+      ],
+      "acceptance_limit": "Eighteen catalogue cases do not establish every advertised guard edge or full RR03 acceptance."
+    },
+    {
+      "owner_units": [
+        "C01e",
+        "C01"
+      ],
+      "scope": "Reference and target/runtime closure",
+      "work": "Close the existing preparation/source/artifact/configuration/inherited scope, including the 125-path target gap. Absence of a C01e catalogue code dependency does not satisfy its preparation obligation.",
+      "acceptance_limit": "Physical tuple agreement, historical-input rehashing and 12162 retained native diagnostics do not establish clean loading, semantic resolution or a new native epoch."
+    },
+    {
+      "owner_units": [
+        "RR18b3d",
+        "U27",
+        "U28"
+      ],
+      "scope": "Identifier disclosure and complete-render cost",
+      "work": "Coordinate renderer/CSS/loader ownership. Replace the 65542-character wall with bounded labelled full-value access; profile release emission, transfer, parsing/insertion and layout before one focused optimization.",
+      "verify": [
+        "Exact Unicode/whitespace identity authority, copy behavior and real keyboard opening",
+        "320/1440-px geometry, local scrolling and focus/caret after repaint",
+        "Complete output admission, cancellation and committed/draft/history preservation",
+        "Capability lookup and preview/export repaint remain source candidates, not proven bottlenecks"
+      ]
+    },
+    {
+      "owner_units": [
+        "U04",
+        "U27",
+        "U28"
+      ],
+      "scope": "Dense explorer implementation and qualification",
+      "prerequisites": [
+        "U03",
+        "B19"
+      ],
+      "work": "Implement usable collapse/search/browsing before choosing windowing. Qualification scopes confer no renderer/loader/CSS implementation lease.",
+      "verify": [
+        "First/middle/last-child and relationship tasks on the 512-child fixture without roughly 33000 CSS pixels of browsing",
+        "Ordering, reachability, selection and viewport preservation",
+        "Keyboard, actual spoken assistive technology, zoom/touch/glyph/device/browser coverage and repeated import/repaint memory"
+      ]
+    },
+    {
+      "owner_units": [
+        "RR19"
+      ],
+      "scope": "History command availability",
+      "prerequisites": [
+        "RR18",
+        "RR20"
+      ],
+      "verify": [
+        "Available/disabled/busy/retention-boundary states through real controls",
+        "Empty, staged, committed, undone/redone, exhausted and cancelled cases through keyboard and accessibility inspection"
+      ]
+    },
+    {
+      "owner_units": [
+        "B02",
+        "B03",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "U03",
+        "B31"
+      ],
+      "scope": "Durable connected Rust project workflow with all declared dependencies",
+      "verify": [
+        "Create/import/edit/save/page-reload/project-reopen without manual JSON reimport",
+        "Exact 4113-UTF-16/4117-UTF-8 Package counterexample, identities, references, representations, revisions and migration state",
+        "Backend restart and injected commit/acknowledgment failures separately",
+        "Replace the Python SQLite application bridge before claiming Rust production delivery"
+      ]
+    }
+  ],
+  "ownership": {
+    "holds": "Existing holds on syson-model/src/raw_admission.rs, syson-initializer-graph/src and tests, factory review/helper work and the canonical backlog remain ACTIVE_EXPLICIT_ONLY; no landing releases them.",
+    "shared_writes": "Root owns shared exports/manifests/locks/assembly and serializes compiler/runtime/database/browser allocation. Preserve dirty canonical work and all failures.",
+    "dispatch_rule": "Existing scopes only; no invented child IDs or source leases. Register reviewed children and apply required contract change control before a necessary split or new obligation."
+  },
+  "performance_policy": "Restore identical state; two warmups plus seven raw measurements per named artifact/profile. p95 requires at least 30 measurements and a declared estimator. Keep API allocation/live peak, whole-process RSS, UI latency and matched native comparisons separate; timing bands do not establish acceptance.",
+  "program_boundary": "All 778 adopted units and discovered required obligations retain their contract gates. This findings record is neither an exhaustive replacement for those briefs nor a feature-completion percentage."
+}
