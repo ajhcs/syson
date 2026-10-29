@@ -1,0 +1,1 @@
+The immutable packets in qualification.json bind this exact layout tree to 56 passing cases and the full placement profile, retaining raw results, all source bindings and original donors. Profiles pre-exercise the kernel; full native/UI and capacity acceptance remain open.
