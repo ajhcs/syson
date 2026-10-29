@@ -1,61 +1,39 @@
 from pathlib import Path
 import fcntl, hashlib, json, os, signal, subprocess, time
-base = Path(__file__).parent
+base = Path(__file__).resolve().parent
+helper = base.parent / 'scope-ownership-repair/scope_ownership.py'
+helper_raw = helper.read_bytes()
+if hashlib.sha256(helper_raw).hexdigest() != 'ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d':
+    raise RuntimeError('reviewed scope ownership helper changed')
+ownership = {'__file__': str(helper)}
+exec(compile(helper_raw, str(helper), 'exec'), ownership)
 outdir = base.parent / 'c01-maven-bootstrap-resource-01'
 outdir.mkdir(mode=0o700)
 child = None
-scope_owned = False
+launch_attempted = False
+unit, cookie = ownership['new_attempt']('syson-c01-maven-bootstrap-')
+proof_path = outdir / 'ownership.json'
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-files = {Path(__file__), base / 'entry.py', base / 'acquire_plugins.py', base / 'proposal.json',
+files = {helper, Path(__file__), base / 'entry.py', base / 'acquire_plugins.py', base / 'proposal.json',
          Path('/usr/bin/python3'), Path('/usr/bin/systemd-run'), Path('/usr/bin/systemctl')}
 files.add(base / 'metadata-readback.json')
 files.update(p for p in (base / 'tests').rglob('*.py') if p.is_file())
 snapshot = lambda: {str(p): sha(p) for p in sorted(files)}
-record = {'status': 'PREPARING', 'inputs_before': snapshot(), 'scope': 'Pinned Maven artifact data acquisition and static descriptor inspection only; no Maven/Java/plugin/build/native/UI execution.'}
+record = {'status': 'PREPARING', 'exit': None, 'timed_out': False, 'scope_unit': unit, 'inputs_before': snapshot(), 'scope': 'Pinned Maven artifact data acquisition and static descriptor inspection only; no Maven/Java/plugin/build/native/UI execution.'}
 (outdir / 'executed-wrapper.py').write_bytes(Path(__file__).read_bytes())
-lock = open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock')
-fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
 env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ['HOME'], 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8',
        'XDG_RUNTIME_DIR': os.environ.get('XDG_RUNTIME_DIR', '/run/user/' + str(os.getuid()))}
 def interrupted(*args):
     raise RuntimeError('Maven bootstrap wrapper interrupted')
 signal.signal(signal.SIGTERM, interrupted)
 def scope_state():
-    argv = ['/usr/bin/systemctl', '--user', 'show', 'syson-c01-maven-bootstrap-01.scope',
-            '--property=LoadState', '--property=ActiveState', '--property=ControlGroup']
-    result = subprocess.run(argv, env=env, capture_output=True, timeout=10)
-    values = dict(line.split('=', 1) for line in result.stdout.decode().splitlines() if '=' in line)
-    if result.returncode not in (0, 4) or values.get('LoadState') not in ('loaded', 'not-found'):
-        raise RuntimeError('owned scope state is unobservable')
-    return values
+    return ownership['state'](unit, env)
 
 def cleanup_scope():
-    states = []
-    for attempt in range(5):
-        state = scope_state()
-        states.append(state)
-        if state['LoadState'] == 'not-found':
-            return {'confirmed_empty_or_absent': True, 'observations': states}
-        relative = state.get('ControlGroup', '')
-        if relative:
-            if not relative.endswith('/syson-c01-maven-bootstrap-01.scope') or '..' in relative.split('/'):
-                raise RuntimeError('unexpected owned cgroup identity')
-            group = Path('/sys/fs/cgroup') / relative.lstrip('/')
-            try:
-                state['events'] = (group / 'cgroup.events').read_text()
-                state['processes'] = (group / 'cgroup.procs').read_text()
-                if 'populated 0' in state['events'].splitlines() and not state['processes'].strip():
-                    return {'confirmed_empty_or_absent': True, 'observations': states}
-            except FileNotFoundError:
-                pass
-        if attempt == 0:
-            killed = subprocess.run(['/usr/bin/systemctl', '--user', 'kill', '--kill-whom=all',
-                                     '--signal=SIGKILL', 'syson-c01-maven-bootstrap-01.scope'],
-                                    env=env, capture_output=True, timeout=10)
-            state['kill_exit'] = killed.returncode
-        time.sleep(0.2)
-    raise RuntimeError('owned scope cleanup not confirmed')
+    return ownership['cleanup'](unit, cookie, proof_path, env)
 try:
+    lock = open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     mount = subprocess.run(['/usr/local/sbin/bob-admin', 'workspace-status'], env=env, capture_output=True, timeout=15)
     (outdir / 'workspace-status.json').write_bytes(mount.stdout)
     if mount.returncode != 0 or json.loads(mount.stdout).get('outcome') != 'ok':
@@ -66,16 +44,16 @@ try:
     if mem['MemAvailable'] < 10 * 1024**2 or disk.f_bavail * disk.f_frsize < 30 * 1024**3:
         raise RuntimeError('insufficient fresh headroom')
     argv = ['/usr/bin/systemd-run', '--user', '--scope', '--quiet', '--collect',
-            '--unit=syson-c01-maven-bootstrap-01.scope', '-p', 'CPUQuota=200%', '-p', 'MemoryHigh=4G',
+            '--unit=' + unit, '-p', 'CPUQuota=200%', '-p', 'MemoryHigh=4G',
             '-p', 'MemoryMax=6G', '-p', 'MemorySwapMax=0', '-p', 'TasksMax=128',
             '-p', 'RuntimeMaxSec=720s', '/usr/bin/python3', '-I', '-B', str(base / 'entry.py'),
-            str(base / 'acquire_plugins.py'), record['inputs_before'][str(base / 'acquire_plugins.py')], str(lock.fileno())]
+            str(base / 'acquire_plugins.py'), record['inputs_before'][str(base / 'acquire_plugins.py')], str(lock.fileno()), unit, cookie, str(proof_path)]
     record['argv'] = argv
     start = time.monotonic()
     record['initial_scope'] = scope_state()
     if record['initial_scope']['LoadState'] != 'not-found':
         raise RuntimeError('Maven bootstrap scope already exists; preserve its owner')
-    scope_owned = True
+    launch_attempted = True
     child = subprocess.Popen(argv, env=env, pass_fds=(lock.fileno(),), stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
     try:
         stdout, stderr = child.communicate(timeout=660)
@@ -108,7 +86,7 @@ finally:
                 child.communicate(timeout=10)
     except Exception as error:
         record.update(status='FAIL_PRESERVED', launcher_cleanup_error=repr(error))
-    if scope_owned:
+    if launch_attempted:
         try:
             record['scope_cleanup'] = cleanup_scope()
         except Exception as error:

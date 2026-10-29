@@ -12,7 +12,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 BASE = Path(__file__).resolve().parents[1]
-RUNNER_SHA256 = '7152a30458be0240a08d44d4d178cc5d1de8c4ad0ddd509cef576bf42fd68d82'
+RUNNER_SHA256 = 'd2a539db7b4aabdda93a1702c2ac35b0659ddc44813e9a7402cc70feecdc4682'
 FIXTURES = BASE.parent / ('c01-version-controls-' + ('optimized' if sys.flags.optimize else 'normal') + '-01')
 
 

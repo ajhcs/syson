@@ -5,9 +5,9 @@ import json
 import os
 import subprocess
 
-b = Path(__file__).parent
-source = b / 'c01-maven-bootstrap'
-out = b / 'c01-maven-bootstrap-controls-01'
+b = Path(__file__).resolve().parent
+source = b
+out = b.parent / 'c01-maven-bootstrap-controls-ownership-01'
 out.mkdir()
 fixtures = out / 'fixtures'
 fixtures.mkdir()
@@ -18,7 +18,7 @@ record = {'status': 'FAIL', 'inputs_before': inputs, 'checks': [], 'network_or_a
 lock = open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock')
 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
 env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ['HOME'], 'LANG': 'C.UTF-8',
-       'SYSON_C01_BOOTSTRAP_SOURCE_SHA256': '7a171424c4fe46664bb4cace3e6c6695ad25c5b6a86f968cbd3dd1c54e6cb42d',
+       'SYSON_C01_BOOTSTRAP_SOURCE_SHA256': '66aef4ed9a009f25e1af73824a24ef35c595dc977e76b91bd0390bf8c4dcd3d2',
        'SYSON_C01_BOOTSTRAP_TEST_TMP': str(fixtures)}
 try:
     for mode, flags in [('normal', []), ('optimized', ['-O'])]:

@@ -4,6 +4,7 @@ import fcntl
 import hashlib
 import json
 import os
+import re
 from pathlib import Path, PurePosixPath
 import signal
 import ssl
@@ -16,7 +17,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 BASE = Path(__file__).resolve().parent
-PROPOSAL_SHA256 = 'dea3265f1fcb131776e883eb5c1a9f23fd5affb81a4e53e19ccbd59268477565'
+PROPOSAL_SHA256 = 'f26e4564b8bcf4ab0c16f7f0cf61570fe6b0f0e109e74e0d58f1a8db2c7dfa4c'
 OUTPUT = Path('/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap-run-01')
 
 
@@ -100,13 +101,14 @@ def verify_primary(path, item):
     require(hashed(path, 'sha1') == item['sha1'], 'primary artifact digest differs')
 
 
-def controls(proposal):
+def controls(proposal, unit):
     cgroup = Path('/proc/self/cgroup').read_text().strip()
-    require(cgroup.startswith('0::') and cgroup.endswith('/' + proposal['cgroup']['scope']),
+    require(re.fullmatch(re.escape(proposal['cgroup']['scope_prefix']) + r'[0-9a-f]{32}\.scope', unit)
+            and cgroup.startswith('0::/') and cgroup.endswith('/' + unit),
             'not the owned bootstrap resource scope')
     directory = Path('/sys/fs/cgroup') / cgroup[3:].lstrip('/')
-    actual = {key: (directory / key).read_text().strip() for key in proposal['cgroup'] if key != 'scope'}
-    require(actual == {key: value for key, value in proposal['cgroup'].items() if key != 'scope'},
+    actual = {key: (directory / key).read_text().strip() for key in proposal['cgroup'] if key != 'scope_prefix'}
+    require(actual == {key: value for key, value in proposal['cgroup'].items() if key != 'scope_prefix'},
             'actual bootstrap resource controls differ')
     return {'cgroup': cgroup, 'controls': actual}
 
@@ -207,6 +209,7 @@ def jar_inventory(path, item, proposal):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--scope-unit', required=True)
     parser.add_argument('--lock-fd', required=True, type=int)
     args = parser.parse_args()
     os.umask(0o077)
@@ -222,7 +225,7 @@ def main():
         expected, actual = Path(proposal['lock']).stat(), os.fstat(args.lock_fd)
         require((expected.st_dev, expected.st_ino) == (actual.st_dev, actual.st_ino), 'wrong inherited compiler lock')
         fcntl.flock(args.lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        record['controls'], record['inputs_before'] = controls(proposal), inputs(proposal)
+        record['controls'], record['inputs_before'] = controls(proposal, args.scope_unit), inputs(proposal)
         for name in ['downloads', 'inspection']:
             (OUTPUT / name).mkdir(mode=0o700)
         for signum in [signal.SIGALRM, signal.SIGTERM, signal.SIGINT]:
