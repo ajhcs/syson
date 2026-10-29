@@ -1,0 +1,26 @@
+   Compiling syson-ast v0.1.0 (/workspace/worktrees/builderbob/syson/batch21-rr08b/rust/crates/syson-ast)
+   Compiling rr08-publication-probes v0.0.0 (/workspace/build/builderbob/syson-batch21-20261029/rr08b-publication-probes-01/journalBeforeValidationFix)
+warning: unused import: `Lexeme`
+  --> /workspace/build/builderbob/syson-batch21-20261029/probe_rr08b_publication.rs:11:52
+   |
+11 | use syson_ast::{Assignment, Builder, Datum, Error, Lexeme, Limits, Reflection, Slot, Value};
+   |                                                    ^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `cancellation_window` is never used
+  --> /workspace/build/builderbob/syson-batch21-20261029/probe_rr08b_publication.rs:88:4
+   |
+88 | fn cancellation_window(
+   |    ^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `rr08-publication-probes` (test "publication") generated 2 warnings (run `cargo fix --test "publication" -p rr08-publication-probes` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.39s
+     Running /workspace/build/builderbob/syson-batch21-20261029/probe_rr08b_publication.rs (/workspace/build/builderbob/syson-batch15-20261029/target/debug/deps/publication-dcc58fa5d8b7e6d3)
+
+thread 'large_flat_validation_refuses_before_auxiliary_allocation' (330806) panicked at /workspace/build/builderbob/syson-batch21-20261029/probe_rr08b_publication.rs:114:5:
+auxiliary validation allocation: Requests { total: 524296, largest: 524288 }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `--test publication`

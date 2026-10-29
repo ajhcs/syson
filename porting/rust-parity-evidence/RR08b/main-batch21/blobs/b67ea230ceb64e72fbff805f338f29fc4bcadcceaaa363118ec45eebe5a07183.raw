@@ -1,0 +1,21 @@
+from pathlib import Path
+import fcntl,hashlib,json,os,signal,subprocess,time
+b=Path(__file__).parent;o=b/'rr08b-constructor-qualification-01';o.mkdir();(o/'tmp').mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch21-rr08b');originaltools=Path('/workspace/worktrees/builderbob/syson/batch19-construction-tools/porting/rust-parity-evidence/C09/batch19-tools');current=w/'porting/rust-parity-evidence/C09/batch21-constructor-tools';corpus=originaltools/'construction_corpus.json';oracle=originaltools/'construction_oracle.cjs';observer=originaltools/'construction_dump.rs';bundle=w/'backend/application/syson-sysml-import/src/main/resources/syside-cli.js';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();files={corpus,oracle,observer,bundle,current/'compare_construction.py',current/'reference_expectations.cjs',Path('/usr/bin/node'),Path(__file__)}
+for name in ['syson-ast','syson-ast-adapter','syson-ast-values','syson-reflection','syson-ast-dispatch']:files.update(p for p in (w/'rust/crates'/name).rglob('*') if p.is_file())
+snap=lambda:{str(p):sha(p) for p in sorted(files)};r={'status':'RUNNING','inputs_before':snap(),'commands':[],'scope':'Fresh42case finiteconstructor original/Rust capture on changedkernel;reference/CST/cache/artifactparentgatesremainOPEN'};lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());env=dict(os.environ,CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(o/'tmp'),PYTHONDONTWRITEBYTECODE='1')
+def run(label,argv,expected=0):
+ start=time.monotonic();p=subprocess.Popen(list(map(str,argv)),cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:out,err=p.communicate(timeout=180);timed=False
+ except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);out,err=p.communicate(timeout=10);timed=True
+ (o/(label+'-stdout.txt')).write_bytes(out);(o/(label+'-stderr.txt')).write_bytes(err);r['commands'].append({'label':label,'argv':list(map(str,argv)),'exit':p.returncode,'expected_exit':expected,'timed_out':timed,'wall_seconds':time.monotonic()-start});print(json.dumps(r['commands'][-1]),flush=True)
+ if p.returncode!=expected or timed:raise RuntimeError('Preserve unexpected '+label)
+ return out
+try:
+ manifest=o/'Cargo.toml';q=lambda p:json.dumps(str(p));manifest.write_text('[package]\nname="rr08-construction-observer"\nversion="0.0.0"\nedition="2024"\n[dependencies]\nserde_json="=1.0.151"\nsyson-ast={path='+q(w/'rust/crates/syson-ast')+'}\nsyson-ast-adapter={path='+q(w/'rust/crates/syson-ast-adapter')+'}\n[[bin]]\nname="construction-dump"\npath='+q(observer)+'\n[workspace]\n');run('lock',['cargo','generate-lockfile','--offline','--manifest-path',manifest]);files.update([manifest,o/'Cargo.lock']);r['prepared_inputs_before']=snap();run('native',['/usr/bin/node','--max-old-space-size=1536',oracle,bundle,corpus,o/'native.json']);run('references',['/usr/bin/node','--max-old-space-size=1536',current/'reference_expectations.cjs',bundle,corpus,o/'references.json']);(o/'rust.json').write_bytes(run('rust',['cargo','run','--release','--offline','--locked','--jobs','1','--manifest-path',manifest,'--bin','construction-dump','--',corpus]));reports=[]
+ for label,flags in [('normal',[]),('optimized',['-O'])]:
+  target=o/(label+'.json');run(label,['python3',*flags,current/'compare_construction.py','--corpus',corpus,'--native',o/'native.json','--rust',o/'rust.json','--references',o/'references.json','--out',target,'--self-test'],1);reports.append(json.loads(target.read_text()))
+ assert reports[0]==reports[1];r.update(status='CAPTURED_FINITE_CONSTRUCTOR_BASELINE_WITH_ALL_REQUIRED_DIFFERENCES_AND_OPEN_OBLIGATIONS',report_keys=list(reports[0]),normal_optimized_identical=True)
+except BaseException as e:r.update(status='FAIL_TERMINAL',error=repr(e));raise
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=all(r['inputs_after'].get(k)==v for k,v in r['inputs_before'].items());(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+ if not r['source_unchanged']:raise RuntimeError('source drift')
