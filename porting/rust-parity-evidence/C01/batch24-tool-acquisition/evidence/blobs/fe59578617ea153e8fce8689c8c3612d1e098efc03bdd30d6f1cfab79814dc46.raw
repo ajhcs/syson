@@ -1,0 +1,487 @@
+{
+  "schema": 1,
+  "id": "C01-EXACT-TARGET-NATIVE-PACKAGE-01",
+  "state": "PROPOSAL_ONLY_NOT_EXECUTED",
+  "created_utc_date": "2026-10-29",
+  "purpose": "Build the exact pinned SysON source into an independently attributable native comparison artifact; preserve all C01/C02/P02 acceptance obligations.",
+  "authority": {
+    "author": "source-only child lease; proposal.json and README.md only",
+    "executor": "root after root and independent C review of this frozen proposal and phase-specific inputs",
+    "portable_scope": "Task-private tools, source outputs, caches and temporary files on verified Samsung /workspace; no system installation/global-tool baseline changes/sudo/service registration",
+    "current_action": "Official primary metadata and source reads only; no binary downloads, extraction, install, build, compiler, native application, server, database or Git mutation performed"
+  },
+  "source": {
+    "repository": "https://github.com/eclipse-syson/syson",
+    "local_git_objects": "/workspace/repos/builderbob/syson",
+    "target_commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "destination": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01",
+    "creation": "Root later creates a fresh detached worktree; destination must not exist; inspect exact target tracked agent/skill instructions before checkout/build. Do not edit canonical checkout.",
+    "full_tracked_manifest": "Root must freeze every tracked blob identity and byte SHA256, tree/commit and status before dependency or build execution; source hashes below are additional critical inputs.",
+    "critical_sha256": {
+      ".npmrc": "2b4a3e18b3080cebd4ca30e7ca05cc138e0f5376c42c948610c127efbaad0d64",
+      "pom.xml": "f49d6760fd6ea2d3c079e9607c472eb27c23bfab64560d9166e362c85c58e656",
+      "package.json": "d9d86ceaffdc15fbea747eadd46042b91fad140f2d0ec320254de9e48bc3cfec",
+      "package-lock.json": "2fb5c2b7b5955b0e94d9f6c79fb79fc4d59d17f39497022231a0aa4bc2980a4a",
+      "settings.xml": "7f1ccc2ec484947bcabd884d33acd0a8f8430892d00e1bc1843354a8234053b1",
+      ".github/workflows/build.yml": "127f7c7748e00996e9afde3adcd98e606552f75cbec504b2d1c0d5226c755d07",
+      "turbo.json": "b3f0775bab0403bbff8d6b823c8ff862c7e24046254bc47760f5f41a67bece82",
+      "frontend/syson/vite.config.js": "0fce223f803cbff2d2bd58e5d96ad2c8532caa3f2172a738ea6ca39799160589",
+      "frontend/syson-components/vite.config.js": "956834537ea84a1d2d0017126c0a336b65a6b862dcb39cca808377656d8858bb",
+      "frontend/syson/.env.development": "9d0270b01c2fed7bb34054604029144c29dabc932b8b35595af6a608dfb59eca",
+      "backend/application/syson-application/pom.xml": "045220bbdac5e9b28ce44c214eabde8381cf297c6c8af3c6fb9f20372869aa59"
+    },
+    "vite_git_binding": "Must be an actual detached Git checkout whose HEAD equals target; Vite executes git rev-parse --short HEAD. Reject parent-repository/archive fallback."
+  },
+  "destinations": {
+    "fresh_task_root": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01",
+    "downloads": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/downloads",
+    "tools": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools",
+    "maven_repository": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/cache/maven",
+    "npm_cache": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/cache/npm",
+    "tmp": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tmp",
+    "java_user_home": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/java-user",
+    "config": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/config",
+    "restricted_credentials": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/private",
+    "evidence": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/evidence",
+    "preserve": "Never overwrite or remove any earlier attempt, artifact, tool, cache, held lease or failed stream. Existing task/source destination refuses; a changed attempt requires a newly reviewed numbered destination."
+  },
+  "tools": [
+    {
+      "id": "temurin-jdk",
+      "version": "21.0.12.1+1",
+      "platform": "linux x86_64 glibc HotSpot full JDK",
+      "archive": "OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+      "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz",
+      "checksum_algorithm": "sha256",
+      "checksum": "ce79869e1307ed8ee1e2baa86a412b1eb5b75d10a01006d788a6f968bcfaee94",
+      "checksum_metadata_url": "https://github.com/adoptium/temurin21-binaries/releases/expanded_assets/jdk-21.0.12.1%2B1",
+      "checksum_sidecar_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sha256.txt",
+      "signature_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz.sig",
+      "published_rounded_size": "198 MB",
+      "max_download_bytes": 251658240,
+      "max_expanded_regular_bytes": 838860800,
+      "max_members": 50000,
+      "expected_tar_root": "jdk-21.0.12.1+1",
+      "tar_root_state": "Expected release naming; verify actual complete archive inventory before extraction, do not claim inspected tar bytes. Unexpected root stops.",
+      "destination": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/jdk-21.0.12.1+1",
+      "required_files": [
+        "release",
+        "bin/java",
+        "bin/javac",
+        "bin/jar",
+        "jmods/java.base.jmod",
+        "lib/modules"
+      ],
+      "executable_hashes": "PENDING_ACQUISITION: root must record exact extracted executable and distribution-file hashes before first version command; archive pin does not supply an invented executable hash.",
+      "source_release_url": "https://github.com/adoptium/temurin21-binaries/releases/tag/jdk-21.0.12.1%2B1",
+      "source_archive_url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk-sources_21.0.12.1_1.tar.gz",
+      "source_archive_sha256": "573057d03584ae793fb7ec9a14c76d826d9187a53efeefd99da47403a5308234",
+      "source_archive_action": "Reference only; not needed for portable binary acquisition and not authorized for extra download by this phase"
+    },
+    {
+      "id": "maven",
+      "version": "3.9.16",
+      "platform": "portable Java distribution",
+      "archive": "apache-maven-3.9.16-bin.tar.gz",
+      "url": "https://downloads.apache.org/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz",
+      "checksum_algorithm": "sha512",
+      "checksum": "831a8591fe20c8243b1dbe7d71e3244f31d1665b0804b2e825e38cbbe5ce0cafb8338851f90780735568773e0a6cd07bbec107cda0b896b008b861075358b6f6",
+      "checksum_metadata_url": "https://downloads.apache.org/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz.sha512",
+      "signature_url": "https://downloads.apache.org/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz.asc",
+      "published_rounded_size": "8.8M",
+      "max_download_bytes": 16777216,
+      "max_expanded_regular_bytes": 67108864,
+      "max_members": 10000,
+      "expected_tar_root": "apache-maven-3.9.16",
+      "tar_root_state": "Verify actual archive inventory before extraction; unexpected root stops.",
+      "destination": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/apache-maven-3.9.16",
+      "required_files": [
+        "bin/mvn",
+        "boot",
+        "lib",
+        "conf/settings.xml"
+      ],
+      "executable_hashes": "PENDING_ACQUISITION; bind mvn launcher and all boot/lib JARs before Maven invocation.",
+      "maintenance_source": "https://maven.apache.org/download.cgi",
+      "selection": "Official download page identifies 3.9.16 as maintained previous stable3.9.x; meets source sonar-profile minimum3.6.3 without selecting Maven4.",
+      "source_release_url": "https://maven.apache.org/docs/3.9.16/release-notes.html"
+    },
+    {
+      "id": "node-npm",
+      "version": "Node24.20.0/npm11.19.0",
+      "platform": "linux x86_64 glibc",
+      "archive": "node-v24.20.0-linux-x64.tar.xz",
+      "url": "https://nodejs.org/download/release/v24.20.0/node-v24.20.0-linux-x64.tar.xz",
+      "checksum_algorithm": "sha256",
+      "checksum": "2f2c0da162318f0de47665410c7c8c2ed3d36c8f3105de4bbc61176c70a7cbf2",
+      "checksum_metadata_url": "https://nodejs.org/download/release/v24.20.0/SHASUMS256.txt",
+      "signature_url": "https://nodejs.org/download/release/v24.20.0/SHASUMS256.txt.asc",
+      "published_rounded_size": "32 MB",
+      "max_download_bytes": 50331648,
+      "max_expanded_regular_bytes": 335544320,
+      "max_members": 30000,
+      "expected_tar_root": "node-v24.20.0-linux-x64",
+      "tar_root_state": "Verify actual archive inventory before extraction; unexpected root stops.",
+      "destination": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/node-v24.20.0-linux-x64",
+      "required_files": [
+        "bin/node",
+        "lib/node_modules/npm/package.json",
+        "lib/node_modules/npm/bin/npm-cli.js"
+      ],
+      "executable_hashes": "PENDING_ACQUISITION; bind node, npm CLI and complete bundled npm tree before invocation.",
+      "source_release_url": "https://nodejs.org/en/blog/release/v24.20.0",
+      "bundled_npm_source": "https://raw.githubusercontent.com/nodejs/node/v24.20.0/deps/npm/package.json",
+      "bundled_npm_expected": "11.19.0; no npm self-update/global npm install"
+    }
+  ],
+  "acquisition_controls": {
+    "transport": "HTTPS official pinned URLs only; redirects must remain official publisher GitHub release CDN/nodejs.org/Apache distribution infrastructure, record final URL without query credentials; no curl|shell.",
+    "retention": "Download to new .partial file, enforce per-archive byte cap and300s timeout; preserve partial/error receipts, never extract on size/digest failure. Save checksum metadata and source URL/time as evidence.",
+    "archive_inspection": "Before extraction reject absolute names, traversal, escaping symlink/hardlink targets, devices/FIFOs and duplicate conflicting members; permit only expected top-level root and bounded expanded bytes/member counts. Extract without owner/privilege preservation into fresh tools directory, preserving contained distribution symlinks. No post-extraction commands until reviewer admits hash inventory.",
+    "signature_limit": "Checksums are official metadata integrity pins. Do not claim PGP signature verification unless root separately binds trusted publisher keys and actually verifies; no automatic keyserver fetch.",
+    "tool_total_download_cap_bytes": 335544320,
+    "dependency_total_transfer_cap_bytes": 8589934592,
+    "task_total_disk_cap_bytes": 21474836480,
+    "disk_monitor": "Stop preserving attempt at quota/timeout; no retries that broaden destinations, versions or budget silently."
+  },
+  "resource_gate": {
+    "shared_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+    "mode": "exclusive nonblocking; preserve and report contention; never remove lock file",
+    "fresh_preflight": "Root verifies actual Samsung mount, vacant owned destinations, current memory/CPU/disk pressure and no conflicting source/cache lease; require>=10GiB MemAvailable and>=30GiB task filesystem available immediately before heavy phase.",
+    "proposed_containment": "An ephemeral builderbob user .scope only, not a service, installation or registration; permission/controller support UNVERIFIED until root admission.",
+    "scope_argv_prefix": [
+      "/usr/bin/systemd-run",
+      "--user",
+      "--scope",
+      "--quiet",
+      "--collect",
+      "--unit=syson-c01-build-01-PHASE.scope",
+      "-p",
+      "CPUQuota=200%",
+      "-p",
+      "MemoryHigh=4G",
+      "-p",
+      "MemoryMax=6G",
+      "-p",
+      "MemorySwapMax=0",
+      "-p",
+      "TasksMax=128",
+      "-p",
+      "RuntimeMaxSec=3600s",
+      "--"
+    ],
+    "verification": "Root inspects actual scope cgroup CPU/memory/swap/pids controls before subject start. If the preferred scope is unavailable, stop that profile and obtain root plus C disposition of the explicit alternative below; no sudo, global controller change or silent substitution. Scope availability alone is not a blanket blocker for the project.",
+    "process_policy": "One phase at a time; frontend turbo concurrency1, Maven reactor threads1; JVM ActiveProcessorCount2; whole-descendant scope2CPU quota/4GiBhigh/6GiBmax/0swap. Root exact runner owns processgroup, timeout and descendant reaping.",
+    "timeouts_seconds": {
+      "tool_download_each": 300,
+      "npm_acquisition": 1200,
+      "metadata_resolution": 1200,
+      "lifecycle": 300,
+      "frontend": 1800,
+      "maven_package": 3600
+    },
+    "timeout_exit": "TERM owned scope/processgroup then KILL after15s; capture exit/oom/time-limit events and verify no owned descendants or sockets remain. Do not stop unrelated work.",
+    "installed_mechanisms": {
+      "observed_utc_date": "2026-10-29",
+      "read_only_scope": "Path/hash/controller metadata only; no isolation mechanism was executed. Sandbox permission view does not establish host ability.",
+      "user_bus_path": "/run/user/1000/bus exists",
+      "kernel_root_controllers": [
+        "cpuset",
+        "cpu",
+        "io",
+        "memory",
+        "hugetlb",
+        "pids",
+        "rdma",
+        "misc"
+      ],
+      "user_1000_controllers": [
+        "cpu",
+        "memory",
+        "pids"
+      ],
+      "current_session_controls": "memory.max=max; memory.swap.max=max; cpu.max=max100000; this existing session is not a bounded task scope",
+      "allowed_cpu_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "utilities_sha256": {
+        "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+        "/usr/bin/taskset": "a431738fadddc2e2326c8ab81843e72f4011658379381aef1502a6ddb1c1115b",
+        "/usr/bin/timeout": "12690a043dfd555a6c14ccc1564f5649c18f1762c0d6ff66729948130898ec52",
+        "/usr/bin/prlimit": "17064f67e650d6152a6902b013aab496b54c87587c8eea6f5023aafee6154069",
+        "/usr/bin/unshare": "a23c8863860669003dc4660039fe642f5795c8c2195898ebc5d01afa1ac3d11c",
+        "/usr/bin/env": "886e5fa8be716b03eeda48856e0f04493f2969fc148fb7812594ffac647fa050",
+        "/usr/bin/git": "eb54b535467e0975c1284d4c4d08eea779aeb248a5d34b02e2ee171382e22201"
+      }
+    },
+    "alternative_for_explicit_root_C_admission": {
+      "status": "PROPOSED_NOT_SELECTED_NOT_EXECUTED",
+      "mechanisms": [
+        "existing taskset CPU affinity to exactly two freshly admitted CPUs",
+        "one phase/processgroup at a time, Maven threads1 and Turbo concurrency1",
+        "reviewed JVM-Xmx3072m/ActiveProcessorCount2 and Node max-old-space-size3072; no concurrent JVM and Node heavy phase",
+        "existing timeout plus root runner processgroup TERM/KILL/reap",
+        "root runner samples aggregate live descendant RSS and host MemAvailable every100ms; stops owned group at6GiB RSS or remaining host headroom<4GiB, captures memory and process identities",
+        "fresh headroom admission >=10GiB available and no concurrent heavy job under shared compiler lock"
+      ],
+      "limitations": "Heap options constrain managed heaps, not native/whole-process memory. Affinity limits CPU selection, not quota. RSS sampling has detection/termination lag and is not a kernel-enforced6GiB/0swap cap. Record actual peak/range and sampling limits honestly. Do not label this profile equivalent to cgroup containment.",
+      "decision": "Root and C may admit this bounded process profile after inspecting fresh installed mechanisms/host load and exact runner. If neither profile is admitted, build remains pending that specific resource disposition; no service/baseline mutation is authorized."
+    },
+    "network_isolation_proposal": {
+      "preferred": "Existing unshare user/network namespace for secret-free lifecycle/frontend/offline Maven phases; read-only verified utility path/hash above, user-namespace capability UNVERIFIED. No server, namespace service or host network configuration changes.",
+      "alternative_review": "If namespace creation is unavailable, root and C can review exact hook/plugin source, strictly offline configs/cache closure, environment separation and root socket/process monitoring as a distinct weaker profile. Offline flags alone are not a kernel network prohibition. No automatic fallback; selected mechanism and residual limit must be recorded before subject execution."
+    }
+  },
+  "secret_boundary": {
+    "policy": "No secret values in proposal, command argv, retained environment, logs, frontend bundles or source. Preserve operator HOME and CODEX_HOME; never repurpose either. CODEX_HOME is not needed in children and is omitted.",
+    "environment_construction": "New allowlisted child env, not dict(os.environ); retain only unchanged HOME value plus listed public configuration. No shell profile loading.",
+    "public_build_environment": {
+      "PATH": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/node-v24.20.0-linux-x64/bin:/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/jdk-21.0.12.1+1/bin:/usr/bin:/bin",
+      "HOME": "PRESERVE_EXISTING_OPERATOR_HOME_UNCHANGED",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "TMPDIR": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tmp",
+      "CI": "true",
+      "XDG_CACHE_HOME": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/cache/xdg",
+      "npm_config_cache": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/cache/npm",
+      "npm_config_userconfig": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/config/npm-public.rc",
+      "npm_config_globalconfig": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/config/npm-global-empty.rc",
+      "npm_config_prefix": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/npm-prefix",
+      "npm_config_update_notifier": "false",
+      "npm_config_audit": "false",
+      "npm_config_fund": "false",
+      "npm_config_offline": "true",
+      "TURBO_TELEMETRY_DISABLED": "1",
+      "TURBO_CACHE_DIR": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/cache/turbo",
+      "NODE_OPTIONS": "--max-old-space-size=3072",
+      "UV_THREADPOOL_SIZE": "2",
+      "JAVA_HOME": "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/jdk-21.0.12.1+1",
+      "MAVEN_OPTS": "-Xmx3072m -XX:ActiveProcessorCount=2 -Djava.io.tmpdir=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tmp -Duser.home=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/java-user",
+      "GIT_CONFIG_NOSYSTEM": "1",
+      "GIT_CONFIG_GLOBAL": "/dev/null"
+    },
+    "acquisition_only": "Root may supply existing authorized development registry credentials through task-private mode0600 config files, never inline argv. No whole credential directory copy, no credential/env dump. npm userconfig and Maven settings paths differ from clean build configs. Source-controlled .npmrc remains byte-identical.",
+    "frontend_cutoff": "Before lifecycle/build, close acquisition child processes, use sanitized public npm config, omit USERNAME/PASSWORD/NODE_AUTH_TOKEN/GITHUB_TOKEN/GH_TOKEN/npm token/proxy credentials and all arbitrary parent env. Vite defines the complete process.env object; audit exact resulting allowlist and source .env inputs before build.",
+    "env_files": "Exact source contains frontend/syson/.env.development only; production build must record all Vite loadEnv-visible files and refuse any added .env/.env.local/.env.production/local variants. Inspect admitted source env content privately; publish only nonsecret names/hashes/disposition.",
+    "artifact_scan": "Before evidence/publication, scan generated JS/maps/static resources against actual acquisition secret values without printing them; emit only pass/fail and offending path. A match blocks output publication. This scan supplements environment separation, not a secrecy proof.",
+    "maven_credentials": "Maven settings credentials are needed only for repository acquisition. Never invoke help:effective-settings or Maven-X; capture sanitized effective repository IDs/URLs/profile and POM. Offline package uses public settings and must not inherit acquisition credentials."
+  },
+  "phases": [
+    {
+      "id": "00-prepare",
+      "root_action": "Review proposal hashes independently; freeze exact source and full source/tool/runner inputs, allocate fresh directories and enforce lock/resource containment; inspect all fetched tracked agent/skill inputs before execution.",
+      "network": "none",
+      "subject_execution": "none"
+    },
+    {
+      "id": "01-portable-tools",
+      "root_action": "Acquire only three pinned binary archives/checksum metadata, inspect/extract within bounds and freeze all output file hashes. Under containment run exact java/javac/mvn/node/npm version commands after review.",
+      "required_versions": [
+        "java21.0.12.1+1",
+        "javac21.0.12.1",
+        "Maven3.9.16",
+        "Nodev24.20.0",
+        "npm11.19.0"
+      ],
+      "network": "official binary GETs only; no package lifecycle"
+    },
+    {
+      "id": "02-npm-acquisition",
+      "cwd": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/node-v24.20.0-linux-x64/bin/node",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/node-v24.20.0-linux-x64/lib/node_modules/npm/bin/npm-cli.js",
+        "ci",
+        "--ignore-scripts",
+        "--audit=false",
+        "--fund=false",
+        "--include=dev",
+        "--cache",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/cache/npm",
+        "--userconfig",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/private/npm-acquire.rc",
+        "--globalconfig",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/config/npm-global-empty.rc"
+      ],
+      "env_difference": "npm_config_offline=false; acquisition userconfig path only, no token env; telemetry disabled.",
+      "network": "registry URLs pinned by exact lock and .npmrc; no authentication mutation/publish",
+      "outputs": "Exact lock integrity checks, source lock/package/npmrc unchanged, actual installed package inventory and acquisition streams; this installs project dependencies locally, not a system baseline.",
+      "gate": "Stop on unavailable registry entitlement/integrity mismatch/new lock resolution; never substitute registry package versions or bypass strict lifecycle allowlist."
+    },
+    {
+      "id": "03-lifecycle-inspection",
+      "root_action": "Read every admitted installed package.json lifecycle script and its referenced source before running any hook. Freeze complete selected scripts, interpreters, outputs and child commands.",
+      "lock_install_flags": [
+        {
+          "name": "core-js-pure",
+          "version": "3.50.0",
+          "optional": false
+        },
+        {
+          "name": "esbuild",
+          "version": "0.28.2",
+          "optional": false
+        },
+        {
+          "name": "fsevents",
+          "version": "2.3.3",
+          "optional": true
+        }
+      ],
+      "allowlist": "Retain exact source allowScripts and strict-allow-scripts; no dangerously-allow-all-scripts or broad npm rebuild. Linux fsevents should be absent by platform. core-js banner is not required for compiler operation; esbuild native binary must match lock-selected optional package.",
+      "gate": "Root and independent C admit exact needed hook bytes/argv after acquisition. Any network/build-server/native-download behavior in hook stops; prefetch lock-pinned binary dependency in acquisition or propose new scope. No hook execution is admitted by this proposal before that review."
+    },
+    {
+      "id": "04-maven-resolution",
+      "cwd": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01",
+      "argv_template": [
+        "MAVEN3.9.16_LAUNCHER",
+        "-B",
+        "--no-transfer-progress",
+        "--settings",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/private/maven-acquire.xml",
+        "--global-settings",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/config/maven-global-empty.xml",
+        "-Dmaven.repo.local=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/cache/maven",
+        "org.apache.maven.plugins:maven-help-plugin:3.5.1:effective-pom",
+        "-Doutput=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/evidence/effective-pom.xml"
+      ],
+      "root_action": "Pin bootstrap Maven Help3.5.1 and dependency-plugin3.11.0 from official Central, checksums/source/plugin descriptors, before invocation; these are executed Java plugin code, not passive metadata reads. Capture effective POM/profiles including all parent-plugin default bindings; explicitly inspect generator/processor/exec/boot repackage/test/JAR goals. Resolve external dependencies/plugins with a separately admitted dependency:go-offline invocation.",
+      "go_offline_goal": "org.apache.maven.plugins:maven-dependency-plugin:3.11.0:go-offline",
+      "go_offline_flags": [
+        "-DexcludeReactor=true",
+        "-DskipTests=true",
+        "-DskipITs=true",
+        "-Dmaven.test.skip=false"
+      ],
+      "reactor_limit": "go-offline may not handle unpublished reactor test artifacts or all plugin transitives; preserve failures. Do not substitute downloaded SysON JARs. Offline package missing artifacts requires another bounded acquisition receipt and renewed review, not secret online fallback.",
+      "snapshot_gate": "Record actual timestamped EMF JSON2.5.5-SNAPSHOT build number/repository metadata/JAR/POM/source-JAR and all artifact/plugin digests. Freeze repository before offline subject build. Runtime-source correspondence remains separately evaluated.",
+      "network": "Maven Central and source-declared GitHub/eclipse plugin repositories only; no lifecycle package/test/start goals here"
+    },
+    {
+      "id": "05-frontend",
+      "cwd": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/node-v24.20.0-linux-x64/bin/node",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/node-v24.20.0-linux-x64/lib/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "build",
+        "--",
+        "--concurrency=1"
+      ],
+      "environment": "exact clean public build allowlist; npm offline=true; no acquisition settings/credentials; no new env files",
+      "network": "Offline flags and the root/C-admitted network-isolation profile; absence of preferred namespace support requires explicit alternative disposition before execution",
+      "gate": "Admitted hook setup completed; strict source allowlist untouched; freeze actual turbo/vite/tsc executable and package/source hashes, no turbo remote credentials/cache hits substituted for fresh compilation. Source npm build invokes format-lint and dependency builds.",
+      "copy": {
+        "from": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01/frontend/syson/dist/",
+        "to": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01/backend/application/syson-frontend/src/main/resources/static/",
+        "policy": "Destination must not preexist/populated; copy complete dist inventory including hidden resources; record exact relative path/size/hash correspondence and no symlink escape. Do not modify tracked source."
+      }
+    },
+    {
+      "id": "06-native-package",
+      "cwd": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01",
+      "argv": [
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/apache-maven-3.9.16/bin/mvn",
+        "-B",
+        "--no-transfer-progress",
+        "--settings",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/config/maven-public.xml",
+        "--global-settings",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/config/maven-global-empty.xml",
+        "-Dmaven.repo.local=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/cache/maven",
+        "-Djava.io.tmpdir=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tmp",
+        "-Duser.home=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/java-user",
+        "-DskipTests=true",
+        "-DskipITs=true",
+        "-Dmaven.test.skip=false",
+        "-Djacoco.skip=true",
+        "--offline",
+        "-T",
+        "1",
+        "-pl",
+        "backend/application/syson-application",
+        "-am",
+        "package"
+      ],
+      "network": "offline with public Maven settings, no token env or secret files visible to subject",
+      "test_policy": "skipTests=true and skipITs=true retain compilation and package of required reactor test-JARs; maven.test.skip=false. No clean/verify/install/deploy/spring-boot:run or image goal. Unit/integration tests are not executed and no test acceptance is claimed.",
+      "effective_plugin_gate": "Parent Boot and dependency POM bindings must first confirm executable packaging/repackage and absence of unexpected invocations; ANTLR generation/checkstyle/source/build-info/JAR goals are actual executable build code. Stop and review any undisposed processor/plugin, source rewrite, unexpected fetch or server/container attempt.",
+      "expected_output": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01/backend/application/syson-application/target/syson-application-2026.9.3.jar",
+      "no_stub": "Missing reactor test-JAR or offline plugin data is a retained build failure, not permission to remove dependencies/tests or add old artifact classes."
+    },
+    {
+      "id": "07-static-artifact-binding",
+      "root_action": "No app launch. Inspect resulting executable JAR inventory, all nested JAR manifests/POMs/build-info, frontend resources and exact embedded syside CLI. Bind all compiled SysON source modules and generated resources to this source/tool/dependency epoch; hash all artifacts, raw streams and source-before/after. Compare source label delta/selected overlay separately.",
+      "success": "An independently attributable native package artifact from6ba2 and frozen dependencies, with zero unexpected tracked edits and all owned processes reaped. This closes only the reviewed build sub-obligation.",
+      "not_accepted": [
+        "full C01/C02/P02",
+        "original official artifact bit equivalence",
+        "unproven inherited Sirius/EMF/AQL/Syside source correspondence",
+        "native startup/UI/DB/schema/workflows/performance",
+        "upstream test suite",
+        "production release"
+      ]
+    }
+  ],
+  "explicit_stops": [
+    "Any tool/source/checksum/version/root mismatch",
+    "Lock conflict or no root/C-admitted resource profile; a preferred-profile capability failure requires explicit alternative disposition, not a blanket project halt",
+    "Missing registry entitlement or unreviewed credential path",
+    "Package lock/script allowlist changes or unadmitted hook/plugin",
+    "Unexpected server/socket/container/DB/migration or external write",
+    "Changed source, unknown generated source ownership, new budget requirement or artifact leakage",
+    "Resource timeout/OOM/disk/transfer cap; retain failure and do not auto-relax"
+  ],
+  "retained_prior_failures": {
+    "native_run_01": "/workspace/build/builderbob/syson-audit-20261026/native-run-01/receipt.json: initdb failed; missing selected config sample",
+    "native_run_02": "/workspace/build/builderbob/syson-audit-20261026/native-run-02/receipt.json: management address/port configuration startup failure",
+    "C01e": "All selected compile/repack/derived-native streams and original attempts remain immutable; no relabeling as independent full build"
+  },
+  "remaining_admission_inputs": [
+    "Root and independent C review of these exact proposal bytes",
+    "Fresh host resource and network-isolation capability validation, with root/C selection of the preferred profile or explicitly reviewed alternatives",
+    "Existing authorized registry entitlement and task-private settings admitted without printing contents",
+    "Tool inventories/executable hashes after verified acquisition",
+    "Exact lifecycle hook and effective Maven plugin/processor review after acquisition"
+  ],
+  "primary_sources": [
+    "https://github.com/adoptium/temurin21-binaries/releases/expanded_assets/jdk-21.0.12.1%2B1",
+    "https://maven.apache.org/download.cgi",
+    "https://downloads.apache.org/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz.sha512",
+    "https://downloads.apache.org/maven/maven-3/3.9.16/binaries/",
+    "https://nodejs.org/download/release/v24.20.0/SHASUMS256.txt",
+    "https://nodejs.org/en/blog/release/v24.20.0",
+    "https://raw.githubusercontent.com/nodejs/node/v24.20.0/deps/npm/package.json",
+    "https://maven.apache.org/surefire/maven-surefire-plugin/examples/skipping-tests.html",
+    "https://maven.apache.org/plugins/maven-jar-plugin/test-jar-mojo.html",
+    "https://docs.npmjs.com/cli/v11/commands/npm-ci/",
+    "https://www.freedesktop.org/software/systemd/man/latest/systemd-run.html",
+    "https://www.freedesktop.org/software/systemd/man/latest/systemd.resource-control.html",
+    "https://maven.apache.org/plugins-archives/maven-help-plugin-3.5.1/plugin-info.html",
+    "https://maven.apache.org/plugins/maven-dependency-plugin/download.cgi"
+  ]
+}

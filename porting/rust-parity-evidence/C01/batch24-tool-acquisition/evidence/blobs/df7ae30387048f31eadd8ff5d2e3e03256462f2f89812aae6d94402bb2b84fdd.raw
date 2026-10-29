@@ -1,0 +1,78 @@
+{
+  "status": "PASS_14_NORMAL_AND_14_OPTIMIZED_INVENTORY_CONTROLS_ONLY",
+  "inputs_before": {
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/phase1-acquire-attempt02.py": "50e7913977c7c2f599c20ed84818a62907724fbfd8de7733cfba4f999b7c15b3",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/proposal-attempt02.json": "b0a44d80042a58350789b0fc1d1b31917ab1393babb0ea554273bb624632b53b",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/tests/test_phase1_inventory.py": "b1ec64bc4d1de85cb305ee7d05ce68372704e8e71d04c8539193ad1966900303",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/downloads/maven.tar.partial": "fe51dcb0f38d5f5079014979d4fc7dd0ec49429eb206ccd4edf422089e7fc090",
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16"
+  },
+  "inputs_after": {
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/phase1-acquire-attempt02.py": "50e7913977c7c2f599c20ed84818a62907724fbfd8de7733cfba4f999b7c15b3",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/proposal-attempt02.json": "b0a44d80042a58350789b0fc1d1b31917ab1393babb0ea554273bb624632b53b",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/tests/test_phase1_inventory.py": "b1ec64bc4d1de85cb305ee7d05ce68372704e8e71d04c8539193ad1966900303",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/downloads/maven.tar.partial": "fe51dcb0f38d5f5079014979d4fc7dd0ec49429eb206ccd4edf422089e7fc090",
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16"
+  },
+  "inputs_unchanged": true,
+  "commands": [
+    {
+      "label": "normal",
+      "argv": [
+        "/usr/bin/systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--collect",
+        "--unit=syson-c01-inventory-02-normal.scope",
+        "-p",
+        "CPUQuota=200%",
+        "-p",
+        "MemoryHigh=4G",
+        "-p",
+        "MemoryMax=6G",
+        "-p",
+        "MemorySwapMax=0",
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/tests/test_phase1_inventory.py",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b9afd76a5f405f7acb4344711e78442560e8229fed58abe200848ed015c08e0e"
+    },
+    {
+      "label": "optimized",
+      "argv": [
+        "/usr/bin/systemd-run",
+        "--user",
+        "--scope",
+        "--quiet",
+        "--collect",
+        "--unit=syson-c01-inventory-02-optimized.scope",
+        "-p",
+        "CPUQuota=200%",
+        "-p",
+        "MemoryHigh=4G",
+        "-p",
+        "MemoryMax=6G",
+        "-p",
+        "MemorySwapMax=0",
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-O",
+        "/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/tests/test_phase1_inventory.py",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "2bc31013daa93cbd69002c12be2aaa23b043035872f1285ea4e9f2fd22f63ea0"
+    }
+  ],
+  "download_decompression_extraction_or_acquired_code_execution": false
+}

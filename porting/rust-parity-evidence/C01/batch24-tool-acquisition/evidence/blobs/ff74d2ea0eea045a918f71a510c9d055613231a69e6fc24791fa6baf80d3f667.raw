@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--collect",
+    "--unit=syson-c01-build-02-probe.scope",
+    "-p",
+    "CPUQuota=200%",
+    "-p",
+    "MemoryHigh=4G",
+    "-p",
+    "MemoryMax=6G",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "TasksMax=128",
+    "-p",
+    "RuntimeMaxSec=3600s",
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "-c",
+    "import pathlib,json,subprocess\nline=pathlib.Path('/proc/self/cgroup').read_text().strip();root=pathlib.Path('/sys/fs/cgroup')/line.split(':',2)[2].lstrip('/')\nprint(json.dumps({'cgroup':line,'limits':{name:(root/name).read_text().strip() for name in ['cpu.max','memory.high','memory.max','memory.swap.max','pids.max']},'runtime_max':subprocess.check_output(['/usr/bin/systemctl','--user','show','syson-c01-build-02-probe.scope','-p','RuntimeMaxUSec','--value'],text=True).strip()}))\n"
+  ],
+  "exit": 0,
+  "downloaded_code_executed": false
+}
