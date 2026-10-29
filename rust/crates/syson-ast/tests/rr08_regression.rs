@@ -190,3 +190,60 @@ fn kind_and_unknown_type_copies_refuse_before_allocation_or_id_reservation() {
         Err(Error::UnknownType("Unknown".into()))
     );
 }
+
+#[test]
+fn reference_text_and_target_type_refusal_leave_the_node_unchanged() {
+    let large = "R".repeat(65_536);
+    for large_text in [true, false] {
+        let mut b = builder(Limits {
+            max_work: 128,
+            ..Limits::default()
+        });
+        let id = b.allocate(Some("Element"), None).unwrap();
+        let text = if large_text { large.as_str() } else { "r" };
+        let target = if large_text {
+            "Element"
+        } else {
+            large.as_str()
+        };
+        let lexeme = Lexeme::from_source(text, 0, text.len()).unwrap();
+        REQUESTS.set(Requests::default());
+        TRACK.set(true);
+        let result = b.reference(id, "reference", Assignment::Set, lexeme, target);
+        TRACK.set(false);
+        assert_eq!(result, Err(Error::Budget));
+        assert!(REQUESTS.get().largest < large.len());
+        assert_eq!(b.node(id).unwrap().slot("reference"), Slot::Absent);
+    }
+}
+#[test]
+fn merge_charges_discarded_source_scalars_and_target_array_data() {
+    let large = "M".repeat(65_536);
+    for target_array in [false, true] {
+        let mut b = builder(Limits {
+            max_work: large.len() * (if target_array { 1 } else { 2 }) + 512,
+            ..Limits::default()
+        });
+        let target = b.allocate(Some("Element"), None).unwrap();
+        let source = b.allocate(Some("Element"), None).unwrap();
+        if target_array {
+            assign(&mut b, source, "items", Datum::new(Value::Array(vec![])));
+            assign(
+                &mut b,
+                target,
+                "items",
+                Datum::new(Value::Array(vec![string(&large)])),
+            );
+        } else {
+            assign(&mut b, source, "items", string(&large));
+            assign(&mut b, target, "items", string("retained"));
+        }
+        let source_before = b.node(source).unwrap().fields().clone();
+        let target_before = b.node(target).unwrap().fields().clone();
+        assert_eq!(b.merge(target, source), Err(Error::Budget));
+        assert_eq!(b.node(target).unwrap().fields(), &target_before);
+        assert_eq!(b.node(source).unwrap().fields(), &source_before);
+        // A still snapshots whole State before merge admission. This asserts
+        // budget/refusal atomicity, not refusal before that snapshot allocation.
+    }
+}
