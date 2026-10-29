@@ -1,0 +1,111 @@
+{
+  "status": "PASS_STATIC_VERSIONED_AMENDMENT;NO_F10_F11_EXECUTION_OR_ACCEPTANCE",
+  "base": "f774944bf8da6eb03881ee4c37046e879c222fff",
+  "contract": "SYSON-RUST-COMPLETION/1.0.1",
+  "source_blobs": {
+    "rust/crates/syson-ast-values/src/lib.rs": {
+      "git_blob": "dbc4a288746469e4980e6f7819a9100cb4c41f0a",
+      "sha256": "a41deb4952e4f7fb5e8bdd1718af745bbfecf17b9080cce2433d2e30644c1a58",
+      "lines": 409
+    },
+    "rust/crates/syson-ast-values/tests/conversion.rs": {
+      "git_blob": "0493f91fc935c00ed3e4e0fe2757d53be44df71c",
+      "sha256": "ed40405b16e3d2418319b1d8d05d4da1b9d773c170c4eeb8aef7aee7da71ec86",
+      "lines": 372
+    },
+    "rust/crates/syson-ast-adapter/src/lib.rs": {
+      "git_blob": "67c21157cfe9fdeffafba8e1c2317d53238a0493",
+      "sha256": "f91fe8a50c2b1d79a5afcd30cef9afe6a85d1859473c9a8977b3cc251ea62d96",
+      "lines": 447
+    },
+    "rust/crates/syson-ast-adapter/tests/construction.rs": {
+      "git_blob": "67d4915f1384182c5eec4c0551368db7c455314f",
+      "sha256": "2ea2e44eabb78fad4d66a2c219b022782247ce47589d9ca9e75af5f786ab1ee4",
+      "lines": 358
+    },
+    "rust/crates/syson-ast-adapter/src/reserved.rs": {
+      "git_blob": "3d11a62cea8ea475b98b14eaea849163bcca7b89",
+      "sha256": "00fe45206cb1bf7341f43674684b7e0bd493a4addb3e7b320e399196da0a8ac9",
+      "lines": 173
+    }
+  },
+  "all778unitbehavior_fields_and_graph_preserved": true,
+  "all55oldobjects_and_current_integration_preserved": true,
+  "prior_contract_fields_unchanged_except_version_and_two_caps": true,
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch17-budget-amendment/porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+        "--self-test"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": {
+        "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+        "snapshot_id": "SYSON-RUST-REMAINING/2026-10-29.4",
+        "unit_count": 778,
+        "locked_inputs": 815,
+        "primary_family_counts": {
+          "interchange": 23,
+          "services": 12,
+          "projects": 9,
+          "views": 76,
+          "rust_delivery": 5,
+          "verification": 5,
+          "reference": 12,
+          "landing": 4,
+          "final_acceptance": 1,
+          "model": 399,
+          "language": 184,
+          "repairs": 45,
+          "usability_capacity": 3
+        },
+        "feature_acceptance_counts": {
+          "NOT_ACCEPTED": 55,
+          "OPEN_NO_ACCEPTANCE_RECORD": 723
+        },
+        "full_parity_claimed": false,
+        "negative_controls": "PASS_7_REFUSAL_CASES"
+      },
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch17-budget-amendment/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test",
+        "--check-completion"
+      ],
+      "exit": 2,
+      "expected_exit": 2,
+      "stdout": {
+        "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+        "units": 778,
+        "source_graph_acyclic": true,
+        "readiness_graph_nodes": 1556,
+        "readiness_graph_acyclic": true,
+        "unordered_write_conflicts": 0,
+        "all_14_original_remaining_briefs_mapped": true,
+        "source_assignment_counts_verified": true,
+        "negative_gate_checks": "PASS",
+        "parity": "OPEN",
+        "open_gate_count": 779,
+        "first_open_gates": [
+          "Pinned runtime/source obligation closure remains open",
+          "Not feature-accepted: B01",
+          "Not feature-accepted: B02",
+          "Not feature-accepted: B03",
+          "Not feature-accepted: B04",
+          "Not feature-accepted: B05",
+          "Not feature-accepted: B06",
+          "Not feature-accepted: B07"
+        ]
+      },
+      "stderr": ""
+    }
+  ],
+  "lock_sha256": "af1148ce651838d14a7bc642c11001c61876c013ff9368046860ce0f20aefa42",
+  "snapshot_sha256": "bf1877d65cfd39c2d44090a49561eea3b68be7f1bd9abe5f616842a5fea0bbe7",
+  "amendment_note_sha256": "39dca561745da9b763c8ef363bf2eb0df596b734ec08231a1a35d829a3ae60df"
+}

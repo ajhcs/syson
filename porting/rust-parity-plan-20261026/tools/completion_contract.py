@@ -27,6 +27,14 @@ def read_contract(root, read=None):
             'Contract ID/version mismatch')
     required = {CONTRACT_PATH, contract['document'], contract['packet_schema'],
                 contract['performance_policy'], 'cross-lane-review.json', 'rereview-overlay.json'}
+    disposition = contract.get('legacy_prerequisite_budget_dispositions')
+    if disposition:
+        amendment = disposition['amendment']
+        require(amendment['path'].startswith('amendments/') and
+                '..' not in amendment['path'].split('/'), 'Invalid amendment path')
+        required.add(amendment['path'])
+        require(hashlib.sha256(read(amendment['path'])).hexdigest() ==
+                amendment['sha256'], 'Contract amendment hash mismatch')
     required.update(str(p.relative_to(root)) for p in (root / 'lanes').glob('*.json'))
     required.update(str(p.relative_to(root)) for p in (root / 'tools').glob('*.py'))
     require(set(lock['sha256']) == required, 'Contract lock input set mismatch')

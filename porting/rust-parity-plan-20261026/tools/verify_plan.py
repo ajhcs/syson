@@ -124,8 +124,14 @@ def self_test(plan,root):
         try:action()
         except ValueError as e:require(expected in str(e), 'Wrong contract rejection: '+str(e))
         else:raise AssertionError('Contract gate accepted '+expected)
-    for path in ['COMPLETION-CONTRACT.md','acceptance-packet.schema.json',
-                 'performance-policy.json','lanes/model.json','tools/build_plan.py']:
+    integrity_paths = ['COMPLETION-CONTRACT.md','acceptance-packet.schema.json',
+                       'performance-policy.json','lanes/model.json','tools/build_plan.py']
+    disposition = read_contract(root).get('legacy_prerequisite_budget_dispositions')
+    if disposition:
+        amendment_path = disposition['amendment']['path']
+        rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
+                (b'\n' if name==amendment_path else b'')), 'amendment hash mismatch')
+    for path in integrity_paths:
         rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
                 (b'\n' if name==path else b'')), 'hash mismatch')
     contract=read_contract(root)

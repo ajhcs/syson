@@ -2,7 +2,7 @@
 
 Full SysON parity remains open. The immediate objective is a connected Rust project workflow: create or import a project, edit it, save it, reload the page, close and reopen it, and recover it after a backend restart. The application must retain the committed model and representations without manual JSON reimport. Independent semantic, language, library and view work continues alongside that objective.
 
-This is the execution guide for the existing **SYSON-RUST-COMPLETION/1.0.0** contract, frozen against main `f2b52599fc3caa6f9e12766dd8508937c974551d` on 2026-10-29. It explains the remaining work without changing the contract, dependency graph, acceptance criteria or ownership holds. The [snapshot lock](remaining-work/snapshot.lock.json) binds this guide and the complete task register to their source inputs. Changes to requirements still require the contract's versioned review process.
+This is the execution guide for the existing **SYSON-RUST-COMPLETION/1.0.1** contract, frozen against main `f774944bf8da6eb03881ee4c37046e879c222fff` on 2026-10-29. The [version 1.0.1 amendment](amendments/1.0.1-budget-disposition.md) changes only the two named legacy prerequisite review caps; it preserves the dependency graph, behavior/case obligations, acceptance criteria and ownership holds. The [snapshot lock](remaining-work/snapshot.lock.json) binds this guide and the complete task register to their source inputs. Changes to requirements still require the contract's versioned review process.
 
 ## What is complete, and what remains open
 
