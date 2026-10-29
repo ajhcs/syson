@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "id": "package-definition-typed-usage",
+      "category": "finite",
+      "source": "package Vehicle { part def Wheel; part wheel: Wheel; }"
+    },
+    {
+      "id": "body-membership-context",
+      "category": "finite",
+      "source": "part top: T; part def D { part inner: T; package P; }"
+    },
+    {
+      "id": "qualified-typing-raw-segments",
+      "category": "finite",
+      "source": "part wheel: Lib :: 'Ty\\'pe';"
+    },
+    {
+      "id": "quoted-unicode-byte-utf16-spans",
+      "category": "finite",
+      "source": "package '🚗\\n' { part def 'W\\'heel'; }"
+    },
+    {
+      "id": "anonymous-package-semicolon",
+      "category": "finite",
+      "source": "package;"
+    },
+    {
+      "id": "anonymous-package-body",
+      "category": "finite",
+      "source": "package {}"
+    },
+    {
+      "id": "anonymous-definition-semicolon",
+      "category": "finite",
+      "source": "part def;"
+    },
+    {
+      "id": "anonymous-definition-body",
+      "category": "finite",
+      "source": "part def {}"
+    },
+    {
+      "id": "empty-whitespace",
+      "category": "finite",
+      "source": " \n\t"
+    },
+    {
+      "id": "empty-source",
+      "category": "finite",
+      "source": ""
+    },
+    {
+      "id": "defaults-and-absent-optionals",
+      "category": "finite",
+      "source": "part x: T;"
+    },
+    {
+      "id": "repeated-declaration-order",
+      "category": "finite",
+      "source": "package Z; package A; package Z;"
+    },
+    {
+      "id": "quoted-keyword-name",
+      "category": "finite",
+      "source": "package 'private';"
+    },
+    {
+      "id": "nested-packages",
+      "category": "finite",
+      "source": "package Outer { package Inner { part def D {} part x: D; } }"
+    },
+    {
+      "id": "unicode-qualified-typing",
+      "category": "finite",
+      "source": "part 'колесо😀': 'Lib🚗' :: 'Tyλ';"
+    },
+    {
+      "id": "crlf-token-spans",
+      "category": "finite",
+      "source": "package P {\r\n  part def D;\r\n  part x: D;\r\n}"
+    },
+    {
+      "id": "old-arena-source",
+      "category": "finite",
+      "source": "package Old;"
+    },
+    {
+      "id": "new-arena-source",
+      "category": "finite",
+      "source": "package New;"
+    },
+    {
+      "id": "limit-fixture-native-parse",
+      "category": "finite",
+      "source": "package P { part x: T; }"
+    },
+    {
+      "id": "incomplete-package-body",
+      "category": "malformed",
+      "expected_restriction": "Malformed",
+      "source": "package P {"
+    },
+    {
+      "id": "incomplete-definition",
+      "category": "malformed",
+      "expected_restriction": "Malformed",
+      "source": "part def D"
+    },
+    {
+      "id": "missing-typing-name",
+      "category": "malformed",
+      "expected_restriction": "Malformed",
+      "source": "part x: ;"
+    },
+    {
+      "id": "incomplete-qualified-reference",
+      "category": "malformed",
+      "expected_restriction": "Malformed",
+      "source": "part x: T::;"
+    },
+    {
+      "id": "missing-usage-semicolon",
+      "category": "malformed",
+      "expected_restriction": "Malformed",
+      "source": "part x: T"
+    },
+    {
+      "id": "unmatched-closing-brace",
+      "category": "malformed",
+      "expected_restriction": "Malformed",
+      "source": "}"
+    },
+    {
+      "id": "unclosed-name",
+      "category": "malformed",
+      "expected_restriction": "Malformed",
+      "source": "package 'bad"
+    },
+    {
+      "id": "unadmitted-name-escape",
+      "category": "malformed",
+      "expected_restriction": "Malformed",
+      "source": "package 'a\\q';"
+    },
+    {
+      "id": "outside-private-package",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "private package P;"
+    },
+    {
+      "id": "outside-untyped-usage",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "part x;"
+    },
+    {
+      "id": "outside-usage-body",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "part x: T {}"
+    },
+    {
+      "id": "outside-short-name",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "package <short> Long;"
+    },
+    {
+      "id": "outside-comment",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "package P; // comment"
+    },
+    {
+      "id": "outside-port-definition",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "port def P;"
+    },
+    {
+      "id": "outside-specialization",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "part def D :> B;"
+    },
+    {
+      "id": "outside-bom-whitespace",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "package P;﻿"
+    },
+    {
+      "id": "keyword-def",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "package def;"
+    },
+    {
+      "id": "keyword-private",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "package private;"
+    },
+    {
+      "id": "keyword-in",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "part in: T;"
+    },
+    {
+      "id": "keyword-package-reference",
+      "category": "outside-whitelist",
+      "expected_restriction": "Unsupported",
+      "source": "part x: package;"
+    },
+    {
+      "id": "outer-whitespace-package",
+      "source": "  package P; \n",
+      "category": "finite"
+    },
+    {
+      "id": "outer-whitespace-definition",
+      "source": " \tpart def D;\r\n ",
+      "category": "finite"
+    },
+    {
+      "id": "trailing-whitespace-package",
+      "source": "package P;  ",
+      "category": "finite"
+    }
+  ]
+}

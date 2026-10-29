@@ -1,0 +1,58 @@
+{
+  "status": "PASS_THREE_REPAIRED_DEVELOPER_QUALIFICATION_GATES",
+  "checks": {
+    "empty_corpus_refused": true,
+    "normal_rejects_disabled_comparator": true,
+    "optimized_rejects_disabled_comparator": true,
+    "canonical_guard_rejects_before_bundle_read": true,
+    "outside_output_not_created": true
+  },
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/compare_construction.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-green-01/empty-corpus.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-green-01/native.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-green-01/rust.json",
+        "--references",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-green-01/references.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-green-01/false-pass.json",
+        "--self-test"
+      ],
+      "exit": 1
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-green-01/disabled-comparator-control.py",
+        "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/compare_construction.py"
+      ],
+      "exit": 1
+    },
+    {
+      "argv": [
+        "python3",
+        "-O",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-green-01/disabled-comparator-control.py",
+        "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/compare_construction.py"
+      ],
+      "exit": 1
+    },
+    {
+      "argv": [
+        "/usr/bin/node",
+        "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/reference_expectations.cjs",
+        "/workspace/__missing_for_guard_probe__",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-green-01/empty-corpus.json",
+        "/workspace/../tmp/syson-guard-probe-no-write.json"
+      ],
+      "exit": 1
+    }
+  ],
+  "scope": "Controlled corrupted inputs and disabled comparator; no outside-workspace file written; not product behavior"
+}
