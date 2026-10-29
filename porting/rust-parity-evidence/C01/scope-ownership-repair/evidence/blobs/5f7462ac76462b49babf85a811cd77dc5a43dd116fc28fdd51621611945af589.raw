@@ -1,0 +1,116 @@
+{
+  "status": "PASS_ONE_LIVE_PROOF_BOUND_CLEANUP_ONLY",
+  "scope": "One reviewed Python helper live owned-cleanup smoke only; no acquired tools/native/UI acceptance",
+  "inputs_before": {
+    "/workspace/build/builderbob/syson-batch22-20261029/scope_ownership_live_smoke.py": "54bae6b314bdfd6f4dd8d38e3da0caad499ea83372f7d7916de8e65f3b802b11",
+    "/workspace/build/builderbob/syson-batch22-20261029/scope_ownership_smoke_entry.py": "7d94c1afabb13cf1cb3b987f0a6829c5814c7c69cd9894b6a37215c2e288ca3c",
+    "/workspace/worktrees/builderbob/syson/batch26-scope-ownership/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63",
+    "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16"
+  },
+  "unit": "syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+  "cookie": "aba28080b4334e5f9a1fc28559589ffd",
+  "initial_state": {
+    "ControlGroup": "",
+    "LoadState": "not-found",
+    "InvocationID": ""
+  },
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--collect",
+    "--quiet",
+    "--unit=syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+    "-p",
+    "CPUQuota=200%",
+    "-p",
+    "MemoryHigh=4G",
+    "-p",
+    "MemoryMax=6G",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "TasksMax=128",
+    "-p",
+    "RuntimeMaxSec=60s",
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/workspace/build/builderbob/syson-batch22-20261029/scope_ownership_smoke_entry.py",
+    "/workspace/worktrees/builderbob/syson/batch26-scope-ownership/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py",
+    "syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+    "aba28080b4334e5f9a1fc28559589ffd",
+    "/workspace/build/builderbob/syson-batch22-20261029/scope-ownership-live-smoke01/ownership.json",
+    "/workspace/build/builderbob/syson-batch22-20261029/scope-ownership-live-smoke01/ready.json"
+  ],
+  "ready": {
+    "proof": {
+      "unit": "syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+      "cookie": "aba28080b4334e5f9a1fc28559589ffd",
+      "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+      "invocation_id": "b75b3e3fc1a54f4a95316443c8d06375",
+      "entry_pid": 963780,
+      "entry_start_ticks": "67086461"
+    },
+    "controls": {
+      "cpu.max": "200000 100000",
+      "memory.high": "4294967296",
+      "memory.max": "6442450944",
+      "memory.swap.max": "0",
+      "pids.max": "128"
+    },
+    "entry_pid": 963780
+  },
+  "proof": {
+    "unit": "syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+    "cookie": "aba28080b4334e5f9a1fc28559589ffd",
+    "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+    "invocation_id": "b75b3e3fc1a54f4a95316443c8d06375",
+    "entry_pid": 963780,
+    "entry_start_ticks": "67086461"
+  },
+  "verified_live_state": {
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+    "LoadState": "loaded",
+    "InvocationID": "b75b3e3fc1a54f4a95316443c8d06375"
+  },
+  "positive_cleanup": {
+    "confirmed_empty_or_absent": true,
+    "observations": [
+      {
+        "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-c01-ownership-smoke-aedf1c5da32a4d159f09f967963e9e5b.scope",
+        "LoadState": "loaded",
+        "InvocationID": "b75b3e3fc1a54f4a95316443c8d06375",
+        "events": "populated 1\nfrozen 0\n",
+        "processes": "963780\n",
+        "kill_exit": 0
+      },
+      {
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "InvocationID": ""
+      }
+    ]
+  },
+  "returncode": -9,
+  "final_cleanup": {
+    "confirmed_empty_or_absent": true,
+    "observations": [
+      {
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "InvocationID": ""
+      }
+    ]
+  },
+  "inputs_after": {
+    "/workspace/build/builderbob/syson-batch22-20261029/scope_ownership_live_smoke.py": "54bae6b314bdfd6f4dd8d38e3da0caad499ea83372f7d7916de8e65f3b802b11",
+    "/workspace/build/builderbob/syson-batch22-20261029/scope_ownership_smoke_entry.py": "7d94c1afabb13cf1cb3b987f0a6829c5814c7c69cd9894b6a37215c2e288ca3c",
+    "/workspace/worktrees/builderbob/syson/batch26-scope-ownership/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63",
+    "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16"
+  }
+}
