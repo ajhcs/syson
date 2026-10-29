@@ -1,0 +1,87 @@
+{
+  "status": "PASS_TYPE_ERASURE_ONLY",
+  "argv": [
+    "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+    "-e",
+    "const fs=require('node:fs');const m=require('node:module');fs.writeFileSync(process.argv[2],m.stripTypeScriptTypes(fs.readFileSync(process.argv[1],'utf8'),{mode:'strip'}),{flag:'wx'});",
+    "/workspace/build/builderbob/syson-batch20-20261029/original-methods-01/original-methods.ts",
+    "/workspace/build/builderbob/syson-batch20-20261029/original-methods-01/original-methods.js"
+  ],
+  "exit": 0,
+  "inputs_before": {
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/porting/follow-ons/F15/source-mapping.json": "88e5a5276497f19a98e40a358c55eda91878f8684e2457b58f9ac711e545a34e",
+    "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/frontend/syson-components/src/nodes/package/SysMLPackageNodeLayoutHandler.ts": "2bf5aa585c3910b02097b1ab1ebf13ac544d27d6ce2e34ed4b49549b454917b8",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/frontend/syson-components/src/nodes/view_frame/SysMLViewFrameNodeLayoutHandler.ts": "4f9964eaa5052484e8695dc740380e408b6c4a3f7b4b7aee2fcc177d914fe406",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/frontend/syson-components/src/nodes/note/SysMLNoteNodeLayoutHandler.ts": "1848a8de0c5d82114b7f02a60618ba5a7da13d2445be7310711a160d37d34668",
+    "/workspace/build/builderbob/syson-batch20-20261029/reference-sirius/bounds.ts": "125c005899ca62b8b3096b8500ceac422cc2e494f92ceed1079d75844a9b03dd",
+    "/workspace/build/builderbob/syson-batch20-20261029/reference-sirius/layoutNode.ts": "2b4be5e40d0abe266bbba086aeb425a932e4cc53bdb8f1f07150b1145e9f1659",
+    "/workspace/build/builderbob/syson-batch20-20261029/reference-sirius/getNodeBorderWidth.ts": "fd7c7265c5c4c6efa4539d8d78c4a8d662ec81725cade6f17da18716b4b59a0c",
+    "/workspace/build/builderbob/syson-batch20-20261029/reference-sirius/layoutParams.ts": "fb4e8a8c97f1dad0a5bd0a1e81682094012bee60bffa25ff38684399010d917c"
+  },
+  "inputs_after": {
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/porting/follow-ons/F15/source-mapping.json": "88e5a5276497f19a98e40a358c55eda91878f8684e2457b58f9ac711e545a34e",
+    "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/frontend/syson-components/src/nodes/package/SysMLPackageNodeLayoutHandler.ts": "2bf5aa585c3910b02097b1ab1ebf13ac544d27d6ce2e34ed4b49549b454917b8",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/frontend/syson-components/src/nodes/view_frame/SysMLViewFrameNodeLayoutHandler.ts": "4f9964eaa5052484e8695dc740380e408b6c4a3f7b4b7aee2fcc177d914fe406",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/frontend/syson-components/src/nodes/note/SysMLNoteNodeLayoutHandler.ts": "1848a8de0c5d82114b7f02a60618ba5a7da13d2445be7310711a160d37d34668",
+    "/workspace/build/builderbob/syson-batch20-20261029/reference-sirius/bounds.ts": "125c005899ca62b8b3096b8500ceac422cc2e494f92ceed1079d75844a9b03dd",
+    "/workspace/build/builderbob/syson-batch20-20261029/reference-sirius/layoutNode.ts": "2b4be5e40d0abe266bbba086aeb425a932e4cc53bdb8f1f07150b1145e9f1659",
+    "/workspace/build/builderbob/syson-batch20-20261029/reference-sirius/getNodeBorderWidth.ts": "fd7c7265c5c4c6efa4539d8d78c4a8d662ec81725cade6f17da18716b4b59a0c",
+    "/workspace/build/builderbob/syson-batch20-20261029/reference-sirius/layoutParams.ts": "fb4e8a8c97f1dad0a5bd0a1e81682094012bee60bffa25ff38684399010d917c"
+  },
+  "excerpts": [
+    {
+      "path": "frontend/syson-components/src/nodes/package/SysMLPackageNodeLayoutHandler.ts",
+      "method": "private handleLeafNode",
+      "sha256": "80cc3fa14f20b00c8e6ed49997fd4a3617a94f95a199dd0bf19284f25ad1dfcd",
+      "first_line": 218,
+      "last_line": 258
+    },
+    {
+      "path": "frontend/syson-components/src/nodes/view_frame/SysMLViewFrameNodeLayoutHandler.ts",
+      "method": "private handleLeafNode",
+      "sha256": "a95d41702412667cc55a9f91afee9e74280fcd8c3b7a2ad3f92e5ec3523c2fe3",
+      "first_line": 214,
+      "last_line": 254
+    },
+    {
+      "path": "frontend/syson-components/src/nodes/note/SysMLNoteNodeLayoutHandler.ts",
+      "method": "public handle",
+      "sha256": "d190b5768d99a7ba26a43142acf7c07c14227d4dbddd205d5ed49b514cc8937c",
+      "first_line": 36,
+      "last_line": 78
+    },
+    {
+      "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/bounds.ts",
+      "method": "export const computePreviousSize",
+      "sha256": "090cc1db2c09dd166f35c52f3a30aa7479bf81d115de79665e7cd14b037f7fa5",
+      "first_line": 53,
+      "last_line": 79
+    },
+    {
+      "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/layoutNode.ts",
+      "method": "export const getDefaultOrMinHeight",
+      "sha256": "04e3618e9ea3157fcdc9611545a89105f2d04520d3aa6b1932b4577ff077dd9e",
+      "first_line": 77,
+      "last_line": 79
+    },
+    {
+      "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/layoutNode.ts",
+      "method": "export const applyRatioOnNewNodeSizeValue",
+      "sha256": "22fdf09aacd13b80e6035c8d5ef00504cc71a9b077c9f872753f14eb22fa6a88",
+      "first_line": 503,
+      "last_line": 514
+    },
+    {
+      "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/getNodeBorderWidth.ts",
+      "method": "export const getNodeBorderWidth",
+      "sha256": "9a4d5a0cca174a59cb6cb7e5ce0db7b2dcf4d55f82619620af1d93c328197bf7",
+      "first_line": 16,
+      "last_line": 25
+    }
+  ],
+  "typescript_wrapper_sha256": "48804a09e782114a669715d4bf787b286e7a77243dddbc27474f3c4e46ff796c",
+  "javascript_sha256": "6b24cea656e000d2ae229af0a593e9bc882a6cae0086c7efe3a551e29aff79d8",
+  "meaning": "Original selected methods/helpers after builtin type erasure and export/wrapper adaptation; not full deployed module/artifact or application UI."
+}

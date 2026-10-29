@@ -1,0 +1,44 @@
+from pathlib import Path
+import hashlib,json,os,shutil,signal,subprocess,time
+b=Path(__file__).parent;o=b/'measurement-browser-term-02';o.mkdir();t=o/'tools';t.mkdir()
+src=Path('/workspace/worktrees/builderbob/syson/batch21-measurement-browser/porting/rust-parity-evidence/C09/batch21-measurement-browser')
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+for p in src.iterdir():
+ if p.is_file():shutil.copy2(p,t/p.name)
+p=t/'run_browser.py';raw=p.read_text();assert raw.count('communicate(timeout=180)')==1;p.write_text(raw.replace('communicate(timeout=180)','communicate(timeout=180)'))
+p=t/'run_browser.cjs';raw=p.read_text();needle=" const result={scope:";assert raw.count(needle)==1;p.write_text(raw.replace(needle," fs.writeFileSync(path.join(out,'browser-launched.json'),JSON.stringify({node:process.pid})); await new Promise(()=>{});\n"+needle))
+node='/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node';sdk='/workspace/cache/builderbob/global-tools/maintenance/staged/playwright/1.64.1';out=o/'capture'
+argv=['python3',str(t/'run_browser.py'),'--build',str(b/'measurement-portable-build-04'),'--methods','/workspace/build/builderbob/syson-batch20-20261029/original-methods-01/original-methods.js','--transport','/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/wasm_client.js','--node',node,'--browser',sdk+'/browsers/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell','--playwright',sdk+'/node_modules/playwright','--libraries','/workspace/cache/builderbob/global-tools/browser-deps/sysroot/usr/lib/x86_64-linux-gnu','--out',str(out)]
+def processes():
+ rows={}
+ for p in Path('/proc').iterdir():
+  if not p.name.isdigit():continue
+  try:
+   fields=(p/'stat').read_text().rsplit(')',1)[1].split();rows[int(p.name)]={'pid':int(p.name),'state':fields[0],'ppid':int(fields[1]),'group':int(fields[2]),'start_ticks':fields[19]}
+  except (FileNotFoundError,ProcessLookupError,PermissionError):pass
+ return rows
+with (o/'launcher-stdout.txt').open('wb') as stdout,(o/'launcher-stderr.txt').open('wb') as stderr:
+ child=subprocess.Popen(argv,stdout=stdout,stderr=stderr,start_new_session=True);owned={};deadline=time.monotonic()+25
+ while child.poll() is None and time.monotonic()<deadline:
+  table=processes();parents={child.pid,*owned};changed=True
+  while changed:
+   changed=False
+   for pid,row in table.items():
+    if row['ppid'] in parents and pid not in parents:
+     parents.add(pid);owned[pid]=row;changed=True
+  if (out/'browser-launched.json').exists() and not (o/'term-sent').exists():
+   (o/'term-sent').write_text('SIGTERM');os.kill(child.pid,signal.SIGTERM)
+  time.sleep(.05)
+ if child.poll() is None:
+  os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=10)
+  raise RuntimeError('probe runner deadline exceeded; inspect retained owned identities')
+ time.sleep(1);after=processes();survivors=[row for pid,row in after.items() if pid in owned and row['start_ticks']==owned[pid]['start_ticks'] and row['state']!='Z']
+ record={'argv':argv,'exit':child.returncode,'injection':'Copied CJS hangs after actual browser launch; actual Python SIGTERM cleanup','browser_launched':(out/'browser-launched.json').exists(),'owned_descendants_before':list(owned.values()),'live_owned_descendants_after':survivors,'source_original':{p.name:sha(p) for p in src.iterdir() if p.is_file()},'source_probe':{p.name:sha(p) for p in t.iterdir() if p.is_file()},'cleanup':[]}
+ # Clean only descendants observed under this probe and still matching PID/start identity.
+ for row in survivors:
+  now=processes().get(row['pid'])
+  if now and now['start_ticks']==row['start_ticks'] and now['state']!='Z':
+   os.kill(row['pid'],signal.SIGKILL);record['cleanup'].append(row)
+ record['status']='PASS_SIGTERM_NO_LIVE_BROWSER_DESCENDANTS' if record['browser_launched'] and child.returncode==1 and not survivors else 'FAIL_OWNED_BROWSER_TEARDOWN'
+ (o/'probe-receipt.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps({'status':record['status'],'descendants':len(owned),'live_after':len(survivors),'cleanup':len(record['cleanup'])}))
+ if record['status'].startswith('FAIL'):raise SystemExit(1)
