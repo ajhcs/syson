@@ -1,0 +1,22 @@
+from pathlib import Path
+import hashlib, json, os, sys
+b = Path(__file__).resolve().parents[1]
+line = Path('/proc/self/cgroup').read_text().strip()
+root = Path('/sys/fs/cgroup') / line.split(':', 2)[2].lstrip('/')
+expected = {'cpu.max': '200000 100000', 'memory.high': '4294967296',
+            'memory.max': '6442450944', 'memory.swap.max': '0',
+            'pids.max': '128'}
+actual = {name: (root / name).read_text().strip() for name in expected}
+if actual != expected or not line.endswith('/syson-c01-build-02-tools.scope'):
+    raise RuntimeError('Actual acquisition scope limits mismatch')
+record = {'pid': os.getpid(), 'cgroup': line, 'limits': actual,
+          'phase': 'archive_acquire_inspect_extract_only', 'downloaded_code_executed': False}
+with (b / 'c01-resource-admission-02/actual-child-controls.json').open('x') as target:
+    json.dump(record, target, indent=2)
+    target.write('\n')
+script = Path(__file__).with_name('phase1-acquire-attempt02.py')
+if hashlib.sha256(script.read_bytes()).hexdigest() != '50e7913977c7c2f599c20ed84818a62907724fbfd8de7733cfba4f999b7c15b3':
+    raise RuntimeError('Acquisition script changed')
+argv = ['/usr/bin/python3', '-I', '-B', str(script), '--proposal',
+        str(script.with_name('proposal-attempt02.json')), '--lock-fd', sys.argv[1]]
+os.execve(argv[0], argv, dict(os.environ))
