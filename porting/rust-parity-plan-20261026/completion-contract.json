@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "contract_id": "SYSON-RUST-COMPLETION/1.0.6",
-  "version": "1.0.6",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.7",
+  "version": "1.0.7",
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "document": "COMPLETION-CONTRACT.md",
   "packet_schema": "acceptance-packet.schema.json",
@@ -796,7 +796,9 @@
     "V043",
     "V044",
     "U11a",
-    "U11b"
+    "U11b",
+    "U12a",
+    "U12b"
   ],
   "families": {
     "reference": [
@@ -1540,7 +1542,9 @@
       "V043",
       "V044",
       "U11a",
-      "U11b"
+      "U11b",
+      "U12a",
+      "U12b"
     ],
     "usability_capacity": [
       "U27",
@@ -1942,7 +1946,7 @@
       },
       "whole_parent_gates": {
         "native_source_artifact": "Matching effective ELK/Sirius artifact, source/options and original invocation/native geometry comparisons; Rust graph invariants cannot replace them.",
-        "actual_caller": "Actual measurement→layout→routing with one numeric admission policy, document/revision/font/request identities, stale/cancel/refusal and no successful identity-layout fallback.",
+        "actual_caller": "Actual measurement\u2192layout\u2192routing with one numeric admission policy, document/revision/font/request identities, stale/cancel/refusal and no successful identity-layout fallback.",
         "geometry_and_worker": "Ports, pins, containers, partial/manual layout, nested labels, route attachment/obstacle clearance, worker/history publication, disposal and supported graph shapes retain all original U10/U11 gates.",
         "usability": "Real 320/1440px rendered readability, clipping, focus/selection/pan/zoom, cancellation/retry, broader device/assistive-technology matrix and intentional improvement dispositions.",
         "resources": "64/128/256/1024 nodes and representative edges/IDs, 32nodes/64edges interactive fixture; two warmups/seven measured ranges, >=30 samples for p95; allocation traffic/live heap/RSS and logical work distinct. No guard relaxation to claim capacity.",
@@ -2598,6 +2602,131 @@
         "C04": 606,
         "C08": 609,
         "C09": 608
+      }
+    }
+  },
+  "forest_kernel_splits": {
+    "U12": {
+      "parent": "U12",
+      "children": [
+        "U12a",
+        "U12b"
+      ],
+      "amendment": {
+        "path": "amendments/1.0.7-forest-kernel-split.md",
+        "sha256": "2ff3c43d470d321d4f5b6e52bc15b5e9ce9fe1cceb7f991740d3f4617f1657b2"
+      },
+      "original_unit_count": 788,
+      "original_unit_ids_sha256": "5233f81940d721259b0f5df2851747fcff088e1d48104ab9227cd995ef4fbd5c",
+      "original_normalized_units_sha256": "37d504999bf652397759809d31a862999718e95624d408e27fce4d1548b472b2",
+      "original_parent_sha256": "f037691bab3181a36ae08084dc687de1103f832724ce2eca594a6d58160d7515",
+      "normalized_parent_sha256": "4269864792d1595ccd656ba85f8b92d123a14fa184ff9e6529003cf9ba5ff30c",
+      "original_parent_dependencies": [
+        "U09",
+        "U10"
+      ],
+      "child_dependencies": {
+        "U12a": [
+          "U10b"
+        ],
+        "U12b": [
+          "U12a"
+        ]
+      },
+      "child_raw_sha256": {
+        "U12a": "41f327d7772a89fc2fde22a4936f38f92273740acee267b664f15b885ef32889",
+        "U12b": "2823391b81d724d4084cf54c81e138c358e3986ecd1d5e9fe051ffbc9853b254"
+      },
+      "production_lines_max": 400,
+      "authored_lines_max": 900,
+      "count_basis": "added_plus_deleted",
+      "production_upper_estimates": {
+        "U12a": 340,
+        "U12b": 280
+      },
+      "authored_upper_estimates": {
+        "U12a": 700,
+        "U12b": 890
+      },
+      "coordinator_wiring": [
+        "rust/crates/syson-layout/src/containers/mod.rs",
+        "rust/crates/syson-layout/src/lib.rs",
+        "rust/crates/syson-layout/Cargo.toml",
+        "rust/crates/syson-layout/Cargo.lock",
+        "rust/crates/syson-layout/NOTICE.md"
+      ],
+      "donor": {
+        "production_sha256": "9d86a510de50586ffaacabb14ecb54415493d6888d9457ec87783b3399d1bec8",
+        "production_line_count": 368,
+        "tests_sha256": "e486c5c2e96b07d786f772ee322c83762db24ba3ef70bd6bc81c2fbaff393aea",
+        "test_line_count": 553,
+        "test_count": 15,
+        "original_cases": [
+          "nested_offsets_are_relative_and_absolute_and_parent_bounds_follow_children",
+          "previous_branch_uses_header_plus_padding_without_border_and_clamps_negative_x",
+          "resized_parent_uses_previous_minimum_instead_of_default_minimum",
+          "nullish_default_axes_and_parent_to_leaf_transition_are_distinct",
+          "repeated_incremental_inputs_preserve_geometry_and_expand_for_larger_children",
+          "retained_overlapping_siblings_are_not_silently_reflowed",
+          "sibling_edges_feed_f16_and_permutations_preserve_output",
+          "unknown_parent_cycles_and_cross_parent_edges_are_separate_errors",
+          "identity_and_endpoint_errors_are_rejected_without_partial_results",
+          "malformed_unused_geometry_is_explicit_input_restriction",
+          "all_logical_limits_and_exact_work_boundary_are_enforced",
+          "initial_and_late_cancellation_return_no_partial_layout",
+          "empty_forest_is_empty_and_options_remain_validated",
+          "finite_forests_in_both_directions_have_containment_and_fresh_nonoverlap",
+          "actual_f15_measurement_supplies_leaf_size_without_dom_claims"
+        ]
+      },
+      "source_assignment": {
+        "U12a": [
+          [
+            1,
+            69
+          ],
+          [
+            85,
+            210
+          ]
+        ],
+        "U12b": [
+          [
+            70,
+            84
+          ],
+          [
+            211,
+            368
+          ]
+        ]
+      },
+      "source_assignment_sha256": {
+        "U12a": "ed06f55748e6b7802914dc0dd8f3be7ae0a4d8cbce88e266c14a5d53238c3d7d",
+        "U12b": "f817f6e95f8eca613327bf56094926fb4f0cf3a0107a4caf96e821f1d178a98f"
+      },
+      "landed_u10b": {
+        "pr": 175,
+        "merge": "974e7591ec4296db96644954edb4d4daf71f41d6",
+        "crate_tree": "fa12c1312c969adac6f9d30cffe130dec36a28f7",
+        "placement_sha256": "cd5de614196e30f55082c0ec68ffe9680936678dde19e3f5faa141fb2bbcfb01"
+      },
+      "opaque_continuation": "Own ForestBudget/callback/spent work; no U10 Guard access or public construction/reset/recombination. Each actual U10b call receives remaining work and its successful returned charge is debited once.",
+      "readiness_policy": "Actual U10b landed; each own first child reviewed, landed and locally qualified with exact bytes pinned, not full parent feature acceptance.",
+      "derived_joint_input_owners": {
+        "C08": 611
+      },
+      "previous_policy_sha256": {
+        "legacy_prerequisite_budget_dispositions": "d6c69a8c3650d2b405092279d95be8f1ce2d55ee6b8696ccac60907952ce64f3",
+        "repair_splits": "42e20f2e0622ee68381f1741ace52d66fefbebfa48729d35b1a01b10d7d1dcf1",
+        "layout_kernel_splits": "1c04b5b9d4003e2b5844529ec88497bd75668a9ee1241e2696aa02285c7bac1f",
+        "tooling_comparator_splits": "72a957d36da183d4048c076bb5d1d894d14acc36dadfce06acfce9d262f3c240",
+        "comparison_repairs": "f8df5343e7a78a0f57e05f09cc92b05165778277298b1b38f6d435710fa62ba5",
+        "routing_kernel_splits": "ee4d46ddc5594d7267ffc55ee70dbd5812e87e7d45c245b1df8ec516d8ed4722"
+      },
+      "unchanged_joint_input_owners": {
+        "C04": 608,
+        "C09": 610
       }
     }
   }

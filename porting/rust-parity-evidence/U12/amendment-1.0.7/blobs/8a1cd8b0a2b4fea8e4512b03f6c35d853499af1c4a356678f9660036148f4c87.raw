@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch25-forest-amendment/porting/rust-parity-plan-20261026/tools/verify_plan.py", line 659, in <module>
+    if __name__=='__main__':raise SystemExit(main())
+                                             ^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch25-forest-amendment/porting/rust-parity-plan-20261026/tools/verify_plan.py", line 646, in main
+    root=args.plan_dir.resolve();plan=json.loads((root/'plan.json').read_text());result=validate(plan,root)
+                                                                                        ^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch25-forest-amendment/porting/rust-parity-plan-20261026/tools/verify_plan.py", line 26, in validate
+    validate_bindings(contract,plan,root)
+  File "/workspace/worktrees/builderbob/syson/batch25-forest-amendment/porting/rust-parity-plan-20261026/tools/completion_contract.py", line 725, in validate_bindings
+    validate_comparator_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()))
+  File "/workspace/worktrees/builderbob/syson/batch25-forest-amendment/porting/rust-parity-plan-20261026/tools/completion_contract.py", line 612, in validate_comparator_splits
+    require(parent.get('acceptance_implementation_inputs') == policy['parent_joint_implementation_inputs'] and
+  File "/workspace/worktrees/builderbob/syson/batch25-forest-amendment/porting/rust-parity-plan-20261026/tools/completion_contract.py", line 11, in require
+    raise ValueError(message)
+ValueError: C09 split joint implementation closure changed

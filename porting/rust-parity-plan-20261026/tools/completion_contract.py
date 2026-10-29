@@ -22,10 +22,115 @@ def canonical_hash(value):
     return hashlib.sha256(encoded.encode()).hexdigest()
 
 
+def forest_children(contract):
+    """Admit the sealed forest policy before any old-inventory exclusion."""
+    splits = contract.get('forest_kernel_splits', {})
+    require(splits or contract['version'] != '1.0.7', 'U12 split policy missing')
+    if not splits:
+        return []
+    require(type(splits) is dict and set(splits) == {'U12'}, 'U12 split policy coverage')
+    policy = splits['U12']
+    require(type(policy) is dict and canonical_hash(policy) ==
+            '74c086a147b3dd2a90285b5bced664e3533760974d694c44a20d1b1aea932b4f',
+            'U12 split policy/source/test pin changed')
+    children = ['U12a', 'U12b']
+    require(policy['children'] == children and set(children) <= set(contract['unit_ids']) and
+            set(children) <= set(contract['families']['views']) and not
+            set(['U12'] + children) & set(contract['legacy_prerequisite_budget_dispositions']),
+            'U12 split inventory/family/budget exception')
+    return children
+
+
+def restore_forest_record(unit, children, normalized=True):
+    """Remove only adopted additions; retain unknown extras for the full proof."""
+    previous = {key: value for key, value in unit.items() if not normalized or key not in
+                {'source_fragment_sha256', 'completion_contract'}}
+    if children and unit['id'] == 'U12':
+        for key in ['implementation_ready_dependencies', 'acceptance_children', 'delegated_forest']:
+            previous.pop(key)
+    if children and unit['id'] == 'C99':
+        previous['dependencies'] = [uid for uid in previous['dependencies'] if uid not in children]
+    if children and unit['id'] == 'C08' and 'expanded_implementation_inputs' in previous:
+        previous['expanded_implementation_inputs'] = [uid for uid in
+                previous['expanded_implementation_inputs'] if uid not in children]
+    return previous
+
+
+def validate_forest_splits(contract, plan=None, lane=None, check_original_records=True):
+    """Finite forest preparation preserves all package/native acceptance gates."""
+    children = forest_children(contract)
+    if not children:
+        return
+    policy, ids = contract['forest_kernel_splits']['U12'], contract['unit_ids']
+    require(len(ids) == len(set(ids)) == 790 and
+            canonical_hash(sorted(uid for uid in ids if uid not in children)) ==
+            policy['original_unit_ids_sha256'], 'U12 split original unit coverage')
+    require(all(canonical_hash(contract.get(key)) == digest for key, digest in
+                policy['previous_policy_sha256'].items()), 'U12 split previous policy changed')
+    assigned = [line for ranges in policy['source_assignment'].values()
+                for start, end in ranges for line in range(start, end + 1)]
+    require(len(assigned) == len(set(assigned)) == 368 and set(assigned) == set(range(1, 369)),
+            'U12 split complete source assignment')
+
+    def check(records, normalized):
+        byid = {unit['id']: unit for unit in records}
+        require(set(['U12'] + children) <= set(byid), 'U12 split child missing')
+        parent = byid['U12']
+        require(parent['dependencies'] == ['U09', 'U10'] and
+                parent.get('implementation_ready_dependencies') == ['U09', 'U10', 'U12b'] and
+                parent.get('acceptance_children') == children and parent.get('delegated_forest') == {
+                    'children': children, 'original_dependencies': ['U09', 'U10'],
+                    'implementation_input': 'U12b',
+                    'meaning': 'Finite forest prerequisites preserve every original package/native/fractional/caller/UI acceptance obligation.'},
+                'U12 split parent delegation/readiness')
+        proof = 'normalized_parent_sha256' if normalized else 'original_parent_sha256'
+        require(canonical_hash(restore_forest_record(parent, children, normalized)) == policy[proof],
+                'U12 split original parent')
+        for uid in children:
+            unit = byid[uid]
+            raw = {key: value for key, value in unit.items() if not normalized or key not in
+                   {'external_pr_details', 'source_fragment', 'source_fragment_sha256', 'completion_contract'}}
+            require(canonical_hash(raw) == policy['child_raw_sha256'][uid] and
+                    unit['dependencies'] == unit['implementation_ready_dependencies'] ==
+                    policy['child_dependencies'][uid], 'U12 split child source/order/tests: ' + uid)
+            require(all(type(unit['budget'][key]) is int and unit['budget'][key] == policy[key]
+                        for key in ['production_lines_max', 'authored_lines_max']), 'U12 split cap')
+    if lane is not None:
+        check(lane['units'], False)
+    if plan is not None:
+        check(plan['units'], True)
+        graph, byid = plan['readiness_graph'], {unit['id']: unit for unit in plan['units']}
+        for uid, inputs in dict(policy['child_dependencies'], U12=['U09', 'U10', 'U12b']).items():
+            require(set(graph['implementation:' + uid]) ==
+                    {'implementation:' + item for item in inputs}, 'U12 split implementation edge')
+            accepted = {'implementation:' + uid}
+            if uid == 'U12':
+                accepted.update('accepted:' + child for child in children)
+            require(set(graph['accepted:' + uid]) == accepted, 'U12 split acceptance edge')
+        if check_original_records:
+            for uid, count in policy['derived_joint_input_owners'].items():
+                inputs = byid[uid]['expanded_implementation_inputs']
+                require(len(inputs) == count + len(children) and set(children) <= set(inputs) and
+                        {'implementation:' + child for child in children} <= set(graph['accepted:' + uid]),
+                        'U12 split derived joint inputs/edges: ' + uid)
+            for uid, count in policy['unchanged_joint_input_owners'].items():
+                inputs = byid[uid]['expanded_implementation_inputs']
+                forest_edges = {stage + child for stage in ['implementation:', 'accepted:']
+                                for child in children}
+                require(len(inputs) == count and not set(children).intersection(inputs) and
+                        not forest_edges.intersection(graph['accepted:' + uid]),
+                        'U12 split unexpected joint inputs/edges: ' + uid)
+            restored = [restore_forest_record(unit, children) for unit in plan['units']
+                        if unit['id'] not in children]
+            require(canonical_hash(restored) == policy['original_normalized_units_sha256'],
+                    'U12 split original normalized unit records')
+
+
 def routing_children(contract):
     """Validate the exact new policy before excluding its IDs from older proofs."""
+    forest_children(contract)
     splits = contract.get('routing_kernel_splits', {})
-    require(splits or contract['version'] != '1.0.6', 'U11 split policy missing')
+    require(splits or contract['version'] not in ('1.0.6', '1.0.7'), 'U11 split policy missing')
     if not splits:
         return []
     require(type(splits) is dict and set(splits) == {'U11'}, 'U11 split policy coverage')
@@ -49,8 +154,9 @@ def validate_routing_splits(contract, plan=None, lane=None, check_original_recor
         return
     policy = contract['routing_kernel_splits']['U11']
     ids = contract['unit_ids']
-    old_ids = sorted(uid for uid in ids if uid not in children)
-    require(len(ids) == len(set(ids)) == 788 and len(old_ids) == 786 and
+    later = forest_children(contract)
+    old_ids = sorted(uid for uid in ids if uid not in children + later)
+    require(len(ids) == len(set(ids)) == 788 + len(later) and len(old_ids) == 786 and
             canonical_hash(old_ids) == policy['original_unit_ids_sha256'],
             'U11 split original unit coverage')
     require(all(contract.get(key) for key in ['repair_splits', 'layout_kernel_splits',
@@ -105,10 +211,9 @@ def validate_routing_splits(contract, plan=None, lane=None, check_original_recor
             restored = []
             for unit in plan['units']:
                 uid = unit['id']
-                if uid in children:
+                if uid in children + later:
                     continue
-                previous = {key: value for key, value in unit.items() if key not in
-                            {'source_fragment_sha256', 'completion_contract'}}
+                previous = restore_forest_record(unit, later)
                 if uid == 'U11':
                     previous.pop('implementation_ready_dependencies')
                     previous.pop('delegated_routing')
@@ -125,12 +230,13 @@ def validate_routing_splits(contract, plan=None, lane=None, check_original_recor
                 restored.append(previous)
             require(canonical_hash(restored) == policy['original_normalized_units_sha256'],
                     'U11 split original normalized unit records')
+            validate_forest_splits(contract, plan)
 
 
 def validate_comparison_repairs(contract, plan=None, lane=None):
     """Validate the finite C09b split before any legacy coverage exclusions."""
     splits = contract.get('comparison_repairs', {})
-    require(splits or contract['version'] not in ('1.0.5', '1.0.6'), 'C09 split repair policy missing')
+    require(splits or contract['version'] not in ('1.0.5', '1.0.6', '1.0.7'), 'C09 split repair policy missing')
     if not splits:
         return []
     require(type(splits) is dict and set(splits) == {'C09b'}, 'C09 split repair coverage')
@@ -144,7 +250,7 @@ def validate_comparison_repairs(contract, plan=None, lane=None):
     for key, expected in [('production_lines_max', 400), ('authored_lines_max', 900)]:
         require(type(policy[key]) is int and policy[key] == expected, 'C09 split repair cap')
     ids = contract['unit_ids']
-    later_children = routing_children(contract)
+    later_children = routing_children(contract) + forest_children(contract)
     old_ids = sorted(uid for uid in ids if uid not in children + later_children)
     require(len(ids) == len(set(ids)) == 786 + len(later_children) and len(old_ids) == 784 and
             canonical_hash(old_ids) == policy['original_unit_ids_sha256'],
@@ -209,7 +315,7 @@ def validate_comparison_repairs(contract, plan=None, lane=None):
 def validate_repair_splits(contract, plan=None):
     """Static RR08 scope preservation; never a runtime or acceptance decision."""
     splits = contract.get('repair_splits', {})
-    require(splits or contract['version'] not in ('1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6'), 'RR08 split policy missing')
+    require(splits or contract['version'] not in ('1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'), 'RR08 split policy missing')
     if not splits:
         return
     require(set(splits) == {'RR08'}, 'RR08 split policy coverage changed')
@@ -223,7 +329,7 @@ def validate_repair_splits(contract, plan=None):
     ids = contract['unit_ids']
     later_children = (contract.get('layout_kernel_splits', {}).get('U10', {}).get('children', []) +
                       contract.get('tooling_comparator_splits', {}).get('C09', {}).get('children', []) +
-                      validate_comparison_repairs(contract) + routing_children(contract))
+                      validate_comparison_repairs(contract) + routing_children(contract) + forest_children(contract))
     old_ids = sorted(uid for uid in ids if uid not in children + later_children)
     require(policy['original_unit_count'] == 778 and len(old_ids) == 778 and
             set(children) <= set(ids) and canonical_hash(old_ids) == policy['original_unit_ids_sha256'],
@@ -304,7 +410,7 @@ def validate_repair_splits(contract, plan=None):
 def validate_layout_splits(contract, plan=None, lane=None):
     """Static U10 prerequisite mapping; no native, UI or feature acceptance."""
     splits = contract.get('layout_kernel_splits', {})
-    require(splits or contract['version'] not in ('1.0.3', '1.0.4', '1.0.5', '1.0.6'), 'U10 split policy missing')
+    require(splits or contract['version'] not in ('1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'), 'U10 split policy missing')
     if not splits:
         return
     require(set(splits) == {'U10'}, 'U10 split policy coverage changed')
@@ -317,7 +423,7 @@ def validate_layout_splits(contract, plan=None, lane=None):
         require(type(policy[key]) is int and policy[key] == expected, 'U10 split cap changed')
     ids = contract['unit_ids']
     later_children = (contract.get('tooling_comparator_splits', {}).get('C09', {}).get('children', []) +
-                      validate_comparison_repairs(contract) + routing_children(contract))
+                      validate_comparison_repairs(contract) + routing_children(contract) + forest_children(contract))
     old_ids = sorted(uid for uid in ids if uid not in children + later_children)
     require(policy['original_unit_count'] == 780 and len(old_ids) == 780 and
             set(children) <= set(ids) and canonical_hash(old_ids) ==
@@ -428,7 +534,7 @@ def validate_layout_splits(contract, plan=None, lane=None):
 def validate_comparator_splits(contract, plan=None, lane=None):
     """Static C09 module/case preservation; no capture or runtime acceptance."""
     splits = contract.get('tooling_comparator_splits', {})
-    require(splits or contract['version'] not in ('1.0.4', '1.0.5', '1.0.6'), 'C09 split policy missing')
+    require(splits or contract['version'] not in ('1.0.4', '1.0.5', '1.0.6', '1.0.7'), 'C09 split policy missing')
     if not splits:
         return
     require(set(splits) == {'C09'}, 'C09 split policy coverage changed')
@@ -437,7 +543,7 @@ def validate_comparator_splits(contract, plan=None, lane=None):
             policy['implementation_order'] == children, 'C09 split order changed')
     ids = contract['unit_ids']
     repair_children = validate_comparison_repairs(contract, plan, lane)
-    old_ids = sorted(uid for uid in ids if uid not in children + repair_children + routing_children(contract))
+    old_ids = sorted(uid for uid in ids if uid not in children + repair_children + routing_children(contract) + forest_children(contract))
     require(policy['original_unit_count'] == 782 and len(old_ids) == 782 and
             set(children) <= set(ids) and canonical_hash(old_ids) ==
             policy['original_unit_ids_sha256'] == 'd8ffe2e619044d46736b9b44b51640315d063d81090793e318944496377d405b', 'C09 split original unit coverage changed')
@@ -578,6 +684,7 @@ def read_contract(root, read=None):
     amendments += [policy['amendment'] for policy in contract.get('tooling_comparator_splits', {}).values()]
     amendments += [policy['amendment'] for policy in contract.get('comparison_repairs', {}).values()]
     amendments += [policy['amendment'] for policy in contract.get('routing_kernel_splits', {}).values()]
+    amendments += [policy['amendment'] for policy in contract.get('forest_kernel_splits', {}).values()]
     for policy in contract.get('comparison_repairs', {}).values():
         archive = policy['candidate']['archive_path']
         required.add(archive)
@@ -612,6 +719,7 @@ def read_contract(root, read=None):
     validate_repair_splits(contract)
     validate_layout_splits(contract, lane=json.loads(read('lanes/ui.json')))
     validate_routing_splits(contract, lane=json.loads(read('lanes/ui.json')))
+    validate_forest_splits(contract, lane=json.loads(read('lanes/ui.json')))
     return contract
 
 
@@ -624,6 +732,8 @@ def validate_bindings(contract, plan, root):
     validate_comparator_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()))
     validate_repair_splits(contract, plan)
     validate_layout_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()))
+    validate_forest_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()),
+                           check_original_records=False)
     validate_routing_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()),
                             check_original_records=False)
     families = {uid: family for family, ids in contract['families'].items() for uid in ids}

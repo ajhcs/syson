@@ -5,7 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
-from completion_contract import read_contract, validate_bindings, validate_repair_splits, validate_layout_splits, validate_comparator_splits, validate_comparison_repairs, validate_routing_splits
+from completion_contract import read_contract, validate_bindings, validate_repair_splits, validate_layout_splits, validate_comparator_splits, validate_comparison_repairs, validate_routing_splits, validate_forest_splits
 
 def require(ok,message):
     if not ok:raise ValueError(message)
@@ -142,6 +142,7 @@ def self_test(plan,root):
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('tooling_comparator_splits', {}).values()]
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('comparison_repairs', {}).values()]
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('routing_kernel_splits', {}).values()]
+    amendment_paths += [policy['amendment']['path'] for policy in contract.get('forest_kernel_splits', {}).values()]
     for amendment_path in amendment_paths:
         rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
                 (b'\n' if name==amendment_path else b'')), 'amendment hash mismatch')
@@ -557,6 +558,97 @@ def routing_split_self_test(plan, root):
     return len(mutations) + len(contract_mutations)
 
 
+def forest_split_self_test(plan, root):
+    """Reject coherent forest and historical-obligation omissions."""
+    contract = read_contract(root)
+    lane = json.loads((root / 'lanes/ui.json').read_text())
+
+    def rejects(action):
+        try:
+            action()
+        except ValueError as error:
+            require('U12 split' in str(error), 'Wrong forest rejection: ' + str(error))
+        else:
+            raise AssertionError('U12 split mutation accepted')
+
+    mutations = ['missing-child', 'child-source', 'parent-source', 'parent-acceptance',
+                 'scope', 'production-cap', 'authored-cap', 'original-case', 'parent-task',
+                 'parent-verification', 'outer-budget', 'single-debit', 'wiring', 'counting',
+                 'readiness-edge', 'acceptance-edge', 'old-unit-task', 'old-unit-verification',
+                 'joint-input', 'joint-edge', 'unexpected-joint-input', 'unexpected-joint-edge',
+                 'unexpected-parent-field']
+    for mutation in mutations:
+        bad, raw = copy.deepcopy(plan), copy.deepcopy(lane)
+        for records in [bad['units'], raw['units']]:
+            byid = {unit['id']: unit for unit in records}
+            first, second, parent = (byid[uid] for uid in ['U12a', 'U12b', 'U12'])
+            if mutation == 'missing-child': records.remove(first)
+            elif mutation == 'child-source':
+                second['dependencies'] = second['implementation_ready_dependencies'] = []
+            elif mutation == 'parent-source': parent['implementation_ready_dependencies'].remove('U12b')
+            elif mutation == 'parent-acceptance': parent['acceptance_children'].remove('U12a')
+            elif mutation == 'scope': first['paths'].append('rust/crates/syson-web/src/')
+            elif mutation == 'production-cap': first['budget']['production_lines_max'] = 401
+            elif mutation == 'authored-cap': second['budget']['authored_lines_max'] = 901
+            elif mutation == 'original-case': second['original_case_requirements'].pop()
+            elif mutation == 'parent-task': parent['tasks'].pop()
+            elif mutation == 'parent-verification': parent['verification'].pop()
+            elif mutation == 'outer-budget': first['tasks'].pop(1)
+            elif mutation == 'single-debit': second['tasks'].pop(1)
+            elif mutation == 'wiring': first['coordinator_wiring'].append('rust/crates/syson-layout/src/types.rs')
+            elif mutation == 'counting': second['budget_counting'] = 'added_only'
+            elif mutation in ['old-unit-task', 'old-unit-verification']:
+                field = 'tasks' if mutation == 'old-unit-task' else 'verification'
+                original = next(unit for unit in lane['units'] if unit['id'] == 'U02')[field][0]
+                byid['U02'][field].remove(original)
+            elif mutation == 'unexpected-parent-field': parent['unexpected_original_record_field'] = True
+            elif mutation == 'joint-input' and records is bad['units']:
+                byid['C08']['expanded_implementation_inputs'].remove('U12a')
+            elif mutation == 'unexpected-joint-input' and records is bad['units']:
+                byid['C04']['expanded_implementation_inputs'].append('U12a')
+        if mutation == 'joint-input':
+            bad['readiness_graph']['accepted:C08'].remove('implementation:U12a')
+        elif mutation == 'joint-edge':
+            bad['readiness_graph']['accepted:C08'].remove('implementation:U12b')
+        elif mutation == 'unexpected-joint-input':
+            bad['readiness_graph']['accepted:C04'].append('implementation:U12a')
+        elif mutation == 'unexpected-joint-edge':
+            bad['readiness_graph']['accepted:C09'].append('implementation:U12b')
+        elif mutation in ['child-source', 'readiness-edge']:
+            bad['readiness_graph']['implementation:U12b'] = []
+        elif mutation == 'parent-source':
+            bad['readiness_graph']['implementation:U12'].remove('implementation:U12b')
+        elif mutation in ['parent-acceptance', 'acceptance-edge']:
+            bad['readiness_graph']['accepted:U12'].remove('accepted:U12a')
+        rejects(lambda: validate_forest_splits(contract, bad, raw))
+    contract_mutations = ['missing-policy', 'old-unit', 'missing-child-id', 'cap-bool',
+                          'donor', 'assignment', 'original-test', 'u10b-pin', 'readiness',
+                          'child-seal', 'raw-parent', 'normalized-parent', 'continuation',
+                          'old-record-proof', 'estimate', 'joint-owner-scope', 'old-policy']
+    for mutation in contract_mutations:
+        bad = copy.deepcopy(contract)
+        policy = bad['forest_kernel_splits']['U12']
+        if mutation == 'missing-policy': bad.pop('forest_kernel_splits')
+        elif mutation == 'old-unit': bad['unit_ids'].remove('P01')
+        elif mutation == 'missing-child-id': bad['unit_ids'].remove('U12b')
+        elif mutation == 'cap-bool': policy['production_lines_max'] = True
+        elif mutation == 'donor': policy['donor']['production_sha256'] = '0' * 64
+        elif mutation == 'assignment': policy['source_assignment']['U12a'].pop()
+        elif mutation == 'original-test': policy['donor']['original_cases'].pop()
+        elif mutation == 'u10b-pin': policy['landed_u10b']['placement_sha256'] = '0' * 64
+        elif mutation == 'readiness': policy['readiness_policy'] = 'Require full parent acceptance'
+        elif mutation == 'child-seal': policy['child_raw_sha256']['U12b'] = '0' * 64
+        elif mutation == 'raw-parent': policy['original_parent_sha256'] = '0' * 64
+        elif mutation == 'normalized-parent': policy['normalized_parent_sha256'] = '0' * 64
+        elif mutation == 'continuation': policy['opaque_continuation'] = 'Reset budget per sibling'
+        elif mutation == 'old-record-proof': policy['original_normalized_units_sha256'] = '0' * 64
+        elif mutation == 'estimate': policy['authored_upper_estimates']['U12b'] = 901
+        elif mutation == 'joint-owner-scope': policy['derived_joint_input_owners']['C04'] = 608
+        else: bad.pop('routing_kernel_splits')
+        rejects(lambda: validate_forest_splits(bad))
+    return len(mutations) + len(contract_mutations)
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--plan-dir',type=Path,default=Path(__file__).resolve().parent.parent);parser.add_argument('--check-completion',action='store_true');parser.add_argument('--self-test',action='store_true');args=parser.parse_args()
     root=args.plan_dir.resolve();plan=json.loads((root/'plan.json').read_text());result=validate(plan,root)
@@ -566,6 +658,7 @@ def main():
         result['comparator_split_refusal_controls'] = comparator_split_self_test(plan,root)
         result['comparison_repair_refusal_controls'] = comparison_repair_self_test(plan,root)
         result['routing_split_refusal_controls'] = routing_split_self_test(plan,root)
+        result['forest_split_refusal_controls'] = forest_split_self_test(plan,root)
         result['negative_gate_checks']='PASS'
     if args.check_completion:
         state=json.loads((root/'execution.json').read_text());errors=completion(plan,state,root.parents[1]);result.update(parity='OPEN' if errors else 'ACCEPTED',open_gate_count=len(errors),first_open_gates=errors[:8]);print(json.dumps(result,indent=2));return 2 if errors else 0
