@@ -1,0 +1,60 @@
+from pathlib import Path
+import hashlib
+import json
+import subprocess
+
+w = Path('/workspace/worktrees/builderbob/syson/batch25-forest-amendment')
+p = w / 'porting/rust-parity-plan-20261026'
+b = Path('/workspace/build/builderbob/syson-batch22-20261029/forest-validation-01')
+b.mkdir()
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+receipt = {'status': 'FAIL_STATIC_VERIFICATION', 'checks': [], 'full_parity_claimed': False}
+try:
+    outputs = ['validation-forest-final-normal.json', 'validation-forest-final-optimized.json']
+    if any((p / name).exists() for name in outputs):
+        raise RuntimeError('fresh final output required')
+    inputs = {str(f.relative_to(p)): sha(f) for f in p.rglob('*')
+              if f.is_file() and f.name != 'validation-forest-batch26.json'}
+    receipt['input_sha256_before'] = inputs
+    for optimized in (False, True):
+        jobs = [('contract', 'tools/verify_plan.py', ['--self-test', '--check-completion'], 2),
+                ('snapshot', 'remaining-work/verify_snapshot.py', ['--self-test'], 0)]
+        for name, script, tail, expected in jobs:
+            argv = ['/usr/bin/python3', '-B'] + (['-O'] if optimized else []) + [str(p / script)] + tail
+            stem = ('optimized-' if optimized else 'normal-') + name
+            result = subprocess.run(argv, cwd=w, capture_output=True, timeout=180)
+            (b / (stem + '-stdout.json')).write_bytes(result.stdout)
+            (b / (stem + '-stderr.txt')).write_bytes(result.stderr)
+            row = {'label': stem, 'argv': argv, 'exit': result.returncode, 'expected_exit': expected}
+            receipt['checks'].append(row)
+            if result.returncode != expected:
+                raise RuntimeError('unexpected verification exit: ' + stem)
+            row['result'] = json.loads(result.stdout)
+    after = {name: sha(p / name) for name in inputs}
+    receipt['input_sha256_after'] = after
+    if inputs != after:
+        raise RuntimeError('verification input drift')
+    old = json.loads(subprocess.check_output(['git', 'show',
+        'ef5fe1e797d669bbdc4952a13b9a49b298ab2075:porting/rust-parity-plan-20261026/execution.json'], cwd=w))
+    new = json.loads((p / 'execution.json').read_bytes())
+    if (old['units'] != new['units'] or new['integration_history'][:-1] != old['integration_history']
+            or new['integration_history'][-1] != old['current_integration']):
+        raise RuntimeError('historical record or timeline drift')
+    receipt['historical_records_preserved'] = len(old['units'])
+    for row in receipt['checks']:
+        if row['label'].endswith('-snapshot'):
+            stem = row['label'].split('-')[0]
+            (p / ('validation-forest-final-' + stem + '.json')).write_bytes(
+                (b / (row['label'] + '-stdout.json')).read_bytes())
+    receipt['raw_outputs'] = {name: {'bytes': (p / name).stat().st_size, 'sha256': sha(p / name)}
+                              for name in outputs}
+    receipt['status'] = 'PASS_STATIC_PLAN_AND_SNAPSHOT_ONLY'
+except BaseException as error:
+    receipt['error'] = repr(error)
+    raise
+finally:
+    raw = json.dumps(receipt, indent=2) + '\n'
+    (b / 'receipt.json').write_text(raw)
+    (p / 'validation-forest-batch26.json').write_text(raw)
+print(json.dumps({'checks': [(x['label'], x['exit']) for x in receipt['checks']],
+                  'historical_records': receipt['historical_records_preserved'], 'full_parity_claimed': False}))

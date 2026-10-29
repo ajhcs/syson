@@ -1,0 +1,83 @@
+from pathlib import Path
+import hashlib, json, shutil, subprocess
+b = Path(__file__).parent
+w = Path('/workspace/worktrees/builderbob/syson/batch25-forest-amendment')
+p = w / 'porting/rust-parity-plan-20261026'
+o = b / 'forest-generation-02'
+o.mkdir()
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+def write(path, value):
+    path.write_text(json.dumps(value, indent=2) + '\n')
+lock = json.loads((p / 'completion-contract.lock.json').read_bytes())
+names = set(lock['sha256']) | {'amendments/1.0.7-forest-kernel-split.md'}
+source_inputs = {n: sha(p / n) for n in sorted(names)}
+lock.update(contract_id='SYSON-RUST-COMPLETION/1.0.7', sha256=source_inputs)
+write(p / 'completion-contract.lock.json', lock)
+argv = ['/usr/bin/python3', '-B', str(p / 'tools/build_plan.py')]
+r = subprocess.run(argv, cwd=w, capture_output=True, timeout=60)
+(o / 'generator-stdout.json').write_bytes(r.stdout)
+(o / 'generator-stderr.txt').write_bytes(r.stderr)
+if r.returncode != 0:
+    write(o / 'receipt.json', {'status': 'FAIL_GENERATOR', 'argv': argv, 'exit': r.returncode})
+    raise RuntimeError('plan generation failed')
+plan = json.loads((p / 'plan.json').read_bytes())
+if plan['unit_count'] != 790:
+    raise RuntimeError('unexpected generated unit count')
+state = json.loads((p / 'execution.json').read_bytes())
+old_records = json.loads(json.dumps(state['units']))
+if state['current_integration'].get('batch') != 26:
+    state['integration_history'].append(state['current_integration'])
+checkpoint = 'remaining-work/checkpoint-batch26/'
+publications = [('comment-cli', 'C09b2 CLI and refusal controls')]
+landings = []
+for name, scope in publications:
+    source = b / ('publication-' + name + '.json')
+    shutil.copyfile(source, p / checkpoint / source.name)
+    entry = json.loads(source.read_bytes())
+    landings.append({'scope': scope, 'pull_request': entry['pr'], 'head': entry['head'],
+                     'merge': entry['merge'], 'actual_main_trees_and_hashes_verified': True,
+                     'hosted_checks': 'ABSENT; not a CI pass', 'feature_acceptance': 'NOT_ACCEPTED'})
+state['current_integration'] = {'batch': 26, 'contract_id': lock['contract_id'],
+    'main_after_prerequisites': 'ef5fe1e797d669bbdc4952a13b9a49b298ab2075', 'landings': landings,
+    'checkpoint': checkpoint + 'status.json', 'full_parity_claimed': False}
+if state['units'] != old_records or len(old_records) != 55:
+    raise RuntimeError('historical acceptance records changed')
+write(p / 'execution.json', state)
+register = json.loads((p / 'remaining-work/units.json').read_bytes())
+register.update(snapshot_id='SYSON-RUST-REMAINING/2026-10-29.15', contract_id=lock['contract_id'],
+    base_main=state['current_integration']['main_after_prerequisites'], unit_count=790,
+    integrated_scope_at_snapshot=state['current_integration'])
+register['copied_plan_fields'] = sorted({key for unit in plan['units'] for key in unit})
+rows = []
+for unit in plan['units']:
+    row = dict(unit)
+    row.update(primary_family=unit['completion_contract']['family'], brief='../prs/' + unit['id'] + '.md',
+        brief_sha256=sha(p / 'prs' / (unit['id'] + '.md')),
+        complete_plan_unit_sha256=hashlib.sha256(json.dumps(unit, sort_keys=True,
+            separators=(',', ':'), ensure_ascii=False).encode()).hexdigest(),
+        feature_acceptance=state['units'].get(unit['id'], {}).get('feature_acceptance', 'OPEN_NO_ACCEPTANCE_RECORD'))
+    rows.append(row)
+fields = register['copied_plan_fields']
+extra = ['primary_family', 'brief', 'brief_sha256', 'complete_plan_unit_sha256', 'feature_acceptance']
+register['units'] = [{key: row[key] for key in fields if key in row} |
+                     {key: row[key] for key in extra} for row in rows]
+write(p / 'remaining-work/units.json', register)
+shutil.copyfile(Path(__file__), p / checkpoint / 'generation-source.raw')
+write(p / checkpoint / 'source-review.json', {'disposition': 'PASS_INDEPENDENT_TECHNICAL_AND_READER_REVIEW',
+    'reviewers': ['/root/batch22_line_comments', '/root/batch21_constructor_tools_review'],
+    'scope': 'Reviewed source preservation and current reader timeline only; runtime and feature acceptance remain open.',
+    'normative_source_sha256': source_inputs})
+snapshot = json.loads((p / 'remaining-work/snapshot.lock.json').read_bytes())
+progress = set(snapshot['progress_inputs']) | {'rereview-batch26-next-prs.md'}
+progress.update(str(f.relative_to(p)) for f in (p / checkpoint).iterdir() if f.is_file())
+required = set(snapshot['sha256']) | names | progress | {'prs/U12a.md', 'prs/U12b.md'}
+snapshot.update(snapshot_id=register['snapshot_id'], contract_id=lock['contract_id'],
+    base_main=register['base_main'], progress_inputs=sorted(progress),
+    sha256={n: sha(p / n) for n in sorted(required)})
+write(p / 'remaining-work/snapshot.lock.json', snapshot)
+if source_inputs != {n: sha(p / n) for n in source_inputs}:
+    raise RuntimeError('reviewed normative source changed during generation')
+write(o / 'receipt.json', {'status': 'PASS_GENERATION_ONLY;STATIC_VALIDATION_PENDING', 'argv': argv,
+    'exit': r.returncode, 'normative_inputs': len(names), 'snapshot_inputs': len(required),
+    'historical_records_preserved': len(old_records), 'full_parity_claimed': False})
+print(json.dumps({'units': len(rows), 'normative_inputs': len(names), 'snapshot_inputs': len(required)}))

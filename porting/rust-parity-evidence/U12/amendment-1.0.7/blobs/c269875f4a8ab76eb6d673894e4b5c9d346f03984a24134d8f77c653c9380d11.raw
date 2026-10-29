@@ -1,0 +1,47 @@
+from pathlib import Path
+import hashlib
+import json
+import shutil
+import subprocess
+
+b = Path(__file__).parent
+p = Path('/workspace/worktrees/builderbob/syson/batch25-forest-amendment/porting/rust-parity-plan-20261026')
+out = b / 'forest-reader-final-01'
+out.mkdir()
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+norm = json.loads((p / 'completion-contract.lock.json').read_bytes())['sha256']
+protected = dict(norm, **{name: sha(p / name) for name in ['plan.json', 'execution.json']})
+old_receipt = b / 'forest-validation-02/receipt.json'
+record = {'prior_full_run_receipt_sha256': sha(old_receipt), 'unchanged_contract_plan_execution': protected, 'checks': []}
+for name in ['REMAINING-WORK.md', 'remaining-work/snapshot.lock.json']:
+    shutil.copyfile(p / name, out / Path(name).name)
+guide = p / 'REMAINING-WORK.md'
+text = guide.read_text()
+if text.count('| Views | 80 |') != 1:
+    raise RuntimeError('unexpected guide table before correction')
+guide.write_text(text.replace('| Views | 80 |', '| Views | 82 |'))
+lockfile = p / 'remaining-work/snapshot.lock.json'
+lock = json.loads(lockfile.read_bytes())
+lock['sha256']['REMAINING-WORK.md'] = sha(guide)
+lockfile.write_text(json.dumps(lock, indent=2) + '\n')
+for mode, flags in [('normal', []), ('optimized', ['-O'])]:
+    argv = ['/usr/bin/python3', '-I', '-B'] + flags + [str(p / 'remaining-work/verify_snapshot.py'), '--self-test']
+    result = subprocess.run(argv, capture_output=True, timeout=60)
+    (out / (mode + '-stdout.json')).write_bytes(result.stdout)
+    (out / (mode + '-stderr.txt')).write_bytes(result.stderr)
+    if result.returncode != 0:
+        raise RuntimeError('final reader snapshot verification failed')
+    record['checks'].append({'mode': mode, 'argv': argv, 'exit': result.returncode, 'result': json.loads(result.stdout)})
+    (p / ('validation-forest-final-' + mode + '.json')).write_bytes(result.stdout)
+if protected != {name: sha(p / name) for name in protected}:
+    raise RuntimeError('reader correction changed contract, plan or execution')
+record['changed_reader_inputs'] = {name: {'before_sha256': sha(out / Path(name).name), 'after_sha256': sha(p / name)}
+                                  for name in ['REMAINING-WORK.md', 'remaining-work/snapshot.lock.json']}
+record['raw_outputs'] = {name: {'bytes': (p / name).stat().st_size, 'sha256': sha(p / name)}
+                        for name in ['validation-forest-final-normal.json', 'validation-forest-final-optimized.json']}
+record['status'] = 'PASS_READER_COUNT_FIX_AND_SNAPSHOT_ONLY;FULL_CONTRACT_INPUTS_UNCHANGED'
+receipt = json.loads(old_receipt.read_bytes())
+receipt['post_validation_reader_fix'] = record
+(p / 'validation-forest-batch26.json').write_text(json.dumps(receipt, indent=2) + '\n')
+(out / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+print(json.dumps({'status': record['status'], 'snapshot_inputs': len(lock['sha256'])}))
