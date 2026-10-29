@@ -152,8 +152,8 @@ fn duplicate_decoded_keys_malformed_ids_and_trailing_documents_refuse() {
         &doc(vec![json!({"id":A,"eClass":"sysml:Namespace","data":{}})]),
         "semantic ID required",
     );
-    refuses(&(ATTR.to_owned() + "{}"), "trailing");
-    refuses("{", "EOF");
+    refuses(&(ATTR.to_owned() + "{}"), "JSON syntax");
+    refuses("{", "JSON syntax");
 }
 #[test]
 fn opaque_tokens_unicode_strings_and_escaped_pointer_keys_are_preserved() {
@@ -184,8 +184,9 @@ fn opaque_depth(n: usize) -> String {
 fn real_corpus_depth_range_and_exact_depth_boundary_have_explicit_admission() {
     let raw = opaque_depth(208);
     assert!(Catalog::from_resources(&[source(&raw)]).is_ok());
-    let raw = opaque_depth(MAX_DEPTH - 1);
+    let raw = opaque_depth(MAX_DEPTH - 2);
     assert!(Catalog::from_resources(&[source(&raw)]).is_ok());
+    refuses(&opaque_depth(MAX_DEPTH - 1), "depth limit");
     refuses(&opaque_depth(MAX_DEPTH), "depth limit");
     let mut v: Value = serde_json::from_str(&doc(vec![])).unwrap();
     v["[quoted]"] = json!("[{\\\"ignored");

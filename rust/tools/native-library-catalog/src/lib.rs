@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: EPL-2.0
 //! Physical library JSON catalogue, with explicit, separate identity domains.
-use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde_json::Value;
-use std::{
-    cell::Cell,
-    collections::{BTreeMap, BTreeSet},
-    fmt,
-};
+use std::collections::{BTreeMap, BTreeSet};
+use syson_json_value::{Error as JsonError, Limit as JsonLimit, Limits, Statistics, parse};
 pub const MAX_RESOURCES: usize = 128;
 pub const MAX_FILE: usize = 4 * 1024 * 1024;
 pub const MAX_TOTAL: usize = 32 * 1024 * 1024;
+/// Root and scalar leaves each count as one value level, matching RR01.
 pub const MAX_DEPTH: usize = 256;
+pub const MAX_VALUES: usize = 2_000_000;
+pub const MAX_KEYS: usize = 2_000_000;
+pub const MAX_SCALAR_BYTES: usize = 2 * MAX_TOTAL;
 pub const MAX_NODES: usize = 200_000;
 pub const MAX_INDEX_BYTES: usize = 128 * 1024 * 1024;
 pub const MAX_WALK_BYTES: usize = 256 * 1024 * 1024;
@@ -57,80 +57,8 @@ fn uuid(s: &str) -> bool {
             }
         })
 }
-fn depth(raw: &str) -> Result<()> {
-    let (mut n, mut quoted, mut escaped) = (0usize, false, false);
-    for b in raw.bytes() {
-        if quoted {
-            if escaped {
-                escaped = false;
-            } else if b == b'\\' {
-                escaped = true;
-            } else if b == b'"' {
-                quoted = false;
-            }
-        } else {
-            match b {
-                b'"' => quoted = true,
-                b'{' | b'[' => {
-                    n += 1;
-                    need(n <= MAX_DEPTH, "JSON depth limit")?;
-                }
-                b'}' | b']' => n = n.saturating_sub(1),
-                _ => {}
-            }
-        }
-    }
-    Ok(())
-}
-#[derive(Clone, Copy)]
-struct Check<'a>(&'a Cell<usize>);
-impl<'de> DeserializeSeed<'de> for Check<'_> {
-    type Value = ();
-    fn deserialize<D: serde::Deserializer<'de>>(self, d: D) -> std::result::Result<(), D::Error> {
-        self.0.set(self.0.get() + 1);
-        if self.0.get() > 2_000_000 {
-            return Err(serde::de::Error::custom("JSON value limit"));
-        }
-        d.deserialize_any(self)
-    }
-}
-impl<'de> Visitor<'de> for Check<'_> {
-    type Value = ();
-    fn expecting(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("unique-key JSON")
-    }
-    fn visit_map<A: MapAccess<'de>>(self, mut a: A) -> std::result::Result<(), A::Error> {
-        let mut keys = BTreeSet::new();
-        while let Some(k) = a.next_key::<String>()? {
-            if !keys.insert(k) {
-                return Err(serde::de::Error::custom("duplicate JSON key"));
-            }
-            a.next_value_seed(self)?;
-        }
-        Ok(())
-    }
-    fn visit_seq<A: SeqAccess<'de>>(self, mut a: A) -> std::result::Result<(), A::Error> {
-        while a.next_element_seed(self)?.is_some() {}
-        Ok(())
-    }
-    fn visit_str<E: serde::de::Error>(self, _: &str) -> std::result::Result<(), E> {
-        Ok(())
-    }
-    fn visit_bool<E: serde::de::Error>(self, _: bool) -> std::result::Result<(), E> {
-        Ok(())
-    }
-    fn visit_i64<E: serde::de::Error>(self, _: i64) -> std::result::Result<(), E> {
-        Ok(())
-    }
-    fn visit_u64<E: serde::de::Error>(self, _: u64) -> std::result::Result<(), E> {
-        Ok(())
-    }
-    fn visit_f64<E: serde::de::Error>(self, _: f64) -> std::result::Result<(), E> {
-        Ok(())
-    }
-    fn visit_unit<E: serde::de::Error>(self) -> std::result::Result<(), E> {
-        Ok(())
-    }
+fn check(cancelled: &mut impl FnMut() -> bool) -> Result<()> {
+    need(!cancelled(), "catalogue cancelled")
 }
 impl Resource {
     pub fn json(&self) -> &str {
@@ -157,9 +85,19 @@ impl Catalog {
     }
     /// Physical index only; explicit URI bindings imply no authenticity or EMF admission.
     pub fn from_resources(inputs: &[LibrarySource<'_>]) -> Result<Self> {
+        Self::from_resources_with_cancel(inputs, || false)
+    }
+    /// Cancellation is observed at bounded parser calls and traversal steps.
+    /// Every failure discards private staging; no partial catalogue escapes.
+    pub fn from_resources_with_cancel(
+        inputs: &[LibrarySource<'_>],
+        mut cancelled: impl FnMut() -> bool,
+    ) -> Result<Self> {
+        check(&mut cancelled)?;
         need(inputs.len() <= MAX_RESOURCES, "resource count limit")?;
         let (mut paths, mut uris, mut total) = (BTreeSet::new(), BTreeSet::new(), 0usize);
         for s in inputs {
+            check(&mut cancelled)?;
             let scheme = if s.classpath_path.starts_with("kerml.libraries/") {
                 "kermllibrary:///"
             } else if s.classpath_path.starts_with("sysml.libraries/") {
@@ -186,17 +124,17 @@ impl Catalog {
             need(s.json.len() <= MAX_FILE, "resource byte limit")?;
             total += s.json.len();
             need(total <= MAX_TOTAL, "aggregate byte limit")?;
-            depth(s.json)?;
         }
         let mut result = Self {
             resources: Vec::new(),
             uris: BTreeMap::new(),
         };
-        let count = Cell::new(0);
+        let mut count = Statistics::default();
         let mut node_count = 0;
         let (mut index_bytes, mut walk_bytes) = (0usize, 0usize);
         for s in inputs {
-            let v = value(s.json, &count)?;
+            check(&mut cancelled)?;
+            let v = value(s.json, &mut count, &mut cancelled)?;
             need(
                 v["ns"]["sysml"] == "http://www.eclipse.org/syson/sysml" && v["content"].is_array(),
                 "library document shape",
@@ -211,6 +149,7 @@ impl Catalog {
             };
             let mut stack = vec![(&v, String::new())];
             while let Some((v, pointer)) = stack.pop() {
+                check(&mut cancelled)?;
                 match v {
                     Value::Object(m) => {
                         if m.contains_key("eClass") {
@@ -257,6 +196,7 @@ impl Catalog {
                             });
                         }
                         for (key, value) in m {
+                            check(&mut cancelled)?;
                             if value.is_object() || value.is_array() {
                                 let segment = key.replace('~', "~0").replace('/', "~1");
                                 walk_bytes += pointer.len() + 1 + segment.len();
@@ -271,6 +211,7 @@ impl Catalog {
                     }
                     Value::Array(a) => {
                         for (i, value) in a.iter().enumerate() {
+                            check(&mut cancelled)?;
                             if value.is_object() || value.is_array() {
                                 let segment = i.to_string();
                                 walk_bytes += pointer.len() + 1 + segment.len();
@@ -291,21 +232,45 @@ impl Catalog {
                 .insert(r.resource_uri.clone(), result.resources.len());
             result.resources.push(r);
         }
+        check(&mut cancelled)?;
         Ok(result)
     }
 }
 
-fn value(raw: &str, count: &Cell<usize>) -> Result<Value> {
-    depth(raw)?;
-    let mut d = serde_json::Deserializer::from_str(raw);
-    d.disable_recursion_limit();
-    Check(count)
-        .deserialize(&mut d)
-        .map_err(|e| e.to_string())?;
-    d.end().map_err(|e| e.to_string())?;
-    let mut d = serde_json::Deserializer::from_str(raw);
-    d.disable_recursion_limit();
-    <Value as serde::Deserialize>::deserialize(&mut d).map_err(|e| e.to_string())
+fn json_error(error: JsonError) -> String {
+    match error {
+        JsonError::DuplicateKey => "duplicate JSON key".into(),
+        JsonError::Cancelled => "catalogue cancelled".into(),
+        JsonError::Limit(kind) => format!(
+            "JSON {} limit",
+            match kind {
+                JsonLimit::Bytes => "byte",
+                JsonLimit::Depth => "depth",
+                JsonLimit::Values => "value",
+                JsonLimit::Keys => "key",
+                JsonLimit::ScalarBytes => "scalar-copy",
+            }
+        ),
+        JsonError::Syntax { line, column } => format!("JSON syntax at {line}:{column}"),
+        JsonError::StringEncoding => "invalid JSON string encoding".into(),
+        other => format!("literal JSON refused: {other}"),
+    }
+}
+fn value(raw: &str, count: &mut Statistics, cancelled: &mut impl FnMut() -> bool) -> Result<Value> {
+    let limits = Limits {
+        bytes: MAX_FILE,
+        depth: MAX_DEPTH,
+        values: MAX_VALUES - count.values,
+        keys: MAX_KEYS - count.keys,
+        scalar_bytes: (2 * MAX_FILE).min(MAX_SCALAR_BYTES - count.scalar_bytes),
+    };
+    let literal = parse(raw, limits, &mut *cancelled).map_err(json_error)?;
+    let observed = literal.statistics();
+    let (value, _) = literal.into_value(cancelled).map_err(json_error)?;
+    count.values += observed.values;
+    count.keys += observed.keys;
+    count.scalar_bytes += observed.scalar_bytes;
+    Ok(value)
 }
 pub struct ManifestEntry {
     pub classpath_path: String,
@@ -315,7 +280,7 @@ pub struct ManifestEntry {
 /// Strict local manifest only; resource URI bindings remain caller-supplied facts.
 pub fn manifest(raw: &str) -> Result<Vec<ManifestEntry>> {
     need(raw.len() <= 256 * 1024, "manifest byte limit")?;
-    let v = value(raw, &Cell::new(0))?;
+    let v = value(raw, &mut Statistics::default(), &mut || false)?;
     let a = v.as_array().ok_or("manifest array required")?;
     need(a.len() <= MAX_RESOURCES, "resource count limit")?;
     a.iter()
