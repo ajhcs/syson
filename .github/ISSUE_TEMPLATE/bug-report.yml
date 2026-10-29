@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a problem with the Rust port.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem. This issue will be public. Do not include credentials, private models, or security vulnerability details.
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      description: Include a small shareable input and the commands or steps, or tell us what you tried.
+    validations:
+      required: true
+  - type: input
+    id: source-toolchain
+    attributes:
+      label: Source and toolchain
+      description: If known, provide the commit or branch, OS, and relevant rustc and Cargo versions. Please do not post a full environment dump.
+  - type: textarea
+    id: context-help
+    attributes:
+      label: Additional context or help
+      description: Add relevant output, a screenshot for a UI issue, or a link. To ask for guidance, mention @ajhcs and say what would help.
