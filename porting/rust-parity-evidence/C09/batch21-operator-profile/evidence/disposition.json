@@ -1,0 +1,43 @@
+{
+  "scope": "INSTRUMENTED_RUST_SYNTHETIC_F12_API_BASELINE_ONLY",
+  "source_commit": "08b7247967b89dba4a89bcb15c37dba2ea339499",
+  "authored_source_lines": 239,
+  "candidate_dependency": "d30f98bc0be246c5b5a32da3ec1e64bb7e45c58d",
+  "candidate_path": "/workspace/worktrees/builderbob/syson/batch21-operator-landing",
+  "runs": 27,
+  "protocol": "2warm+7measured independentprocesses at100/1000/5000, identicalinputstate;setup/apply/finish separate",
+  "apply_ranges_ms": {
+    "100": {
+      "min_ms": 15.337772,
+      "median_ms": 15.688544,
+      "max_ms": 17.104986
+    },
+    "1000": {
+      "min_ms": 1514.273363,
+      "median_ms": 1574.17348,
+      "max_ms": 1668.300921
+    },
+    "5000": {
+      "min_ms": 51351.789931,
+      "median_ms": 56335.178218,
+      "max_ms": 74517.418476
+    }
+  },
+  "requested_allocation_bytes": {
+    "100": 48348616,
+    "1000": 4787716048,
+    "5000": 119619738704
+  },
+  "peak_note": "67.629MB at5000 is ABOVE initial live. Actualphasepeak78,127,857bytes. Requestedtraffic/livepeak/RSSdistinct. SeqCst instrumentation adds overhead.",
+  "relocated_source": "ExactcanonicalsourceSHA matches executedcoordinatorsource;freshbuild100operator401node smoke and actualtypedcancelpass",
+  "review": "Independentmeasurementreviewof239lineprofiler/rawscope;dispatchreviewof27actualsamples;rootactualexecution/relocatedbuild",
+  "risk": "MeasuredquadraticwholeState snapshotcopying is unresolvedRR08;51.35-74.52seconds for5000apply is NOTperformancePASS or native/applicationcapacityacceptance",
+  "cancellation": "Preapplycancelonly;noin-copycancelclaim",
+  "feature_acceptance": "OPEN",
+  "documentation_only_after_capture": {
+    "path": "README.md",
+    "old_sha256": "bfda814538f3b5d516904f69150b91b5ca067b72046760a055e9b664b59c730b",
+    "final_sha256": "60c717fdd3c39d32743d9b71ec61780d9892f4c2a08c4f3a8ffa35fa8a63ef99",
+    "change": "Replace stale source-only statement with actual retainedexecution. ProfilerRustsource byte-identical; no runtimechange."
+  }
+}

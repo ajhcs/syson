@@ -1,0 +1,64 @@
+{
+  "scope": "Relocated source build and native smoke; full27samplebaseline reused only by identicalinstrumentation/componentbytes",
+  "source_before": {
+    "/workspace/worktrees/builderbob/syson/batch21-operator-profile/porting/rust-parity-evidence/C09/batch21-operator-profile/README.md": "bfda814538f3b5d516904f69150b91b5ca067b72046760a055e9b664b59c730b",
+    "/workspace/worktrees/builderbob/syson/batch21-operator-profile/porting/rust-parity-evidence/C09/batch21-operator-profile/operator_profile.rs": "7b3a29d8b66289fc7f68dabdc8b8c3477a5256ac425b53dd99db0f2cef68e6a1"
+  },
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch21-operator-profile/porting/rust-parity-evidence/C09/batch21-operator-profile/operator_profile.rs"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "generate-lockfile",
+        "--offline",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch21-20261029/operator-profile-publication-check-01/Cargo.toml"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch21-20261029/operator-profile-publication-check-01/Cargo.toml"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/syson-batch21-20261029/operator-profile-publication-check-01/operator-profile",
+        "100"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "/workspace/build/builderbob/syson-batch21-20261029/operator-profile-publication-check-01/operator-profile",
+        "100",
+        "--cancel-before-apply"
+      ],
+      "exit": 1
+    }
+  ],
+  "status": "PASS_RELOCATED_BUILD_100_NODE_SMOKE_AND_TYPED_CANCELLATION",
+  "source_after": {
+    "/workspace/worktrees/builderbob/syson/batch21-operator-profile/porting/rust-parity-evidence/C09/batch21-operator-profile/README.md": "bfda814538f3b5d516904f69150b91b5ca067b72046760a055e9b664b59c730b",
+    "/workspace/worktrees/builderbob/syson/batch21-operator-profile/porting/rust-parity-evidence/C09/batch21-operator-profile/operator_profile.rs": "7b3a29d8b66289fc7f68dabdc8b8c3477a5256ac425b53dd99db0f2cef68e6a1"
+  },
+  "binary_sha256": "e3730f2976a6c43323c6b8b40396125a4a08518588cacd2ef98acd21b01d57cc"
+}

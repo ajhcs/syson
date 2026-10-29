@@ -1,6 +1,6 @@
 # F12 API baseline source review and execution handoff
 
-This is source-only preparation. The coordinator owns compilation, execution, fresh outputs, source binding and publication. The binary needs the same candidate `syson-ast`, `syson-ast-adapter` and `serde_json` path/dependency composition as operator-qualification-01. It must not silently use main without F12.
+The coordinator has executed the retained baseline and a fresh build from this module. Compilation, execution, fresh outputs, source binding and publication remain coordinator-owned. The binary needs the same candidate `syson-ast`, `syson-ast-adapter` and `serde_json` path/dependency composition as operator-qualification-01. It must not silently use main without F12.
 
 `operator-profile N` accepts only 1..5000 synthetic classification inputs. Setup creates a separate fresh processor/builder, one `OperatorExpression(+)` root and N children with explicit defaulted empty operands and operator `as`. Every actual `apply` must return an insertion without normalization; a successful finish must expose exactly 1+4N nodes. Setup, all-N application and finish have separate timers/counters. The API timer includes actual dispatch, transaction snapshots, implicit-node defaults and field writes; it excludes processor/setup/finish. No JSON or RSS reading occurs before measured snapshots are saved.
 
