@@ -1,0 +1,151 @@
+{
+  "result": "PASS_STATIC_PLAN_SNAPSHOT_AND_NORMAL_OPTIMIZED_REFUSALS;PARITY_OPEN",
+  "checks": [
+    {
+      "label": "normal",
+      "tool": "snapshot",
+      "argv": [
+        "python3",
+        "porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "parsed": {
+        "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+        "snapshot_id": "SYSON-RUST-REMAINING/2026-10-29.8",
+        "unit_count": 780,
+        "locked_inputs": 956,
+        "primary_family_counts": {
+          "interchange": 23,
+          "services": 12,
+          "projects": 9,
+          "views": 76,
+          "rust_delivery": 5,
+          "verification": 5,
+          "reference": 12,
+          "landing": 4,
+          "final_acceptance": 1,
+          "model": 399,
+          "language": 184,
+          "repairs": 47,
+          "usability_capacity": 3
+        },
+        "feature_acceptance_counts": {
+          "NOT_ACCEPTED": 55,
+          "OPEN_NO_ACCEPTANCE_RECORD": 725
+        },
+        "full_parity_claimed": false,
+        "negative_controls": "PASS_7_REFUSAL_CASES"
+      }
+    },
+    {
+      "label": "normal",
+      "tool": "completion",
+      "argv": [
+        "python3",
+        "porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test",
+        "--check-completion"
+      ],
+      "exit_code": 2,
+      "parsed": {
+        "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+        "units": 780,
+        "source_graph_acyclic": true,
+        "readiness_graph_nodes": 1560,
+        "readiness_graph_acyclic": true,
+        "unordered_write_conflicts": 0,
+        "all_14_original_remaining_briefs_mapped": true,
+        "source_assignment_counts_verified": true,
+        "rr08_split_refusal_controls": 19,
+        "negative_gate_checks": "PASS",
+        "parity": "OPEN",
+        "open_gate_count": 781,
+        "first_open_gates": [
+          "Pinned runtime/source obligation closure remains open",
+          "Not feature-accepted: B01",
+          "Not feature-accepted: B02",
+          "Not feature-accepted: B03",
+          "Not feature-accepted: B04",
+          "Not feature-accepted: B05",
+          "Not feature-accepted: B06",
+          "Not feature-accepted: B07"
+        ]
+      }
+    },
+    {
+      "label": "optimized",
+      "tool": "snapshot",
+      "argv": [
+        "python3",
+        "-O",
+        "porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "parsed": {
+        "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+        "snapshot_id": "SYSON-RUST-REMAINING/2026-10-29.8",
+        "unit_count": 780,
+        "locked_inputs": 956,
+        "primary_family_counts": {
+          "interchange": 23,
+          "services": 12,
+          "projects": 9,
+          "views": 76,
+          "rust_delivery": 5,
+          "verification": 5,
+          "reference": 12,
+          "landing": 4,
+          "final_acceptance": 1,
+          "model": 399,
+          "language": 184,
+          "repairs": 47,
+          "usability_capacity": 3
+        },
+        "feature_acceptance_counts": {
+          "NOT_ACCEPTED": 55,
+          "OPEN_NO_ACCEPTANCE_RECORD": 725
+        },
+        "full_parity_claimed": false,
+        "negative_controls": "PASS_7_REFUSAL_CASES"
+      }
+    },
+    {
+      "label": "optimized",
+      "tool": "completion",
+      "argv": [
+        "python3",
+        "-O",
+        "porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test",
+        "--check-completion"
+      ],
+      "exit_code": 2,
+      "parsed": {
+        "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+        "units": 780,
+        "source_graph_acyclic": true,
+        "readiness_graph_nodes": 1560,
+        "readiness_graph_acyclic": true,
+        "unordered_write_conflicts": 0,
+        "all_14_original_remaining_briefs_mapped": true,
+        "source_assignment_counts_verified": true,
+        "rr08_split_refusal_controls": 19,
+        "negative_gate_checks": "PASS",
+        "parity": "OPEN",
+        "open_gate_count": 781,
+        "first_open_gates": [
+          "Pinned runtime/source obligation closure remains open",
+          "Not feature-accepted: B01",
+          "Not feature-accepted: B02",
+          "Not feature-accepted: B03",
+          "Not feature-accepted: B04",
+          "Not feature-accepted: B05",
+          "Not feature-accepted: B06",
+          "Not feature-accepted: B07"
+        ]
+      }
+    }
+  ]
+}

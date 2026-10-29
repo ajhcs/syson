@@ -5,7 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
-from completion_contract import read_contract, validate_bindings
+from completion_contract import read_contract, validate_bindings, validate_repair_splits
 
 def require(ok,message):
     if not ok:raise ValueError(message)
@@ -74,7 +74,13 @@ def validate(plan,root):
     for raw in repairs:
         require(raw['id'] in byid,'Missing repair unit '+raw['id'])
         unit=byid[raw['id']]
-        for key in ['dependencies','paths','tasks','verification','state','owner_plan_units','budget']+(['coordinator_wiring'] if raw.get('coordinator_wiring') else []):
+        keys = ['dependencies','paths','tasks','verification','state','owner_plan_units','budget']
+        keys += ['coordinator_wiring'] if raw.get('coordinator_wiring') else []
+        if raw['id'] in ['RR08', 'RR08a', 'RR08b']:
+            keys += [key for key in ['acceptance_children', 'delegated_implementation', 'whole_parent_gates',
+                      'split_parent', 'budget_counting', 'original_case_requirements', 'production_delta_estimate',
+                      'source_regions', 'authored_or_touched_upper_estimate'] if key in raw]
+        for key in keys:
             require(raw[key]==unit.get(key),'Changed repair lane obligation '+raw['id']+':'+key)
     for uid,unit in byid.items():
         expected={'implementation:'+dep for dep in unit.get('implementation_ready_dependencies',unit['dependencies'])}
@@ -126,9 +132,11 @@ def self_test(plan,root):
         else:raise AssertionError('Contract gate accepted '+expected)
     integrity_paths = ['COMPLETION-CONTRACT.md','acceptance-packet.schema.json',
                        'performance-policy.json','lanes/model.json','tools/build_plan.py']
-    disposition = read_contract(root).get('legacy_prerequisite_budget_dispositions')
-    if disposition:
-        amendment_path = disposition['amendment']['path']
+    contract = read_contract(root)
+    disposition = contract.get('legacy_prerequisite_budget_dispositions')
+    amendment_paths = ([disposition['amendment']['path']] if disposition else [])
+    amendment_paths += [policy['amendment']['path'] for policy in contract.get('repair_splits', {}).values()]
+    for amendment_path in amendment_paths:
         rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
                 (b'\n' if name==amendment_path else b'')), 'amendment hash mismatch')
     for path in integrity_paths:
@@ -198,10 +206,54 @@ def self_test(plan,root):
     except ValueError as e:require('coordinator_wiring' in str(e),'Wrong rejection for omitted coordinator wiring')
     else:raise AssertionError('Omitted coordinator wiring accepted')
 
+    # Mutate both graph representations together, defeating superficial consistency checks.
+    split_mutations = ['child-order', 'parent-order', 'acceptance', 'scope', 'parent-scope',
+                       'lease', 'cap', 'counting', 'task', 'verification', 'gates', 'cases', 'estimate']
+    for mutation in split_mutations:
+        bad = copy.deepcopy(plan)
+        byid = {unit['id']: unit for unit in bad['units']}
+        first, second, parent = (byid[uid] for uid in ['RR08a', 'RR08b', 'RR08'])
+        if mutation == 'child-order':
+            second['dependencies'] = []
+            bad['readiness_graph']['implementation:RR08b'] = []
+            bad['unordered_write_conflicts'] = []
+        elif mutation == 'parent-order':
+            parent['dependencies'] = []
+            bad['readiness_graph']['implementation:RR08'] = []
+        elif mutation == 'acceptance':
+            parent['acceptance_children'] = []
+            bad['readiness_graph']['accepted:RR08'] = ['implementation:RR08']
+        elif mutation == 'scope': first['paths'].append('rust/crates/syson-model/src/lib.rs')
+        elif mutation == 'parent-scope': parent['paths'].append(first['paths'][0])
+        elif mutation == 'lease': first['ownership'] = 'Parallel writers allowed'
+        elif mutation == 'cap': first['budget']['production_lines_max'] = 401
+        elif mutation == 'counting': first['budget_counting'] = 'added_only'
+        elif mutation == 'task': parent['tasks'] = []
+        elif mutation == 'verification': parent['verification'].pop(0)
+        elif mutation == 'gates': parent['whole_parent_gates']['workload_points'].pop()
+        elif mutation == 'cases': second['original_case_requirements'].pop()
+        else: first['production_delta_estimate']['changed'] = 401
+        rejects(lambda:validate(bad, root), 'RR08 split')
+    contract_mutations = ['policy', 'unit', 'workloads', 'cases', 'exception', 'cap']
+    for mutation in contract_mutations:
+        bad = copy.deepcopy(contract)
+        policy = bad['repair_splits']['RR08']
+        if mutation == 'policy': bad.pop('repair_splits')
+        elif mutation == 'unit': bad['unit_ids'].remove('P01')
+        elif mutation == 'workloads': policy['whole_parent_gates']['workload_points'] = [100]
+        elif mutation == 'cases': policy['whole_parent_gates']['original_rr08_cases'].pop()
+        elif mutation == 'exception': bad['legacy_prerequisite_budget_dispositions']['RR08'] = {}
+        else: policy['production_lines_max'] = True
+        rejects(lambda:validate_repair_splits(bad), 'RR08 split')
+    return len(split_mutations) + len(contract_mutations)
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--plan-dir',type=Path,default=Path(__file__).resolve().parent.parent);parser.add_argument('--check-completion',action='store_true');parser.add_argument('--self-test',action='store_true');args=parser.parse_args()
     root=args.plan_dir.resolve();plan=json.loads((root/'plan.json').read_text());result=validate(plan,root)
-    if args.self_test:self_test(plan,root);result['negative_gate_checks']='PASS'
+    if args.self_test:
+        result['rr08_split_refusal_controls'] = self_test(plan,root)
+        result['negative_gate_checks']='PASS'
     if args.check_completion:
         state=json.loads((root/'execution.json').read_text());errors=completion(plan,state,root.parents[1]);result.update(parity='OPEN' if errors else 'ACCEPTED',open_gate_count=len(errors),first_open_gates=errors[:8]);print(json.dumps(result,indent=2));return 2 if errors else 0
     print(json.dumps(result,indent=2));return 0
