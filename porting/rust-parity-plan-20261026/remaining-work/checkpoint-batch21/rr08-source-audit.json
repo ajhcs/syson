@@ -1,0 +1,649 @@
+{
+  "schema": 1,
+  "reviewer": "/root/batch21_constructor_tools_review",
+  "status": "SOURCE_ADOPTION_AUDIT;UNSPLIT_478_CHANGED_PRODUCTION_LINES_EXCEED_400;VERSIONED_CHILD_SCOPE_REVIEW_REQUIRED_BEFORE_EXECUTION",
+  "mode": "Read-only source/Git-object/hash review; writes only this authorized external audit. No subject tools, tests, compilers, native/browser runtimes or Git mutations.",
+  "prior_audit": "/workspace/build/builderbob/syson-batch20-20261029/rr08-admission-audit.json",
+  "main_snapshot": "3de6c7f892a39fb7c4890bb6dbb8363155f145c6",
+  "main_freshness": "Exact local origin/main object inspected at review start. Root must recheck live GitHub main/head before publication or merging.",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.1",
+  "plan_snapshot": "SYSON-RUST-REMAINING/2026-10-29.7",
+  "candidate_worktree": "/workspace/worktrees/builderbob/syson/batch20-rr08",
+  "donor_commit": "f0389bb7360bfa6246e66fe92144cb4b4eaa6269",
+  "prerequisite_delta": {
+    "F08_F10_AST": "Existing actual-main implementation prerequisites; kernel baseline is byte-identical to the previously reviewed #41 base.",
+    "F09": "Merged prerequisite #152; prior missing-dispatch blocker removed. F12 uses its real Registry/Postprocessor types.",
+    "F11": "Merged #147. Actual-main source SHA1e43a3d3... and testsd703a696... retain the independently reviewed finite cancellation/span repairs and15cases.",
+    "F15": "Merged #155 is recorded as current-main progress; it is not invented as an RR08 dependency.",
+    "F12": "Original158-line addon and368-line/12-case tests plus21 provenance paths are donor-identical and source-frozen in batch21-operator-landing. Module export, F09 dependency and lock reconciliation remain coordinator-owned gates; do not replace the current F11 implementation with the old #41 crate snapshot.",
+    "remaining": "Complete F12 admission/wiring and actual-main prerequisite verification, then adopt a version-reviewed RR08 split before any child code/execution. Preserve separate F12 and RR08-child PRs. The whole RR08 repair stays open until the complete combined source and all9regressions/27adapter/37ASTcases are qualified."
+  },
+  "byte_compatibility": {
+    "main_kernel_sha256": "3317db9c1042d4d5c49aefa1b660ab1eef2e8409861345ed476d7f50f11d74c1",
+    "F12_original_base_kernel_sha256": "3317db9c1042d4d5c49aefa1b660ab1eef2e8409861345ed476d7f50f11d74c1",
+    "kernel_baseline_equal": true,
+    "RR08_kernel_sha256": "0a3b7c3a13b4951d059fa1f446d65c56cda99cae5b6c0cfa6ee08c4cbf77baf9",
+    "RR08_regressions_sha256": "2d80e2449b9424f715925e80c250f0f5633ee0130ba9a2bd97563ea0b37bcb8d",
+    "current_main_F11_source_sha256": "1e43a3d3e69aff38bedd55b4dfbb7cd1b75c10b68286f6ae0fc695193efc9cd8",
+    "current_main_F11_tests_sha256": "d703a69660dfb3221f94e3587c7d413338e72a6c409d206302a729fac17a4274",
+    "current_main_AST_construction_tests_sha256": "6adc41c6e7a448b641613e52612e49e1c0241175d9d0fe509c49bc4ea0a43338",
+    "RR08_adjusted_construction_tests_sha256": "5b5173819ffd164c05357a89d6343048eea9be4109ab7ba91f92882512e51864",
+    "public_API": "No public function signature/type-shape change in the main-to-RR08 kernel patch. Builder, Arena, NodeId, Datum, Lexeme, Limits, Value and errors remain source-compatible with current F11 and the original F12 addon. Private journal/copy machinery changes work charging and refusal behavior."
+  },
+  "ownership": {
+    "author_owned": [
+      "rust/crates/syson-ast/src/lib.rs",
+      "rust/crates/syson-ast/tests/rr08_regression.rs",
+      "porting/rust-parity-evidence/RR08/"
+    ],
+    "coordinator_owned": [
+      "rust/crates/syson-ast/Cargo.toml",
+      "rust/crates/syson-ast/Cargo.lock",
+      "rust/crates/syson-ast-adapter/Cargo.lock",
+      "rust/crates/syson-ast/tests/construction.rs"
+    ],
+    "separate_F12_wiring": [
+      "rust/crates/syson-ast-adapter/src/lib.rs:export operator_expression only",
+      "rust/crates/syson-ast-adapter/Cargo.toml:add actual syson-ast-dispatch dependency",
+      "rust/crates/syson-ast-adapter/Cargo.lock:coordinator reconciliation"
+    ],
+    "holds": "All existing raw/factory/initializer/validation holds unchanged. No broad source lease or P14 implementation lease follows from this audit."
+  },
+  "exact_review_delta": [
+    {
+      "path": "rust/crates/syson-ast/Cargo.lock",
+      "added": 28,
+      "deleted": 0
+    },
+    {
+      "path": "rust/crates/syson-ast/Cargo.toml",
+      "added": 3,
+      "deleted": 0
+    },
+    {
+      "path": "rust/crates/syson-ast/src/lib.rs",
+      "added": 378,
+      "deleted": 100
+    },
+    {
+      "path": "rust/crates/syson-ast/tests/construction.rs",
+      "added": 2,
+      "deleted": 1
+    },
+    {
+      "path": "rust/crates/syson-ast/tests/rr08_regression.rs",
+      "added": 486,
+      "deleted": 0
+    }
+  ],
+  "budget": {
+    "kernel_file_lines": 968,
+    "kernel_additions": 378,
+    "kernel_deletions": 100,
+    "kernel_touched_add_plus_delete": 478,
+    "new_regression_lines": 486,
+    "existing_test_added": 2,
+    "existing_test_deleted": 1,
+    "manifest_additions": 3,
+    "authored_Rust_additions": 866,
+    "authored_additions_including_manifest": 869,
+    "generated_lock_additions": 28,
+    "remaining_under_900_added_line_basis": 31,
+    "counting_disposition": "The authoritative Git diff is378added+100deleted=478changed production lines, exceeding400. Historical added-only378/866 figures remain attributed only to their old packet and do not authorize current execution. A meaningful reviewed split is required before new child code or execution; no new exception is granted.",
+    "additional_change_gate": "Freeze reviewed child IDs, graph edges, exact operation/test ownership, <=400changed production and <=900authored caps through versioned contract review before child coding. Recompute actual Git diff after ordinary formatting; preserve all original cases and whole-parent acceptance.",
+    "unsplit_execution_admitted": false,
+    "new_budget_exception": false,
+    "blocking_finding": "Unsplit changed-production cap violation; source-compatible prerequisites do not waive it."
+  },
+  "implementation_review": {
+    "new_demonstrated_defect": false,
+    "recommended_production_change": "None from this source-only pass; execute the admitted composition before deciding whether another repair is needed.",
+    "journal": "Private Undo retains moved old fields/kinds/frames/CST values, prior append lengths and allocated-node removals. Reverse-order rollback restores inner suffixes; successful inner operations remain reversible by the outer transaction. Work and IDs are never journaled or recycled.",
+    "commit_check": "transaction runs charge(0) after a successful callback, so newly observed cancellation or exhausted work causes rollback before transaction success.",
+    "copy_accounting": "copied_text charges UTF-8 bytes before reservation and polls at UTF-8-safe chunks of at most4096bytes and before return. copied_datum charges entries and copied text/lexemes. Datatype capacity growth charges possible old-buffer movement; append charges existing entry movement on growth; finish charges each parent-property label copy.",
+    "merge_truth": "merge first copies source kind and every source field/key/value into local owned data at lines731-742. Only afterward do target scalar precedence and array concatenation decide what is retained at749-785. Shadowed source copies still occur and are charged. Array merge also copies target Datum entries/lexeme before retaining the target lexeme. Do not repeat the old claim that only retained fields are copied.",
+    "documentation_action": "Keep original SOURCE-PREPARATION.md and old evidence immutable. Add the truthful copying/charging description and all limits to new dated adoption evidence.",
+    "unbounded_or_unproven": "Library map/vector/journal administration and OOM/panic recovery are not globally bounded or recovered. Diagnostic-only unsupported strings and caller-owned Lexeme/Datum/Arena clones remain outside this Builder claim. Logical work/cumulative allocation traffic are not peak live allocation, RSS, time deadline, native capacity or arbitrary cancellation latency."
+  },
+  "preserved_case_requirements": {
+    "RR08_regressions": 9,
+    "F12_operator_cases": 12,
+    "current_F11_cases": 15,
+    "expected_adapter_suite_cases": 27,
+    "expected_AST_suite_cases": 37,
+    "expected_AST_plus_adapter_cases": 64,
+    "count_meaning": "Static source counts to verify in the new coordinator execution: AST19construction+2flat-array+6ownership+9RR08+1private owner exhaustion=37; adapter15finite+12operator=27. The old62-case result used13finite+12operator and does not transfer.",
+    "ordinary_test_adjustment": "Only the explicit max_work3->17 adaptation: outer transaction1 plus two allocations of1operation+7copied Element bytes. Preserve spent-ID/work assertions and all other existing tests."
+  },
+  "fresh_execution_recipe": [
+    {
+      "step": 0,
+      "gate": "Budget and versioned split admission",
+      "tasks": [
+        "Do not execute the unsplit478changed-line patch or grant a child implementation lease from this report.",
+        "Review the unassigned operation/test split proposed below, assign child IDs and exact ownership/dependency/acceptance edges through the versioned contract process, and verify acyclicity/preservation before coding.",
+        "Recompute each actual child Git diff after normal formatting and preserve both400changed-production and900authored caps.",
+        "Treat the following full-repair recipes as final combined acceptance requirements, not permission to omit them from smaller child PRs."
+      ]
+    },
+    {
+      "step": 1,
+      "gate": "Freeze actual composition",
+      "tasks": [
+        "After versioned child-scope adoption and prerequisite admission, root prepares each isolated child composition from its declared reviewed base. Preserve the original unsplit donor source/provenance and all old attempts without attributing its results to a different staged source.",
+        "Integrate separately reviewed F12 addon export/F09 dependency and exact locks without copying old F11 parser/tests over current source.",
+        "Record all source/tool/fixture/manifest/feature/target/dependency hashes, actual local and remote heads, active writers and the global runtime lock.",
+        "Confirm the review-count basis and all ownership gates explicitly before execution."
+      ]
+    },
+    {
+      "step": 2,
+      "gate": "Preserve/reproduce the whole-State baseline counterexample",
+      "tasks": [
+        "Use immutable current-main baseline kernel bytes, which match the old #41 baseline, and the retained baseline-compatible first RR08 regression.",
+        "Execute actual begin_node/end_frame growth at100/1000/5000nodes; log every allocation point before expected broad growth refusal.",
+        "Preserve the genuine earlier red and any new failed run/timeout as separate terminal attempts; never overwrite a failed source or receipt. Baseline traffic is cumulative requested layout bytes, not simultaneous8.35GB memory."
+      ]
+    },
+    {
+      "step": 3,
+      "gate": "Run all nine actual RR08 regressions",
+      "tests": [
+        "growing_construction_avoids_repeated_whole_state_allocation",
+        "nested_success_and_failure_restore_fields_frames_cst_and_spent_ids",
+        "merge_keeps_source_first_entries_target_lexeme_and_rolls_back_foreign_failure",
+        "scalar_copy_budget_refuses_before_large_reservation_and_work_stays_spent",
+        "cancellation_at_scalar_reservation_restores_outer_changes_and_datatype_frames",
+        "actual_f12_growth_is_measured_separately_from_actual_parser_construction",
+        "copied_work_failure_restores_partial_defaults_and_adopted_kind",
+        "kind_and_unknown_type_copies_refuse_before_allocation_or_id_reservation",
+        "finish_charges_each_containment_label_before_repeated_copying"
+      ],
+      "tasks": [
+        "Run native AST and adapter suites locked/offline with one compiler job, one test thread and nocapture; verify actual37+27 cases and preserve all12operator/all15finite cases.",
+        "Exercise nested successful/failed transactions, frame/datatype restoration, CST retarget restoration, foreign-owner refusal and monotonic spent IDs/work.",
+        "Retain the preallocation scalar-copy Budget refusal and deterministic allocator reservation cancellation. The callback must allocate nothing and use a preinstalled flag/Arc; its evidence does not establish mid-chunk timing.",
+        "Retain the two-node-limited real F12 failure: normalization and all inserted nodes must rollback, leaving operands absent.",
+        "Retain finish32x65536-byte-key Budget refusal before a fourth large reservation; verify state/result and cumulative requested traffic separately."
+      ]
+    },
+    {
+      "step": 4,
+      "gate": "Measure real construction and operator workloads separately",
+      "tasks": [
+        "Core growth uses100/1000/5000 actual begin_node/end_frame operations under unchanged production defaults.",
+        "F12 growth uses actual OperatorPostprocessor.builder/apply for100/1000/5000 expressions under explicit stress-only max_work100000000; inspect the finished final four-node chain and parenting. Do not call these parsed expression fixtures.",
+        "Run actual Adapter.construct independently on the preserved Unicode package/part source and the current15-case suite; its source has no outer whitespace, so root0..source.len matches the repaired token span policy.",
+        "For timing claims, use release builds, restore identical state/setup outside the timer, two warmups plus seven measured repetitions per named workload and disclose min/median/max/raw data. Keep allocation traffic, retained/live requests, process RSS/HWM and latency separate.",
+        "The prior F11 API profiles can serve as their exact recorded baseline only with source/binary/tool/host binding; changed-kernel observations need new execution before performance claims. Do not compare API timing to event-to-visible bands as the same metric."
+      ]
+    },
+    {
+      "step": 5,
+      "gate": "Requalify affected finite structural behavior",
+      "tasks": [
+        "Rebuild the actual public Rust capture consumer on the admitted new kernel and current F11/F12 composition where required.",
+        "Replay the existing42-case corpus against original/native frozen observations and the strict committed comparator. Preserve the known79cache baseline and172OPEN obligations; any new required finite difference blocks that scope until understood.",
+        "Do not infer native cache, full CST, linking, importer or UI acceptance from the actual finite caller or synthetic operator pass.",
+        "Run scoped formatting, both affected all-target Clippy gates, applicable WASM library checks and source-generation/pin verification; reuse unchanged unrelated suites only with explicit unchanged-input proof."
+      ]
+    },
+    {
+      "step": 6,
+      "gate": "Independent review and separate publication",
+      "tasks": [
+        "Have a nonauthor independently review the exact composed patch, observed failures/refusals and newly sealed evidence.",
+        "Keep F12 and RR08 changes in separate PRs with implementation/regression and evidence commits; prerequisite snapshots remain evidence inputs, never merge destinations.",
+        "Verify F12 and other required prerequisites on actual main, expected heads, review threads and hosted check state before RR08 merges. Report absent hosted checks as absent.",
+        "Verify exact resulting remote main component trees and every committed packet byte after merge. Full feature/program acceptance remains OPEN."
+      ]
+    }
+  ],
+  "command_templates_not_executed": [
+    [
+      "cargo",
+      "test",
+      "--offline",
+      "--locked",
+      "--jobs",
+      "1",
+      "--manifest-path",
+      "${RR08_COMPOSITION}/rust/crates/syson-ast/Cargo.toml",
+      "--",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "--offline",
+      "--locked",
+      "--jobs",
+      "1",
+      "--manifest-path",
+      "${RR08_COMPOSITION}/rust/crates/syson-ast-adapter/Cargo.toml",
+      "--",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "clippy",
+      "--offline",
+      "--locked",
+      "--jobs",
+      "1",
+      "--manifest-path",
+      "${RR08_COMPOSITION}/rust/crates/syson-ast/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    [
+      "cargo",
+      "clippy",
+      "--offline",
+      "--locked",
+      "--jobs",
+      "1",
+      "--manifest-path",
+      "${RR08_COMPOSITION}/rust/crates/syson-ast-adapter/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ]
+  ],
+  "F12_frozen_inputs": {
+    "worktree": "/workspace/worktrees/builderbob/syson/batch21-operator-landing",
+    "donor": "25acfaa6f3059685f133be034355f11104aad16f",
+    "module": {
+      "path": "rust/crates/syson-ast-adapter/src/operator_expression.rs",
+      "sha256": "92b838fe2cda05176eeb0ddedbca6230e829abc09f44b5d790a0030f13f43408",
+      "lines": 158
+    },
+    "tests": {
+      "path": "rust/crates/syson-ast-adapter/tests/operator_expression.rs",
+      "sha256": "6d33bd3d37c214282bc0867cd504ced87b89427115bd25e605b80584da4b1ef8",
+      "lines": 368,
+      "cases": 12
+    },
+    "provenance_paths_verified": 21,
+    "source_freeze_confirmed_by": "/root/batch21_dispatch_compare",
+    "wiring": "Not admitted or executed by this reviewer; root owns final wiring/lock freeze."
+  },
+  "donor_preservation": {
+    "paths_verified": 54,
+    "all_byte_identical": true,
+    "path_sha256": {
+      "porting/rust-parity-evidence/RR08/RESULTS.md": "0ed33bc538b3a50c3671c0dab1ba9952854a7cbf2119d980dacdb23079f353a9",
+      "porting/rust-parity-evidence/RR08/SHA256.json": "20e2ab10bdb04911bc8a983f2188f7b22fdeda52ea155eea7f3b229851bc82dc",
+      "porting/rust-parity-evidence/RR08/SOURCE-PREPARATION.md": "562b8082911e2312dd71e85ab63704af2bde646d9d4a114920b04934fdc3e3ce",
+      "porting/rust-parity-evidence/RR08/batch-admission.json": "5ecfde18779a09b8c240488176bde467e5a0ab348a75bb7debde916c6acb41f6",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/00-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/01-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/01-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/02-stderr.txt": "b7c2c434f1cb78580eb3e6ba6f63ed5c5bc67684ef6c5e39ea2b7e7978406494",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/02-stdout.txt": "6990c8c3ab9854d792af6429922d2120528c0f4fe01f69a90d73e554941b339e",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/03-stderr.txt": "581790e915bfc308c4ae144ed824c1d5c8ede3c107f4762e39340427614ad40e",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/03-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/04-stderr.txt": "e56eb25f97590d8b131fd019c28ef7a3f946da2d024a1d5fd9d8ac43e5d0f9b8",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/04-stdout.txt": "f0d1470d448262dd3051b5db02b80db2e15c58e2b4f1715de11b883f146440f7",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/05-stderr.txt": "b67662da1faf898568e1de99919dea0cb6816aa7da58773a335f4a626d759a90",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/05-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/executed-runner.py": "ea9719f1ab750959ca2643c53c3e7e24497010c920cf062fb216622692ddbd73",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/receipt.json": "9e77e4d8ef248326e0d7d187849a8d11f8adc6d59cec6faac1d042d7b208b08b",
+      "porting/rust-parity-evidence/RR08/captures/rr08-01/source-from-final.patch": "a7a754b447cd8026fba8a0c64c1d51250dc387f833068fe7a7c5fd7b790ad9a9",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/00-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/01-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/01-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/02-stderr.txt": "0ecf849f7ff635e0eab71fa738f1a5eb01ce41edd107ff2b4837ce133f0d4867",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/02-stdout.txt": "3d34a87dd34a0f34fe378b5becc979a70d2d251eb61502dd6c8ba9db4f048369",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/03-stderr.txt": "b56230d29b992612e37998a27cdd2b556084d931f3cc7a7c460310290f6a870a",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/03-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/04-stderr.txt": "017e49a171c6c28408010ce53209e30d5472038bd42fef37f7b5cd323e14a6ec",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/04-stdout.txt": "f0d1470d448262dd3051b5db02b80db2e15c58e2b4f1715de11b883f146440f7",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/05-stderr.txt": "b67662da1faf898568e1de99919dea0cb6816aa7da58773a335f4a626d759a90",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/05-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/executed-runner.py": "ea9719f1ab750959ca2643c53c3e7e24497010c920cf062fb216622692ddbd73",
+      "porting/rust-parity-evidence/RR08/captures/rr08-02/receipt.json": "ac1f6407615b001fc5c1e8f2e8e3441668cc452c5a46ad45f922acc11941cb92",
+      "porting/rust-parity-evidence/RR08/captures/rr08-finish-red-01/executed-runner.py": "259c850fe021639beb9dcafa8d2d7d0b8cccff5fc49ccb53f2ba00927c22ce75",
+      "porting/rust-parity-evidence/RR08/captures/rr08-finish-red-01/receipt.json": "79ed97fcc6ee5bb15058163460734131317b760fe2a7fa28d08de1504a0449d2",
+      "porting/rust-parity-evidence/RR08/captures/rr08-finish-red-01/source-from-final.patch": "d36b23416a9a547149eea556e3aae912ae8436f4dd7e7c92c7f89529e82691f4",
+      "porting/rust-parity-evidence/RR08/captures/rr08-finish-red-01/stderr.txt": "79843631f06a7e3c773640e13d0313e2d02ef2b60fc4f46bd4e74adfa8571179",
+      "porting/rust-parity-evidence/RR08/captures/rr08-finish-red-01/stdout.txt": "49905f41369ff5fa08ee364d24df3698f62803b11ffff960fd2ecbe0af927329",
+      "porting/rust-parity-evidence/RR08/captures/rr08-red-01/executed-red-regression.rs.txt": "88dcb6b66b0fe897e2bf7cb26043fef6c9323674973f7e7b56fe3c88b030c183",
+      "porting/rust-parity-evidence/RR08/captures/rr08-red-01/executed-runner.py": "146c1602395da895fec6e7adce0af7c41ec8ebb232f6f9019ef06379ecbad00e",
+      "porting/rust-parity-evidence/RR08/captures/rr08-red-01/receipt.json": "6ad5f6dcf805469f737ac057ad54451801fc4fbd9bb4caff5aa7617e6f5a7938",
+      "porting/rust-parity-evidence/RR08/captures/rr08-red-01/stderr.txt": "817b846a47859ba46b43eb9c7acd976b4677ab5a92833a661b580b196e247ea5",
+      "porting/rust-parity-evidence/RR08/captures/rr08-red-01/stdout.txt": "3951d0620f3a53a9b4767c4f5c43b9f8b8827b7d8ed50f38eaf1ff151dce3ef4",
+      "porting/rust-parity-evidence/RR08/executed-source-binding.json": "8d377e29cda661b06c8677dabcb56100b731ed880b993579378639a7c4a8016b",
+      "porting/rust-parity-evidence/RR08/independent-review.json": "c5fb65626cbb8c1defb7eb78bcdb25c12307645665be1e3fc8d551af5cac4a5a",
+      "porting/rust-parity-evidence/RR08/intermediate-source-reconstruction.json": "98194868082c7b9c8528668e95cb548e7e7a93d33d839d27308f0d8ccbeb9f1c",
+      "porting/rust-parity-evidence/RR08/reconstruction-application.json": "93baccb81dd574d0036dbbdef40a7b48b147134d992f01d85c0b92ded285ac9b",
+      "porting/rust-parity-evidence/RR08/rr08-coordinator-wiring.json": "7c21256f21b2d71d9039e7b8ff00c7aea598374df4e7fec63331e9c25b386377",
+      "porting/rust-parity-evidence/RR08/toolchain.json": "4fdae144ffd6a896a608eeb2065ab18089c5a0a36a358c888209cfb9e1a84a78",
+      "rust/crates/syson-ast/Cargo.lock": "d125e47aa56294ca9deee0f24e962eebfebba764c1680b01e7d4d737dd0a2feb",
+      "rust/crates/syson-ast/Cargo.toml": "97da7779d6c9a4ebfb4342ad0c9f2ddf2c8c9a0cab7d657ad284c8be7b54bc49",
+      "rust/crates/syson-ast/src/lib.rs": "0a3b7c3a13b4951d059fa1f446d65c56cda99cae5b6c0cfa6ee08c4cbf77baf9",
+      "rust/crates/syson-ast/tests/construction.rs": "5b5173819ffd164c05357a89d6343048eea9be4109ab7ba91f92882512e51864",
+      "rust/crates/syson-ast/tests/rr08_regression.rs": "2d80e2449b9424f715925e80c250f0f5633ee0130ba9a2bd97563ea0b37bcb8d"
+    },
+    "old_proofs": "Original red, first passing source, finish-label red, final checks, reconstruction patches and old independent review remain historical and unmodified."
+  },
+  "P14_and_acceptance": "No P14 code lease, new readiness edge or acceptance promotion. RR08 journal behavior does not complete native child-cache semantics, general parser/postprocessor behavior, F13/F14/UI workflows, capacity or full program acceptance.",
+  "execution_performed_by_this_audit": false,
+  "production_or_manifest_changed": false,
+  "Git_mutation": false,
+  "correction_to_initial_audit": {
+    "preserved_prior_file": "/workspace/build/builderbob/syson-batch21-20261029/rr08-next-admission-audit-before-budget-review.json",
+    "prior_sha256": "8c403ee8864f6b086101df09f4f0802ad08740b91a0fb501996f80c15fe8c928",
+    "rejected_inference": "The earlier wording allowed reaffirming an added-only legacy counting basis. The locked plan counts changed handwritten production lines and grants exceptions only to F10/F11. RR08+378/-100 is478changed lines and cannot execute unsplit under the400cap.",
+    "authority": "Coordinator explicit budget disposition during this audit; consistent with the locked plan",
+    "new_budget_exception": false,
+    "production_source_mutated": false,
+    "child_code_written_or_executed": false
+  },
+  "split_proposal": {
+    "status": "UNASSIGNED_PROPOSAL_ONLY;NO_CHILD_IDS_GRAPH_CHANGE_CODE_WRITE_OR_EXECUTION_LEASE",
+    "rationale": "Separate selected copied-value admission from replacement of rollback machinery. The first scope uses the existing whole-State snapshot rollback while guarding selected kind/reference/merge copies. The second must replace snapshot rollback and instrument every mutator together, including final containment-label copy admission. This keeps each review coherent and the final parent repair complete.",
+    "source_of_estimates": {
+      "baseline_commit": "3de6c7f892a39fb7c4890bb6dbb8363155f145c6",
+      "baseline_kernel_lines": 690,
+      "final_donor_commit": "f0389bb7360bfa6246e66fe92144cb4b4eaa6269",
+      "final_kernel_lines": 968,
+      "authoritative_full_Git_diff": {
+        "added": 378,
+        "deleted": 100,
+        "changed": 478
+      },
+      "method": "Whole method bodies were selected from actual baseline/final sources into an in-memory intermediate solely for line-diff analysis; no source file or patch was written and nothing was compiled/executed. Python SequenceMatcher with autojunk disabled reports379added/101deleted for the full source (480 versus Git478), so these are explicit conservative proposal estimates, not authoritative future Git counts. Both proposed children must get exact fresh Git counts after reviewed implementation/formatting.",
+      "in_memory_intermediate_kernel_lines": 816,
+      "intermediate_public_API": "No new public type or signature. Existing snapshot transaction remains intact in the first scope.",
+      "intermediate_adaptation": "The first scope uses charged source/target copying from final merge but preserves direct target field/kind writes under the old snapshot transaction. It has no Undo references. The second scope replaces these writes with the complete journal machinery, producing the exact final donor kernel."
+    },
+    "scopes": [
+      {
+        "proposal_label": "selected-copy-admission",
+        "assigned_ID": null,
+        "depends_on": "Actual admitted existing prerequisites and a reviewed source scope; no new edge is applied by this proposal. Execute before the journal scope on the same owned kernel path.",
+        "production_delta_estimate": {
+          "added": 146,
+          "deleted": 20,
+          "changed": 166,
+          "margin_to400": 234
+        },
+        "exact_source_regions": [
+          {
+            "region": "Limits copied-work documentation",
+            "final_lines": [
+              168,
+              169
+            ],
+            "purpose": "Describe selected operation/copy units without claiming allocator or deadline bounds"
+          },
+          {
+            "region": "copied_text",
+            "final_lines": [
+              238,
+              268
+            ],
+            "purpose": "Charge text before reservation and poll UTF8-safe chunks"
+          },
+          {
+            "region": "copied_datum",
+            "final_lines": [
+              269,
+              316
+            ],
+            "purpose": "Charge/copy source Datum values, flat arrays and lexemes"
+          },
+          {
+            "region": "Builder::text",
+            "final_lines": [
+              430,
+              432
+            ],
+            "purpose": "Private copied_text wrapper used by actual selected operations"
+          },
+          {
+            "region": "Builder::allocate",
+            "baseline_lines": [
+              286,
+              315
+            ],
+            "final_lines": [
+              456,
+              491
+            ],
+            "adaptation": "Take the charged known/UnknownType copy before ID reservation, omit the future Undo::Node record until journal adoption"
+          },
+          {
+            "region": "Builder::reference",
+            "baseline_lines": [
+              449,
+              470
+            ],
+            "final_lines": [
+              662,
+              683
+            ],
+            "purpose": "Charge unresolved text/target copies before calling assignment"
+          },
+          {
+            "region": "Builder::merge copied-value preparation",
+            "baseline_lines": [
+              500,
+              533
+            ],
+            "final_lines": [
+              724,
+              792
+            ],
+            "adaptation": "Charge/copy source kind/all source fields and target array Datum; use direct writes under the original snapshot transaction. Do not add journal references or remove State::Clone yet. Preserve source-first arrays, target scalar precedence and target array lexeme. Estimated merge-only delta48added/13deleted=61changed."
+          }
+        ],
+        "test_ownership": {
+          "original_RR08_cases": [
+            "merge_keeps_source_first_entries_target_lexeme_and_rolls_back_foreign_failure",
+            "kind_and_unknown_type_copies_refuse_before_allocation_or_id_reservation"
+          ],
+          "estimated_staged_test_lines": 194,
+          "source_test_ranges_used_for_estimate": [
+            [
+              1,
+              13
+            ],
+            [
+              18,
+              87
+            ],
+            [
+              118,
+              123
+            ],
+            [
+              171,
+              215
+            ],
+            [
+              235,
+              250
+            ],
+            [
+              416,
+              459
+            ]
+          ],
+          "staging_details": "Keep the real allocator/TLS, builder/assignment/string helpers and cancellation helper needed by those two original cases. Exclude unused F12-only imports and the unused Constructed import in this intermediate file. The final journal scope restores the complete unchanged486-line original regression file. This partition is source-only and uncompiled.",
+          "coordinator_existing_test_change": "Apply only the declared construction.rs max_work3->17 adjustment in this first scope because kind bytes now consume work. Preserve its spent-ID/work assertions.",
+          "authored_or_touched_upper_estimate": 363,
+          "count_basis": "166changed production+194new test lines+3changed ordinary-test lines; below900 even using the conservative combined basis."
+        },
+        "verification": [
+          "Reproduce the known/UnknownType preallocation and reservation-cancellation counterexamples against the admitted base, then run the two actual preserved RR08 cases.",
+          "Run all existing AST and current27adapter cases on exact new sources, with all source/case counts verified.",
+          "Verify source-first merge order, target lexeme, foreign refusal and rollback under the unchanged snapshot transaction.",
+          "Keep whole-State growth, large merge preallocation, full nested journal rollback and repeated finish labels explicitly OPEN for the next scope. Do not present selected helper admission as the whole RR08 repair."
+        ],
+        "source_boundary": "No journal type/fields/state changes, assign/default/datatype transaction rewrites, or finish-label implementation in this first scope. Existing snapshot overhead is a retained known parent gap, not a new accepted bound.",
+        "commit_plan": [
+          "Selected copied-value operation changes plus preserved meaningful regression subset and permitted coordinator expectation update",
+          "Exact source/counterexample/verification evidence, independent review and remaining parent gaps"
+        ]
+      },
+      {
+        "proposal_label": "journal-and-atomic-publication",
+        "assigned_ID": null,
+        "depends_on": "Reviewed selected-copy-admission composition, actual F12/current-F11 prerequisites and explicit owner handoff. This order is a proposal until the versioned graph is reviewed.",
+        "production_delta_estimate": {
+          "added": 243,
+          "deleted": 91,
+          "changed": 334,
+          "margin_to400": 66
+        },
+        "exact_source_regions": [
+          {
+            "region": "State/Undo/Builder storage and initialization",
+            "final_lines": [
+              217,
+              345
+            ],
+            "purpose": "Remove snapshot Clone only with complete undo storage and transaction bookkeeping; copied helpers from the first scope remain unchanged"
+          },
+          {
+            "region": "transaction",
+            "baseline_lines": [
+              260,
+              273
+            ],
+            "final_lines": [
+              359,
+              424
+            ],
+            "purpose": "Nested suffix rollback, outer commit clearing and cancellation/work check before successful publication"
+          },
+          {
+            "region": "record/put_field/replace_frame",
+            "final_lines": [
+              425,
+              443
+            ],
+            "purpose": "Record moved old fields/frames without cloning untouched State; Builder::text already exists"
+          },
+          {
+            "region": "allocate record and frame push",
+            "final_lines": [
+              489,
+              500
+            ],
+            "purpose": "Record allocated-node removals and frame pushes"
+          },
+          {
+            "region": "append_datatype and adopt_subrule",
+            "final_lines": [
+              516,
+              558
+            ],
+            "purpose": "Atomic growth/rollback, cancellation and frame replacement"
+          },
+          {
+            "region": "assign",
+            "final_lines": [
+              608,
+              659
+            ],
+            "purpose": "Atomic set/presence/append admission and append-length undo"
+          },
+          {
+            "region": "defaults",
+            "final_lines": [
+              684,
+              720
+            ],
+            "purpose": "Bound copied names and restore partial defaults on refusal"
+          },
+          {
+            "region": "merge journal integration",
+            "final_lines": [
+              724,
+              792
+            ],
+            "purpose": "Replace first-scope direct kind/field writes with Undo/put_field while retaining already charged source/target copying"
+          },
+          {
+            "region": "action/associate_cst/end_frame",
+            "final_lines": [
+              793,
+              837
+            ],
+            "purpose": "Journal every state effect before snapshot removal"
+          },
+          {
+            "region": "finish",
+            "baseline_lines": [
+              581,
+              652
+            ],
+            "final_lines": [
+              844,
+              930
+            ],
+            "purpose": "Charge every repeated containment-property copy and adjust borrowing to access work/cancellation fields. Estimated finish-only delta18added/3deleted=21changed."
+          }
+        ],
+        "atomic_split_constraint": "Every mutator that can run inside a transaction must record its effects before State snapshots are removed. Splitting journal replacement from merge/action/frame/CST writes would break rollback and is not proposed.",
+        "test_ownership": {
+          "final_original_regression_file_lines": 486,
+          "final_original_regression_file_sha256": "2d80e2449b9424f715925e80c250f0f5633ee0130ba9a2bd97563ea0b37bcb8d",
+          "additional_original_RR08_cases": [
+            "growing_construction_avoids_repeated_whole_state_allocation",
+            "nested_success_and_failure_restore_fields_frames_cst_and_spent_ids",
+            "scalar_copy_budget_refuses_before_large_reservation_and_work_stays_spent",
+            "cancellation_at_scalar_reservation_restores_outer_changes_and_datatype_frames",
+            "actual_f12_growth_is_measured_separately_from_actual_parser_construction",
+            "copied_work_failure_restores_partial_defaults_and_adopted_kind",
+            "finish_charges_each_containment_label_before_repeated_copying"
+          ],
+          "stage_to_final_test_delta_estimate": {
+            "added": 293,
+            "deleted": 1,
+            "changed": 294
+          },
+          "coordinator_wiring": "Register actual ast-adapter dev dependency and reconcile both locks. Keep original ordinary-test3->17 change from the first scope.",
+          "authored_or_touched_upper_estimate": 631,
+          "count_basis": "334changed production+294changed regression lines+3manifest lines; generated lock diffs reviewed separately. Actual final child counts remain required."
+        },
+        "verification": [
+          "Run all nine original RR08 regressions and all current27adapter/37AST cases, for64expected distinct final cases. Preserve original failures and exact original full regression source.",
+          "Run actual100/1000/5000core and F12 operator workloads separately, including nested rollback, deterministic cancellation, foreign/CST/spent-ID, partial defaults/kind adoption and finish-label refusal.",
+          "Freshly qualify complete combined finite parsing/structural behavior and relevant release timing/memory observations under the declared method.",
+          "Verify final combined kernel bytes equal the reviewed final donor0a3b7c3a... unless a separately reviewed demonstrable repair is needed. Any difference requires its own source/evidence disposition."
+        ],
+        "commit_plan": [
+          "Complete journal/atomic-publication and finish-label changes with the remaining preserved regressions and coordinator wiring",
+          "Fresh complete-composition checks/profiles/independent review, source seals and explicit acceptance limits"
+        ]
+      }
+    ],
+    "whole_parent_acceptance": "RR08 remains open after the first child. Final parent acceptance consumes the complete combined repair, all9originalregressions, all27adapter/37ASTcases, original100/1000/5000growth and real-caller/failure/cancellation/resource gates. Smaller child PRs do not remove, soften or independently substitute for any whole-parent obligation.",
+    "ownership_and_parallelism": "Both proposals modify the same kernel path and must run sequentially under exclusive, explicitly transferred leases. Other independent project/UI/F12/reference preparation can proceed within its own admitted ownership; these two source writers must not overlap.",
+    "required_version_review": [
+      "Review operation/test scopes and exact count methodology independently before assigning child IDs.",
+      "Adopt the new child IDs, dependencies, owner paths and whole-parent acceptance edges through the versioned completion contract; preserve existing obligations and verify graph acyclicity.",
+      "Grant source/execution leases only after adoption and actual prerequisite checks.",
+      "Recompute exact Git changed-line and authored counts after ordinary formatting before execution; seek another meaningful split if either proposed scope exceeds its cap."
+    ],
+    "no_action_claims": {
+      "new_child_ID_assigned": false,
+      "normative_plan_or_graph_changed": false,
+      "child_production_or_test_file_written": false,
+      "source_compiled_or_tested": false,
+      "execution_admitted": false,
+      "budget_exception_granted": false
+    }
+  }
+}

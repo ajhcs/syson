@@ -1,0 +1,29 @@
+from pathlib import Path
+import fcntl,hashlib,json,os,re,signal,subprocess,time
+b=Path(__file__).parent;o=b/'operator-qualification-01';o.mkdir();(o/'tmp').mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch21-operator-landing');t=Path('/workspace/worktrees/builderbob/syson/batch21-operator-tools/porting/rust-parity-evidence/C09/batch21-operator-tools');bundle=w/'backend/application/syson-sysml-import/src/main/resources/syside-cli.js';node=Path('/usr/bin/node');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();inputs=set(t.iterdir());inputs.update([bundle,node,Path(__file__)])
+for name in ['syson-ast-adapter','syson-ast','syson-ast-values','syson-reflection','syson-ast-dispatch']:inputs.update(p for p in (w/'rust/crates'/name).rglob('*') if p.is_file())
+snap=lambda:{str(p):sha(p) for p in sorted(inputs) if p.is_file()};r={'status':'RUNNING','inputs_before':snap(),'commands':[],'scope':'42 synthetic original-callback vs public Rust F12 comparisons; real parser/import/native capacity remain OPEN'}
+(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+env=dict(os.environ,CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(o/'tmp'),PYTHONDONTWRITEBYTECODE='1')
+def run(label,argv,expected=0):
+ start=time.monotonic();child=subprocess.Popen(list(map(str,argv)),cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:stdout,stderr=child.communicate(timeout=180);timed=False
+ except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);stdout,stderr=child.communicate(timeout=10);timed=True
+ (o/(label+'-stdout.txt')).write_bytes(stdout);(o/(label+'-stderr.txt')).write_bytes(stderr);row={'label':label,'argv':list(map(str,argv)),'pid':child.pid,'exit':child.returncode,'expected_exit':expected,'timed_out':timed,'wall_seconds':time.monotonic()-start};r['commands'].append(row);print(json.dumps(row),flush=True)
+ if child.returncode!=expected or timed:raise RuntimeError('Preserve failed '+label)
+ return stdout
+try:
+ manifest=o/'Cargo.toml';q=lambda p:json.dumps(str(p));manifest.write_text('[package]\nname="operator-observer"\nversion="0.0.0"\nedition="2024"\n[dependencies]\nserde_json="=1.0.151"\nsyson-ast={path='+q(w/'rust/crates/syson-ast')+'}\nsyson-ast-adapter={path='+q(w/'rust/crates/syson-ast-adapter')+'}\n[[bin]]\nname="operator-dump"\npath='+q(t/'operator_dump.rs')+'\n[workspace]\n')
+ run('rustc-version',['rustc','-vV']);run('cargo-version',['cargo','-V']);run('format',['rustfmt','--edition','2024','--check',t/'operator_dump.rs']);run('lock',['cargo','generate-lockfile','--offline','--manifest-path',manifest]);inputs.update((manifest,o/'Cargo.lock'));r['prepared_inputs_before']=snap()
+ run('native-oracle',[node,t/'operator_oracle.cjs',bundle,t/'operator_corpus.json',o/'native.json'])
+ run('rust-build',['cargo','build','--release','--offline','--locked','--jobs','1','--manifest-path',manifest,'--bin','operator-dump']);binary=Path(env['CARGO_TARGET_DIR'])/'release/operator-dump';import shutil;shutil.copy2(binary,o/'operator-dump');inputs.add(o/'operator-dump')
+ (o/'rust.json').write_bytes(run('rust-capture',[o/'operator-dump',t/'operator_corpus.json']))
+ reports=[]
+ for label,flags in [('normal',[]),('optimized',['-O'])]:
+  report=o/(label+'-comparison.json');run(label,['python3',*flags,t/'compare_operator.py','--corpus',t/'operator_corpus.json','--native',o/'native.json','--rust',o/'rust.json','--out',report,'--self-test'],1);reports.append(json.loads(report.read_text()))
+ if reports[0]!=reports[1]:raise RuntimeError('Optimized report differs')
+ d=reports[0];r.update(status='CAPTURED_42_OPERATOR_CASES;REQUIRED_DIFFERENCES_AND_OPEN_ITEMS_RETAINED',cases=len(d['case_results']),differences=len(d['differences']),open_items=len(d['open_items']),controls=d['controls'],normal_optimized_identical=True)
+except BaseException as e:r.update(status='FAIL_TERMINAL',error=repr(e));raise
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=all(r['inputs_after'].get(name)==h for name,h in r['inputs_before'].items());r['artifacts']={p.name:sha(p) for p in o.iterdir() if p.is_file() and p.name!='receipt.json'};(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps({key:r[key] for key in ['status','source_unchanged']}))
+ if not r['source_unchanged']:raise RuntimeError('Source drift')

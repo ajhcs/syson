@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "contract_id": "SYSON-RUST-COMPLETION/1.0.1",
-  "version": "1.0.1",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.2",
+  "version": "1.0.2",
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "document": "COMPLETION-CONTRACT.md",
   "packet_schema": "acceptance-packet.schema.json",
@@ -677,6 +677,8 @@
     "RR06",
     "RR07",
     "RR08",
+    "RR08a",
+    "RR08b",
     "RR09",
     "RR10",
     "RR11",
@@ -1545,6 +1547,8 @@
       "RR06",
       "RR07",
       "RR08",
+      "RR08a",
+      "RR08b",
       "RR09",
       "RR10",
       "RR11",
@@ -1659,5 +1663,126 @@
       }
     },
     "preserved": "All 778 current unit IDs, 55 historical implementation/evidence records, scope, dependencies, ownership, cases, performance policy and holds; actual finite-import consuming gates and downstream caller obligations remain required. No retroactive promotion."
+  },
+  "repair_splits": {
+    "RR08": {
+      "amendment": {
+        "path": "amendments/1.0.2-rr08-split.md",
+        "sha256": "4d10e2784ae5918dda635509b88be9c61ee24aa31ba44dfeff2a3e2d65359167"
+      },
+      "parent": "RR08",
+      "children": [
+        "RR08a",
+        "RR08b"
+      ],
+      "implementation_order": [
+        "RR08a",
+        "RR08b",
+        "RR08"
+      ],
+      "count_basis": "added_plus_deleted",
+      "production_lines_max": 400,
+      "authored_lines_max": 900,
+      "original_unit_count": 778,
+      "original_unit_ids_sha256": "f527335d620dfa010614ff794d3c0b074c24378d191c3d90d8836896e4ca18ea",
+      "original_parent_keys": [
+        "id",
+        "title",
+        "lane",
+        "state",
+        "dependencies",
+        "external_prs",
+        "paths",
+        "source_refs",
+        "tasks",
+        "verification",
+        "commit_plan",
+        "budget",
+        "ownership",
+        "done_when",
+        "rereview_findings",
+        "owner_plan_units",
+        "coordinator_wiring"
+      ],
+      "original_parent_sha256": "a57a5d4b50000d5f7c9f69996e20c476c3f9524a2cb7c678f2a2375947d54732",
+      "original_paths": [
+        "rust/crates/syson-ast/src/lib.rs",
+        "rust/crates/syson-ast/tests/rr08_regression.rs",
+        "porting/rust-parity-evidence/RR08/"
+      ],
+      "original_dependencies": [],
+      "parent_paths": [
+        "porting/rust-parity-evidence/RR08/"
+      ],
+      "child_paths": {
+        "RR08a": [
+          "rust/crates/syson-ast/src/lib.rs",
+          "rust/crates/syson-ast/tests/rr08_regression.rs",
+          "porting/rust-parity-evidence/RR08a/"
+        ],
+        "RR08b": [
+          "rust/crates/syson-ast/src/lib.rs",
+          "rust/crates/syson-ast/tests/rr08_regression.rs",
+          "porting/rust-parity-evidence/RR08b/"
+        ]
+      },
+      "case_partition": {
+        "RR08a": [
+          "merge_keeps_source_first_entries_target_lexeme_and_rolls_back_foreign_failure",
+          "kind_and_unknown_type_copies_refuse_before_allocation_or_id_reservation"
+        ],
+        "RR08b": [
+          "growing_construction_avoids_repeated_whole_state_allocation",
+          "nested_success_and_failure_restore_fields_frames_cst_and_spent_ids",
+          "scalar_copy_budget_refuses_before_large_reservation_and_work_stays_spent",
+          "cancellation_at_scalar_reservation_restores_outer_changes_and_datatype_frames",
+          "actual_f12_growth_is_measured_separately_from_actual_parser_construction",
+          "copied_work_failure_restores_partial_defaults_and_adopted_kind",
+          "finish_charges_each_containment_label_before_repeated_copying"
+        ]
+      },
+      "production_changed_estimates": {
+        "RR08a": 166,
+        "RR08b": 334
+      },
+      "lease_policy": "Sequential exclusive source leases on the same kernel/test paths, granted only after amendment adoption, actual prerequisite admission and explicit owner handoff. This plan amendment grants no source or execution lease.",
+      "whole_parent_gates": {
+        "original_rr08_cases": [
+          "merge_keeps_source_first_entries_target_lexeme_and_rolls_back_foreign_failure",
+          "kind_and_unknown_type_copies_refuse_before_allocation_or_id_reservation",
+          "growing_construction_avoids_repeated_whole_state_allocation",
+          "nested_success_and_failure_restore_fields_frames_cst_and_spent_ids",
+          "scalar_copy_budget_refuses_before_large_reservation_and_work_stays_spent",
+          "cancellation_at_scalar_reservation_restores_outer_changes_and_datatype_frames",
+          "actual_f12_growth_is_measured_separately_from_actual_parser_construction",
+          "copied_work_failure_restores_partial_defaults_and_adopted_kind",
+          "finish_charges_each_containment_label_before_repeated_copying"
+        ],
+        "final_ast_cases": 37,
+        "final_adapter_cases": 27,
+        "current_f11_cases": 15,
+        "original_f12_cases": 12,
+        "workload_points": [
+          100,
+          1000,
+          5000
+        ],
+        "caller_and_failure_checks": [
+          "actual parser construction",
+          "actual F12 operator postprocessing",
+          "nested success and failure rollback",
+          "deterministic cancellation",
+          "refusal before large reservation",
+          "foreign handles",
+          "CST restoration",
+          "spent-ID non-reuse",
+          "partial defaults and adopted kind",
+          "repeated finish containment-label copies"
+        ],
+        "measurement_method": "Release builds; identical setup outside timing; two warmups and seven measured repetitions per workload; raw min/median/max. Keep allocation traffic, live/retained memory, RSS/HWM and latency separate; no p95 claim from seven samples.",
+        "qualification": "Fresh complete-composition source, prerequisite, input and artifact identities; original failed evidence; all affected suites and actual callers; independent review. Preserve known 79 $children differences and 172 OPEN items in existing families; explain any new required finite mismatch before landing.",
+        "acceptance_boundary": "Whole RR08 stays OPEN after RR08a. Child qualification does not establish native child-cache/reference/CST lifecycle, full parser/application acceptance, capacity, or any held-owner release."
+      }
+    }
   }
 }

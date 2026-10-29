@@ -85,7 +85,7 @@
         "Retain reloadable normal publication under explicit 4 MiB raw/canonical and value-depth-128 admission. Use the private no-output counter once at import/changed commit; preserve history/revision atomicity and Bundle limit-error family. Provisional staged clones remain outside this publication guarantee."
       ],
       "verification": [
-        "Retain root observed vendor object\u2192123 counterexample red then green; actual Editor edit\u2192bridge\u2192save/reopen with both marker keys and unchanged surrounding data.",
+        "Retain root observed vendor object→123 counterexample red then green; actual Editor edit→bridge→save/reopen with both marker keys and unchanged surrounding data.",
         "Freeze exact prerequisite/source/input hashes, preserve original failing evidence, run all affected final-source tests and independent review; no old PASS attribution to changed source.",
         "Use one serialized offline compiler job and fresh owned runtime/file/DB/browser evidence only where required; no shared production state."
       ],
@@ -203,7 +203,7 @@
       ],
       "tasks": [
         "Expose a reusable bounded counting/writing API over authoritative document values. Charge before allocation; preserve serializer and identity contracts. Failure cannot publish partial owned output or mutate the document.",
-        "Promote and reuse RR02\u2019s private canonical admission counter as the shared bounded writer/count API; do not introduce a second independent serializer or weaken normal-publication reloadability."
+        "Promote and reuse RR02’s private canonical admission counter as the shared bounded writer/count API; do not introduce a second independent serializer or weaken normal-publication reloadability."
       ],
       "verification": [
         "Reject the dense 0.5 MiB, depth-60 fixture before a 16 MiB allocation. Verify encoded boundaries, Unicode/escape growth, cancellation and raw identity.",
@@ -405,14 +405,14 @@
       "title": "Bound AST rollback snapshot work and cancellation",
       "lane": "rereview-repairs",
       "state": "PLANNED_NOT_IMPLEMENTED",
-      "dependencies": [],
+      "dependencies": [
+        "RR08b"
+      ],
       "external_prs": [
         11,
         41
       ],
       "paths": [
-        "rust/crates/syson-ast/src/lib.rs",
-        "rust/crates/syson-ast/tests/rr08_regression.rs",
         "porting/rust-parity-evidence/RR08/"
       ],
       "source_refs": [
@@ -458,7 +458,369 @@
           "rust/crates/syson-ast/tests/construction.rs"
         ],
         "policy": "Coordinator-only existing caller dependency registration/lock reconciliation after ownership admission. For RR08, update the single inherited copied-work expectation from3 to17 without weakening spent-ID checks. Serialize these shared edits and requalify affected suites; these are not author leases."
+      },
+      "acceptance_children": [
+        "RR08a",
+        "RR08b"
+      ],
+      "delegated_implementation": {
+        "children": [
+          "RR08a",
+          "RR08b"
+        ],
+        "original_paths": [
+          "rust/crates/syson-ast/src/lib.rs",
+          "rust/crates/syson-ast/tests/rr08_regression.rs",
+          "porting/rust-parity-evidence/RR08/"
+        ],
+        "original_dependencies": []
+      },
+      "whole_parent_gates": {
+        "original_rr08_cases": [
+          "merge_keeps_source_first_entries_target_lexeme_and_rolls_back_foreign_failure",
+          "kind_and_unknown_type_copies_refuse_before_allocation_or_id_reservation",
+          "growing_construction_avoids_repeated_whole_state_allocation",
+          "nested_success_and_failure_restore_fields_frames_cst_and_spent_ids",
+          "scalar_copy_budget_refuses_before_large_reservation_and_work_stays_spent",
+          "cancellation_at_scalar_reservation_restores_outer_changes_and_datatype_frames",
+          "actual_f12_growth_is_measured_separately_from_actual_parser_construction",
+          "copied_work_failure_restores_partial_defaults_and_adopted_kind",
+          "finish_charges_each_containment_label_before_repeated_copying"
+        ],
+        "final_ast_cases": 37,
+        "final_adapter_cases": 27,
+        "current_f11_cases": 15,
+        "original_f12_cases": 12,
+        "workload_points": [
+          100,
+          1000,
+          5000
+        ],
+        "caller_and_failure_checks": [
+          "actual parser construction",
+          "actual F12 operator postprocessing",
+          "nested success and failure rollback",
+          "deterministic cancellation",
+          "refusal before large reservation",
+          "foreign handles",
+          "CST restoration",
+          "spent-ID non-reuse",
+          "partial defaults and adopted kind",
+          "repeated finish containment-label copies"
+        ],
+        "measurement_method": "Release builds; identical setup outside timing; two warmups and seven measured repetitions per workload; raw min/median/max. Keep allocation traffic, live/retained memory, RSS/HWM and latency separate; no p95 claim from seven samples.",
+        "qualification": "Fresh complete-composition source, prerequisite, input and artifact identities; original failed evidence; all affected suites and actual callers; independent review. Preserve known 79 $children differences and 172 OPEN items in existing families; explain any new required finite mismatch before landing.",
+        "acceptance_boundary": "Whole RR08 stays OPEN after RR08a. Child qualification does not establish native child-cache/reference/CST lifecycle, full parser/application acceptance, capacity, or any held-owner release."
       }
+    },
+    {
+      "id": "RR08a",
+      "title": "Admit selected AST copies before reservation",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [],
+      "external_prs": [
+        11,
+        41
+      ],
+      "paths": [
+        "rust/crates/syson-ast/src/lib.rs",
+        "rust/crates/syson-ast/tests/rr08_regression.rs",
+        "porting/rust-parity-evidence/RR08a/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json",
+        "amendments/1.0.2-rr08-split.md"
+      ],
+      "split_parent": "RR08",
+      "budget_counting": "added_plus_deleted",
+      "tasks": [
+        "Charge copied_text/copied_datum, selected kind allocation and reference/merge values before reservation; poll UTF-8-safe scalar chunks. Keep State::Clone and the existing whole-State snapshot transaction.",
+        "Preserve source-first merged arrays, target scalar precedence and target array lexeme. All source fields are copied and charged before shadowed entries are discarded; do not claim only retained fields are copied.",
+        "Do not introduce Undo, remove snapshots, rewrite assign/default/datatype transactions or implement finish-label charging in this child."
+      ],
+      "verification": [
+        "Reproduce the known/UnknownType preallocation and reservation-cancellation counterexamples against the admitted base, then run the two actual preserved RR08 cases.",
+        "Run all existing AST and current 27 adapter cases on exact new sources, with all source/case counts verified.",
+        "Verify source-first merge order, target lexeme, foreign refusal and rollback under the unchanged snapshot transaction.",
+        "Keep whole-State growth, large merge preallocation, full nested journal rollback and repeated finish labels explicitly OPEN for the next scope. Do not present selected helper admission as the whole RR08 repair.",
+        "Freeze exact staged source/base/input hashes and recompute actual added-plus-deleted production and authored counts after ordinary formatting before execution; split again if either cap is exceeded."
+      ],
+      "commit_plan": [
+        "Selected copied-value operation changes plus preserved meaningful regression subset and permitted coordinator expectation update",
+        "Exact source/counterexample/verification evidence, independent review and remaining parent gaps"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "production_delta_estimate": {
+        "added": 146,
+        "deleted": 20,
+        "changed": 166,
+        "margin_to400": 234
+      },
+      "authored_or_touched_upper_estimate": 363,
+      "estimate_disclaimer": "Source-only conservative SequenceMatcher estimates; actual Git counts required on the ordinary-formatted admitted composition. Intermediate adaptations mean child estimates need not sum to the full donor diff.",
+      "source_regions": [
+        {
+          "region": "Limits copied-work documentation",
+          "final_lines": [
+            168,
+            169
+          ],
+          "purpose": "Describe selected operation/copy units without claiming allocator or deadline bounds"
+        },
+        {
+          "region": "copied_text",
+          "final_lines": [
+            238,
+            268
+          ],
+          "purpose": "Charge text before reservation and poll UTF8-safe chunks"
+        },
+        {
+          "region": "copied_datum",
+          "final_lines": [
+            269,
+            316
+          ],
+          "purpose": "Charge/copy source Datum values, flat arrays and lexemes"
+        },
+        {
+          "region": "Builder::text",
+          "final_lines": [
+            430,
+            432
+          ],
+          "purpose": "Private copied_text wrapper used by actual selected operations"
+        },
+        {
+          "region": "Builder::allocate",
+          "baseline_lines": [
+            286,
+            315
+          ],
+          "final_lines": [
+            456,
+            491
+          ],
+          "adaptation": "Take the charged known/UnknownType copy before ID reservation, omit the future Undo::Node record until journal adoption"
+        },
+        {
+          "region": "Builder::reference",
+          "baseline_lines": [
+            449,
+            470
+          ],
+          "final_lines": [
+            662,
+            683
+          ],
+          "purpose": "Charge unresolved text/target copies before calling assignment"
+        },
+        {
+          "region": "Builder::merge copied-value preparation",
+          "baseline_lines": [
+            500,
+            533
+          ],
+          "final_lines": [
+            724,
+            792
+          ],
+          "adaptation": "Charge/copy source kind/all source fields and target array Datum; use direct writes under the original snapshot transaction. Do not add journal references or remove State::Clone yet. Preserve source-first arrays, target scalar precedence and target array lexeme. Estimated merge-only delta48added/13deleted=61changed."
+        }
+      ],
+      "original_case_requirements": [
+        "merge_keeps_source_first_entries_target_lexeme_and_rolls_back_foreign_failure",
+        "kind_and_unknown_type_copies_refuse_before_allocation_or_id_reservation"
+      ],
+      "ownership": "Sequential exclusive source leases on the same kernel/test paths, granted only after amendment adoption, actual prerequisite admission and explicit owner handoff. This plan amendment grants no source or execution lease.",
+      "done_when": "This bounded source and its preserved original cases pass independent qualification on exact admitted inputs. Whole-parent obligations remain required; no full feature acceptance follows from a child PR.",
+      "rereview_findings": [
+        "PARSER-RR-04"
+      ],
+      "owner_plan_units": [
+        "P12",
+        "P14",
+        "P18",
+        "P184"
+      ]
+    },
+    {
+      "id": "RR08b",
+      "title": "Journal AST mutations and publish atomically",
+      "lane": "rereview-repairs",
+      "state": "PLANNED_NOT_IMPLEMENTED",
+      "dependencies": [
+        "RR08a"
+      ],
+      "external_prs": [
+        11,
+        41
+      ],
+      "paths": [
+        "rust/crates/syson-ast/src/lib.rs",
+        "rust/crates/syson-ast/tests/rr08_regression.rs",
+        "porting/rust-parity-evidence/RR08b/"
+      ],
+      "source_refs": [
+        "rereview-20261026/model-review/findings.json",
+        "rereview-20261026/parser-review/findings.json",
+        "rereview-20261026/platform-review/findings.json",
+        "rereview-20261026/ui-findings.json",
+        "amendments/1.0.2-rr08-split.md"
+      ],
+      "split_parent": "RR08",
+      "budget_counting": "added_plus_deleted",
+      "tasks": [
+        "Replace snapshots with complete nested suffix undo, outer commit clearing and cancellation/work admission before publication. Add recording across allocation, frames, append_datatype, adopt_subrule, assign, defaults, merge, action, associate_cst and end_frame together.",
+        "Remove State::Clone only when every transactional mutator records its effects. Preserve spent work/IDs, owner identity, frames, fields, kind and CST on nested failure and cancellation.",
+        "Charge each repeated containment-property name before finish copies it. Restore the complete original nine-case regression file and qualify the combined repair through the parent gates."
+      ],
+      "verification": [
+        "Run all nine original RR08 regressions and all current 27 adapter/37 AST cases, for64expected distinct final cases. Preserve original failures and exact original full regression source.",
+        "Run actual 100/1000/5000core and F12 operator workloads separately, including nested rollback, deterministic cancellation, foreign/CST/spent-ID, partial defaults/kind adoption and finish-label refusal.",
+        "Freshly qualify complete combined finite parsing/structural behavior and relevant release timing/memory observations under the declared method.",
+        "Verify final combined kernel bytes equal the reviewed final donor 0a3b7c3a... unless a separately reviewed demonstrable repair is needed. Any difference requires its own source/evidence disposition.",
+        "Freeze exact staged source/base/input hashes and recompute actual added-plus-deleted production and authored counts after ordinary formatting before execution; split again if either cap is exceeded."
+      ],
+      "commit_plan": [
+        "Complete journal/atomic-publication and finish-label changes with the remaining preserved regressions and coordinator wiring",
+        "Fresh complete-composition checks/profiles/independent review, source seals and explicit acceptance limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "split_rule": "Split into numbered behavior-family children before exceeding either limit; generated/evidence data is a separate review block."
+      },
+      "production_delta_estimate": {
+        "added": 243,
+        "deleted": 91,
+        "changed": 334,
+        "margin_to400": 66
+      },
+      "authored_or_touched_upper_estimate": 631,
+      "estimate_disclaimer": "Source-only conservative SequenceMatcher estimates; actual Git counts required on the ordinary-formatted admitted composition. Intermediate adaptations mean child estimates need not sum to the full donor diff.",
+      "source_regions": [
+        {
+          "region": "State/Undo/Builder storage and initialization",
+          "final_lines": [
+            217,
+            345
+          ],
+          "purpose": "Remove snapshot Clone only with complete undo storage and transaction bookkeeping; copied helpers from the first scope remain unchanged"
+        },
+        {
+          "region": "transaction",
+          "baseline_lines": [
+            260,
+            273
+          ],
+          "final_lines": [
+            359,
+            424
+          ],
+          "purpose": "Nested suffix rollback, outer commit clearing and cancellation/work check before successful publication"
+        },
+        {
+          "region": "record/put_field/replace_frame",
+          "final_lines": [
+            425,
+            443
+          ],
+          "purpose": "Record moved old fields/frames without cloning untouched State; Builder::text already exists"
+        },
+        {
+          "region": "allocate record and frame push",
+          "final_lines": [
+            489,
+            500
+          ],
+          "purpose": "Record allocated-node removals and frame pushes"
+        },
+        {
+          "region": "append_datatype and adopt_subrule",
+          "final_lines": [
+            516,
+            558
+          ],
+          "purpose": "Atomic growth/rollback, cancellation and frame replacement"
+        },
+        {
+          "region": "assign",
+          "final_lines": [
+            608,
+            659
+          ],
+          "purpose": "Atomic set/presence/append admission and append-length undo"
+        },
+        {
+          "region": "defaults",
+          "final_lines": [
+            684,
+            720
+          ],
+          "purpose": "Bound copied names and restore partial defaults on refusal"
+        },
+        {
+          "region": "merge journal integration",
+          "final_lines": [
+            724,
+            792
+          ],
+          "purpose": "Replace first-scope direct kind/field writes with Undo/put_field while retaining already charged source/target copying"
+        },
+        {
+          "region": "action/associate_cst/end_frame",
+          "final_lines": [
+            793,
+            837
+          ],
+          "purpose": "Journal every state effect before snapshot removal"
+        },
+        {
+          "region": "finish",
+          "baseline_lines": [
+            581,
+            652
+          ],
+          "final_lines": [
+            844,
+            930
+          ],
+          "purpose": "Charge every repeated containment-property copy and adjust borrowing to access work/cancellation fields. Estimated finish-only delta18added/3deleted=21changed."
+        }
+      ],
+      "original_case_requirements": [
+        "merge_keeps_source_first_entries_target_lexeme_and_rolls_back_foreign_failure",
+        "kind_and_unknown_type_copies_refuse_before_allocation_or_id_reservation",
+        "growing_construction_avoids_repeated_whole_state_allocation",
+        "nested_success_and_failure_restore_fields_frames_cst_and_spent_ids",
+        "scalar_copy_budget_refuses_before_large_reservation_and_work_stays_spent",
+        "cancellation_at_scalar_reservation_restores_outer_changes_and_datatype_frames",
+        "actual_f12_growth_is_measured_separately_from_actual_parser_construction",
+        "copied_work_failure_restores_partial_defaults_and_adopted_kind",
+        "finish_charges_each_containment_label_before_repeated_copying"
+      ],
+      "ownership": "Sequential exclusive source leases on the same kernel/test paths, granted only after amendment adoption, actual prerequisite admission and explicit owner handoff. This plan amendment grants no source or execution lease.",
+      "done_when": "This bounded source and its preserved original cases pass independent qualification on exact admitted inputs. Whole-parent obligations remain required; no full feature acceptance follows from a child PR.",
+      "rereview_findings": [
+        "PARSER-RR-04"
+      ],
+      "owner_plan_units": [
+        "P12",
+        "P14",
+        "P18",
+        "P184"
+      ]
     },
     {
       "id": "RR09",
