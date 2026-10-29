@@ -1,0 +1,59 @@
+from pathlib import Path
+import copy, hashlib, json, os, subprocess, types
+b = Path(__file__).parent
+o = b / 'c09b-findings-01'
+o.mkdir()
+w = Path('/workspace/worktrees/builderbob/syson/batch23-comment-comparison')
+source = w / 'porting/rust-parity-evidence/C09/batch22-comment-comparison/compare_p01.py'
+raw = source.read_bytes()
+if hashlib.sha256(raw).hexdigest() != '16daa02867fcbb06cafc12f67d14c9d21f7898646392dcf15ecb12584c1d10a8':
+    raise ValueError('Unreviewed source')
+(o / 'executed-comparator.py').write_bytes(raw)
+(o / 'executed-runner.py').write_bytes(Path(__file__).read_bytes())
+module = types.ModuleType('c09b_findings')
+module.__file__ = str(source)
+exec(compile(raw, str(source), 'exec'), module.__dict__)
+capture = module.load_capture(source.with_name('capture_p01.py'))
+q = b / 'p01-qualification-06'
+constructor = w / 'porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py'
+blobs = {'corpus': (b / 'p01-corpus-v2.json').read_bytes(), 'native': (q / 'native-comments.json').read_bytes(), 'rust': (q / 'rust-comments.json').read_bytes(), 'receipt': (q / 'receipt.json').read_bytes()}
+def compared(native, rust):
+    mutated = dict(blobs, native=json.dumps(native).encode(), rust=json.dumps(rust).encode())
+    context = capture.admit(*(mutated[k] for k in ['corpus', 'native', 'rust', 'receipt']), constructor)
+    return module.compare(context, capture)
+native, rust = json.loads(blobs['native']), json.loads(blobs['rust'])
+results = [{'case': 'baseline-25', 'difference_count': compared(native, rust)['difference_count']}]
+for kind, cid in [('known-absent-name', '01-LF'), ('partial-reference-text', '05-quoted-slashes')]:
+    n, r = copy.deepcopy(native), copy.deepcopy(rust)
+    nc = next(c for c in n['cases'] if c['id'] == cid)
+    rc = next(c for c in r['cases'] if c['id'] == cid)
+    obj = next(o for o in nc['tree']['objects'] if o['kind'] == 'reference')
+    obj['properties'] = [p for p in obj['properties'] if p['key'] != '$refNode']
+    obj['property_keys'].remove('$refNode')
+    missing = compared(n, r)
+    if kind == 'known-absent-name':
+        node = next(n for n in rc['outcome']['nodes'] if n['id'] == rc['outcome']['root'])
+        node['fields']['declaredName'] = {'lexeme': None, 'value': {'kind': 'string', 'units': [88]}}
+    else:
+        node = next(n for n in rc['outcome']['nodes'] if n['node_type'] == 'TypeReference')
+        node['fields']['parts']['value']['items'][1]['value']['text'] += '_changed'
+    report = compared(n, r)
+    row = next(c for c in report['cases'] if c['id'] == cid)
+    result = {'case': kind, 'missing_information_alone': next(c for c in missing['cases'] if c['id'] == cid)['status'], 'changed_meaning_status': row['status'], 'difference_count': report['difference_count'], 'actual_silent_difference': not row['differences']}
+    if not result['actual_silent_difference']:
+        raise ValueError('Did not reproduce ' + kind)
+    results.append(result)
+    (o / (kind + '-native.json')).write_text(json.dumps(n, indent=2) + '\n')
+    (o / (kind + '-rust.json')).write_text(json.dumps(r, indent=2) + '\n')
+    (o / (kind + '-report.json')).write_text(json.dumps(report, indent=2) + '\n')
+argv = ['/usr/bin/python3', '-B', str(source), '--corpus', str(b / 'p01-corpus-v2.json'), '--native', str(q / 'native-comments.json'), '--rust', str(q / 'rust-comments.json'), '--constructor-comparator', str(constructor), '--rust-receipt', str(q / 'receipt.json'), '--self-test']
+env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ['HOME'], 'PYTHONDONTWRITEBYTECODE': '1'}
+run = subprocess.run(argv, cwd=o, env=env, capture_output=True, timeout=120)
+(o / 'self-test-stdout.json').write_bytes(run.stdout)
+(o / 'self-test-stderr.txt').write_bytes(run.stderr)
+result = json.loads(run.stdout)
+if run.returncode != 2 or 'wrong mutation rejection: native-root' not in result.get('error', ''):
+    raise ValueError('Expected native-root control failure not observed')
+record = {'source_sha256': hashlib.sha256(raw).hexdigest(), 'results': results, 'self_test': {'argv': argv, 'exit': run.returncode, 'result': result}, 'state': 'REPRODUCED_2_SILENT_DIFFERENCES_AND_CONTROL_FALSE_REJECT', 'full_parity_claimed': False}
+(o / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+print(json.dumps(record))
