@@ -93,14 +93,36 @@ fn check(cancel: &AtomicBool) -> Result<(), Error> {
         Ok(())
     }
 }
-fn lex<'a>(source: &'a str, maximum: usize, cancel: &AtomicBool) -> Result<Vec<Token<'a>>, Error> {
+struct Lexed<'a> {
+    tokens: Vec<Token<'a>>,
+    hidden_note_extent: Option<(usize, usize)>,
+}
+fn lex<'a>(source: &'a str, maximum: usize, cancel: &AtomicBool) -> Result<Lexed<'a>, Error> {
     let mut tokens = Vec::new();
+    let mut hidden_note_extent: Option<(usize, usize)> = None;
     let mut i = 0;
     while i < source.len() {
         check(cancel)?;
         let byte = source.as_bytes()[i];
         if byte.is_ascii_whitespace() {
             i += 1;
+            continue;
+        }
+        if byte == b'/' && source.as_bytes().get(i + 1) == Some(&b'/') {
+            // Native //* multiline notes overlap this prefix and remain outside
+            // this finite lexical family. Never discard semantic /* comments.
+            if source.as_bytes().get(i + 2) == Some(&b'*') {
+                return Err(Error::Unsupported { offset: i });
+            }
+            let start = i;
+            i += 2;
+            while i < source.len() && !matches!(source.as_bytes()[i], b'\r' | b'\n') {
+                if i.is_multiple_of(1024) {
+                    check(cancel)?;
+                }
+                i += 1;
+            }
+            hidden_note_extent = Some((hidden_note_extent.map_or(start, |(first, _)| first), i));
             continue;
         }
         if tokens.len() == maximum {
@@ -153,7 +175,10 @@ fn lex<'a>(source: &'a str, maximum: usize, cancel: &AtomicBool) -> Result<Vec<T
             name,
         });
     }
-    Ok(tokens)
+    Ok(Lexed {
+        tokens,
+        hidden_note_extent,
+    })
 }
 struct Parser<'a, 'b> {
     source: &'a str,
@@ -336,10 +361,13 @@ impl Adapter {
         if source.len() > limits.source_bytes {
             return Err(Error::Limit);
         }
-        let tokens = lex(source, limits.tokens, &cancel)?;
+        let lexed = lex(source, limits.tokens, &cancel)?;
+        // Native CST falls back to hidden notes only when no visible token exists.
+        // Whitespace alone has no CST extent.
+        let (empty_start, empty_end) = lexed.hidden_note_extent.unwrap_or((0, 0));
         let mut parser = Parser {
             source,
-            tokens,
+            tokens: lexed.tokens,
             at: 0,
             count: 0,
             limits,
@@ -348,8 +376,11 @@ impl Adapter {
         let children = parser.list(false, 0)?;
         let root = Declaration {
             kind: "Namespace",
-            start: parser.tokens.first().map_or(0, |token| token.start),
-            end: parser.tokens.last().map_or(0, |token| token.end),
+            start: parser
+                .tokens
+                .first()
+                .map_or(empty_start, |token| token.start),
+            end: parser.tokens.last().map_or(empty_end, |token| token.end),
             name: None,
             children,
             typing: Vec::new(),

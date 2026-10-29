@@ -251,7 +251,7 @@ fn valid_source_outside_whitelist_is_explicitly_unsupported() {
         "part x;",
         "part x: T {}",
         "package <short> Long;",
-        "package P; // comment",
+        "package P; //* comment",
         "port def P;",
         "part def D :> B;",
         "package P;\u{feff}",
