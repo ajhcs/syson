@@ -5,8 +5,8 @@
 //! Behavioral references and limits are recorded in porting/ast/README.md.
 use std::collections::{BTreeMap, BTreeSet};
 use std::sync::{
-    Arc,
     atomic::{AtomicBool, AtomicU64, Ordering},
+    Arc,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]

@@ -4,8 +4,8 @@ use std::{
     alloc::{GlobalAlloc, Layout, System},
     cell::{Cell, RefCell},
     sync::{
-        Arc,
         atomic::{AtomicBool, Ordering},
+        Arc,
     },
 };
 use syson_ast::{Assignment, Builder, Datum, Error, Lexeme, Limits, Reflection, Slot, Value};
