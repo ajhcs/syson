@@ -229,6 +229,85 @@ pub struct Builder {
     next_id: u64,
     state: State,
 }
+fn copied_text(
+    text: &str,
+    work: &mut usize,
+    limit: usize,
+    cancel: &AtomicBool,
+) -> Result<String, Error> {
+    if cancel.load(Ordering::Relaxed) {
+        return Err(Error::Cancelled);
+    }
+    *work = work.checked_add(text.len()).ok_or(Error::Budget)?;
+    if *work > limit {
+        return Err(Error::Budget);
+    }
+    let mut result = String::with_capacity(text.len());
+    let mut start = 0;
+    while start < text.len() {
+        if cancel.load(Ordering::Relaxed) {
+            return Err(Error::Cancelled);
+        }
+        let mut end = (start + 4096).min(text.len());
+        while !text.is_char_boundary(end) {
+            end -= 1;
+        }
+        result.push_str(&text[start..end]);
+        start = end;
+    }
+    if cancel.load(Ordering::Relaxed) {
+        return Err(Error::Cancelled);
+    }
+    Ok(result)
+}
+fn copied_datum(
+    d: &Datum,
+    work: &mut usize,
+    limit: usize,
+    cancel: &AtomicBool,
+) -> Result<Datum, Error> {
+    if cancel.load(Ordering::Relaxed) {
+        return Err(Error::Cancelled);
+    }
+    *work = work.checked_add(1).ok_or(Error::Budget)?;
+    if *work > limit {
+        return Err(Error::Budget);
+    }
+    let lexeme = d
+        .lexeme
+        .as_ref()
+        .map(|x| -> Result<Lexeme, Error> {
+            Ok(Lexeme {
+                text: copied_text(&x.text, work, limit, cancel)?,
+                span: x.span.clone(),
+            })
+        })
+        .transpose()?;
+    let value = match &d.value {
+        Value::String(s) => Value::String(copied_text(s, work, limit, cancel)?),
+        Value::UnresolvedReference {
+            text: s,
+            target_type,
+        } => Value::UnresolvedReference {
+            text: copied_text(s, work, limit, cancel)?,
+            target_type: copied_text(target_type, work, limit, cancel)?,
+        },
+        Value::Array(values) => {
+            // Validated builder arrays are flat. Copy entries individually and
+            // charge each before vector growth; nested containment stays refused.
+            let mut result = Vec::new();
+            for value in values {
+                if cancel.load(Ordering::Relaxed) {
+                    return Err(Error::Cancelled);
+                }
+                result.push(copied_datum(value, work, limit, cancel)?);
+            }
+            Value::Array(result)
+        }
+        value => value.clone(),
+    };
+    Ok(Datum { value, lexeme })
+}
 impl Builder {
     pub fn new(
         reflection: Reflection,
@@ -254,6 +333,9 @@ impl Builder {
             return Err(Error::Budget);
         }
         Ok(())
+    }
+    fn text(&mut self, text: &str) -> Result<String, Error> {
+        copied_text(text, &mut self.work, self.limits.max_work, &self.cancel)
     }
     /// Roll back nodes, frames and CST associations on Err. IDs/work are never recycled.
     /// Panics are not a rollback API; callers must return construction errors.
@@ -289,11 +371,16 @@ impl Builder {
         origin: Option<Lexeme>,
     ) -> Result<NodeId, Error> {
         self.charge(1 + origin.as_ref().map_or(0, |x| x.text.len()))?;
-        if let Some(k) = kind {
-            if !self.reflection.types.contains_key(k) {
-                return Err(Error::UnknownType(k.to_owned()));
+        let kind = match kind {
+            Some(k) => {
+                let copied = self.text(k)?;
+                if !self.reflection.types.contains_key(k) {
+                    return Err(Error::UnknownType(copied));
+                }
+                Some(copied)
             }
-        }
+            None => None,
+        };
         if self.state.nodes.len() >= self.limits.max_nodes {
             return Err(Error::Budget);
         }
@@ -305,7 +392,7 @@ impl Builder {
         self.state.nodes.insert(
             id,
             Node {
-                kind: kind.map(str::to_owned),
+                kind,
                 fields: BTreeMap::new(),
                 origin,
                 container: None,
@@ -455,8 +542,8 @@ impl Builder {
         target_type: &str,
     ) -> Result<(), Error> {
         let value = Value::UnresolvedReference {
-            text: lexeme.text.clone(),
-            target_type: target_type.to_owned(),
+            text: self.text(&lexeme.text)?,
+            target_type: self.text(target_type)?,
         };
         self.assign(
             id,
@@ -502,27 +589,61 @@ impl Builder {
             if target == source {
                 return Err(Error::SelfMerge);
             }
-            let src = b.node(source)?.clone();
+            b.node(source)?;
             b.node(target)?;
-            b.charge(1 + src.fields.len())?;
-            let adopted = b.node(target)?.kind.is_none() && src.kind.is_some();
-            if adopted {
-                b.node_mut(target)?.kind = src.kind;
+            let src = &b.state.nodes[&source];
+            let kind = src
+                .kind
+                .as_ref()
+                .map(|s| copied_text(s, &mut b.work, b.limits.max_work, &b.cancel))
+                .transpose()?;
+            let mut fields = BTreeMap::new();
+            // Copy and charge all source fields, including shadowed scalars.
+            for (key, value) in &src.fields {
+                let key = copied_text(key, &mut b.work, b.limits.max_work, &b.cancel)?;
+                let value = copied_datum(value, &mut b.work, b.limits.max_work, &b.cancel)?;
+                fields.insert(key, value);
             }
-            for (key, old) in src.fields {
+            b.charge(1 + fields.len())?;
+            let adopted = b.node(target)?.kind.is_none() && kind.is_some();
+            if adopted {
+                b.node_mut(target)?.kind = kind;
+            }
+            for (key, old) in fields {
                 b.validate_datum(&old)?;
-                let fields = &mut b.node_mut(target)?.fields;
-                match fields.get_mut(&key) {
+                match b.node(target)?.fields.get(&key) {
                     None => {
-                        fields.insert(key, old);
+                        b.node_mut(target)?.fields.insert(key, old);
                     }
-                    Some(new) => {
-                        if let (Value::Array(a), Value::Array(z)) = (&old.value, &mut new.value) {
-                            let mut joined = a.clone();
-                            joined.append(z);
-                            *z = joined;
+                    Some(new)
+                        if matches!(
+                            (&old.value, &new.value),
+                            (Value::Array(_), Value::Array(_))
+                        ) =>
+                    {
+                        let mut joined = if let Value::Array(a) = old.value {
+                            a
+                        } else {
+                            unreachable!()
+                        };
+                        let copied = copied_datum(
+                            &b.state.nodes[&target].fields[&key],
+                            &mut b.work,
+                            b.limits.max_work,
+                            &b.cancel,
+                        )?;
+                        if let Value::Array(mut a) = copied.value {
+                            joined.append(&mut a);
                         }
+                        b.node_mut(target)?.fields.insert(
+                            key,
+                            Datum {
+                                value: Value::Array(joined),
+                                lexeme: copied.lexeme,
+                            },
+                        );
                     }
+                    _ => (),
                 }
             }
             if adopted {

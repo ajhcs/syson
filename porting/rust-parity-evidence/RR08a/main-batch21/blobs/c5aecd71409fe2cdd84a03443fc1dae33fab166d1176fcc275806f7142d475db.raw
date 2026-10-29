@@ -1,0 +1,242 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Development-only requested-allocation oracle, not application instrumentation.
+use std::{
+    alloc::{GlobalAlloc, Layout, System},
+    cell::{Cell, RefCell},
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc,
+    },
+};
+use syson_ast::{Assignment, Builder, Datum, Error, Lexeme, Limits, Reflection, Slot, Value};
+#[derive(Clone, Copy, Debug, Default)]
+struct Requests {
+    total: usize,
+    largest: usize,
+}
+thread_local! {
+    static TRACK: Cell<bool> = const { Cell::new(false) };
+    static CANCEL_AT: Cell<usize> = const { Cell::new(0) };
+    static CANCEL: RefCell<Option<Arc<AtomicBool>>> = const { RefCell::new(None) };
+    static REQUESTS: Cell<Requests> = const { Cell::new(Requests { total: 0, largest: 0 }) };
+}
+fn record(size: usize) {
+    if TRACK.try_with(Cell::get).unwrap_or(false) {
+        let _ = REQUESTS.try_with(|cell| {
+            let mut requests = cell.get();
+            requests.total = requests.total.saturating_add(size);
+            requests.largest = requests.largest.max(size);
+            cell.set(requests);
+        });
+        if CANCEL_AT
+            .try_with(Cell::get)
+            .is_ok_and(|threshold| threshold != 0 && size >= threshold)
+        {
+            let _ = CANCEL.try_with(|target| {
+                if let Ok(target) = target.try_borrow() {
+                    if let Some(flag) = target.as_ref() {
+                        flag.store(true, Ordering::Relaxed);
+                    }
+                }
+            });
+        }
+    }
+}
+struct Observed;
+// SAFETY: System receives each original pointer/layout unchanged. Constant TLS
+// bookkeeping allocates nothing. Full successful realloc requests count again;
+// this is allocation traffic, not net live memory, peak memory, RSS or latency.
+unsafe impl GlobalAlloc for Observed {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc(layout) };
+        if !pointer.is_null() {
+            record(layout.size());
+        }
+        pointer
+    }
+    unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
+        let pointer = unsafe { System.alloc_zeroed(layout) };
+        if !pointer.is_null() {
+            record(layout.size());
+        }
+        pointer
+    }
+    unsafe fn realloc(&self, pointer: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        let next = unsafe { System.realloc(pointer, layout, size) };
+        if !next.is_null() {
+            record(size);
+        }
+        next
+    }
+    unsafe fn dealloc(&self, pointer: *mut u8, layout: Layout) {
+        unsafe { System.dealloc(pointer, layout) };
+    }
+}
+#[global_allocator]
+static ALLOCATOR: Observed = Observed;
+fn builder(limits: Limits) -> Builder {
+    let mut reflection = Reflection::default();
+    reflection.declare("Element".into(), vec![]).unwrap();
+    Builder::new(reflection, limits, Arc::new(AtomicBool::new(false))).unwrap()
+}
+fn string(text: &str) -> Datum {
+    Datum::new(Value::String(text.into()))
+}
+fn assign(builder: &mut Builder, node: syson_ast::NodeId, key: &str, value: Datum) {
+    builder.assign(node, key, Assignment::Set, value).unwrap();
+}
+fn cancellation_window(
+    flag: &Arc<AtomicBool>,
+    call: impl FnOnce() -> Result<(), Error>,
+) -> (Result<(), Error>, Requests) {
+    // The outside owner and installed clone exist before the callback runs.
+    // No Arc allocation/clone/drop or TLS mutation occurs in that callback.
+    CANCEL.with(|target| *target.borrow_mut() = Some(flag.clone()));
+    CANCEL_AT.set(65_536);
+    REQUESTS.set(Requests::default());
+    TRACK.set(true);
+    let result = call();
+    TRACK.set(false);
+    CANCEL_AT.set(0);
+    CANCEL.with(|target| *target.borrow_mut() = None);
+    (result, REQUESTS.get())
+}
+
+#[test]
+fn known_kind_copy_refuses_before_allocation() {
+ let kind="K".repeat(65_536); let mut reflection=Reflection::default();
+ reflection.declare(kind.clone(),vec![]).unwrap();
+ let mut b=Builder::new(reflection,Limits {max_work:32,..Limits::default()},Arc::new(AtomicBool::new(false))).unwrap();
+ REQUESTS.set(Requests::default()); TRACK.set(true); let result=b.allocate(Some(&kind),None); TRACK.set(false);
+ assert_eq!(result,Err(Error::Budget)); assert_eq!(REQUESTS.get().largest,0);
+}
+#[test]
+fn unknown_type_payload_refuses_before_allocation() {
+ let kind="K".repeat(65_536); let mut b=builder(Limits {max_work:32,..Limits::default()});
+ REQUESTS.set(Requests::default()); TRACK.set(true); let result=b.allocate(Some(&kind),None); TRACK.set(false);
+ assert_eq!(result,Err(Error::Budget)); assert_eq!(REQUESTS.get().largest,0);
+}
+#[test]
+fn cancellation_after_reservation_refuses_before_id_spend() {
+ let kind="K".repeat(65_536); let mut reflection=Reflection::default();
+ reflection.declare(kind.clone(),vec![]).unwrap();reflection.declare("Element".into(),vec![]).unwrap();
+ let flag=Arc::new(AtomicBool::new(false));let mut b=Builder::new(reflection,Limits::default(),flag.clone()).unwrap();
+ let (result,stats)=cancellation_window(&flag,||b.allocate(Some(&kind),None).map(|_|()));
+ assert_eq!(result,Err(Error::Cancelled)); assert_eq!(stats.largest,kind.len());
+ flag.store(false,Ordering::Relaxed);assert_eq!(b.allocate(Some("Element"),None).unwrap().value(),0);
+}
+#[test]
+fn reference_text_and_target_type_refusal_leave_the_node_unchanged_true() {
+    let large = "R".repeat(65_536);
+    for large_text in [true] {
+        let mut b = builder(Limits {
+            max_work: 128,
+            ..Limits::default()
+        });
+        let id = b.allocate(Some("Element"), None).unwrap();
+        let text = if large_text { large.as_str() } else { "r" };
+        let target = if large_text {
+            "Element"
+        } else {
+            large.as_str()
+        };
+        let lexeme = Lexeme::from_source(text, 0, text.len()).unwrap();
+        REQUESTS.set(Requests::default());
+        TRACK.set(true);
+        let result = b.reference(id, "reference", Assignment::Set, lexeme, target);
+        TRACK.set(false);
+        assert_eq!(result, Err(Error::Budget));
+        assert!(REQUESTS.get().largest < large.len());
+        assert_eq!(b.node(id).unwrap().slot("reference"), Slot::Absent);
+    }
+}
+
+#[test]
+fn reference_text_and_target_type_refusal_leave_the_node_unchanged_false() {
+    let large = "R".repeat(65_536);
+    for large_text in [false] {
+        let mut b = builder(Limits {
+            max_work: 128,
+            ..Limits::default()
+        });
+        let id = b.allocate(Some("Element"), None).unwrap();
+        let text = if large_text { large.as_str() } else { "r" };
+        let target = if large_text {
+            "Element"
+        } else {
+            large.as_str()
+        };
+        let lexeme = Lexeme::from_source(text, 0, text.len()).unwrap();
+        REQUESTS.set(Requests::default());
+        TRACK.set(true);
+        let result = b.reference(id, "reference", Assignment::Set, lexeme, target);
+        TRACK.set(false);
+        assert_eq!(result, Err(Error::Budget));
+        assert!(REQUESTS.get().largest < large.len());
+        assert_eq!(b.node(id).unwrap().slot("reference"), Slot::Absent);
+    }
+}
+
+#[test]
+fn merge_charges_discarded_source_scalars_and_target_array_data_true() {
+    let large = "M".repeat(65_536);
+    for target_array in [true] {
+        let mut b = builder(Limits {
+            max_work: large.len() * (if target_array { 1 } else { 2 }) + 512,
+            ..Limits::default()
+        });
+        let target = b.allocate(Some("Element"), None).unwrap();
+        let source = b.allocate(Some("Element"), None).unwrap();
+        if target_array {
+            assign(&mut b, source, "items", Datum::new(Value::Array(vec![])));
+            assign(
+                &mut b,
+                target,
+                "items",
+                Datum::new(Value::Array(vec![string(&large)])),
+            );
+        } else {
+            assign(&mut b, source, "items", string(&large));
+            assign(&mut b, target, "items", string("retained"));
+        }
+        let source_before = b.node(source).unwrap().fields().clone();
+        let target_before = b.node(target).unwrap().fields().clone();
+        assert_eq!(b.merge(target, source), Err(Error::Budget));
+        assert_eq!(b.node(target).unwrap().fields(), &target_before);
+        assert_eq!(b.node(source).unwrap().fields(), &source_before);
+        // A still snapshots whole State before merge admission. This asserts
+        // budget/refusal atomicity, not refusal before that snapshot allocation.
+    }
+}
+
+#[test]
+fn merge_charges_discarded_source_scalars_and_target_array_data_false() {
+    let large = "M".repeat(65_536);
+    for target_array in [false] {
+        let mut b = builder(Limits {
+            max_work: large.len() * (if target_array { 1 } else { 2 }) + 512,
+            ..Limits::default()
+        });
+        let target = b.allocate(Some("Element"), None).unwrap();
+        let source = b.allocate(Some("Element"), None).unwrap();
+        if target_array {
+            assign(&mut b, source, "items", Datum::new(Value::Array(vec![])));
+            assign(
+                &mut b,
+                target,
+                "items",
+                Datum::new(Value::Array(vec![string(&large)])),
+            );
+        } else {
+            assign(&mut b, source, "items", string(&large));
+            assign(&mut b, target, "items", string("retained"));
+        }
+        let source_before = b.node(source).unwrap().fields().clone();
+        let target_before = b.node(target).unwrap().fields().clone();
+        assert_eq!(b.merge(target, source), Err(Error::Budget));
+        assert_eq!(b.node(target).unwrap().fields(), &target_before);
+        assert_eq!(b.node(source).unwrap().fields(), &source_before);
+        // A still snapshots whole State before merge admission. This asserts
+        // budget/refusal atomicity, not refusal before that snapshot allocation.
+    }
+}
