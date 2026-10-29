@@ -1,0 +1,85 @@
+{
+  "result": "PASS_PLAN_STRUCTURE_AND_SNAPSHOT_ONLY;FULL_PARITY_OPEN",
+  "snapshot_id": "SYSON-RUST-REMAINING/2026-10-29.7",
+  "locked_inputs": 839,
+  "checks": [
+    {
+      "check": "snapshot",
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/remaining-plan-lock-20261029/porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "parsed": {
+        "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+        "snapshot_id": "SYSON-RUST-REMAINING/2026-10-29.7",
+        "unit_count": 778,
+        "locked_inputs": 839,
+        "primary_family_counts": {
+          "interchange": 23,
+          "services": 12,
+          "projects": 9,
+          "views": 76,
+          "rust_delivery": 5,
+          "verification": 5,
+          "reference": 12,
+          "landing": 4,
+          "final_acceptance": 1,
+          "model": 399,
+          "language": 184,
+          "repairs": 45,
+          "usability_capacity": 3
+        },
+        "feature_acceptance_counts": {
+          "NOT_ACCEPTED": 55,
+          "OPEN_NO_ACCEPTANCE_RECORD": 723
+        },
+        "full_parity_claimed": false,
+        "negative_controls": "PASS_7_REFUSAL_CASES"
+      },
+      "stderr": ""
+    },
+    {
+      "check": "completion",
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/remaining-plan-lock-20261029/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test",
+        "--check-completion"
+      ],
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "parsed": {
+        "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+        "units": 778,
+        "source_graph_acyclic": true,
+        "readiness_graph_nodes": 1556,
+        "readiness_graph_acyclic": true,
+        "unordered_write_conflicts": 0,
+        "all_14_original_remaining_briefs_mapped": true,
+        "source_assignment_counts_verified": true,
+        "negative_gate_checks": "PASS",
+        "parity": "OPEN",
+        "open_gate_count": 779,
+        "first_open_gates": [
+          "Pinned runtime/source obligation closure remains open",
+          "Not feature-accepted: B01",
+          "Not feature-accepted: B02",
+          "Not feature-accepted: B03",
+          "Not feature-accepted: B04",
+          "Not feature-accepted: B05",
+          "Not feature-accepted: B06",
+          "Not feature-accepted: B07"
+        ]
+      },
+      "stderr": ""
+    }
+  ],
+  "checkpoint_sealed_files_verified": 16,
+  "archive_entries_verified": 15,
+  "links": "PASS_EXISTING_TARGETS",
+  "preservation": "778taskrows/55historicalobjects/21normativeinputs/dependencygraph/holds unchanged",
+  "limits": "Documentation checks only. No new implementation, UI, performance or complete native runtime qualification was executed by this plan publication."
+}
