@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "BATCH15_AND_MODEL_ONLY_RR20_MERGED;FULL_PROGRAM_OPEN",
+  "status": "BATCH17_REFERENCES_REFLECTION_AND_SELECTED_NATIVE_TOOLS_MERGED;FULL_PROGRAM_OPEN",
   "candidate_revision": null,
   "full_parity_claimed": false,
   "closure": {
@@ -3532,30 +3532,53 @@
   },
   "performance_policy": "performance-policy.json;userworkloadrangessupersedehistoricaltimingveto;measurementsunchanged",
   "current_integration": {
-    "batch": 16,
-    "contract_id": "SYSON-RUST-COMPLETION/1.0.0",
-    "normative_lock_unchanged": true,
-    "main_after_prerequisites": "f2b52599fc3caa6f9e12766dd8508937c974551d",
+    "batch": 17,
+    "contract_id": "SYSON-RUST-COMPLETION/1.0.1",
+    "main_after_prerequisites": "e035daef43b6a7069e1f51a60b33a6780ce7d817",
     "landings": [
       {
-        "unit": "RR20",
-        "scope": "Complete model-history policy only; actual UI parent acceptance remains OPEN",
-        "pull_request": "https://github.com/ajhcs/syson/pull/137",
-        "merge": "f2b52599fc3caa6f9e12766dd8508937c974551d",
-        "code_commit": "e92fc5cf9f866a4ad0508de03cfc486e848b6b8e",
-        "implementation": "INTEGRATED_BOUNDED_MODEL_ONLY",
+        "scope": "references",
+        "pull_request": "https://github.com/ajhcs/syson/pull/140",
+        "merge": "67f45bdd0495f3c76093e99ec4d4171e0950b492",
+        "code_commit": "604f5c133938ee76ab183ed9f4c195787c6278d2",
+        "implementation": "INTEGRATED_BOUNDED_LEGACY_PREREQUISITE",
+        "feature_acceptance": "NOT_ACCEPTED"
+      },
+      {
+        "scope": "reflection",
+        "pull_request": "https://github.com/ajhcs/syson/pull/141",
+        "merge": "e035daef43b6a7069e1f51a60b33a6780ce7d817",
+        "code_commit": "30bd1fd842f56260d4afef3b885e75d453af490a",
+        "implementation": "INTEGRATED_BOUNDED_LEGACY_PREREQUISITE",
+        "feature_acceptance": "NOT_ACCEPTED"
+      },
+      {
+        "scope": "C09",
+        "pull_request": "https://github.com/ajhcs/syson/pull/142",
+        "merge": "4576039755471334c36f075c781dc3c78b53988c",
+        "code_commit": "ef0256faf77a9736bd08b77cc69d64a74a13857c",
+        "implementation": "INTEGRATED_DEVELOPMENT_ONLY_PREPARATION",
         "feature_acceptance": "NOT_ACCEPTED"
       }
     ],
     "verification": {
-      "model_cases": 77,
-      "new_integration_cases": 10,
-      "new_private_cases": 1,
-      "fresh_host_process_profiles": 72,
-      "scope": "No rendered UI or native epoch; requested allocation/capacity-charge/RSS kept distinct."
+      "component_cases": 28,
+      "reference_cases": 18,
+      "reflection_cases": 10,
+      "reference_profile_processes": 27,
+      "reflection_ordered_rows": 189,
+      "subtype_pairs": 35721,
+      "generated_reference_ids": 8,
+      "positions": 90,
+      "native_reference_targets": 2,
+      "typed_comparison_divergence_controls": 9,
+      "native_resources": 95,
+      "native_diagnostics": 12189,
+      "native_Node": "Observed Node 18.19.1 / V8 10.2; configured Node 20.15.1 not bound"
     },
-    "next_priority": "Qualify actual-main reference/reflection/value/text-import prerequisites for RR02/I01/RR05 where graph-free; reconcile #130 borrowed summaries/UI only with actual prerequisites and held-owner disposition. Continue durable Rust project workflow.",
-    "history_policy": "All55original unitobjects unchanged; prior14and15 integration records preserved intact."
+    "budget_amendment": "#139 adopted contract 1.0.1: only F10/F11 donor review caps changed to 420/460 production lines and 900 authored lines; behavior, ownership, dependencies and cases unchanged.",
+    "next_priority": "Qualify the prepared, untested F10 source under its adopted cap; then qualify real F11/F13/F14 import with commit/cancel/undo/save/reopen. Preserve held graph/F05/F33 caller gates. Prepare actual UI and durable-project reconciliation where independent.",
+    "history_policy": "All 55 original unit objects are unchanged; the prior batch16 integration record is retained intact."
   },
   "integration_history": [
     {
@@ -3646,6 +3669,32 @@
       "prior_joint_RR20": "#130 remains a separately qualified frozen-UI draft; actual-main UI/model/owner prerequisites still apply.",
       "next_priority": "Existing RR20 model-only history adoption, then borrowed-summary and actual UI main composition; RR02 bridge closure and durable Rust workflow continue under their own dependencies.",
       "history_policy": "All55 old unit objects and earlier receipts retained with original attribution; earlier current_integration moved intact to integration_history."
+    },
+    {
+      "batch": 16,
+      "contract_id": "SYSON-RUST-COMPLETION/1.0.0",
+      "normative_lock_unchanged": true,
+      "main_after_prerequisites": "f2b52599fc3caa6f9e12766dd8508937c974551d",
+      "landings": [
+        {
+          "unit": "RR20",
+          "scope": "Complete model-history policy only; actual UI parent acceptance remains OPEN",
+          "pull_request": "https://github.com/ajhcs/syson/pull/137",
+          "merge": "f2b52599fc3caa6f9e12766dd8508937c974551d",
+          "code_commit": "e92fc5cf9f866a4ad0508de03cfc486e848b6b8e",
+          "implementation": "INTEGRATED_BOUNDED_MODEL_ONLY",
+          "feature_acceptance": "NOT_ACCEPTED"
+        }
+      ],
+      "verification": {
+        "model_cases": 77,
+        "new_integration_cases": 10,
+        "new_private_cases": 1,
+        "fresh_host_process_profiles": 72,
+        "scope": "No rendered UI or native epoch; requested allocation/capacity-charge/RSS kept distinct."
+      },
+      "next_priority": "Qualify actual-main reference/reflection/value/text-import prerequisites for RR02/I01/RR05 where graph-free; reconcile #130 borrowed summaries/UI only with actual prerequisites and held-owner disposition. Continue durable Rust project workflow.",
+      "history_policy": "All55original unitobjects unchanged; prior14and15 integration records preserved intact."
     }
   ],
   "contract_adoptions": [
