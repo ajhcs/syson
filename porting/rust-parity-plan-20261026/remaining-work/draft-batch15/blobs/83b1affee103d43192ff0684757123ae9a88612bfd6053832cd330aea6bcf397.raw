@@ -1,0 +1,82 @@
+{
+  "main_after_components": "14dc35e56c7f4d0f458559fd4ecf593f15861005",
+  "source": "Actual GitHub merge responses, fetched Git objects and exact component-tree equality",
+  "landings": {
+    "containment": {
+      "worktree": "/workspace/worktrees/builderbob/syson/batch15-containment-landing",
+      "code_commit": "5578e488246c7231b9dc43e4a7acd749fc9b5132",
+      "qualified_inputs": 97,
+      "paths": [
+        "rust/crates/syson-model/src/containment.rs",
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-model/tests/containment.rs",
+        "rust/crates/syson-model/tests/batch15_containment_regression.rs"
+      ],
+      "head": "632789473f76cadb7b598fae3a9386c3364f3d5c",
+      "evidence_files": 29,
+      "merge": "85eba7ccdc3c21a7bd2ad92e13473885cfaaef43",
+      "pull_request": "https://github.com/ajhcs/syson/pull/133",
+      "resulting_main_tree_verified": true,
+      "hosted_checks": 0,
+      "statuses": 0
+    },
+    "catalogue-baseline": {
+      "worktree": "/workspace/worktrees/builderbob/syson/batch15-catalogue-landing",
+      "code_commit": "66b0bf653d4a2b550386c67aad8c6a3b82b92981",
+      "qualified_inputs": 103,
+      "paths": [
+        "rust/tools/native-library-catalog/Cargo.lock",
+        "rust/tools/native-library-catalog/Cargo.toml",
+        "rust/tools/native-library-catalog/README.md",
+        "rust/tools/native-library-catalog/src/lib.rs",
+        "rust/tools/native-library-catalog/src/main.rs",
+        "rust/tools/native-library-catalog/tests/catalog.rs",
+        "rust/tools/native-library-catalog/tests/fixtures/Attributes.json",
+        "rust/tools/native-library-catalog/tests/fixtures/ScalarValues.json",
+        "rust/tools/native-library-catalog/tests/fixtures/representative-native.json"
+      ],
+      "head": "9cae75f8e88f5735955a08c2a6c4a6ab50fd697e",
+      "evidence_files": 32,
+      "merge": "4c268b0a2ecd8b96c08747695261d16d74db01d5",
+      "pull_request": "https://github.com/ajhcs/syson/pull/135",
+      "resulting_component_tree_verified": true,
+      "hosted_checks": 0,
+      "statuses": 0
+    },
+    "writer": {
+      "worktree": "/workspace/worktrees/builderbob/syson/batch15-writer-landing",
+      "code_commit": "4239abf3ed7dba547a8f82fd71c5208e3c1111c4",
+      "base": "85eba7ccdc3c21a7bd2ad92e13473885cfaaef43",
+      "qualified_inputs": 98,
+      "authored_whitespace_exception": null,
+      "head": "3bd896c1a24a92377a5384fa14d23206dcb7fe72",
+      "evidence_files": 83,
+      "merge": "a2819d26abc0d612983f644ad62b5257e9f0bba0",
+      "pull_request": "https://github.com/ajhcs/syson/pull/134",
+      "resulting_main_tree_verified": true,
+      "hosted_checks": 0,
+      "statuses": 0
+    },
+    "catalogue": {
+      "worktree": "/workspace/worktrees/builderbob/syson/batch15-catalogue-repair",
+      "code_commit": "952219c0c7d748478e7a5feb55107697f9b5bc01",
+      "base": "9cae75f8e88f5735955a08c2a6c4a6ab50fd697e",
+      "qualified_inputs": 104,
+      "authored_whitespace_exception": {
+        "path": "rust/tools/native-library-catalog/tests/rr03_regression.rs",
+        "line": 39,
+        "meaning": "Intentional trailing space and newline inside unchanged raw fixture; exact-byte preservation is asserted. No code/fixture bytes changed."
+      },
+      "head": "261a3c187d966183c46781587c27795b36e6fd81",
+      "evidence_files": 90,
+      "merge": "14dc35e56c7f4d0f458559fd4ecf593f15861005",
+      "pull_request": "https://github.com/ajhcs/syson/pull/136",
+      "resulting_component_tree_verified": true,
+      "hosted_checks": 0,
+      "statuses": 0
+    }
+  },
+  "catalogue_pair": "Both PRs published and repaired composition independently qualified before foundation then immediate repair merges. No consumer registration introduced.",
+  "hosted_checks": "No registered runs or statuses; no hosted CI pass claimed.",
+  "old_PRs": "Original9/85/92/94 and joint130 preserved; snapshot/feature bases never merge destinations."
+}
