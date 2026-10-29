@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "BATCH22_LAYOUT_PREREQUISITE_SPLIT_REVIEWED;FULL_PROGRAM_OPEN",
+  "status": "BATCH23_P01_AND_PROFILER_MERGED;U10_AND_C09_SPLITS_REVIEWED;FULL_PROGRAM_OPEN",
   "candidate_revision": null,
   "full_parity_claimed": false,
   "closure": {
@@ -3532,72 +3532,39 @@
   },
   "performance_policy": "performance-policy.json;userworkloadrangessupersedehistoricaltimingveto;measurementsunchanged",
   "current_integration": {
-    "batch": 22,
-    "contract_id": "SYSON-RUST-COMPLETION/1.0.2",
-    "main_after_prerequisites": "af4c5844819b9a0314d5f8bdbb68ae284c207277",
+    "batch": 23,
+    "contract_id": "SYSON-RUST-COMPLETION/1.0.4",
+    "main_after_prerequisites": "6fd91b9c1abec093d1a013c26b7c683d8657f26c",
     "landings": [
       {
-        "scope": "RR08 split contract",
-        "pull_request": "https://github.com/ajhcs/syson/pull/158",
-        "head": "d19dca2dec0bbfd82cec5ce800a3982981c5570c",
-        "merge": "9b29dcfac82f44e725b113972a19499eb903ce84",
-        "resulting_main_tree_verified": true,
+        "scope": "U10a/U10b reviewed scope adoption",
+        "pull_request": "https://github.com/ajhcs/syson/pull/165",
+        "head": "ff298c0222d92b544379b4a4a2d29ffac04004db",
+        "merge": "d823baa0a3239d53acb15172fff5ed4f109d6be9",
+        "actual_main_tree_and_hashes_verified": true,
         "hosted_checks": "ABSENT;not CI pass",
-        "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
         "feature_acceptance": "NOT_ACCEPTED"
       },
       {
-        "scope": "F12 allocation and latency profiler",
-        "pull_request": "https://github.com/ajhcs/syson/pull/159",
-        "head": "2556ebe8197c9cd0a9fb4c35b13ab1b8547689fa",
-        "merge": "58e4e4d71554e36b40855e0fa29c1c6ecb0ca827",
-        "resulting_main_tree_verified": true,
+        "scope": "P01 finite API profiler",
+        "pull_request": "https://github.com/ajhcs/syson/pull/166",
+        "head": "e6d170801312009bb017bd7e1918084f53054e87",
+        "merge": "7d7cb152674a549a70d9a9f68f8360676161df3d",
+        "actual_main_tree_and_hashes_verified": true,
         "hosted_checks": "ABSENT;not CI pass",
-        "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
         "feature_acceptance": "NOT_ACCEPTED"
       },
       {
-        "scope": "F12 finite operator prerequisite",
-        "pull_request": "https://github.com/ajhcs/syson/pull/160",
-        "head": "29f87a866ee4bcb4abb8e83df001b081e50ebb86",
-        "merge": "8024f4c37498e2b554c73b07608e19c2c5397cc1",
-        "resulting_main_tree_verified": true,
+        "scope": "P01 ordinary-note implementation",
+        "pull_request": "https://github.com/ajhcs/syson/pull/167",
+        "head": "fab9ce827b70a5e8ca5cc3c9384cd5cdacb51815",
+        "merge": "6fd91b9c1abec093d1a013c26b7c683d8657f26c",
+        "actual_main_tree_and_hashes_verified": true,
         "hosted_checks": "ABSENT;not CI pass",
-        "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
-        "feature_acceptance": "NOT_ACCEPTED"
-      },
-      {
-        "scope": "F12 callback comparison tools",
-        "pull_request": "https://github.com/ajhcs/syson/pull/161",
-        "head": "8e76787e7bee84deb5077085d8ea1cf9158fc321",
-        "merge": "a4fd000eca765b14ed998b09a0fa79314dc2fbd2",
-        "resulting_main_tree_verified": true,
-        "hosted_checks": "ABSENT;not CI pass",
-        "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
-        "feature_acceptance": "NOT_ACCEPTED"
-      },
-      {
-        "scope": "RR08a selected-copy admission",
-        "pull_request": "https://github.com/ajhcs/syson/pull/162",
-        "head": "603d58d9bbaedab971b56fe8eb195dd9dfc341f5",
-        "merge": "4967c4aebf9aa05d5aab8527ee5f0fb213e5a026",
-        "resulting_main_tree_verified": true,
-        "hosted_checks": "ABSENT;not CI pass",
-        "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
-        "feature_acceptance": "NOT_ACCEPTED"
-      },
-      {
-        "scope": "RR08b journal and validation guard",
-        "pull_request": "https://github.com/ajhcs/syson/pull/163",
-        "head": "9060298606dc5dee103f7aa3958ebf1c36559a6c",
-        "merge": "af4c5844819b9a0314d5f8bdbb68ae284c207277",
-        "resulting_main_tree_verified": true,
-        "hosted_checks": "ABSENT;not CI pass",
-        "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
         "feature_acceptance": "NOT_ACCEPTED"
       }
     ],
-    "checkpoint": "remaining-work/checkpoint-batch22/status.json",
+    "checkpoint": "remaining-work/checkpoint-batch23/status.json",
     "full_parity_claimed": false
   },
   "integration_history": [
@@ -3936,6 +3903,75 @@
       "next_priority": "Qualify and land finite F12/tools under their own gates; then sequential RR08a/RR08b source leases and complete RR08 integration. Continue independent actual UI/durable-project composition only under existing ownership and dependency gates.",
       "normative_amendment": "amendments/1.0.2-rr08-split.md;preservesoriginal778obligations/adds2executionchildren;noRR08budgetwaiver",
       "history_policy": "All55originalunitobjects and priorintegrationobjects unchanged; no new feature acceptance or implementation lease."
+    },
+    {
+      "batch": 22,
+      "contract_id": "SYSON-RUST-COMPLETION/1.0.2",
+      "main_after_prerequisites": "af4c5844819b9a0314d5f8bdbb68ae284c207277",
+      "landings": [
+        {
+          "scope": "RR08 split contract",
+          "pull_request": "https://github.com/ajhcs/syson/pull/158",
+          "head": "d19dca2dec0bbfd82cec5ce800a3982981c5570c",
+          "merge": "9b29dcfac82f44e725b113972a19499eb903ce84",
+          "resulting_main_tree_verified": true,
+          "hosted_checks": "ABSENT;not CI pass",
+          "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
+          "feature_acceptance": "NOT_ACCEPTED"
+        },
+        {
+          "scope": "F12 allocation and latency profiler",
+          "pull_request": "https://github.com/ajhcs/syson/pull/159",
+          "head": "2556ebe8197c9cd0a9fb4c35b13ab1b8547689fa",
+          "merge": "58e4e4d71554e36b40855e0fa29c1c6ecb0ca827",
+          "resulting_main_tree_verified": true,
+          "hosted_checks": "ABSENT;not CI pass",
+          "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
+          "feature_acceptance": "NOT_ACCEPTED"
+        },
+        {
+          "scope": "F12 finite operator prerequisite",
+          "pull_request": "https://github.com/ajhcs/syson/pull/160",
+          "head": "29f87a866ee4bcb4abb8e83df001b081e50ebb86",
+          "merge": "8024f4c37498e2b554c73b07608e19c2c5397cc1",
+          "resulting_main_tree_verified": true,
+          "hosted_checks": "ABSENT;not CI pass",
+          "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
+          "feature_acceptance": "NOT_ACCEPTED"
+        },
+        {
+          "scope": "F12 callback comparison tools",
+          "pull_request": "https://github.com/ajhcs/syson/pull/161",
+          "head": "8e76787e7bee84deb5077085d8ea1cf9158fc321",
+          "merge": "a4fd000eca765b14ed998b09a0fa79314dc2fbd2",
+          "resulting_main_tree_verified": true,
+          "hosted_checks": "ABSENT;not CI pass",
+          "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
+          "feature_acceptance": "NOT_ACCEPTED"
+        },
+        {
+          "scope": "RR08a selected-copy admission",
+          "pull_request": "https://github.com/ajhcs/syson/pull/162",
+          "head": "603d58d9bbaedab971b56fe8eb195dd9dfc341f5",
+          "merge": "4967c4aebf9aa05d5aab8527ee5f0fb213e5a026",
+          "resulting_main_tree_verified": true,
+          "hosted_checks": "ABSENT;not CI pass",
+          "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
+          "feature_acceptance": "NOT_ACCEPTED"
+        },
+        {
+          "scope": "RR08b journal and validation guard",
+          "pull_request": "https://github.com/ajhcs/syson/pull/163",
+          "head": "9060298606dc5dee103f7aa3958ebf1c36559a6c",
+          "merge": "af4c5844819b9a0314d5f8bdbb68ae284c207277",
+          "resulting_main_tree_verified": true,
+          "hosted_checks": "ABSENT;not CI pass",
+          "implementation": "INTEGRATED_REVIEWED_BOUNDED_SCOPE",
+          "feature_acceptance": "NOT_ACCEPTED"
+        }
+      ],
+      "checkpoint": "remaining-work/checkpoint-batch22/status.json",
+      "full_parity_claimed": false
     }
   ],
   "contract_adoptions": [
@@ -3965,6 +4001,13 @@
       "base_main": "1f090ddc3f7c20797e5740ab1e7bcfa3895ab7c1",
       "state": "SOURCE_REVIEWED_AMENDMENT_CANDIDATE;NO_IMPLEMENTATION_OR_RUNTIME_LEASE",
       "feature_acceptance": "OPEN"
+    },
+    {
+      "contract_id": "SYSON-RUST-COMPLETION/1.0.4",
+      "amendment": "amendments/1.0.4-comment-comparison-split.md",
+      "base_main": "6fd91b9c1abec093d1a013c26b7c683d8657f26c",
+      "state": "SOURCE_REVIEWED_AMENDMENT_CANDIDATE;NO_IMPLEMENTATION_OR_EXECUTION_LEASE",
+      "scope": "C09a strict capture admission then C09b selected projection/composed controls; every original parent gate retained."
     }
   ]
 }
