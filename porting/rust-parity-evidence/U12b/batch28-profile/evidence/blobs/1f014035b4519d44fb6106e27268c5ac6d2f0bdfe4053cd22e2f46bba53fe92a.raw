@@ -1,0 +1,39 @@
+fn limits_key(limits: Limits) -> [usize; 5] {
+    [
+        limits.max_nodes,
+        limits.max_edges,
+        limits.max_work,
+        limits.max_workspace_bytes,
+        limits.max_id_bytes,
+    ]
+}
+fn node_key<'a>(node: &PackageNode<'a>) -> (&'a str, Option<&'a str>, [Option<u64>; 10]) {
+    (
+        node.id,
+        node.parent,
+        [
+            Some(node.leaf_size.width.to_bits()),
+            Some(node.leaf_size.height.to_bits()),
+            Some(node.header_height_footprint.to_bits()),
+            Some(node.border_width.to_bits()),
+            node.default_width.map(f64::to_bits),
+            node.default_height.map(f64::to_bits),
+            node.user_minimum.map(|s| s.width.to_bits()),
+            node.user_minimum.map(|s| s.height.to_bits()),
+            node.retained_position.map(|p| p.x.to_bits()),
+            node.retained_position.map(|p| p.y.to_bits()),
+        ],
+    )
+}
+fn options_key(options: Options) -> (Direction, [u64; 4]) {
+    (
+        options.direction,
+        [
+            options.layer_gap.to_bits(),
+            options.node_gap.to_bits(),
+            options.component_gap.to_bits(),
+            options.padding.to_bits(),
+        ],
+    )
+}
+

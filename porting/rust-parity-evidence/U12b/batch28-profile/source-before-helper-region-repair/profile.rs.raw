@@ -1,0 +1,312 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Finite place_packages observations; native/UI/capacity remain OPEN.
+use std::alloc::{GlobalAlloc, Layout, System};
+use std::cell::Cell;
+use std::sync::atomic::{AtomicU64, Ordering::SeqCst};
+use std::time::Instant;
+use syson_layout::containers::{
+    Error, PackageNode, Position, Size, admit_packages, place_packages,
+};
+use syson_layout::{DirectedEdge, Direction, LayoutError, Limit, Limits, MeasuredNode, Options};
+include!(env!("SYSON_COUNTING_ALLOCATOR_INCLUDE"));
+
+include!(env!("SYSON_FOREST_PROFILE_HELPERS_INCLUDE"));
+
+fn geometry(count: usize, chain: bool, down: bool, retained: bool) -> (Vec<[f64; 6]>, [f64; 2]) {
+    let last = (count / 2 - 2) as f64;
+    let (dx, dy) = match (chain, down) {
+        (true, false) => (70.25, 0.0),
+        (true, true) => (0.0, 50.125),
+        (false, false) => (0.0, 70.125),
+        (false, true) => (90.25, 0.0),
+    };
+    let (x, y) = if retained { (8.0, 18.5) } else { (9.25, 19.75) };
+    let (dx, dy) = if retained { (0.0, 0.0) } else { (dx, dy) };
+    let (width, height) = (x + last * dx + 40.75, y + last * dy + 20.625);
+    let (parent_dx, parent_dy) = if down { (0.0, height + 40.0) } else { (width + 40.0, 0.0) };
+    let parent = |i: usize| [16.0 + i as f64 * parent_dx, 16.0 + i as f64 * parent_dy];
+    let expected = (0..count)
+        .map(|i| {
+            if i < 2 {
+                let [px, py] = parent(i);
+                [px, py, px, py, width, height]
+            } else {
+                let [px, py] = parent(i % 2);
+                let (cx, cy) = (x + ((i - 2) / 2) as f64 * dx, y + ((i - 2) / 2) as f64 * dy);
+                [cx, cy, px + cx, py + cy, 30.25, 10.125]
+            }
+        })
+        .collect();
+    (expected, [width + 32.0 + parent_dx, height + 32.0 + parent_dy])
+}
+fn run(count: usize, chain: bool, flags: &[String]) -> Result<serde_json::Value, String> {
+    let has = |name: &str| flags.iter().any(|flag| flag == name);
+    let (work, cancel, late) = (has("--work"), has("--cancel-before"), has("--cancel-late"));
+    let (down, retained) = (has("--down"), has("--retained"));
+    let mut limits = Limits::default();
+    if limits_key(limits) != [4096, 16384, 100_000_000, 16 * 1024 * 1024, 1024] {
+        return Err("default limits changed".into());
+    }
+    let options = Options {
+        direction: if down {
+            Direction::Down
+        } else {
+            Direction::Right
+        },
+        ..Options::default()
+    };
+    let options_before = options_key(options);
+    let ids: Vec<_> = (0..count)
+        .map(|i| format!("node/{i:08}-fixed-fixture"))
+        .collect();
+    let endpoints: Vec<_> = std::iter::once((0, 1))
+        .chain((2..count - 2).filter(|_| chain).map(|i| (i, i + 2)))
+        .collect();
+    let edge_ids: Vec<_> = (0..endpoints.len())
+        .map(|i| format!("edge/{i:08}-fixed-fixture"))
+        .collect();
+    let mut nodes: Vec<_> = ids
+        .iter()
+        .enumerate()
+        .map(|(i, id)| PackageNode {
+            id,
+            parent: (i >= 2).then(|| ids[i % 2].as_str()),
+            leaf_size: Size {
+                width: 30.25,
+                height: 10.125,
+            },
+            header_height_footprint: 10.5,
+            border_width: 1.25,
+            default_width: Some(0.0),
+            default_height: Some(0.0),
+            user_minimum: None,
+            retained_position: (retained && i >= 2).then_some(Position { x: -0.5, y: -0.25 }),
+        })
+        .collect();
+    let mut edges: Vec<_> = endpoints
+        .iter()
+        .zip(&edge_ids)
+        .map(|(&(a, b), id)| DirectedEdge {
+            id,
+            source: &ids[a],
+            target: &ids[b],
+        })
+        .collect();
+    if has("--reverse") {
+        nodes.reverse();
+        edges.reverse();
+    }
+    let node_keys = nodes.clone();
+    let edge_keys = edges.clone();
+    let unchanged = || {
+        nodes.len() == node_keys.len() && edges.len() == edge_keys.len()
+            && nodes.iter().zip(&node_keys).all(|(node, old)| {
+                node_key(node) == node_key(old)
+                    && node.id.as_ptr() == old.id.as_ptr()
+                    && node.parent.map(str::as_ptr) == old.parent.map(str::as_ptr)
+            })
+            && edges.iter().zip(&edge_keys).all(|(edge, old)| {
+                edge == old && edge.id.as_ptr() == old.id.as_ptr()
+                    && edge.source.as_ptr() == old.source.as_ptr()
+                    && edge.target.as_ptr() == old.target.as_ptr()
+            })
+    };
+    let m = edges.len();
+    let admission_work = 59 * count + 8 * m + 2 * count * count * 1024 + count - 2
+        + 2 * count * m * 1024
+        + m * m * 1024
+        + count * count;
+    if count >= 256 {
+        let outcome = admit_packages(&nodes, &edges, options, limits, || false);
+        let expected =
+            matches!(outcome, Err(Error::Layout(LayoutError::Limit(Limit::Work)))) && unchanged();
+        return Ok(
+            serde_json::json!({"status": "DEFAULT_ADMISSION_WORK_REFUSAL", "expected_outcome": expected,
+            "input_nodes": count, "chain": chain, "placement_called": false, "api_ns": null,
+            "allocations": null, "placement_work": null, "admission_success_formula": admission_work,
+            "limits_max_work": limits.max_work, "inputs_unchanged": unchanged()}),
+        );
+    }
+    let (expected_geometry, expected_extent) = geometry(count, chain, down, retained);
+    let (mut charges, mut group_polls) = ([0usize; 3], [0usize; 3]);
+    for (group, parent) in [Some(0), Some(1), None].into_iter().enumerate() {
+        let indices: Vec<_> = (0..count)
+            .filter(|i| if *i < 2 { None } else { Some(i % 2) } == parent)
+            .collect();
+        let measured: Vec<_> = indices
+            .iter()
+            .map(|&i| MeasuredNode {
+                id: &ids[i],
+                width: expected_geometry[i][4],
+                height: expected_geometry[i][5],
+                parent: None,
+                port_count: 0,
+                pinned: false,
+            })
+            .collect();
+        let sibling_edges: Vec<_> = endpoints
+            .iter()
+            .zip(&edge_ids)
+            .filter(|((a, _), _)| if *a < 2 { None } else { Some(a % 2) } == parent)
+            .map(|(&(a, b), id)| DirectedEdge {
+                id,
+                source: &ids[a],
+                target: &ids[b],
+            })
+            .collect();
+        let inner_options = Options {
+            padding: if parent.is_some() {
+                0.0
+            } else {
+                options.padding
+            },
+            ..options
+        };
+        let polls = Cell::new(0usize);
+        charges[group] =
+            syson_layout::layout(&measured, &sibling_edges, inner_options, limits, || {
+                polls.set(polls.get() + 1);
+                false
+            })
+            .map_err(|error| format!("sibling oracle setup failed: {error:?}"))?
+            .charged_work;
+        group_polls[group] = polls.get();
+    }
+    let outer_work = count * (count + 1) + 3 * m + 3 * count;
+    let full_work = admission_work + outer_work + charges.iter().sum::<usize>();
+    if work {
+        limits.max_work = admission_work + outer_work + *charges.iter().max().unwrap();
+        if limits.max_work >= full_work || limits.max_work > Limits::default().max_work {
+            return Err("lowered combined quota invalid".into());
+        }
+    }
+    let limits_before = limits_key(limits);
+    let (polls, cancel_at) = (Cell::new(0usize), Cell::new(usize::MAX));
+    let token = admit_packages(&nodes, &edges, options, limits, || {
+        polls.set(polls.get() + 1);
+        polls.get() == cancel_at.get()
+    })
+    .map_err(|error| format!("expected successful setup admission: {error:?}"))?;
+    if token.charged_work() != admission_work
+        || limits_key(token.limits()) != limits_key(limits)
+        || options_key(token.options()) != options_before
+    {
+        return Err("admission charge differs".into());
+    }
+    let before_polls = polls.get();
+    if cancel {
+        cancel_at.set(before_polls + 1);
+    } else if late {
+        // Entry, all leaf scans, parent scans/edges, first sibling API/debit/positions,
+        // then the second sibling admission's second poll, after one successful group.
+        cancel_at.set(before_polls + count * count + 2 * m + group_polls[0] + count / 2 - 1 + 4);
+    }
+    let before = counters();
+    PHASE_PEAK.store(before.live, SeqCst);
+    let started = Instant::now();
+    let outcome = place_packages(token);
+    let api_ns = started.elapsed().as_nanos();
+    let after = counters();
+    let phase_peak = PHASE_PEAK.load(SeqCst);
+    let process_peak_rss_kib = rss_kib();
+    let geometry_valid = outcome.as_ref().ok().is_some_and(|result| {
+        result.nodes.len() == count
+            && result.nodes.iter().enumerate().all(|(i, node)| {
+                node.id == ids[i]
+                    && node.id.as_ptr() == ids[i].as_ptr()
+                    && node.parent == (i >= 2).then(|| ids[i % 2].as_str())
+                    && node.parent.map(str::as_ptr) == (i >= 2).then(|| ids[i % 2].as_ptr())
+                    && [
+                        node.relative.x,
+                        node.relative.y,
+                        node.absolute.x,
+                        node.absolute.y,
+                        node.size.width,
+                        node.size.height,
+                    ]
+                    .map(f64::to_bits)
+                        == expected_geometry[i].map(f64::to_bits)
+            })
+            && [result.width, result.height].map(f64::to_bits) == expected_extent.map(f64::to_bits)
+            && result.charged_work == full_work
+            && result.estimated_workspace_bytes == 4096 * count + 1024 * m
+    });
+    let expected_error = if cancel || late {
+        Some(Error::Layout(LayoutError::Cancelled))
+    } else if work {
+        Some(Error::Layout(LayoutError::Limit(Limit::Work)))
+    } else {
+        None
+    };
+    let expected = options_key(options) == options_before && limits_key(limits) == limits_before
+        && unchanged()
+        && match &outcome {
+            Ok(_) => expected_error.is_none() && geometry_valid,
+            Err(error) => Some(*error) == expected_error,
+        }
+        && (!cancel
+            || (polls.get() == before_polls + 1
+                && before.requests == after.requests
+                && before.requested == after.requested))
+        && (!late || polls.get() == cancel_at.get());
+    let report = serde_json::json!({
+        "status": if outcome.is_ok() { "PLACED_CANONICAL_FOREST" } else if cancel || late { "CANCELLED" } else { "LOWERED_COMBINED_WORK_REFUSAL" },
+        "expected_outcome": expected, "input_nodes": count, "input_edges": m, "input_id_bytes": ids[0].len(),
+        "chain": chain, "flags": flags, "inputs_unchanged": unchanged(), "all_geometry_valid": geometry_valid,
+        "api_ns": api_ns, "allocations": delta(before, after, phase_peak), "process_peak_rss_kib": process_peak_rss_kib,
+        "signed_live_delta_bytes": after.live as i128 - before.live as i128, "admission_work": admission_work,
+        "outer_work": outer_work, "sibling_charges": charges, "full_success_work": full_work,
+        "charged_work": outcome.as_ref().ok().map(|result| result.charged_work),
+        "placement_work": outcome.as_ref().ok().map(|result| result.charged_work - admission_work),
+        "limits_max_work": limits.max_work, "default_max_work": Limits::default().max_work,
+        "admission_polls": before_polls, "placement_polls": polls.get() - before_polls,
+        "error": outcome.as_ref().err().map(|error| format!("{error:?}")),
+        "scope": "Actual place_packages only; original admission/fixtures/oracle outside measured phase. All result bits, identity pointers, extents and work checked afterwards. VmHWM includes preparation. No native/UI/p95/capacity claim. Lowered work refusals are controls, not default limits.",
+        "accounting": "Exact published counting allocator; requested traffic, signed live delta, phase peak and process VmHWM differ. Successful layout stays live through counters and validation. Errors expose no partial spent-work value."
+    });
+    std::hint::black_box((&outcome, &nodes, &edges, &node_keys, &edge_keys));
+    Ok(report)
+}
+fn main() {
+    let args: Vec<_> = std::env::args().collect();
+    let count = args.get(1).and_then(|value| value.parse::<usize>().ok());
+    let topology = args.get(2).map(String::as_str);
+    let flags = args.get(3..).unwrap_or(&[]);
+    let allowed = [
+        "--work",
+        "--cancel-before",
+        "--cancel-late",
+        "--down",
+        "--reverse",
+        "--retained",
+    ];
+    let valid = count.is_some_and(|n| [32, 64, 128, 256, 1024].contains(&n))
+        && topology.is_some_and(|value| ["disconnected", "chain"].contains(&value))
+        && flags
+            .iter()
+            .enumerate()
+            .all(|(i, flag)| allowed.contains(&flag.as_str()) && !flags[..i].contains(flag))
+        && !(flags.iter().any(|flag| flag == "--cancel-before")
+            && flags.iter().any(|flag| flag == "--cancel-late"))
+        && !(count.is_some_and(|n| n >= 256) && !flags.is_empty())
+        && !(count == Some(32) && flags.iter().any(|flag| flag == "--work"));
+    if !valid {
+        println!("{}", serde_json::json!({"status": "INVALID_ARGUMENTS"}));
+        std::process::exit(2);
+    }
+    match run(count.unwrap(), topology == Some("chain"), flags) {
+        Ok(report) => {
+            println!("{report}");
+            if report["expected_outcome"] != true {
+                std::process::exit(1);
+            }
+        }
+        Err(error) => {
+            println!(
+                "{}",
+                serde_json::json!({"status": "SETUP_FAILURE", "error": error})
+            );
+            std::process::exit(1);
+        }
+    }
+}
