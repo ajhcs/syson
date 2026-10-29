@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "scope": "Documentation and execution-snapshot integrity only; no application behavior or parity acceptance.",
+  "base_main": "3d2d7506177dffae954ec161436f03a694c20176",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+        "--self-test"
+      ],
+      "observed_exit": 0,
+      "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+      "locked_inputs": 1036,
+      "refusal_controls": 7
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test",
+        "--check-completion"
+      ],
+      "observed_exit": 2,
+      "static_contract_integrity": "PASS",
+      "rr08_controls": 19,
+      "layout_controls": 31,
+      "comparator_controls": 39,
+      "parity": "OPEN",
+      "open_gate_count": 785
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+        "--self-test"
+      ],
+      "observed_exit": 0,
+      "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+      "locked_inputs": 1036,
+      "refusal_controls": 7
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test",
+        "--check-completion"
+      ],
+      "observed_exit": 2,
+      "static_contract_integrity": "PASS",
+      "rr08_controls": 19,
+      "layout_controls": 31,
+      "comparator_controls": 39,
+      "parity": "OPEN",
+      "open_gate_count": 785
+    }
+  ],
+  "preservation": {
+    "unchanged_unit_objects": 784,
+    "unchanged_historical_execution_records": 55,
+    "unchanged_normative_inputs": 24,
+    "plan_execution_dispatch_contract_lock_byte_identical_to_base": true
+  },
+  "graph": {
+    "units": 784,
+    "readiness_nodes": 1568,
+    "acyclic": true,
+    "unordered_write_conflicts": 0
+  },
+  "document_links": {
+    "local_checked": 111,
+    "missing": 0
+  },
+  "git_diff_check": "PASS",
+  "p01_evidence_reuse": {
+    "tested_main": "6fd91b9c1abec093d1a013c26b7c683d8657f26c",
+    "snapshot_main": "3d2d7506177dffae954ec161436f03a694c20176",
+    "rust_tree": "86bd0c5a5e40b6191c8c111216ac1d5be5ec3c72",
+    "rust_tree_identical": true,
+    "new_P01_test_run_claimed": false
+  },
+  "reviewed_document_sha256": {
+    "README.md": "8c5124d0966c4624b34a18a47d2e06dfc564c494a4f59094d182ded327afc934",
+    "REMAINING-WORK.md": "eb9b0ad98414fe3afca38e30127219dc09934496c821bb6cd2d880e7dcd28419",
+    "rereview-batch23-next-prs.md": "677b4d5dc655beeabc530906c9bfd23b04d0c08233d20d12d5587c3913513dc4",
+    "remaining-work/editorial-freeze-20261029/status.json": "13c21aa86c84b5c70710b3e591d7f84b6cb97feed7cd3fc12e78a526f88d39b7"
+  },
+  "full_parity_claimed": false
+}
