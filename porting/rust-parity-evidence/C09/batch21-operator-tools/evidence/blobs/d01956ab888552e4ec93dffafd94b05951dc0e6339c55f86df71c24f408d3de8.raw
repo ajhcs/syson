@@ -1,0 +1,32 @@
+# Synthetic operator callback qualification
+
+These development tools exercise the actual original registered `fixOperatorExpression` callback and public Rust F12 APIs on 42 named synthetic inputs. They do not parse expression text, build/link a model, implement a native fallback or accept a user feature. Compiler/native/browser/Git execution belongs to the coordinator. This author prepared source only.
+
+## Matched setup and recorded phases
+
+The immutable corpus declares each descriptor and target path. Inputs with an explicit absent `operands` field use bare native synthetic fields and bare public Rust allocation. Other input nodes use actual native `AstReflection.createNode` and actual Rust `Builder.allocate` plus `defaults`; setup calls must match. This tests absence without inventing a Rust field-removal API. Native own `undefined` is retained as a distinct value. Rust has no corresponding `Value` variant, so two cases record explicit input restrictions rather than substituting absence.
+
+Native operands are attached through actual `AstReflection.assignNode`, including containers/cache side effects. Rust assignment preserves the same structural inputs; public immutable parenting is established at finish. The original callback is obtained from the real `SysMLCstNodeBuilder.postprocessingMap` and invoked with real empty-filesystem SysML services/reflection. No replacement reflection, factory, callback or guessed function result is used. Other registered callbacks are observed and remain uninvoked.
+
+Every input state and each raw before/after-handler state is retained. A separate, labelled synthetic native completion calls the original `assignMandatoryProperties` on structural nodes; Rust `Builder.finish` performs its actual defaulting and parenting. Raw post-handler and completed states remain distinct. This completion is a harness/kernel comparison phase, not an asserted native parser phase. Restricted Rust cases publish no arena; no completion is inferred for them.
+
+Native graphs retain every own key, descriptor, value, array order, stable object ID and alias. Accessors are inventoried without evaluation. The Rust observer captures every public field of tracked input/returned nodes before finish and every final Arena node. Private builder/orphan state, JS array identity/descriptors, immediate parenting and cache lifecycle remain explicit qualification limits.
+
+## Commands and bindings
+
+The coordinator creates fresh owned `/workspace` outputs and binds exact source, dependency, manifest/lock, tool, runtime, corpus, executable and result bytes in its receipt:
+
+```text
+node operator_oracle.cjs ABS_PINNED_BUNDLE ABS_CORPUS ABS_NEW_NATIVE_JSON
+# Coordinator-owned Cargo manifest: serde_json plus actual syson-ast and syson-ast-adapter path dependencies.
+cargo run --release --offline --locked --manifest-path ABS_MANIFEST --bin operator-dump -- ABS_CORPUS
+python3 compare_operator.py --corpus ABS_CORPUS --native ABS_NATIVE_JSON --rust ABS_RUST_JSON --out ABS_NEW_REPORT --self-test
+```
+
+The original oracle checks the complete pinned bundle, unique pre-CLI boundary and four original module hashes. It uses current Node/V8 and real builtin/process objects; the VM is not a security sandbox. Canonical input paths and new output parents must remain under `/workspace`; exclusive output creation preserves existing files and symlink leaves. Rust emits stdout; the coordinator owns its fresh capture. All 42 ordered IDs and the exact corpus SHA remain required. A new corpus requires reviewed source changes.
+
+The comparator strictly validates public types/IDs, own-property inventories and descriptor flags. It compares all structural fields and cache values, node/array order, aliases, exact number bits, UTF-16 strings, containers and absent/null distinctions at input, each handler step, raw post-handler and completion phases. It retains all differences; cache fields are not dropped. There is no blanket OPEN disposition for noncache field mismatches. Metadata unavailable through the public Rust API remains specifically OPEN.
+
+Native void return is checked as actual `undefined`; it is never converted to a Rust `Report`. Rust reports are retained and validated against actual public nodes. Four truthy nonarray cases preserve typed `UnsupportedOperands` and unchanged Rust state as an explicit admission-policy difference. Thirteen complete-pipeline divergence controls cover case loss/order, Boolean handles, missing container, unexpected origin, absent/null, primitive type, signed zero, operand order, alias cycles, fabricated native returns, other-handler invocation and corpus binding. Controls must change the actual comparison or fail its input contract; an unchanged baseline cannot pass them.
+
+The report intentionally returns exit 1 while required differences or OPEN lifecycle, runtime and caller evidence remain. Normal and `python3 -O` results must preserve the same guards. Rust quota/cancellation/foreign-owner/spent-ID behavior, full cache/P14 closure, configured native Node20/deployed artifact correspondence, real parser/importer consumers, UI and performance remain separate gates. Hashes and passing component tests alone establish none of those claims.
