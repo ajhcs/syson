@@ -1,0 +1,347 @@
+"""Acquire/inspect/extract only the reviewed C01 portable distributions.
+
+No acquired code, version command, registry, build or server is executed.
+Root must separately admit the Samsung mount and process resource profile.
+"""
+import argparse
+from contextlib import contextmanager
+from datetime import datetime, timezone
+import fcntl
+import gzip
+import hashlib
+import json
+import lzma
+import os
+from pathlib import Path, PurePosixPath
+import posixpath
+import pwd
+import resource
+import signal
+import ssl
+import sys
+import tarfile
+import time
+from urllib.parse import urlsplit, urlunsplit
+from urllib.request import build_opener, HTTPSHandler, HTTPRedirectHandler, ProxyHandler, Request
+
+PROPOSAL_SHA256 = 'fe59578617ea153e8fce8689c8c3612d1e098efc03bdd30d6f1cfab79814dc46'
+HOSTS = {'github.com', 'release-assets.githubusercontent.com', 'objects.githubusercontent.com',
+         'downloads.apache.org', 'dlcdn.apache.org', 'archive.apache.org', 'nodejs.org'}
+CA_FILE = Path('/etc/ssl/certs/ca-certificates.crt')
+CHUNK = 1024 * 1024
+STATE = {'phase': 'acquisition_only', 'downloads': [], 'tools': [], 'pgp_verified': False}
+TRANSFERRED = 0
+
+
+class Refusal(RuntimeError):
+    pass
+
+
+def require(ok, message):
+    if not ok:
+        raise Refusal(message)
+
+
+def hashed(path, algorithm='sha256'):
+    value = hashlib.new(algorithm)
+    with path.open('rb') as source:
+        for chunk in iter(lambda: source.read(CHUNK), b''):
+            value.update(chunk)
+    return value.hexdigest()
+
+
+def record(path, value):
+    with path.open('x', encoding='utf-8') as target:
+        count = 0
+        for chunk in json.JSONEncoder(indent=2, sort_keys=True, allow_nan=False).iterencode(value):
+            count += len(chunk.encode())
+            require(count < 128 * CHUNK, 'evidence JSON byte cap reached')
+            target.write(chunk)
+        target.write('\n')
+
+
+def checked_url(url):
+    parts = urlsplit(url)
+    require(parts.scheme == 'https' and parts.hostname in HOSTS and parts.port in (None, 443)
+            and parts.username is None and parts.password is None and not parts.fragment,
+            'unapproved HTTPS URL or redirect')
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, '', ''))
+
+
+class Redirects(HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, message, headers, url):
+        public = checked_url(url)
+        STATE['downloads'][-1].setdefault('redirects', []).append({'code': code, 'url': public})
+        return super().redirect_request(request, fp, code, message, headers, url)
+
+
+def interrupted(signum, frame):
+    raise Refusal('interrupted by signal ' + str(signum))
+
+
+@contextmanager
+def timed(seconds):
+    signal.setitimer(signal.ITIMER_REAL, seconds)
+    try:
+        yield
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+
+
+def download(opener, url, path, cap, total_cap):
+    global TRANSFERRED
+    event = {'url': checked_url(url), 'path': str(path), 'bytes': 0, 'complete': False,
+             'started_utc': datetime.now(timezone.utc).isoformat()}
+    STATE['downloads'].append(event)
+    started = time.monotonic()
+    with path.open('xb') as target:
+        try:
+            with timed(300), opener.open(Request(url, headers={'User-Agent': 'SysON-C01-acquisition',
+                                                              'Accept-Encoding': 'identity'}), timeout=30) as response:
+                event['final_url'] = checked_url(response.url)
+                require(response.status == 200, 'download HTTP status was not 200')
+                declared = response.headers.get('Content-Length')
+                require(declared is None or (declared.isdecimal() and int(declared) <= cap), 'invalid/oversized Content-Length')
+                event['declared_content_length'] = int(declared) if declared is not None else None
+                while True:
+                    remaining = min(cap - event['bytes'], total_cap - TRANSFERRED)
+                    require(remaining > 0, 'EOF not proved before download byte cap')
+                    chunk = response.read(min(CHUNK, remaining))
+                    if not chunk:
+                        break
+                    TRANSFERRED += len(chunk)
+                    event['bytes'] += len(chunk)
+                    target.write(chunk)
+                require(declared is None or int(declared) == event['bytes'], 'HTTP body length mismatch')
+                event['complete'] = True
+        finally:
+            target.flush()
+            event['wall_seconds'] = time.monotonic() - started
+            event['finished_utc'] = datetime.now(timezone.utc).isoformat()
+            event['retained_bytes'] = target.tell()
+            event['sha256'] = hashed(path)
+    return path
+
+
+def unpack_stream(archive, output, tool):
+    maximum = tool['max_expanded_regular_bytes'] + tool['max_members'] * 2048 + 16 * CHUNK
+    source = gzip.open(archive, 'rb') if tool['archive'].endswith('.gz') else lzma.open(archive, 'rb')
+    expanded = 0
+    with source, output.open('xb') as target:
+        while chunk := source.read(CHUNK):
+            expanded += len(chunk)
+            require(expanded <= maximum, 'decompressed tar-stream byte cap reached')
+            target.write(chunk)
+    extensions = {tarfile.XHDTYPE, tarfile.XGLTYPE, tarfile.GNUTYPE_LONGNAME, tarfile.GNUTYPE_LONGLINK}
+    ordinary = {tarfile.REGTYPE, tarfile.AREGTYPE, tarfile.DIRTYPE, tarfile.SYMTYPE, tarfile.LNKTYPE}
+    count = 0
+    with output.open('rb') as source:
+        while True:
+            header = source.read(512)
+            require(len(header) == 512, 'tar has no complete end marker')
+            if header == bytes(512):
+                require(source.read(512) == bytes(512), 'tar second end marker missing')
+                require(all(not any(block) for block in iter(lambda: source.read(CHUNK), b'')), 'nonzero tar trailer')
+                break
+            info = tarfile.TarInfo.frombuf(header, 'utf-8', 'strict')
+            count += 1
+            require(count <= tool['max_members'] and info.type in ordinary | extensions,
+                    'raw tar member count/type refused')
+            require(0 <= info.size <= (CHUNK if info.type in extensions else tool['max_expanded_regular_bytes']),
+                    'tar member or extension-header size refused')
+            require(info.type in extensions or info.isreg() or info.size == 0, 'link/directory tar payload refused')
+            source.seek((info.size + 511) // 512 * 512, 1)
+            require(source.tell() <= expanded, 'truncated tar payload')
+    return {'bytes': expanded, 'raw_headers': count, 'sha256': hashed(output), 'stream_cap': maximum}
+
+
+def safe_name(name, root):
+    parts = PurePosixPath(name).parts
+    require(parts and not name.startswith('/') and '..' not in parts and
+            parts[0] == root and '\\' not in name and '\x00' not in name and len(name.encode()) <= 4096,
+            'archive path outside expected root or unsupported name')
+    return '/'.join(parts)
+
+
+def inventory(archive, tool):
+    members, rows, total = {}, [], 0
+    root = tool['expected_tar_root']
+    for member in archive:
+        name = safe_name(member.name, root)
+        require(name not in members and len(members) < tool['max_members'], 'duplicate or excessive archive member')
+        require(member.isdir() or member.isfile() or member.issym() or member.islnk(), 'special archive member refused')
+        require(member.sparse is None and not any(k.startswith('GNU.sparse') for k in member.pax_headers), 'sparse tar member refused')
+        require(name != root or member.isdir(), 'archive root must be a directory')
+        total += member.size if member.isfile() else 0
+        require(total <= tool['max_expanded_regular_bytes'], 'expanded regular-file byte cap reached')
+        members[name] = member
+        row = member.get_info()
+        row.update(type=member.type.decode('ascii'), pax_headers=member.pax_headers, normalized_name=name)
+        rows.append(row)
+    require(members, 'empty archive')
+    directories = {root}
+    for name in members:
+        parents = PurePosixPath(name).parents
+        for parent in parents:
+            text = str(parent)
+            if text == '.':
+                continue
+            require(text not in members or members[text].isdir(), 'archive path has a nondirectory ancestor')
+            directories.add(text)
+    def resolve(name):
+        for _ in range(64):
+            parts = name.split('/')
+            for end in range(1, len(parts) + 1):
+                prefix = '/'.join(parts[:end])
+                linked = members.get(prefix)
+                if linked is not None and (linked.issym() or linked.islnk()):
+                    require(not posixpath.isabs(linked.linkname), 'absolute archive link refused')
+                    base = posixpath.dirname(prefix) if linked.issym() else ''
+                    name = safe_name(posixpath.normpath(posixpath.join(base, linked.linkname, *parts[end:])), root)
+                    break
+            else:
+                require(name in members or name in directories, 'dangling archive link refused')
+                return name
+        raise Refusal('archive link cycle or excessive chain')
+    targets = {}
+    for name, member in members.items():
+        if member.issym() or member.islnk():
+            targets[name] = resolve(name)
+            require(not member.islnk() or (targets[name] in members and members[targets[name]].isfile()), 'hardlink target is not regular')
+    return members, rows, total, targets
+
+
+def file_manifest(root):
+    result, cache = [], {}
+    for path in sorted(root.rglob('*')):
+        stat = path.lstat()
+        item = {'path': str(path.relative_to(root)), 'mode': stat.st_mode & 0o7777}
+        if path.is_symlink():
+            target = os.readlink(path)
+            require(path.resolve(strict=False).is_relative_to(root.resolve()), 'retained symlink escaped')
+            item.update(kind='symlink', target=target, target_exists=path.exists(), sha256=hashlib.sha256(os.fsencode(target)).hexdigest())
+        elif path.is_file():
+            identity = (stat.st_dev, stat.st_ino)
+            if identity not in cache:
+                cache[identity] = hashed(path)
+            item.update(kind='file', bytes=stat.st_size, sha256=cache[identity])
+        else:
+            require(path.is_dir(), 'unexpected extracted file type')
+            item.update(kind='directory')
+        require(not item['mode'] & 0o7000, 'extracted privilege bits refused')
+        result.append(item)
+    return result
+
+
+def extract_and_hash(archive, members, targets, tools_root, tool):
+    destination = Path(tool['destination'])
+    require(destination == tools_root / tool['expected_tar_root'] and not os.path.lexists(destination), 'tool destination occupied/mismatched')
+    archive.errorlevel = 2
+    archive.extractall(tools_root, members=[m for m in members.values() if not (m.islnk() or m.issym())], filter=tarfile.data_filter)
+    for name, member in members.items():
+        path = tools_root / name
+        if member.islnk() or member.issym():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            if member.issym():
+                os.symlink(member.linkname, path)
+            else:
+                os.link(tools_root / targets[name], path, follow_symlinks=False)
+    for name, member in members.items():
+        path = tools_root / name
+        require(os.path.lexists(path), 'archive member missing after extraction')
+        if member.issym():
+            require(path.exists() and path.resolve(strict=True).is_relative_to(destination.resolve()), 'distribution symlink target missing/outside root')
+    for relative in tool['required_files']:
+        required = destination / relative
+        require(required.exists() and required.resolve().is_relative_to(destination.resolve()), 'required tool file missing/outside root')
+    return file_manifest(destination)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--proposal', type=Path, default=Path(__file__).with_name('proposal.json'))
+    parser.add_argument('--lock-fd', type=int, required=True)
+    args = parser.parse_args()
+    proposal_bytes = args.proposal.read_bytes()
+    require(hashlib.sha256(proposal_bytes).hexdigest() == PROPOSAL_SHA256, 'reviewed proposal bytes changed')
+    proposal = json.loads(proposal_bytes)
+    require(pwd.getpwuid(os.getuid()).pw_name == 'builderbob', 'trusted builderbob identity required')
+    lock = Path(proposal['resource_gate']['shared_lock']).stat()
+    inherited = os.fstat(args.lock_fd)
+    require((lock.st_dev, lock.st_ino) == (inherited.st_dev, inherited.st_ino), 'wrong inherited compiler-lock descriptor')
+    fcntl.flock(args.lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    root = Path(proposal['destinations']['fresh_task_root'])
+    require(root.parent.resolve().is_relative_to('/workspace') and root.parent.is_dir() and
+            root.parent.stat().st_dev == Path('/workspace').stat().st_dev, 'fresh Samsung task parent required')
+    require(not os.path.lexists(root) and callable(getattr(tarfile, 'data_filter', None)), 'task exists or safe tar filter unavailable')
+    require(os.statvfs(root.parent).f_bavail * os.statvfs(root.parent).f_frsize >= 30 * 1024**3, 'insufficient fresh disk headroom')
+    disk_upper = proposal['acquisition_controls']['tool_total_download_cap_bytes'] + 8 * 128 * CHUNK
+    disk_upper += sum(2 * t['max_expanded_regular_bytes'] + t['max_members'] * 2048 + 16 * CHUNK for t in proposal['tools'])
+    require(disk_upper <= proposal['acquisition_controls']['task_total_disk_cap_bytes'], 'phase logical disk bound exceeds task budget')
+    root.mkdir(mode=0o700)
+    downloads, tools, evidence = (root / name for name in ['downloads', 'tools', 'evidence'])
+    for path in [downloads, tools, evidence]:
+        path.mkdir(mode=0o700)
+    signal.signal(signal.SIGALRM, interrupted)
+    signal.signal(signal.SIGTERM, interrupted)
+    signal.signal(signal.SIGINT, interrupted)
+    STATE.update(started_utc=datetime.now(timezone.utc).isoformat(), pid=os.getpid(), parent_pid=os.getppid(),
+                 process_group=os.getpgrp(), task_root=str(root), proposal_sha256=PROPOSAL_SHA256,
+                 phase_logical_file_byte_bound=disk_upper, evidence_file_cap_bytes=128 * CHUNK,
+                 disk_bound_limit='Logical file bytes, not filesystem metadata/block allocation or an enforced disk quota.',
+                 script_sha256=hashed(Path(__file__)), python={'path': sys.executable, 'sha256': hashed(Path(sys.executable))},
+                 ca_sha256=hashed(CA_FILE), affinity=sorted(os.sched_getaffinity(0)),
+                 inspected_runtime_modules={module.__name__: {'path': module.__file__, 'sha256': hashed(Path(module.__file__))}
+                                            for module in [tarfile, ssl, gzip, lzma]},
+                 rlimits={name: resource.getrlimit(getattr(resource, name)) for name in ['RLIMIT_AS', 'RLIMIT_CPU', 'RLIMIT_NOFILE']},
+                 resource_limit='Root admits external profile; this runner does not attest aggregate memory/swap/CPU containment.',
+                 timeout='300s signal deadline per transfer and per tool inspection/extraction; final retention hashing depends on the separately admitted outer profile. One process, no children.',
+                 limits='Entity-body bytes only, not TLS/HTTP wire overhead. EOF must be observed before a cap; a body exactly at the cap is conservatively refused. Metadata/sparse/link bounds are admission rules, not a Python heap or native-capacity claim.')
+    try:
+        opener = build_opener(ProxyHandler({}), Redirects(), HTTPSHandler(context=ssl.create_default_context(cafile=str(CA_FILE))))
+        for tool in proposal['tools']:
+            STATE['current_tool'] = tool['id']
+            cap = proposal['acquisition_controls']['tool_total_download_cap_bytes']
+            metadata_url = tool.get('checksum_sidecar_url', tool['checksum_metadata_url'])
+            metadata = download(opener, metadata_url, downloads / (tool['id'] + '-checksum.partial'), CHUNK, cap)
+            checksum = tool['checksum'].lower()
+            lines = metadata.read_text('utf-8').splitlines()
+            sidecar = tool['archive'] in urlsplit(metadata_url).path
+            require(any((line.strip().lower() == checksum and sidecar) or
+                        (len(parts := line.split()) == 2 and parts[0].lower() == checksum and
+                         parts[1].removeprefix('*') == tool['archive']) for line in lines), 'official checksum metadata mismatch')
+            binary = download(opener, tool['url'], downloads / (tool['archive'] + '.partial'), tool['max_download_bytes'], cap)
+            require(hashed(binary, tool['checksum_algorithm']) == checksum, 'archive digest mismatch; no extraction')
+            unpacked = downloads / (tool['id'] + '.tar.partial')
+            with timed(300):
+                stream = unpack_stream(binary, unpacked, tool)
+                with tarfile.open(unpacked, 'r:', encoding='utf-8', errors='strict') as archive:
+                    members, rows, total, targets = inventory(archive, tool)
+                    record(evidence / (tool['id'] + '-tar-inventory.json'), rows)
+                    files = extract_and_hash(archive, members, targets, tools, tool)
+                    record(evidence / (tool['id'] + '-extracted-files.json'), files)
+            STATE['tools'].append({'id': tool['id'], 'archive_sha256': hashed(binary), 'verified_algorithm': tool['checksum_algorithm'],
+                                   'verified_digest': checksum, 'tar_stream': stream, 'members': len(rows), 'regular_bytes': total,
+                                   'inventory_sha256': hashed(evidence / (tool['id'] + '-tar-inventory.json')),
+                                   'files_sha256': hashed(evidence / (tool['id'] + '-extracted-files.json'))})
+        STATE['status'] = 'ACQUIRED_AND_HASHED_ONLY;NO_ACQUIRED_CODE_EXECUTED'
+        code = 0
+    except Exception as error:
+        STATE.update(status='FAILED_PARTIAL_ATTEMPT_PRESERVED', error_type=type(error).__name__,
+                     error=str(error) if isinstance(error, Refusal) else 'Operational failure; retained partial files and bounds require review.')
+        code = 1
+    finally:
+        STATE.update(finished_utc=datetime.now(timezone.utc).isoformat(), transferred_entity_body_bytes=TRANSFERRED)
+        try:
+            record(evidence / 'retained-files.json', file_manifest(root))
+            STATE['retained_manifest_sha256'] = hashed(evidence / 'retained-files.json')
+        except Exception as retention_error:
+            STATE.update(status='FAILED_RETENTION_MANIFEST_PARTIAL_FILES_PRESERVED', retention_error_type=type(retention_error).__name__)
+            code = 1
+        record(evidence / 'phase1-receipt.json', STATE)
+    print(json.dumps({'status': STATE['status'], 'receipt': str(evidence / 'phase1-receipt.json')}))
+    return code
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
