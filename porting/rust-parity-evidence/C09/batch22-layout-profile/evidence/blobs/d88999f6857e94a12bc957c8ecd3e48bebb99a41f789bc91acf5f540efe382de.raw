@@ -1,0 +1,22 @@
+from pathlib import Path
+import fcntl,hashlib,json,os,statistics,subprocess
+b=Path(__file__).parent;prior=b/'u10a-profile-01';o=b/'u10a-profile-controls-02';o.mkdir();sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();prev=json.loads((prior/'receipt.json').read_text());assert prev['status']=='FAIL_TERMINAL' and prev['source_unchanged'];assert prev['prepared_inputs_before']==prev['inputs_after']
+for p,h in prev['inputs_after'].items():assert sha(Path(p))==h,p
+exe=b/'target-u10a-profile/release/u10a-profile';assert sha(exe)==prev['executable_sha256'];lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);samples=[];summary=[]
+for n in [64,128,256,1024]:
+ for density in [1,2]:
+  label=str(n)+'-'+str(density);measured=[]
+  for repetition in range(9):
+   f=prior/(label+'-'+str(repetition)+'-stdout.json');d=json.loads(f.read_text());assert d['expected_outcome'] and d['inputs_unchanged'] and d['input_nodes']==n and d['edges_per_node']==density and d['input_edges']==n*density and d['input_id_bytes']==27
+   assert d['limits']=={'max_nodes':4096,'max_edges':16384,'max_work':100000000,'max_workspace_bytes':16777216,'max_id_bytes':1024}
+   assert d['status']==('EXPECTED_DEFAULT_WORK_REFUSAL' if n==1024 else 'ADMITTED_CANONICAL_FLAT_GRAPH');assert n==1024 or d['canonical_borrowed_graph_valid'];samples.append({'workload':label,'phase':'warmup' if repetition<2 else 'measured','repetition':repetition,'raw_stdout':str(f),'raw_stdout_sha256':sha(f),'data':d})
+   if repetition>=2:measured.append(d)
+  vals=[x['api_ns']/1e6 for x in measured];summary.append({'workload':label,'status':measured[0]['status'],'metric_scope':'refusal latency' if n==1024 else 'admission latency','measured':7,'api_ms':{'min':min(vals),'median':statistics.median(vals),'max':max(vals)},'requested_bytes':sorted({x['allocations']['requested_bytes'] for x in measured}),'phase_peak_live_bytes':sorted({x['allocations']['phase_peak_live_bytes'] for x in measured}),'phase_peak_above_initial_live_bytes':sorted({x['allocations']['phase_peak_above_initial_live'] for x in measured}),'process_hwm_kib':{'min':min(x['process_peak_rss_kib'] for x in measured),'max':max(x['process_peak_rss_kib'] for x in measured)}})
+first=json.loads((prior/'cancel-1-stdout.json').read_text());assert first['status']=='EXPECTED_CANCELLED_BEFORE_ADMISSION' and first['allocations']['requested_bytes']==0 and first['allocations']['allocation_requests']==0
+commands=[]
+for label,args,expected in [('cancel-2',['64','2','--cancel-before'],0),('invalid-0',['63','1'],2),('invalid-1',['64','3'],2),('invalid-2',['64','1','--unknown'],2)]:
+ argv=[str(exe),*args];p=subprocess.run(argv,capture_output=True,timeout=30);(o/(label+'-stdout.json')).write_bytes(p.stdout);(o/(label+'-stderr.txt')).write_bytes(p.stderr);assert p.returncode==expected;data=json.loads(p.stdout)
+ if label=='cancel-2':assert data['status']=='EXPECTED_CANCELLED_BEFORE_ADMISSION' and data['allocations']['requested_bytes']==0 and data['allocations']['allocation_requests']==0
+ else:assert data['status']=='INVALID_ARGUMENTS'
+ commands.append({'label':label,'argv':argv,'exit':p.returncode,'expected':expected})
+(o/'samples.json').write_text(json.dumps(samples,indent=2)+'\n');(o/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());r={'status':'PASS_72_RAW_OBSERVATIONS_8_GROUPS_2_WARM7_MEASURED_2_PRECALL_CANCEL3_INVALID_CLI','source_profiler_sha256':sha(b/'u10a_profile.rs'),'prior_receipt':str(prior/'receipt.json'),'prior_receipt_sha256':sha(prior/'receipt.json'),'prior_disposition':'All72 sample calls passed. Later controller expected the abbreviated status EXPECTED_CANCELLED but actual correct tool status is EXPECTED_CANCELLED_BEFORE_ADMISSION; this controller assertion failure is retained. No sample rerun or source change.','reused_commands':len(prev['commands']),'fresh_control_commands':commands,'executable_sha256':sha(exe),'prepared_inputs_before':prev['prepared_inputs_before'],'inputs_after':{p:sha(Path(p)) for p in prev['inputs_after']},'p95_claimed':False,'scope':'Instrumented API admission/refusal only; default1024workrefusals keep capacity OPEN; no placement/native/UI/worker/interiorcancel acceptance'};assert r['prepared_inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps({'status':r['status'],'source':r['source_profiler_sha256'],'summary':summary}))

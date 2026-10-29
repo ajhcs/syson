@@ -1,0 +1,30 @@
+from pathlib import Path
+import fcntl,hashlib,json,os,signal,statistics,subprocess,time
+b=Path(__file__).parent;o=b/'u10a-profile-01';o.mkdir();(o/'tmp').mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch22-layout-admission');source=b/'u10a_profile.rs';tool=Path('/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin');cargo=tool/'cargo';files={Path(__file__),source,cargo,tool/'rustc'};files.update(f for f in (w/'rust/crates/syson-layout').rglob('*') if f.is_file());sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();snap=lambda:{str(f):sha(f) for f in sorted(files)};r={'status':'RUNNING','scope':'Actual borrowed canonical graph admission; unchanged default limits; no placement/native/UI/worker/capacity acceptance','inputs_before':snap(),'commands':[]};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);env=dict(os.environ,PATH=str(tool)+':/usr/bin:/bin',CARGO_HOME='/workspace/cache/builderbob/global-tools/cargo',RUSTUP_HOME='/workspace/cache/builderbob/global-tools/rustup',RUSTUP_TOOLCHAIN='1.99.1-x86_64-unknown-linux-gnu',CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR=str(b/'target-u10a-profile'),TMPDIR=str(o/'tmp'));child=None
+signal.signal(signal.SIGTERM,lambda *_:(_ for _ in ()).throw(RuntimeError('SIGTERM')))
+def run(label,argv,expected=0):
+ global child
+ start=time.monotonic();child=subprocess.Popen(list(map(str,argv)),cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:out,err=child.communicate(timeout=180);timed=False
+ except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);out,err=child.communicate(timeout=10);timed=True
+ (o/(label+'-stdout.json')).write_bytes(out);(o/(label+'-stderr.txt')).write_bytes(err);r['commands'].append({'label':label,'argv':list(map(str,argv)),'exit':child.returncode,'expected_exit':expected,'timeout':timed,'wall_seconds':time.monotonic()-start});child=None
+ if r['commands'][-1]['exit']!=expected or timed:raise RuntimeError('Preserve '+label)
+ return out
+try:
+ q=lambda p:json.dumps(str(p));manifest=o/'Cargo.toml';manifest.write_text('[package]\nname="u10a-admission-profile"\nversion="0.0.0"\nedition="2024"\n[dependencies]\nserde_json="=1.0.151"\nsyson-layout={path='+q(w/'rust/crates/syson-layout')+'}\n[[bin]]\nname="u10a-profile"\npath='+q(source)+'\n[workspace]\n');run('lock',[cargo,'generate-lockfile','--offline','--manifest-path',manifest]);files.update([manifest,o/'Cargo.lock']);r['prepared_inputs_before']=snap();run('format',[tool/'rustfmt','--edition','2024','--check',source]);run('clippy',[cargo,'clippy','--release','--offline','--locked','--jobs','1','--manifest-path',manifest,'--all-targets','--','-D','warnings']);run('build',[cargo,'build','--release','--offline','--locked','--jobs','1','--manifest-path',manifest]);exe=b/'target-u10a-profile/release/u10a-profile';r['executable_sha256']=sha(exe);samples=[];summary=[]
+ for nodes in [64,128,256,1024]:
+  for density in [1,2]:
+   label=str(nodes)+'-'+str(density);measured=[]
+   for repetition in range(9):
+    data=json.loads(run(label+'-'+str(repetition),[exe,str(nodes),str(density)]));assert data['expected_outcome'];row={'workload':label,'phase':'warmup' if repetition<2 else 'measured','repetition':repetition,'data':data};samples.append(row)
+    if repetition>=2:measured.append(data)
+   values=[x['api_ns']/1e6 for x in measured];summary.append({'workload':label,'measured':7,'statuses':sorted({x['status'] for x in measured}),'api_ms':{'min':min(values),'median':statistics.median(values),'max':max(values)},'requested_bytes':sorted({x['allocations']['requested_bytes'] for x in measured}),'phase_peak_live_bytes':sorted({x['allocations']['phase_peak_live_bytes'] for x in measured}),'phase_peak_above_initial_live_bytes':sorted({x['allocations']['phase_peak_above_initial_live'] for x in measured}),'process_hwm_kib':{'min':min(x['process_peak_rss_kib'] for x in measured),'max':max(x['process_peak_rss_kib'] for x in measured)}});print(json.dumps(summary[-1]),flush=True)
+ for density in [1,2]:
+  d=json.loads(run('cancel-'+str(density),[exe,'64',str(density),'--cancel-before']));assert d['status']=='EXPECTED_CANCELLED' and d['allocations']['requested_bytes']==0
+ for i,args in enumerate([['63','1'],['64','3'],['64','1','--unknown']]):run('invalid-cli-'+str(i),[exe,*args],2)
+ (o/'samples.json').write_text(json.dumps(samples,indent=2)+'\n');(o/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');r.update(status='PASS_72_API_OBSERVATIONS_8_NAMED_WORKLOADS_2_WARM7_MEASURED;2_PRECALL_CANCEL3_CLI_REFUSALS',samples=72,summary=summary,p95_claimed=False)
+except BaseException as e:r.update(status='FAIL_TERMINAL',error=repr(e));raise
+finally:
+ if child is not None and child.poll() is None:os.killpg(child.pid,signal.SIGKILL);child.communicate(timeout=10)
+ r['inputs_after']=snap();r['source_unchanged']=all(r['inputs_after'].get(k)==v for k,v in r['inputs_before'].items());(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+ if not r['source_unchanged']:raise RuntimeError('Source drift')
