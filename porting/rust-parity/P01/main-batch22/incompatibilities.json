@@ -1,0 +1,44 @@
+[
+  {
+    "case": "07-semantic-block-comment",
+    "native": "Valid semantic Comment input",
+    "rust": "Unsupported { offset: 0 }",
+    "owner": "P05",
+    "disposition": "Explicit finite P01 restriction; semantic Comment must not be discarded."
+  },
+  {
+    "case": "08-overlap-multiline-note",
+    "native": "Valid hidden multiline note",
+    "rust": "Unsupported { offset: 0 }",
+    "owner": "P02",
+    "disposition": "Exact //* overlap is outside ordinary-note admission."
+  },
+  {
+    "case": "late-overlap",
+    "native": "No captured lexer/parser error after the visible Package",
+    "rust": "Unsupported { offset: 19 }",
+    "owner": "P02",
+    "disposition": "Exact //* prefix remains explicitly fenced even at the visible-token limit."
+  },
+  {
+    "case": "09-commented-closing-brace",
+    "native": "One parser error and recovered/truncated CST",
+    "rust": "Malformed { offset: 21, expected: \"}\" }",
+    "owner": "P16/P17",
+    "disposition": "Finite caller refuses missing brace; no native diagnostic/recovery parity claimed."
+  },
+  {
+    "case": "10-no-token-merging",
+    "native": "Two parser errors and recovered output",
+    "rust": "Unsupported { offset: 0 }",
+    "owner": "P03/P16/P17",
+    "disposition": "Notes do not merge separate visible name tokens; recovered native output is retained."
+  },
+  {
+    "case": "quoted-error-offset",
+    "native": "One lexer and one parser error with recovered output",
+    "rust": "Malformed { offset: 36, expected: \"closing name quote\" }",
+    "owner": "P03/P16/P17",
+    "disposition": "Quoted // stays content; malformed name retains original byte EOF. Raw native diagnostics are not equivalent to this finite error."
+  }
+]

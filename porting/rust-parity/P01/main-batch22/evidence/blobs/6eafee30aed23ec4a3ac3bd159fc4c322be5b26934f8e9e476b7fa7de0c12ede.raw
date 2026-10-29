@@ -1,0 +1,45 @@
+   Compiling syson-reflection v0.1.0 (/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-reflection)
+   Compiling syson-ast-dispatch v0.1.0 (/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-ast-dispatch)
+   Compiling syson-ast-values v0.1.0 (/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-ast-values)
+   Compiling syson-ast v0.1.0 (/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-ast)
+   Compiling syson-ast-adapter-p01-baseline v0.1.0 (/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/red-adapter)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.89s
+     Running tests/line_comments.rs (/workspace/build/builderbob/syson-batch22-20261029/target-p01-v2-red/debug/deps/line_comments-773aa226c4fc9ae6)
+
+thread 'comment_only_eof_has_no_visible_tokens_and_keeps_original_root_span' (382407) panicked at tests/line_comments.rs:145:6:
+called `Result::unwrap()` on an `Err` value: Limit
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'each_line_ending_terminates_hidden_notes_at_real_token_boundaries' (382408) panicked at tests/line_comments.rs:13:42:
+called `Result::unwrap()` on an `Err` value: Unsupported { offset: 0 }
+
+thread 'empty_and_hidden_only_root_extents_match_the_original_cst_fallback' (382409) panicked at tests/line_comments.rs:298:10:
+called `Result::unwrap()` on an `Err` value: Limit
+
+thread 'ignored_punctuation_cannot_close_a_body_or_change_original_error_offsets' (382410) panicked at tests/line_comments.rs:201:5:
+assertion failed: matches!(construct(missing, Limits::default()),
+    Err(Error::Malformed { offset, expected: "}" }) if offset ==
+    missing.len())
+
+thread 'notes_do_not_spend_visible_tokens_but_do_spend_original_source_bytes' (382411) panicked at tests/line_comments.rs:156:5:
+assertion failed: construct(source, Limits { tokens: 3, ..Limits::default() }).is_ok()
+
+thread 'overlapping_notes_are_refused_at_their_original_offset_after_visible_limit' (382412) panicked at tests/line_comments.rs:260:5:
+assertion failed: matches!(construct(source, Limits { tokens: 3, ..Limits::default() }),
+    Err(Error::Unsupported { offset }) if offset ==
+    source.find("//*").unwrap())
+
+thread 'quoted_note_prefix_does_not_hide_an_unterminated_name_error' (382413) panicked at tests/line_comments.rs:248:5:
+assertion `left == right` failed
+  left: Unsupported { offset: 0 }
+ right: Malformed { offset: 36, expected: "closing name quote" }
+
+thread 'quoted_slashes_and_escaped_quotes_stay_in_names_and_references' (382414) panicked at tests/line_comments.rs:13:42:
+called `Result::unwrap()` on an `Err` value: Unsupported { offset: 0 }
+
+thread 'semantic_block_comments_and_overlapping_multiline_notes_remain_explicit' (382415) panicked at tests/line_comments.rs:13:42:
+called `Result::unwrap()` on an `Err` value: Unsupported { offset: 0 }
+
+thread 'unicode_line_separators_stay_note_content_until_lf_or_cr' (382416) panicked at tests/line_comments.rs:13:42:
+called `Result::unwrap()` on an `Err` value: Unsupported { offset: 0 }
+error: test failed, to rerun pass `--test line_comments`

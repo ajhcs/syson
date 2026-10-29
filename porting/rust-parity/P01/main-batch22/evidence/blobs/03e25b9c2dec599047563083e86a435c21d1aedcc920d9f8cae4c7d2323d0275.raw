@@ -1,0 +1,20 @@
+from pathlib import Path
+import fcntl,hashlib,json,os,re,signal,subprocess,time
+b=Path(__file__).parent;o=b/'p01-ast-callers-01';o.mkdir();(o/'tmp').mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch22-line-comments');tool=Path('/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin');cargo=tool/'cargo';files={Path(__file__),cargo,tool/'rustc'}
+for crate in ['syson-ast','syson-ast-adapter','syson-ast-values','syson-ast-dispatch','syson-reflection']:files.update(f for f in (w/'rust/crates'/crate).rglob('*') if f.is_file())
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();snap=lambda:{str(f):sha(f) for f in sorted(files)};r={'status':'RUNNING','scope':'Fresh actual AST dev parser-callers after P01 changes; old42AST capture is not reused as unchanged dependency evidence','inputs_before':snap(),'commands':[]};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);env=dict(os.environ,PATH=str(tool)+':/usr/bin:/bin',CARGO_HOME='/workspace/cache/builderbob/global-tools/cargo',RUSTUP_HOME='/workspace/cache/builderbob/global-tools/rustup',RUSTUP_TOOLCHAIN='1.99.1-x86_64-unknown-linux-gnu',CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR=str(b/'target-p01-ast'),TMPDIR=str(o/'tmp'));child=None
+signal.signal(signal.SIGTERM,lambda *_:(_ for _ in ()).throw(RuntimeError('SIGTERM')))
+def run(label,args):
+ global child
+ argv=[cargo,*args];start=time.monotonic();child=subprocess.Popen(list(map(str,argv)),cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:out,err=child.communicate(timeout=180)
+ except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);out,err=child.communicate(timeout=10);raise RuntimeError('Timeout '+label)
+ (o/(label+'-stdout.txt')).write_bytes(out);(o/(label+'-stderr.txt')).write_bytes(err);row={'label':label,'argv':list(map(str,argv)),'exit':child.returncode,'wall_seconds':time.monotonic()-start,'test_cases_passed':sum(map(int,re.findall(rb'test result: ok\. (\d+) passed;',out)))};r['commands'].append(row);child=None;print(json.dumps(row),flush=True);assert row['exit']==0,label
+ return row
+try:
+ manifest=w/'rust/crates/syson-ast/Cargo.toml';run('format',['fmt','--manifest-path',manifest,'--','--check']);row=run('tests',['test','--offline','--locked','--jobs','1','--manifest-path',manifest,'--','--test-threads=1','--nocapture']);assert row['test_cases_passed']==42;run('clippy',['clippy','--offline','--locked','--jobs','1','--manifest-path',manifest,'--all-targets','--','-D','warnings']);run('wasm',['check','--offline','--locked','--jobs','1','--manifest-path',manifest,'--target','wasm32-unknown-unknown']);r['status']='PASS_42_FRESH_AST_CASES_WITH_CURRENT_P01_ADAPTER_DEVELOPER_CALLER_FORMAT_CLIPPY_WASM'
+except BaseException as e:r.update(status='FAIL_TERMINAL',error=repr(e));raise
+finally:
+ if child is not None and child.poll() is None:os.killpg(child.pid,signal.SIGKILL);child.communicate(timeout=10)
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+ if not r['source_unchanged']:raise RuntimeError('Source drift')

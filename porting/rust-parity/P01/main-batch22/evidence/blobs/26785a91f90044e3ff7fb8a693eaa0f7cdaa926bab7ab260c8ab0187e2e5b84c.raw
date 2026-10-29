@@ -1,0 +1,63 @@
+{
+  "unit": "P01",
+  "status": "BOUNDED_LEXICAL_IMPLEMENTATION_WITH_FINITE_DIFFERENTIAL_EVIDENCE",
+  "base_commit": "ca1c4b3ab364db7dc9da835c66cba72912c3417f",
+  "implementation_commit": "d069c0c33b4560e634c8adc9190ecfacd80ee601",
+  "base_pr": 40,
+  "base_branch": "codex/syson-f11",
+  "source_refs": {
+    "upstream": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "embedded_cli": "backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+    "embedded_cli_sha256": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "embedded_lexical_rule_lines": [
+      56376,
+      56387,
+      56397,
+      78152,
+      78163,
+      78173
+    ],
+    "embedded_cli_diagnostic_policy_lines": [
+      114568,
+      114624
+    ],
+    "retained_syside_candidate": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+    "retained_grammar_path": "packages/syside-languageserver/src/grammar/KerML.expressions.langium",
+    "grammar_entries": [
+      "KerML:217:SL_NOTE",
+      "SysML:388:SL_NOTE"
+    ],
+    "retained_inventory_revision": "ad814c232ee24109639c1d52239cbeec6f4a3e92"
+  },
+  "verification": {
+    "p01-01": "FAIL: fmt passed; inherited construction suite12PASS1FAIL because old unsupported whitelist still included newly supported ordinary line comment; new test binary and Clippy not executed in that attempt",
+    "p01-02": "PASS: fmt,13 inherited +6 new integration tests, scoped Clippy,32 source inputs unchanged",
+    "rust-01": "PASS:46 inputs, exact ten fixture files equal original manifest source bytes; actual structured arena/error observations",
+    "native-01": "CAPTURED: ten fresh pinned CLI processes with stdlib none; all exit0; not a syntax-validity or full AST verdict",
+    "differential": "Six selected class/rawname projections match; Rust source spans and unresolved typing segments independently checked; four explicit differences retained",
+    "browser": "NOT_APPLICABLE_TO_CHANGED_CODE: no browser/editor source changed; browser workflows not exercised. Actual integration evidence is direct Adapter::construct.",
+    "performance": "NOT_MEASURED: no latency/allocation/cross-platform/native performance claim",
+    "independent_review": "Source-only peer review of scanner and focused regressions accepted; root execution authoritative"
+  },
+  "differences": {
+    "07": "Native semantic Comment node; Rust Unsupported0; required family P05",
+    "08": "Native hidden //* ML_NOTE; Rust Unsupported0; required family P02",
+    "09": "Prepared native refusal prediction wrong: native emitted recovered/truncated Package AST exit0 without diagnostics; Rust Malformed byte21 expected }",
+    "10": "Prepared native refusal prediction wrong: native emitted three ReferenceUsage nodes pack/age/P; Rust finite family Unsupported0; no token merging"
+  },
+  "native_reference_representation": "Native dump reference.parts can contain cleaned/resolved qualified names. Rust F11 deliberately retains raw unresolved reference segments; no whole TypeReference JSON equivalence claimed.",
+  "limits": "Original source_bytes still charges all comment bytes; hidden note bytes do not spend visible token count. Exact //* prefix refused pending overlapping multiline-note family; semantic /* never silently discarded.",
+  "external_full_artifacts": "/workspace/build/builderbob/syson-rust-parity-20261026",
+  "current_hash_verification": [
+    {
+      "capture": "p01-02",
+      "current_source_matches_inputs": 32
+    },
+    {
+      "capture": "rust-01",
+      "current_source_and_fixture_inputs_match": 46
+    }
+  ],
+  "captured_probe_path_policy": "Copied Cargo.toml/main.rs/Cargo.lock preserve exact executed absolute path inputs. They are dev-only evidence, not an integrated production tool; relocation requires separate input review/capture.",
+  "capture_relocation_policy": "Original manifests and runners preserve original absolute /workspace paths and wrong predictions unchanged; committed raw streams/inputs are byte-for-byte copies. Historical F11 docs/evidence not changed."
+}

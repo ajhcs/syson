@@ -1,0 +1,83 @@
+{
+  "tool_sha256": "d1da54e74d7e0cc8cee8a749a628e68022cbd96a252738d5929721c7b432b7f3",
+  "rows": [
+    {
+      "label": "before-root-fix-normal",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch22-20261029/compare_p01.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/native-comments.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/rust-comments.json",
+        "--self-test"
+      ],
+      "exit": 1,
+      "expected": 1,
+      "status": null,
+      "difference_count": 2,
+      "negative_controls": 9
+    },
+    {
+      "label": "before-root-fix-optimized",
+      "argv": [
+        "python3",
+        "-O",
+        "/workspace/build/builderbob/syson-batch22-20261029/compare_p01.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/native-comments.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/rust-comments.json",
+        "--self-test"
+      ],
+      "exit": 1,
+      "expected": 1,
+      "status": null,
+      "difference_count": 2,
+      "negative_controls": 9
+    },
+    {
+      "label": "final-normal",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch22-20261029/compare_p01.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus-v2.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/native-comments.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/rust-comments.json",
+        "--self-test"
+      ],
+      "exit": 0,
+      "expected": 0,
+      "status": null,
+      "difference_count": 0,
+      "negative_controls": 9
+    },
+    {
+      "label": "final-optimized",
+      "argv": [
+        "python3",
+        "-O",
+        "/workspace/build/builderbob/syson-batch22-20261029/compare_p01.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus-v2.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/native-comments.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/rust-comments.json",
+        "--self-test"
+      ],
+      "exit": 0,
+      "expected": 0,
+      "status": null,
+      "difference_count": 0,
+      "negative_controls": 9
+    }
+  ]
+}

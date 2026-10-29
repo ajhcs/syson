@@ -1,0 +1,186 @@
+Parsed file:///workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/05-quoted-slashes.sysml in 100.87 ms (1 bytes/ms)
+Building documents:
+	file:///workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/05-quoted-slashes.sysml [Parsed]
+Completed Parsed in 0.110 ms
+   Average parse speed: 1 bytes/ms
+Completed IndexedContent in 0.292 ms
+Completed ComputedScopes in 0.226 ms
+Completed Linked in 1.776 ms
+Completed IndexedReferences in 0.227 ms
+Completed Validated in 0.002 ms
+Build statistics 1.313 ms:
+	assignMetaclass: 0.039 ms in 8 hits (avg: 0.005 ms),
+	resolveNamespaceImports: 0.092 ms in 4 hits (avg: 0.023 ms),
+	linkNamespaceFeatures: 0.033 ms in 4 hits (avg: 0.008 ms),
+	linkRelationship: 0.739 ms in 4 hits (avg: 0.185 ms),
+	addSemanticMetadata: 0.087 ms in 2 hits (avg: 0.043 ms),
+	linkTypeRelationships: 0.024 ms in 2 hits (avg: 0.012 ms),
+	addClassifierImplicits: 0.025 ms in 1 hits (avg: 0.025 ms),
+	addDefinitionImplicits: 0.015 ms in 1 hits (avg: 0.015 ms),
+	redefineEnds: 0.123 ms in 2 hits (avg: 0.061 ms),
+	setupSpecialization: 0.035 ms in 1 hits (avg: 0.035 ms),
+	collectFeatureClassifiers: 0.036 ms in 1 hits (avg: 0.036 ms),
+	addFeatureValueTypings: 0.015 ms in 1 hits (avg: 0.015 ms),
+	addImplicitOccurrenceUsageTyping: 0.014 ms in 1 hits (avg: 0.014 ms),
+	addFeatureImplicits: 0.005 ms in 1 hits (avg: 0.005 ms),
+	addUsageImplicits: 0.012 ms in 1 hits (avg: 0.012 ms),
+	addCrossFeatureImplicits: 0.021 ms in 1 hits (avg: 0.021 ms)
+{
+  "$type": "Namespace",
+  "children": [
+    {
+      "$type": "OwningMembership",
+      "target": {
+        "$type": "Package",
+        "children": [
+          {
+            "$type": "OwningMembership",
+            "target": {
+              "$type": "PartDefinition",
+              "$cstNode": {
+                "text": "part def 'a\\'//b';",
+                "stack": [
+                  "DefinitionElement",
+                  "DefinitionMember"
+                ]
+              },
+              "declaredName": "'a\\'//b'",
+              "isIndividual": false,
+              "isVariation": false,
+              "heritage": [],
+              "isSufficient": false,
+              "typeRelationships": [],
+              "children": [],
+              "prefixes": [],
+              "$meta": {
+                "elementId": 4,
+                "qualifiedName": "http://example::a'//b"
+              }
+            },
+            "$cstNode": {
+              "text": "part def 'a\\'//b';",
+              "stack": [
+                "DefinitionMember",
+                "PackageBodyElement"
+              ]
+            },
+            "isAlias": false,
+            "elements": [],
+            "$meta": {
+              "elementId": 3,
+              "qualifiedName": ""
+            }
+          },
+          {
+            "$type": "OwningMembership",
+            "target": {
+              "$type": "PartUsage",
+              "$cstNode": {
+                "text": "part 'x//y': 'http://example' // reference segment\r\n :: 'a\\'//b';",
+                "stack": [
+                  "UsageElement",
+                  "UsageMember"
+                ]
+              },
+              "heritage": [
+                {
+                  "$type": "FeatureTyping",
+                  "targetRef": {
+                    "$type": "TypeReference",
+                    "$cstNode": {
+                      "text": "'http://example' // reference segment\r\n :: 'a\\'//b'",
+                      "stack": [
+                        "TypeReference",
+                        "FeatureType"
+                      ]
+                    },
+                    "text": "'http://example' // reference segment\r\n :: 'a\\'//b'",
+                    "reference": "http://example::a'//b",
+                    "parts": [
+                      "http://example",
+                      "http://example::a'//b"
+                    ]
+                  },
+                  "$cstNode": {
+                    "text": "'http://example' // reference segment\r\n :: 'a\\'//b'",
+                    "stack": [
+                      "FeatureTyping",
+                      "TypedBy"
+                    ]
+                  },
+                  "elements": [],
+                  "$meta": {
+                    "elementId": 10,
+                    "qualifiedName": ""
+                  }
+                }
+              ],
+              "declaredName": "'x//y'",
+              "isIndividual": false,
+              "isReference": false,
+              "isVariation": false,
+              "isNonunique": false,
+              "isOrdered": false,
+              "isSufficient": false,
+              "typeRelationships": [],
+              "children": [],
+              "prefixes": [],
+              "$meta": {
+                "elementId": 9,
+                "qualifiedName": "http://example::x//y"
+              }
+            },
+            "$cstNode": {
+              "text": "part 'x//y': 'http://example' // reference segment\r\n :: 'a\\'//b';",
+              "stack": [
+                "UsageMember",
+                "PackageBodyElement"
+              ]
+            },
+            "isAlias": false,
+            "elements": [],
+            "$meta": {
+              "elementId": 8,
+              "qualifiedName": ""
+            }
+          }
+        ],
+        "$cstNode": {
+          "text": "package 'http://example' { part def 'a\\'//b'; part 'x//y': 'http://example' // reference segment\r\n :: 'a\\'//b'; }",
+          "stack": [
+            "DefinitionElement",
+            "DefinitionMember"
+          ]
+        },
+        "declaredName": "'http://example'",
+        "prefixes": [],
+        "$meta": {
+          "elementId": 2,
+          "qualifiedName": "http://example"
+        }
+      },
+      "$cstNode": {
+        "text": "package 'http://example' { part def 'a\\'//b'; part 'x//y': 'http://example' // reference segment\r\n :: 'a\\'//b'; }",
+        "stack": [
+          "DefinitionMember",
+          "PackageBodyElement"
+        ]
+      },
+      "isAlias": false,
+      "elements": [],
+      "$meta": {
+        "elementId": 1,
+        "qualifiedName": ""
+      }
+    }
+  ],
+  "$cstNode": {
+    "text": "package 'http://example' { part def 'a\\'//b'; part 'x//y': 'http://example' // reference segment\r\n :: 'a\\'//b'; }",
+    "stack": []
+  },
+  "prefixes": [],
+  "$meta": {
+    "elementId": 0,
+    "qualifiedName": ""
+  }
+}

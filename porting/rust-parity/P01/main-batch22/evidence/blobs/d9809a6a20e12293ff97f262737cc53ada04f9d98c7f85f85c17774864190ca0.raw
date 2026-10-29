@@ -1,0 +1,185 @@
+Parsed file:///workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/03-CRLF.sysml in 111.08 ms (1 bytes/ms)
+Building documents:
+	file:///workspace/build/builderbob/syson-rust-parity-20261026/P01/fixtures/03-CRLF.sysml [Parsed]
+Completed Parsed in 0.106 ms
+   Average parse speed: 1 bytes/ms
+Completed IndexedContent in 0.303 ms
+Completed ComputedScopes in 0.234 ms
+Completed Linked in 1.785 ms
+Completed IndexedReferences in 0.225 ms
+Completed Validated in 0.003 ms
+Build statistics 1.309 ms:
+	assignMetaclass: 0.041 ms in 8 hits (avg: 0.005 ms),
+	resolveNamespaceImports: 0.096 ms in 4 hits (avg: 0.024 ms),
+	linkNamespaceFeatures: 0.035 ms in 4 hits (avg: 0.009 ms),
+	linkRelationship: 0.699 ms in 4 hits (avg: 0.175 ms),
+	addSemanticMetadata: 0.096 ms in 2 hits (avg: 0.048 ms),
+	linkTypeRelationships: 0.025 ms in 2 hits (avg: 0.013 ms),
+	addClassifierImplicits: 0.026 ms in 1 hits (avg: 0.026 ms),
+	addDefinitionImplicits: 0.017 ms in 1 hits (avg: 0.017 ms),
+	redefineEnds: 0.129 ms in 2 hits (avg: 0.064 ms),
+	setupSpecialization: 0.040 ms in 1 hits (avg: 0.040 ms),
+	collectFeatureClassifiers: 0.038 ms in 1 hits (avg: 0.038 ms),
+	addFeatureValueTypings: 0.015 ms in 1 hits (avg: 0.015 ms),
+	addImplicitOccurrenceUsageTyping: 0.013 ms in 1 hits (avg: 0.013 ms),
+	addFeatureImplicits: 0.005 ms in 1 hits (avg: 0.005 ms),
+	addUsageImplicits: 0.013 ms in 1 hits (avg: 0.013 ms),
+	addCrossFeatureImplicits: 0.022 ms in 1 hits (avg: 0.022 ms)
+{
+  "$type": "Namespace",
+  "children": [
+    {
+      "$type": "OwningMembership",
+      "target": {
+        "$type": "Package",
+        "children": [
+          {
+            "$type": "OwningMembership",
+            "target": {
+              "$type": "PartDefinition",
+              "$cstNode": {
+                "text": "part// definition boundary\r\ndef T;",
+                "stack": [
+                  "DefinitionElement",
+                  "DefinitionMember"
+                ]
+              },
+              "declaredName": "T",
+              "isIndividual": false,
+              "isVariation": false,
+              "heritage": [],
+              "isSufficient": false,
+              "typeRelationships": [],
+              "children": [],
+              "prefixes": [],
+              "$meta": {
+                "elementId": 4,
+                "qualifiedName": "P::T"
+              }
+            },
+            "$cstNode": {
+              "text": "part// definition boundary\r\ndef T;",
+              "stack": [
+                "DefinitionMember",
+                "PackageBodyElement"
+              ]
+            },
+            "isAlias": false,
+            "elements": [],
+            "$meta": {
+              "elementId": 3,
+              "qualifiedName": ""
+            }
+          },
+          {
+            "$type": "OwningMembership",
+            "target": {
+              "$type": "PartUsage",
+              "$cstNode": {
+                "text": "part x:// type boundary\r\nT;",
+                "stack": [
+                  "UsageElement",
+                  "UsageMember"
+                ]
+              },
+              "heritage": [
+                {
+                  "$type": "FeatureTyping",
+                  "targetRef": {
+                    "$type": "TypeReference",
+                    "$cstNode": {
+                      "text": "T",
+                      "stack": [
+                        "TypeReference",
+                        "FeatureType"
+                      ]
+                    },
+                    "text": "T",
+                    "reference": "P::T",
+                    "parts": [
+                      "P::T"
+                    ]
+                  },
+                  "$cstNode": {
+                    "text": "T",
+                    "stack": [
+                      "FeatureTyping",
+                      "TypedBy"
+                    ]
+                  },
+                  "elements": [],
+                  "$meta": {
+                    "elementId": 10,
+                    "qualifiedName": ""
+                  }
+                }
+              ],
+              "declaredName": "x",
+              "isIndividual": false,
+              "isReference": false,
+              "isVariation": false,
+              "isNonunique": false,
+              "isOrdered": false,
+              "isSufficient": false,
+              "typeRelationships": [],
+              "children": [],
+              "prefixes": [],
+              "$meta": {
+                "elementId": 9,
+                "qualifiedName": "P::x"
+              }
+            },
+            "$cstNode": {
+              "text": "part x:// type boundary\r\nT;",
+              "stack": [
+                "UsageMember",
+                "PackageBodyElement"
+              ]
+            },
+            "isAlias": false,
+            "elements": [],
+            "$meta": {
+              "elementId": 8,
+              "qualifiedName": ""
+            }
+          }
+        ],
+        "$cstNode": {
+          "text": "package// name boundary\r\nP {part// definition boundary\r\ndef T;part x:// type boundary\r\nT; }",
+          "stack": [
+            "DefinitionElement",
+            "DefinitionMember"
+          ]
+        },
+        "declaredName": "P",
+        "prefixes": [],
+        "$meta": {
+          "elementId": 2,
+          "qualifiedName": "P"
+        }
+      },
+      "$cstNode": {
+        "text": "package// name boundary\r\nP {part// definition boundary\r\ndef T;part x:// type boundary\r\nT; }",
+        "stack": [
+          "DefinitionMember",
+          "PackageBodyElement"
+        ]
+      },
+      "isAlias": false,
+      "elements": [],
+      "$meta": {
+        "elementId": 1,
+        "qualifiedName": ""
+      }
+    }
+  ],
+  "$cstNode": {
+    "text": "package// name boundary\r\nP {part// definition boundary\r\ndef T;part x:// type boundary\r\nT; }",
+    "stack": []
+  },
+  "prefixes": [],
+  "$meta": {
+    "elementId": 0,
+    "qualifiedName": ""
+  }
+}
