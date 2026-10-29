@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "scope": "catalogue",
+  "base": "eb3a5e47476947f748867bbed8be2b4603b1f874",
+  "postqualification_source_tree": "b6e0d0c098d127833e1f1549d5257afbd7f99142",
+  "meaning": "Tree bound after execution; every captured before/after Rust input byte resolves from this immutable Git tree. Not a claim of execution on a clean published head.",
+  "source_unchanged": true,
+  "commands": [
+    {
+      "capture_index": 12,
+      "scope": "catalogue",
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--config",
+        "skip_children=true",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch15-catalogue/rust/tools/native-library-catalog/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/batch15-catalogue/rust/tools/native-library-catalog/src/main.rs",
+        "/workspace/worktrees/builderbob/syson/batch15-catalogue/rust/tools/native-library-catalog/tests/catalog.rs",
+        "/workspace/worktrees/builderbob/syson/batch15-catalogue/rust/tools/native-library-catalog/tests/rr03_regression.rs"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.013453004998154938,
+      "tests_passed": 0
+    },
+    {
+      "capture_index": 13,
+      "scope": "catalogue",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch15-catalogue/rust/tools/native-library-catalog/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 1.9568237249040976,
+      "tests_passed": 18
+    },
+    {
+      "capture_index": 14,
+      "scope": "catalogue",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch15-catalogue/rust/tools/native-library-catalog/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.2201361800543964,
+      "tests_passed": 0
+    },
+    {
+      "capture_index": 15,
+      "scope": "catalogue",
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch15-catalogue/rust/tools/native-library-catalog/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 1.324038472957909,
+      "tests_passed": 0
+    },
+    {
+      "capture_index": 16,
+      "scope": "catalogue",
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch15-catalogue/rust/crates/syson-json-value/Cargo.toml",
+        "--features",
+        "serde_json/unbounded_depth",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.4249667359981686,
+      "tests_passed": 11
+    }
+  ],
+  "scope_tests": 29,
+  "archive_entries": 152,
+  "credited_scope_only": true,
+  "main_feature_acceptance": "OPEN",
+  "UI_gate": "No renderedUI was changed; actualmain has no productionmodel consumer. Native oracle field only historicalphysicalcatalogue, not newruntime acceptance.",
+  "shared_job_data": "Whole-job context receipts include every declared output artifact; only listed scope commands are credited to this component. Identical content is losslessly deduplicated by raw hash.",
+  "catalogue_cases": 18,
+  "RR01_consumer_feature_cases": 11
+}

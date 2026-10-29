@@ -1,0 +1,64 @@
+from pathlib import Path
+import subprocess,os,json,time,hashlib,fcntl,signal,statistics,shutil
+b=Path(__file__).parent;root=Path('/workspace/worktrees/builderbob/syson');o=b/'measurements-01';o.mkdir();scratch=o/'scratch';scratch.mkdir();(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',RUST_TEST_THREADS='1',CARGO_TARGET_DIR=str(b/'target'),TMPDIR=str(scratch),PYTHONDONTWRITEBYTECODE='1');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+r={'status':'RUNNING','commands':[],'binaries':{},'dense_samples':[],'corpus_samples':[],'scope':'Actual commonAPI allocation comparison and freshRustCLI against hashverifiedhistoricalnativephysicaltuples; no nativeepoch/UI/EMF/fullacceptance.'}
+def run(argv,cwd,expected=0,timeout=300,stdout_path=None):
+ index=len(r['commands']);t=time.monotonic();outstream=stdout_path.open('wb') if stdout_path else subprocess.PIPE
+ p=subprocess.Popen(argv,cwd=cwd,env=env,stdout=outstream,stderr=subprocess.PIPE,start_new_session=True)
+ try:out,err=p.communicate(timeout=timeout);timed=False
+ except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);out,err=p.communicate();timed=True
+ if stdout_path:outstream.close();out=b''
+ (o/f'{index:02}-stdout.txt').write_bytes(out or b'');(o/f'{index:02}-stderr.txt').write_bytes(err or b'');entry={'argv':argv,'cwd':str(cwd),'exit_code':p.returncode,'expected_exit':expected,'timed_out':timed,'wall_seconds':time.monotonic()-t,'stdout_path':str(stdout_path.relative_to(o)) if stdout_path else f'{index:02}-stdout.txt'};r['commands'].append(entry);(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert p.returncode==expected and not timed,(argv,p.returncode,err.decode()[-1200:]);return out
+
+def build(manifest,name):
+ # Re-link from cached source to bind each executable before the common output path changes.
+ data=run(['cargo','build','--offline','--locked','--release','--jobs','1','--message-format=json-render-diagnostics','--manifest-path',str(manifest)],manifest.parent)
+ artifacts=[json.loads(line) for line in data.splitlines() if line.startswith(b'{')];executables=[Path(x['executable']) for x in artifacts if x.get('reason')=='compiler-artifact' and x.get('executable') and 'bin' in x.get('target',{}).get('kind',[])]
+ assert len(executables)==1,executables;dest=o/name;shutil.copyfile(executables[0],dest);dest.chmod(0o700);r['binaries'][name]={'sha256':sha(dest),'source_manifest':str(manifest),'compiler_artifact':str(executables[0])};return dest
+
+tracked=[]
+for name in ['batch15-containment','batch15-model-writer','batch15-catalogue-baseline','batch15-catalogue']:
+ w=root/name
+ for rel in ['rust/crates/syson-model','rust/tools/native-library-catalog','rust/crates/syson-json-value']:
+  d=w/rel
+  if d.exists():tracked.extend(p for p in d.rglob('*') if p.is_file())
+tracked.append(b/'dense-export-observer.rs');snapshot=lambda:{str(p):sha(p) for p in tracked};r['source_before']=snapshot()
+try:
+ binaries={}
+ for mode,wt in [('baseline','batch15-catalogue-baseline'),('repaired','batch15-catalogue')]:binaries[mode]=build(root/wt/'rust/tools/native-library-catalog/Cargo.toml',mode+'-catalogue')
+ # Exact original dense fixture, observer identical except the bound model dependency.
+ for mode,wt in [('baseline','batch15-containment'),('repaired','batch15-model-writer')]:
+  d=o/('observer-'+mode);(d/'src').mkdir(parents=True);shutil.copyfile(b/'dense-export-observer.rs',d/'src/main.rs');(d/'Cargo.toml').write_text('[package]\nname="rr04-dense-'+mode+'"\nversion="0.0.0"\nedition="2024"\n[workspace]\n[dependencies]\nsyson-model={path="'+str(root/wt/'rust/crates/syson-model')+'"}\nserde_json="=1.0.151"\n');run(['cargo','generate-lockfile','--offline','--manifest-path',str(d/'Cargo.toml')],d);binary=build(d/'Cargo.toml',mode+'-dense-observer')
+  samples=[]
+  for n in range(9):
+   value=json.loads(run([str(binary)],d));assert value['editor_preserved'] and value['provisional_preserved'] and value['editor_preserved_after_cancel'];assert value['input_compact_bytes']<1048576
+   if mode=='baseline':assert value['result_kind']=='ok' and value['largest_request_bytes']>=16777216
+   else:assert value['result_kind']=='error' and value['largest_request_bytes']<=1048576 and value['peak_live_bytes']<=2097152 and value['live_at_return_bytes']==0
+   r['dense_samples'].append({'mode':mode,'warmup':n<2,'index':n,**value});samples.append(value)
+  measured=samples[2:];print(json.dumps({'dense_mode':mode,'input_bytes':measured[0]['input_compact_bytes'],'largest_request_range':[min(x['largest_request_bytes'] for x in measured),max(x['largest_request_bytes'] for x in measured)],'peak_live_range':[min(x['peak_live_bytes'] for x in measured),max(x['peak_live_bytes'] for x in measured)],'time_us_min_med_max':[min(x['time_us'] for x in measured),statistics.median(x['time_us'] for x in measured),max(x['time_us'] for x in measured)]}),flush=True)
+ # Fresh owned literal counterexamples through both real release CLIs.
+ cli=o/'owned-cli-fixtures';cli.mkdir(mode=0o700);entry={'classpath_path':'sysml.libraries/Literal.json','resource_uri':'sysmllibrary:///00000000-0000-4000-8000-000000000001','file':'literal.json'};node={'id':'00000000-0000-4000-8000-000000000002','eClass':'sysml:Namespace','data':{'elementId':'00000000-0000-4000-8000-000000000003'}};payload={'ns':{'sysml':'http://www.eclipse.org/syson/sysml'},'content':[],'vendor':{'$serde_json::private::RawValue':json.dumps(node)}};(cli/'literal.json').write_text(json.dumps(payload));(cli/'manifest.json').write_text(json.dumps([entry]));(cli/'wrapped-manifest.json').write_text(json.dumps({'$serde_json::private::RawValue':json.dumps([entry])}));r['counterexamples']=[]
+ for mode,binary in binaries.items():
+  output=json.loads(run([str(binary),str(cli),'manifest.json'],cli));nodes=output['resources'][0]['nodes'];assert len(nodes)==(1 if mode=='baseline' else 0);r['counterexamples'].append({'mode':mode,'kind':'phantom_resource','physical_nodes':len(nodes)})
+  out=run([str(binary),str(cli),'wrapped-manifest.json'],cli,expected=0 if mode=='baseline' else 1)
+  if mode=='repaired':assert out==b''
+  r['counterexamples'].append({'mode':mode,'kind':'wrapped_manifest','accepted':mode=='baseline','stdout_bytes':len(out)})
+ # Preserve authoritative native/source inputs, not a newly claimed native epoch.
+ prior=Path('/workspace/build/builderbob/syson-rust-parity-batch6-20261026');corpus=prior/'library-inputs';manifest=corpus/'manifest.json';native=prior/'library-native-01/native-libraries.json';diagnostics=prior/'library-diagnostics-02/native-diagnostics.json';assert sha(manifest)=='b0f439f0d314e0dccf60dff70ee3d6bb38583f43ed11afce06da6ad383c9f456';assert sha(native)=='1da0ffd1377d0aad9bbcfb1a277393592329a885d955ea7a2b32dc12b3a7b964';assert sha(diagnostics)=='bca30be4b1f89422c945a48228c19d454f093102f7e525fa46d246d3aedcfe70';rows=json.loads(manifest.read_text());assert len(rows)==94
+ for row in rows:
+  expected=subprocess.check_output(['git','show','eb3a5e47476947f748867bbed8be2b4603b1f874:backend/application/syson-application-configuration/src/main/resources/'+row['classpath_path']],cwd=root/'batch15-catalogue');assert hashlib.sha256(expected).hexdigest()==sha(corpus/row['file'])
+ inputs=[manifest,native,diagnostics,*[corpus/x['file'] for x in rows]];r['corpus_inputs_before']={str(p):sha(p) for p in inputs};r['corpus_bytes']=sum((corpus/x['file']).stat().st_size for x in rows);assert r['corpus_bytes']==20874941
+ native_receipt=json.loads((root/'batch15-catalogue/porting/rust-parity-evidence/C01g/observations/library-native-01/receipt.json').read_text());native_inputs=native_receipt.get('inputs_before',native_receipt.get('source_before',{}));assert len(native_inputs)==316,len(native_inputs)
+ for path,digest in native_inputs.items():assert sha(Path(path))==digest,path
+ r['historical_native_input_closure_verified']=316
+ for n in range(9):
+  output=o/f'corpus-{n:02}.json';metrics=o/f'corpus-{n:02}-time.txt';run(['/usr/bin/time','-v','-o',str(metrics),str(binaries['repaired']),str(corpus),'manifest.json'],corpus,timeout=180,stdout_path=output);r['corpus_samples'].append({'index':n,'warmup':n<2,'output_sha256':sha(output),'output_bytes':output.stat().st_size,'time_file':metrics.name});assert r['corpus_samples'][-1]['output_sha256']=='b91a95741bb3c0b74d111a198e5379c2faf20cdd0b18362e22033adb9efac580'
+ actual=json.loads((o/'corpus-08.json').read_bytes());oracle=json.loads(native.read_bytes());left={x['resource_uri']:x for x in actual['resources']};right={x['resource_uri']:x for x in oracle['resources']};assert len(left)==94 and set(left)==set(right);count=0
+ for uri,resource in left.items():
+  a={x['node_id']:x for x in resource['nodes']};z={x['node_id']:x for x in right[uri]['nodes']};assert len(a)==len(resource['nodes']) and set(a)==set(z)
+  for key,value in a.items():
+   expected=z[key];assert value['semantic_id']==expected['semantic_id'] and value['declared_name']==expected['declared_name'] and value['e_class']=='sysml:'+expected['e_class'] and expected['package_uri']=='http://www.eclipse.org/syson/sysml';count+=1
+ assert count==109673;r['tuple_comparison']={'resources':94,'physical_tuples':count,'native_diagnostics':sum(len(x['errors']) for x in oracle['resources']),'native_epoch':'historical/hashverified;notrerun','depth_convention':'208containerlevels/209literalvaluelevels'};r['corpus_inputs_after']={str(p):sha(p) for p in inputs};assert r['corpus_inputs_before']==r['corpus_inputs_after'];r['status']='PASS_ACTUAL_DENSE_ALLOCATION_AND_RELEASE_CLI_COUNTEREXAMPLES_AND_94_CORPUS;FEATURE_ACCEPTANCE_OPEN';print(json.dumps(r['tuple_comparison']),flush=True)
+finally:
+ r['source_after']=snapshot();r['source_unchanged']=r['source_before']==r['source_after'];assert r['source_unchanged'];r['artifact_sha256']={str(p.relative_to(o)):sha(p) for p in o.rglob('*') if p.is_file() and p.name!='receipt.json' and 'scratch' not in p.parts};(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
