@@ -1,0 +1,58 @@
+{
+  "status": "CONFIRMED_THREE_DEVELOPER_QUALIFICATION_DEFECTS",
+  "checks": {
+    "empty_corpus_false_pass": true,
+    "normal_rejects_disabled_comparator": true,
+    "optimized_falsely_accepts_disabled_comparator": true,
+    "old_lexical_guard_reaches_missing_bundle": true,
+    "outside_output_not_created": true
+  },
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-before-review/compare_construction.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-red-01/empty-corpus.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-red-01/native.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-red-01/rust.json",
+        "--references",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-red-01/references.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-red-01/false-pass.json",
+        "--self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-red-01/disabled-comparator-control.py",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-before-review/compare_construction.py"
+      ],
+      "exit": 1
+    },
+    {
+      "argv": [
+        "python3",
+        "-O",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-red-01/disabled-comparator-control.py",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-before-review/compare_construction.py"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "/usr/bin/node",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-before-review/reference_expectations.cjs",
+        "/workspace/__missing_for_guard_probe__",
+        "/workspace/build/builderbob/syson-batch21-20261029/constructor-tools-red-01/empty-corpus.json",
+        "/workspace/../tmp/syson-guard-probe-no-write.json"
+      ],
+      "exit": 1
+    }
+  ],
+  "scope": "Controlled corrupted inputs and disabled comparator; no outside-workspace file written; not product behavior"
+}
