@@ -1,0 +1,102 @@
+test_absent_is_safe_without_ownership_or_kill (__main__.OwnershipTests.test_absent_is_safe_without_ownership_or_kill) ... ok
+test_each_attestation_identity_mismatch_preserves_scope (__main__.OwnershipTests.test_each_attestation_identity_mismatch_preserves_scope) ... ok
+test_loaded_without_attestation_is_preserved (__main__.OwnershipTests.test_loaded_without_attestation_is_preserved) ... ok
+test_matching_empty_cgroup_is_preserved_without_kill (__main__.OwnershipTests.test_matching_empty_cgroup_is_preserved_without_kill) ... FAIL
+test_matching_empty_scope_needs_no_kill (__main__.OwnershipTests.test_matching_empty_scope_needs_no_kill) ... ok
+test_matching_invalid_invocation_is_preserved_without_kill (__main__.OwnershipTests.test_matching_invalid_invocation_is_preserved_without_kill) ... 
+  test_matching_invalid_invocation_is_preserved_without_kill (__main__.OwnershipTests.test_matching_invalid_invocation_is_preserved_without_kill) (invocation='00000000000000000000000000000000') ... FAIL
+  test_matching_invalid_invocation_is_preserved_without_kill (__main__.OwnershipTests.test_matching_invalid_invocation_is_preserved_without_kill) (invocation='invalid') ... FAIL
+  test_matching_invalid_invocation_is_preserved_without_kill (__main__.OwnershipTests.test_matching_invalid_invocation_is_preserved_without_kill) (invocation='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') ... FAIL
+test_matching_live_scope_kills_only_exact_owned_unit (__main__.OwnershipTests.test_matching_live_scope_kills_only_exact_owned_unit) ... ok
+test_matching_proof_with_wrong_cgroup_path_still_refuses (__main__.OwnershipTests.test_matching_proof_with_wrong_cgroup_path_still_refuses) ... ok
+test_reused_unit_with_later_invocation_is_preserved (__main__.OwnershipTests.test_reused_unit_with_later_invocation_is_preserved) ... ok
+test_scope_query_binds_invocation_and_refuses_unobservable_state (__main__.OwnershipTests.test_scope_query_binds_invocation_and_refuses_unobservable_state) ... ok
+
+======================================================================
+FAIL: test_matching_empty_cgroup_is_preserved_without_kill (__main__.OwnershipTests.test_matching_empty_cgroup_is_preserved_without_kill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/build/builderbob/syson-batch22-20261029/test_u11a_resource_ownership.py", line 122, in test_matching_empty_cgroup_is_preserved_without_kill
+    self.assertEqual(self.calls, [])
+AssertionError: Lists differ: [(['/usr/bin/systemctl', '--user', 'kill',[149 chars]10})] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(['/usr/bin/systemctl', '--user', 'kill', '--kill-whom=all', '--signal=SIGKILL', 'syson-u11a-profile-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.scope'], {'env': {}, 'capture_output': True, 'timeout': 10})
+
++ []
+- [(['/usr/bin/systemctl',
+-    '--user',
+-    'kill',
+-    '--kill-whom=all',
+-    '--signal=SIGKILL',
+-    'syson-u11a-profile-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.scope'],
+-   {'capture_output': True, 'env': {}, 'timeout': 10})]
+
+======================================================================
+FAIL: test_matching_invalid_invocation_is_preserved_without_kill (__main__.OwnershipTests.test_matching_invalid_invocation_is_preserved_without_kill) (invocation='00000000000000000000000000000000')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/build/builderbob/syson-batch22-20261029/test_u11a_resource_ownership.py", line 134, in test_matching_invalid_invocation_is_preserved_without_kill
+    self.assertEqual(self.calls, [])
+AssertionError: Lists differ: [(['/usr/bin/systemctl', '--user', 'kill',[149 chars]10})] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(['/usr/bin/systemctl', '--user', 'kill', '--kill-whom=all', '--signal=SIGKILL', 'syson-u11a-profile-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.scope'], {'env': {}, 'capture_output': True, 'timeout': 10})
+
++ []
+- [(['/usr/bin/systemctl',
+-    '--user',
+-    'kill',
+-    '--kill-whom=all',
+-    '--signal=SIGKILL',
+-    'syson-u11a-profile-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.scope'],
+-   {'capture_output': True, 'env': {}, 'timeout': 10})]
+
+======================================================================
+FAIL: test_matching_invalid_invocation_is_preserved_without_kill (__main__.OwnershipTests.test_matching_invalid_invocation_is_preserved_without_kill) (invocation='invalid')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/build/builderbob/syson-batch22-20261029/test_u11a_resource_ownership.py", line 134, in test_matching_invalid_invocation_is_preserved_without_kill
+    self.assertEqual(self.calls, [])
+AssertionError: Lists differ: [(['/usr/bin/systemctl', '--user', 'kill',[149 chars]10})] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(['/usr/bin/systemctl', '--user', 'kill', '--kill-whom=all', '--signal=SIGKILL', 'syson-u11a-profile-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.scope'], {'env': {}, 'capture_output': True, 'timeout': 10})
+
++ []
+- [(['/usr/bin/systemctl',
+-    '--user',
+-    'kill',
+-    '--kill-whom=all',
+-    '--signal=SIGKILL',
+-    'syson-u11a-profile-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.scope'],
+-   {'capture_output': True, 'env': {}, 'timeout': 10})]
+
+======================================================================
+FAIL: test_matching_invalid_invocation_is_preserved_without_kill (__main__.OwnershipTests.test_matching_invalid_invocation_is_preserved_without_kill) (invocation='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/build/builderbob/syson-batch22-20261029/test_u11a_resource_ownership.py", line 134, in test_matching_invalid_invocation_is_preserved_without_kill
+    self.assertEqual(self.calls, [])
+AssertionError: Lists differ: [(['/usr/bin/systemctl', '--user', 'kill',[149 chars]10})] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+(['/usr/bin/systemctl', '--user', 'kill', '--kill-whom=all', '--signal=SIGKILL', 'syson-u11a-profile-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.scope'], {'env': {}, 'capture_output': True, 'timeout': 10})
+
++ []
+- [(['/usr/bin/systemctl',
+-    '--user',
+-    'kill',
+-    '--kill-whom=all',
+-    '--signal=SIGKILL',
+-    'syson-u11a-profile-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.scope'],
+-   {'capture_output': True, 'env': {}, 'timeout': 10})]
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.007s
+
+FAILED (failures=4)
