@@ -1,0 +1,150 @@
+{
+  "status": "FAIL_TERMINAL",
+  "commands": [
+    {
+      "label": "cargo-path",
+      "argv": [
+        "/home/builderbob/.local/bin/rustup",
+        "which",
+        "cargo"
+      ],
+      "timed_out": false,
+      "pid": 253156,
+      "pid_start_ticks": "63263245",
+      "child_reaped": true,
+      "exit_code": 0,
+      "wall_seconds": 0.007486819056794047,
+      "stdout_sha256": "9d55b21d3bf4be789dc6c4fac303619a61baa9ca17210b7e0dd206666c066d1c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "rustc-path",
+      "argv": [
+        "/home/builderbob/.local/bin/rustup",
+        "which",
+        "rustc"
+      ],
+      "timed_out": false,
+      "pid": 253165,
+      "pid_start_ticks": "63263246",
+      "child_reaped": true,
+      "exit_code": 0,
+      "wall_seconds": 0.003292757086455822,
+      "stdout_sha256": "a278185b0f8b13eacb867e570499815885246f73d56cc96d9054cfb019e6e9c7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "cargo-version",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "--invalid-bounded-fault-probe-option"
+      ],
+      "timed_out": false,
+      "pid": 253174,
+      "pid_start_ticks": "63263248",
+      "child_reaped": true,
+      "exit_code": 1,
+      "wall_seconds": 0.003394542960450053,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "9cbb13f4de13cd1410ae103c22fc105359c05a060b201b8cca6aa84d5b6c087c"
+    }
+  ],
+  "scope": "Developer build/capture only",
+  "parameters": {
+    "repo": "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+    "corpus": "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+    "out": "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/capture",
+    "target_dir": "/workspace/build/builderbob/syson-batch15-20261029/target",
+    "cargo_home": "/workspace/cache/builderbob/global-tools/cargo"
+  },
+  "configuration_before": {
+    "/.cargo/config": null,
+    "/.cargo/config.toml": null,
+    "/workspace/.cargo/config": null,
+    "/workspace/.cargo/config.toml": null,
+    "/workspace/build/.cargo/config": null,
+    "/workspace/build/.cargo/config.toml": null,
+    "/workspace/build/builderbob/.cargo/config": null,
+    "/workspace/build/builderbob/.cargo/config.toml": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/.cargo/config": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/.cargo/config.toml": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/.cargo/config": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/.cargo/config.toml": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/.cargo/config": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/.cargo/config.toml": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/capture/.cargo/config": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/capture/.cargo/config.toml": null,
+    "/workspace/cache/builderbob/global-tools/cargo/config": null,
+    "/workspace/cache/builderbob/global-tools/cargo/config.toml": null
+  },
+  "configuration_policy": "Presence/hashes only; raw user configuration is not a source payload",
+  "tool_inputs_before": {
+    "/home/builderbob/.local/bin/rustup": "03a7e01233459867313ab32c1812378ce296f8bca81ca2922841598848462f09",
+    "/workspace/cache/builderbob/global-tools/bin/rust-tool-wrapper": "03a7e01233459867313ab32c1812378ce296f8bca81ca2922841598848462f09",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853"
+  },
+  "environment": {
+    "RUSTC": "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc",
+    "RUSTUP_TOOLCHAIN": null,
+    "RUSTFLAGS": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "RUSTC_WRAPPER": null,
+    "RUSTC_WORKSPACE_WRAPPER": null,
+    "CARGO_TARGET_DIR": "/workspace/build/builderbob/syson-batch15-20261029/target"
+  },
+  "error": "ValueError('command failed: cargo-version')",
+  "inputs_after": {
+    "/home/builderbob/.local/bin/rustup": "03a7e01233459867313ab32c1812378ce296f8bca81ca2922841598848462f09",
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json": "f0572b4ddfe2437615920f4ba476bd7dfe4106f7b137ec347c99fa1adf85d3c1",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/README.md": "4ec36cd973a97d6a004a099317985919141d2181dd08fe55f0d90385f1b4ec0c",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/build_capture.py": "0f5de0973ef033b5fad3cc5c7f76c70e59c3956ff49dfe0d271ddf508135c35d",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/compare_measurement.py": "7b9f2d9787c26aff26c7b570b6fe1d4b62341b57e28b27e583cf84f1e4b5c28d",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/measurement_bridge.rs": "f6c161e1eb22bfbd4089624818a01197a880f2648f6eb69a7f5f1fd467b0048c",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/measurement_cases.py": "f7667161698269cbd89051a255c2de3e7d70ec4c3e09b2d11c18f60c08d0aa04",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/measurement_dump.rs": "4573fd69b9297be453f1a74d75b06ba8bce8eeab1cb4ccbafb6ae5245de22fed",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/measurement_original.cjs": "59042a823e3c8bd15c52d917943caa3358ce3fe55fb154ba1642703b20a7056b",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/prepare_originals.py": "5cbbf5bdbe2cbe054c6aa2fb7517adc133848067ac715c9585bd74a75467a99e",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/replay_wasm.cjs": "1c94e10189728fdd9caa7d8198a0403f7ad52cc7985be304518558b7c3fdf533",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/tools/wasm_client.js": "e8b3e92e8c75710c0883cbf65613a254c2ed5c214d62696285f5aa1c30ea5659",
+    "/workspace/cache/builderbob/global-tools/bin/rust-tool-wrapper": "03a7e01233459867313ab32c1812378ce296f8bca81ca2922841598848462f09",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-editor/Cargo.lock": "fcddd71633b4d880ac081d484005a91573dde9809d46014687da1ca715e3b486",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-editor/Cargo.toml": "6a3846679e0296b4589bd996ccfee1bb3fa83d716f994ff5b78e014ebddef33b",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-editor/src/lib.rs": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-editor/tests/editor_contracts.rs": "d99e94f2087357ae1c7e415e2d2d0d39970a6399ff91f02499658b2c33b1289b",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-node-measurement/Cargo.lock": "a447f5d589f782388d6d5e0945acb5139b4ced0fb6d1ec3b0f37ad2d59e9b28b",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-node-measurement/Cargo.toml": "82824dc600d622b5d5d75e14d0b60d66226d662e698a6ac13af6c4fbf43f80e1",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-node-measurement/NOTICE.md": "c6fe1a415235d35471b7ffdcf114e79b59f790d28fbb6fab3227aa7b89c29058",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-node-measurement/src/lib.rs": "3006fc02a1d34827c435e427e62532e1cd3ec872d14158b6f57cc7b190eb218d",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-node-measurement/tests/measurement.rs": "e1fded786700e8b2e3a35c47af28fedafc41d0e3e277bbda3dcfce4f8820dc2e"
+  },
+  "configuration_after": {
+    "/.cargo/config": null,
+    "/.cargo/config.toml": null,
+    "/workspace/.cargo/config": null,
+    "/workspace/.cargo/config.toml": null,
+    "/workspace/build/.cargo/config": null,
+    "/workspace/build/.cargo/config.toml": null,
+    "/workspace/build/builderbob/.cargo/config": null,
+    "/workspace/build/builderbob/.cargo/config.toml": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/.cargo/config": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/.cargo/config.toml": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/.cargo/config": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/.cargo/config.toml": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/.cargo/config": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/.cargo/config.toml": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/capture/.cargo/config": null,
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/command-failure/capture/.cargo/config.toml": null,
+    "/workspace/cache/builderbob/global-tools/cargo/config": null,
+    "/workspace/cache/builderbob/global-tools/cargo/config.toml": null
+  },
+  "tool_inputs_after": {
+    "/home/builderbob/.local/bin/rustup": "03a7e01233459867313ab32c1812378ce296f8bca81ca2922841598848462f09",
+    "/workspace/cache/builderbob/global-tools/bin/rust-tool-wrapper": "03a7e01233459867313ab32c1812378ce296f8bca81ca2922841598848462f09",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+    "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853"
+  },
+  "source_unchanged": false
+}

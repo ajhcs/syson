@@ -1,0 +1,182 @@
+"""Serve an owned developer probe with explicit inputs and a fresh output path."""
+from pathlib import Path
+from functools import partial
+import argparse, fcntl, hashlib, http.server, json, os, signal, subprocess, threading, time
+
+def require(ok, message):
+    if not ok: raise ValueError(message)
+
+parser = argparse.ArgumentParser(description=__doc__)
+for name in ('build', 'methods', 'node', 'browser', 'playwright', 'libraries', 'out'):
+    parser.add_argument('--' + name, type=Path, required=True)
+parser.add_argument('--assets', type=Path, default=Path(__file__).parent)
+parser.add_argument('--transport', type=Path, default=Path(__file__).resolve().parent.parent /
+                    'batch21-measurement-numeric/wasm_client.js')
+parser.add_argument('--recovery-only', action='store_true')
+args = parser.parse_args()
+if not args.out.is_absolute() or args.out.is_symlink():
+    parser.error('--out must be an absolute new path without a symlink leaf')
+out = args.out.resolve()
+if not out.is_relative_to(Path('/workspace').resolve()):
+    parser.error('--out must be on the approved /workspace volume')
+tools = Path(__file__).resolve().parent
+for source_root in (args.build, args.methods.parent, args.assets, args.playwright, args.libraries, tools):
+    source_root = source_root.resolve()
+    require(not out.is_relative_to(source_root) and not source_root.is_relative_to(out),
+            'browser output must not overlap input/source directories')
+out.mkdir(); web = out / 'web'; web.mkdir()
+sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+record = {'status': 'RUNNING', 'scope': 'Developer DOM/WASM fixture only'}
+server = thread = lock = child = None
+files = []; configurations = []; expected_configurations = {}; expected_inputs = {}; served = {}
+(out / 'executed-runner.py').write_bytes(Path(__file__).read_bytes())
+def snapshot(paths):
+    result = {}
+    for path in paths:
+        try:
+            path.stat()
+            require(path.is_file(), 'not a regular input file')
+            result[str(path)] = sha(path)
+        except FileNotFoundError:
+            result[str(path)] = None
+            if path.is_symlink():
+                record.setdefault('hash_errors', []).append({'path': str(path), 'error': 'dangling symlink'})
+        except (OSError, ValueError) as error:
+            result[str(path)] = None
+            record.setdefault('hash_errors', []).append({'path': str(path), 'error': repr(error)})
+    return result
+
+
+def cleanup_error(stage, error):
+    record.update(status='FAIL_TERMINAL')
+    record.setdefault('cleanup_errors', []).append({'stage': stage, 'error': repr(error)})
+
+
+def terminate(signum, frame):
+    raise InterruptedError(f'termination signal {signum}')
+
+
+signal.signal(signal.SIGTERM, terminate)
+
+try:
+    build_path = args.build / 'receipt.json'
+    build = json.loads(build_path.read_text())
+    wasm = args.build / 'measurement_bridge.wasm'
+    require(build['status'].startswith('PASS_BUILD_AND_CAPTURE') and build['source_unchanged'] is True
+            and build['inputs_before'] == build['inputs_after'], 'build/source disposition not qualified')
+    require(sha(wasm) == build['wasm_sha256'], 'WASM bytes differ from build receipt')
+    expected_configurations = build.get('configuration_after', {})
+    require(build.get('configuration_before', {}) == expected_configurations, 'build configuration drift')
+    configurations = [Path(name) for name in expected_configurations]
+    record['configuration_before'] = snapshot(configurations)
+    require(record['configuration_before'] == expected_configurations, 'current configuration drift')
+    expected_inputs.update(build['inputs_after'])
+    require(snapshot(Path(name) for name in expected_inputs) == expected_inputs, 'build input source drift')
+    transport = args.transport.resolve(strict=True)
+    require(transport.is_relative_to(Path('/workspace')) and transport.is_file(), 'workspace numeric transport required')
+    require(build['inputs_after'].get(str(transport)) == sha(transport), 'numeric transport not bound to build receipt')
+    binding_path = args.methods.parent / 'source-binding.json'
+    binding = json.loads(binding_path.read_text())
+    require(binding['status'] == 'PASS_TYPE_ERASURE_ONLY', 'original-method extraction not qualified')
+    require(sha(args.methods) == binding['javascript_sha256'], 'original-method bytes drifted')
+    require(binding['inputs_before'] == binding['inputs_after'], 'original source drift during extraction')
+    for name, expected in binding['inputs_after'].items():
+        require(expected_inputs.get(name, expected) == expected, 'qualified source binding conflict')
+        expected_inputs[name] = expected
+    expected_inputs[str(wasm)] = build['wasm_sha256']
+    expected_inputs[str(args.methods)] = binding['javascript_sha256']
+    require(snapshot(Path(name) for name in expected_inputs) == expected_inputs, 'original-method source closure drift')
+    assets = {name: args.assets / name for name in ('measurement_probe.html', 'measurement_fixture.js')}
+    assets.update({'wasm_client.js': transport, 'original-methods.js': args.methods, 'measurement_bridge.wasm': wasm})
+    sdk_files = [p for package in (args.playwright, args.playwright.parent / 'playwright-core')
+                 for p in package.rglob('*') if p.is_file() and p.suffix in ('.js', '.cjs', '.mjs', '.json')]
+    files = sorted(set([*assets.values(), tools / 'run_browser.cjs', Path(__file__),
+                        build_path, binding_path, args.node, args.browser, *sdk_files,
+                        *[Path(p) for p in build['inputs_after']],
+                        *[Path(p) for p in binding['inputs_after']],
+                        *[p for p in args.libraries.glob('*.so*') if p.is_file()]]))
+    record['inputs_before'] = snapshot(files)
+    require(all(record['inputs_before'].values()) and not record.get('hash_errors'), 'input hash unavailable')
+    require(all(record['inputs_before'].get(name) == expected for name, expected in expected_inputs.items()),
+            'qualified source changed before serving')
+    for name, source in assets.items():
+        destination = web / ('index.html' if name == 'measurement_probe.html' else name)
+        raw = source.read_bytes()
+        require(hashlib.sha256(raw).hexdigest() == record['inputs_before'][str(source)], 'asset drift before copy')
+        with destination.open('xb') as output:
+            output.write(raw)
+        require(sha(destination) == record['inputs_before'][str(source)], 'served copy differs')
+        served[name] = destination
+    record['served_assets'] = {name: sha(path) for name, path in served.items()}
+    record['served_paths'] = {name: str(path) for name, path in served.items()}
+    lock = open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    class Handler(http.server.SimpleHTTPRequestHandler):
+        def log_message(self, *unused): pass
+        def end_headers(self):
+            self.send_header('Cache-Control', 'no-store'); super().end_headers()
+    server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), partial(Handler, directory=str(web)))
+    thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
+    argv = [str(args.node), str(tools / 'run_browser.cjs'),
+            f'http://127.0.0.1:{server.server_port}/', str(out), str(args.browser),
+            str(args.playwright), 'recovery' if args.recovery_only else 'full']
+    record['argv'] = argv
+    start = time.monotonic()
+    child = subprocess.Popen(argv, cwd=out, start_new_session=True, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE, env=dict(os.environ, TMPDIR=str(out),
+                             XDG_CACHE_HOME=str(out / 'cache'), LD_LIBRARY_PATH=str(args.libraries)))
+    record['pid'] = child.pid
+    try: record['pid_start_ticks'] = Path(f'/proc/{child.pid}/stat').read_text().rsplit(')', 1)[1].split()[19]
+    except FileNotFoundError: record['pid_start_ticks'] = None
+    try:
+        stdout, stderr = child.communicate(timeout=180); timed = False
+    except subprocess.TimeoutExpired:
+        try: os.killpg(child.pid, signal.SIGKILL)
+        except ProcessLookupError: pass
+        stdout, stderr = child.communicate(timeout=10); timed = True
+    (out / 'stdout.txt').write_bytes(stdout); (out / 'stderr.txt').write_bytes(stderr)
+    record.update(exit=child.returncode, timed_out=timed, wall_seconds=time.monotonic() - start,
+                  status='PASS_NAMED_DOM_WASM_ONLY' if child.returncode == 0 and not timed else 'FAIL_TERMINAL')
+    print(stdout.decode(), flush=True); print(stderr.decode(), flush=True)
+except BaseException as error:
+    record.update(status='FAIL_TERMINAL', error=repr(error))
+finally:
+    if child is not None:
+        try:
+            if child.poll() is None:
+                try: os.killpg(child.pid, signal.SIGKILL)
+                except ProcessLookupError: pass
+                stdout, stderr = child.communicate(timeout=10)
+                (out / 'stdout.txt').write_bytes(stdout); (out / 'stderr.txt').write_bytes(stderr)
+        except BaseException as error:
+            cleanup_error('child', error)
+        finally:
+            for stream in (child.stdout, child.stderr):
+                try:
+                    if stream is not None: stream.close()
+                except BaseException as error:
+                    cleanup_error('child-stream', error)
+            record['child_reaped'] = child.poll() is not None
+            if not record['child_reaped']: cleanup_error('child', RuntimeError('owned child remains live'))
+    try:
+        if server is not None:
+            if thread is not None and thread.is_alive(): server.shutdown()
+            server.server_close()
+        if thread is not None and thread.ident is not None: thread.join(timeout=5)
+    except BaseException as error:
+        cleanup_error('server', error)
+    record['server_closed'] = thread is None or not thread.is_alive()
+    record['inputs_after'] = snapshot(files)
+    record['configuration_after'] = snapshot(configurations)
+    record['qualified_inputs_unchanged'] = all(record['inputs_after'].get(name) == expected
+                                               for name, expected in expected_inputs.items())
+    served_after = snapshot(served.values())
+    record['served_assets_after'] = {name: served_after.get(str(path)) for name, path in served.items()}
+    record['source_unchanged'] = (record.get('inputs_before') == record['inputs_after'] and
+                                  record.get('configuration_before') == record['configuration_after'] == expected_configurations and
+                                  record['qualified_inputs_unchanged'] and not record.get('hash_errors'))
+    if (not record['source_unchanged'] or not record['server_closed'] or
+            record.get('served_assets') != record['served_assets_after']): record['status'] = 'FAIL_TERMINAL'
+    (out / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    if lock is not None: lock.close()
+raise SystemExit(0 if record['status'] == 'PASS_NAMED_DOM_WASM_ONLY' else 1)

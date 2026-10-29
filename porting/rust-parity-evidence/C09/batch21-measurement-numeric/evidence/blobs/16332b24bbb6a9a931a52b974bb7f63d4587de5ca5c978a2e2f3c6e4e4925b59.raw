@@ -1,0 +1,115 @@
+{
+  "status": "PASS_2_GENUINE_OLD_FAILURES_AND_2_FIXED_TERMINAL_CONTROLS",
+  "cases": [
+    {
+      "case": "term",
+      "version": "old",
+      "exit": -15,
+      "owned": {
+        "pid": 249765,
+        "state": "S",
+        "start": "63237125"
+      },
+      "survives": true,
+      "terminal_receipt": null,
+      "source_sha256": "a9cd4873dc1cabd92c03687a065690e49db6e9960eb0ca1359942d55e35a26fa",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/term-old/tools/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/term-old/capture",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ],
+      "owned_cleanup": "killed confirmed probe child session"
+    },
+    {
+      "case": "term",
+      "version": "new",
+      "exit": 1,
+      "owned": {
+        "pid": 249785,
+        "state": "S",
+        "start": "63237141"
+      },
+      "survives": false,
+      "terminal_receipt": "FAIL_TERMINAL",
+      "source_sha256": "d751066ae949202fed0387d0d52cd2ce48f9007854e8d10fc601ab6895150bc8",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/term-new/tools/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/term-new/capture",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ]
+    },
+    {
+      "case": "post-popen",
+      "version": "old",
+      "exit": 1,
+      "owned": {
+        "pid": 249787,
+        "state": "R",
+        "start": "63237161"
+      },
+      "survives": true,
+      "terminal_receipt": "FAIL_TERMINAL",
+      "source_sha256": "685d6d1641a76129938b08a18e3dc876f395dbddc6d423173e1394493425611a",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/post-popen-old/tools/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/post-popen-old/capture",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ],
+      "owned_cleanup": "killed confirmed probe child session"
+    },
+    {
+      "case": "post-popen",
+      "version": "new",
+      "exit": 1,
+      "owned": {
+        "pid": 249789,
+        "state": "Z",
+        "start": "63237173"
+      },
+      "survives": false,
+      "terminal_receipt": "FAIL_TERMINAL",
+      "source_sha256": "72175342d94f694b33ffce79af9dfbc2dd9a5b8564c3aaae2f33cb652e99d8b5",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/post-popen-new/tools/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/numeric-terminal-controls-01/post-popen-new/capture",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ]
+    }
+  ]
+}

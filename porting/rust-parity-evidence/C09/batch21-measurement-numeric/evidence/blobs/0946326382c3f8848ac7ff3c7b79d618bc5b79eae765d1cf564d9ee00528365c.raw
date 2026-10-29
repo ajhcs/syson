@@ -1,0 +1,17 @@
+from pathlib import Path
+import json,hashlib,subprocess,fcntl,time,os,signal
+b=Path('/workspace/build/builderbob/syson-batch20-20261029');o=Path(__file__).parent/'measurement-portable-replay-03';o.mkdir();t=Path('/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric');node=Path('/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node');files=[node,t/'compare_measurement.py',t/'replay_wasm.cjs',t/'wasm_client.js',b/'measurement-cases-v2.json',b/'measurement-native-v2.json',Path(__file__).parent/'measurement-portable-build-04/rust.json',Path(__file__).parent/'measurement-portable-build-04/measurement_bridge.wasm'];sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();snap=lambda:{str(p):sha(p) for p in files};r={'status':'RUNNING','inputs_before':snap(),'commands':[]};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+commands=[[str(node),str(t/'replay_wasm.cjs'),str(files[-1]),str(t/'wasm_client.js'),str(b/'measurement-cases-v2.json'),str(o/'wasm.json')]]
+for label,rust in [('native',Path(__file__).parent/'measurement-portable-build-04/rust.json'),('wasm',o/'wasm.json')]:commands.append(['python3',str(t/'compare_measurement.py'),'--corpus',str(b/'measurement-cases-v2.json'),'--native',str(b/'measurement-native-v2.json'),'--rust',str(rust),'--out',str(o/(label+'-comparison.json')),'--self-test'])
+try:
+ for i,argv in enumerate(commands):
+  start=time.monotonic();p=subprocess.Popen(argv,cwd=o,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:stdout,stderr=p.communicate(timeout=45);timed=False
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+  (o/f'{i:02}-stdout.txt').write_bytes(stdout);(o/f'{i:02}-stderr.txt').write_bytes(stderr);r['commands'].append({'argv':argv,'exit':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-start});print(json.dumps(r['commands'][-1]),flush=True)
+  if p.returncode or timed:raise RuntimeError('measurement replay or comparison failed')
+ r['status']='PASS_30_NATIVE_AND_WASM_SIZE_CASES_PLUS5_HOST_REFUSALS_AND7_PIPELINE_CONTROLS'
+except BaseException as e:r['status']='FAIL_TERMINAL';r['error']=repr(e);raise
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+ if not r['source_unchanged']:raise RuntimeError('source drift')

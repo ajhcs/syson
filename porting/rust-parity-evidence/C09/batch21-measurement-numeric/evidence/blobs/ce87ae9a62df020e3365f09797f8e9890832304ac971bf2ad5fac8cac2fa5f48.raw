@@ -1,0 +1,15 @@
+[package]
+name = "measurement-bridge"
+version = "0.0.0"
+edition = "2024"
+publish = false
+[dependencies]
+syson-node-measurement = { path = "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/rust/crates/syson-node-measurement" }
+serde_json = "=1.0.151"
+[lib]
+path = "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/delete/tools/measurement_bridge.rs"
+crate-type = ["cdylib", "rlib"]
+[[bin]]
+name = "measurement-dump"
+path = "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-03/delete/tools/measurement_dump.rs"
+[workspace]

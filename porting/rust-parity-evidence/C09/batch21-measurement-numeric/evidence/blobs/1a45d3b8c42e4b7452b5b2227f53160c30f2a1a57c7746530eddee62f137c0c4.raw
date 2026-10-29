@@ -1,0 +1,153 @@
+{
+  "status": "PASS_5_ADMISSION_FAILURE_DRIFT_INTERRUPTION_CONTROLS",
+  "original_source_unchanged": true,
+  "source": {
+    "README.md": "4ec36cd973a97d6a004a099317985919141d2181dd08fe55f0d90385f1b4ec0c",
+    "measurement_cases.py": "f7667161698269cbd89051a255c2de3e7d70ec4c3e09b2d11c18f60c08d0aa04",
+    "measurement_bridge.rs": "f6c161e1eb22bfbd4089624818a01197a880f2648f6eb69a7f5f1fd467b0048c",
+    "measurement_dump.rs": "4573fd69b9297be453f1a74d75b06ba8bce8eeab1cb4ccbafb6ae5245de22fed",
+    "wasm_client.js": "e8b3e92e8c75710c0883cbf65613a254c2ed5c214d62696285f5aa1c30ea5659",
+    "replay_wasm.cjs": "1c94e10189728fdd9caa7d8198a0403f7ad52cc7985be304518558b7c3fdf533",
+    "compare_measurement.py": "7b9f2d9787c26aff26c7b570b6fe1d4b62341b57e28b27e583cf84f1e4b5c28d",
+    "build_capture.py": "fbb14445d4e3904c7e7fb4bbbe0cede16be46daffc8dd7ea49c786897e1466c3",
+    "prepare_originals.py": "5cbbf5bdbe2cbe054c6aa2fb7517adc133848067ac715c9585bd74a75467a99e",
+    "measurement_original.cjs": "59042a823e3c8bd15c52d917943caa3358ce3fe55fb154ba1642703b20a7056b"
+  },
+  "cases": [
+    {
+      "case": "relative-output",
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "relative",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ],
+      "exit": 2
+    },
+    {
+      "case": "existing-output",
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-01",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ],
+      "exit": 1
+    },
+    {
+      "case": "drift",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-01/drift/tools/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-01/drift/capture",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ],
+      "exit": 1,
+      "status": "FAIL_TERMINAL",
+      "error": "ValueError('source changed while preparing the build')",
+      "injection": "Copied tool source only; actual generic process/source guards exercised",
+      "source_probe": {
+        "README.md": "9e48d008730b2e2bd7be8d4f4934e528788b4deaf72a4189f14bb7c3b4bc0a9b",
+        "measurement_cases.py": "f7667161698269cbd89051a255c2de3e7d70ec4c3e09b2d11c18f60c08d0aa04",
+        "measurement_bridge.rs": "f6c161e1eb22bfbd4089624818a01197a880f2648f6eb69a7f5f1fd467b0048c",
+        "measurement_dump.rs": "4573fd69b9297be453f1a74d75b06ba8bce8eeab1cb4ccbafb6ae5245de22fed",
+        "wasm_client.js": "e8b3e92e8c75710c0883cbf65613a254c2ed5c214d62696285f5aa1c30ea5659",
+        "replay_wasm.cjs": "1c94e10189728fdd9caa7d8198a0403f7ad52cc7985be304518558b7c3fdf533",
+        "compare_measurement.py": "7b9f2d9787c26aff26c7b570b6fe1d4b62341b57e28b27e583cf84f1e4b5c28d",
+        "build_capture.py": "e9828f5b8792d5c11eca637b2beb32813764f52960692cafd0174310478b5c74",
+        "prepare_originals.py": "5cbbf5bdbe2cbe054c6aa2fb7517adc133848067ac715c9585bd74a75467a99e",
+        "measurement_original.cjs": "59042a823e3c8bd15c52d917943caa3358ce3fe55fb154ba1642703b20a7056b"
+      }
+    },
+    {
+      "case": "interrupt",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-01/interrupt/tools/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-01/interrupt/capture",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ],
+      "exit": 1,
+      "status": "FAIL_TERMINAL",
+      "error": "KeyboardInterrupt()",
+      "injection": "Copied tool source only; actual generic process/source guards exercised",
+      "source_probe": {
+        "README.md": "4ec36cd973a97d6a004a099317985919141d2181dd08fe55f0d90385f1b4ec0c",
+        "measurement_cases.py": "f7667161698269cbd89051a255c2de3e7d70ec4c3e09b2d11c18f60c08d0aa04",
+        "measurement_bridge.rs": "f6c161e1eb22bfbd4089624818a01197a880f2648f6eb69a7f5f1fd467b0048c",
+        "measurement_dump.rs": "4573fd69b9297be453f1a74d75b06ba8bce8eeab1cb4ccbafb6ae5245de22fed",
+        "wasm_client.js": "e8b3e92e8c75710c0883cbf65613a254c2ed5c214d62696285f5aa1c30ea5659",
+        "replay_wasm.cjs": "1c94e10189728fdd9caa7d8198a0403f7ad52cc7985be304518558b7c3fdf533",
+        "compare_measurement.py": "7b9f2d9787c26aff26c7b570b6fe1d4b62341b57e28b27e583cf84f1e4b5c28d",
+        "build_capture.py": "985fbb7f9191b81ae56bfeb4c1c08236358fc471993ecc07d690e77b8967dc00",
+        "prepare_originals.py": "5cbbf5bdbe2cbe054c6aa2fb7517adc133848067ac715c9585bd74a75467a99e",
+        "measurement_original.cjs": "59042a823e3c8bd15c52d917943caa3358ce3fe55fb154ba1642703b20a7056b"
+      }
+    },
+    {
+      "case": "command-failure",
+      "argv": [
+        "python3",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-01/command-failure/tools/build_capture.py",
+        "--repo",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-faults-01/command-failure/capture",
+        "--target-dir",
+        "/workspace/build/builderbob/syson-batch15-20261029/target",
+        "--cargo-home",
+        "/workspace/cache/builderbob/global-tools/cargo"
+      ],
+      "exit": 1,
+      "status": "FAIL_TERMINAL",
+      "error": "ValueError('command failed: cargo-version')",
+      "injection": "Copied tool source only; actual generic process/source guards exercised",
+      "source_probe": {
+        "README.md": "4ec36cd973a97d6a004a099317985919141d2181dd08fe55f0d90385f1b4ec0c",
+        "measurement_cases.py": "f7667161698269cbd89051a255c2de3e7d70ec4c3e09b2d11c18f60c08d0aa04",
+        "measurement_bridge.rs": "f6c161e1eb22bfbd4089624818a01197a880f2648f6eb69a7f5f1fd467b0048c",
+        "measurement_dump.rs": "4573fd69b9297be453f1a74d75b06ba8bce8eeab1cb4ccbafb6ae5245de22fed",
+        "wasm_client.js": "e8b3e92e8c75710c0883cbf65613a254c2ed5c214d62696285f5aa1c30ea5659",
+        "replay_wasm.cjs": "1c94e10189728fdd9caa7d8198a0403f7ad52cc7985be304518558b7c3fdf533",
+        "compare_measurement.py": "7b9f2d9787c26aff26c7b570b6fe1d4b62341b57e28b27e583cf84f1e4b5c28d",
+        "build_capture.py": "53596bbf815affe9befaa61fdc1cb7b5285ff9dae4a24c3eb93fe7bdf47cdf2f",
+        "prepare_originals.py": "5cbbf5bdbe2cbe054c6aa2fb7517adc133848067ac715c9585bd74a75467a99e",
+        "measurement_original.cjs": "59042a823e3c8bd15c52d917943caa3358ce3fe55fb154ba1642703b20a7056b"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+from pathlib import Path
+import hashlib,json,os,shutil,signal,subprocess,time
+b=Path(__file__).parent;out=b/'measurement-portable-faults-03';out.mkdir()
+src=Path('/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric')
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();baseline={p.name:sha(p) for p in src.iterdir() if p.is_file()};rows=[]
+def command(script,capture):return ['python3',str(script),'--repo',str(src.parents[3]),'--corpus','/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json','--out',str(capture),'--target-dir','/workspace/build/builderbob/syson-batch15-20261029/target','--cargo-home','/workspace/cache/builderbob/global-tools/cargo']
+for name,value in [('relative-output','relative'),('existing-output',str(out))]:
+ argv=command(src/'build_capture.py',value);r=subprocess.run(argv,capture_output=True,timeout=10);(out/(name+'-stdout.txt')).write_bytes(r.stdout);(out/(name+'-stderr.txt')).write_bytes(r.stderr);assert r.returncode!=0;rows.append({'case':name,'argv':argv,'exit':r.returncode})
+for mode in ['drift','delete','configuration','interrupt','command-failure']:
+ case=out/mode;case.mkdir();tools=case/'tools';tools.mkdir()
+ for p in src.iterdir():
+  if p.is_file():shutil.copy2(p,tools/p.name)
+ script=tools/'build_capture.py';raw=script.read_text();marker=case/'ready';release=case/'release'
+ if mode in ['drift','delete','configuration']:
+  needle="    initial = snapshot(inputs)";assert raw.count(needle)==1
+  raw=raw.replace(needle,needle+f"\n    Path({str(marker)!r}).write_text('frozen')\n    while not Path({str(release)!r}).exists(): time.sleep(.01)")
+ elif mode=='interrupt':
+  needle="    run('cargo-version', [cargo, '--version', '--verbose'])";assert raw.count(needle)==1
+  injected="import time;from pathlib import Path;Path("+repr(str(marker))+").write_text('running');time.sleep(60)"
+  raw=raw.replace(needle,"    run('interrupt-wait', ["+repr(shutil.which('python3'))+", '-c', "+repr(injected)+"])")
+ else:
+  needle="run('cargo-version', [cargo, '--version', '--verbose'])";assert raw.count(needle)==1;raw=raw.replace(needle,"run('cargo-version', [cargo, '--invalid-bounded-fault-probe-option'])")
+ script.write_text(raw);argv=command(script,case/'capture')
+ with (case/'stdout.txt').open('wb') as stdout,(case/'stderr.txt').open('wb') as stderr:
+  child=subprocess.Popen(argv,stdout=stdout,stderr=stderr,start_new_session=True)
+  if mode!='command-failure':
+   deadline=time.monotonic()+15
+   while not marker.exists() and child.poll() is None and time.monotonic()<deadline:time.sleep(.01)
+   assert marker.exists(), 'probe marker missing'
+   if mode in ['drift','delete','configuration']:
+    p=tools/'README.md'
+    if mode=='drift':p.write_bytes(p.read_bytes()+b'\nControlled source drift.\n')
+    elif mode=='delete':p.unlink()
+    else:
+     config=case/'capture/.cargo';config.mkdir();(config/'config.toml').write_text('# Controlled configuration birth.\n')
+    release.write_text('continue')
+   else:os.kill(child.pid,signal.SIGINT)
+  child.wait(timeout=20)
+ receipt=json.loads((case/'capture/receipt.json').read_text());assert child.returncode!=0 and receipt['status']=='FAIL_TERMINAL'
+ if mode in ['drift','delete']:assert 'source changed while preparing' in receipt['error'] and not receipt['source_unchanged']
+ if mode=='configuration':assert not receipt['source_unchanged'] and receipt['configuration_before']!=receipt['configuration_after']
+ if mode=='interrupt':
+  assert 'KeyboardInterrupt' in receipt['error'];row=next(row for row in receipt['commands'] if row['label']=='interrupt-wait');assert row['exit_code'] is not None
+  stat=Path('/proc')/str(row['pid'])/'stat';assert not stat.exists() or stat.read_text().rsplit(')',1)[1].split()[19]!=row['pid_start_ticks']
+ rows.append({'case':mode,'argv':argv,'exit':child.returncode,'status':receipt['status'],'error':receipt.get('error','final configuration/source binding drift'),'injection':'Copied tool source only; actual generic process/source guards exercised','source_probe':{p.name:sha(p) for p in tools.iterdir() if p.is_file()}})
+assert baseline=={p.name:sha(p) for p in src.iterdir() if p.is_file()}
+(out/'receipt.json').write_text(json.dumps({'status':'PASS_7_ADMISSION_FAILURE_DRIFT_CONFIGURATION_DELETION_INTERRUPTION_CONTROLS','original_source_unchanged':True,'source':baseline,'cases':rows},indent=2)+'\n');print(json.dumps({'status':'PASS_7_ADMISSION_FAILURE_DRIFT_CONFIGURATION_DELETION_INTERRUPTION_CONTROLS','cases':len(rows)}))

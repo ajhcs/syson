@@ -1,0 +1,75 @@
+{
+  "status": "PASS_30_NATIVE_AND_WASM_SIZE_CASES_PLUS5_HOST_REFUSALS_AND7_PIPELINE_CONTROLS",
+  "inputs_before": {
+    "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/compare_measurement.py": "7b9f2d9787c26aff26c7b570b6fe1d4b62341b57e28b27e583cf84f1e4b5c28d",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/replay_wasm.cjs": "1c94e10189728fdd9caa7d8198a0403f7ad52cc7985be304518558b7c3fdf533",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/wasm_client.js": "e8b3e92e8c75710c0883cbf65613a254c2ed5c214d62696285f5aa1c30ea5659",
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json": "f0572b4ddfe2437615920f4ba476bd7dfe4106f7b137ec347c99fa1adf85d3c1",
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-native-v2.json": "fc70eb64cc59db61c8844ac2779a94d0f6a657fff08223679542502e8025cf5c",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-build-04/rust.json": "a48fcc332fbce99e6f0872bb974e16aaf315890d49d5afbbcbc8bf223fcbc4b2",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-build-04/measurement_bridge.wasm": "03a7a69329f886e78e2480af181a6da308411c05180afb481f0b92676edec582"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/replay_wasm.cjs",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-build-04/measurement_bridge.wasm",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/wasm_client.js",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-replay-03/wasm.json"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.020475823082961142
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/compare_measurement.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-native-v2.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-build-04/rust.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-replay-03/native-comparison.json",
+        "--self-test"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.022376328008249402
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/compare_measurement.py",
+        "--corpus",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-native-v2.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-replay-03/wasm.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-replay-03/wasm-comparison.json",
+        "--self-test"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.02148021396715194
+    }
+  ],
+  "inputs_after": {
+    "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/compare_measurement.py": "7b9f2d9787c26aff26c7b570b6fe1d4b62341b57e28b27e583cf84f1e4b5c28d",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/replay_wasm.cjs": "1c94e10189728fdd9caa7d8198a0403f7ad52cc7985be304518558b7c3fdf533",
+    "/workspace/worktrees/builderbob/syson/batch21-measurement-numeric/porting/rust-parity-evidence/C09/batch21-measurement-numeric/wasm_client.js": "e8b3e92e8c75710c0883cbf65613a254c2ed5c214d62696285f5aa1c30ea5659",
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json": "f0572b4ddfe2437615920f4ba476bd7dfe4106f7b137ec347c99fa1adf85d3c1",
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-native-v2.json": "fc70eb64cc59db61c8844ac2779a94d0f6a657fff08223679542502e8025cf5c",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-build-04/rust.json": "a48fcc332fbce99e6f0872bb974e16aaf315890d49d5afbbcbc8bf223fcbc4b2",
+    "/workspace/build/builderbob/syson-batch21-20261029/measurement-portable-build-04/measurement_bridge.wasm": "03a7a69329f886e78e2480af181a6da308411c05180afb481f0b92676edec582"
+  },
+  "source_unchanged": true
+}
