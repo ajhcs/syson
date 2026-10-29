@@ -1,6 +1,6 @@
 # SysON feature parity in Rust: implementation and verification plan
 
-**Full parity remains open.** Read [Remaining work and evidence required for SysON parity](REMAINING-WORK.md) for the current execution order, concrete PR tasks, dependencies and completion criteria. Its [complete task register](remaining-work/units.json) preserves all 778 adopted review units; its [snapshot lock](remaining-work/snapshot.lock.json) binds the guide to the reviewed plan inputs.
+**Full parity remains open.** Read [Remaining work and evidence required for SysON parity](REMAINING-WORK.md) for the current execution order, concrete PR tasks, dependencies and completion criteria. The [next PR queue](rereview-batch20-next-prs.md) separates the immediate independent scopes from later transaction, parser, UI and durability gates. Its [complete task register](remaining-work/units.json) preserves all 778 adopted review units; its [snapshot lock](remaining-work/snapshot.lock.json) binds the guide to the reviewed plan inputs.
 
 The immediate objective is a connected Rust project workflow that retains committed model and representation state through page reload, project reopen and backend restart without manual JSON reimport. Safe prerequisite landings, reference closure and independent semantic/language/view work proceed alongside it, subject to the declared dependencies and ownership gates.
 

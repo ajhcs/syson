@@ -1,0 +1,384 @@
+{
+  "status": "SOURCE_ONLY_PROPOSAL_FOR_REVIEW;NO_CHILD_IDS_ASSIGNED;NO_IMPLEMENTATION_OR_SOURCE_LEASE",
+  "actual_main": "69281e60b3093412fd55c889f99f738ad87c6a30",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.1",
+  "plan_unit_count_preserved": 778,
+  "question_answer": {
+    "immediate_action": "Prepare the source contract, alias/ordering case matrix and reviewed child split now. Audit/reconcile RR08 admission independently. Do not assert P14 implementation readiness while P13 is missing and RR08 is unmerged.",
+    "architecture": "Keep authoritative containment unchanged. Add a public, bounded, derived AST projection whose cache entries borrow or owner-validate existing nodes without becoming owning Value::Node edges. Keep raw kernel fields observable and preserve the original empty-cache baseline test.",
+    "F11_landing": "A separately reviewed bounded F11 prerequisite can in principle land before full P14/cache acceptance. This is not a finding that current draft147 is already merge-ready. Its finite-constructor structural disposition, actual prerequisites, affected checks and independent review still need their named closure; all cache/caller/native residuals stay open.",
+    "cycle": "The adopted graph has no accepted:P14 prerequisite on a legacy F11 landing. Adding that blanket gate would change the reviewed scope/gates and create an artificial operational blocker. A formal graph cycle is not demonstrated: F11 is an external legacy prerequisite, not a current plan node. Do not invent a reciprocal acceptance dependency."
+  },
+  "frozen_evidence": {
+    "F11_draft_head": "a815c593f1230c0cec2111d3557b4d2a43c563cc",
+    "F11_code_commit": "5f799815bfb87da9d29d3d0a07d7dc9c95ac4f9e",
+    "F11_lib_git_blob": "404973c2909f59ff9656b8bdd5e523f400099c1b",
+    "F11_production_lines": 459,
+    "F11_test_lines": 418,
+    "manifest_notice_lines": 23,
+    "F11_authored_lines": 900,
+    "original_tests": 13,
+    "total_local_tests": 15,
+    "generated_reserved_lines": 173,
+    "final_capture": "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04",
+    "final_native_sha256": "9c681561853224353bd7eaf33c73677b92c4c46da82caa4072aa4828378465c6",
+    "final_rust_sha256": "4ee4937b9032be052bff2bc38daac30e2b83b7f2ce3d634802edad194a081914",
+    "inspection_sha256": "8714c8d33dda71967fe50b524c5e4eefa61554e13df15ce961b6f491f3a85529",
+    "observed": "22 finite programs retain79 populated-native-versus-empty-Rust $children differences; final inspection has no origin difference. The remaining8 malformed and12 unsupported programs retain their distinct outcomes. These are preliminary structural inspections, not complete acceptance comparators.",
+    "preservation": "Do not rewrite the13 original tests,15-case capture, earlier span failures, native cache differences or original donor receipts. New projection tests are additive and live outside the already-full F11 review slice."
+  },
+  "readiness_audit": {
+    "P13": {
+      "plan_state": "PLANNED_NOT_IMPLEMENTED",
+      "implementation_dependencies": [
+        "P12"
+      ],
+      "execution_record": null,
+      "main_source": "No rust/crates/syson-parser-core tree exists on the inspected main. No implementation-ready or accepted P13 disposition is recorded.",
+      "consequence": "P14 cannot be declared implementation-ready. P13 remains gated by P12, which remains gated by P11 and RR08; retain the earlier parser prerequisite chain."
+    },
+    "RR08": {
+      "plan_state": "PLANNED_NOT_IMPLEMENTED",
+      "implementation_dependencies": [],
+      "ledger": {
+        "implementation": "LOCALLY_VERIFIED_BOUNDED",
+        "feature_acceptance": "NOT_ACCEPTED",
+        "branch": "codex/syson-rr08-ast-rollback",
+        "head": "f0389bb7360bfa6246e66fe92144cb4b4eaa6269",
+        "base": "25acfaa6f3059685f133be034355f11104aad16f",
+        "base_branch": "codex/syson-f12",
+        "external_prerequisites": [
+          41,
+          11
+        ],
+        "pull_request": "https://github.com/ajhcs/syson/pull/101",
+        "publication": "OPEN_UNMERGED_DRAFT",
+        "commits": 2,
+        "independent_review": "PASS_SOURCE_ONLY;ROOT_EXECUTION_SEPARATE",
+        "tests": 62,
+        "source_capture": "rr08-02",
+        "test_evidence": "Final37AST(including9new)+25adapter cases; core100/1000/5000 requested traffic34844/335960/1673112 vsbaseline3312488/333251536/8350409616. ActualF12 stress and parser routes separate; finish repeated-label red2106112 wrongsuccess→197392 Budget.",
+        "original_failures": [
+          "rr08-red-01 expected quadratic construction traffic failure",
+          "rr08-01 passed61 then adjacent rr08-finish-red-01 proves uncharged containment labels; final changed production and both suites requalified"
+        ],
+        "native_observation": "NOT_RUN; selected actual Rust callers and owned fixture evidence only",
+        "evidence": "porting/rust-parity-evidence/RR08/RESULTS.md",
+        "limits": "Copied-byte work charging deliberately refuses sooner under unchanged defaults; selected debug traffic is not live/RSS/native ratio/general complexity/latency. Diagnostic unsupported strings and caller-owned clones excluded; panic rollback not promised.",
+        "coordinator_wiring": {
+          "paths": [
+            "rust/crates/syson-ast/Cargo.toml",
+            "rust/crates/syson-ast/Cargo.lock",
+            "rust/crates/syson-ast-adapter/Cargo.lock",
+            "rust/crates/syson-ast/tests/construction.rs"
+          ],
+          "policy": "Coordinator-only existing caller dependency registration/lock reconciliation after ownership admission. For RR08, update the single inherited copied-work expectation from3 to17 without weakening spent-ID checks. Serialize these shared edits and requalify affected suites; these are not author leases."
+        }
+      },
+      "main_source": "rust/crates/syson-ast/src/lib.rs::Builder::transaction still clones the complete State; rr08_regression.rs is absent. Main has not adopted the bounded journal/copy repair.",
+      "donor_implementation_commit": "43ea3be0016b5f91d2b05909bae484e0d75ba76a",
+      "consequence": "Local #101/f0389bb7 evidence is not current-main integration or acceptance. A fresh isolated admission/rebase review can proceed because the implementation graph lists no prerequisites, but the frozen external #11/#41/F12 inputs and original actual-caller cases still require reconciliation, not omission. Shared AST/adapter manifest and inherited copied-work test edits are coordinator-owned. Reuse no old PASS for changed source."
+    },
+    "P14": {
+      "implementation_dependencies": [
+        "P13",
+        "RR08"
+      ],
+      "acceptance_children": [
+        "RR08"
+      ],
+      "implementation_graph": [
+        "implementation:P13",
+        "implementation:RR08"
+      ],
+      "acceptance_graph": [
+        "accepted:RR08",
+        "implementation:P14"
+      ],
+      "execution_record": null,
+      "declared_paths": [
+        "rust/crates/syson-reflection/src/native_order.rs",
+        "rust/crates/syson-parser-core/src/native_children.rs"
+      ],
+      "status": "SOURCE_PREPARATION_ONLY;IMPLEMENTATION_READINESS_NOT_ESTABLISHED"
+    },
+    "source_preparation_meaning": "Owned source/fixtures drafted against a frozen explicit contract. Can proceed before semantic implementations; no feature/parity completion claim.",
+    "allowed_now_without_new_lease": [
+      "Read source and immutable captures; identify cases and exact interfaces.",
+      "Write this proposal and prepare a reviewed amendment draft only when separately authorized.",
+      "Audit RR08 donor/current-main differences, ownership and frozen real callers read-only."
+    ],
+    "future_admission_condition": "After a versioned reviewed amendment assigns numbered child IDs, exact source obligations/scopes/cases and dependencies, acquire explicit disjoint leases. Source drafting against a frozen interface may precede semantic implementations under the existing SOURCE_PREPARED definition; compiled readiness and landing still require the listed implementation dependencies. This report grants none of those leases."
+  },
+  "actual_native_semantics": [
+    {
+      "source": "backend/application/syson-sysml-import/src/main/resources/syside-cli.js:13550-13586; Langium streamContents",
+      "behavior": "Enumerates own properties in Object.keys insertion order, excludes every property starting with $, yields AST node values and array AST entries. Primitive values and unresolved reference descriptors are not child AST nodes. Cache aliases therefore must not recursively become containment."
+    },
+    {
+      "source": "same bundle:108958-108983; SysMLParser collectChildren/fillNode/construct",
+      "behavior": "Clears $children, repopulates it from streamContents, stably sorts by compareRanges(child.$cstNode?.range), then writes each child.$childIndex. Both fillNode and construct can rebuild the cache. The same node identities occur in authoritative properties and this non-owning cache."
+    },
+    {
+      "source": "same bundle:83732-83758; streamAllContents/streamAst/compareRanges",
+      "behavior": "The real native generic AST walkers consume $children. Range comparison uses only start.line and start.character; missing range uses(0,0). It does not compare ends. Equal-start ordering preserves the prior stream order. Native helper streamAst includes the root; streamAllContents does not."
+    },
+    {
+      "source": "same bundle:13493-13510 and107310-107352; linkContentToContainer/assignNode",
+      "behavior": "$containerProperty names the authoritative owning property. $containerIndex is the index inside that property array and is absent for scalar containment. $childIndex is position in the separately ordered child cache. Do not substitute one for the other or add a root index that is absent in parsed native output."
+    },
+    {
+      "source": "same bundle:107273-107307; reflection assignMandatoryProperties/createNode",
+      "behavior": "Programmatically created nodes can receive a default $childIndex=0; the actual parsed Namespace root in the retained capture lacks that property. Preserve own-property presence and the differing construction routes."
+    },
+    {
+      "source": "same bundle:107337-107351; reflection assignNode incremental cache branch",
+      "behavior": "When a CST insertion point is found, source splices child into parent.$children and subsequently executes an unconditional push of child. This condition can yield repeated non-owning aliases and last-written $childIndex. Source proves the conditional consequence; capture actual original-method and real-caller reachability before defining compatibility or an intentional improvement. Do not assume cache uniqueness globally."
+    },
+    {
+      "source": "rust/crates/syson-ast/src/lib.rs on main:Builder::finish; Node::fields/Container",
+      "behavior": "Every Value::Node, including one inside an array, is treated as containment. The seen set rejects repeated containment; cycles and foreign owners remain errors. Fields are a BTreeMap, so lexical key order cannot substitute for native property insertion order in equal/missing-CST ties."
+    }
+  ],
+  "proposed_design_contract": {
+    "authority": "Existing semantic properties own nodes. Derived cache entries refer to those nodes; they never own or clone AST nodes and never allocate new NodeIds. Keep repeated-containment, cycle, foreign-owner, spent-ID and rollback invariants unchanged.",
+    "surface": "A public AST projection/cache view over an immutable Arena, with explicit derived children and optional child_index accessors; borrowed references or owner-qualified handles are acceptable. Scalar/array container metadata remains read from authoritative containment. Native-compatible export/navigation must call the public projection, not an oracle-only reconstructed expectation.",
+    "raw_slots": "Leave the physical kernel $children default and the original F11 expectation of[] intact in these first children. Expose raw fields alongside the derived projection in evidence. A later decision to change Node::slot/fields behavior is a separately reviewed API/representation change, not an expectation deletion.",
+    "ordering": "Implement native start-range ordering and preserve encounter order for ties. Do not use BTreeMap order, NodeId/allocation order or end offsets as an invented tie-breaker. P13 must supply any missing construction-order provenance for mixed-field/action cases. Bound or explicitly leave unsupported an unqualified family; no full P14 acceptance follows from a finite projection.",
+    "lifecycle": "Prefer building a local projection only after successful Arena freeze. Publish no partial projection on limits/cancellation. A new Arena gets its own projection; old immutable Arena/view remains valid. Mutable pre-freeze caches, action alias changes and incremental reflection assignment require their own reviewed behavior family.",
+    "accounting": "Charge projection vector/map/order work before reservation; bound nodes/edges/labels and poll cancellation inside long traversals. Record requested allocation and separate live/RSS observations. Do not infer a deadline, native capacity or global heap bound."
+  },
+  "proposed_children": [
+    {
+      "slot": "scalar_cache_aliases",
+      "id": "UNASSIGNED_PROPOSAL_ONLY",
+      "behavior": "Derived cache aliases for a single scalar owning property: OwningMembership.target, FeatureMembership.target and FeatureTyping.targetRef. Empty/leaf cache behavior and scalar containerIndex absence are included.",
+      "proposed_paths": [
+        "rust/crates/syson-parser-core/src/native_children/scalar.rs",
+        "rust/crates/syson-parser-core/tests/native_scalar_children.rs"
+      ],
+      "dependencies": [
+        "implementation:P13",
+        "implementation:RR08"
+      ],
+      "estimated_production_lines": 180,
+      "estimated_authored_lines": 550,
+      "maximum_production_lines": 400,
+      "maximum_authored_lines": 900,
+      "cases": [
+        "Actual F11 wrappers and typing nodes alias the exact authoritative target/reference, with no extra AST allocation.",
+        "Root/leaf absent-index and empty-cache behavior match actual parsed route.",
+        "Foreign owner/unknown handles refuse; repeated owning nodes/cycles still fail kernel finish.",
+        "Raw physical cache remains[]; projected cache is separately observable and source-qualified."
+      ],
+      "completion": "Actual native/F11 scalar-node observations agree in identity/order/index/presence for the assigned family; negative and failure cases pass on exact inputs. Shared consuming-workflow evidence names the caller and dependency path. This does not close array or action cache semantics."
+    },
+    {
+      "slot": "array_cache_and_indices",
+      "id": "UNASSIGNED_PROPOSAL_ONLY",
+      "behavior": "Derived array children and cache-index semantics for finite Namespace/Package/PartDefinition/PartUsage bodies, composed with scalar aliases. Preserve source order, property-array index and optional/global childIndex distinctly.",
+      "proposed_paths": [
+        "rust/crates/syson-parser-core/src/native_children/arrays.rs",
+        "rust/crates/syson-parser-core/tests/native_array_children.rs"
+      ],
+      "dependencies": [
+        "implementation:P13",
+        "implementation:RR08",
+        "implementation:scalar_cache_aliases_PROPOSED"
+      ],
+      "estimated_production_lines": 250,
+      "estimated_authored_lines": 780,
+      "maximum_production_lines": 400,
+      "maximum_authored_lines": 900,
+      "cases": [
+        "All22 finite programs and79 known cache fields, retaining current raw differences and new public projection outputs.",
+        "Repeated names/distinct nodes, multiple siblings, nested wrappers/typing and empty/outer-whitespace origins.",
+        "Cross-property source starts, equal starts, missing CST and CR/LF/CRLF/astral positions; use a frozen P13 construction-order input rather than guessing lost insertion order.",
+        "Array containerIndex stays tied to its property while childIndex tracks cache position; scalar None never becomes array0.",
+        "Exact/over projection limits, cancellation and unchanged previous arena/view."
+      ],
+      "completion": "Every admitted parsed scalar/array family has native-projected alias/index agreement through the public API and a real generic AST traversal; unsupported mixed/tie families retain named residuals. No claim of all parser/action/cache lifecycle acceptance."
+    },
+    {
+      "slot": "action_merge_cache_lifecycle",
+      "id": "UNASSIGNED_PROPOSAL_ONLY",
+      "behavior": "Rebuild projections after P13 current-node replacement, type adoption and unassigned subrule/datatype merges; retain CST association and alias identity across success/refusal and nested rollback.",
+      "proposed_paths": [
+        "rust/crates/syson-parser-core/src/native_children/actions.rs",
+        "rust/crates/syson-parser-core/tests/native_action_children.rs"
+      ],
+      "dependencies": [
+        "implementation:P13",
+        "implementation:RR08",
+        "implementation:array_cache_and_indices_PROPOSED"
+      ],
+      "estimated_production_lines": 300,
+      "estimated_authored_lines": 850,
+      "maximum_production_lines": 400,
+      "maximum_authored_lines": 900,
+      "cases": [
+        "Source arrays precede target arrays under actual unassigned-subrule merge, with authentic field-order provenance.",
+        "Type adoption/default filling does not invent a second owner or detach required aliases.",
+        "Nested success/failure, late budget/cancellation, CST restoration, stale/foreign handles and non-reused spent IDs/work.",
+        "Actual RR08 100/1000/5000 construction and real F12/P13 caller families remain required; prior F11 finite cases are preserved."
+      ],
+      "completion": "Actual P13 parse/action caller consumes the public derived traversal/cache API on a repaired RR08 composition, and native identity/index/default/rollback cases pass. All earlier counterexamples remain retained."
+    },
+    {
+      "slot": "programmatic_reflection_assignment",
+      "id": "UNASSIGNED_PROPOSAL_ONLY",
+      "behavior": "Qualify the separate createNode/assignNode cache splice/append and array reindex behavior used by native parser postprocessing. Capture the conditional repeated-alias branch before choosing exact compatibility or an independently approved improvement.",
+      "proposed_paths": [
+        "rust/crates/syson-parser-core/src/native_children/reflection_assignment.rs",
+        "rust/crates/syson-parser-core/tests/native_reflection_assignment.rs"
+      ],
+      "dependencies": [
+        "implementation:P13",
+        "implementation:RR08",
+        "implementation:action_merge_cache_lifecycle_PROPOSED"
+      ],
+      "estimated_production_lines": 280,
+      "estimated_authored_lines": 820,
+      "maximum_production_lines": 400,
+      "maximum_authored_lines": 900,
+      "cases": [
+        "Array insertion at start/middle/end updates container indices without changing ownership.",
+        "CST-present/missing and insertion-point/no-insertion-point paths retain raw cache aliases and final childIndex.",
+        "Scalar assignment with an index refuses; defaults and root childIndex presence follow the actual creation route.",
+        "Actual applicable F12/postprocessor calls and later collectChildren rebuild expose source behavior instead of a synthetic success replacement."
+      ],
+      "completion": "The named programmatic alias/parenting family has source-traced native results, explicit intentional differences if any, safe non-owning representation and actual consuming-caller coverage. Parent P14 still retains reflection ordering and full inventory closure."
+    }
+  ],
+  "required_version_review_before_child_code": {
+    "no_ids_assigned": "The slot names above are proposal labels, not new plan IDs. Root must choose numbered IDs in a reviewed versioned contract amendment before child implementation.",
+    "changes_to_record": [
+      "Exact source methods/branches and positive/negative/boundary cases per child.",
+      "Owners and disjoint paths; parser-core module/export/manifest registration remains coordinator-owned.",
+      "Retain P14 P13/RR08 implementation gates and accepted:RR08 gate; parent acceptance additionally waits for every approved child and all unallocated original tasks.",
+      "If any child requires kernel representation changes, enumerate those shared AST paths and compatibility impacts in the amendment and admit them after RR08 reconciliation. Current P14 paths do not silently grant kernel edits.",
+      "Do not increase default400/900 child budgets or extend the F11 exception. Generated data/raw captures remain separate.",
+      "Refresh the contract version, schema, lock and generated bindings through reviewed coordinator control, preserving prior778-unit/55-record history. Any new IDs change current review-unit count deliberately, never a feature percentage."
+    ],
+    "unallocated_parent_tasks": [
+      "All189 generated names,184 AST names and303 grammar declarations versus actual embedded artifact.",
+      "F08 partial-comparator/native-order policy and actual native runtime correspondence.",
+      "Remaining grammar/action/postprocessor/cache families and all real caller, resource and failure gates."
+    ]
+  },
+  "real_consumer_verification": {
+    "F11": "Construct each admitted source with actual Adapter and qualified F08/F10/AST. Compare raw Arena plus public derived view with original parser objects; require exact pointer/owner-qualified alias relationships, parent/property/indices, source spans and raw names/default presence. Never replace the13 original cases or reinterpret[] as a matching native cache.",
+    "generic_AST_walker": "Port/use the actual source behavior of native ast-util streamAst/streamAllContents through the public derived cache view. Compare traversal node paths/order with native on the same programs, including includeRoot behavior and refusal. This is a real cache consumer; a private inspection script reconstructing results is not a substitute.",
+    "F13": "The current finite Snapshot::index explicitly reads semantic children and membership.target, not $children. Keep that semantic traversal: do not replace it with every cached child. Exercise real new/link/semantic calls, forward/qualified/duplicate/wrong-type/unresolved and foreign-result cases on the projected composition. These passes establish non-interference unless the actual linker explicitly consumes the new public view; do not claim otherwise.",
+    "F14": "Run real Importer::stage -> Adapter -> Snapshot/Registry -> Editor commit/cancel/undo and file save/fresh reopen with distinct semantic/node identities. Preserve no-op, existing-parent, malformed, unsupported, colliding/exhausted ID, late typing, stale/foreign and cancellation refusal. Add cache-view observations through the actual exposed traversal while retaining the semantic transaction result; never replace its real dependencies with mocks.",
+    "acceptance_timing": "A shared actual-caller packet may satisfy direct-helper evidence only through a declared dependency path and unchanged-input proof. F13/F14 drafts are input candidates, not accepted or main-integrated callers. Missing caller execution stays open, without inventing a requirement that every parent must be accepted before a bounded prerequisite can land."
+  },
+  "F11_bounded_landing_conditions": [
+    "Use existing F08/F10/AST prerequisites on actual main; recheck exact reviewed draft head/base, changed source, caps, ownership and hosted check state.",
+    "Complete independent structural review/disposition of the declared finite constructor scope beyond the current preliminary script; unexplained required constructor/container/reference/default differences block that scope. The79 known cache fields are explicitly assigned to P14, not hidden.",
+    "Record raw kernel $children as an intentionally empty bounded baseline, not native-compatible behavior. No P13/P14/RR08 implementation readiness or acceptance is promoted by the F11 landing.",
+    "Preserve all13 original cases, two added cancellation regressions, span failures,15 final checks and immutable provenance. No extra cache code is squeezed into the full900-authored F11 slice.",
+    "Retain real F13/F14 consuming gates and full native/runtime/UI/resource acceptance as open. Affected composed workflows require their own reviewed evidence; a bounded prerequisite disposition is not a dependency waiver.",
+    "Do not silently introduce accepted:P14 as an F11 prerequisite. Any such new gate or scope change requires versioned review and a demonstrably acyclic, source-grounded graph."
+  ],
+  "evidence_references": [
+    {
+      "revision": "69281e60b3093412fd55c889f99f738ad87c6a30",
+      "path": "porting/rust-parity-plan-20261026/plan.json",
+      "anchors": [
+        "units:P13",
+        "units:P14",
+        "units:RR08",
+        "readiness_graph:implementation:P14",
+        "readiness_graph:accepted:P14",
+        "readiness_meaning"
+      ]
+    },
+    {
+      "revision": "69281e60b3093412fd55c889f99f738ad87c6a30",
+      "path": "porting/rust-parity-plan-20261026/execution.json",
+      "anchors": [
+        "units:RR08",
+        "current_integration:unmerged_preparation"
+      ]
+    },
+    {
+      "revision": "69281e60b3093412fd55c889f99f738ad87c6a30",
+      "path": "porting/rust-parity-plan-20261026/prs/P14.md",
+      "anchors": [
+        "Source preparation prerequisites",
+        "Implementation readiness",
+        "Feature acceptance dependencies",
+        "Write scope",
+        "Review budget"
+      ]
+    },
+    {
+      "revision": "69281e60b3093412fd55c889f99f738ad87c6a30",
+      "path": "porting/rust-parity-plan-20261026/COMPLETION-CONTRACT.md",
+      "lines": [
+        23,
+        30,
+        94,
+        102,
+        111
+      ]
+    },
+    {
+      "revision": "69281e60b3093412fd55c889f99f738ad87c6a30",
+      "path": "porting/rust-parity-plan-20261026/README.md",
+      "anchors": [
+        "New-plan dependency edges are authoritative",
+        "Source preparation versus implementation readiness versus feature acceptance"
+      ]
+    },
+    {
+      "revision": "69281e60b3093412fd55c889f99f738ad87c6a30",
+      "path": "porting/rust-parity-plan-20261026/rereview-batch18-next-prs.md",
+      "anchors": [
+        "Finish F11 qualification before advancing its callers",
+        "P14 owns exact cache aliases under P13/RR08",
+        "Resolve unexplained required differences before merging a scope that depends on them"
+      ]
+    },
+    {
+      "revision": "69281e60b3093412fd55c889f99f738ad87c6a30",
+      "path": "rust/crates/syson-ast/src/lib.rs",
+      "git_blob": "2b0300cf545baf6aee6892818755df2067c3af55",
+      "anchors": [
+        "Builder::transaction",
+        "Builder::finish",
+        "Node::fields",
+        "Container"
+      ]
+    },
+    {
+      "revision": "a815c593f1230c0cec2111d3557b4d2a43c563cc",
+      "path": "rust/crates/syson-ast-adapter/tests/construction.rs",
+      "lines": [
+        193,
+        205
+      ],
+      "anchor": "defaults_and_absent_optionals_are_distinct_from_empty_or_false_values"
+    },
+    {
+      "revision": "f0389bb7360bfa6246e66fe92144cb4b4eaa6269",
+      "path": "porting/rust-parity-evidence/RR08/RESULTS.md",
+      "anchor": "Local journal/copy repair and actual F12/parser evidence; NOT_ACCEPTED"
+    },
+    {
+      "revision": "aac4d2fd46d6f1c96358fa67bc017a4bcba85c5c",
+      "path": "rust/crates/syson-linker/src/lib.rs",
+      "anchors": [
+        "Snapshot::new",
+        "Snapshot::index",
+        "Snapshot::semantic"
+      ]
+    }
+  ],
+  "node20_inventory": {
+    "scope": "Read-only nonrecursive name globs in /workspace/cache/builderbob/global-tools/releases and /workspace/build/builderbob only.",
+    "result": "No Node20.15.1-named entry found in those two narrow inventories. ushso-node-v24 and node-readiness-20260922-01 were present; neither was executed. This is not an exhaustive absence claim or native runtime binding. No downloads/install/admin action."
+  },
+  "actions_performed": "Read Git objects, source files and retained JSON; wrote only this external proposal. No compiler, tests, generator, runtime, browser or Git mutation. Existing graph/raw/factory/validation holds unchanged."
+}
