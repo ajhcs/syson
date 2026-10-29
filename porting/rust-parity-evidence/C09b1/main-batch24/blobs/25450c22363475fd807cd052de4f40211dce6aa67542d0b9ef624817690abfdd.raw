@@ -1,0 +1,49 @@
+{
+  "source_sha256": "16daa02867fcbb06cafc12f67d14c9d21f7898646392dcf15ecb12584c1d10a8",
+  "results": [
+    {
+      "case": "baseline-25",
+      "difference_count": 0
+    },
+    {
+      "case": "known-absent-name",
+      "missing_information_alone": "OPEN",
+      "changed_meaning_status": "OPEN",
+      "difference_count": 0,
+      "actual_silent_difference": true
+    },
+    {
+      "case": "partial-reference-text",
+      "missing_information_alone": "OPEN",
+      "changed_meaning_status": "OPEN",
+      "difference_count": 0,
+      "actual_silent_difference": true
+    }
+  ],
+  "self_test": {
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "/workspace/worktrees/builderbob/syson/batch23-comment-comparison/porting/rust-parity-evidence/C09/batch22-comment-comparison/compare_p01.py",
+      "--corpus",
+      "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus-v2.json",
+      "--native",
+      "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/native-comments.json",
+      "--rust",
+      "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/rust-comments.json",
+      "--constructor-comparator",
+      "/workspace/worktrees/builderbob/syson/batch23-comment-comparison/porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py",
+      "--rust-receipt",
+      "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/receipt.json",
+      "--self-test"
+    ],
+    "exit": 2,
+    "result": {
+      "schema": 1,
+      "status": "MALFORMED_CAPTURE",
+      "error": "wrong mutation rejection: native-root"
+    }
+  },
+  "state": "REPRODUCED_2_SILENT_DIFFERENCES_AND_CONTROL_FALSE_REJECT",
+  "full_parity_claimed": false
+}

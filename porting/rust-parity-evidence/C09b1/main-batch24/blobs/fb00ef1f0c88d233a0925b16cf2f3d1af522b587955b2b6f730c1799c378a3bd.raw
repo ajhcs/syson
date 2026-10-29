@@ -1,0 +1,193 @@
+{
+  "status": "PASS_19_CAPTURE_AND_20_PROJECTION_TESTS_NORMAL_OPTIMIZED_AND_18_API_SAMPLES",
+  "inputs_before": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/workspace/build/builderbob/syson-batch22-20261029/c09b1-checks-01/fixtures.json": "4d877af4d9d50f525df9c9a02a43c37eec1eb76fe3632024fecc8fb9cd3a0a62",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus-v2.json": "c5fce29e6ac91d6d0c65ad657edfb12f20fe7bdc5a408ca3deaef6816a714cc6",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus.json": "971dcf43457b511ee7f7df99b676c38179a6450b3241caf66d7a9682320982ca",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/native-comments.json": "3ad33b98902225798c17ec0966b9903a702cb3716594804ec7cdd9b25e8ca7a9",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/receipt.json": "ece406b5d115ccd898acda637dee6a06f122925ed2847ea36fb9eaa8df7889fd",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/rust-comments.json": "bef930e9fc6f2f7b8228b2d43dc2128bd4b889f733bb4aa6b91750d2030bc7b0",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/native-comments.json": "e1bbe831d5a26972fa435cb9177329d2656f4f5d4a018c0b77550a73c98cfb84",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/receipt.json": "1643ec54990218840b66a0a760e88f013824b59572154848ed50001ae26b7b9a",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/rust-comments.json": "d87b98a89eb7c36e8fd61a1745551a2996c3f6aabf6d23572b0f57b78869917b",
+    "/workspace/build/builderbob/syson-batch22-20261029/run_c09b1_checks_01.py": "a2ced3e26a9fefd2eca38c56c756359754557f1d3a563e469524525adf1198ae",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py": "3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py": "57c141ae620d103b1fe6104286cb887a62ec8dcccaf45ed34fc6baf64985a88c",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/projection_p01.py": "1d55ed1c83418f1019611c0f48b93cb885e3007cbffd449fb8589eb85acb57dc",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py": "e58c671ddbb10dc563a01dbcce8b685df66e37b076c7d00c967ba3807562cfd2",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_projection_p01.py": "72ed0edc9c7299ef91eec4d099d9049aabda5c4585ab7b9eee9fe62d69e08faf"
+  },
+  "commands": [
+    {
+      "label": "normal-capture",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 2.1734689420554787
+    },
+    {
+      "label": "normal-projection",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_projection_p01.py",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 2.7157896559219807
+    },
+    {
+      "label": "optimized-capture",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-O",
+        "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 2.3969956630608067
+    },
+    {
+      "label": "optimized-projection",
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-O",
+        "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_projection_p01.py",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 2.180174766923301
+    }
+  ],
+  "api_samples": [
+    {
+      "epoch": "15",
+      "warmup": true,
+      "milliseconds": 54.031497915275395
+    },
+    {
+      "epoch": "15",
+      "warmup": true,
+      "milliseconds": 49.8512398917228
+    },
+    {
+      "epoch": "15",
+      "warmup": false,
+      "milliseconds": 44.81101594865322
+    },
+    {
+      "epoch": "15",
+      "warmup": false,
+      "milliseconds": 44.249781989492476
+    },
+    {
+      "epoch": "15",
+      "warmup": false,
+      "milliseconds": 46.04614898562431
+    },
+    {
+      "epoch": "15",
+      "warmup": false,
+      "milliseconds": 44.339825049974024
+    },
+    {
+      "epoch": "15",
+      "warmup": false,
+      "milliseconds": 44.21490605454892
+    },
+    {
+      "epoch": "15",
+      "warmup": false,
+      "milliseconds": 44.9297740124166
+    },
+    {
+      "epoch": "15",
+      "warmup": false,
+      "milliseconds": 42.661243001930416
+    },
+    {
+      "epoch": "25",
+      "warmup": true,
+      "milliseconds": 46.097086975350976
+    },
+    {
+      "epoch": "25",
+      "warmup": true,
+      "milliseconds": 47.86642303224653
+    },
+    {
+      "epoch": "25",
+      "warmup": false,
+      "milliseconds": 44.944652006961405
+    },
+    {
+      "epoch": "25",
+      "warmup": false,
+      "milliseconds": 46.60270502790809
+    },
+    {
+      "epoch": "25",
+      "warmup": false,
+      "milliseconds": 44.6183979511261
+    },
+    {
+      "epoch": "25",
+      "warmup": false,
+      "milliseconds": 45.13990494888276
+    },
+    {
+      "epoch": "25",
+      "warmup": false,
+      "milliseconds": 46.276860986836255
+    },
+    {
+      "epoch": "25",
+      "warmup": false,
+      "milliseconds": 44.34570705052465
+    },
+    {
+      "epoch": "25",
+      "warmup": false,
+      "milliseconds": 46.41478497069329
+    }
+  ],
+  "scope": "Finite P01 projection through fresh admission; API compute time only, no UI/native causality or parent acceptance.",
+  "ranges_ms": {
+    "15": {
+      "min": 42.661243001930416,
+      "median": 44.339825049974024,
+      "max": 46.04614898562431
+    },
+    "25": {
+      "min": 44.34570705052465,
+      "median": 45.13990494888276,
+      "max": 46.60270502790809
+    }
+  },
+  "inputs_after": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/workspace/build/builderbob/syson-batch22-20261029/c09b1-checks-01/fixtures.json": "4d877af4d9d50f525df9c9a02a43c37eec1eb76fe3632024fecc8fb9cd3a0a62",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus-v2.json": "c5fce29e6ac91d6d0c65ad657edfb12f20fe7bdc5a408ca3deaef6816a714cc6",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-corpus.json": "971dcf43457b511ee7f7df99b676c38179a6450b3241caf66d7a9682320982ca",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/native-comments.json": "3ad33b98902225798c17ec0966b9903a702cb3716594804ec7cdd9b25e8ca7a9",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/receipt.json": "ece406b5d115ccd898acda637dee6a06f122925ed2847ea36fb9eaa8df7889fd",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-05/rust-comments.json": "bef930e9fc6f2f7b8228b2d43dc2128bd4b889f733bb4aa6b91750d2030bc7b0",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/native-comments.json": "e1bbe831d5a26972fa435cb9177329d2656f4f5d4a018c0b77550a73c98cfb84",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/receipt.json": "1643ec54990218840b66a0a760e88f013824b59572154848ed50001ae26b7b9a",
+    "/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-06/rust-comments.json": "d87b98a89eb7c36e8fd61a1745551a2996c3f6aabf6d23572b0f57b78869917b",
+    "/workspace/build/builderbob/syson-batch22-20261029/run_c09b1_checks_01.py": "a2ced3e26a9fefd2eca38c56c756359754557f1d3a563e469524525adf1198ae",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py": "3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py": "57c141ae620d103b1fe6104286cb887a62ec8dcccaf45ed34fc6baf64985a88c",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/projection_p01.py": "1d55ed1c83418f1019611c0f48b93cb885e3007cbffd449fb8589eb85acb57dc",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py": "e58c671ddbb10dc563a01dbcce8b685df66e37b076c7d00c967ba3807562cfd2",
+    "/workspace/worktrees/builderbob/syson/batch24-comment-projection/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_projection_p01.py": "72ed0edc9c7299ef91eec4d099d9049aabda5c4585ab7b9eee9fe62d69e08faf"
+  },
+  "source_unchanged": true
+}

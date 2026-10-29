@@ -1,0 +1,23 @@
+from pathlib import Path
+import copy,hashlib,json,subprocess
+b=Path(__file__).parent;o=b/'p01-comparator-blindspots-01';o.mkdir();tool=b/'p01-comparison-01/executed-comparator.py';assert hashlib.sha256(tool.read_bytes()).hexdigest()=='d1da54e74d7e0cc8cee8a749a628e68022cbd96a252738d5929721c7b432b7f3';corpus=json.loads((b/'p01-corpus-v2.json').read_text());native=json.loads((b/'p01-qualification-06/native-comments.json').read_text());rust=json.loads((b/'p01-qualification-06/rust-comments.json').read_text());rows=[]
+for mutation in ['Boolean-root','unknown-node','selected-node-origin','deleted-TypeReference','embedded-comment-refusal','wrong-bundle','coherent-truncation']:
+ d=o/mutation;d.mkdir();c,n,r=copy.deepcopy(corpus),copy.deepcopy(native),copy.deepcopy(rust);first=r['cases'][0]
+ if mutation=='Boolean-root':first['outcome']['root']=False
+ elif mutation=='unknown-node':first['outcome']['nodes'].append({'id':999999,'node_type':'Bogus'})
+ elif mutation=='selected-node-origin':next(x for x in first['outcome']['nodes'] if x['node_type']=='Package')['origin']={'bytes':[0,0],'utf16':[0,0],'text':''}
+ elif mutation=='deleted-TypeReference':first['outcome']['nodes']=[x for x in first['outcome']['nodes'] if x['node_type']!='TypeReference']
+ elif mutation=='embedded-comment-refusal':
+  row=next(x for x in r['cases'] if x['id']=='04-comment-only-EOF');offset=row['source'].encode().index(b'/*');row['outcome']={'kind':'rust_error','error':'Unsupported { offset: '+str(offset)+' }'}
+ elif mutation=='wrong-bundle':n['provenance']['bundle_sha256']='0'*64
+ else:
+  for packet in [c,n,r]:packet['cases']=packet['cases'][:1]
+  n['provenance']['corpus_cases']=1
+ for name,obj in [('corpus',c),('native',n),('rust',r)]:
+  if name=='native' and mutation=='coherent-truncation':obj['provenance']['corpus_sha256']=hashlib.sha256((d/'corpus.json').read_bytes()).hexdigest()
+  (d/(name+'.json')).write_text(json.dumps(obj,ensure_ascii=False)+'\n')
+ if mutation!='coherent-truncation':
+  # Only byte serialization changes; bind the exact local corpus bytes honestly.
+  n['provenance']['corpus_sha256']=hashlib.sha256((d/'corpus.json').read_bytes()).hexdigest();(d/'native.json').write_text(json.dumps(n,ensure_ascii=False)+'\n')
+ argv=['python3',str(tool),'--corpus',str(d/'corpus.json'),'--native',str(d/'native.json'),'--rust',str(d/'rust.json'),'--self-test'];z=subprocess.run(argv,capture_output=True,timeout=30);(d/'stdout.json').write_bytes(z.stdout);(d/'stderr.txt').write_bytes(z.stderr);report=json.loads(z.stdout);assert z.returncode==0 and report['difference_count']==0,(mutation,z.returncode,report);row={'mutation':mutation,'exit':z.returncode,'difference_count':report['difference_count'],'negative_controls_claimed':report['negative_controls'],'disposition':'OLD_COMPARATOR_SILENT_PASS_REPRODUCED;NOT_ACCEPTANCE_EVIDENCE','argv':argv};rows.append(row);print(json.dumps(row))
+(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());(o/'receipt.json').write_text(json.dumps({'scope':'Actual bounded old209linecomparator omission counterexamples; repaired686prototype remains source-only pending reviewed split','tool_sha256':hashlib.sha256(tool.read_bytes()).hexdigest(),'rows':rows},indent=2)+'\n')
