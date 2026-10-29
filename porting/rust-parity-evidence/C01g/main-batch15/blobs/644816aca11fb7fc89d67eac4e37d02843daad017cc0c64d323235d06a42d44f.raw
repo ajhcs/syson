@@ -1,0 +1,39 @@
+from pathlib import Path
+import subprocess,os,json,time,hashlib,fcntl,signal,re,pwd
+b=Path(__file__).parent;root=Path('/workspace/worktrees/builderbob/syson');o=b/'checks-01';o.mkdir();scratch=o/'scratch';scratch.mkdir();target=b/'target';target.mkdir();testroot=o/'owned-catalogue-tests';testroot.mkdir(mode=0o700)
+assert pwd.getpwuid(os.getuid()).pw_name=='builderbob'
+assert testroot.resolve()==testroot and testroot.stat().st_uid==os.getuid() and not testroot.is_symlink()
+for ancestor in testroot.parents:
+ if str(ancestor)=='/workspace':break
+ assert not ancestor.is_symlink(),ancestor
+assert str(testroot).startswith('/workspace/build/builderbob/')
+(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',RUST_TEST_THREADS='1',CARGO_TARGET_DIR=str(target),TMPDIR=str(scratch),PYTHONDONTWRITEBYTECODE='1',SYSON_LIBRARY_CATALOG_TEST_ROOT=str(testroot));sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+scopes={'containment':root/'batch15-containment','writer':root/'batch15-model-writer','catalogue-baseline':root/'batch15-catalogue-baseline','catalogue':root/'batch15-catalogue'}
+files={}
+for name,w in scopes.items():
+ assert not (w/'rust/crates/syson-model/src/raw_admission.rs').exists()
+ names=subprocess.check_output(['git','ls-files','-z','rust'],cwd=w).decode().split('\0');extras=[str(p.relative_to(w)) for folder in ['rust/crates/syson-model','rust/tools/native-library-catalog'] if (w/folder).exists() for p in (w/folder).rglob('*') if p.is_file()];files[name]=sorted(set([p for p in names if p]+extras))
+snap=lambda name:{p:sha(scopes[name]/p) for p in files[name]}
+r={'status':'RUNNING','base':'eb3a5e47476947f748867bbed8be2b4603b1f874','source_before':{name:snap(name) for name in scopes},'commands':[],'owned_CLI_test_root':{'path':str(testroot),'uid':testroot.stat().st_uid,'nonsymlink_ancestry':True,'distinct_from_real_corpus':True},'scope':'Default unheld containment/RR04 and standaloneC01g/RR03; no inheritedraw/factory/graph, noUI/nativeepoch/fullacceptance.'}
+def run(name,argv,timeout=300):
+ t=time.monotonic();p=subprocess.Popen(argv,cwd=scopes[name],env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:out,err=p.communicate(timeout=timeout);timed=False
+ except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);out,err=p.communicate();timed=True
+ i=len(r['commands']);(o/f'{i:02}-stdout.txt').write_bytes(out);(o/f'{i:02}-stderr.txt').write_bytes(err);entry={'scope':name,'argv':argv,'exit_code':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t,'tests_passed':sum(map(int,re.findall(rb'test result: ok\. (\d+) passed;',out)))};r['commands'].append(entry);(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(entry),flush=True);return p.returncode==0 and not timed
+try:
+ for name,package in [('containment','crates/syson-model'),('writer','crates/syson-model'),('catalogue-baseline','tools/native-library-catalog'),('catalogue','tools/native-library-catalog')]:
+  w=scopes[name];m=str(w/'rust'/package/'Cargo.toml');rs=[str(p) for p in sorted((w/'rust'/package).rglob('*.rs'))]
+  # Retain legacy baseline formatting failures as separate debt, never rewrite its old bytes.
+  fmt=run(name,['rustfmt','--edition','2024','--config','skip_children=true','--check',*rs])
+  ok=run(name,['cargo','test','--offline','--locked','--jobs','1','--manifest-path',m,'--','--test-threads=1','--nocapture'])
+  if ok:
+   run(name,['cargo','clippy','--offline','--locked','--jobs','1','--manifest-path',m,'--all-targets','--','-D','warnings'])
+   if name in ['containment','writer']:run(name,['cargo','check','--offline','--locked','--jobs','1','--manifest-path',m,'--target','wasm32-unknown-unknown'])
+   else:run(name,['cargo','build','--offline','--locked','--release','--jobs','1','--manifest-path',m])
+ # New consumer feature composition changes serde_json feature union; qualify its actual guard behavior.
+ run('catalogue',['cargo','test','--offline','--locked','--jobs','1','--manifest-path',str(scopes['catalogue']/'rust/crates/syson-json-value/Cargo.toml'),'--features','serde_json/unbounded_depth','--','--test-threads=1','--nocapture'])
+ r['status']='PASS_BOUNDED_EXTRACTED_COMPONENTS' if all(x['exit_code']==0 and not x['timed_out'] for x in r['commands']) else 'PARTIAL_REPAIR_REQUIRED'
+finally:
+ r['source_after']={name:snap(name) for name in scopes};r['source_unchanged']=r['source_before']==r['source_after'];assert r['source_unchanged'],'source drift';r['artifacts']={p.name:sha(p) for p in o.iterdir() if p.is_file() and p.name!='receipt.json'};(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+print(r['status'],flush=True)

@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "plan_revision": "eb3a5e47476947f748867bbed8be2b4603b1f874",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.0",
+  "contract_lock_sha256": "14703b98ce7753ad2681dbefee90f53037adfd64254e8163375777a932f774e7",
+  "execution_owner": "/root",
+  "compiler_jobs": 1,
+  "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+  "old_holds": [
+    {
+      "holder": "validation",
+      "writable_boundary": [
+        "porting/validation/factory-review-01",
+        "rust/validation/factory"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-22T23:29:27.164166+00:00",
+      "acknowledgement": "Same validator passed ordinary checkpoint at1e09e567a clean and explicitly ACKed both paths and source-only/no-compiler boundary before root grant. Root confirms nonconflicting lease; implementation files remain read-only."
+    },
+    {
+      "holder": "root",
+      "writable_boundary": [
+        "rust/crates/syson-initializer-graph/src",
+        "rust/crates/syson-initializer-graph/tests",
+        "rust/crates/syson-model/src/raw_admission.rs",
+        "porting/domain/connection-definition-factory-helper",
+        "porting/runs/connection-definition-factory-helper-01",
+        "porting/execution-backlog.json"
+      ],
+      "status": "ACTIVE",
+      "release_mode": "EXPLICIT_ONLY",
+      "recorded_at_utc": "2026-10-23T14:15:50.821359+00:00",
+      "acknowledgement": "Same root ACKs exact helper continuation after explicit previous source release and43input byte preservation. No validation lease transfer, raw factory regeneration or new writer."
+    }
+  ],
+  "canonical": {
+    "canonical_head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+    "canonical_status": " M porting/execution-backlog.json\n?? porting/domain/connection-definition-factory-helper/\n?? porting/domain/factory-admission/\n?? porting/follow-ons/\n?? porting/pr-split-20261024/\n?? porting/runs/connection-definition-factory-helper-01/backlog-check-stderr.txt\n?? porting/runs/connection-definition-factory-helper-01/backlog-check-stdout.txt\n?? porting/runs/connection-definition-factory-helper-01/executed-source-wrapper.json\n?? porting/runs/connection-definition-factory-helper-01/executed-source-wrapper.sh\n?? porting/runs/connection-definition-factory-helper-01/interface-continuation-seal-01.json\n?? porting/runs/connection-definition-factory-helper-01/job-manifest.json\n?? porting/runs/connection-definition-factory-helper-01/publication-01/\n?? porting/runs/connection-definition-factory-helper-01/run_gate.py\n?? porting/runs/connection-definition-factory-helper-01/selected-admission-baseline/\n?? porting/runs/connection-definition-factory-helper-01/source-freeze.json\n?? porting/runs/connection-definition-factory-helper-01/sufficient-repair-01/\n?? porting/runs/factory-admission-01/\n",
+    "canonical_patch_sha256": "d1a44781b962d0a5ab8cd40fb0f5f3958c4fe822978d3e14e85237c3189da447",
+    "main": "eb3a5e47476947f748867bbed8be2b4603b1f874"
+  },
+  "scope": "Existing legacy S08 pure containment prerequisite, RR04 bounded writer, and C01g/RR03 standalone catalogue composition; no full graph, bridge, runtime/native or feature acceptance.",
+  "units": [
+    {
+      "scope": "S08_PURE_CONTAINMENT_ONLY",
+      "worktree": "/workspace/worktrees/builderbob/syson/batch15-containment",
+      "author": "batch15_containment",
+      "author_paths": [
+        "rust/crates/syson-model/src/containment.rs",
+        "rust/crates/syson-model/tests/containment.rs",
+        "rust/crates/syson-model/tests/batch15_containment_regression.rs"
+      ],
+      "root_only": [
+        "rust/crates/syson-model/src/lib.rs"
+      ],
+      "rule": "Exact donor pure module/original8tests plus meaningful failure-atomicity regressions; no eager output-budget admission in attachment; M04fullacceptanceOPEN."
+    },
+    {
+      "scope": "RR04_MODEL_WRITER",
+      "worktree": "/workspace/worktrees/builderbob/syson/batch15-model-writer",
+      "author": "batch15_rr04",
+      "author_paths": [
+        "rust/crates/syson-model/tests/rr04_regression.rs"
+      ],
+      "root_only": [
+        "rust/crates/syson-model/src/lib.rs"
+      ],
+      "rule": "Preserve all12 original tests/dense and overdepth realprovisionalcallers. Root composes frozen purecontainment prerequisite beforeexecution. No full donor lib/raw/factory imports."
+    },
+    {
+      "scope": "C01g_RR03_CATALOGUE",
+      "worktree": "/workspace/worktrees/builderbob/syson/batch15-catalogue",
+      "author": "batch15_catalogue",
+      "author_paths": [
+        "rust/tools/native-library-catalog/src/lib.rs",
+        "rust/tools/native-library-catalog/tests/catalog.rs",
+        "rust/tools/native-library-catalog/tests/rr03_regression.rs",
+        "rust/tools/native-library-catalog/README.md"
+      ],
+      "root_only": [
+        "rust/tools/native-library-catalog/Cargo.toml",
+        "rust/tools/native-library-catalog/Cargo.lock"
+      ],
+      "rule": "Transplant only RR03 ownhunks over exact C01g baseline; main RR01 dependency. Root qualifies before baseline/adoption sequenced landing; full C01/EMF/runtime acceptanceOPEN."
+    }
+  ],
+  "serialization": "Root alone writes shared lib/registration/manifests/locks and runs compilation/corpus/native/browser/performance. Authors source-only; actual test verification waits for freeze/admission."
+}
