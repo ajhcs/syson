@@ -1,0 +1,12 @@
+// Developer owned-buffer transport; numeric decisions remain in the Rust module.
+globalThis.runMeasurement=(instance,input)=>{
+ const e=instance.exports,bytes=new TextEncoder().encode(JSON.stringify(input));
+ const p=e.measure_alloc(bytes.length);if(!p)throw Error('input quota/allocation refused');
+ let q=0,n=0;
+ try {
+  new Uint8Array(e.memory.buffer,p,bytes.length).set(bytes);
+  const packed=e.measure_apply(p,bytes.length);q=Number(packed&0xffffffffn);n=Number(packed>>32n);
+  if(!q)throw Error('output allocation refused');
+  return JSON.parse(new TextDecoder().decode(new Uint8Array(e.memory.buffer,q,n)));
+ } finally {if(q)e.measure_free(q,n);e.measure_free(p,bytes.length);}
+};

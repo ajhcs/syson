@@ -1,0 +1,28 @@
+from pathlib import Path
+import os,subprocess,json,hashlib,time,fcntl,signal
+b=Path(__file__).parent;o=b/'measurement-fixed-01';o.mkdir();(o/'tmp').mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch20-measurement-landing');t=Path('/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools');c=o/'consumer';c.mkdir();m=c/'Cargo.toml';m.write_text(f'''[package]
+name="measurement-bridge"
+version="0.0.0"
+edition="2024"
+[dependencies]
+syson-node-measurement={{path="{w}/rust/crates/syson-node-measurement"}}
+serde_json="=1.0.151"
+[lib]
+path="{t}/measurement_bridge.rs"
+crate-type=["cdylib","rlib"]
+[[bin]]
+name="measurement-dump"
+path="{t}/measurement_dump.rs"
+[workspace]
+''');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();files=[m,t/'measurement_bridge.rs',t/'measurement_dump.rs',b/'measurement-cases-v2.json']+sorted(p for n in ['syson-node-measurement','syson-editor'] for p in (w/'rust/crates'/n).rglob('*') if p.is_file());snap=lambda:{str(p):sha(p) for p in files};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());r={'status':'RUNNING','inputs_before':snap(),'commands':[]};lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',RUST_TEST_THREADS='1',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(o/'tmp'));commands=[['cargo','generate-lockfile','--offline','--manifest-path',str(m)],['cargo','run','--release','--offline','--locked','--jobs','1','--manifest-path',str(m),'--bin','measurement-dump','--',str(b/'measurement-cases-v2.json')],['cargo','build','--release','--offline','--locked','--jobs','1','--manifest-path',str(m),'--lib','--target','wasm32-unknown-unknown']]
+try:
+ for i,argv in enumerate(commands):
+  start=time.monotonic();p=subprocess.Popen(argv,cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:stdout,stderr=p.communicate(timeout=180);timed=False
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+  (o/f'{i:02}-stdout.txt').write_bytes(stdout);(o/f'{i:02}-stderr.txt').write_bytes(stderr);r['commands'].append({'argv':argv,'exit':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-start});print(json.dumps(r['commands'][-1]),flush=True)
+  if i==1 and p.returncode==0:(o/'rust.json').write_bytes(stdout)
+  if timed or p.returncode:r['status']='FAIL';raise RuntimeError('Retain failed build')
+ r['status']='PASS_BUILD_AND_CAPTURE;COMPARISON_OPEN';wasm=Path(env['CARGO_TARGET_DIR'])/'wasm32-unknown-unknown/release/measurement_bridge.wasm';(o/'measurement_bridge.wasm').write_bytes(wasm.read_bytes());r['wasm_sha256']=sha(wasm)
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert r['source_unchanged']

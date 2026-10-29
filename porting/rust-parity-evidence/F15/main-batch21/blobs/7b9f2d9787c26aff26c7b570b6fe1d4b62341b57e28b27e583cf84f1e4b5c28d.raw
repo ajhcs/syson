@@ -1,0 +1,166 @@
+"""Strict original-source/Rust numeric and supplied-host boundary comparison.
+
+This does not qualify a deployed application or real DOM; browser evidence is
+separate. Float bits, order, host requests and explicit refusal controls matter.
+"""
+import argparse
+import copy
+import hashlib
+import json
+from pathlib import Path
+
+REFUSALS = {
+    'stale-font': 'StaleObservation',
+    'wrong-target': 'WrongTarget',
+    'host-failure': 'Host("fixture host failure")',
+    'unsupported-parent': 'UnsupportedParent(Package)',
+    'computed-height-overflow': 'InvalidNumber("computed height")',
+}
+
+
+def require(ok, reason):
+    if not ok:
+        raise ValueError(reason)
+
+
+def keyed(rows, ids, label):
+    require(type(rows) is list, label + ': rows list required')
+    require([r.get('id') for r in rows] == ids, label + ': case order/coverage')
+    return rows
+
+
+def loads(raw):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            require(key not in result, 'duplicate JSON key: ' + key)
+            result[key] = value
+        return result
+    def nonfinite(value):
+        raise ValueError('nonfinite JSON value: ' + value)
+    return json.loads(raw, object_pairs_hook=pairs, parse_constant=nonfinite)
+
+
+def exact(a, b):
+    if type(a) is not type(b):
+        return False
+    if type(a) is dict:
+        return set(a) == set(b) and all(exact(a[k], b[k]) for k in a)
+    if type(a) is list:
+        return len(a) == len(b) and all(exact(x, y) for x, y in zip(a, b))
+    return a == b
+
+
+def compare(corpus, native, rust, corpus_sha):
+    cases = corpus['cases']
+    ids = [c['id'] for c in cases]
+    require(len(ids) == len(set(ids)) == 35, 'exact35 unique corpus cases required')
+    require({c['id'] for c in cases if c['category'] == 'rust_boundary'} == set(REFUSALS),
+            'refusal control coverage')
+    if 'provenance' in rust:
+        require(rust['provenance']['corpus_sha256'] == corpus_sha, 'Rust corpus binding')
+    ns = keyed(native['rows'], ids, 'original')
+    rs = keyed(rust['rows'], ids, 'Rust')
+    require(native['provenance']['corpus_sha256'] == corpus_sha,
+            'original corpus byte correspondence')
+    differences = []
+    for c, n, r in zip(cases, ns, rs):
+        name = c['id']
+        require(n['category'] == c['category'], name + ': category')
+        require(type(r['ok']) is bool, name + ': boolean result')
+        boundary = c['category'] == 'rust_boundary'
+        require(boundary or c['category'] == 'source_numeric', 'unknown case category')
+        expected_target = {'kind': 'model', 'node_id': c['node']['id']}
+        if c['kind'] != 'Note':
+            visible = c['visible_node_ids']
+            index = visible.index(c['node']['id']) if c['node']['id'] in visible else -1
+            expected_target = {'kind': 'dom', 'element_id': f"{c['node']['id']}-label-{index}"}
+        expected_call = dict(target=expected_target, text=c['label_text'],
+                             stamp=c['stamp'], font=c['font'])
+        expected_calls = [] if name == 'unsupported-parent' else [expected_call]
+        require(exact(r['host_calls'], expected_calls), name + ': exact host request')
+        queried = [] if c['kind'] == 'Note' else [expected_target['element_id']]
+        require(n['queried_ids'] == queried, name + ': original DOM ID lookup')
+        if boundary:
+            require(r['ok'] is False and r['error'] == REFUSALS[name], name + ': refusal')
+            require('size' not in r, name + ': no partial size on refusal')
+            continue
+        require(r['ok'] is True, name + ': unexpected Rust refusal')
+        require(set(r['size']) == set(n['size']) == {'width', 'height'}, name + ': size fields')
+        require(exact(r['label_target'], expected_target) and exact(r['stamp'], c['stamp']),
+                name + ': retained target/stamp')
+        for axis in ('width', 'height'):
+            for value in (n['size'][axis], r['size'][axis]):
+                require(type(value) is str and len(value) == 16 and
+                        all(b in '0123456789abcdef' for b in value), name + ': float bits')
+            if n['size'][axis] != r['size'][axis]:
+                differences.append(dict(id=name, axis=axis, original=n['size'][axis],
+                                        rust=r['size'][axis]))
+    return {'status': 'DIFFERENCES_RETAINED' if differences else 'PASS_NAMED_NUMERIC_AND_HOST_CASES',
+            'size_comparisons': 30, 'refusal_controls': 5, 'differences': differences,
+            'scope': 'Exact original selected methods on supplied facts vs actual Rust API. '
+                     'No real DOM, complete application, font or deployed-artifact acceptance.'}
+
+
+def controls(corpus, native, rust, corpus_sha):
+    baseline = compare(corpus, native, rust, corpus_sha)
+    mutations = ('drop_row', 'swap_row', 'zero_sign', 'host_target', 'stale_accept', 'partial_size', 'bool_stamp')
+    for kind in mutations:
+        bad = copy.deepcopy(rust)
+        if kind == 'drop_row':
+            bad['rows'].pop()
+        elif kind == 'swap_row':
+            bad['rows'][0], bad['rows'][1] = bad['rows'][1], bad['rows'][0]
+        elif kind == 'zero_sign':
+            row = next(r for r in bad['rows'] if r['id'] == 'note-default-0000000000000000-8000000000000000')
+            row['size']['height'] = '8000000000000000'
+        elif kind == 'host_target':
+            bad['rows'][0]['host_calls'][0]['target']['element_id'] = 'wrong-label'
+        elif kind == 'stale_accept':
+            next(r for r in bad['rows'] if r['id'] == 'stale-font')['ok'] = True
+        elif kind == 'partial_size':
+            next(r for r in bad['rows'] if r['id'] == 'wrong-target')['size'] = {}
+        else:
+            bad['rows'][0]['host_calls'][0]['stamp']['layout_revision'] = True
+        try:
+            result = compare(corpus, native, bad, corpus_sha)
+        except (ValueError, KeyError, TypeError):
+            continue
+        require(any(d not in baseline['differences'] for d in result['differences']),
+                'accepted deliberately divergent ' + kind)
+    return list(mutations)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in ('corpus', 'native', 'rust', 'out'):
+        parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--self-test', action='store_true')
+    args = parser.parse_args()
+    workspace = Path('/workspace').resolve(strict=True)
+    for name in ('corpus', 'native', 'rust'):
+        value = getattr(args, name)
+        require(value.is_absolute(), 'absolute workspace input required')
+        value = value.resolve(strict=True)
+        require(value.is_relative_to(workspace) and value.is_file(), 'workspace input required')
+        setattr(args, name, value)
+    require(args.out.is_absolute(), 'absolute workspace output required')
+    parent = args.out.parent.resolve(strict=True)
+    require(parent.is_relative_to(workspace), 'workspace output parent required')
+    args.out = parent / args.out.name
+    require(not args.out.exists() and not args.out.is_symlink(), 'new output leaf required')
+    paths = [args.corpus, args.native, args.rust, Path(__file__)]
+    inputs = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+    corpus, native, rust = [loads(p.read_bytes()) for p in paths[:3]]
+    result = compare(corpus, native, rust, inputs[str(args.corpus)])
+    if args.self_test:
+        result['negative_controls'] = controls(corpus, native, rust, inputs[str(args.corpus)])
+    result['inputs'] = inputs
+    with args.out.open('x') as stream:
+        stream.write(json.dumps(result, indent=2) + '\n')
+    print(json.dumps({k: v for k, v in result.items() if k not in ('inputs', 'differences')}))
+    return 1 if result['differences'] else 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

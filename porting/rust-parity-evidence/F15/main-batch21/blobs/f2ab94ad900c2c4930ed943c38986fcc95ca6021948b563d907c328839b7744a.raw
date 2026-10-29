@@ -1,0 +1,11 @@
+Diff in /workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/measurement_bridge.rs:153:
+         .get("observation")
+         .filter(|v| v.is_object())
+         .ok_or("observation object required")?;
+-    let bounds = o.get("bounds").ok_or("explicit observation bounds required")?;
++    let bounds = o
++        .get("bounds")
++        .ok_or("explicit observation bounds required")?;
+     if !bounds.is_null() && !bounds.is_object() {
+         return Err("observation bounds must be null or an object".into());
+     }

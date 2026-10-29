@@ -1,0 +1,53 @@
+{
+  "status": "PASS_OLD_FAILURE_REPRODUCED_AND_CURRENT_BROWSER_RECOVERY_PLUS_NAMED_CHECKS",
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/run_browser.py",
+        "--build",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-fixed-03",
+        "--methods",
+        "/workspace/build/builderbob/syson-batch20-20261029/original-methods-01/original-methods.js",
+        "--node",
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "--browser",
+        "/workspace/cache/builderbob/global-tools/maintenance/staged/playwright/1.64.1/browsers/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell",
+        "--playwright",
+        "/workspace/cache/builderbob/global-tools/maintenance/staged/playwright/1.64.1/node_modules/playwright",
+        "--libraries",
+        "/workspace/cache/builderbob/global-tools/browser-deps/sysroot/usr/lib/x86_64-linux-gnu",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-browser-old-recovery-01",
+        "--assets",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-tools-before-review",
+        "--recovery-only"
+      ],
+      "exit": 1,
+      "expected": 1
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/run_browser.py",
+        "--build",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-fixed-03",
+        "--methods",
+        "/workspace/build/builderbob/syson-batch20-20261029/original-methods-01/original-methods.js",
+        "--node",
+        "/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node",
+        "--browser",
+        "/workspace/cache/builderbob/global-tools/maintenance/staged/playwright/1.64.1/browsers/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell",
+        "--playwright",
+        "/workspace/cache/builderbob/global-tools/maintenance/staged/playwright/1.64.1/node_modules/playwright",
+        "--libraries",
+        "/workspace/cache/builderbob/global-tools/browser-deps/sysroot/usr/lib/x86_64-linux-gnu",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/measurement-browser-final-01"
+      ],
+      "exit": 0,
+      "expected": 0
+    }
+  ],
+  "limits": "Developer fixture only;glyphfallback/fullapplication/crossbrowser/nativeartifactclosure remainOPEN"
+}
