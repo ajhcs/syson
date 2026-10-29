@@ -1,0 +1,54 @@
+# Amendment 1.0.1: F10/F11 prerequisite review budgets
+
+This amendment permits two narrowly bounded legacy prerequisite adoptions to be reviewed above the usual 400 handwritten production lines. F10 receives a 420-production/900-authored cap; F11 receives a 460-production/900-authored cap. These are source review budgets. They establish no resource capacity, application support, native correspondence, execution result or feature acceptance.
+
+The amendment is prepared against main `f774944bf8da6eb03881ee4c37046e879c222fff` and changes `SYSON-RUST-COMPLETION/1.0.0` to `SYSON-RUST-COMPLETION/1.0.1`. It takes effect only after independent review, explicit adoption and coordinator refresh of the contract hash lock. Freeze the exact proposed source composition before any F10/F11 execution. A drafted amendment, its hashes and previous test transcripts do not satisfy that prerequisite.
+
+## Exact source bounds
+
+| Legacy prerequisite | Donor | Observed production | Observed Rust tests | Observed Rust authored total | Review cap |
+| --- | --- | ---: | ---: | ---: | --- |
+| F10, #25, `syson-ast-values` | `48ee69e41c4f29346f1d95075278d84aefc48057` | 409 | 372 | 781 | 420 production / 900 authored |
+| F11, #40, `syson-ast-adapter` | `ca1c4b3ab364db7dc9da835c66cba72912c3417f` | 447 | 358 | 805 | 460 production / 900 authored |
+
+Observed authored totals above are the donor Rust implementation plus Rust tests. Review of the exact adoption must also account for any additional authored implementation and tests. The caps apply only to these donor-derived prerequisite adoptions; they do not raise any current unit's general budget. Any additional code or changed dependency input requires review in the exact composition, even when the count remains below the cap. Exceeding a cap requires another reviewed disposition or named split before execution. Cosmetic compression and removal of tests or behavior cannot satisfy a cap.
+
+The following Git blob identities and SHA-256 hashes bind the observed code. Paths are repository relative.
+
+| Donor | Path | Git blob | SHA-256 |
+| --- | --- | --- | --- |
+| F10 | `rust/crates/syson-ast-values/src/lib.rs` | `dbc4a288746469e4980e6f7819a9100cb4c41f0a` | `a41deb4952e4f7fb5e8bdd1718af745bbfecf17b9080cce2433d2e30644c1a58` |
+| F10 | `rust/crates/syson-ast-values/tests/conversion.rs` | `0493f91fc935c00ed3e4e0fe2757d53be44df71c` | `ed40405b16e3d2418319b1d8d05d4da1b9d773c170c4eeb8aef7aee7da71ec86` |
+| F11 | `rust/crates/syson-ast-adapter/src/lib.rs` | `67c21157cfe9fdeffafba8e1c2317d53238a0493` | `f91fe8a50c2b1d79a5afcd30cef9afe6a85d1859473c9a8977b3cc251ea62d96` |
+| F11 | `rust/crates/syson-ast-adapter/tests/construction.rs` | `67d4915f1384182c5eec4c0551368db7c455314f` | `2ea2e44eabb78fad4d66a2c219b022782247ce47589d9ca9e75af5f786ab1ee4` |
+| F11 | `rust/crates/syson-ast-adapter/src/reserved.rs` | `3d11a62cea8ea475b98b14eaea849163bcca7b89` | `00fe45206cb1bf7341f43674684b7e0bd493a4addb3e7b320e399196da0a8ac9` |
+
+F11's 173 generated keyword lines in `reserved.rs` remain separately reviewed generated source, excluded from handwritten implementation and authored-code budgets under the existing policy. Review their source derivation and exact bytes; classifying them as generated does not establish lexical completeness or native parity.
+
+## Provenance and rationale
+
+F10's retained `porting/follow-ons/F10/source-contract.json` at its donor is Git blob `0d6d3c668787efed8188eab9b778abb549d65556`, SHA-256 `ed46c9000e71d2e4319954736db12d9c39e9f9a8ade80151edb2f54eff77192d`. Its crate notice is blob `7aa43f1dd2abaee3b126c51ae4c0798194ad4d29`, SHA-256 `5f2e54789e7420959f5f3b2ef37054aff4a7d04aef72e75dbb7b694cd9607011`. These preserve the embedded Langium primitive-conversion, candidate Syside naming and SysON literal-spelling provenance, with their existing correspondence and license qualifications.
+
+F11's retained `porting/follow-ons/F11/source-manifest.json` at its donor is Git blob `f3ab5321eb70151c48c7cc54d453e9a22a209ae1`, SHA-256 `e0dbf8f1ad21c6bc734f2abe7834aaef998b68e0d098fc9e2d0ec49571892dab`. Its crate notice is blob `fe82e42921cdb18cb4921e19b512dc9aadcafbd1`, SHA-256 `1313dad4470bea7182a034a027e7ad1efb0f09c914c82a2f8057cd505d61f106`. These bind the retained Syside candidate `1326f234cae23b0e4777d5a48a069b17e9e332f1` and finite source-shaped construction obligations. Preserve all original notices and source qualifications; hashes prove the selected bytes, not native behavior.
+
+The source review found cohesive alternatives: F10 could separate name sanitation from primitive dispatch; F11 could separate finite scanning/parsing from AST emission. This amendment instead retains the existing APIs and implementation boundaries for the two finite prerequisites. The excess is nine production lines for F10 and 47 for F11, while both retain complete test suites within 900 authored lines. Review the conversion/error/span rules and finite construction/default/reference behavior together, without introducing another interface solely to meet the default line budget. This rationale grants no exception to another unit or future behavior family.
+
+## Compatibility and unchanged acceptance obligations
+
+No API, behavior, source obligation, dependency, ownership, case assignment, performance policy or hold changes. Preserve all 16 original F10 tests and all 13 original F11 tests, plus every required downstream case and historical failed attempt. Earlier source-derived or local evidence retains its original scope and candidate; this amendment does not promote any record or make a native source claim. The 778 current review units and 55 historical implementation/evidence records remain unchanged, and no IDs are added.
+
+The real finite-import consuming path remains F08 #23 -> F10 #25 -> F11 #40 -> F13 #50 with F04 #47 -> F14 #52, followed by the declared F33/#63/I01/RR02/RR05 callers. F14 must use the actual adapter, primitive converter, reflection metadata, AST kernel, linker, explicit registry and selected-model transaction. Its graph-free implementation does not remove prerequisite admission, actual caller, identity, atomicity, cancellation, failure, commit/cancel/undo, save/reopen, native comparison or applicable UI/lifecycle/resource gates.
+
+F01 #48 and F05 #54 retain their held initializer-graph authority gates. F33 #55 retains the mandatory `actual_f05_external_view_projection_roundtrips_all_resources` case and its F05 dependency. No mock replacement, test omission or inference that a hold ended is permitted. Native/artifact closure, durable lifecycle, full feature acceptance and production deployment remain separate requirements.
+
+## Frozen amendment inputs and remaining coordinator work
+
+Before this amendment, the three existing authored contract files at the preparation base had these SHA-256 hashes:
+
+| File | SHA-256 |
+| --- | --- |
+| `COMPLETION-CONTRACT.md` | `9a710edbf26cd3acf400aea607c56d5745e010317818eb4e302b60c3fcc0e8a2` |
+| `completion-contract.json` | `409d7302e6ac0854828d540ed876d0693403cee06265ce396a28e37b35e9f0b8` |
+| `acceptance-packet.schema.json` | `3b9fd1e104d9ded2df873ef69563bd1667f3637e97bf771610ecd208c29f3cd1` |
+
+The coordinator independently reviews this amendment and the exact donor/composition bounds, refreshes the lock and generated contract bindings, and verifies unchanged unit/family/dependency/case coverage before adoption. The machine contract binds this note by SHA-256. Contract validation remains static evidence; F10/F11 and consuming workflow execution must occur separately on their admitted frozen inputs. Preparation of this note runs no generator, compiler, test or application runtime and changes no Git state.

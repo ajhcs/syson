@@ -1,0 +1,110 @@
+from pathlib import Path
+import hashlib, json, shutil, subprocess
+b = Path(__file__).parent
+old = Path('/workspace/build/builderbob/syson-batch22-20261029')
+w = Path('/workspace/worktrees/builderbob/syson/batch27-team-plan')
+p = w / 'porting/rust-parity-plan-20261026'
+base = '3b3b46eda510587c69188d5dcd851932f8cec70b'
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+def write(path, value):
+    path.write_text(json.dumps(value, indent=2) + '\n')
+o = b / 'team-generation-01'
+o.mkdir()
+receipt={'status':'FAIL_PRESERVED','stage':'initialization','source_sha256':sha(Path(__file__))}
+try:
+    checkpoint = p / 'remaining-work/checkpoint-batch27'
+    checkpoint.mkdir()
+    captured = o/'executed-inputs'
+    captured.mkdir()
+    prior_lock = json.loads((p/'completion-contract.lock.json').read_bytes())
+    capture_names = set(prior_lock['sha256']) | {'completion-contract.lock.json','teams.json','TEAM-EXECUTION.md','amendments/1.0.8-team-execution.md'}
+    capture_names.update(str(f.relative_to(p)) for f in (p/'tools').glob('*.py'))
+    for name in sorted(capture_names):
+        target=captured/name
+        target.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(p/name,target)
+    shutil.copyfile(Path(__file__),o/'executed-generation.py')
+    contract = json.loads((p/'completion-contract.json').read_bytes())
+    amendment = contract['team_execution']['amendment']
+    amendment['sha256'] = sha(p/amendment['path'])
+    write(p/'completion-contract.json', contract)
+    lock = json.loads((p/'completion-contract.lock.json').read_bytes())
+    names = set(lock['sha256']) | {'teams.json', 'TEAM-EXECUTION.md', amendment['path']}
+    names.update(str(f.relative_to(p)) for f in (p/'tools').glob('*.py'))
+    lock.update(contract_id=contract['contract_id'], sha256={n:sha(p/n) for n in sorted(names)})
+    write(p/'completion-contract.lock.json', lock)
+    receipt['stage']='build_plan'
+    argv = ['/usr/bin/python3', '-B', str(p/'tools/build_plan.py')]
+    r = subprocess.run(argv, cwd=w, capture_output=True, timeout=120)
+    (o/'generator-stdout.json').write_bytes(r.stdout)
+    (o/'generator-stderr.txt').write_bytes(r.stderr)
+    if r.returncode:
+        receipt.update(stage='build_plan',exit=r.returncode)
+        raise RuntimeError(r.stderr.decode())
+    plan = json.loads((p/'plan.json').read_bytes())
+    state = json.loads((p/'execution.json').read_bytes())
+    state['integration_history'].append(state['current_integration'])
+    landings = []
+    for name in ['maven-bootstrap', 'routing-profile', 'scope-ownership', 'project-parents', 'routing-admission']:
+        receipt['stage']='publication:'+name
+        source = old/('publication-'+name+'.json')
+        x = json.loads(source.read_bytes())
+        subprocess.run(['git','merge-base','--is-ancestor',x['merge'],base],cwd=w,check=True)
+        subprocess.run(['git','merge-base','--is-ancestor',x['head'],x['merge']],cwd=w,check=True)
+        actual = subprocess.check_output(['git','rev-parse',x['merge']+'^{tree}'],cwd=w,text=True).strip()
+        if actual != x['main_tree']: raise RuntimeError('publication tree drift: '+name)
+        shutil.copyfile(source, checkpoint/source.name)
+        landings.append({'scope':name,'pull_request':x['pr'],'head':x['head'],'merge':x['merge'],
+            'main_tree':actual,'hosted_checks':x['hosted_checks'],'feature_acceptance':'NOT_ACCEPTED'})
+    for label, source in [('forest-checks',old/'u12a-checks-01/receipt.json'),
+                          ('forest-resource',old/'u12a-profile-resource-01/receipt.json'),
+                          ('forest-samples',old/'u12a-profile-01/receipt.json'),
+                          ('native-model-preflight',old/'c01-maven-model-run-01/resource-receipt.json')]:
+        shutil.copyfile(source,checkpoint/(label+'.json'))
+    status = {'schema':1,'snapshot_id':'SYSON-RUST-REMAINING/2026-10-29.16',
+        'contract_id':contract['contract_id'],'base_main':base,'previous_snapshot':'remaining-work/checkpoint-batch26/status.json',
+        'units':790,'landings':landings,'U11b':'SOURCE_PREPARED;WIRING_REVIEW_EXECUTION_PUBLICATION_PENDING',
+        'U12a':'37_CHECKS_AND_RESOURCE_PASS;TOOLING_LIBRARY_PUBLICATION_PENDING',
+        'U12b':'WAIT_LANDED_LOCALLY_QUALIFIED_U12a',
+        'C01':'FIRST_MODEL_PREFLIGHT_REFUSED_BEFORE_JVM;REVISED_ATTEMPT_UNRUN;NPM_ENTITLEMENT_UNRESOLVED',
+        'full_parity_claimed':False}
+    write(checkpoint/'status.json',status)
+    shutil.copyfile(Path(__file__),checkpoint/'generation-source.raw')
+    state['current_integration']={'batch':27,'contract_id':contract['contract_id'],'main_after_prerequisites':base,
+        'landings':landings,'checkpoint':'remaining-work/checkpoint-batch27/status.json','full_parity_claimed':False}
+    state['status']='TEAM_OWNERSHIP_ADOPTED;NEXT_BATCH_GATED;FULL_PROGRAM_OPEN'
+    state['contract_adoptions'].append({'contract_id':contract['contract_id'],'amendment':amendment['path'],
+        'base_main':base,'scope':'Team ownership only; all790 units and every prerequisite/acceptance/hold preserved.'})
+    write(p/'execution.json',state)
+    receipt['stage']='snapshot_projection'
+    register=json.loads((p/'remaining-work/units.json').read_bytes())
+    register.update(snapshot_id=status['snapshot_id'],contract_id=contract['contract_id'],base_main=base,
+        integrated_scope_at_snapshot=state['current_integration'])
+    register['copied_plan_fields']=sorted({key for unit in plan['units'] for key in unit})
+    register['units']=[]
+    for unit in plan['units']:
+        row=dict(unit)
+        row.update(primary_family=unit['completion_contract']['family'],brief='../prs/'+unit['id']+'.md',
+            brief_sha256=sha(p/'prs'/(unit['id']+'.md')),
+            complete_plan_unit_sha256=hashlib.sha256(json.dumps(unit,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),
+            feature_acceptance=state['units'].get(unit['id'],{}).get('feature_acceptance','OPEN_NO_ACCEPTANCE_RECORD'))
+        register['units'].append(row)
+    write(p/'remaining-work/units.json',register)
+    snapshot=json.loads((p/'remaining-work/snapshot.lock.json').read_bytes())
+    progress=set(snapshot['progress_inputs'])|{'rereview-batch27-next-prs.md','team-dispatch.json'}
+    progress.update(str(f.relative_to(p)) for f in checkpoint.iterdir() if f.is_file())
+    required=set(snapshot['sha256'])|names|progress
+    snapshot.update(snapshot_id=status['snapshot_id'],contract_id=contract['contract_id'],base_main=base,
+        progress_inputs=sorted(progress),sha256={n:sha(p/n) for n in sorted(required)})
+    write(p/'remaining-work/snapshot.lock.json',snapshot)
+    receipt.update(status='PASS_GENERATION_ONLY;VERIFICATION_PENDING',units=len(register['units']),
+        normative_inputs=len(names),snapshot_inputs=len(required),full_parity_claimed=False)
+    print(json.dumps({'units':len(register['units']),'normative_inputs':len(names),'snapshot_inputs':len(required)}))
+except BaseException as error:
+    receipt.update(status='FAIL_PRESERVED',error=repr(error))
+    if isinstance(error,subprocess.TimeoutExpired):
+        (o/'timeout-stdout.txt').write_bytes(error.stdout or b'')
+        (o/'timeout-stderr.txt').write_bytes(error.stderr or b'')
+    raise
+finally:
+    write(o/'receipt.json',receipt)

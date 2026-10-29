@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "BATCH24_U10a_C09a_MERGED;C09b_REJECTED_AND_REVIEWED_REPAIR_SPLIT;FULL_PROGRAM_OPEN",
+  "status": "TEAM_OWNERSHIP_ADOPTED;NEXT_BATCH_GATED;FULL_PROGRAM_OPEN",
   "candidate_revision": null,
   "full_parity_claimed": false,
   "closure": {
@@ -3532,21 +3532,57 @@
   },
   "performance_policy": "performance-policy.json;userworkloadrangessupersedehistoricaltimingveto;measurementsunchanged",
   "current_integration": {
-    "batch": 26,
-    "contract_id": "SYSON-RUST-COMPLETION/1.0.7",
-    "main_after_prerequisites": "ef5fe1e797d669bbdc4952a13b9a49b298ab2075",
+    "batch": 27,
+    "contract_id": "SYSON-RUST-COMPLETION/1.0.8",
+    "main_after_prerequisites": "3b3b46eda510587c69188d5dcd851932f8cec70b",
     "landings": [
       {
-        "scope": "C09b2 CLI and refusal controls",
-        "pull_request": "https://github.com/ajhcs/syson/pull/180",
-        "head": "2fd8395bb83efb8d063eaae8557beaa31b7e38ee",
-        "merge": "ef5fe1e797d669bbdc4952a13b9a49b298ab2075",
-        "actual_main_trees_and_hashes_verified": true,
-        "hosted_checks": "ABSENT; not a CI pass",
+        "scope": "maven-bootstrap",
+        "pull_request": 182,
+        "head": "fd4ebd31e39c4d8dbdf6208db4b271d6a405282d",
+        "merge": "931109c740ccbb14407519d309ee6004cd80bb0b",
+        "main_tree": "a56d439ee6206bad9f764d2792b0857bd5077a8c",
+        "hosted_checks": "ABSENT;not a CI pass",
+        "feature_acceptance": "NOT_ACCEPTED"
+      },
+      {
+        "scope": "routing-profile",
+        "pull_request": 183,
+        "head": "6fe30ae0f540dfae3dcbbc1321b8726f48b87e49",
+        "merge": "337433fb18a377e2f1a4c12fe5510b2d0798cfdb",
+        "main_tree": "7aba63b4a0281e8f775b27e44b81f138dc7a214c",
+        "hosted_checks": "ABSENT;not CI PASS",
+        "feature_acceptance": "NOT_ACCEPTED"
+      },
+      {
+        "scope": "scope-ownership",
+        "pull_request": 184,
+        "head": "d7a577b76a2e1d559e550f4f75f9bc4ea6e28bf5",
+        "merge": "3f95399fc73a081a4486c4e52a983b16cd4ad1bd",
+        "main_tree": "b1e9a0dcba31695bae4528d81c79330597c40d29",
+        "hosted_checks": "ABSENT;not CI PASS",
+        "feature_acceptance": "NOT_ACCEPTED"
+      },
+      {
+        "scope": "project-parents",
+        "pull_request": 185,
+        "head": "41dd6d0d80d807ee1c15a9bc4f3d7aa47847021e",
+        "merge": "53b2192a172ed06e0358b98f106ab80ef5a8f4c5",
+        "main_tree": "226adb4f410135ff21e4a51c18a0dc14cd21df9f",
+        "hosted_checks": "ABSENT;not CI PASS",
+        "feature_acceptance": "NOT_ACCEPTED"
+      },
+      {
+        "scope": "routing-admission",
+        "pull_request": 186,
+        "head": "1296651d084dc248ef8cc8564a0c2e6ecf062985",
+        "merge": "3b3b46eda510587c69188d5dcd851932f8cec70b",
+        "main_tree": "c281659501d0af06f87b4b3e7843eadd686193b2",
+        "hosted_checks": "ABSENT;not CI PASS",
         "feature_acceptance": "NOT_ACCEPTED"
       }
     ],
-    "checkpoint": "remaining-work/checkpoint-batch26/status.json",
+    "checkpoint": "remaining-work/checkpoint-batch27/status.json",
     "full_parity_claimed": false
   },
   "integration_history": [
@@ -4062,6 +4098,24 @@
       ],
       "checkpoint": "remaining-work/checkpoint-batch25/status.json",
       "full_parity_claimed": false
+    },
+    {
+      "batch": 26,
+      "contract_id": "SYSON-RUST-COMPLETION/1.0.7",
+      "main_after_prerequisites": "ef5fe1e797d669bbdc4952a13b9a49b298ab2075",
+      "landings": [
+        {
+          "scope": "C09b2 CLI and refusal controls",
+          "pull_request": "https://github.com/ajhcs/syson/pull/180",
+          "head": "2fd8395bb83efb8d063eaae8557beaa31b7e38ee",
+          "merge": "ef5fe1e797d669bbdc4952a13b9a49b298ab2075",
+          "actual_main_trees_and_hashes_verified": true,
+          "hosted_checks": "ABSENT; not a CI pass",
+          "feature_acceptance": "NOT_ACCEPTED"
+        }
+      ],
+      "checkpoint": "remaining-work/checkpoint-batch26/status.json",
+      "full_parity_claimed": false
     }
   ],
   "contract_adoptions": [
@@ -4105,6 +4159,12 @@
       "base_main": "6d9b151671692b3b569179d73e290d9e6efa5ffe",
       "state": "REVIEWED_AMENDMENT_CANDIDATE;NO_IMPLEMENTATION_OR_EXECUTION_LEASE",
       "scope": "C09b1 raw-input comparison kernel then C09b2 pinned harness/all45controls; all original gates retained."
+    },
+    {
+      "contract_id": "SYSON-RUST-COMPLETION/1.0.8",
+      "amendment": "amendments/1.0.8-team-execution.md",
+      "base_main": "3b3b46eda510587c69188d5dcd851932f8cec70b",
+      "scope": "Team ownership only; all790 units and every prerequisite/acceptance/hold preserved."
     }
   ]
 }

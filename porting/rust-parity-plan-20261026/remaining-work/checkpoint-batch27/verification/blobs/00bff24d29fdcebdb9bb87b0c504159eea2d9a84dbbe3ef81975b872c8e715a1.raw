@@ -1,0 +1,711 @@
+{
+  "schema": 1,
+  "status": "REVIEWED_CONCRETE_PARENT_CHILDREN",
+  "units": [
+    {
+      "lane": "coordination-integration",
+      "state": "LOCALLY_VERIFIED_BOUNDED_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation and meaningful contract/caller fixtures",
+        "Exact execution evidence, independent review and explicit remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "observed_production_lines": 371,
+        "observed_test_lines": 341
+      },
+      "ownership": "One isolated source author; root owns manifests/locks, native/DB lifecycle and serial compilers. No held model/factory/initializer edits.",
+      "done_when": "Bounded named contract/caller verification passes on exact inputs; original C01/C03 tasks and full feature acceptance remain required.",
+      "id": "C01c",
+      "title": "Capture and validate the actual native GraphQL introspection contract",
+      "dependencies": [],
+      "external_prs": [
+        66
+      ],
+      "paths": [
+        "rust/tools/native-graphql-contract/",
+        "porting/rust-parity-evidence/C01c/"
+      ],
+      "source_refs": [
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/projects/backend/sirius-web-projects-stylecustomizations-application/src/main/resources/schema/stylecustomizations.graphqls",
+          "sha256": "40e9023ae54e1a6e04ee66ab84fc1e84a7f01ae40a506ed4ba5e4f331285d7d0",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/charts/backend/sirius-components-collaborative-charts/src/main/resources/schema/charts.graphqls",
+          "sha256": "c6729ce4b93a7b7e6de60bcf50f6e54d09f118e94b89fd5f610890f1441dd525",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/selection/backend/sirius-components-collaborative-selection/src/main/resources/schema/selection.graphqls",
+          "sha256": "0834a90b141a6daf5ccb9adbea33e0b3e962836457527d41cc8a1941c1c34abb",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application-configuration/src/main/resources/schema/sysmlcustomnodes.graphqls",
+          "sha256": "863660cb081ce5abf852f8ec54257ead1b2285ab6635d6956392eb04de078027",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-application-configuration/src/main/resources/schema/expressions.graphqls",
+          "sha256": "e89f18d2d75d02e60b2f6b0a5179d15dcee61a8ec9b55e955a9322ff6bf7d6b0",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/views/syson-diagram-common-view/src/main/resources/schema/syson-diagrams.graphqls",
+          "sha256": "2bea035ca6a445f610d8a94ed236fab2489f0e8be42da0c88ff4ad962ce18c0d",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/backend/sirius-components-collaborative/src/main/resources/schema/core.graphqls",
+          "sha256": "54d5e0dcd126fe4c7ded2d4133521aa14fb816f45fd45c22f5171f3c827215b7",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/backend/sirius-components-collaborative/src/main/resources/schema/workbench-configuration.graphqls",
+          "sha256": "22cf5f4610f995870e403ef025800929a1ddb51317519602a42216ae0ec98aa3",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/backend/sirius-components-collaborative/src/main/resources/schema/workbench-omnibox.graphqls",
+          "sha256": "8969bcecefb8d7969945493555ddcc445d2a8547711e28db5a4aad4e9bbd0650",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/core/backend/sirius-components-collaborative/src/main/resources/schema/impact-analysis.graphqls",
+          "sha256": "cb2278b13f0594075d1636cc375a58870a733ecf4a8e56b19e1ee056ca1397f5",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "syson",
+          "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "path": "backend/application/syson-sysml-import/src/main/resources/schema/syson-import.graphqls",
+          "sha256": "0c1523a99caf6843c0c1de70fad1ceabb1023067fbda81be37c3e2847263f6a5",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/relatedelements-view.graphqls",
+          "sha256": "4498532a3e6565285db5b82556a8dc6bacecf2d7da7a72afa256bf57214e86fb",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/duplicateobject.graphqls",
+          "sha256": "c7333e0c2c4d1a25c81395d7924bcdf81685298debe07bc44d4ee2f2b7fddb58",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/relatedviews-view.graphqls",
+          "sha256": "74f5073abbe5db28adb4c26067264addc99217c680a8789c282554159bae52cf",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/image.graphqls",
+          "sha256": "d7feeb4e3a1b081a09cd5dcf6d7870f6e42919376f5a570aa010f544dc366969",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/duplicaterepresentation.graphqls",
+          "sha256": "4d2aac1f02b9a608ea6820d45c387d152fb212378b9859e79caf8c46be0bfb4f",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/document.graphqls",
+          "sha256": "41e8e7c2b2c7cbd759213290cb5066e815abab6b563dc602162456777ada70e7",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/capabilities.graphqls",
+          "sha256": "ff3cdb9b73c9a20994542d8fab73c2158309b655d39519697dad5c38f644faa2",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/undoredo.graphqls",
+          "sha256": "b58f3d3fc8ac58937567f36d3d8ec436b131d9aff24d90d81aaaa8d02630e9b1",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/query.graphqls",
+          "sha256": "186dc72c90ccfad37f8c85efa16aa4d9e021e62421e01d1e6d624146a822a09f",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/treecapabilities.graphqls",
+          "sha256": "0e3e590825f71522ff3a0f9bb70a92edee346ab0730deb806bc4826c5af1744f",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/diagram-filter.graphqls",
+          "sha256": "bc9967e32fcfe360cc2e218e751809c91d7d7125e7c8b6510ef96c8f12191b77",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/libraries.graphqls",
+          "sha256": "b63874db185e0b9671eda0ac6ddaa8d57c16415ec603945eb44d5eea11d6473c",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/i18n.graphqls",
+          "sha256": "2bf729bbddf6349fc48b777a36452bdf8a230f64f82c3400898f4ad5d2e8df94",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/projects-omnibox.graphqls",
+          "sha256": "7fd6a9ea08c4b3c4a5c884283ad1a542d092848cfab47162f11f466c25bcce6c",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/siriusweb.graphqls",
+          "sha256": "95d51c114802e71f34976ab8c728326b8767793f206438981d65bb39d91829d3",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/datatree.graphqls",
+          "sha256": "d966bd1ea4e10651f8e6967887493dfa607d887d3cc4a1d26dfd406abfd3d9b2",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/customnodes.graphqls",
+          "sha256": "762101c9121b3c8c509b2bed6fd1d6263835af5e30f0f6bbf3a071dda512ac98",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/search.graphqls",
+          "sha256": "b911293cad82dc83d3c2e439797ae31592d75fc0c4865dda7516fc904edbc993",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/viewsexplorer-view.graphqls",
+          "sha256": "1a41f570f628acce3aaab2c607e28ec4b13135f1f8368ec475add28165199b90",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/details-view.graphqls",
+          "sha256": "f4864939c615afad79ce2b1bf816e7a27d28244cda8be31b846b857c28c13346",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/customcells.graphqls",
+          "sha256": "dddf60bc000fbe45f47b4e70756e2cc268a2aac3b866b1799f7011299a6ebb74",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-application/src/main/resources/schema/explorer.graphqls",
+          "sha256": "4a9f07a745e7e8a32668e616b74ffe76af8e2fcda6a50897fdc59e2b5d792fda",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/forms/backend/sirius-components-collaborative-forms/src/main/resources/schema/form.graphqls",
+          "sha256": "db0d91772a2acdcc7f804d3e40e607eaca8705b9452c6d2f4cac0dd8a403bef4",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/browser/backend/sirius-components-collaborative-browser/src/main/resources/schema/modelbrowser.graphqls",
+          "sha256": "535ea0846da9a55aa46842ac6a9a2575903e2a7998121fec27eaa4eb197aebc7",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/portals/backend/sirius-components-collaborative-portals/src/main/resources/schema/portal.graphqls",
+          "sha256": "27cca7dd01fe4d4296cd6882a5e95ad6357cd8a37e66155bcacb028f353565a6",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/validation/backend/sirius-components-collaborative-validation/src/main/resources/schema/validation.graphqls",
+          "sha256": "86facd1e7fea44ed0e1f4f5fc00797ffcd811f85933a0144fb19d252cf551e16",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/deck/backend/sirius-components-collaborative-deck/src/main/resources/schema/deck.graphqls",
+          "sha256": "62622e572d8ce41f2e6208e0800c496207c9ab652f4042ce54ae4fc3b794d489",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/formdescriptioneditors/backend/sirius-components-collaborative-formdescriptioneditors/src/main/resources/schema/formdescriptioneditor.graphqls",
+          "sha256": "a9a3d3f18f40d67161cd4d6ec0fe0fe9c28bdfb3cf8b27d3a6dd3117b075f56b",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/gantt/backend/sirius-components-collaborative-gantt/src/main/resources/schema/gantt.graphqls",
+          "sha256": "94b60a09686aae9aacd5fa302114280017b6919e84f7edd05bfe3949a76bca97",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/forms/backend/sirius-components-widget-reference/src/main/resources/schema/reference.graphqls",
+          "sha256": "c76b44a7c955b0b13f8884c92a5831b07a2f0216a41e2127aa2b624738504fa5",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/diagrams/backend/sirius-components-collaborative-diagrams/src/main/resources/schema/diagram.graphqls",
+          "sha256": "d20b65600d2a56f141fa64d3572952e00a6b06eb76276e2ca55c1562b396fe4c",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/diagrams/backend/sirius-components-collaborative-diagrams/src/main/resources/schema/appearance.graphqls",
+          "sha256": "2747a98b2f90ae5520ffb5098b47d22f5c421f1ddf41cf079a53e0f21f512247",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/palette/backend/sirius-components-palette/src/main/resources/schema/palette.graphqls",
+          "sha256": "50adcae266b6dcfb274126600075963cfc80e42bb98388df99b29f624868449f",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/tables/backend/sirius-components-collaborative-tables/src/main/resources/schema/table.graphqls",
+          "sha256": "cc8212807e1c081eef4a0fe32673b36fd22fdf33e6dbbbbddd68ad9b16f8c6c9",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/trees/backend/sirius-components-collaborative-trees/src/main/resources/schema/tree.graphqls",
+          "sha256": "dc24f7ff642896f8f5874e7f623e747ae8dd6ccf18e9d330f8c262d987381045",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        }
+      ],
+      "tasks": [
+        "Capture capability probe and full introspection from the actual isolated official native application; bind source-label mismatch, JAR/config/HTTP request/response identities.",
+        "Validate all named types, wrapper leaves and reference kind consistency; preserve fields/args/inputFields/enums/interfaces/unions/directive definitions/defaults/deprecations without semantic normalization.",
+        "Reject partial/error responses, truncation, duplicates and dangling references; retain resolver/auth/applied-directive and whole-source-build requirements under open C01."
+      ],
+      "verification": [
+        "Root fresh owned PostgreSQL/Java lifecycle, loopback-only ports, process/resource review, exact teardown and original raw captures.",
+        "Meaningful malformed/partial/dangling/truncated contract fixtures, fmt/tests/Clippy offline and actual CLI against the fresh native response.",
+        "Independent source/contract review; output explicitly observed schema only, not resolver behavior, UI acceptance or target artifact equivalence.",
+        "Retain native combined-probe BadFaith refusal, then five bounded single-capability requests plus full schema capture; no native guard disabled. Preserve failed fixture-helper capture; ten reader tests pass after named-only-reference repair. Later CLI-only regular-file and compact-stream repairs get focused build/lint/actual CLI checks, without replaying passed reader tests."
+      ]
+    },
+    {
+      "lane": "coordination-integration",
+      "state": "LOCALLY_VERIFIED_BOUNDED_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation and meaningful contract/caller fixtures",
+        "Exact execution evidence, independent review and explicit remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 520,
+        "authored_lines_max": 1050,
+        "expected_commits": 2,
+        "observed_production_lines": 518,
+        "observed_authored_lines": 1042,
+        "exception": "Root reviewed one cohesive catalog cross-reference/serialization boundary. Incremental output accounting and complete FK proof required the explicit 520/1050 exception; no checks removed or source minified."
+      },
+      "ownership": "One isolated source author; root owns manifests/locks, native/DB lifecycle and serial compilers. No held model/factory/initializer edits.",
+      "done_when": "Bounded named contract/caller verification passes on exact inputs; original C01/C03 tasks and full feature acceptance remain required.",
+      "id": "C01d",
+      "title": "Capture the native PostgreSQL catalog and applied migration contract",
+      "dependencies": [],
+      "external_prs": [
+        66
+      ],
+      "paths": [
+        "rust/tools/native-db-contract/",
+        "porting/rust-parity-evidence/C01d/"
+      ],
+      "source_refs": [
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/db.changelog-master.xml",
+          "sha256": "379983d39abfdb80ee22087d1d50c15017ccaf388ae23c8e8c4d8d0ed226b210",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.5/02-add-project-image-support.xml",
+          "sha256": "74de6bf9a6b02dd3bd1fd69ad8ab74c3b3cc2a92151f2463d980a7021aec76de",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.5/01-add-image-support.xml",
+          "sha256": "022c7d22b0f4534c6591211a2bb302b56e1899faed64c57bcbda9275d180c5f7",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.5/2024.5.0.xml",
+          "sha256": "06b47ff182db2338038e53283ff08ab239313ecb55599a92688dbe9d639b4dae",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.5/03-add-migration-metadata-for-representations.xml",
+          "sha256": "5b1e8dfe41c89893a3020a80193a67ba4ad9a0d30e8daa8ee93d8a6d7000d061",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.2/2025.2.0.xml",
+          "sha256": "f3d67ff83d72c92d38d93df4df4feb662d579c6b751de02ddf332d1b0de08c0d",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.2/01-alter_project_id_type.xml",
+          "sha256": "bf0b0209d80ddedec3a3b521d00a76ea2b5a6aa0891d8eb88e6e52784c68c407",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.2/02-drop-fk-semantic-data-project-id-add-project-semantic-data.xml",
+          "sha256": "70b1a413dc4dfd70e4ceb5d843910b6c7051eb82c284504d0dbf1fdefe0a39fb",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.2/03-add-library-table.xml",
+          "sha256": "ca84d2390f86dba9f436141cdc70de4ccac51a7bf88d7d2834c464a904c6dbdd",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.3/2024.3.0.xml",
+          "sha256": "11010b6f578616ca08eeabb21303e3f83d3030a6b29d9c1b5b9dbdb2485f0410",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.3/02-store-semantic_data-domains.xml",
+          "sha256": "24221c92f953c31221430092629e15fad7649a78f3f5a93b93c2c620b5b1753a",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.3/01-initial-schema.xml",
+          "sha256": "99dbc9933ffcab11048712a26c8a9406872a25f9f7cc54b2527d1448141bccca",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2026.1/01-drop-fks-project-semantic-data.xml",
+          "sha256": "44670bf6466e9480a8b2258f19542e86d8b2cce743ca21f7c11b503b1876023e",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2026.1/04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata.xml",
+          "sha256": "a7902f43d0f811d23572a21836dadd6954777c80d21392413b79c76347503f4a",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2026.1/05-make-representations-identifiers-semantic-data-aware.xml",
+          "sha256": "24a9f3a48ceb20db60abc5b2bb0fa3cf77911afa4468152906336639f661566a",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2026.1/02-drop-additional-foreign-keys.xml",
+          "sha256": "6232f739c9ddc67fd3fce784f5db611522b6814b275c620a45aeb9a537b06d29",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2026.1/03-align-representation-content-identity-to-representation-metadata.xml",
+          "sha256": "db9a169bd3ed60a5d0cba0e291dd87ced87ab058afd459350fe711446eb745c7",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2026.1/2026.1.0.xml",
+          "sha256": "c2c7b9f8415afd8bc9dd41ec0978a34fb3602eec886c26ca9c9aaee3e7b6b97b",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.11/2024.11.0.xml",
+          "sha256": "6776c5aabdd445eba49882594a49f0a40a11f0424ed78b8b1ae6ac62f51d4591",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2024.11/01-split-representation-metadata-from-content.xml",
+          "sha256": "58a56f0f8cce92d38d55464aaa647c18ce4af54d87114432a4b8338ef339bdbc",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.1/01-add-representation-metadata-icon-url.xml",
+          "sha256": "33f75b37aee93c5555501aa9fc3272ea24e3ae70328aef892886289c3ad87704",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.1/2025.1.0.xml",
+          "sha256": "2289d87e12ceb919f5acfc44da1975d354eece94d16b04544479a8802f1e6af6",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.1/02-add-representation-metadata-documentation.xml",
+          "sha256": "fe9f9bcecaf696d2ab29dd54bac63da55ed63360cdff525f140a772f790624b6",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.4/01-switch-representation-metadata-from-project-to-semantic-data.xml",
+          "sha256": "f0b0dc64e91facce7d880669a526cbd6b0367c691f73c9f81b873de9a248ee3a",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.4/2025.4.0.xml",
+          "sha256": "d97885343c6d0f70d6717908ce7c79d1d1d17c517a3dd43930bb4aad885ab3e3",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.4/03-move-dependency-to-semantic-data.xml",
+          "sha256": "0c51cac944ece945246f8ae699db42eb465401e17ebd73a1beae0d4cb0866897",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.4/02-update-the-document-primarykey.xml",
+          "sha256": "3534d48a5cb1d7f61ed733fe14644b3486e24e0a23444a26ab5b1c4cabe3ff84",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.10/01-add-is-read-only-column-in-document-table.xml",
+          "sha256": "e51f492e2032a78a6098ca6b02e41c41dc3258f82e89b888601fe6c7b84ac42d",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        },
+        {
+          "component": "sirius",
+          "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+          "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/resources/db/changelog/2025.10/2025.10.0.xml",
+          "sha256": "a1cddee642e94be5dd26d758363aa762400b31d09e13456ed4129992be08a830",
+          "evidence": "Exact module/path artifact bytes equal this pinned Git object; actual GraphQL/catalog observations remain separate."
+        }
+      ],
+      "tasks": [
+        "Capture application table/column/type/default/constraint/index and ordered applied Liquibase history rows from the fresh owned native database in a read-only repeatable-read transaction.",
+        "Validate stable identities and all selected parent/column/FK/backing-index references; preserve exact SQL expressions, nulls and history ordering.",
+        "Emit deterministic B05-owned contract obligations with native observation and Rust comparison pending; record selected relation kinds and omitted database axes explicitly."
+      ],
+      "verification": [
+        "Root reviewed fixed SQL and exact native artifact/config/query hashes; fresh owned DB only, no production target or driver installation.",
+        "Meaningful duplicate/dangling/reference/expression-index/history-order/size fixtures, fmt/tests/Clippy offline, actual CLI against root-captured database catalog.",
+        "Independent review; source-label, metadata declaration and effective applied state remain distinct, no schema parity or source attestation from catalog counts.",
+        "Retain earlier nine-test capture and metadata admission refusal before executable launch. Final ten tests additionally cover actual native catalog and complete FK proof; actual CLI preserves all164observations and20migration positions. Original shared native receipt stays PARTIAL; credit its successful catalog only."
+      ]
+    },
+    {
+      "lane": "coordination-integration",
+      "state": "LOCALLY_VERIFIED_BOUNDED_PARENT_ACCEPTANCE_OPEN",
+      "commit_plan": [
+        "Implementation and meaningful contract/caller fixtures",
+        "Exact execution evidence, independent review and explicit remaining limits"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "expected_commits": 2,
+        "observed_library_lines": 307,
+        "development_observer_lines": 109,
+        "observed_test_lines": 369,
+        "reported_authored_lines_before_root_manifest": 851,
+        "production_scope": "307 lines in src/lib.rs implement the application preparation API. The 109-line examples/observe.rs is authored verification/support, included in the <=900 authored-line budget, excluded from the <=400 production ceiling.",
+        "authored_verification_harness_lines": 109
+      },
+      "ownership": "One isolated source author; root owns manifests/locks, native/DB lifecycle and serial compilers. No held model/factory/initializer edits.",
+      "done_when": "Bounded named contract/caller verification passes on exact inputs; original C01/C03 tasks and full feature acceptance remain required.",
+      "id": "C03b",
+      "title": "Compose private project migration preparation through actual callers",
+      "dependencies": [
+        "B01",
+        "B25S",
+        "B25a",
+        "B25b",
+        "B25c",
+        "B25d",
+        "C03a"
+      ],
+      "external_prs": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        77
+      ],
+      "paths": [
+        "rust/crates/syson-project-preparation/",
+        "porting/rust-parity-evidence/C03b/"
+      ],
+      "source_refs": [
+        {
+          "component": "rust-prerequisite",
+          "revision": "9baa77f9ce8c27cb0b784bee121872aab0ffcef5",
+          "path": "rust/crates/syson-migration-pipeline/src/lib.rs",
+          "sha256": "4b3c71daaa62f7b317a43e6fcec3c29f0ac299d1c358e0bd2bdb0d582cd28cb3"
+        },
+        {
+          "component": "rust-prerequisite",
+          "revision": "9baa77f9ce8c27cb0b784bee121872aab0ffcef5",
+          "path": "rust/crates/syson-migrations/src/lib.rs",
+          "sha256": "d319cc79a34ec584f356957c5fa34691620c138cf109128f4ca47a1a3206a5ad"
+        },
+        {
+          "component": "rust-prerequisite",
+          "revision": "9baa77f9ce8c27cb0b784bee121872aab0ffcef5",
+          "path": "rust/crates/syson-migrations/b25a.rs",
+          "sha256": "70aca70d43fc0af655fc7294e59d38d3bda232c56ec7b33812976e2826bb853d"
+        },
+        {
+          "component": "rust-prerequisite",
+          "revision": "9baa77f9ce8c27cb0b784bee121872aab0ffcef5",
+          "path": "rust/crates/syson-migrations/b25b.rs",
+          "sha256": "39912a769b6cd5eaf65abe665475913a4bbe6e1bb867e6e73c7f04a1021c083d"
+        },
+        {
+          "component": "rust-prerequisite",
+          "revision": "9baa77f9ce8c27cb0b784bee121872aab0ffcef5",
+          "path": "rust/crates/syson-migrations/b25c.rs",
+          "sha256": "17a233036342ffc7402fc9f55c401113eecabf92cd1fa205608e722f51081179"
+        },
+        {
+          "component": "rust-prerequisite",
+          "revision": "9baa77f9ce8c27cb0b784bee121872aab0ffcef5",
+          "path": "rust/crates/syson-migrations/b25d.rs",
+          "sha256": "ae62fa0a0dccaad873f8acd440b06f0da154638af2ffe89460fe11ef10ba0664"
+        }
+      ],
+      "tasks": [
+        "Consume exact four-module prerequisite snapshot and actual B01 preparation, with version-ordered semantic removals, typed Document admission and representation description-ID callbacks.",
+        "Preserve original namespace order and independent selected participant/reference/diagram stamps through complete immutable preparation; no partial result after late error.",
+        "Preflight budgets and all relevant stamps before resolver work; retain foreign-kind/wrong-resource behavior and resolver-side-effect caveat."
+      ],
+      "verification": [
+        "Verify exact source-blob snapshot using existing C03a tool, then freeze all build inputs before composed checks.",
+        "Actual B25a-d/B01 callers, combined semantic/representation/library fixtures, replay/namespace traps, late errors, bounds and unchanged input tests.",
+        "Root serial offline fmt/tests/Clippy plus selected native-composition comparison where contracts are comparable; explicit local recipe is not native framework history or durable SQL publication.",
+        "Native new local-reference cases compare complete semantic/control JSON and namespace-first key, with B01 active but no matching library IDs. Keep Unicode stdout capture failure and corrected documented UTF8 protocol; never normalize mismatches. Two successful projects and one atomic Rust/native-partial refusal pass.",
+        "Release observer on256/1024/4096syntheticsemanticnodes+6diagramnodes:12samples perprocess,2warmups discarded, raw ten prepare-only times and whole-process RSS retained. No UI/native capacity or before/after ratio claim."
+      ],
+      "acceptance_gates": [
+        "C06",
+        "C07"
+      ]
+    }
+  ]
+}

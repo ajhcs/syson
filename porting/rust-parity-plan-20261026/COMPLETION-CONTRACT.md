@@ -2,7 +2,7 @@
 
 A required feature is complete when a user can perform it through the Rust application, its results match the agreed SysON behavior, and its data and recovery behavior have been verified on the integrated candidate. The feature must have independently reviewed evidence for its required success, failure and boundary cases.
 
-Version `SYSON-RUST-COMPLETION/1.0.7` locks the execution priorities and acceptance criteria for the current plan. The target remains SysON source `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`. Scope includes the features enabled in that target and their effective inherited services. Reviewed improvements may change the interaction while preserving the required semantic, reference, API and persistence outcomes.
+Version `SYSON-RUST-COMPLETION/1.0.8` locks the execution priorities and acceptance criteria for the current plan. The target remains SysON source `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`. Scope includes the features enabled in that target and their effective inherited services. Reviewed improvements may change the interaction while preserving the required semantic, reference, API and persistence outcomes.
 
 At original adoption, main was `6e54ff44891bb7fd333c1e5fe985ba69abf3e27a`. The execution ledger contains 55 bounded implementation/evidence records: 54 draft PRs and one merged archival supplement. Foundation and planning merges are tracked separately. All 55 records remain `NOT_ACCEPTED`. The original plan assigned 778 review units, including generated batches and verification work. Amendments 1.0.2/1.0.3/1.0.4 add RR08a/RR08b, U10a/U10b and C09a/C09b, respectively. Amendment 1.0.5 adds C09b1/C09b2, bringing that assignment to 786. Amendment 1.0.6 adds U11a/U11b for 788 while preserving every original obligation. Amendment 1.0.7 adds U12a/U12b for 790 while preserving all 788 previous units. These counts describe work and evidence; they do not establish a feature-completion percentage.
 
@@ -144,3 +144,8 @@ Both children retain hard 400 changed production/900 authored caps, counting all
 U11 preserves its original U10 dependency and every native/fractional/measurement/caller/worker/history/UI/capacity obligation. Implementation additionally consumes U11b; acceptance requires both children. Integer geometry restrictions remain explicit. Forest and fractional numeric/caller adoption require separate scope review. No source/runtime lease, budget exception, ownership release or native/UI acceptance follows from this amendment; every prior policy, all 786 previous units and 55 historical records remain.
 
 The [forest amendment](amendments/1.0.7-forest-kernel-split.md) separates finite forest admission and placement under ordinary 400/900 caps. U12 retains all original native/package UI gates; adopted children are not feature acceptance or a source/runtime lease.
+
+
+**Amendment 1.0.8: team execution**
+
+[Team adoption](amendments/1.0.8-team-execution.md) assigns all 790 units to seven portfolios and derives cross-team implementation/acceptance handoffs without changing any prerequisite, budget, hold or required behavior. [TEAM-EXECUTION.md](TEAM-EXECUTION.md) defines interfaces and the first durable workflow. Three authors plus one coordinator remain the execution ceiling; runtime execution remains serialized. Team ownership is not source admission or independent feature acceptance.

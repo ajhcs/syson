@@ -1,0 +1,24 @@
+from pathlib import Path
+import hashlib, importlib.util, json, shutil
+b=Path(__file__).parent
+p=Path('/workspace/worktrees/builderbob/syson/batch27-team-plan/porting/rust-parity-plan-20261026')
+d=p/'remaining-work/checkpoint-batch27/verification'
+d.mkdir()
+helper=Path('/workspace/build/builderbob/syson-batch15-20261029/archive_helpers.py')
+spec=importlib.util.spec_from_file_location('trusted_archive',helper)
+a=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(a)
+entries=[]
+for dirname in ['team-generation-01','team-validation-01']:
+    entries.extend((dirname+'/'+str(f.relative_to(b/dirname)),f) for f in sorted((b/dirname).rglob('*')) if f.is_file())
+for name in ['generate_team_checkpoint.py','verify_team_checkpoint.py','archive_team_validation.py']:
+    entries.append(('executed-source/'+name,b/name))
+a.archive(d,entries)
+review={'disposition':'PASS_INDEPENDENT_SOURCE_REVIEW_BEFORE_EXECUTION','reviewer':'/root/batch22_layout_amendment',
+    'scope':'Team policy16controls, rootwiring/generation/verification; nofeatureacceptance',
+    'source_sha256':{str(f):hashlib.sha256(f.read_bytes()).hexdigest() for f in [p/'tools/team_policy.py',p/'tools/test_team_policy.py',b/'generate_team_checkpoint.py',b/'verify_team_checkpoint.py']},
+    'archive_helper_sha256':hashlib.sha256(helper.read_bytes()).hexdigest()}
+(d/'source-review.json').write_text(json.dumps(review,indent=2)+'\n')
+(d/'.gitattributes').write_text('blobs/** -text -diff -merge\n')
+a.seal(d)
+print(json.dumps({'entries':len(entries),'seal_sha256':hashlib.sha256((d/'SHA256.json').read_bytes()).hexdigest()}))

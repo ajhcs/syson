@@ -1,0 +1,35 @@
+# Amendment 1.0.6: land finite routing admission and search separately
+
+The next geometry prerequisite for the real UI composition is a bounded router over landed U10b placements. Legacy F17/#36 supplies a proposed Rust algorithm, not an ELK translation. Its 403 production lines exceed the ordinary cap before factoring; the complete original routing test file contains 439 lines and 16 tests. This amendment assigns U11a admission, then U11b search. Forest admission/placement and the fractional caller bridge require separate future scope review.
+
+## Preserve the original source and tests
+
+The donor `syson-routing/src/lib.rs` is SHA-256 `4ef440f6c241ce7e008b679e0781e65a9df03861b625fae3349343f3782c5c0e`; `tests/routing.rs` is `2f84297784fd60b6dbe18e6842f45f196c6d11866cad11cdb09d246af5006ec6`. U11a receives lines 1–117, 123–174, 185–194 and 209–270 (241 lines; assigned-byte hash `f5467b1e7c48ba504cdd68d8c8f0458df12552f67f36560fd210d5d45e14504d`). U11b receives 118–122, 175–184, 195–208 and 271–403 (162 lines; `0ade8658655a992e3ff73da65243ec4628784cdbd0e280d913abac5edb9ed6bf`). Search-only push/collision helpers belong to U11b; U11a must qualify without unused private helpers or added public surface. Every source line is assigned once. Preserve all 16 original tests byte-for-byte on the final public wrapper; add admission/continuation regressions separately.
+
+U10b is actually landed at `974e7591ec4296db96644954edb4d4daf71f41d6`, crate tree `fa12c1312c969adac6f9d30cffe130dec36a28f7`, placement SHA-256 `cd5de614196e30f55082c0ec68ffe9680936678dde19e3f5faa141fb2bbcfb01`. Its 26 composed tests and published finite measurements do not accept native/UI geometry. Bind these actual public types; do not restore obsolete private U10 helpers.
+
+## U11a: admit canonical integer routing inputs
+
+Preserve Point/Side/Edge/Limits/typed errors, exact doubled integer coordinates and the original defaults: 128 nodes, 256 edges, 16,384 grid vertices, 65,536 output points, 20,000,000 work and 1,024 ID bytes. Validate IDs/endpoints, integer positive rectangles and bounds, overlapping interiors and side-center terminals through checked arithmetic and fallible buffers. Retain fractional/nonfinite/degenerate refusal; side selection constrains anchor position, not departure heading.
+
+Admission produces an opaque prepared-routing token with immutable canonical geometry/terminals, its own original callback and accumulated spent work. Keep guard construction/reset and independent graph/guard recombination private. Search consumes the token once without recopying/resorting admission or replacing its guard. Exact/over limits, permutations, unchanged inputs and early/interior cancellation need public API tests. Logical charges/reservations are neither an RSS bound nor a deadline.
+
+## U11b: consume admission and publish routes atomically
+
+After reviewed U11a is on main and locally qualified, pin its exact bytes and implement the visibility grid, blocked-cell tests, hop-minimizing BFS, simplification and canonical result. Preserve `route(nodes,edges,limits,cancelled)`, all original result fields, coincident parallel routes and zero-clearance boundary/corner contact. Preserve checked grid/output arithmetic, initial/phase/late cancellation and final publication polling, including empty-edge success. Failure returns no partial result.
+
+Run the complete 16-test file plus admission tests. Add actual admit→search spent-work/callback continuation controls, including a budget that admits either phase alone but refuses their combined work, cancellation between phases and late publication cancellation. A type/token inspection alone is insufficient. Keep resource qualification in a separately sized development-tool PR if needed.
+
+## Dependencies, budgets and remaining acceptance
+
+The finite chain is landed U10b → U11a → U11b. U11 retains its original U10 prerequisite, tasks, source paths and all native/fractional/UI gates; add U11b to implementation readiness and both accepted children to parent acceptance. Full U10/U11 feature acceptance is not a finite child's source prerequisite. This amendment grants no source or runtime lease and releases no held registration.
+
+U11a targets at most 360 changed production/700 authored lines; U11b targets 270/860 including all 439 original test lines. Hard caps remain 400 changed handwritten production and 900 authored lines, additions plus deletions after ordinary formatting, including helpers/imports/tests/manifests/notices/coordinator wiring. Adopt another meaningful split before coding if required; never compress source or drop tests to fit. Coordinator owns crate exports, manifest/lock, notices and application assembly; child module leases remain separate and sequential.
+
+Profile named ordinary 32/64-node fixtures and bounded 128/256/1024 ramps under unchanged defaults, with realistic IDs, two warmups/seven measured ranges and separate work, allocation/live-heap/RSS metrics. Above 128 nodes the default router refuses Nodes; refusal latency is not capacity. Thirty measured samples plus a declared estimator are required for p95. Existing workload-specific performance ranges remain unchanged.
+
+The integer router does not consume every valid f64 measurement/layout result. Keep original refusal tests and the real #130 ceil/fractional refusal/conversion evidence. A future matched native numeric policy must qualify 97.125-sized leaves, fractional headers/gaps/borders/retained positions, signed zero, nonfinite/overflow/precision cases and attached endpoints without silent quantization. Nested routing, constrained ports, manual bends, reconnect semantics, worker/stale results/history, actual font measurement and native rendered readability remain parent work. Actual UI qualification still requires pointer/keyboard cancellation, focus/selection, undo/reload and 320/1440 px plus 200/400% zoom. No old #130 result transfers automatically.
+
+Contract 1.0.6 has 788 review units: every prior 786 plus U11a/U11b. Preserve all 55 historical records, existing policy objects, prior amendments, ownership holds and performance requirements. The typed routing policy validates before its two IDs may be excluded from older inventories; missing policy/children, coherently dropped edges, wider caps/scope and lost original tests/source/parent gates must refuse under normal and optimized Python. Static integrity does not establish runtime or feature acceptance.
+
+The complete verifier reconstructs all 786 original normalized records and checks their retained hash. Restore only U11 delegation, C99's new child dependencies and the two derived routing inputs in C04/C08/C09; preserve every other field and record order. Those joint gates retain both new implementation inputs in the current graph. Run this whole-record proof after the existing diagnostic guards, so their original refusal controls retain precise outcomes.

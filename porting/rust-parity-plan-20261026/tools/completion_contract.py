@@ -25,7 +25,7 @@ def canonical_hash(value):
 def forest_children(contract):
     """Admit the sealed forest policy before any old-inventory exclusion."""
     splits = contract.get('forest_kernel_splits', {})
-    require(splits or contract['version'] != '1.0.7', 'U12 split policy missing')
+    require(splits or contract['version'] not in ('1.0.7', '1.0.8'), 'U12 split policy missing')
     if not splits:
         return []
     require(type(splits) is dict and set(splits) == {'U12'}, 'U12 split policy coverage')
@@ -130,7 +130,7 @@ def routing_children(contract):
     """Validate the exact new policy before excluding its IDs from older proofs."""
     forest_children(contract)
     splits = contract.get('routing_kernel_splits', {})
-    require(splits or contract['version'] not in ('1.0.6', '1.0.7'), 'U11 split policy missing')
+    require(splits or contract['version'] not in ('1.0.6', '1.0.7', '1.0.8'), 'U11 split policy missing')
     if not splits:
         return []
     require(type(splits) is dict and set(splits) == {'U11'}, 'U11 split policy coverage')
@@ -236,7 +236,7 @@ def validate_routing_splits(contract, plan=None, lane=None, check_original_recor
 def validate_comparison_repairs(contract, plan=None, lane=None):
     """Validate the finite C09b split before any legacy coverage exclusions."""
     splits = contract.get('comparison_repairs', {})
-    require(splits or contract['version'] not in ('1.0.5', '1.0.6', '1.0.7'), 'C09 split repair policy missing')
+    require(splits or contract['version'] not in ('1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'C09 split repair policy missing')
     if not splits:
         return []
     require(type(splits) is dict and set(splits) == {'C09b'}, 'C09 split repair coverage')
@@ -315,7 +315,7 @@ def validate_comparison_repairs(contract, plan=None, lane=None):
 def validate_repair_splits(contract, plan=None):
     """Static RR08 scope preservation; never a runtime or acceptance decision."""
     splits = contract.get('repair_splits', {})
-    require(splits or contract['version'] not in ('1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'), 'RR08 split policy missing')
+    require(splits or contract['version'] not in ('1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'RR08 split policy missing')
     if not splits:
         return
     require(set(splits) == {'RR08'}, 'RR08 split policy coverage changed')
@@ -410,7 +410,7 @@ def validate_repair_splits(contract, plan=None):
 def validate_layout_splits(contract, plan=None, lane=None):
     """Static U10 prerequisite mapping; no native, UI or feature acceptance."""
     splits = contract.get('layout_kernel_splits', {})
-    require(splits or contract['version'] not in ('1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7'), 'U10 split policy missing')
+    require(splits or contract['version'] not in ('1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'U10 split policy missing')
     if not splits:
         return
     require(set(splits) == {'U10'}, 'U10 split policy coverage changed')
@@ -534,7 +534,7 @@ def validate_layout_splits(contract, plan=None, lane=None):
 def validate_comparator_splits(contract, plan=None, lane=None):
     """Static C09 module/case preservation; no capture or runtime acceptance."""
     splits = contract.get('tooling_comparator_splits', {})
-    require(splits or contract['version'] not in ('1.0.4', '1.0.5', '1.0.6', '1.0.7'), 'C09 split policy missing')
+    require(splits or contract['version'] not in ('1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'C09 split policy missing')
     if not splits:
         return
     require(set(splits) == {'C09'}, 'C09 split policy coverage changed')
@@ -685,6 +685,12 @@ def read_contract(root, read=None):
     amendments += [policy['amendment'] for policy in contract.get('comparison_repairs', {}).values()]
     amendments += [policy['amendment'] for policy in contract.get('routing_kernel_splits', {}).values()]
     amendments += [policy['amendment'] for policy in contract.get('forest_kernel_splits', {}).values()]
+    team = contract.get('team_execution')
+    require(team is not None or contract['version'] != '1.0.8', 'Team adoption missing')
+    if team is not None:
+        require(team['policy'] == 'teams.json' and team['document'] == 'TEAM-EXECUTION.md', 'Team paths changed')
+        required.update([team['policy'], team['document']])
+        amendments.append(team['amendment'])
     for policy in contract.get('comparison_repairs', {}).values():
         archive = policy['candidate']['archive_path']
         required.add(archive)
@@ -736,6 +742,7 @@ def validate_bindings(contract, plan, root):
                            check_original_records=False)
     validate_routing_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()),
                             check_original_records=False)
+    require(plan.get('team_execution') == contract['team_execution'], 'Missing team plan binding')
     families = {uid: family for family, ids in contract['families'].items() for uid in ids}
     for unit in plan['units']:
         require(unit.get('completion_contract') == pointer(contract, families[unit['id']]),
