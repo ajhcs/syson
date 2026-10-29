@@ -1,0 +1,4 @@
+# U10b finite placement qualification
+
+All 15 original layout tests (572 lines) are retained unchanged; 26 composed checks, formatting, Clippy and WASM pass. The archived checks bind exact inputs and raw streams. Resource measurements and continuation controls are published in [PR #173](https://github.com/ajhcs/syson/pull/173), module tree `75bc8f0d477fa8215d93da968c04677e67402af4`, packet seal `ee5d078d579938eabc709fd81ddd58a9ee7aa199e2c4138a92d79dc18fafc726`; see its [summary](../../C09/batch23-placement-profile/evidence/summary.json).
+This std-only prerequisite consumes U10a’s continued guard. Native ELK, actual callers, worker/history, routing, UI and capacity acceptance remain OPEN; 1,024-node Work refusals measure refusal latency. Handwritten change: 312 production and 889 authored lines, including this README and attributes.
