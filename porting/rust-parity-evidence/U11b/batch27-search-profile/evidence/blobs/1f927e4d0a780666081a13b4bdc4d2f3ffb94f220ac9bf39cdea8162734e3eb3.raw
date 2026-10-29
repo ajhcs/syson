@@ -1,0 +1,84 @@
+struct Allocator;
+static REQUESTS: AtomicU64 = AtomicU64::new(0);
+static REQUESTED: AtomicU64 = AtomicU64::new(0);
+static DEALLOCS: AtomicU64 = AtomicU64::new(0);
+static FREED: AtomicU64 = AtomicU64::new(0);
+static LIVE: AtomicU64 = AtomicU64::new(0);
+static PEAK: AtomicU64 = AtomicU64::new(0);
+static PHASE_PEAK: AtomicU64 = AtomicU64::new(0);
+
+fn added(size: usize) {
+    let live = LIVE.fetch_add(size as u64, SeqCst) + size as u64;
+    PEAK.fetch_max(live, SeqCst);
+    PHASE_PEAK.fetch_max(live, SeqCst);
+}
+fn removed(size: usize) {
+    FREED.fetch_add(size as u64, SeqCst);
+    DEALLOCS.fetch_add(1, SeqCst);
+    LIVE.fetch_sub(size as u64, SeqCst);
+}
+unsafe impl GlobalAlloc for Allocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        REQUESTS.fetch_add(1, SeqCst);
+        REQUESTED.fetch_add(layout.size() as u64, SeqCst);
+        let result = unsafe { System.alloc(layout) };
+        if !result.is_null() {
+            added(layout.size());
+        }
+        result
+    }
+    unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+        unsafe { System.dealloc(ptr, layout) };
+        removed(layout.size());
+    }
+    unsafe fn realloc(&self, ptr: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        REQUESTS.fetch_add(1, SeqCst);
+        REQUESTED.fetch_add(size as u64, SeqCst);
+        let result = unsafe { System.realloc(ptr, layout, size) };
+        if !result.is_null() {
+            removed(layout.size());
+            added(size);
+        }
+        result
+    }
+}
+#[global_allocator]
+static ALLOCATOR: Allocator = Allocator;
+
+#[derive(Clone, Copy)]
+struct Counters {
+    requests: u64,
+    requested: u64,
+    deallocs: u64,
+    freed: u64,
+    live: u64,
+    peak: u64,
+}
+fn counters() -> Counters {
+    Counters {
+        requests: REQUESTS.load(SeqCst),
+        requested: REQUESTED.load(SeqCst),
+        deallocs: DEALLOCS.load(SeqCst),
+        freed: FREED.load(SeqCst),
+        live: LIVE.load(SeqCst),
+        peak: PEAK.load(SeqCst),
+    }
+}
+fn delta(a: Counters, b: Counters, phase_peak: u64) -> serde_json::Value {
+    serde_json::json!({"allocation_requests": b.requests-a.requests,
+        "requested_bytes": b.requested-a.requested, "deallocation_events": b.deallocs-a.deallocs,
+        "freed_bytes": b.freed-a.freed, "live_bytes_before": a.live, "live_bytes_after": b.live,
+        "global_peak_before": a.peak, "global_peak_after": b.peak,
+        "phase_peak_live_bytes": phase_peak,
+        "phase_peak_above_initial_live": phase_peak.saturating_sub(a.live)})
+}
+fn rss_kib() -> Option<u64> {
+    std::fs::read_to_string("/proc/self/status")
+        .ok()?
+        .lines()
+        .find(|line| line.starts_with("VmHWM:"))?
+        .split_whitespace()
+        .nth(1)?
+        .parse()
+        .ok()
+}

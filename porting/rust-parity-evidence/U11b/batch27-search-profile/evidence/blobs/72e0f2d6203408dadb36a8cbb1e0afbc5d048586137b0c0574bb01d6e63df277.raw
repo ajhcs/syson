@@ -1,0 +1,417 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Finite integer search observations; native/UI/capacity acceptance stays OPEN.
+use std::alloc::{GlobalAlloc, Layout, System};
+use std::cell::Cell;
+use std::sync::atomic::{AtomicU64, Ordering::SeqCst};
+use std::time::Instant;
+use syson_layout::Placement;
+use syson_routing::{Edge, Error, Limit, Limits, Point, Routing, Side, admit, route_admitted};
+
+struct Allocator;
+static REQUESTS: AtomicU64 = AtomicU64::new(0);
+static REQUESTED: AtomicU64 = AtomicU64::new(0);
+static DEALLOCS: AtomicU64 = AtomicU64::new(0);
+static FREED: AtomicU64 = AtomicU64::new(0);
+static LIVE: AtomicU64 = AtomicU64::new(0);
+static PEAK: AtomicU64 = AtomicU64::new(0);
+static PHASE_PEAK: AtomicU64 = AtomicU64::new(0);
+
+fn added(size: usize) {
+    let live = LIVE.fetch_add(size as u64, SeqCst) + size as u64;
+    PEAK.fetch_max(live, SeqCst);
+    PHASE_PEAK.fetch_max(live, SeqCst);
+}
+fn removed(size: usize) {
+    FREED.fetch_add(size as u64, SeqCst);
+    DEALLOCS.fetch_add(1, SeqCst);
+    LIVE.fetch_sub(size as u64, SeqCst);
+}
+unsafe impl GlobalAlloc for Allocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        REQUESTS.fetch_add(1, SeqCst);
+        REQUESTED.fetch_add(layout.size() as u64, SeqCst);
+        let result = unsafe { System.alloc(layout) };
+        if !result.is_null() {
+            added(layout.size());
+        }
+        result
+    }
+    unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+        unsafe { System.dealloc(ptr, layout) };
+        removed(layout.size());
+    }
+    unsafe fn realloc(&self, ptr: *mut u8, layout: Layout, size: usize) -> *mut u8 {
+        REQUESTS.fetch_add(1, SeqCst);
+        REQUESTED.fetch_add(size as u64, SeqCst);
+        let result = unsafe { System.realloc(ptr, layout, size) };
+        if !result.is_null() {
+            removed(layout.size());
+            added(size);
+        }
+        result
+    }
+}
+#[global_allocator]
+static ALLOCATOR: Allocator = Allocator;
+
+#[derive(Clone, Copy)]
+struct Counters {
+    requests: u64,
+    requested: u64,
+    deallocs: u64,
+    freed: u64,
+    live: u64,
+    peak: u64,
+}
+fn counters() -> Counters {
+    Counters {
+        requests: REQUESTS.load(SeqCst),
+        requested: REQUESTED.load(SeqCst),
+        deallocs: DEALLOCS.load(SeqCst),
+        freed: FREED.load(SeqCst),
+        live: LIVE.load(SeqCst),
+        peak: PEAK.load(SeqCst),
+    }
+}
+fn delta(a: Counters, b: Counters, phase_peak: u64) -> serde_json::Value {
+    serde_json::json!({"allocation_requests": b.requests-a.requests,
+        "requested_bytes": b.requested-a.requested, "deallocation_events": b.deallocs-a.deallocs,
+        "freed_bytes": b.freed-a.freed, "live_bytes_before": a.live, "live_bytes_after": b.live,
+        "global_peak_before": a.peak, "global_peak_after": b.peak,
+        "phase_peak_live_bytes": phase_peak,
+        "phase_peak_above_initial_live": phase_peak.saturating_sub(a.live)})
+}
+fn rss_kib() -> Option<u64> {
+    std::fs::read_to_string("/proc/self/status")
+        .ok()?
+        .lines()
+        .find(|line| line.starts_with("VmHWM:"))?
+        .split_whitespace()
+        .nth(1)?
+        .parse()
+        .ok()
+}
+
+fn anchor(node: &Placement<'_>, side: Side) -> Point {
+    let x = node.x as i64 * 2;
+    let y = node.y as i64 * 2;
+    let width = node.width as i64;
+    let height = node.height as i64;
+    let (x2, y2) = match side {
+        Side::Left => (x, y + height),
+        Side::Right => (x + width * 2, y + height),
+        Side::Top => (x + width, y),
+        Side::Bottom => (x + width, y + height * 2),
+    };
+    Point { x2, y2 }
+}
+fn limits_key(limits: Limits) -> [usize; 6] {
+    [
+        limits.max_nodes,
+        limits.max_edges,
+        limits.max_grid_vertices,
+        limits.max_output_points,
+        limits.max_work,
+        limits.max_id_bytes,
+    ]
+}
+fn valid_routes(nodes: &[Placement<'_>], edges: &[Edge<'_>], routing: &Routing<'_>) -> bool {
+    routing.edges.len() == edges.len()
+        && routing
+            .edges
+            .iter()
+            .zip(edges.iter().rev())
+            .all(|(route, edge)| {
+                let source = nodes.iter().find(|node| node.id == edge.source).unwrap();
+                let target = nodes.iter().find(|node| node.id == edge.target).unwrap();
+                route.id == edge.id
+                    && route.id.as_ptr() == edge.id.as_ptr()
+                    && route.points.len() >= 2
+                    && route.points.first() == Some(&anchor(source, edge.source_side))
+                    && route.points.last() == Some(&anchor(target, edge.target_side))
+                    && route.points.windows(2).all(|segment| {
+                        let (a, b) = (segment[0], segment[1]);
+                        a != b
+                            && (a.x2 == b.x2 || a.y2 == b.y2)
+                            && nodes.iter().all(|node| {
+                                let (left, right, top, bottom) = (
+                                    node.x as i64 * 2,
+                                    (node.x + node.width) as i64 * 2,
+                                    node.y as i64 * 2,
+                                    (node.y + node.height) as i64 * 2,
+                                );
+                                if a.x2 == b.x2 {
+                                    !(left < a.x2
+                                        && a.x2 < right
+                                        && a.y2.max(b.y2) > top
+                                        && a.y2.min(b.y2) < bottom)
+                                } else {
+                                    !(top < a.y2
+                                        && a.y2 < bottom
+                                        && a.x2.max(b.x2) > left
+                                        && a.x2.min(b.x2) < right)
+                                }
+                            })
+                    })
+                    && route.points.windows(3).all(|p| {
+                        !(p[0].x2 == p[1].x2 && p[1].x2 == p[2].x2)
+                            && !(p[0].y2 == p[1].y2 && p[1].y2 == p[2].y2)
+                    })
+            })
+}
+
+fn run(count: usize, density: usize, mode: &str) -> Result<serde_json::Value, String> {
+    let mut limits = Limits::default();
+    if limits_key(limits) != [128, 256, 16_384, 65_536, 20_000_000, 1024] {
+        return Err("default limits changed; review before execution".into());
+    }
+    let ids: Vec<_> = (0..count)
+        .map(|i| format!("node/{i:08}-fixed-fixture"))
+        .collect();
+    let edge_ids: Vec<_> = (0..count * density)
+        .map(|i| format!("edge/{i:08}-fixed-fixture"))
+        .collect();
+    let nodes: Vec<_> = ids
+        .iter()
+        .enumerate()
+        .rev()
+        .map(|(i, id)| Placement {
+            id,
+            x: (i * 100) as f64,
+            y: if mode == "--grid" {
+                (i * 80) as f64
+            } else {
+                0.0
+            },
+            width: 41.0,
+            height: 21.0,
+            strong_component: i,
+            weak_component: 0,
+            rank: i,
+        })
+        .collect();
+    let edges: Vec<_> = edge_ids
+        .iter()
+        .enumerate()
+        .rev()
+        .map(|(i, id)| Edge {
+            id,
+            source: &ids[i / density],
+            target: &ids[(i / density + [1, 7][i % density]) % count],
+            source_side: if i % density == 0 {
+                Side::Right
+            } else {
+                Side::Bottom
+            },
+            target_side: if i % density == 0 {
+                Side::Left
+            } else {
+                Side::Top
+            },
+        })
+        .collect();
+    let original_nodes = nodes.clone();
+    let original_edges: Vec<_> = edges
+        .iter()
+        .map(|edge| {
+            (
+                edge.id,
+                edge.source,
+                edge.target,
+                edge.source_side,
+                edge.target_side,
+            )
+        })
+        .collect();
+    let admission_charge = count * 27
+        + count * count * 1024
+        + count * (count - 1) / 2
+        + edges.len() * 27
+        + edges.len() * edges.len() * 1024
+        + 2 * count * edges.len();
+    if mode == "--continued-quota" {
+        limits.max_work = admission_charge;
+    }
+    let searching = Cell::new(false);
+    let total_polls = Cell::new(0usize);
+    let search_polls = Cell::new(0usize);
+    let admitted = admit(&nodes, &edges, limits, || {
+        total_polls.set(total_polls.get() + 1);
+        if searching.get() {
+            search_polls.set(search_polls.get() + 1);
+            mode == "--cancel-before" || (mode == "--cancel-late" && search_polls.get() == 3)
+        } else {
+            false
+        }
+    });
+    let admission_work = admitted.as_ref().ok().map(|token| token.charged_work());
+    let called = admitted.is_ok();
+    let admission_valid = admitted.as_ref().ok().is_none_or(|token| {
+        token.charged_work() == admission_charge
+            && token.rectangles().len() == count
+            && token.terminals().len() == edges.len()
+            && limits_key(token.limits()) == limits_key(limits)
+            && token.rectangles().enumerate().all(|(i, (id, bounds))| {
+                let node = &nodes[count - 1 - i];
+                id == node.id
+                    && id.as_ptr() == node.id.as_ptr()
+                    && bounds
+                        == [
+                            node.x as i64 * 2,
+                            (node.x + node.width) as i64 * 2,
+                            node.y as i64 * 2,
+                            (node.y + node.height) as i64 * 2,
+                        ]
+            })
+            && token
+                .terminals()
+                .iter()
+                .zip(edges.iter().rev())
+                .all(|((id, a, b), edge)| {
+                    let source = nodes.iter().find(|node| node.id == edge.source).unwrap();
+                    let target = nodes.iter().find(|node| node.id == edge.target).unwrap();
+                    *id == edge.id
+                        && id.as_ptr() == edge.id.as_ptr()
+                        && *a == anchor(source, edge.source_side)
+                        && *b == anchor(target, edge.target_side)
+                })
+    });
+    searching.set(true);
+    let before = counters();
+    PHASE_PEAK.store(before.live, SeqCst);
+    let started = Instant::now();
+    let outcome = match admitted {
+        Ok(token) => route_admitted(token),
+        Err(error) => Err(error),
+    };
+    let elapsed = started.elapsed().as_nanos();
+    let after = counters();
+    let phase_peak = PHASE_PEAK.load(SeqCst);
+    // Token allocation was before observation. Consuming search may release it.
+    // LIVE is never reset; counters precede /proc and all output verification.
+    let process_peak_rss_kib = rss_kib();
+    let unchanged = nodes == original_nodes
+        && edges.len() == original_edges.len()
+        && edges.iter().zip(&original_edges).all(|(edge, old)| {
+            (
+                edge.id,
+                edge.source,
+                edge.target,
+                edge.source_side,
+                edge.target_side,
+            ) == *old
+        });
+    let output_valid = outcome.as_ref().ok().is_some_and(|routing| {
+        valid_routes(&nodes, &edges, routing)
+            && routing.charged_work >= admission_work.unwrap()
+            && routing.charged_work <= limits.max_work
+            && routing.grid_vertices <= limits.max_grid_vertices
+            && routing
+                .edges
+                .iter()
+                .map(|edge| edge.points.len())
+                .sum::<usize>()
+                <= limits.max_output_points
+    });
+    let expected_error = if !called {
+        Some(Error::Limit(if count > 128 {
+            Limit::Nodes
+        } else {
+            Limit::Work
+        }))
+    } else {
+        match mode {
+            "--cancel-before" | "--cancel-late" => Some(Error::Cancelled),
+            "--grid" => Some(Error::Limit(Limit::Grid)),
+            "--continued-quota" => Some(Error::Limit(Limit::Work)),
+            _ => None,
+        }
+    };
+    let admission_should_succeed = count == 32 || (count == 64 && density == 1);
+    let expected = admission_valid
+        && unchanged
+        && called == admission_should_succeed
+        && match &outcome {
+            Ok(_) => expected_error.is_none() && output_valid,
+            Err(error) => Some(*error) == expected_error,
+        }
+        && match mode {
+            "--cancel-before" => search_polls.get() == 1 && after.requests == before.requests,
+            "--cancel-late" => search_polls.get() == 3 && after.requests > before.requests,
+            "--continued-quota" => {
+                admission_work == Some(limits.max_work) && search_polls.get() >= 3
+            }
+            _ => called || search_polls.get() == 0,
+        };
+    let status = if !called {
+        "SEARCH_NOT_CALLED_ADMISSION_REFUSED"
+    } else {
+        match &outcome {
+            Ok(_) => "SEARCH_SUCCEEDED",
+            Err(Error::Cancelled) => "SEARCH_CANCELLED",
+            Err(Error::Limit(Limit::Grid)) => "SEARCH_GRID_REFUSAL",
+            Err(Error::Limit(Limit::Work)) => "SEARCH_WORK_REFUSAL",
+            Err(_) => "UNEXPECTED_SEARCH_REFUSAL",
+        }
+    };
+    let report = serde_json::json!({
+        "status": status, "expected_outcome": expected, "search_called": called,
+        "input_nodes": count, "edges_per_node": density, "input_edges": edges.len(), "mode": mode,
+        "input_id_bytes": ids[0].len(), "inputs_unchanged": unchanged,
+        "admission_work": admission_work, "admission_token_valid": admission_valid,
+        "search_polls": search_polls.get(), "total_callback_polls": total_polls.get(),
+        "output_valid": output_valid, "output_edges": outcome.as_ref().ok().map(|r| r.edges.len()),
+        "output_points": outcome.as_ref().ok().map(|r| r.edges.iter().map(|e| e.points.len()).sum::<usize>()),
+        "total_charged_work": outcome.as_ref().ok().map(|r| r.charged_work),
+        "grid_vertices": outcome.as_ref().ok().map(|r| r.grid_vertices),
+        "error": outcome.as_ref().err().map(|error| format!("{error:?}")),
+        "api_ns": called.then_some(elapsed),
+        "allocations": called.then(|| delta(before, after, phase_peak)),
+        "live_delta_bytes": called.then_some(after.live as i128 - before.live as i128),
+        "process_peak_rss_kib": process_peak_rss_kib, "limits": limits_key(limits),
+        "scope": "Actual route_admitted only; admission and fixtures precede counters/timer. Default admission refusals have no search latency. No native, fractional/UI, p95 or successful capacity acceptance.",
+        "recipe": "Reverse-order borrowed 27-byte IDs; nonoverlapping integer 41x21 nodes in a row, ring +1 Right/Left and density 2 +7 Bottom/Top. Grid control uses diagonal 64x1 with 25220 vertices. Quota control only lowers max_work to exact spent admission charge. Late cancellation is original callback search poll 3 after axis reservation.",
+        "accounting": "Exact published counting-System allocator block. Preallocated token is in initial live; consuming search frees are retained in signed net delta. Requested traffic includes failed requests; new peak above initial differs from absolute live peak and process VmHWM. All verification/JSON follows counters. Errors expose no search spent-work counter."
+    });
+    std::hint::black_box((&outcome, &nodes, &edges, &original_nodes, &original_edges));
+    Ok(report)
+}
+
+fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    let count = args.get(1).and_then(|value| value.parse::<usize>().ok());
+    let density = args.get(2).and_then(|value| value.parse::<usize>().ok());
+    let mode = args.get(3).map(String::as_str).unwrap_or("default");
+    let normal = mode == "default" && args.len() == 3;
+    let control = args.len() == 4
+        && match mode {
+            "--grid" => count == Some(64) && density == Some(1),
+            "--cancel-before" | "--cancel-late" | "--continued-quota" => {
+                count == Some(32) && density == Some(1)
+            }
+            _ => false,
+        };
+    if !(normal || control)
+        || !count.is_some_and(|n| [32, 64, 128, 256, 1024].contains(&n))
+        || !density.is_some_and(|n| [1, 2].contains(&n))
+    {
+        println!("{}", serde_json::json!({"status": "INVALID_ARGUMENTS"}));
+        std::process::exit(2);
+    }
+    match run(count.unwrap(), density.unwrap(), mode) {
+        Ok(report) => {
+            let expected = report["expected_outcome"] == true;
+            println!("{report}");
+            if !expected {
+                std::process::exit(1);
+            }
+        }
+        Err(error) => {
+            println!(
+                "{}",
+                serde_json::json!({"status": "SETUP_FAILURE", "error": error})
+            );
+            std::process::exit(1);
+        }
+    }
+}
