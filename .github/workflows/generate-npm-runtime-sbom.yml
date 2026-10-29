@@ -21,6 +21,7 @@ permissions:
 
 jobs:
   generate-sbom:
+    if: github.repository == 'eclipse-syson/syson'
     name: Generate runtime SBOM for frontend (excluding dev tools)
     runs-on: ubuntu-latest
     permissions:
