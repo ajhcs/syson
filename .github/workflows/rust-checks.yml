@@ -1,0 +1,62 @@
+name: Rust contributor checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rust-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Rust / ${{ matrix.crate }}
+    if: github.repository == 'ajhcs/syson'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        crate:
+          - syson-layout
+          - syson-json-value
+          - syson-routing
+          - syson-node-measurement
+    env:
+      CARGO_HOME: ${{ runner.temp }}/cargo-home
+      CARGO_TARGET_DIR: ${{ runner.temp }}/cargo-target
+      CARGO_TERM_COLOR: always
+      MANIFEST: rust/crates/${{ matrix.crate }}/Cargo.toml
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out the candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Select the qualified Rust toolchain
+        run: |
+          rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --no-self-update
+          rustc +1.99.1 -Vv
+          cargo +1.99.1 -V
+
+      # No shared cache: each job can obtain its locked dependencies publicly.
+      - name: Check formatting
+        run: cargo +1.99.1 fmt --manifest-path "$MANIFEST" -- --check
+
+      - name: Run unit, integration and documentation tests
+        run: cargo +1.99.1 test --locked --manifest-path "$MANIFEST"
+
+      # All targets includes future examples and tests without guessing names.
+      # Examples are compiled/linted here; their main functions are not run.
+      - name: Lint every target
+        run: cargo +1.99.1 clippy --locked --manifest-path "$MANIFEST" --all-targets -- -D warnings
