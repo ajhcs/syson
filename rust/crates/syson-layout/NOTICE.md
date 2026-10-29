@@ -18,3 +18,5 @@ Finite package-forest admission is factored from the historical F18 donor,
 SHA-256 `9d86a510de50586ffaacabb14ecb54415493d6888d9457ec87783b3399d1bec8`.
 Its 195-line admission assignment is pinned by completion amendment 1.0.7.
 Original package placement/tests, native correspondence and actual UI remain open.
+
+U12b preserves the retained finite package-placement donor and its 15 original tests; sibling calls continue the original forest work/callback budget. Native/package UI acceptance remains open.
