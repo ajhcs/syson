@@ -1,0 +1,17 @@
+from pathlib import Path
+import subprocess,os,json,time,hashlib,fcntl,re,signal
+b=Path(__file__).parent;root=Path('/workspace/worktrees/builderbob/syson/batch16-model-history');out=b/'checks-01';out.mkdir();scratch=out/'scratch';scratch.mkdir();(out/'executed-runner.py').write_bytes(Path(__file__).read_bytes())
+lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',RUST_TEST_THREADS='1',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(scratch),PYTHONDONTWRITEBYTECODE='1');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+files=sorted(p for p in (root/'rust/crates/syson-model').rglob('*') if p.is_file());snap=lambda:{str(p.relative_to(root)):sha(p) for p in files}
+r={'status':'RUNNING','source_before':snap(),'commands':[],'scope':'Complete existing RR20 model policy only; not UI/semantic history/persistence/full acceptance.'};m=str(root/'rust/crates/syson-model/Cargo.toml');rs=[str(p) for p in files if p.suffix=='.rs']
+try:
+ for argv in [['rustfmt','--edition','2024','--config','skip_children=true','--check',*rs],['cargo','test','--offline','--locked','--jobs','1','--manifest-path',m,'--','--test-threads=1','--nocapture'],['cargo','clippy','--offline','--locked','--jobs','1','--manifest-path',m,'--all-targets','--','-D','warnings'],['cargo','check','--offline','--locked','--jobs','1','--manifest-path',m,'--target','wasm32-unknown-unknown']]:
+  t=time.monotonic();p=subprocess.Popen(argv,cwd=root,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:stdout,stderr=p.communicate(timeout=600);timed=False
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+  i=len(r['commands']);(out/f'{i:02}-stdout.txt').write_bytes(stdout);(out/f'{i:02}-stderr.txt').write_bytes(stderr);row={'argv':argv,'exit_code':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t,'tests_passed':sum(map(int,re.findall(rb'test result: ok\. (\d+) passed;',stdout)))};r['commands'].append(row);(out/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(row),flush=True)
+  if p.returncode or timed:raise RuntimeError('Affected checks failed')
+ r['status']='PASS_BOUNDED_MODEL_HISTORY;UI_AND_PARENT_ACCEPTANCE_OPEN'
+finally:
+ r['source_after']=snap();r['source_unchanged']=r['source_before']==r['source_after'];r['artifacts']={p.name:sha(p) for p in out.iterdir() if p.is_file() and p.name!='receipt.json'};(out/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert r['source_unchanged'],'source drift'
