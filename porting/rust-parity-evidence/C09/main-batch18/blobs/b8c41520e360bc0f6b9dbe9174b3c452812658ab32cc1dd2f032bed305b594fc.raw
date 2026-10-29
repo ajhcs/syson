@@ -1,0 +1,161 @@
+{
+  "status": "PASS_FROZEN_VALUE_COMPONENT_GATES;NATIVE_AND_CALLER_GATES_OPEN",
+  "source_before": {
+    "rust/crates/syson-ast-values/.gitattributes": "597f88baa1cde3f27cf9c04fb75dcdcd61d13d5d6b6e183c87cf3cf1d2695c02",
+    "rust/crates/syson-ast-values/Cargo.lock": "b7aec954c28fef33ee289df4a71b232e942cdea6fac995fcaa44c4077be395db",
+    "rust/crates/syson-ast-values/Cargo.toml": "2f9b08c9bea08aed58e81862e9a231f209ddd914f250361fd773126691d77b40",
+    "rust/crates/syson-ast-values/LICENSE": "8c349f80764d0648e645f41ef23772a70c995a0924b5235f735f4a3d09df127c",
+    "rust/crates/syson-ast-values/NOTICE-LANGIUM.txt": "75f30c0db3fead5fe051473831dc5ceacceb961acf97783a27a77c81376dd228",
+    "rust/crates/syson-ast-values/NOTICE.md": "5f2e54789e7420959f5f3b2ef37054aff4a7d04aef72e75dbb7b694cd9607011",
+    "rust/crates/syson-ast-values/src/lib.rs": "3a705a7b0dcdbdf9fc10cbc3fad2515bf1b80a3659f7a14a2850fbc7e2c0f4b4",
+    "rust/crates/syson-ast-values/tests/conversion.rs": "e0ee5883a18ce26dd35decc8c4e6dc4b254803b8bce62c7834eae93c32265422",
+    "porting/follow-ons/F10/.gitattributes": "94d7b6160f955fe86c1802f3ea5ad099e871f8d9a918eef0d8f8e6d34e219f9f",
+    "porting/follow-ons/F10/README.md": "350e4ab80e0c800ef334138b4dcfc18b78d9f4f75678950c504034a0e36e782c",
+    "porting/follow-ons/F10/REVIEW.md": "8c41146304b5f6fc3be6b89405d58504a4b14e97da85b257cabafab85eb365f6",
+    "porting/follow-ons/F10/VALIDATION.json": "ada31b6abcef703c9f234cdbe61e876146e96378e9dae7c26fabc3a4b8054992",
+    "porting/follow-ons/F10/reproduce.py": "fd4b23baf05224eea8cd610b3c445e543827de3a54f9e17049aa1d570df02f55",
+    "porting/follow-ons/F10/source-contract.json": "ed46c9000e71d2e4319954736db12d9c39e9f9a8ade80151edb2f54eff77192d",
+    "porting/follow-ons/F10/validation/f10-01/00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "porting/follow-ons/F10/validation/f10-01/00-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "porting/follow-ons/F10/validation/f10-01/01-stderr.txt": "49e3c878a7cdcccfd78cc4737238c2fe35ad2349b3cb00402f88dfab922a2c3f",
+    "porting/follow-ons/F10/validation/f10-01/01-stdout.txt": "102be63cb41238023a61cfeb35a14d7c44dcd57d71263384cf75f3fb202fb04a",
+    "porting/follow-ons/F10/validation/f10-01/02-stderr.txt": "100881092ce68902426efa0d3868896e100b35ddfb84eb278db02c10be2a5a29",
+    "porting/follow-ons/F10/validation/f10-01/02-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "porting/follow-ons/F10/validation/f10-01/receipt.json": "f04ee3f4d1e0ffcb2cac863ede699adbc3e3f774f0ee307d17d1e36d5be906d2",
+    "porting/follow-ons/F10/validation/run_checks.py": "0230d410011da4bbb9f235b7bfffd0129ec225e465323adea48bc602e1b491c3"
+  },
+  "commands": [
+    {
+      "argv": [
+        "rustc",
+        "-vV"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.005949733080342412,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "-V"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0038492491003125906,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/tests/conversion.rs"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.00931848306208849,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.23300053598359227,
+      "tests_passed": 18
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.12992615799885243,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.050862899981439114,
+      "tests_passed": 0
+    }
+  ],
+  "scope": "F10 primitive values only. Actual importer/nativeUI/sourceclosure/aggregatecapacity remain separate.",
+  "source_after": {
+    "rust/crates/syson-ast-values/.gitattributes": "597f88baa1cde3f27cf9c04fb75dcdcd61d13d5d6b6e183c87cf3cf1d2695c02",
+    "rust/crates/syson-ast-values/Cargo.lock": "b7aec954c28fef33ee289df4a71b232e942cdea6fac995fcaa44c4077be395db",
+    "rust/crates/syson-ast-values/Cargo.toml": "2f9b08c9bea08aed58e81862e9a231f209ddd914f250361fd773126691d77b40",
+    "rust/crates/syson-ast-values/LICENSE": "8c349f80764d0648e645f41ef23772a70c995a0924b5235f735f4a3d09df127c",
+    "rust/crates/syson-ast-values/NOTICE-LANGIUM.txt": "75f30c0db3fead5fe051473831dc5ceacceb961acf97783a27a77c81376dd228",
+    "rust/crates/syson-ast-values/NOTICE.md": "5f2e54789e7420959f5f3b2ef37054aff4a7d04aef72e75dbb7b694cd9607011",
+    "rust/crates/syson-ast-values/src/lib.rs": "3a705a7b0dcdbdf9fc10cbc3fad2515bf1b80a3659f7a14a2850fbc7e2c0f4b4",
+    "rust/crates/syson-ast-values/tests/conversion.rs": "e0ee5883a18ce26dd35decc8c4e6dc4b254803b8bce62c7834eae93c32265422",
+    "porting/follow-ons/F10/.gitattributes": "94d7b6160f955fe86c1802f3ea5ad099e871f8d9a918eef0d8f8e6d34e219f9f",
+    "porting/follow-ons/F10/README.md": "350e4ab80e0c800ef334138b4dcfc18b78d9f4f75678950c504034a0e36e782c",
+    "porting/follow-ons/F10/REVIEW.md": "8c41146304b5f6fc3be6b89405d58504a4b14e97da85b257cabafab85eb365f6",
+    "porting/follow-ons/F10/VALIDATION.json": "ada31b6abcef703c9f234cdbe61e876146e96378e9dae7c26fabc3a4b8054992",
+    "porting/follow-ons/F10/reproduce.py": "fd4b23baf05224eea8cd610b3c445e543827de3a54f9e17049aa1d570df02f55",
+    "porting/follow-ons/F10/source-contract.json": "ed46c9000e71d2e4319954736db12d9c39e9f9a8ade80151edb2f54eff77192d",
+    "porting/follow-ons/F10/validation/f10-01/00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "porting/follow-ons/F10/validation/f10-01/00-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "porting/follow-ons/F10/validation/f10-01/01-stderr.txt": "49e3c878a7cdcccfd78cc4737238c2fe35ad2349b3cb00402f88dfab922a2c3f",
+    "porting/follow-ons/F10/validation/f10-01/01-stdout.txt": "102be63cb41238023a61cfeb35a14d7c44dcd57d71263384cf75f3fb202fb04a",
+    "porting/follow-ons/F10/validation/f10-01/02-stderr.txt": "100881092ce68902426efa0d3868896e100b35ddfb84eb278db02c10be2a5a29",
+    "porting/follow-ons/F10/validation/f10-01/02-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "porting/follow-ons/F10/validation/f10-01/receipt.json": "f04ee3f4d1e0ffcb2cac863ede699adbc3e3f774f0ee307d17d1e36d5be906d2",
+    "porting/follow-ons/F10/validation/run_checks.py": "0230d410011da4bbb9f235b7bfffd0129ec225e465323adea48bc602e1b491c3"
+  },
+  "source_unchanged": true,
+  "artifacts": {
+    "03-stderr.txt": "3c0a06d27bc5958ad7ef8634eef47f082ad608040fe3d90968ab18b25389b8f1",
+    "02-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "04-stderr.txt": "e66d1b6805b835aaec92a2deaa1bde4b515bd29065c23af4558ba69f9d3fab4e",
+    "01-stdout.txt": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6",
+    "executed-runner.py": "aa26ee73de8a3dcb78db690dae9e1d4f911b36479cb71d2813a3e5bf09498daf",
+    "04-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "01-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "00-stdout.txt": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+    "00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "03-stdout.txt": "394c0cabfacba0f2bbe2a0b96b8a0564750d8b5621f15d15c51efa81653c368a",
+    "02-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "05-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "05-stderr.txt": "f6daddeff61c3e0b0e948258841f8c57a03f77db2a312b785156060358cd222f"
+  }
+}

@@ -1,0 +1,37 @@
+from pathlib import Path
+import subprocess,os,json,hashlib,fcntl,time,signal,statistics
+b=Path(__file__).parent;o=b/'summary-profiles-01';o.mkdir();(o/'tmp').mkdir();c=o/'consumer';c.mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch18-summary-landing');tools=Path('/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools');fixture=w/'porting/rust-parity-evidence/RR18b3a/fixtures/ownership-amplification.json';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();assert sha(fixture)=='9a1b3e8d49618aa27c6a553519441380ade9d9b93e9024dcccc118e5cce78e7c'
+m=c/'Cargo.toml';m.write_text(f'''[package]
+name="batch18-summary-consumer"
+version="0.0.0"
+edition="2024"
+[dependencies]
+syson-model={{path="{w}/rust/crates/syson-model"}}
+serde_json="=1.0.151"
+[[bin]]
+name="summary-probe"
+path="{tools}/summary_probe.rs"
+[workspace]
+''')
+files=[tools/'summary_probe.rs',fixture,m]+sorted(p for name in ['syson-model','syson-json-value','syson-domain','syson-metamodel'] for p in (w/'rust/crates'/name).rglob('*') if p.is_file());snap=lambda:{str(p):sha(p) for p in files};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());r={'status':'RUNNING','inputs_before':snap(),'commands':[],'samples':[]};lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);env=dict(os.environ,CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(o/'tmp'),PYTHONDONTWRITEBYTECODE='1');binary=Path(env['CARGO_TARGET_DIR'])/'release/summary-probe'
+commands=[(['cargo','generate-lockfile','--offline','--manifest-path',str(m)],None),(['cargo','build','--release','--offline','--locked','--jobs','1','--manifest-path',str(m),'--bin','summary-probe'],None)]
+for sample in range(9):
+ for mode in (['owned','borrowed'] if sample%2==0 else ['borrowed','owned']):commands.append(([str(binary),str(fixture),mode],{'mode':mode,'sample_index':sample,'phase':'warmup' if sample<2 else 'measured'}))
+try:
+ for i,(argv,sample) in enumerate(commands):
+  t=time.monotonic();p=subprocess.Popen(argv,cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:stdout,stderr=p.communicate(timeout=180);timed=False
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+  (o/f'{i:02}-stdout.txt').write_bytes(stdout);(o/f'{i:02}-stderr.txt').write_bytes(stderr);r['commands'].append({'argv':argv,'exit_code':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t});assert p.returncode==0 and not timed,(i,stderr[-1000:])
+  if sample:r['samples'].append(dict(sample,observation=json.loads(stdout)))
+  (o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps({'stage':i,'sample':sample,'exit':p.returncode}),flush=True)
+ assert len({x['observation']['sample']['checksum'] for x in r['samples']})==1
+ r['ranges']={}
+ for mode in ['owned','borrowed']:
+  rows=[x['observation']['sample'] for x in r['samples'] if x['mode']==mode and x['phase']=='measured'];assert len(rows)==7
+  r['ranges'][mode]={k:{'min':min(v[k] for v in rows),'median':statistics.median(v[k] for v in rows),'max':max(v[k] for v in rows)} for k in ['elapsed_ns','requested_bytes','largest_requested_bytes','retained_requested_live','peak_requested_live']}
+  r['ranges'][mode]['retained_rss_kib']={'min':min(v['memory_retained']['rss_kib'] for v in rows),'max':max(v['memory_retained']['rss_kib'] for v in rows)}
+ r['status']='PASS_NAMED_PUBLIC_API_PROFILE;NO_UI_NATIVE_OR_GENERAL_CAPACITY_CLAIM';r['binary_sha256']=sha(binary);(o/'executed-summary-probe').write_bytes(binary.read_bytes())
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];r['artifacts']={str(p.relative_to(o)):sha(p) for p in o.rglob('*') if p.is_file() and p.name!='receipt.json'};(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert r['source_unchanged']
+print(json.dumps(r.get('ranges'),indent=2))

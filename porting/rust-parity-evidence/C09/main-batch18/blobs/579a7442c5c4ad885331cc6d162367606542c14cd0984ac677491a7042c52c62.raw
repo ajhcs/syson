@@ -1,0 +1,31 @@
+from pathlib import Path
+import os,json,hashlib,subprocess,time,fcntl,signal
+b=Path(__file__).parent;o=b/'values-differential-02';o.mkdir();tmp=o/'tmp';tmp.mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch18-values-landing');tools=Path('/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools');consumer=o/'consumer';consumer.mkdir()
+manifest=consumer/'Cargo.toml';manifest.write_text(f'''[package]
+name="batch18-values-consumer"
+version="0.0.0"
+edition="2024"
+[dependencies]
+syson-ast-values={{path="{w}/rust/crates/syson-ast-values"}}
+serde_json="=1.0.151"
+[[bin]]
+name="values-dump"
+path="{tools}/values_dump.rs"
+[workspace]
+''');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+files=sorted(p for p in (w/'rust/crates/syson-ast-values').rglob('*') if p.is_file())+[tools/n for n in ['values_oracle.cjs','values_corpus.json','values_dump.rs','compare_values.py']]+[w/'backend/application/syson-sysml-import/src/main/resources/syside-cli.js',manifest,Path('/usr/bin/node')]
+snap=lambda:{str(p):sha(p) for p in files};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());r={'status':'RUNNING','inputs_before':snap(),'commands':[]};lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock','r');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+env=dict(os.environ,CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(tmp),PYTHONDONTWRITEBYTECODE='1')
+commands=[(['/usr/bin/node','--max-old-space-size=1536',str(tools/'values_oracle.cjs'),str(w/'backend/application/syson-sysml-import/src/main/resources/syside-cli.js'),str(tools/'values_corpus.json'),str(o/'native.json')],0),(['cargo','generate-lockfile','--offline','--manifest-path',str(manifest)],0),(['cargo','run','--release','--offline','--locked','--jobs','1','--manifest-path',str(manifest),'--bin','values-dump','--',str(tools/'values_corpus.json')],0),(['python3',str(tools/'compare_values.py'),'--corpus',str(tools/'values_corpus.json'),'--native',str(o/'native.json'),'--rust',str(o/'rust.json'),'--out',str(o/'comparison.json')],None)]
+try:
+ for i,(argv,expected) in enumerate(commands):
+  t=time.monotonic();p=subprocess.Popen(argv,cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:stdout,stderr=p.communicate(timeout=180);timed=False
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+  (o/f'{i:02}-stdout.txt').write_bytes(stdout);(o/f'{i:02}-stderr.txt').write_bytes(stderr)
+  if i==2:(o/'rust.json').write_bytes(stdout)
+  row={'argv':argv,'exit_code':p.returncode,'timed_out':timed,'wall_seconds':time.monotonic()-t};r['commands'].append(row);(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(row),flush=True)
+  if timed or (expected is not None and p.returncode!=expected):raise RuntimeError('Preserve failed attempt')
+ r['status']='PASS_SELECTED_DIFFERENTIAL' if r['commands'][-1]['exit_code']==0 else 'DIFFERENCES_RETAINED'
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];r['artifacts']={str(p.relative_to(o)):sha(p) for p in o.rglob('*') if p.is_file() and p.name!='receipt.json'};(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');assert r['source_unchanged']
