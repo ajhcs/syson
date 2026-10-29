@@ -5,7 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
-from completion_contract import read_contract, validate_bindings, validate_repair_splits, validate_layout_splits, validate_comparator_splits
+from completion_contract import read_contract, validate_bindings, validate_repair_splits, validate_layout_splits, validate_comparator_splits, validate_comparison_repairs
 
 def require(ok,message):
     if not ok:raise ValueError(message)
@@ -138,6 +138,7 @@ def self_test(plan,root):
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('repair_splits', {}).values()]
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('layout_kernel_splits', {}).values()]
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('tooling_comparator_splits', {}).values()]
+    amendment_paths += [policy['amendment']['path'] for policy in contract.get('comparison_repairs', {}).values()]
     for amendment_path in amendment_paths:
         rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
                 (b'\n' if name==amendment_path else b'')), 'amendment hash mismatch')
@@ -246,17 +247,20 @@ def self_test(plan,root):
         elif mutation == 'cases': policy['whole_parent_gates']['original_rr08_cases'].pop()
         elif mutation == 'exception': bad['legacy_prerequisite_budget_dispositions']['RR08'] = {}
         else: policy['production_lines_max'] = True
-        rejects(lambda:validate_repair_splits(bad), 'RR08 split')
+        # The new policy validates all old IDs before legacy split exclusions.
+        expected = ('C09 split repair original unit coverage' if mutation == 'unit' and
+                    contract.get('comparison_repairs') else 'RR08 split')
+        rejects(lambda:validate_repair_splits(bad), expected)
     return len(split_mutations) + len(contract_mutations)
 
 
 def layout_split_self_test(plan, root):
     """Refuse coherent layout split omissions, not merely stale input hashes."""
-    def rejects(action):
+    def rejects(action, expected='U10 split'):
         try:
             action()
         except ValueError as error:
-            require('U10 split' in str(error), 'Wrong layout rejection: ' + str(error))
+            require(expected in str(error), 'Wrong layout rejection: ' + str(error))
         else:
             raise AssertionError('U10 split mutation accepted')
     mutations = ['child-missing', 'source-order', 'parent-ready', 'parent-dependency',
@@ -317,7 +321,10 @@ def layout_split_self_test(plan, root):
         elif mutation == 'measurement-interface': policy['measurement_interface']['sha256'] = '0' * 64
         elif mutation == 'kernel-dependency': policy.pop('kernel_dependency_policy')
         else: policy['implementation_order'].reverse()
-        rejects(lambda: validate_layout_splits(bad))
+        # Missing old P01 is now rejected by the earlier shared inventory guard.
+        expected = ('C09 split repair original unit coverage' if mutation == 'old-unit' and
+                    contract.get('comparison_repairs') else 'U10 split')
+        rejects(lambda: validate_layout_splits(bad), expected)
     return len(mutations) + len(contract_mutations)
 
 
@@ -404,6 +411,72 @@ def comparator_split_self_test(plan, root):
     return len(mutations) + len(contract_mutations)
 
 
+def comparison_repair_self_test(plan, root):
+    """Reject coherent child/edge loss and changed partial-comparison requirements."""
+    contract = read_contract(root)
+    lane = json.loads((root / 'lanes/ui.json').read_text())
+
+    def rejects(action):
+        try:
+            action()
+        except ValueError as error:
+            require('C09 split repair' in str(error), 'Wrong repair rejection: ' + str(error))
+        else:
+            raise AssertionError('C09 split repair mutation accepted')
+
+    mutations = ['missing-child', 'child-source', 'parent-source', 'parent-acceptance',
+                 'child-scope', 'production-cap', 'authored-cap', 'original-control',
+                 'new-control', 'parent-task', 'public-api-task', 'counting', 'wiring']
+    for mutation in mutations:
+        bad, raw = copy.deepcopy(plan), copy.deepcopy(lane)
+        for records in [bad['units'], raw['units']]:
+            byid = {unit['id']: unit for unit in records}
+            first, second, parent = (byid[uid] for uid in ['C09b1', 'C09b2', 'C09b'])
+            if mutation == 'missing-child': records.remove(first)
+            elif mutation == 'child-source':
+                second['dependencies'] = second['implementation_ready_dependencies'] = []
+            elif mutation == 'parent-source':
+                parent['dependencies'].remove('C09b2')
+                parent['implementation_ready_dependencies'].remove('C09b2')
+            elif mutation == 'parent-acceptance': parent['acceptance_children'].remove('C09b1')
+            elif mutation == 'child-scope': second['paths'].append('rust/crates/syson-web/src/')
+            elif mutation == 'production-cap': first['budget']['production_lines_max'] = 401
+            elif mutation == 'authored-cap': second['budget']['authored_lines_max'] = 901
+            elif mutation == 'original-control': second['original_control_requirements'].pop()
+            elif mutation == 'new-control': second['additional_control_requirements'].pop()
+            elif mutation == 'parent-task': parent['tasks'].pop()
+            elif mutation == 'public-api-task': first['tasks'].pop(0)
+            elif mutation == 'counting': first['budget_counting'] = 'added_only'
+            else: second['coordinator_wiring'].append('rust/crates/syson-ast/src/lib.rs')
+        if mutation == 'child-source': bad['readiness_graph']['implementation:C09b2'] = []
+        elif mutation == 'parent-source':
+            bad['readiness_graph']['implementation:C09b'].remove('implementation:C09b2')
+        elif mutation == 'parent-acceptance':
+            bad['readiness_graph']['accepted:C09b'].remove('accepted:C09b1')
+        rejects(lambda: validate_comparison_repairs(contract, bad, raw))
+    contract_mutations = ['missing-policy', 'old-unit', 'cap-bool', 'authored-cap',
+                          'capture-pin', 'candidate', 'assignment', 'new-control',
+                          'child-seal', 'raw-parent', 'normalized-parent', 'readiness', 'field-policy']
+    for mutation in contract_mutations:
+        bad = copy.deepcopy(contract)
+        policy = bad['comparison_repairs']['C09b']
+        if mutation == 'missing-policy': bad.pop('comparison_repairs')
+        elif mutation == 'old-unit': bad['unit_ids'].remove('P01')
+        elif mutation == 'cap-bool': policy['production_lines_max'] = True
+        elif mutation == 'authored-cap': policy['authored_lines_max'] = 901
+        elif mutation == 'capture-pin': policy['capture_module']['sha256'] = '0' * 64
+        elif mutation == 'candidate': policy['candidate']['line_count'] = 399
+        elif mutation == 'assignment': policy['source_assignment']['C09b1'].pop()
+        elif mutation == 'new-control': policy['additional_controls'].pop()
+        elif mutation == 'child-seal': policy['child_raw_sha256']['C09b2'] = '0' * 64
+        elif mutation == 'raw-parent': policy['original_parent_sha256'] = '0' * 64
+        elif mutation == 'normalized-parent': policy['normalized_parent_sha256'] = '0' * 64
+        elif mutation == 'readiness': policy['readiness_policy'] = 'Require full feature acceptance'
+        else: policy['partial_field_policy'] = 'Ignore references when anything is unavailable'
+        rejects(lambda: validate_comparison_repairs(bad))
+    return len(mutations) + len(contract_mutations)
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--plan-dir',type=Path,default=Path(__file__).resolve().parent.parent);parser.add_argument('--check-completion',action='store_true');parser.add_argument('--self-test',action='store_true');args=parser.parse_args()
     root=args.plan_dir.resolve();plan=json.loads((root/'plan.json').read_text());result=validate(plan,root)
@@ -411,6 +484,7 @@ def main():
         result['rr08_split_refusal_controls'] = self_test(plan,root)
         result['layout_split_refusal_controls'] = layout_split_self_test(plan,root)
         result['comparator_split_refusal_controls'] = comparator_split_self_test(plan,root)
+        result['comparison_repair_refusal_controls'] = comparison_repair_self_test(plan,root)
         result['negative_gate_checks']='PASS'
     if args.check_completion:
         state=json.loads((root/'execution.json').read_text());errors=completion(plan,state,root.parents[1]);result.update(parity='OPEN' if errors else 'ACCEPTED',open_gate_count=len(errors),first_open_gates=errors[:8]);print(json.dumps(result,indent=2));return 2 if errors else 0

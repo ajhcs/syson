@@ -1,10 +1,10 @@
 # SysON feature parity in Rust: implementation and verification plan
 
-**Full SysON parity remains open.** The [remaining-work guide](REMAINING-WORK.md) states what remains, the next independent PRs, the dependency order and the evidence required to finish. The [784-entry task register](remaining-work/units.json) retains every adopted task and links to its detailed brief. These are review units, not a feature-completion percentage or a final PR count.
+**Full SysON parity remains open.** The [remaining-work guide](REMAINING-WORK.md) states what remains, the next independent PRs, the dependency order and the evidence required to finish. The [786-entry task register](remaining-work/units.json) retains every adopted task and links to its detailed brief. These are review units, not a feature-completion percentage or a final PR count.
 
-The current execution snapshot is **SYSON-RUST-REMAINING/2026-10-29.12**, based on GitHub main `3d2d7506177dffae954ec161436f03a694c20176`, under completion contract **1.0.4**. The [editorial checkpoint](remaining-work/editorial-freeze-20261029/status.json) distinguishes landed changes from local qualification and source drafts. Earlier batch narratives keep their historical status.
+The current execution snapshot is **SYSON-RUST-REMAINING/2026-10-29.13**, based on GitHub main `6d9b151671692b3b569179d73e290d9e6efa5ffe`, under completion contract **1.0.5**. The [new checkpoint](remaining-work/checkpoint-batch24/status.json) records landed #171/#172, rejected C09b preparation and locally qualified U10b. The [original .12 editorial checkpoint](remaining-work/editorial-freeze-20261029/status.json) and earlier narratives retain their historical attribution.
 
-The immediate independent work is U10a graph-admission publication and C09a capture-admission implementation. U10b placement follows landed U10a; C09b comparison follows landed C09a. The [next PR queue](rereview-batch23-next-prs.md) records their gates. Reference closure, consuming callers and application preparation proceed alongside them where their own prerequisites and ownership permit.
+U10a and C09a are landed. Next scopes are U10b publication/qualification and C09b1 partial-field comparison, followed by C09b2's complete control harness. The [next PR queue](rereview-batch24-next-prs.md) records their gates. Reference closure, consuming callers and application preparation proceed alongside them where their prerequisites and ownership permit.
 
 The next connected product milestone is create/import → edit → save → page reload → close/reopen → backend restart → fresh inspection, preserving model and representation state without manual JSON reimport. Completing that milestone still leaves the remaining semantic, language, view, interoperability, usability, capacity and release obligations.
 
@@ -486,4 +486,8 @@ The reviewed [U10 split](amendments/1.0.3-layout-kernel-split.md) adds [U10a](pr
 
 ## Comparison prerequisite amendment 1.0.4
 
-The [C09 split](amendments/1.0.4-comment-comparison-split.md) separates [C09a capture admission](prs/C09a.md) from [C09b selected comparison](prs/C09b.md). It preserves all 35 prototype controls and all earlier runtime/native/UI/teardown obligations. The [current queue](rereview-batch23-next-prs.md) schedules these finite tools alongside layout prerequisites and actual-main UI reconciliation. The 784-unit inventory is a review schedule, not a feature percentage. Full parity remains open.
+The [C09 split](amendments/1.0.4-comment-comparison-split.md) separated [C09a capture admission](prs/C09a.md) from [C09b selected comparison](prs/C09b.md). It preserves all 35 prototype controls and all earlier runtime/native/UI/teardown obligations. The [historical batch23 queue](rereview-batch23-next-prs.md) records that schedule. Its 784-unit inventory was a review schedule, not a feature percentage. Full parity remains open.
+
+## Comparison repair amendment 1.0.5
+
+The [new split](amendments/1.0.5-partial-comparison-split.md) retains every C09b obligation and adds [C09b1](prs/C09b1.md) raw-input comparison, then [C09b2](prs/C09b2.md) pinned CLI/control composition. Actual probes rejected the earlier 400-line candidate: missing fields hid available contradictions and its root control corrupted shared positions. Preserve those failures. All 35 original plus ten additional controls, ordinary 400/900 caps and original parent/native/UI/runtime gates remain required. The 786 units describe review scope; they do not establish feature closure.
