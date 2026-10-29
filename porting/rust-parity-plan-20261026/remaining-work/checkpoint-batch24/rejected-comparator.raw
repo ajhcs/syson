@@ -1,0 +1,400 @@
+"""Compare pinned P01 captures through the landed C09a admission API.
+
+Compare full AST type census, ordered selected names/origins and raw references.
+Diagnostics and unavailable data remain OPEN. Full fields/caches, reference
+getters/targets, lifecycle, native artifacts, importer and UI remain unqualified.
+Factored from unexecuted prototype 56e59184a7190cc6beffc7f5e413e4fbff9ff9b965f02740b976accce931ec5f.
+"""
+import argparse
+from collections import Counter
+import copy
+import hashlib
+from types import ModuleType
+import json
+from pathlib import Path
+import re
+import tempfile
+
+CAPTURE_SHA256 = '57c141ae620d103b1fe6104286cb887a62ec8dcccaf45ed34fc6baf64985a88c'
+
+
+def require(ok, message):
+    if not ok:
+        raise ValueError(message)
+
+
+def load_capture(path):
+    raw = path.read_bytes()
+    require(hashlib.sha256(raw).hexdigest() == CAPTURE_SHA256, 'capture admission source hash mismatch')
+    module = ModuleType('p01_pinned_capture')
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), 'exec'), module.__dict__)
+    return module
+
+
+def native_projection(case, tables, capture):
+    source = case['source']
+    objects, cst, fields, root = tables
+    open_items, selected, origins, references = [], [], [], []
+
+    def origin(obj):
+        ref = fields[obj['id']].get('$cstNode')
+        if type(ref) is not dict or set(ref) != {'$cst'}:
+            open_items.append('native AST CST unavailable: ' + obj['id'])
+            return None
+        return capture.native_span(source, cst[ref['$cst']]['span'])
+
+    def array(value):
+        if type(value) is not dict or set(value) != {'$object'}:
+            return None
+        obj = objects[value['$object']]
+        if obj['kind'] != 'array':
+            return None
+        data = fields[obj['id']]
+        length = data.get('length')
+        require(type(length) is int and length >= 0 and
+                set(data) == {'length'} | {str(i) for i in range(length)}, 'native array inventory')
+        return [data[str(i)] for i in range(length)]
+
+    for obj in objects.values():
+        if obj['kind'] != 'ast':
+            continue
+        values = fields[obj['id']]
+        if obj['node_type'] in capture.SELECTED:
+            name = values.get('declaredName')
+            require(name is None or type(name) is str, 'native selected name schema')
+            node_origin = origin(obj)
+            candidates = []
+            if name is not None and node_origin is not None:
+                for node in cst.values():
+                    span = node['span']
+                    if ('_tokenType' in capture.props(node) and not span['hidden'] and span['text'] == name and
+                            node_origin['utf16'][0] <= span['offset'] <= span['end'] <= node_origin['utf16'][1]):
+                        candidates.append(capture.native_span(source, span))
+            name_origin = min(candidates, key=lambda value: value['utf16']) if candidates else None
+            if name is not None and name_origin is None:
+                open_items.append('native selected name CST unavailable: ' + obj['id'])
+            selected.append({'type': obj['node_type'], 'name_units': capture.units(name) if name is not None else None,
+                             'name_origin': name_origin})
+            if obj['id'] != root['id']:
+                origins.append({'type': obj['node_type'], 'origin': node_origin})
+        if obj['node_type'] == 'TypeReference':
+            parts = array(values.get('parts'))
+            row = {'origin': origin(obj), 'parts': []}
+            if parts is None or row['origin'] is None:
+                open_items.append('native TypeReference parts/origin unavailable: ' + obj['id'])
+                references = None
+                continue
+            for part in parts:
+                ref = objects[part['$object']] if type(part) is dict and set(part) == {'$object'} else None
+                data = fields[ref['id']] if ref is not None else {}
+                raw, span_ref = data.get('$refText'), data.get('$refNode')
+                if (ref is None or ref['kind'] != 'reference' or type(raw) is not str or
+                        type(span_ref) is not dict or set(span_ref) != {'$cst'}):
+                    open_items.append('native reference text/CST unavailable: ' + obj['id'])
+                    references = None
+                    break
+                row['parts'].append({'text_units': capture.units(raw),
+                                     'origin': capture.native_span(source, cst[span_ref['$cst']]['span'])})
+            if references is not None:
+                references.append(row)
+    projection = {'selected': selected, 'selected_node_origins': origins,
+                  'root_origin': origin(root),
+                  'ast_type_census': dict(sorted(Counter(o['node_type'] for o in objects.values()
+                                                       if o['kind'] == 'ast').items())),
+                  'references': references}
+    return projection, open_items, [obj for obj in objects.values() if obj['kind'] == 'reference']
+
+
+def rust_projection(case, capture):
+    arena = case['outcome']
+    nodes = {node['id']: node for node in arena['nodes']}
+    selected, origins, references, incoming = [], [], [], {ident: [] for ident in nodes}
+
+    def datum(value, owner, field, index=None):
+        item = value['value']
+        if item['kind'] == 'node':
+            incoming[item['id']].append({'node': owner, 'property': field, 'index': index})
+        elif item['kind'] == 'array':
+            for position, child in enumerate(item['items']):
+                datum(child, owner, field, position)
+
+    for node in nodes.values():
+        for name, field in node['fields'].items():
+            datum(field, node['id'], name)
+    for ident, node in nodes.items():
+        require((node['container'] is None and not incoming[ident]) if ident == arena['root']
+                else incoming[ident] == [node['container']], 'Rust finite ownership/containment mismatch')
+    pending, reached = [arena['root']], set()
+    children = {ident: [] for ident in nodes}
+    for ident, owners in incoming.items():
+        for owner in owners:
+            children[owner['node']].append(ident)
+    while pending:
+        ident = pending.pop()
+        require(ident not in reached, 'Rust finite ownership cycle/alias')
+        reached.add(ident)
+        pending.extend(children[ident])
+    require(reached == set(nodes), 'Rust finite unreachable node')
+    for node in nodes.values():
+        if node['node_type'] in capture.SELECTED:
+            field = node['fields'].get('declaredName')
+            require(field is None or field['value']['kind'] == 'string', 'Rust selected name schema')
+            selected.append({'type': node['node_type'], 'name_units': field['value']['units'] if field else None,
+                             'name_origin': field['lexeme'] if field else None})
+            if node['id'] != arena['root']:
+                origins.append({'type': node['node_type'], 'origin': node['origin']})
+        if node['node_type'] == 'TypeReference':
+            field = node['fields'].get('parts')
+            require(field is not None and field['value']['kind'] == 'array', 'Rust TypeReference parts schema')
+            row = {'origin': node['origin'], 'parts': []}
+            for part in field['value']['items']:
+                require(part['value']['kind'] == 'unresolved_reference' and part['lexeme'] is not None,
+                        'Rust raw reference/source lexeme unavailable')
+                row['parts'].append({'text_units': capture.units(part['value']['text']), 'origin': part['lexeme']})
+            references.append(row)
+    return {'selected': selected, 'selected_node_origins': origins, 'root_origin': nodes[arena['root']]['origin'],
+            'ast_type_census': dict(sorted(Counter(n['node_type'] for n in nodes.values()).items())),
+            'references': references}, [n for n in nodes.values() if n['node_type'] == 'TypeReference']
+
+
+def parse_error(source, value):
+    unsupported = re.fullmatch(r'Unsupported \{ offset: ([0-9]+) \}', value)
+    malformed = re.fullmatch(r'Malformed \{ offset: ([0-9]+), expected: ("(?:[^"\\]|\\.)*") \}', value)
+    if unsupported or malformed:
+        match = unsupported or malformed
+        offset = int(match[1])
+        require(offset <= len(source.encode()), 'Rust error offset outside source')
+        source.encode()[:offset].decode()
+        return ('Unsupported' if unsupported else 'Malformed', offset,
+                json.loads(malformed[2]) if malformed else None)
+    require(value in {'Limit', 'Cancelled', 'InvalidLimits', 'Metadata', 'Conversion'},
+            'malformed or unrecognized Rust error payload')
+    return (value, None, None)
+
+
+def compare(context, capture):
+    """Project a freshly admitted context; changed inputs must be readmitted."""
+    native, rust = context['native'], context['rust']
+    report = []
+    for n, r in zip(native['cases'], rust['cases']):
+        cid, source = n['id'], n['source']
+        np, unavailable, refs = native_projection(n, context['native_tables'][cid], capture)
+        if cid == 'quoted-error-offset':
+            unavailable.append('Pinned native recovery columns lag by one at UTF-16 offsets 17, 18, 32; coordinate parity remains OPEN')
+        outcome = r['outcome']
+        row = {'id': cid, 'native_lexer_errors': n['lexer_errors'], 'native_parser_errors': n['parser_errors'],
+               'native_references_raw': refs, 'native_projection': np, 'differences': [], 'open_items': unavailable}
+        recovery = bool(n['lexer_errors'] or n['parser_errors'])
+        if outcome['kind'] == 'arena':
+            rp, raw_refs = rust_projection(r, capture)
+            row.update(rust_projection=rp, rust_references_raw=raw_refs)
+            for key in np:
+                if np[key] is None:
+                    continue
+                if key in {'selected', 'selected_node_origins'} and unavailable:
+                    # Keep comparable members even when another native origin is unavailable.
+                    left, right = np[key], rp[key]
+                    if len(left) != len(right) or any(
+                        any(value is not None and value != right[i].get(name) for name, value in item.items())
+                        for i, item in enumerate(left) if i < len(right)
+                    ):
+                        row['differences'].append(key)
+                elif np[key] != rp[key]:
+                    row['differences'].append(key)
+            if refs or raw_refs:
+                row['open_items'].append('Reference target types, getters and lifecycle are not qualified by raw text/CST projection')
+            if recovery:
+                row['differences'].append('Rust_published_native_recovered_input')
+        else:
+            parsed = parse_error(source, outcome['error'])
+            row['rust_error'] = outcome['error']
+            if not recovery and capture.RESTRICTIONS.get(cid) == parsed:
+                row['open_reason'] = 'P01 explicit semantic-comment/multiline-note restriction'
+            elif recovery and capture.RECOVERIES.get(cid) == parsed:
+                row['open_reason'] = 'Native recovered diagnostics; exact known Rust finite refusal'
+            else:
+                row['differences'].append('unexpected_Rust_refusal')
+        row['status'] = 'DIVERGED' if row['differences'] else 'OPEN' if row.get('open_reason') or row['open_items'] else 'COMPATIBLE_SELECTED_PROJECTION'
+        report.append(row)
+    return {'schema': 1, 'scope': __doc__, 'cases': report,
+            'difference_count': sum(len(row['differences']) for row in report),
+            'divergent_cases': sum(row['status'] == 'DIVERGED' for row in report),
+            'full_parity_claimed': False}
+
+
+def self_test(context, capture, blobs, constructor_path, temporary_root):
+    corpus, native, rust, receipt = (context[name] for name in ['corpus', 'native', 'rust', 'receipt'])
+
+    def readmit(c, n, r, receipt):
+        raw = [blobs['corpus'] if c == corpus else json.dumps(c).encode()]
+        raw.extend(json.dumps(doc).encode() for doc in [n, r, receipt])
+        return compare(capture.admit(*raw, constructor_path), capture)
+
+    baseline = compare(context, capture)
+    cid = next(row['id'] for row in baseline['cases'] if not row['differences'] and
+               any(obj.get('node_type') == 'Package' for obj in
+                   next(c for c in native['cases'] if c['id'] == row['id'])['tree']['objects']))
+    mutations = [
+        'native-type', 'native-root', 'native-name', 'Rust-root', 'Rust-name', 'Rust-source',
+        'duplicate', 'missing', 'schema', 'bool-root', 'missing-node-origin', 'missing-Datum-lexeme',
+        'unknown-node', 'native-missing-data-value', 'native-descriptor-flag', 'missing-CST',
+        'dangling-object', 'remove-TypeReference', 'remove-FeatureTyping', 'selected-origin',
+        'nonselected-origin', 'bad-default-lexeme', 'reference-text', 'reference-span',
+        'coherent-truncation', 'coherent-reorder', 'wrong-bundle', 'wrong-prefix',
+        'fake-comment-interior-refusal', 'truncated-Malformed', 'missing-native-reference-info',
+    ]
+    malformed = {'Rust-source', 'duplicate', 'missing', 'schema', 'bool-root', 'missing-node-origin',
+                 'missing-Datum-lexeme', 'native-missing-data-value', 'native-descriptor-flag',
+                 'missing-CST', 'dangling-object', 'nonselected-origin', 'bad-default-lexeme',
+                 'coherent-truncation', 'coherent-reorder', 'wrong-bundle', 'wrong-prefix', 'truncated-Malformed'}
+    for mutation in mutations:
+        c, n, r = copy.deepcopy(corpus), copy.deepcopy(native), copy.deepcopy(rust)
+        nc = next(case for case in n['cases'] if case['id'] == cid)
+        rc = next(case for case in r['cases'] if case['id'] == cid)
+        named = next(obj for obj in nc['tree']['objects'] if obj.get('node_type') == 'Package')
+        rn = next(node for node in rc['outcome']['nodes'] if node['node_type'] == 'Package')
+        reference = next(node for node in rc['outcome']['nodes'] if node['node_type'] == 'TypeReference')
+        default = next(iter(rn['fields'].values()))
+        if mutation == 'native-type':
+            named['node_type'] = 'PartUsage'
+            next(p for p in named['properties'] if p['key'] == '$type')['value'] = 'PartUsage'
+        elif mutation == 'native-root':
+            obj = next(o for o in nc['tree']['objects'] if o['id'] == nc['tree']['root']['$object'])
+            ref = next(p for p in obj['properties'] if p['key'] == '$cstNode')['value']['$cst']
+            span = next(node for node in nc['tree']['cst'] if node['id'] == ref)['span']
+            span.update(offset=0, end=0, length=0, text='')
+            records = {obj['id']: obj for obj in nc['tree']['objects']}
+            for point in capture.props(records[span['range']['$object']]).values():
+                for field in records[point['$object']]['properties']:
+                    field['value'] = 0
+        elif mutation == 'native-name':
+            next(p for p in named['properties'] if p['key'] == 'declaredName')['value'] += '_changed'
+        elif mutation == 'Rust-root':
+            next(node for node in rc['outcome']['nodes'] if node['id'] == rc['outcome']['root'])['origin'] = {'bytes': [0, 0], 'utf16': [0, 0], 'text': ''}
+        elif mutation == 'Rust-name': rn['fields']['declaredName']['value']['units'] += [88]
+        elif mutation == 'Rust-source': rc['source'] += ' changed'
+        elif mutation == 'duplicate': r['cases'].append(copy.deepcopy(rc))
+        elif mutation == 'missing': r['cases'].pop()
+        elif mutation == 'schema': r['schema'] = 2
+        elif mutation == 'bool-root': rc['outcome']['root'] = False
+        elif mutation == 'missing-node-origin': reference.pop('origin')
+        elif mutation == 'missing-Datum-lexeme': default.pop('lexeme')
+        elif mutation == 'unknown-node': reference['node_type'] = 'UnknownAstType'
+        elif mutation == 'native-missing-data-value': named['properties'][0].pop('value')
+        elif mutation == 'native-descriptor-flag': named['properties'][0]['descriptor']['writable'] = 1
+        elif mutation == 'missing-CST':
+            ident = next(p for p in named['properties'] if p['key'] == '$cstNode')['value']['$cst']
+            nc['tree']['cst'] = [node for node in nc['tree']['cst'] if node['id'] != ident]
+        elif mutation == 'dangling-object': nc['tree']['objects'].remove(named)
+        elif mutation in {'remove-TypeReference', 'remove-FeatureTyping'}:
+            removed = {reference['id']}
+            typing = next(node for node in rc['outcome']['nodes'] if node['node_type'] == 'FeatureTyping')
+            if mutation == 'remove-TypeReference':
+                typing['fields'].pop('targetRef')
+            else:
+                removed.add(typing['id'])
+                owner = next(node for node in rc['outcome']['nodes'] if node['id'] == typing['container']['node'])
+                owner['fields']['heritage']['value']['items'] = []
+            rc['outcome']['nodes'] = [node for node in rc['outcome']['nodes'] if node['id'] not in removed]
+        elif mutation == 'selected-origin': rn['origin'] = {'bytes': [0, 0], 'utf16': [0, 0], 'text': ''}
+        elif mutation == 'nonselected-origin': reference['origin']['text'] += 'wrong'
+        elif mutation == 'bad-default-lexeme': default['lexeme'] = {'bytes': [0, 0], 'utf16': [0, 0], 'text': 'wrong'}
+        elif mutation == 'reference-text': reference['fields']['parts']['value']['items'][0]['value']['text'] += '_changed'
+        elif mutation == 'reference-span': reference['fields']['parts']['value']['items'][0]['lexeme'] = {'bytes': [0, 0], 'utf16': [0, 0], 'text': ''}
+        elif mutation == 'coherent-truncation':
+            for doc in [c, n, r]: doc['cases'].pop()
+            n['provenance']['corpus_cases'] -= 1
+        elif mutation == 'coherent-reorder':
+            for doc in [c, n, r]: doc['cases'].reverse()
+        elif mutation == 'wrong-bundle': n['provenance']['bundle_sha256'] = '0' * 64
+        elif mutation == 'wrong-prefix': n['provenance']['evaluated_prefix_sha256'] = '0' * 64
+        elif mutation == 'fake-comment-interior-refusal':
+            rc = next(case for case in r['cases'] if case['id'] == '04-comment-only-EOF')
+            rc['outcome'] = {'kind': 'rust_error', 'error': 'Unsupported { offset: ' + str(rc['source'].encode().index(b'/*')) + ' }'}
+        elif mutation == 'truncated-Malformed':
+            rc = next(case for case in r['cases'] if case['id'] == '09-commented-closing-brace')
+            rc['outcome']['error'] = 'Malformed { offset: 21'
+        else:
+            obj = next(obj for obj in nc['tree']['objects'] if obj['kind'] == 'reference')
+            obj['properties'] = [p for p in obj['properties'] if p['key'] != '$refNode']
+            obj['property_keys'].remove('$refNode')
+        try:
+            result = readmit(c, n, r, receipt)
+        except (ValueError, KeyError, TypeError, UnicodeError):
+            require(mutation in malformed, 'wrong mutation rejection: ' + mutation)
+        else:
+            if mutation == 'missing-native-reference-info':
+                require(next(row for row in result['cases'] if row['id'] == cid)['status'] == 'OPEN',
+                        'missing native information was silently accepted')
+            elif mutation == 'fake-comment-interior-refusal':
+                changed = next(row for row in result['cases'] if row['id'] == '04-comment-only-EOF')
+                require(changed['status'] == 'DIVERGED' and 'unexpected_Rust_refusal' in changed['differences'],
+                        'interior comment marker incorrectly justified a refusal')
+            else:
+                require(mutation not in malformed and result['difference_count'] > baseline['difference_count'],
+                        'undetected mutation: ' + mutation)
+    for mutation in ['receipt-kernel', 'receipt-corpus', 'receipt-timeout']:
+        changed = copy.deepcopy(receipt)
+        if mutation == 'receipt-kernel':
+            for name in ['inputs_before', 'prepared_inputs_before', 'inputs_after']:
+                for path in changed[name]:
+                    if path.endswith('/rust/crates/syson-ast/src/lib.rs'): changed[name][path] = '0' * 64
+        elif mutation == 'receipt-corpus':
+            command = next(c for c in changed['commands'] if c.get('label') == 'rust-comments')
+            command['argv'][-1] = '/unbound/corpus.json'
+        else:
+            next(c for c in changed['commands'] if c.get('label') == 'rust-comments')['timed_out'] = True
+        try:
+            readmit(corpus, native, rust, changed)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError('undetected ' + mutation)
+    with tempfile.TemporaryDirectory(dir=temporary_root) as directory:
+        untrusted = Path(directory) / 'untrusted.py'
+        untrusted.write_text('raise RuntimeError("UNVERIFIED_MODULE_EXECUTED")\n')
+        try:
+            capture.load_constructor(untrusted)
+        except ValueError as error:
+            require('constructor comparator source hash mismatch' in str(error),
+                    'constructor control failed before proving source binding')
+        else:
+            raise AssertionError('unverified comparator import admitted')
+    return {'count': len(mutations) + 4, 'cases': mutations +
+            ['receipt-kernel', 'receipt-corpus', 'receipt-timeout', 'constructor-source-hash']}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in ['corpus', 'native', 'rust', 'constructor-comparator', 'rust-receipt']:
+        parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--self-test', action='store_true')
+    args = parser.parse_args()
+    try:
+        capture_path = Path(__file__).resolve().with_name('capture_p01.py')
+        capture = load_capture(capture_path)
+        names = ['corpus', 'native', 'rust', 'rust-receipt']
+        blobs = {name: getattr(args, name.replace('-', '_')).read_bytes() for name in names}
+        context = capture.admit(*(blobs[name] for name in names), args.constructor_comparator)
+        result = compare(context, capture)
+        result['native_provenance'] = context['native']['provenance']
+        result['qualification_binding'] = context['qualification_binding']
+        result['inputs'] = {name: {'path': str(getattr(args, name.replace('-', '_'))),
+                                  'sha256': capture.digest(raw)} for name, raw in blobs.items()}
+        result['inputs']['constructor-comparator'] = context['constructor_comparator']
+        result['inputs']['capture-module'] = {'path': str(capture_path), 'sha256': CAPTURE_SHA256}
+        if args.self_test:
+            temporary_root = args.rust_receipt.resolve().parent
+            require(temporary_root.is_relative_to('/workspace'), 'controls require Samsung workspace')
+            result['negative_controls'] = self_test(context, capture, blobs,
+                                                    args.constructor_comparator, temporary_root)
+        print(json.dumps(result, ensure_ascii=True, sort_keys=True, indent=2))
+        return 1 if result['difference_count'] else 0
+    except (OSError, ValueError, KeyError, TypeError, UnicodeError, RecursionError) as error:
+        print(json.dumps({'schema': 1, 'status': 'MALFORMED_CAPTURE', 'error': str(error)}))
+        return 2
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
