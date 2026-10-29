@@ -141,7 +141,7 @@ pub fn layout_package_leaf(input: LeafLayout) -> Size {
         input.default_width.unwrap_or(75.0)
     };
     let min_height = js_max(
-        16.0 + input.measured_label_height.unwrap_or(0.0),
+        (8.0 + input.measured_label_height.unwrap_or(0.0)) + 8.0,
         if input.resized_by_user {
             50.0
         } else {
