@@ -348,7 +348,7 @@ impl Adapter {
         let root = Declaration {
             kind: "Namespace",
             start: 0,
-            end: source.len(),
+            end: if children.is_empty() { 0 } else { source.len() },
             name: None,
             children,
             typing: Vec::new(),
