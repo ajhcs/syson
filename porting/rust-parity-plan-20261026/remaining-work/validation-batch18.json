@@ -1,0 +1,96 @@
+{
+  "scope": "Final planning/documentation integrity only; no behavioral feature acceptance",
+  "base": "08d0fa3a94e42c198a4b1482e63c50f28d0f1ace",
+  "unchanged_task_rows": 778,
+  "unchanged_historical_unit_objects": 55,
+  "unchanged_normative_inputs": 21,
+  "prior_batch17_integration_preserved_intact": true,
+  "snapshot_lock_sha256": "f6ed7eda33c9be5afc486acadd87a4bfbc04f44be51a04035226d049fce0d5b7",
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+        "--self-test"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout_sha256": "d4835843d4173c65a8b2ac1c70ff7146b9490b0683681d01262ae63e60e88d3d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test",
+        "--check-completion"
+      ],
+      "exit": 2,
+      "expected_exit": 2,
+      "stdout_sha256": "1020b81753965c92ccd7104d2b7fed579f9ccce6fd37ddf2e9fc80f2d81ce118",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "snapshot": {
+    "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+    "snapshot_id": "SYSON-RUST-REMAINING/2026-10-29.6",
+    "unit_count": 778,
+    "locked_inputs": 820,
+    "primary_family_counts": {
+      "interchange": 23,
+      "services": 12,
+      "projects": 9,
+      "views": 76,
+      "rust_delivery": 5,
+      "verification": 5,
+      "reference": 12,
+      "landing": 4,
+      "final_acceptance": 1,
+      "model": 399,
+      "language": 184,
+      "repairs": 45,
+      "usability_capacity": 3
+    },
+    "feature_acceptance_counts": {
+      "NOT_ACCEPTED": 55,
+      "OPEN_NO_ACCEPTANCE_RECORD": 723
+    },
+    "full_parity_claimed": false,
+    "negative_controls": "PASS_7_REFUSAL_CASES"
+  },
+  "plan": {
+    "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+    "units": 778,
+    "source_graph_acyclic": true,
+    "readiness_graph_nodes": 1556,
+    "readiness_graph_acyclic": true,
+    "unordered_write_conflicts": 0,
+    "all_14_original_remaining_briefs_mapped": true,
+    "source_assignment_counts_verified": true,
+    "negative_gate_checks": "PASS",
+    "parity": "OPEN",
+    "open_gate_count": 779,
+    "first_open_gates": [
+      "Pinned runtime/source obligation closure remains open",
+      "Not feature-accepted: B01",
+      "Not feature-accepted: B02",
+      "Not feature-accepted: B03",
+      "Not feature-accepted: B04",
+      "Not feature-accepted: B05",
+      "Not feature-accepted: B06",
+      "Not feature-accepted: B07"
+    ]
+  },
+  "result": "PASS_DOCUMENTATION_INTEGRITY;FULL_PARITY_OPEN"
+}
