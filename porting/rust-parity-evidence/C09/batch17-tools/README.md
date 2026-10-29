@@ -1,0 +1,13 @@
+# Selected native/Rust development comparisons
+
+These tools prepare bounded evidence under C09. They are excluded from the production application and do not complete C09, C01 or the compared user features. The coordinator serializes compilation and runtime use on owned Samsung workspace paths.
+
+`reflection_oracle.cjs` verifies the pinned Syside bundle and original embedded modules, evaluates its exact prefix before the CLI entry, then calls original reflection methods. The VM is not a security sandbox: it receives actual process/builtin objects and is suitable only for those trusted pinned bytes. Record the actual Node/V8; agreement under local Node 18 does not establish the configured native Node 20 deployment. `reflection_dump.rs` uses actual public Rust APIs; `compare.py reflection` retains ordering and typed values, with divergent negative controls. Unknown-name and malformed-position domains remain separately recorded differences.
+
+`ReferenceObserver.java` uses the native library ResourceSet and actual JSONResourceFactory, loads the pinned Batmobile fixture, then resolves its real type properties with eGet. The original setup attempt lacked the global extension factory and is preserved as a failure. `reference_fixture.rs` uses the public Rust registry on the same files. The comparator maps only the explicitly supplied local caller key; external URIs and node/semantic identities remain exact. Native aliases and resource diagnostics are retained, not normalized into clean-load or full-URI claims.
+
+`reference_probe.rs` measures document cloning plus registry construction, and separately 192 public resolution/target calls on fixed 256/1024/4096-node fixtures. `run_consumers.py` uses two warmups and seven fresh processes per ramp. Requested allocation counters, peak live requested bytes and Linux RSS are distinct; setup is outside API timers. These are synthetic workloads, not a universal capacity bound, exact copy count, cancellation guarantee, UI latency or native speed comparison.
+
+Native/artifact correspondence, actual finite-import and UI/save/reopen callers, general URI support and final acceptance remain open. Keep original failed attempts, raw streams, process outcomes, tool/input hashes and compiled artifacts with each evidence packet. Formatting-only Python changes are AST-equivalent to their archived executed recipes; the original bytes remain archived.
+
+A retained checker counterexample shows Python boolean/number equality could hide a type difference. Recursive type-sensitive comparison and boolean-to-number negative controls now reject it. Native aliases, 12,189 diagnostics and the restored/version-bound fixture manifest remain explicit evidence limits.
