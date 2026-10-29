@@ -1,0 +1,106 @@
+# C01 dependency acquisition and exact-target build boundaries
+
+This is a source-only proposal for root and independent review, not execution admission. No Maven/npm/version command, authentication probe, download, hook, build, server or database was run to prepare it. First qualify the retained tool versions and their complete file inventories; then admit each phase below separately under the original resource, source, secret and ownership gates.
+
+The source is `/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01`, commit `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`. Root's 3552-entry source manifest is `c01-build-admission/target-source-manifest.json`, SHA256 `fcc77f183757e948ea7c74da799cf80358b44152524bddb36b32c98792ec9088`. No tracked `mvnw` or `.mvn` paths exist. Use qualified portable Maven 3.9.16, not a wrapper download. The original 487-line proposal remains normative: `/workspace/build/builderbob/syson-batch22-20261029/c01-build-admission/proposal.json`, SHA256 `fe59578617ea153e8fce8689c8c3612d1e098efc03bdd30d6f1cfab79814dc46`.
+
+The following aliases name proposed paths; root must freeze actual argv, settings/config hashes, environments and fresh destinations before execution:
+
+```bash
+C01_SOURCE=/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01
+C01_STAGE=/workspace/build/builderbob/syson-batch22-20261029/c01-dependencies-01
+C01_JDK=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-01/tools/jdk-21.0.12.1+1
+C01_NODE=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-02/tools/node-v24.20.0-linux-x64/bin/node
+C01_NPM=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-02/tools/node-v24.20.0-linux-x64/lib/node_modules/npm/bin/npm-cli.js
+C01_MVN=/workspace/build/builderbob/syson-batch22-20261029/c01-native-build-02/tools/apache-maven-3.9.16/bin/mvn
+```
+
+1. Freeze dependency sources and credential boundaries before acquisition.
+
+The root lockfile is version 3 and has 645 package records: 616 resolved tarballs from `registry.npmjs.org`, 24 from `npm.pkg.github.com`, and five root/workspace/link records. Every HTTPS-resolved package has an integrity field. The 24 GitHub packages comprise 22 `@eclipse-sirius` packages at 2026.9.3 and `@ObeoNetwork/gantt-task-react` 0.6.6 / `react-trello` 2.4.11. Source `.npmrc` routes those scopes to their GitHub registries and retains strict lifecycle allowlisting, `dangerously-allow-all-scripts=false` and `allow-git=none`. Root workspace installation covers `frontend/*`; standalone Playwright/Cypress/doc packages are outside this phase.
+
+The 36 POMs select Spring Boot parent 4.1.1, Sirius Web 2026.9.3 and `org.eclipse.sirius:org.eclipse.sirius.emfjson:2.5.5-SNAPSHOT`. Root POM repositories are `Central`→`https://repo.maven.apache.org/maven2`, `github-sirius-web`→`https://maven.pkg.github.com/eclipse-sirius/sirius-web`, and `github-sirius-emfjson`→`https://maven.pkg.github.com/eclipse-sirius/sirius-emf-json`. Source `settings.xml` activates profile `github`, adds `central`→`https://repo1.maven.org/maven2` and `github`→`https://maven.pkg.github.com/eclipse-syson/syson`, with server IDs matching its three GitHub repositories. The root Dash plugin repository is `https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/`; its license plugin is in optional profile `verify-iplog`, not a default build requirement. No Sonar/Dash profile is proposed.
+
+CI supplies GitHub credentials for npm and Maven; source settings reference environment USERNAME/PASSWORD. This establishes the intended credential mechanism, not missing local entitlement or a failed anonymous request. No access test or credential search was performed. Root should use an existing authorized packages-read entitlement through task-private mode 0600 npm/Maven settings, never modify tracked `.npmrc`, print tokens, copy a credential directory or put auth in argv. A real 401/403/missing entitlement would identify a precise acquisition blocker; none has been observed here.
+
+2. Acquire frontend packages without lifecycle scripts, then stop.
+
+In `C01_SOURCE`, with a fresh allowlisted acquisition environment and task-private cache/configs:
+
+```bash
+"$C01_NODE" "$C01_NPM" ci --ignore-scripts --include=dev --audit=false --fund=false \
+  --cache "$C01_STAGE/cache/npm" \
+  --userconfig "$C01_STAGE/private/npm-acquire.rc" \
+  --globalconfig "$C01_STAGE/config/npm-global-empty.rc"
+```
+
+Capture lock integrity results, actual installed package/version/platform inventory, config hashes and raw streams; preserve exact package/lock/.npmrc/source hashes. Preserve optional/platform omissions explicitly. Do not resolve a new lock, self-update npm, install globally, enable Git dependencies or run `npm rebuild` broadly. Network scope is lock-selected npmjs/GitHub registry requests and reviewed redirects only, with the original 8GiB dependency-transfer/20GiB task disk caps and 1200s acquisition timeout; exact enforcement must be reviewed in the execution runner.
+
+The lock marks only `core-js-pure@3.50.0`, `esbuild@0.28.2` and optional Darwin `fsevents@2.3.3` as installation-script packages. After acquisition, inspect their actual installed package.json scripts and every invoked JS/native binary before admitting any hook. Bind the Linux x64 esbuild optional binary and integrity; its install script may perform version checks/download fallback, so root must inspect and constrain that path. Linux fsevents should be absent; record actual disposition. Source allowlisting does not itself authorize running a hook, and unnecessary banner hooks need not be executed to compile the application.
+
+3. Resolve Maven models/plugins separately from lifecycle execution.
+
+Create `private/maven-acquire.xml` with source-equivalent effective repository/profile IDs and reviewed existing credentials, plus an empty public global-settings file. Use a fresh local repository. Maven Help 3.5.1 and Dependency 3.11.0 are proposed bootstrap plugins from the original proposal; root must pin their artifact/POM/source/descriptors before invocation. They execute Java plugin code. Do not treat `effective-pom` or `go-offline` as passive XML inspection.
+
+All Maven commands use qualified Java, task-private Java user.home/tmp/cache, MAVEN_SKIP_RC=1 and freshly constructed MAVEN_OPTS/JDK_JAVA_OPTIONS; no inherited JAVA_TOOL_OPTIONS/_JAVA_OPTIONS/CLASSPATH/MAVEN_ARGS. Preserve HOME and CODEX_HOME. Unlike the neutral version check, Maven's project base must now be the exact source checkout; root must recheck that no `.mvn` extension/config appeared. All following commands have cwd `C01_SOURCE`. Common reviewed arguments are:
+
+```bash
+C01_MAVEN_ARGS=( -B --no-transfer-progress \
+  --settings "$C01_STAGE/private/maven-acquire.xml" \
+  --global-settings "$C01_STAGE/config/maven-global-empty.xml" \
+  "-Dmaven.repo.local=$C01_STAGE/cache/maven" \
+  "-Djava.io.tmpdir=$C01_STAGE/tmp" "-Duser.home=$C01_STAGE/java-user" \
+  -DskipTests=true -DskipITs=true -Dmaven.test.skip=false )
+"$C01_MVN" "${C01_MAVEN_ARGS[@]}" -pl backend/application/syson-application -am \
+  org.apache.maven.plugins:maven-help-plugin:3.5.1:effective-pom \
+  "-Doutput=$C01_STAGE/evidence/effective-reactor.xml"
+```
+
+Review effective POMs for every actual selected reactor module, not only the aggregator; run separately pinned per-module Help invocations if the first output does not cover them. Bind parent POMs, active profiles, all plugin versions/dependencies/default phases, compiler annotation processors and extension descriptors. Source declarations include Checkstyle 3.6.0 with Checkstyle 13.3.0, JaCoCo 0.8.14, Source 3.3.1 and ANTLR 4.13.2. Boot build-info/repackage, compiler/resources/Surefire/JAR defaults, and the application CycloneDX plugin are inherited or unresolved by source-only inspection. Absence of an explicit execution in a child POM is not evidence of no effective execution.
+
+After that review, propose only the selected dependency/plugin prefetch:
+
+```bash
+"$C01_MVN" "${C01_MAVEN_ARGS[@]}" -pl backend/application/syson-application -am \
+  org.apache.maven.plugins:maven-dependency-plugin:3.11.0:go-offline -DexcludeReactor=true
+```
+
+Record artifact repository IDs/URLs, POM/JAR/plugin/source digests and all metadata. Freeze the concrete timestamp/build-number EMF JSON snapshot rather than retaining only its moving `2.5.5-SNAPSHOT` label. `go-offline` may miss plugin transitives or require unavailable reactor test artifacts; preserve exact failures. Never substitute a downloaded old SysON JAR for a reactor module or enable an undisclosed online fallback. Any new registry/repository/version requires a scoped review. Keep source-declared optional Dash/Sonar plugins inactive.
+
+4. Admit frontend hooks/build in a fresh public build environment.
+
+Before any hook or Vite/Turbo execution, terminate acquisition processes, select public configs and remove auth variables/settings references from the new allowlist. Vite's application config embeds all `process.env` plus `loadEnv`, and runs `git rev-parse --short HEAD`; this must remain the actual exact-target checkout. Audit all Vite-visible env files and actual npm-added lifecycle environment; configuration cleanup does not hide same-UID HOME/credential files. Root/C must review the real filesystem/network boundary and scan resulting JS/maps for actual secret values without printing them. This is separate from acquisition authorization.
+
+The root build script runs Turbo 2.10.12; build depends on `format-lint` and upstream builds. Both frontend workspaces run `vite build && tsc`, and format-lint uses Prettier list-different without writes. Proposed invocation after reviewed hook setup:
+
+```bash
+"$C01_NODE" "$C01_NPM" run build -- --concurrency=1
+```
+
+Use offline/public npm settings and reviewed network handling; no remote Turbo credentials/cache substitutes for a fresh build. Capture complete `frontend/syson/dist` inventory and copy it, including hidden resources, to previously absent `backend/application/syson-frontend/src/main/resources/static`; prove path/hash correspondence, containment and no tracked-source overwrite. No Vite dev server, test runner or browser installation belongs to this phase.
+
+5. Admit the source generator and package with tests disabled but test-JAR compilation retained.
+
+**A source-write gate is required:** `backend/services/syson-direct-edit-grammar/pom.xml` directs ANTLR 4.13.2 output into tracked `src/main/java/org/eclipse/syson/direct/edit/grammars`, not `target`. All eight existing Java/interp/tokens outputs are in the 3552-file manifest; the parser identifies ANTLR 4.13.2. Root must review exact grammar/plugin inputs, expected generated paths and any byte deltas before package. Keep the pristine source snapshot intact; either use an independently bound exact-target build checkout or explicitly admit this finite generator output set and verify unchanged expected bytes. Do not hand-edit generated sources, skip generation silently, or relabel unreviewed tracked changes as an exact-source build.
+
+After the generator/effective-plugin gates and full cache closure, switch Maven to a public settings file retaining the same effective repository/profile IDs but no credentials; empty version-check settings alone may change cache-origin matching. Proposed package uses the same local repository and selected reactor, with one thread:
+
+```bash
+"$C01_MVN" -B --no-transfer-progress --offline -T 1 \
+  --settings "$C01_STAGE/config/maven-public.xml" \
+  --global-settings "$C01_STAGE/config/maven-global-empty.xml" \
+  "-Dmaven.repo.local=$C01_STAGE/cache/maven" \
+  "-Djava.io.tmpdir=$C01_STAGE/tmp" "-Duser.home=$C01_STAGE/java-user" \
+  -DskipTests=true -DskipITs=true -Dmaven.test.skip=false -Djacoco.skip=true \
+  -pl backend/application/syson-application -am package
+```
+
+`syson-sysml-metamodel` and `syson-sysml-metamodel-services` attach test-JARs required by application/service test compilation. `maven.test.skip=true` can suppress those artifacts; use skipTests/skipITs with maven.test.skip=false and verify exact effective behavior. Testcontainers dependencies may be acquired/compiled, but tests, Docker/DB, Liquibase runtime, `clean verify`, install/deploy/image goals and spring-boot:run remain outside this package phase. An offline miss returns to a newly reviewed bounded acquisition epoch; no stub, dependency deletion or old-class repack.
+
+6. Bind the complete newly built application artifact before any native run.
+
+Capture complete source before/after (including reviewed generated outputs), effective reactor/tool/plugin/dependency epoch, every produced module JAR and nested runtime dependency, Boot manifest/build-info and frontend resource hashes. Inspect the new `backend/application/syson-application/target/syson-application-2026.9.3.jar`, embedded Syside artifacts and inherited Sirius/EMF/AQL provenance. Demonstrate that all included SysON classes/resources come from this actual target compilation, not selected replacement classes over the old native artifact. A timestamp or label alone does not establish this binding.
+
+Each heavy phase keeps the original exclusive compiler lock, fresh Samsung/headroom checks, 2CPU/4GiB high/6GiB max/0swap/Tasks128, one Maven/Turbo worker, finite whole-phase timeout and owned-scope cleanup proof. Preserve failed/partial epochs and all old holds. This closes only an independently attributable build prerequisite; C01/C02/P02 source/runtime closure, startup, DB schema, native UI/journeys and performance acceptance remain open.
+
+Critical inspected hashes: package-lock `2fb5c2b7b5955b0e94d9f6c79fb79fc4d59d17f39497022231a0aa4bc2980a4a`; root POM `f49d6760fd6ea2d3c079e9607c472eb27c23bfab64560d9166e362c85c58e656`; ANTLR POM `ffd5c0e2a98c5fd423ecea0df2832393e80b7ff91f8ff9b4ead285a7bc0d35c8`. Remaining exact inputs are covered by the immutable 3552-entry manifest; source presence is not execution acceptance.

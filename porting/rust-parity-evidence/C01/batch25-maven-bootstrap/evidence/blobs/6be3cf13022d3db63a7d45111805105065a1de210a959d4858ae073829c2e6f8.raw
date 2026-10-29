@@ -1,0 +1,76 @@
+{
+  "status": "PASS_MAVEN_ARTIFACT_DATA_ONLY;PLUGIN_BUILD_NATIVE_UI_GATES_OPEN",
+  "inputs_before": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63",
+    "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/acquire_plugins.py": "7a171424c4fe46664bb4cace3e6c6695ad25c5b6a86f968cbd3dd1c54e6cb42d",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/entry.py": "70533004abadbf160f2811c1e84655846ebfd74f5e1677f5e1089d1919a18cfd",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/metadata-readback.json": "edf3a62b75c808529869b7e42285390916f82bd9fb37cdc5dd18b152a153eef7",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/proposal.json": "dea3265f1fcb131776e883eb5c1a9f23fd5affb81a4e53e19ccbd59268477565",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/run_acquisition.py": "d4f68b2d234a9410c4a84be8ca8f6c78be03290ac168ea3a6fcc6e993b3e774c",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/tests/test_bootstrap.py": "dcdcb352bf53ddad55b90a2730b510643212743279c2da6eeddce7174b344ff7"
+  },
+  "scope": "Pinned Maven artifact data acquisition and static descriptor inspection only; no Maven/Java/plugin/build/native/UI execution.",
+  "headroom": {
+    "available_memory_kib": 19747724,
+    "available_disk_bytes": 1205348507648
+  },
+  "argv": [
+    "/usr/bin/systemd-run",
+    "--user",
+    "--scope",
+    "--quiet",
+    "--collect",
+    "--unit=syson-c01-maven-bootstrap-01.scope",
+    "-p",
+    "CPUQuota=200%",
+    "-p",
+    "MemoryHigh=4G",
+    "-p",
+    "MemoryMax=6G",
+    "-p",
+    "MemorySwapMax=0",
+    "-p",
+    "TasksMax=128",
+    "-p",
+    "RuntimeMaxSec=720s",
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/entry.py",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/acquire_plugins.py",
+    "7a171424c4fe46664bb4cace3e6c6695ad25c5b6a86f968cbd3dd1c54e6cb42d",
+    "3"
+  ],
+  "initial_scope": {
+    "ControlGroup": "",
+    "LoadState": "not-found",
+    "ActiveState": "inactive"
+  },
+  "timed_out": false,
+  "exit": 0,
+  "wall_seconds": 1.5872213350376114,
+  "scope_cleanup": {
+    "confirmed_empty_or_absent": true,
+    "observations": [
+      {
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "ActiveState": "inactive"
+      }
+    ]
+  },
+  "inputs_after": {
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63",
+    "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/acquire_plugins.py": "7a171424c4fe46664bb4cace3e6c6695ad25c5b6a86f968cbd3dd1c54e6cb42d",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/entry.py": "70533004abadbf160f2811c1e84655846ebfd74f5e1677f5e1089d1919a18cfd",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/metadata-readback.json": "edf3a62b75c808529869b7e42285390916f82bd9fb37cdc5dd18b152a153eef7",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/proposal.json": "dea3265f1fcb131776e883eb5c1a9f23fd5affb81a4e53e19ccbd59268477565",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/run_acquisition.py": "d4f68b2d234a9410c4a84be8ca8f6c78be03290ac168ea3a6fcc6e993b3e774c",
+    "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-bootstrap/tests/test_bootstrap.py": "dcdcb352bf53ddad55b90a2730b510643212743279c2da6eeddce7174b344ff7"
+  },
+  "inputs_unchanged": true
+}
