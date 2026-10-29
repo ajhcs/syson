@@ -25,7 +25,7 @@ def canonical_hash(value):
 def validate_repair_splits(contract, plan=None):
     """Static RR08 scope preservation; never a runtime or acceptance decision."""
     splits = contract.get('repair_splits', {})
-    require(splits or contract['version'] != '1.0.2', 'RR08 split policy missing')
+    require(splits or contract['version'] not in ('1.0.2', '1.0.3'), 'RR08 split policy missing')
     if not splits:
         return
     require(set(splits) == {'RR08'}, 'RR08 split policy coverage changed')
@@ -37,7 +37,8 @@ def validate_repair_splits(contract, plan=None):
     for key, expected in [('production_lines_max', 400), ('authored_lines_max', 900)]:
         require(type(policy[key]) is int and policy[key] == expected, 'RR08 split cap changed')
     ids = contract['unit_ids']
-    old_ids = sorted(uid for uid in ids if uid not in children)
+    later_children = contract.get('layout_kernel_splits', {}).get('U10', {}).get('children', [])
+    old_ids = sorted(uid for uid in ids if uid not in children + later_children)
     require(policy['original_unit_count'] == 778 and len(old_ids) == 778 and
             set(children) <= set(ids) and canonical_hash(old_ids) == policy['original_unit_ids_sha256'],
             'RR08 split original unit coverage changed')
@@ -114,6 +115,128 @@ def validate_repair_splits(contract, plan=None):
                 'RR08 split child original cases changed: ' + uid)
 
 
+def validate_layout_splits(contract, plan=None, lane=None):
+    """Static U10 prerequisite mapping; no native, UI or feature acceptance."""
+    splits = contract.get('layout_kernel_splits', {})
+    require(splits or contract['version'] != '1.0.3', 'U10 split policy missing')
+    if not splits:
+        return
+    require(set(splits) == {'U10'}, 'U10 split policy coverage changed')
+    policy = splits['U10']
+    children = ['U10a', 'U10b']
+    require(policy['parent'] == 'U10' and policy['children'] == children and
+            policy['implementation_order'] == children, 'U10 split order changed')
+    require(policy['count_basis'] == 'added_plus_deleted', 'U10 split counting changed')
+    for key, expected in [('production_lines_max', 400), ('authored_lines_max', 900)]:
+        require(type(policy[key]) is int and policy[key] == expected, 'U10 split cap changed')
+    ids = contract['unit_ids']
+    old_ids = sorted(uid for uid in ids if uid not in children)
+    require(policy['original_unit_count'] == 780 and len(old_ids) == 780 and
+            set(children) <= set(ids) and canonical_hash(old_ids) ==
+            policy['original_unit_ids_sha256'] == 'a05da43ce998f9725d47447212b926205b6250831fc4503b8d9941476dbc1052', 'U10 split original unit coverage changed')
+    require(set(children) <= set(contract['families']['views']) and not
+            set(['U10'] + children) & set(contract['legacy_prerequisite_budget_dispositions']),
+            'U10 split family or budget exception changed')
+    require(policy['parent_paths'] == ['rust/crates/syson-web/src/u10/'] and
+            policy['parent_dependencies'] == ['U02', 'U09'] and
+            policy['parent_implementation_ready_dependencies'] == ['U02', 'U09', 'U10b'],
+            'U10 split parent scope or prerequisites changed')
+    expected_paths = {'U10a': ['rust/crates/syson-layout/src/types.rs', 'rust/crates/syson-layout/src/admission.rs', 'rust/crates/syson-layout/tests/admission.rs', 'porting/rust-parity-evidence/U10a/'], 'U10b': ['rust/crates/syson-layout/src/placement.rs', 'rust/crates/syson-layout/tests/layout.rs', 'porting/rust-parity-evidence/U10b/']}
+    expected_wiring = ['rust/crates/syson-layout/src/lib.rs', 'rust/crates/syson-layout/Cargo.toml', 'rust/crates/syson-layout/Cargo.lock', 'rust/crates/syson-layout/NOTICE.md']
+    require(policy['child_paths'] == expected_paths and
+            policy['coordinator_wiring'] == expected_wiring, 'U10 split child scope changed')
+    require(policy['child_dependencies'] == {'U10a': [], 'U10b': ['U10a']},
+            'U10 split source order changed')
+    require(policy['lease_policy'] == 'Separate exclusive module/test leases after amendment adoption and actual prerequisite admission; U10b follows landed U10a. Coordinator alone owns crate root exports/manifests/locks and actual UI assembly. This amendment grants no source or runtime lease.', 'U10 split lease policy changed')
+    require(policy['production_changed_upper_estimates'] == {'U10a': 309, 'U10b': 295} and
+            policy['authored_upper_estimates'] == {'U10a': 650, 'U10b': 890},
+            'U10 split estimate changed; review another amendment')
+    require(policy.get('measurement_interface') == {'revision': '1f090ddc3f7c20797e5740ab1e7bcfa3895ab7c1', 'path': 'rust/crates/syson-node-measurement/src/lib.rs', 'sha256': '3006fc02a1d34827c435e427e62532e1cd3ec872d14158b6f57cc7b190eb218d', 'scope': 'Existing f64 Size/IDs only. No dependency on or claim of complete UI measurement/provenance/affinity; actual conversion/consumer remains U10.'}, 'U10 split measurement interface changed')
+    require(policy.get('kernel_dependency_policy') == 'std_only; no runtime or build dependencies; measurement is a source-interface pin, not a crate dependency', 'U10 split kernel dependency boundary changed')
+    donor = policy['donor']
+    require(donor['pull_request'] == 29 and donor['revision'] ==
+            '6c198db81434ad4b1f318a6895fee8933a331d53' and
+            donor['production_path'] == 'rust/crates/syson-layout/src/lib.rs' and
+            donor['production_sha256'] ==
+            'fd713fada8d59d9654783236d64709ef47329afc7029f8c06b65131c9615f1ad' and
+            type(donor['production_lines']) is int and donor['production_lines'] == 529,
+            'U10 split donor source changed')
+    require(donor['tests_path'] == 'rust/crates/syson-layout/tests/layout.rs' and
+            donor['tests_sha256'] ==
+            'e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a' and
+            type(donor['test_lines']) is int and donor['test_lines'] == 572 and
+            type(donor['test_count']) is int and donor['test_count'] == 15 and
+            len(donor['original_cases']) == len(set(donor['original_cases'])) == 15 and
+            canonical_hash(donor['original_cases']) == '367a0437bcdab74fe53f1457044fcba834209d7f3e26a079c3e51b9e290d307c', 'U10 split original tests changed')
+    require(policy['original_parent_sha256'] == '833a96c882bd3a27087ab48cd7c1e867991084dd7e14201db79f5e2a36918cb5' and
+            policy['preserved_normalized_parent_sha256'] == '2d98fbbdf23571bfb40dbf43a50d10f715d4620d73eae8e2b4397f601173a6aa',
+            'U10 split original parent proof changed')
+    gates = policy['whole_parent_gates']
+    require(set(gates) == {'native_source_artifact', 'actual_caller', 'geometry_and_worker',
+            'usability', 'resources', 'acceptance_boundary'} and
+            canonical_hash(gates) == '3abe0ba55b379658a9b6b5f18676980f137511aaae5e1524485b8d582d7fdaf9', 'U10 split whole-parent gates changed')
+    if lane is not None:
+        raw = {unit['id']: unit for unit in lane['units']}['U10']
+        preserved = {key: raw.get(key) for key in policy['original_parent_keys']}
+        require(canonical_hash(preserved) == policy['original_parent_sha256'],
+                'U10 split original lane parent changed')
+    if plan is None:
+        return
+    byid = {unit['id']: unit for unit in plan['units']}
+    require(set(['U10'] + children) <= set(byid), 'U10 split unit missing')
+    parent = byid['U10']
+    preserved = {key: parent.get(key) for key in policy['preserved_normalized_parent_keys']}
+    require(canonical_hash(preserved) == policy['preserved_normalized_parent_sha256'],
+            'U10 split original normalized parent changed')
+    require(parent['dependencies'] == policy['parent_dependencies'] and
+            parent['paths'] == policy['parent_paths'] and
+            parent.get('implementation_ready_dependencies') ==
+            policy['parent_implementation_ready_dependencies'] and
+            parent.get('acceptance_children') == children and
+            parent.get('kernel_prerequisite_children') == children and
+            parent.get('kernel_parent_gates') == gates, 'U10 split parent gates changed')
+    stages = plan['readiness_graph']
+    require(set(stages['implementation:U10']) == {'implementation:' + uid for uid in
+            policy['parent_implementation_ready_dependencies']} and
+            set(stages['accepted:U10']) == {'implementation:U10', 'accepted:U10a', 'accepted:U10b'},
+            'U10 split parent readiness or acceptance changed')
+    lane_byid = {unit['id']: unit for unit in lane['units']} if lane is not None else None
+    for uid in children:
+        unit = byid[uid]
+        dependencies = policy['child_dependencies'][uid]
+        require(unit.get('split_parent') == 'U10' and unit['paths'] == expected_paths[uid] and
+                unit.get('coordinator_wiring') == expected_wiring, 'U10 split child scope changed')
+        require(unit['dependencies'] == dependencies and
+                unit.get('implementation_ready_dependencies') == dependencies and
+                set(stages['implementation:' + uid]) == {'implementation:' + dep for dep in dependencies} and
+                set(stages['accepted:' + uid]) == {'implementation:' + uid},
+                'U10 split child readiness changed')
+        require(unit.get('kernel_dependency_policy') == policy['kernel_dependency_policy'],
+                'U10 split child dependency boundary changed')
+        require(unit.get('ownership') == policy['lease_policy'] and
+                unit.get('budget_counting') == policy['count_basis'], 'U10 split lease/counting changed')
+        for key in ['production_lines_max', 'authored_lines_max']:
+            require(type(unit['budget'][key]) is int and unit['budget'][key] == policy[key],
+                    'U10 split child cap changed')
+        estimate = unit['production_delta_estimate']
+        require(all(type(estimate[key]) is int and estimate[key] >= 0 for key in
+                    ['added_upper', 'deleted_upper', 'changed_upper']) and
+                estimate['added_upper'] + estimate['deleted_upper'] == estimate['changed_upper'] ==
+                policy['production_changed_upper_estimates'][uid] and
+                type(unit['authored_or_touched_upper_estimate']) is int and
+                unit['authored_or_touched_upper_estimate'] == policy['authored_upper_estimates'][uid],
+                'U10 split child estimate changed')
+        expected_cases = donor['original_cases'] if uid == 'U10b' else []
+        require(unit.get('original_case_requirements') == expected_cases, 'U10 split child tests changed')
+        if uid == 'U10b':
+            require(unit.get('retained_test_source') == {'path': donor['tests_path'],
+                    'revision': donor['revision'], 'sha256': donor['tests_sha256'],
+                    'line_count': 572, 'test_count': 15}, 'U10 split retained test source changed')
+        if lane_byid is not None:
+            require(all(unit.get(key) == value for key, value in lane_byid[uid].items()),
+                    'U10 split child lane obligation changed: ' + uid)
+
+
 def read_contract(root, read=None):
     """Check the adopted input set without refreshing hashes or writing files."""
     read = read or (lambda path: (root / path).read_bytes())
@@ -127,6 +250,7 @@ def read_contract(root, read=None):
     disposition = contract.get('legacy_prerequisite_budget_dispositions')
     amendments = ([disposition['amendment']] if disposition else [])
     amendments += [policy['amendment'] for policy in contract.get('repair_splits', {}).values()]
+    amendments += [policy['amendment'] for policy in contract.get('layout_kernel_splits', {}).values()]
     for amendment in amendments:
         require(amendment['path'].startswith('amendments/') and
                 '..' not in amendment['path'].split('/'), 'Invalid amendment path')
@@ -153,6 +277,7 @@ def read_contract(root, read=None):
     require(schema['properties']['target_source']['const'] == contract['target_source'],
             'Packet schema target mismatch')
     validate_repair_splits(contract)
+    validate_layout_splits(contract, lane=json.loads(read('lanes/ui.json')))
     return contract
 
 
@@ -163,6 +288,7 @@ def validate_bindings(contract, plan, root):
     require({u['id'] for u in plan['units']} == set(contract['unit_ids']),
             'Plan/contract unit coverage mismatch')
     validate_repair_splits(contract, plan)
+    validate_layout_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()))
     families = {uid: family for family, ids in contract['families'].items() for uid in ids}
     for unit in plan['units']:
         require(unit.get('completion_contract') == pointer(contract, families[unit['id']]),

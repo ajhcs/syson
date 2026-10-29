@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "contract_id": "SYSON-RUST-COMPLETION/1.0.2",
-  "version": "1.0.2",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.3",
+  "version": "1.0.3",
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "document": "COMPLETION-CONTRACT.md",
   "packet_schema": "acceptance-packet.schema.json",
@@ -726,6 +726,8 @@
     "U08",
     "U09",
     "U10",
+    "U10a",
+    "U10b",
     "U11",
     "U12",
     "U13",
@@ -1467,6 +1469,8 @@
       "U05",
       "U09",
       "U10",
+      "U10a",
+      "U10b",
       "U11",
       "U12",
       "U13",
@@ -1783,6 +1787,156 @@
         "qualification": "Fresh complete-composition source, prerequisite, input and artifact identities; original failed evidence; all affected suites and actual callers; independent review. Preserve known 79 $children differences and 172 OPEN items in existing families; explain any new required finite mismatch before landing.",
         "acceptance_boundary": "Whole RR08 stays OPEN after RR08a. Child qualification does not establish native child-cache/reference/CST lifecycle, full parser/application acceptance, capacity, or any held-owner release."
       }
+    }
+  },
+  "layout_kernel_splits": {
+    "U10": {
+      "amendment": {
+        "path": "amendments/1.0.3-layout-kernel-split.md",
+        "sha256": "2f1980ff2c6a779ab00b103d3023a11e83ac4af505a9d8e4c4b8bbd9e8c93855"
+      },
+      "parent": "U10",
+      "children": [
+        "U10a",
+        "U10b"
+      ],
+      "implementation_order": [
+        "U10a",
+        "U10b"
+      ],
+      "count_basis": "added_plus_deleted",
+      "production_lines_max": 400,
+      "authored_lines_max": 900,
+      "original_unit_count": 780,
+      "original_unit_ids_sha256": "a05da43ce998f9725d47447212b926205b6250831fc4503b8d9941476dbc1052",
+      "original_parent_keys": [
+        "id",
+        "title",
+        "lane",
+        "dependencies",
+        "external_prs",
+        "source_refs",
+        "paths",
+        "tasks",
+        "verification",
+        "commit_plan",
+        "budget",
+        "done_when",
+        "state",
+        "ownership"
+      ],
+      "original_parent_sha256": "833a96c882bd3a27087ab48cd7c1e867991084dd7e14201db79f5e2a36918cb5",
+      "preserved_normalized_parent_keys": [
+        "id",
+        "title",
+        "lane",
+        "dependencies",
+        "external_prs",
+        "source_refs",
+        "paths",
+        "tasks",
+        "verification",
+        "commit_plan",
+        "budget",
+        "done_when",
+        "state",
+        "ownership",
+        "external_pr_details",
+        "source_fragment",
+        "rereview_overlay",
+        "rereview_findings",
+        "rereview_policy"
+      ],
+      "preserved_normalized_parent_sha256": "2d98fbbdf23571bfb40dbf43a50d10f715d4620d73eae8e2b4397f601173a6aa",
+      "parent_paths": [
+        "rust/crates/syson-web/src/u10/"
+      ],
+      "parent_dependencies": [
+        "U02",
+        "U09"
+      ],
+      "parent_implementation_ready_dependencies": [
+        "U02",
+        "U09",
+        "U10b"
+      ],
+      "child_paths": {
+        "U10a": [
+          "rust/crates/syson-layout/src/types.rs",
+          "rust/crates/syson-layout/src/admission.rs",
+          "rust/crates/syson-layout/tests/admission.rs",
+          "porting/rust-parity-evidence/U10a/"
+        ],
+        "U10b": [
+          "rust/crates/syson-layout/src/placement.rs",
+          "rust/crates/syson-layout/tests/layout.rs",
+          "porting/rust-parity-evidence/U10b/"
+        ]
+      },
+      "child_dependencies": {
+        "U10a": [],
+        "U10b": [
+          "U10a"
+        ]
+      },
+      "coordinator_wiring": [
+        "rust/crates/syson-layout/src/lib.rs",
+        "rust/crates/syson-layout/Cargo.toml",
+        "rust/crates/syson-layout/Cargo.lock",
+        "rust/crates/syson-layout/NOTICE.md"
+      ],
+      "lease_policy": "Separate exclusive module/test leases after amendment adoption and actual prerequisite admission; U10b follows landed U10a. Coordinator alone owns crate root exports/manifests/locks and actual UI assembly. This amendment grants no source or runtime lease.",
+      "production_changed_upper_estimates": {
+        "U10a": 309,
+        "U10b": 295
+      },
+      "authored_upper_estimates": {
+        "U10a": 650,
+        "U10b": 890
+      },
+      "donor": {
+        "pull_request": 29,
+        "revision": "6c198db81434ad4b1f318a6895fee8933a331d53",
+        "production_path": "rust/crates/syson-layout/src/lib.rs",
+        "production_sha256": "fd713fada8d59d9654783236d64709ef47329afc7029f8c06b65131c9615f1ad",
+        "production_lines": 529,
+        "tests_path": "rust/crates/syson-layout/tests/layout.rs",
+        "tests_sha256": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a",
+        "test_lines": 572,
+        "test_count": 15,
+        "original_cases": [
+          "an_empty_graph_needs_no_work_or_logical_buffer_storage",
+          "chain_ranks_and_positions_depend_on_edge_direction",
+          "a_diamond_uses_measured_layer_extents_and_longest_path_rank",
+          "cyclic_components_self_loops_and_parallel_edges_are_retained",
+          "disconnected_weak_components_have_explicit_cross_axis_gutters",
+          "node_and_edge_permutations_produce_identical_canonical_results",
+          "duplicate_empty_and_unknown_identifiers_are_errors",
+          "unsupported_containers_ports_and_pinning_are_not_silently_dropped",
+          "invalid_dimensions_and_spacing_are_rejected",
+          "each_budget_fails_explicitly_and_exact_admitted_work_is_reproducible",
+          "cancellation_before_during_and_late_in_layout_returns_no_partial_result",
+          "numeric_overflow_and_lost_positive_coordinate_advance_are_explicit",
+          "zero_size_rectangles_and_zero_gaps_are_supported_without_overlap",
+          "all_three_node_directed_graphs_match_independent_reachability_and_invariants",
+          "unused_layer_node_and_trailing_component_gaps_do_not_overflow"
+        ]
+      },
+      "measurement_interface": {
+        "revision": "1f090ddc3f7c20797e5740ab1e7bcfa3895ab7c1",
+        "path": "rust/crates/syson-node-measurement/src/lib.rs",
+        "sha256": "3006fc02a1d34827c435e427e62532e1cd3ec872d14158b6f57cc7b190eb218d",
+        "scope": "Existing f64 Size/IDs only. No dependency on or claim of complete UI measurement/provenance/affinity; actual conversion/consumer remains U10."
+      },
+      "whole_parent_gates": {
+        "native_source_artifact": "Matching effective ELK/Sirius artifact, source/options and original invocation/native geometry comparisons; Rust graph invariants cannot replace them.",
+        "actual_caller": "Actual measurement\u2192layout\u2192routing with one numeric admission policy, document/revision/font/request identities, stale/cancel/refusal and no successful identity-layout fallback.",
+        "geometry_and_worker": "Ports, pins, containers, partial/manual layout, nested labels, route attachment/obstacle clearance, worker/history publication, disposal and supported graph shapes retain all original U10/U11 gates.",
+        "usability": "Real 320/1440px rendered readability, clipping, focus/selection/pan/zoom, cancellation/retry, broader device/assistive-technology matrix and intentional improvement dispositions.",
+        "resources": "64/128/256/1024 nodes and representative edges/IDs, 32nodes/64edges interactive fixture; two warmups/seven measured ranges, >=30 samples for p95; allocation traffic/live heap/RSS and logical work distinct. No guard relaxation to claim capacity.",
+        "acceptance_boundary": "Both children remain finite proposed Rust prerequisites. Parent requires U02/U09 and all original source/native/caller/UI/worker/routing/capacity obligations; unsupported or unrun required behavior stays OPEN."
+      },
+      "kernel_dependency_policy": "std_only; no runtime or build dependencies; measurement is a source-interface pin, not a crate dependency"
     }
   }
 }
