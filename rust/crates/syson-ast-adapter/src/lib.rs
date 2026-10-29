@@ -347,8 +347,8 @@ impl Adapter {
         let children = parser.list(false, 0)?;
         let root = Declaration {
             kind: "Namespace",
-            start: 0,
-            end: if children.is_empty() { 0 } else { source.len() },
+            start: parser.tokens.first().map_or(0, |token| token.start),
+            end: parser.tokens.last().map_or(0, |token| token.end),
             name: None,
             children,
             typing: Vec::new(),
