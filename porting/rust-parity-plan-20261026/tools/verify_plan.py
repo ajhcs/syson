@@ -5,7 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
-from completion_contract import read_contract, validate_bindings, validate_repair_splits, validate_layout_splits
+from completion_contract import read_contract, validate_bindings, validate_repair_splits, validate_layout_splits, validate_comparator_splits
 
 def require(ok,message):
     if not ok:raise ValueError(message)
@@ -137,6 +137,7 @@ def self_test(plan,root):
     amendment_paths = ([disposition['amendment']['path']] if disposition else [])
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('repair_splits', {}).values()]
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('layout_kernel_splits', {}).values()]
+    amendment_paths += [policy['amendment']['path'] for policy in contract.get('tooling_comparator_splits', {}).values()]
     for amendment_path in amendment_paths:
         rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
                 (b'\n' if name==amendment_path else b'')), 'amendment hash mismatch')
@@ -320,12 +321,96 @@ def layout_split_self_test(plan, root):
     return len(mutations) + len(contract_mutations)
 
 
+def comparator_split_self_test(plan, root):
+    """Refuse coherent module, RR15, source-epoch and composed-control losses."""
+    def rejects(action):
+        try:
+            action()
+        except ValueError as error:
+            require('C09 split' in str(error), 'Wrong comparator rejection: ' + str(error))
+        else:
+            raise AssertionError('C09 split mutation accepted')
+    contract = read_contract(root)
+    lane = json.loads((root / 'lanes/ui.json').read_text())
+    mutations = ['missing-child', 'child-order', 'parent-ready', 'RR15-ready', 'RR15-acceptance',
+                 'joint-input', 'expanded-input', 'parent-task', 'parent-verification', 'parent-path',
+                 'parent-acceptance', 'child-path', 'production-cap', 'authored-cap', 'counting',
+                 'counting-scope', 'child-task', 'control-list', 'control-source', 'epoch-list',
+                 'helper-pin', 'receipt-limit', 'source-regions', 'wiring']
+    for mutation in mutations:
+        bad = copy.deepcopy(plan)
+        byid = {unit['id']: unit for unit in bad['units']}
+        first, second, parent = (byid[uid] for uid in ['C09a', 'C09b', 'C09'])
+        if mutation == 'missing-child': bad['units'].remove(first)
+        elif mutation == 'child-order':
+            second['dependencies'] = second['implementation_ready_dependencies'] = []
+            bad['readiness_graph']['implementation:C09b'] = []
+        elif mutation == 'parent-ready':
+            parent['implementation_ready_dependencies'].remove('C09b')
+            bad['readiness_graph']['implementation:C09'].remove('implementation:C09b')
+        elif mutation == 'RR15-ready':
+            parent['dependencies'].remove('RR15')
+            parent['implementation_ready_dependencies'].remove('RR15')
+            bad['readiness_graph']['implementation:C09'].remove('implementation:RR15')
+        elif mutation == 'RR15-acceptance':
+            parent['acceptance_children'].remove('RR15')
+            bad['readiness_graph']['accepted:C09'].remove('accepted:RR15')
+        elif mutation == 'joint-input': parent['acceptance_implementation_inputs'].remove('B05')
+        elif mutation == 'expanded-input':
+            parent['expanded_implementation_inputs'].remove('B05')
+            bad['readiness_graph']['accepted:C09'].remove('implementation:B05')
+        elif mutation == 'parent-task': parent['tasks'].pop()
+        elif mutation == 'parent-verification': parent['verification'].pop()
+        elif mutation == 'parent-path': parent['paths'].append('rust/crates/syson-initializer-graph/src/')
+        elif mutation == 'parent-acceptance':
+            parent['acceptance_children'].remove('C09a')
+            bad['readiness_graph']['accepted:C09'].remove('accepted:C09a')
+        elif mutation == 'child-path': first['paths'].append('rust/validation/factory/')
+        elif mutation == 'production-cap': first['budget']['production_lines_max'] = 401
+        elif mutation == 'authored-cap': second['budget']['authored_lines_max'] = 901
+        elif mutation == 'counting': first['budget_counting'] = 'added_only'
+        elif mutation == 'counting-scope': first['budget']['counting_scope'] = 'All helper code excluded'
+        elif mutation == 'child-task': first['tasks'].pop()
+        elif mutation == 'control-list': second['original_control_requirements'].pop()
+        elif mutation == 'control-source': second['retained_control_source']['control_count'] = 34
+        elif mutation == 'epoch-list': first['source_epoch_requirements'].pop()
+        elif mutation == 'helper-pin': first['prototype_requirements']['constructor_sha256'] = '0' * 64
+        elif mutation == 'receipt-limit': first['prototype_requirements']['receipt_causality_limit'] = ''
+        elif mutation == 'source-regions': second['source_regions']['controls'] = []
+        else: first['coordinator_wiring'].append('rust/crates/syson-model/src/lib.rs')
+        rejects(lambda: validate_comparator_splits(contract, bad, lane))
+    contract_mutations = ['policy', 'old-unit', 'cap-bool', 'authored-cap', 'prototype',
+                          'line-count', 'epoch', 'controls', 'source-regions', 'RR15-guard',
+                          'parent-proof', 'legacy-exception', 'order', 'counting-scope', 'whole-gates']
+    for mutation in contract_mutations:
+        bad = copy.deepcopy(contract)
+        policy = bad['tooling_comparator_splits']['C09']
+        if mutation == 'policy': bad.pop('tooling_comparator_splits')
+        elif mutation == 'old-unit': bad['unit_ids'].remove('P01')
+        elif mutation == 'cap-bool': policy['production_lines_max'] = True
+        elif mutation == 'authored-cap': policy['authored_lines_max'] = 901
+        elif mutation == 'prototype': policy['frozen_prototype']['sha256'] = '0' * 64
+        elif mutation == 'line-count': policy['frozen_prototype']['line_count'] = 685
+        elif mutation == 'epoch': policy['frozen_prototype']['source_epochs'].pop()
+        elif mutation == 'controls': policy['frozen_prototype']['original_controls'].pop()
+        elif mutation == 'source-regions': policy['frozen_prototype']['source_regions']['capture'].pop()
+        elif mutation == 'RR15-guard': policy['parent_dependencies'].remove('RR15')
+        elif mutation == 'parent-proof': policy['original_parent_sha256'] = '0' * 64
+        elif mutation == 'legacy-exception': bad['legacy_prerequisite_budget_dispositions']['C09a'] = {}
+        elif mutation == 'order': policy['implementation_order'].reverse()
+        elif mutation == 'counting-scope': policy['counting_scope'] = 'Ignore helper code'
+        else: policy['whole_parent_gates'].pop('RR15_admission')
+        rejects(lambda: validate_comparator_splits(bad))
+    return len(mutations) + len(contract_mutations)
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--plan-dir',type=Path,default=Path(__file__).resolve().parent.parent);parser.add_argument('--check-completion',action='store_true');parser.add_argument('--self-test',action='store_true');args=parser.parse_args()
     root=args.plan_dir.resolve();plan=json.loads((root/'plan.json').read_text());result=validate(plan,root)
     if args.self_test:
         result['rr08_split_refusal_controls'] = self_test(plan,root)
         result['layout_split_refusal_controls'] = layout_split_self_test(plan,root)
+        result['comparator_split_refusal_controls'] = comparator_split_self_test(plan,root)
         result['negative_gate_checks']='PASS'
     if args.check_completion:
         state=json.loads((root/'execution.json').read_text());errors=completion(plan,state,root.parents[1]);result.update(parity='OPEN' if errors else 'ACCEPTED',open_gate_count=len(errors),first_open_gates=errors[:8]);print(json.dumps(result,indent=2));return 2 if errors else 0

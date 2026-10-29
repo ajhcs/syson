@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "contract_id": "SYSON-RUST-COMPLETION/1.0.3",
-  "version": "1.0.3",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.4",
+  "version": "1.0.4",
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "document": "COMPLETION-CONTRACT.md",
   "packet_schema": "acceptance-packet.schema.json",
@@ -76,6 +76,8 @@
     "C07",
     "C08",
     "C09",
+    "C09a",
+    "C09b",
     "C99",
     "I01",
     "I02",
@@ -805,7 +807,9 @@
       "C01h",
       "C02",
       "C02a",
-      "C09"
+      "C09",
+      "C09a",
+      "C09b"
     ],
     "landing": [
       "C03",
@@ -1937,6 +1941,296 @@
         "acceptance_boundary": "Both children remain finite proposed Rust prerequisites. Parent requires U02/U09 and all original source/native/caller/UI/worker/routing/capacity obligations; unsupported or unrun required behavior stays OPEN."
       },
       "kernel_dependency_policy": "std_only; no runtime or build dependencies; measurement is a source-interface pin, not a crate dependency"
+    }
+  },
+  "tooling_comparator_splits": {
+    "C09": {
+      "amendment": {
+        "path": "amendments/1.0.4-comment-comparison-split.md",
+        "sha256": "91d900989c5faae5c0de3525670cd5374dd582e06527023206ff79c0d4061361"
+      },
+      "parent": "C09",
+      "children": [
+        "C09a",
+        "C09b"
+      ],
+      "implementation_order": [
+        "C09a",
+        "C09b"
+      ],
+      "count_basis": "added_plus_deleted",
+      "production_lines_max": 400,
+      "authored_lines_max": 900,
+      "original_unit_count": 782,
+      "original_unit_ids_sha256": "d8ffe2e619044d46736b9b44b51640315d063d81090793e318944496377d405b",
+      "original_parent_keys": [
+        "id",
+        "title",
+        "lane",
+        "dependencies",
+        "external_prs",
+        "source_refs",
+        "paths",
+        "tasks",
+        "verification",
+        "commit_plan",
+        "budget",
+        "done_when",
+        "state",
+        "ownership"
+      ],
+      "original_parent_sha256": "a9247400d33695ef5b3673fb534e3e5fdda904291aba6cb290559e76ffed2efa",
+      "preserved_normalized_parent_keys": [
+        "id",
+        "title",
+        "lane",
+        "dependencies",
+        "external_prs",
+        "source_refs",
+        "paths",
+        "tasks",
+        "verification",
+        "commit_plan",
+        "budget",
+        "done_when",
+        "state",
+        "ownership",
+        "external_pr_details",
+        "source_fragment",
+        "acceptance_implementation_inputs",
+        "joint_acceptance_meaning",
+        "rereview_overlay",
+        "rereview_findings",
+        "rereview_policy",
+        "expanded_implementation_inputs"
+      ],
+      "preserved_normalized_parent_sha256": "563b6e682ae90f3efc48b148f50b1351a95679ae4786d169d795d30f79750bd0",
+      "original_parent_acceptance_children": [
+        "RR15"
+      ],
+      "original_parent_accepted_edges_sha256": "85333d0e226ab2f05cb8853843d0690c2450893edb1322849df2331957d022ce",
+      "original_parent_accepted_edges_count": 610,
+      "parent_paths": [
+        "rust/validation/parity-harness/c09/"
+      ],
+      "parent_raw_dependencies": [
+        "C01",
+        "C02"
+      ],
+      "parent_dependencies": [
+        "C01",
+        "C02",
+        "RR15"
+      ],
+      "parent_implementation_ready_dependencies": [
+        "C01",
+        "C02",
+        "C09b",
+        "RR15"
+      ],
+      "parent_joint_implementation_inputs": [
+        "B05",
+        "B28",
+        "B32",
+        "B34"
+      ],
+      "parent_expanded_implementation_count": 608,
+      "parent_expanded_implementation_sha256": "159288b3f4fe7a96122e84ab83bab83086915e85ff77f1366302a15e6fd53610",
+      "child_paths": {
+        "C09a": [
+          "porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py",
+          "porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_capture_p01.py",
+          "porting/rust-parity-evidence/C09a/"
+        ],
+        "C09b": [
+          "porting/rust-parity-evidence/C09/batch22-comment-comparison/compare_p01.py",
+          "porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_compare_p01.py",
+          "porting/rust-parity-evidence/C09b/"
+        ]
+      },
+      "child_dependencies": {
+        "C09a": [],
+        "C09b": [
+          "C09a"
+        ]
+      },
+      "coordinator_wiring": [
+        "porting/rust-parity-evidence/C09/batch22-comment-comparison/README.md"
+      ],
+      "lease_policy": "Separate exclusive module/test leases after amendment adoption and actual input admission; C09b follows landed C09a. Root owns the shared README and serialized subject execution. No prototype execution or source partitioning is authorized by this plan alone.",
+      "production_changed_upper_estimates": {
+        "C09a": 340,
+        "C09b": 390
+      },
+      "authored_upper_estimates": {
+        "C09a": 650,
+        "C09b": 700
+      },
+      "frozen_prototype": {
+        "path": "/workspace/build/builderbob/syson-batch22-20261029/compare_p01.py",
+        "sha256": "56e59184a7190cc6beffc7f5e413e4fbff9ff9b965f02740b976accce931ec5f",
+        "line_count": 686,
+        "state": "FROZEN_SOURCE_ONLY_NOT_EXECUTED",
+        "source_regions": {
+          "capture": [
+            [
+              1,
+              324
+            ],
+            [
+              474,
+              480
+            ],
+            [
+              483,
+              485
+            ]
+          ],
+          "projection_cli": [
+            [
+              325,
+              473
+            ],
+            [
+              481,
+              482
+            ],
+            [
+              486,
+              527
+            ],
+            [
+              655,
+              686
+            ]
+          ],
+          "controls": [
+            [
+              528,
+              654
+            ]
+          ]
+        },
+        "original_controls": [
+          "native-type",
+          "native-root",
+          "native-name",
+          "Rust-root",
+          "Rust-name",
+          "Rust-source",
+          "duplicate",
+          "missing",
+          "schema",
+          "bool-root",
+          "missing-node-origin",
+          "missing-Datum-lexeme",
+          "unknown-node",
+          "native-missing-data-value",
+          "native-descriptor-flag",
+          "missing-CST",
+          "dangling-object",
+          "remove-TypeReference",
+          "remove-FeatureTyping",
+          "selected-origin",
+          "nonselected-origin",
+          "bad-default-lexeme",
+          "reference-text",
+          "reference-span",
+          "coherent-truncation",
+          "coherent-reorder",
+          "wrong-bundle",
+          "wrong-prefix",
+          "fake-comment-interior-refusal",
+          "truncated-Malformed",
+          "missing-native-reference-info",
+          "receipt-kernel",
+          "receipt-corpus",
+          "receipt-timeout",
+          "constructor-source-hash"
+        ],
+        "original_control_count": 35,
+        "control_region": [
+          528,
+          654
+        ],
+        "control_line_count": 127,
+        "control_bytes_sha256": "d53eae6797fbd5cd4c679145cb3594bd815c302fbe6a7db1f6305037fa64783b",
+        "constructor_validator": {
+          "path": "porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py",
+          "sha256": "3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6",
+          "load_rule": "Verify exact source bytes before compilation/execution; no unchecked import or bytecode substitution."
+        },
+        "kernel_sha256": "07e1e2ebe11f58c50f3c065e0ead4b2e2a7e8c8cb4cc464e26e715d4970fa99b",
+        "native_provenance_pins": {
+          "bundle_sha256": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+          "source_baseline": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+          "source_candidate": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+          "evaluated_prefix_sha256": "66c595799e42dec782d6f2a067ba7bd6b71ceb34917d35081e5d72a922a280b4",
+          "evaluated_prefix_bytes": 4106536,
+          "embedded_module_sha256": {
+            "../syside-languageserver/lib/sysml-module.js": "4dbbd7a940fd07186c3a8b9312b4fd3d616f03a5cebb204ce7be579398fe4186",
+            "../syside-languageserver/lib/services/shared/workspace/file-system-provider.js": "9cb3100ef0a2db99d65741ce66f90f96295a29affa268a1fdc0dea362883e0e4",
+            "../syside-languageserver/lib/services/parser/parser.js": "ced8f9cab928606d13a323bcaca8693025c2ae381fd9ed2b0bcf27b45707991e"
+          }
+        },
+        "source_epochs": [
+          {
+            "raw_sha256": "971dcf43457b511ee7f7df99b676c38179a6450b3241caf66d7a9682320982ca",
+            "case_count": 15,
+            "canonical_sha256": "d4212968de38e574f8aebe8f5c64b9245115a36f057a7e5d46c8654702d0e348"
+          },
+          {
+            "raw_sha256": "c5fce29e6ac91d6d0c65ad657edfb12f20fe7bdc5a408ca3deaef6816a714cc6",
+            "case_count": 25,
+            "canonical_sha256": "17d3985d0f5b64430715bda98c4ce8b211db22c916a52184b14b736232b0adb2"
+          }
+        ],
+        "exact_restrictions": {
+          "07-semantic-block-comment": [
+            "Unsupported",
+            0,
+            null
+          ],
+          "08-overlap-multiline-note": [
+            "Unsupported",
+            0,
+            null
+          ],
+          "late-overlap": [
+            "Unsupported",
+            19,
+            null
+          ]
+        },
+        "exact_recoveries": {
+          "09-commented-closing-brace": [
+            "Malformed",
+            21,
+            "}"
+          ],
+          "10-no-token-merging": [
+            "Unsupported",
+            0,
+            null
+          ],
+          "quoted-error-offset": [
+            "Malformed",
+            36,
+            "closing name quote"
+          ]
+        },
+        "receipt_causality_limit": "Receipt input/command declarations are checked. The receipt has no output digest; capture-to-execution causality requires independent artifact/stdout review."
+      },
+      "whole_parent_gates": {
+        "RR15_admission": "Original normalized RR15 implementation dependency and accepted child remain mandatory. Actual source/file admission, consuming callers, filesystem/resource limits and failure behavior are not discharged by JSON capture validation.",
+        "native_runtime_and_source": "Original C01/C02 source/artifact/configuration and fresh owned loopback native/Rust/database lifecycle, exact PID/start/port ownership, bounded readiness/timeout/cancellation and verified teardown remain required.",
+        "composed_runtime": "Preserve B05/B28/B32/B34 joint implementation inputs and the complete original 608-unit expanded implementation closure and accepted-stage edges.",
+        "comparison_boundary": "Finite P01 captures compare all AST type counts, selected ordered names/node origins, ownership and raw references/source spans; full fields/caches, reference targets/getters, lifecycle, native artifact, importer/UI remain unqualified.",
+        "receipt_causality": "Receipt input/command declarations are checked. The receipt has no output digest; capture-to-execution causality requires independent artifact/stdout review.",
+        "failure_retention": "Preserve original15/25 epochs, old failures/blind spots and raw streams. Repaired prototype is not executed or accepted by this amendment; new execution must bind the exact partitioned files and consuming calls.",
+        "UI_and_performance": "Actual browser/native workflows, meaningful screenshots, focus/accessibility and resource/performance evidence remain original parent obligations. No UI, native capacity, p95 or production-language acceptance follows from a comparator result; existing workload ranges and holds remain unchanged."
+      },
+      "counting_scope": "All handwritten development-tool implementation, validators, helper/import/CLI code and shared wiring count; evidence-path placement grants no production discount. Meaningful tests also count toward authored lines."
     }
   }
 }
