@@ -1,0 +1,129 @@
+"""Materialize this one reviewed progress checkpoint; never amend requirements."""
+from pathlib import Path
+import hashlib
+import json
+import subprocess
+
+if not __debug__:
+    raise RuntimeError('Run this fixed materializer without optimization')
+
+
+ROOT = Path(__file__).resolve().parents[2]
+REPO = ROOT.parents[1]
+CHECKPOINT = Path(__file__).resolve().parent
+PREFIX = str(ROOT.relative_to(REPO)) + '/'
+sha = lambda data: hashlib.sha256(data).hexdigest()
+proposal_bytes = (CHECKPOINT / 'status-proposal.json').read_bytes()
+assert sha(proposal_bytes) == 'bbce9d9b836e087409aa7a630720ad99d8dc6d3e1803fe47550c30d567d8d34b'
+proposal = json.loads(proposal_bytes)
+BASE = proposal['base_main']
+assert BASE == '19aaf5db26a8ba43b64fced1bb7091baa221ca2b'
+assert not (CHECKPOINT / 'status.json').exists(), 'preserve existing materialization'
+
+
+def git(*args):
+    return subprocess.check_output(['git', *args], cwd=REPO)
+
+
+def original(name):
+    return git('show', BASE + ':' + PREFIX + name)
+
+
+def encode(value):
+    return (json.dumps(value, indent=2, ensure_ascii=False) + '\n').encode()
+
+
+for name, expected in proposal['preserve_exact_sha256'].items():
+    assert sha((ROOT / name).read_bytes()) == expected == sha(original(name)), name
+for name, expected in proposal['preserve_prior_bytes_before_refresh'].items():
+    assert sha((ROOT / name).read_bytes()) == expected == sha(original(name)), name
+old_state = json.loads(original('execution.json'))
+old_register = json.loads(original('remaining-work/units.json'))
+old_lock = json.loads(original('remaining-work/snapshot.lock.json'))
+contract_lock = json.loads(original('completion-contract.lock.json'))
+for name, expected in contract_lock['sha256'].items():
+    assert sha((ROOT / name).read_bytes()) == expected == sha(original(name)), name
+assert len(old_register['units']) == proposal['units'] == 790
+assert len(old_state['units']) == proposal['historical_records'] == 55
+payloads = {}
+prior_names = ['execution.json', 'remaining-work/units.json',
+               'remaining-work/snapshot.lock.json', 'README.md', 'REMAINING-WORK.md',
+               'rereview-batch27-next-prs.md']
+for name in prior_names:
+    payloads['prior/' + name] = original(name)
+landings = []
+for row in proposal['publication_receipts']:
+    source = Path(proposal['publication_source_root']) / row['source']
+    raw = source.read_bytes()
+    receipt = json.loads(raw)
+    for key in ['head', 'merge', 'main_tree']:
+        assert receipt[key] == row[key], (row['pr'], key)
+    for revision in [row['head'], row['merge']]:
+        subprocess.run(['git', 'merge-base', '--is-ancestor', revision, BASE],
+                       cwd=REPO, check=True)
+    assert git('rev-parse', row['merge'] + '^{tree}').decode().strip() == row['main_tree']
+    payloads['receipts/pr-' + str(row['pr']) + '.json'] = raw
+    landings.append({'pull_request': row['pr'], 'head': row['head'],
+                     'merge': row['merge'], 'main_tree': row['main_tree'],
+                     'hosted_checks': 'ABSENT;NOT_A_CI_PASS',
+                     'feature_acceptance': 'NOT_ACCEPTED'})
+for row in proposal['additional_captured_inputs']:
+    raw = Path(row['source']).read_bytes()
+    assert sha(raw) == row['sha256']
+    payloads[row['destination']] = raw
+issue = proposal['starter_issue_manifest']
+raw = Path(issue['source']).read_bytes()
+assert sha(raw) == issue['sha256']
+payloads['starter-issues.json'] = raw
+payloads['pr-queue-audit.json'] = Path(
+    '/workspace/build/builderbob/syson-contributor-onboarding-20261029/pr-queue-audit.json').read_bytes()
+payloads['public-queue.raw'] = (REPO / 'CONTRIBUTOR-PR-QUEUE.md').read_bytes()
+state = json.loads(original('execution.json'))
+state['integration_history'].append(old_state['current_integration'])
+state['status'] = 'BOUNDED_GEOMETRY_LANDED;CONTRIBUTOR_PREPARATION;FULL_PROGRAM_OPEN'
+state['current_integration'] = {
+    'batch': 'contributors-20261029', 'contract_id': proposal['contract_id'],
+    'main_after_prerequisites': BASE, 'landings': landings,
+    'checkpoint': str(CHECKPOINT.relative_to(ROOT)),
+    'bounded_progress': proposal['bounded_progress'], 'full_parity_claimed': False}
+assert {k: v for k, v in state.items() if k not in
+        ['status', 'current_integration', 'integration_history']} == {
+            k: v for k, v in old_state.items() if k not in
+            ['status', 'current_integration', 'integration_history']}
+assert state['integration_history'] == old_state['integration_history'] + [old_state['current_integration']]
+register = json.loads(original('remaining-work/units.json'))
+register.update(snapshot_id=proposal['snapshot_id'], base_main=BASE,
+                integrated_scope_at_snapshot=state['current_integration'])
+assert register['units'] == old_register['units']
+assert register['copied_plan_fields'] == old_register['copied_plan_fields']
+status = dict(proposal, kind='STATUS_ONLY_REVIEWED_PROGRESS',
+              source_proposal_sha256=sha(proposal_bytes), landings=landings)
+payloads['status.json'] = encode(status)
+payloads['preservation.json'] = encode({
+    'status': 'PASS_FIXED_STATUS_TRANSFORMATION_ONLY', 'base_main': BASE,
+    'unchanged_unit_records': 790, 'unchanged_historical_records': 55,
+    'integration_history_prefix_preserved': True,
+    'normative_input_hashes_verified': len(contract_lock['sha256']),
+    'held_scopes_released': False, 'feature_acceptance_changed': False,
+    'public_queue_sha256': sha(payloads['public-queue.raw']),
+    'public_queue_binding': 'Exact checkpoint copy plus reviewed Git commit; no path traversal lock entry',
+    'prior_bytes': {name: sha(payloads['prior/' + name]) for name in prior_names}})
+for name, raw in payloads.items():
+    target = CHECKPOINT / name
+    assert not target.exists(), 'preserve existing checkpoint input: ' + name
+for name, raw in payloads.items():
+    target = CHECKPOINT / name
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(raw)
+(ROOT / 'execution.json').write_bytes(encode(state))
+(ROOT / 'remaining-work/units.json').write_bytes(encode(register))
+new_progress = {str(p.relative_to(ROOT)) for p in CHECKPOINT.rglob('*') if p.is_file()}
+new_progress.add('rereview-batch29-next-prs.md')
+lock = dict(old_lock, snapshot_id=proposal['snapshot_id'], base_main=BASE)
+lock['progress_inputs'] = sorted(set(old_lock['progress_inputs']) | new_progress)
+lock['sha256'] = {name: sha((ROOT / name).read_bytes())
+                  for name in sorted(set(old_lock['sha256']) | new_progress)}
+(ROOT / 'remaining-work/snapshot.lock.json').write_bytes(encode(lock))
+print(json.dumps({'status': 'MATERIALIZED_NOT_YET_INDEPENDENTLY_VERIFIED',
+                  'snapshot_id': proposal['snapshot_id'], 'captured_files': len(payloads),
+                  'locked_inputs': len(lock['sha256'])}))
