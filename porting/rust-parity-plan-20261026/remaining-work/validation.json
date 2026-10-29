@@ -1,0 +1,109 @@
+{
+  "scope": "DOCUMENTATION_AND_LOCKED_TASK_REGISTER_ONLY",
+  "base_main": "eb3a5e47476947f748867bbed8be2b4603b1f874",
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/remaining-plan-20261029/porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+        "--self-test"
+      ],
+      "exit": 0,
+      "expected_exit": 0,
+      "stdout": {
+        "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+        "snapshot_id": "SYSON-RUST-REMAINING/2026-10-29.1",
+        "unit_count": 778,
+        "locked_inputs": 807,
+        "primary_family_counts": {
+          "interchange": 23,
+          "services": 12,
+          "projects": 9,
+          "views": 76,
+          "rust_delivery": 5,
+          "verification": 5,
+          "reference": 12,
+          "landing": 4,
+          "final_acceptance": 1,
+          "model": 399,
+          "language": 184,
+          "repairs": 45,
+          "usability_capacity": 3
+        },
+        "feature_acceptance_counts": {
+          "NOT_ACCEPTED": 55,
+          "OPEN_NO_ACCEPTANCE_RECORD": 723
+        },
+        "full_parity_claimed": false,
+        "negative_controls": "PASS_7_REFUSAL_CASES"
+      },
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/remaining-plan-20261029/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test",
+        "--check-completion"
+      ],
+      "exit": 2,
+      "expected_exit": 2,
+      "stdout": {
+        "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+        "units": 778,
+        "source_graph_acyclic": true,
+        "readiness_graph_nodes": 1556,
+        "readiness_graph_acyclic": true,
+        "unordered_write_conflicts": 0,
+        "all_14_original_remaining_briefs_mapped": true,
+        "source_assignment_counts_verified": true,
+        "negative_gate_checks": "PASS",
+        "parity": "OPEN",
+        "open_gate_count": 779,
+        "first_open_gates": [
+          "Pinned runtime/source obligation closure remains open",
+          "Not feature-accepted: B01",
+          "Not feature-accepted: B02",
+          "Not feature-accepted: B03",
+          "Not feature-accepted: B04",
+          "Not feature-accepted: B05",
+          "Not feature-accepted: B06",
+          "Not feature-accepted: B07"
+        ]
+      },
+      "stderr": ""
+    }
+  ],
+  "unchanged_source_inputs": {
+    "COMPLETION-CONTRACT.md": "9a710edbf26cd3acf400aea607c56d5745e010317818eb4e302b60c3fcc0e8a2",
+    "PR-INDEX.md": "20a8c0a17920b5abd281c591912ee3290e147f5ace14ed88f85c12537dd56501",
+    "acceptance-packet.schema.json": "3b9fd1e104d9ded2df873ef69563bd1667f3637e97bf771610ecd208c29f3cd1",
+    "completion-contract.json": "409d7302e6ac0854828d540ed876d0693403cee06265ce396a28e37b35e9f0b8",
+    "completion-contract.lock.json": "14703b98ce7753ad2681dbefee90f53037adfd64254e8163375777a932f774e7",
+    "cross-lane-review.json": "b044d26288b26c2f7fd7ae30b38cd4092e55ebeb0e23a7c9012bd9e5d1b17b97",
+    "dispatch.json": "7aa2f50bdeeabaf84a266e48cb3925048ab1752da0ec9ebf8f95c4d41da74fcc",
+    "execution.json": "a43f95d02a1a821010525f28e7a4955a8124390a3fc59b9d23f371e09dff0648",
+    "lanes/batch4.json": "00bff24d29fdcebdb9bb87b0c504159eea2d9a84dbbe3ef81975b872c8e715a1",
+    "lanes/batch5.json": "7e0d67e6d5323e6e11f5f4191106402aaf6a8276230745adbc273b6b2c80305c",
+    "lanes/batch6.json": "1e0cd373ea7c194e778d45d1ff0b5cd7d87b17d506aaa4589ccb1147c6fc20ed",
+    "lanes/coordination-support.json": "4894bff09259dc65d2d7f498d7921a46c7309fd92b13484e60a28c2f383ab555",
+    "lanes/migration-support.json": "7b5193dadd10879f91771772067df7fc6ba20c34045e1dba0cd896d569f694e2",
+    "lanes/model.json": "ec00869b1fcd3bba5085bc01e11200b58d5b656e5f7e24e50caa59ad5cf9b0f8",
+    "lanes/parser.json": "d25f4cfe7fcc4f63bc5781f5d88462f8965a19e0b6ad11143c02100efafe4391",
+    "lanes/platform.json": "6792948d0577e69a9f400e49c54758c7322e0d2c650c031695e5300025e05313",
+    "lanes/rereview.json": "bcd7e4110df3abb8b1b358151cfe33e8d9d754608b7c8e3a6074e7ee5e94a74e",
+    "lanes/ui.json": "82d18eb81a879e7a4064e7c4abc3f8373e5cf36b740e6779e361df11878b14e9",
+    "performance-policy.json": "62990fca393be5443eb80c6dd106692e721704f0cdb6df708dcbf6472f739a18",
+    "plan.json": "8251d45e75c2f88d46ab4f49701c3011313715fadaa93e2799fc0463fb8db28b",
+    "rereview-overlay.json": "35fb1c586a94b7f7cac7656e5e06533569dca1c5e2fe09fd7c862d6c31ba163e",
+    "tools/build_plan.py": "7abc739442bd74c00cd9a47a43b9c11f658329a78735970fd4ef02fa50e83666",
+    "tools/build_ui_plan.py": "1791e17a8afa6e43be66c23f891d75502fc615d7c61d270c855b059b19896ae4",
+    "tools/completion_contract.py": "ac5e7d9f7411a0d029cb25a97c8d578867ed907d86163100fcf4f4ae90bab92b",
+    "tools/verify_plan.py": "eeb4db099b031fad3fffa487b8dd6aef5c658c5c78050ed56922621d383dae6f"
+  },
+  "original_execution_records_unchanged": 55,
+  "local_markdown_links": "PASS",
+  "full_parity_claimed": false,
+  "behavioral_tests": "NOT_RUN_NO_APPLICATION_SOURCE_CHANGED",
+  "snapshot_lock_sha256": "26b16e14b2664bde846b24eda9bd47cccbd5652b6f4a724e050148faf413579d"
+}
