@@ -1,10 +1,10 @@
 # SysON feature parity in Rust: implementation and verification plan
 
-**Full SysON parity remains open.** The [remaining-work guide](REMAINING-WORK.md) states what remains, the next independent PRs, the dependency order and the evidence required to finish. The [786-entry task register](remaining-work/units.json) retains every adopted task and links to its detailed brief. These are review units, not a feature-completion percentage or a final PR count.
+**Full SysON parity remains open.** The [remaining-work guide](REMAINING-WORK.md) states what remains, the next independent PRs, the dependency order and the evidence required to finish. The [788-entry task register](remaining-work/units.json) retains every adopted task and links to its detailed brief. These are review units, not a feature-completion percentage or a final PR count.
 
-The current execution snapshot is **SYSON-RUST-REMAINING/2026-10-29.13**, based on GitHub main `6d9b151671692b3b569179d73e290d9e6efa5ffe`, under completion contract **1.0.5**. The [new checkpoint](remaining-work/checkpoint-batch24/status.json) records landed #171/#172, rejected C09b preparation and locally qualified U10b. The [original .12 editorial checkpoint](remaining-work/editorial-freeze-20261029/status.json) and earlier narratives retain their historical attribution.
+The current routing adoption snapshot is **SYSON-RUST-REMAINING/2026-10-29.14**, based on main `63cca75ceebf7cfbfad1effe562d9855145edb2f`, under completion contract **1.0.6**. The [routing checkpoint](remaining-work/checkpoint-batch25/status.json) records the landed placement/comparison prerequisites, bounded native-tool phases and routing source order. The [.13 checkpoint](remaining-work/checkpoint-batch24/status.json) and earlier narratives retain their historical attribution.
 
-U10a and C09a are landed. Next scopes are U10b publication/qualification and C09b1 partial-field comparison, followed by C09b2's complete control harness. The [next PR queue](rereview-batch24-next-prs.md) records their gates. Reference closure, consuming callers and application preparation proceed alongside them where their prerequisites and ownership permit.
+U10a/U10b, C09a and C09b1 are landed finite prerequisites. Next independent scopes are U11a integer routing admission and C09b2 publication after its completed local CLI/control qualification. U11b follows reviewed, landed and locally qualified U11a; C09b2 already has its landed, locally qualified kernel. The [next PR queue](rereview-batch25-next-prs.md) records ownership and verification gates. Forest and fractional caller adoption remain separate future review scopes; native/UI feature acceptance is OPEN.
 
 The next connected product milestone is create/import → edit → save → page reload → close/reopen → backend restart → fresh inspection, preserving model and representation state without manual JSON reimport. Completing that milestone still leaves the remaining semantic, language, view, interoperability, usability, capacity and release obligations.
 
@@ -491,3 +491,7 @@ The [C09 split](amendments/1.0.4-comment-comparison-split.md) separated [C09a ca
 ## Comparison repair amendment 1.0.5
 
 The [new split](amendments/1.0.5-partial-comparison-split.md) retains every C09b obligation and adds [C09b1](prs/C09b1.md) raw-input comparison, then [C09b2](prs/C09b2.md) pinned CLI/control composition. Actual probes rejected the earlier 400-line candidate: missing fields hid available contradictions and its root control corrupted shared positions. Preserve those failures. All 35 original plus ten additional controls, ordinary 400/900 caps and original parent/native/UI/runtime gates remain required. The 786 units describe review scope; they do not establish feature closure.
+
+## Routing prerequisite amendment 1.0.6
+
+The [routing split](amendments/1.0.6-routing-kernel-split.md) adds U11a admission and U11b search beneath U11, preserving all 403 donor lines and all 16 original tests. Landed U10b supplies public placement types; opaque routing work/cancellation state continues across both phases. U11 retains its original U10 prerequisite and full native/fractional/UI/caller obligations. The 788 review units and plan lock establish assignments, not feature completion.
