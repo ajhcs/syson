@@ -1,0 +1,179 @@
+"""Fixed placement observations; root owns execution and independent acceptance."""
+from pathlib import Path
+import contextlib
+import fcntl
+import hashlib
+import json
+import os
+import pwd
+import signal
+import subprocess
+import sys
+import tomllib
+
+base = Path(__file__).resolve().parent
+build = Path('/workspace/build/builderbob/syson-batch28-20261029')
+output, target = build / 'u12b-profile-01', build / 'target-u12b-profile-01'
+source = base / 'profile.rs'
+allocator = base.parents[1] / 'C09/batch26-routing-admission-profile/u11a_profile.rs'
+helpers = base.parents[1] / 'U12a/batch27-profile/u12a_profile.rs'
+workspace = Path('/workspace/worktrees/builderbob/syson/batch27-forest-placement/rust/crates')
+roots = [workspace / name for name in ['syson-layout', 'syson-node-measurement', 'syson-editor']]
+tool = Path('/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin')
+cargo_home = Path('/workspace/cache/builderbob/global-tools/cargo')
+if os.path.lexists(output) or os.path.lexists(target):
+    raise RuntimeError('preserve existing profile output/target')
+os.umask(0o077)
+output.mkdir(mode=0o700)
+files = {Path(__file__), Path(sys.executable), source, allocator, helpers, tool / 'cargo', tool / 'rustc', tool / 'rustfmt'}
+sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+record = {'status': 'FAIL_TERMINAL', 'commands': [],
+          'schedule': '6defaultsuccess+4loweredquotagroups;2warm+7measured each; separate untimed admission refusals/controls',
+          'scope': 'Actual place_packages after3untimedU10charge probes; not cold-kernel latency; native/UI/p95/capacity OPEN'}
+child = None
+
+
+def snapshot():
+    current = files | set(base.glob('*.py'))
+    for root in roots:
+        current.update(path for path in root.rglob('*') if path.is_file())
+    return {str(path): sha(path) for path in sorted(current)}
+
+
+def interrupted(*unused):
+    raise RuntimeError('placement profile interrupted')
+
+
+def stop():
+    if child is not None:
+        if child.poll() is None:
+            with contextlib.suppress(ProcessLookupError):
+                os.killpg(child.pid, signal.SIGKILL)
+        child.communicate(timeout=10)
+
+
+def run(label, argv, expected=0):
+    global child
+    argv = list(map(str, argv))
+    row = {'label': label, 'argv': argv, 'exit': None, 'expected_exit': expected}
+    record['commands'].append(row)
+    child = subprocess.Popen(argv, cwd=output, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+    failure = None
+    try:
+        stdout, stderr = child.communicate(timeout=180)
+    except BaseException as error:
+        with contextlib.suppress(ProcessLookupError):
+            os.killpg(child.pid, signal.SIGKILL)
+        stdout, stderr = child.communicate(timeout=10)
+        failure = repr(error)
+    (output / (label + '-stdout.txt')).write_bytes(stdout)
+    (output / (label + '-stderr.txt')).write_bytes(stderr)
+    row.update(exit=child.returncode, interruption_or_timeout=failure,
+               stdout_sha256=hashlib.sha256(stdout).hexdigest(), stderr_sha256=hashlib.sha256(stderr).hexdigest())
+    child = None
+    if failure is not None or row['exit'] != expected:
+        raise RuntimeError('preserve failed profile command: ' + label)
+    return stdout
+
+
+def observe(label, values, status):
+    data = json.loads(run(label, [executable, *values]))
+    if data.get('expected_outcome') is not True or data.get('status') != status:
+        raise RuntimeError('unexpected fixed placement observation: ' + label)
+    if status == 'PLACED_CANONICAL_FOREST' and data.get('all_geometry_valid') is not True:
+        raise RuntimeError('default success geometry differs')
+    if status == 'DEFAULT_ADMISSION_WORK_REFUSAL' and any(data.get(key) is not None for key in ['api_ns', 'allocations', 'placement_work']):
+        raise RuntimeError('admission refusal mislabeled as placement observation')
+
+
+signal.signal(signal.SIGTERM, interrupted)
+try:
+    record['inputs_before'] = snapshot()
+    account = pwd.getpwuid(os.getuid())
+    if account.pw_name != 'builderbob' or os.environ.get('HOME') != account.pw_dir:
+        raise RuntimeError('trusted builderbob HOME required unchanged')
+    env = {'HOME': account.pw_dir, 'PATH': str(tool) + ':/usr/bin:/bin', 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8',
+           'CARGO_HOME': str(cargo_home), 'RUSTUP_HOME': '/workspace/cache/builderbob/global-tools/rustup',
+           'RUSTUP_TOOLCHAIN': '1.99.1-x86_64-unknown-linux-gnu', 'CARGO_BUILD_JOBS': '1',
+           'CARGO_INCREMENTAL': '0', 'CARGO_TARGET_DIR': str(target), 'TMPDIR': str(output)}
+    lock = Path('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock').open()
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    if len(sys.argv) != 2 or sha(source) != sys.argv[1]:
+        raise RuntimeError('profile source is not reviewed final bytes')
+    record['included_dependencies'] = []
+    for path, full_sha, git_blob, region, region_sha, variable, name in [
+        (allocator, '36127a02052ca203cead039dc2dae82e5e77118686ccf1d34c6d6f33bb1a0dda', '2f38d0e92afb48815ab813b8c887d760b887856d', (12, 95), '1f927e4d0a780666081a13b4bdc4d2f3ffb94f220ac9bf39cdea8162734e3eb3', 'SYSON_COUNTING_ALLOCATOR_INCLUDE', 'counting_allocator.rs'),
+        (helpers, 'b8a8fb36b622398ba886172fdeb5b742aff3068c1efd26098d903be736550f95', '95f130e320951d8506295f64285c5fbb9c5feb09', (96, 134), '1f014035b4519d44fb6106e27268c5ac6d2f0bdfe4053cd22e2f46bba53fe92a', 'SYSON_FOREST_PROFILE_HELPERS_INCLUDE', 'forest_helpers.rs')]:
+        raw = path.read_bytes()
+        actual_blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+        block = b''.join(raw.splitlines(keepends=True)[region[0] - 1:region[1]])
+        if len(block.splitlines()) != region[1] - region[0] + 1 or sha(path) != full_sha or actual_blob != git_blob or hashlib.sha256(block).hexdigest() != region_sha:
+            raise RuntimeError('published include source/blob/region changed')
+        generated = output / name
+        with generated.open('xb') as stream:
+            stream.write(block)
+        files.add(generated)
+        env[variable] = str(generated)
+        record['included_dependencies'].append({'path': str(path), 'source_sha256': full_sha, 'git_blob': git_blob,
+            'published_commit': '337433fb18a377e2f1a4c12fe5510b2d0798cfdb' if path == allocator else 'ca10950d8f4aa0fc6d002d8121b33afad2e0cbba',
+            'region': region, 'region_sha256': region_sha, 'generated': str(generated), 'generated_sha256': sha(generated)})
+    manifest = output / 'Cargo.toml'
+    manifest.write_text('[package]\nname="u12b-placement-observer"\nversion="0.0.0"\nedition="2024"\n[lib]\npath="observer.rs"\n[dependencies]\nserde_json="=1.0.151"\nsyson-layout={path=' + json.dumps(str(roots[0])) + '}\n[workspace]\n')
+    (output / 'observer.rs').write_bytes(b'')
+    run('observer-lock', [tool / 'cargo', 'generate-lockfile', '--offline', '--manifest-path', manifest])
+    files.update([manifest, output / 'Cargo.lock', output / 'observer.rs'])
+    for package in tomllib.loads((output / 'Cargo.lock').read_text())['package']:
+        if package.get('source', '').startswith('registry+'):
+            locations = list((cargo_home / 'registry/src').glob('*/' + package['name'] + '-' + package['version']))
+            if len(locations) != 1:
+                raise RuntimeError('offline registry selection ambiguous')
+            files.update(path for path in locations[0].rglob('*') if path.is_file())
+    record['prepared_inputs_before'] = snapshot()
+    run('actual-release-build', [tool / 'cargo', 'build', '--release', '--offline', '--locked', '--jobs', '1', '--manifest-path', manifest])
+    libraries = {}
+    for name in ['syson_layout', 'serde_json']:
+        candidates = list((target / 'release/deps').glob('lib' + name + '-*.rlib'))
+        if len(candidates) != 1:
+            raise RuntimeError('same-build rlib selection ambiguous')
+        libraries[name] = candidates[0]
+    executable = output / 'u12b-placement-profile'
+    record['compiled_inputs_before'] = {str(path): sha(path) for path in [*libraries.values(), allocator, helpers, *[output / name for name in ['counting_allocator.rs', 'forest_helpers.rs']]]}
+    argv = [tool / 'rustc', '--edition=2024', '-C', 'opt-level=3', source, '-L', 'dependency=' + str(target / 'release/deps'), '-o', executable]
+    run('profile-build', argv + [part for name, path in libraries.items() for part in ['--extern', name + '=' + str(path)]])
+    record['compiled_inputs_before'][str(executable)] = sha(executable)
+    groups = [(count, shape, flags) for count in [32, 64, 128] for shape in ['disconnected', 'chain'] for flags in [[]]]
+    groups += [(count, shape, ['--work']) for count in [64, 128] for shape in ['disconnected', 'chain']]
+    for index, (count, shape, flags) in enumerate(groups):
+        status = 'LOWERED_COMBINED_WORK_REFUSAL' if flags else 'PLACED_CANONICAL_FOREST'
+        for repetition in range(9):
+            observe(f'sample-{index}-{repetition}', [count, shape, *flags], status)
+        observe(f'cancel-{index}', [count, shape, *flags, '--cancel-before'], 'CANCELLED')
+    for shape in ['disconnected', 'chain']:
+        for count in [256, 1024]:
+            observe(f'admission-{count}-{shape}', [count, shape], 'DEFAULT_ADMISSION_WORK_REFUSAL')
+        for flag in ['--cancel-late', '--down', '--reverse', '--retained']:
+            observe(f'control-{shape}-{flag[2:]}', [64, shape, flag], 'CANCELLED' if flag == '--cancel-late' else 'PLACED_CANONICAL_FOREST')
+    for index, values in enumerate([[], [31, 'chain'], [64, 'wrong'], [64, 'chain', '--unknown'], [64, 'chain', '--work', '--work']]):
+        if json.loads(run('invalid-' + str(index), [executable, *values], 2))['status'] != 'INVALID_ARGUMENTS':
+            raise RuntimeError('CLI refusal differs')
+    record['status'] = 'PASS_90_PLACEMENT_SAMPLES_10_PRE_CANCEL_4_ADMISSION_8_CONTROLS_5_INVALID;PARENT_ACCEPTANCE_OPEN'
+except BaseException as error:
+    record.update(status='FAIL_TERMINAL', error=repr(error))
+finally:
+    try:
+        stop()
+    except BaseException as error:
+        record.update(status='FAIL_TERMINAL', cleanup_error=repr(error))
+    try:
+        record['inputs_after'] = snapshot()
+        expected = record.get('prepared_inputs_before', record.get('inputs_before', {}))
+        if record['inputs_after'] != expected or not all(record['inputs_after'].get(key) == value for key, value in record.get('inputs_before', {}).items()):
+            raise RuntimeError('selected source/tool/path/manifest drift')
+        record['compiled_inputs_after'] = {path: sha(Path(path)) for path in record.get('compiled_inputs_before', {})}
+        if record['compiled_inputs_after'] != record.get('compiled_inputs_before', {}):
+            raise RuntimeError('same-build library/binary/include drift')
+    except BaseException as error:
+        record.update(status='FAIL_TERMINAL', binding_error=repr(error))
+    (output / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+if not record['status'].startswith('PASS_90_PLACEMENT_'):
+    raise SystemExit(1)

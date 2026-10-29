@@ -1,0 +1,24 @@
+from pathlib import Path
+import json,gzip,hashlib
+
+def digest(data):return hashlib.sha256(data).hexdigest()
+
+def archive(destination,entries):
+    destination.mkdir(parents=True,exist_ok=True);index=[];seen={}
+    for label,source in entries:
+        raw=source.read_bytes();h=digest(raw);compressed=len(raw)>65536 or raw.startswith(b'\x7fELF')
+        # Content addressing deduplicates identical corpus outputs, while retaining
+        # every original source locator in the index. Compression is lossless.
+        encoding='gzip' if compressed else 'identity'
+        stored=gzip.compress(raw,mtime=0) if compressed else raw
+        rel='blobs/'+h+('.gz' if compressed else '.raw');target=destination/rel;target.parent.mkdir(exist_ok=True)
+        if rel not in seen:target.write_bytes(stored);seen[rel]=True
+        else:assert target.read_bytes()==stored
+        index.append({'source':label,'original_path':str(source),'stored':rel,'encoding':encoding,'raw_bytes':len(raw),'raw_sha256':h,'stored_sha256':digest(stored)})
+    (destination/'archive-index.json').write_text(json.dumps(index,indent=2)+'\n')
+    return index
+
+def seal(destination):
+    files={str(f.relative_to(destination)):digest(f.read_bytes()) for f in sorted(destination.rglob('*')) if f.is_file() and f.name!='SHA256.json'}
+    (destination/'SHA256.json').write_text(json.dumps(files,indent=2)+'\n')
+    return files
