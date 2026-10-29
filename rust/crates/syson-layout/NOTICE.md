@@ -13,3 +13,8 @@ are retained in the historical F16 donor commit
 `porting/follow-ons/F16/source-mapping.json`. Repository root LICENSE and NOTICE
 remain authoritative. No external runtime dependency,
 upstream artifact correspondence or layout-parity clearance is asserted.
+
+Finite package-forest admission is factored from the historical F18 donor,
+SHA-256 `9d86a510de50586ffaacabb14ecb54415493d6888d9457ec87783b3399d1bec8`.
+Its 195-line admission assignment is pinned by completion amendment 1.0.7.
+Original package placement/tests, native correspondence and actual UI remain open.

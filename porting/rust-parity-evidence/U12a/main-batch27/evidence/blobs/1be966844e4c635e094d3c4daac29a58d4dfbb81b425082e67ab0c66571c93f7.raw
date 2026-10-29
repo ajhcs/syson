@@ -1,0 +1,308 @@
+// Copyright (c) 2023, 2026 Obeo.
+// SPDX-License-Identifier: EPL-2.0
+//! Finite package-forest admission; placement/native/package UI remain OPEN.
+use crate::{DirectedEdge, LayoutError, Limit, Limits, Options};
+use std::fmt;
+
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct Position {
+    pub x: f64,
+    pub y: f64,
+}
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct Size {
+    pub width: f64,
+    pub height: f64,
+}
+#[derive(Clone, Copy, Debug)]
+pub struct PackageNode<'a> {
+    pub id: &'a str,
+    pub parent: Option<&'a str>,
+    /// Already measured leaf dimensions, e.g. the F15 synthetic-host result.
+    pub leaf_size: Size,
+    /// Pre-observed top-header footprint, including a separator if applicable.
+    pub header_height_footprint: f64,
+    pub border_width: f64,
+    pub default_width: Option<f64>,
+    pub default_height: Option<f64>,
+    /// Precomputed previous dimensions for a user-resized parent, not fixed size.
+    pub user_minimum: Option<Size>,
+    /// Previous relative position. Newly-created-position overlays are excluded.
+    pub retained_position: Option<Position>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Error {
+    Layout(LayoutError),
+    UnknownParent,
+    ParentCycle,
+    CrossParentEdge,
+}
+impl From<LayoutError> for Error {
+    fn from(value: LayoutError) -> Self {
+        Self::Layout(value)
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct PackagePlacement<'a> {
+    pub id: &'a str,
+    pub parent: Option<&'a str>,
+    pub relative: Position,
+    pub absolute: Position,
+    pub size: Size,
+}
+#[derive(Clone, Debug, PartialEq)]
+pub struct PackageLayout<'a> {
+    /// Canonical ID order; ancestors need not precede descendants.
+    pub nodes: Vec<PackagePlacement<'a>>,
+    pub width: f64,
+    pub height: f64,
+    pub charged_work: usize,
+    /// Logical admission estimate; not allocator overhead or an RSS bound.
+    pub estimated_workspace_bytes: usize,
+}
+
+fn buffer<T>(length: usize) -> Result<Vec<T>, Error> {
+    let mut values = Vec::new();
+    values
+        .try_reserve_exact(length)
+        .map_err(|_| LayoutError::Allocation)?;
+    Ok(values)
+}
+
+pub(super) struct ForestBudget<F> {
+    cancelled: F,
+    used: usize,
+    maximum: usize,
+}
+impl<F: FnMut() -> bool> ForestBudget<F> {
+    pub(super) fn poll(&mut self) -> bool {
+        (self.cancelled)()
+    }
+    pub(super) fn remaining(&self) -> usize {
+        self.maximum.saturating_sub(self.used)
+    }
+    pub(super) fn tick(&mut self, units: usize) -> Result<(), LayoutError> {
+        if self.poll() {
+            return Err(LayoutError::Cancelled);
+        }
+        let available = self.remaining();
+        self.used = self
+            .used
+            .checked_add(units)
+            .filter(|_| units <= available)
+            .ok_or(LayoutError::Limit(Limit::Work))?;
+        Ok(())
+    }
+    fn sort<T>(
+        &mut self,
+        values: &mut [T],
+        bytes: usize,
+        compare: impl Fn(&T, &T) -> std::cmp::Ordering,
+    ) -> Result<(), LayoutError> {
+        let work = values
+            .len()
+            .checked_mul(values.len())
+            .and_then(|n| n.checked_mul(bytes.max(1)))
+            .ok_or(LayoutError::Limit(Limit::Work))?;
+        self.tick(work)?;
+        values.sort_unstable_by(compare);
+        self.tick(0)
+    }
+}
+
+/// Immutable canonical forest carrying its original callback and spent work.
+/// No public constructor, reset, mutable view or independent guard recombination.
+pub struct AdmittedForest<'a, F> {
+    pub(super) ordered: Vec<PackageNode<'a>>,
+    pub(super) parents: Vec<Option<usize>>,
+    pub(super) bottom_up: Vec<usize>,
+    pub(super) indexed_edges: Vec<(DirectedEdge<'a>, Option<usize>)>,
+    pub(super) options: Options,
+    pub(super) limits: Limits,
+    pub(super) memory: usize,
+    pub(super) budget: ForestBudget<F>,
+}
+impl<'a, F> AdmittedForest<'a, F> {
+    pub fn nodes(&self) -> &[PackageNode<'a>] {
+        &self.ordered
+    }
+    pub fn parent_indices(&self) -> &[Option<usize>] {
+        &self.parents
+    }
+    pub fn bottom_up(&self) -> &[usize] {
+        &self.bottom_up
+    }
+    pub fn sibling_edges(&self) -> &[(DirectedEdge<'a>, Option<usize>)] {
+        &self.indexed_edges
+    }
+    pub fn options(&self) -> Options {
+        self.options
+    }
+    pub fn limits(&self) -> Limits {
+        self.limits
+    }
+    pub fn charged_work(&self) -> usize {
+        self.budget.used
+    }
+    /// Legacy logical forest/group allowance, not allocator overhead or RSS.
+    pub fn estimated_workspace_bytes(&self) -> usize {
+        self.memory
+    }
+}
+impl<F> fmt::Debug for AdmittedForest<'_, F> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("AdmittedForest")
+            .field("nodes", &self.ordered.len())
+            .field("edges", &self.indexed_edges.len())
+            .field("charged_work", &self.budget.used)
+            .finish_non_exhaustive()
+    }
+}
+fn valid(number: f64) -> bool {
+    number.is_finite() && number >= 0.0
+}
+
+/// Validate all supplied geometry/options, including unused and empty inputs.
+/// Own copied canonical nodes/edges, parent links and bottom-up order; IDs remain
+/// borrowed. The unchanged 4096*N+1024*E allowance includes future simultaneously
+/// live forest/group storage; it is logical accounting, not measured heap/RSS.
+/// Placement must consume this token once and continue its original budget.
+pub fn admit_packages<'a, F: FnMut() -> bool>(
+    nodes: &[PackageNode<'a>],
+    edges: &[DirectedEdge<'a>],
+    options: Options,
+    limits: Limits,
+    cancelled: F,
+) -> Result<AdmittedForest<'a, F>, Error> {
+    let mut budget = ForestBudget {
+        cancelled,
+        used: 0,
+        maximum: limits.max_work,
+    };
+    budget.tick(0)?;
+    let (n, m) = (nodes.len(), edges.len());
+    if n > limits.max_nodes {
+        return Err(LayoutError::Limit(Limit::Nodes).into());
+    }
+    if m > limits.max_edges {
+        return Err(LayoutError::Limit(Limit::Edges).into());
+    }
+    let memory = n
+        .checked_mul(4096)
+        .and_then(|x| m.checked_mul(1024).and_then(|y| x.checked_add(y)))
+        .ok_or(LayoutError::Limit(Limit::Memory))?;
+    if memory > limits.max_workspace_bytes {
+        return Err(LayoutError::Limit(Limit::Memory).into());
+    }
+    budget.tick(n.checked_mul(32).and_then(|x| m.checked_mul(8).and_then(|y| x.checked_add(y)))
+        .ok_or(LayoutError::Limit(Limit::Work))?)?;
+    if ![
+        options.layer_gap,
+        options.node_gap,
+        options.component_gap,
+        options.padding,
+    ]
+    .into_iter()
+    .all(valid)
+    {
+        return Err(LayoutError::InvalidNumber.into());
+    }
+    let mut ordered = buffer(n)?;
+    for node in nodes {
+        budget.tick(node.id.len().max(1))?;
+        if node.id.is_empty() {
+            return Err(LayoutError::EmptyId.into());
+        }
+        if node.id.len() > limits.max_id_bytes {
+            return Err(LayoutError::Limit(Limit::IdBytes).into());
+        }
+        let numbers = [
+            node.leaf_size.width,
+            node.leaf_size.height,
+            node.header_height_footprint,
+            node.border_width,
+        ];
+        if !numbers
+            .into_iter()
+            .chain(node.default_width)
+            .chain(node.default_height)
+            .chain(node.user_minimum.into_iter().flat_map(|size| [size.width, size.height]))
+            .all(valid)
+            || node.retained_position.is_some_and(|p| !p.x.is_finite() || !p.y.is_finite())
+        {
+            return Err(LayoutError::InvalidNumber.into());
+        }
+        ordered.push(*node);
+    }
+    budget.sort(&mut ordered, limits.max_id_bytes, |a, b| a.id.cmp(b.id))?;
+    if ordered.windows(2).any(|pair| pair[0].id == pair[1].id) {
+        return Err(LayoutError::DuplicateNode.into());
+    }
+    let lookup = |id: &str| ordered.binary_search_by_key(&id, |node| node.id);
+    let mut parents = buffer(n)?;
+    parents.resize(n, None);
+    for (i, node) in ordered.iter().enumerate() {
+        budget.tick(
+            n.checked_mul(limits.max_id_bytes)
+                .ok_or(LayoutError::Limit(Limit::Work))?
+                .max(1),
+        )?;
+        if let Some(parent) = node.parent {
+            if parent.len() > limits.max_id_bytes {
+                return Err(LayoutError::Limit(Limit::IdBytes).into());
+            }
+            parents[i] = Some(lookup(parent).map_err(|_| Error::UnknownParent)?);
+        }
+    }
+    let mut depths = buffer(n)?;
+    depths.resize(n, 0usize);
+    for (i, depth) in depths.iter_mut().enumerate() {
+        let mut cursor = parents[i];
+        while let Some(parent) = cursor {
+            budget.tick(1)?;
+            *depth = depth.checked_add(1).ok_or(LayoutError::Limit(Limit::Work))?;
+            if *depth >= n {
+                return Err(Error::ParentCycle);
+            }
+            cursor = parents[parent];
+        }
+    }
+    let mut indexed_edges = buffer(m)?;
+    for edge in edges {
+        budget.tick(n.checked_mul(limits.max_id_bytes).and_then(|x| x.checked_mul(2))
+            .ok_or(LayoutError::Limit(Limit::Work))?.max(1))?;
+        for id in [edge.id, edge.source, edge.target] {
+            if id.is_empty() {
+                return Err(LayoutError::EmptyId.into());
+            }
+            if id.len() > limits.max_id_bytes {
+                return Err(LayoutError::Limit(Limit::IdBytes).into());
+            }
+        }
+        let source = lookup(edge.source).map_err(|_| LayoutError::UnknownEndpoint)?;
+        let target = lookup(edge.target).map_err(|_| LayoutError::UnknownEndpoint)?;
+        if parents[source] != parents[target] {
+            return Err(Error::CrossParentEdge);
+        }
+        indexed_edges.push((*edge, parents[source]));
+    }
+    budget.sort(&mut indexed_edges, limits.max_id_bytes, |a, b| a.0.id.cmp(b.0.id))?;
+    if indexed_edges.windows(2).any(|pair| pair[0].0.id == pair[1].0.id) {
+        return Err(LayoutError::DuplicateEdge.into());
+    }
+    let mut bottom_up = buffer(n)?;
+    bottom_up.extend(0..n);
+    budget.sort(&mut bottom_up, 1, |a, b| depths[*b].cmp(&depths[*a]).then(a.cmp(b)))?;
+    drop(depths);
+    budget.tick(0)?;
+    Ok(AdmittedForest {
+        ordered,
+        parents,
+        bottom_up,
+        indexed_edges,
+        options,
+        limits,
+        memory,
+        budget,
+    })
+}
