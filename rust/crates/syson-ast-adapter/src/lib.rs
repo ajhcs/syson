@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 //! Finite source-derived text construction, not a complete SysML parser or importer.
 #![forbid(unsafe_code)]
+pub mod operator_expression;
 use std::sync::{
     Arc,
     atomic::{AtomicBool, Ordering},
