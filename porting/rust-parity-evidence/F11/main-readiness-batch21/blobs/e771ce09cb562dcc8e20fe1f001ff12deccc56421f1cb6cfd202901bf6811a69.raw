@@ -1,0 +1,78 @@
+{
+  "status": "CAPTURED_QUALIFICATION_DIFFERENCES_OR_OPEN_GATES",
+  "inputs_before": {
+    "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/reference_expectations.cjs": "a574f87a02caf601f934dec09ee227a9f2411c9f0faff50ecb621a30fc72ca0c",
+    "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/compare_construction.py": "3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6",
+    "/workspace/worktrees/builderbob/syson/batch18-construction-landing/backend/application/syson-sysml-import/src/main/resources/syside-cli.js": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "/workspace/worktrees/builderbob/syson/batch19-construction-tools/porting/rust-parity-evidence/C09/batch19-tools/construction_corpus.json": "a4fb319e8b30b3c50504bdcc42f38b35acee7ae179550874e66bf113c35d05f4",
+    "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04/native.json": "9c681561853224353bd7eaf33c73677b92c4c46da82caa4072aa4828378465c6",
+    "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04/rust.json": "4ee4937b9032be052bff2bc38daac30e2b83b7f2ce3d634802edad194a081914",
+    "/usr/bin/node": "f3f93db342d5ac5bb61656d0599a603a73779e98befd9342171e550002725f4d"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/node",
+        "--max-old-space-size=1536",
+        "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/reference_expectations.cjs",
+        "/workspace/worktrees/builderbob/syson/batch18-construction-landing/backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+        "/workspace/worktrees/builderbob/syson/batch19-construction-tools/porting/rust-parity-evidence/C09/batch19-tools/construction_corpus.json",
+        "/workspace/build/builderbob/syson-batch21-20261029/construction-qualification-02/references.json"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.4961038820911199
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/compare_construction.py",
+        "--corpus",
+        "/workspace/worktrees/builderbob/syson/batch19-construction-tools/porting/rust-parity-evidence/C09/batch19-tools/construction_corpus.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04/native.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04/rust.json",
+        "--references",
+        "/workspace/build/builderbob/syson-batch21-20261029/construction-qualification-02/references.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/construction-qualification-02/normal.json",
+        "--self-test"
+      ],
+      "exit": 1,
+      "timed_out": false,
+      "wall_seconds": 0.09717383200768381
+    },
+    {
+      "argv": [
+        "python3",
+        "-O",
+        "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/compare_construction.py",
+        "--corpus",
+        "/workspace/worktrees/builderbob/syson/batch19-construction-tools/porting/rust-parity-evidence/C09/batch19-tools/construction_corpus.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04/native.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04/rust.json",
+        "--references",
+        "/workspace/build/builderbob/syson-batch21-20261029/construction-qualification-02/references.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch21-20261029/construction-qualification-02/optimized.json",
+        "--self-test"
+      ],
+      "exit": 1,
+      "timed_out": false,
+      "wall_seconds": 0.15796385402791202
+    }
+  ],
+  "inputs_after": {
+    "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/reference_expectations.cjs": "a574f87a02caf601f934dec09ee227a9f2411c9f0faff50ecb621a30fc72ca0c",
+    "/workspace/worktrees/builderbob/syson/batch20-qualification-tools/porting/rust-parity-evidence/C09/batch20-tools/compare_construction.py": "3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6",
+    "/workspace/worktrees/builderbob/syson/batch18-construction-landing/backend/application/syson-sysml-import/src/main/resources/syside-cli.js": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "/workspace/worktrees/builderbob/syson/batch19-construction-tools/porting/rust-parity-evidence/C09/batch19-tools/construction_corpus.json": "a4fb319e8b30b3c50504bdcc42f38b35acee7ae179550874e66bf113c35d05f4",
+    "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04/native.json": "9c681561853224353bd7eaf33c73677b92c4c46da82caa4072aa4828378465c6",
+    "/workspace/build/builderbob/syson-batch19-20261029/construction-differential-04/rust.json": "4ee4937b9032be052bff2bc38daac30e2b83b7f2ce3d634802edad194a081914",
+    "/usr/bin/node": "f3f93db342d5ac5bb61656d0599a603a73779e98befd9342171e550002725f4d"
+  },
+  "source_unchanged": true
+}
