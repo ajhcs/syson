@@ -35,6 +35,7 @@ def validate(root, read=None):
     required = {'README.md', 'REMAINING-WORK.md', 'plan.json', 'execution.json',
                 'dispatch.json', 'PR-INDEX.md', 'completion-contract.lock.json',
                 'remaining-work/units.json', 'remaining-work/verify_snapshot.py'}
+    required.update(lock.get('progress_inputs', []))
     required.update(contract_lock['sha256'])
     required.update('prs/' + unit['id'] + '.md' for unit in plan['units'])
     require(set(lock['sha256']) == required, 'locked input coverage')
