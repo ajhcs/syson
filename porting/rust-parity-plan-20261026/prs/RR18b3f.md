@@ -4,7 +4,7 @@ Lane: rereview-repairs. State: IMPLEMENTED_BOUNDED_NOT_ACCEPTED.
 
 ## Adopted completion contract
 
-SYSON-RUST-COMPLETION/1.0.5: [requirements](../COMPLETION-CONTRACT.md), [machine binding](../completion-contract.json), [acceptance packet](../acceptance-packet.schema.json). Primary acceptance family: repairs. Common gates and cross-family caller/dependency obligations apply.
+SYSON-RUST-COMPLETION/1.0.6: [requirements](../COMPLETION-CONTRACT.md), [machine binding](../completion-contract.json), [acceptance packet](../acceptance-packet.schema.json). Primary acceptance family: repairs. Common gates and cross-family caller/dependency obligations apply.
 
 ## Source preparation prerequisites
 

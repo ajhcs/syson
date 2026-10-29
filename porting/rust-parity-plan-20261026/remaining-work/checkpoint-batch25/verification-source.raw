@@ -1,0 +1,22 @@
+from pathlib import Path
+import hashlib,json,subprocess
+w=Path('/workspace/worktrees/builderbob/syson/batch24-routing-amendment')
+p=w/'porting/rust-parity-plan-20261026'
+b=Path('/workspace/build/builderbob/syson-batch22-20261029/routing-validation-02');b.mkdir()
+inputs={str(f.relative_to(p)):hashlib.sha256(f.read_bytes()).hexdigest() for f in p.rglob('*') if f.is_file() and f.name!='validation-routing-batch25.json'}
+rows=[]
+for optimized in (False,True):
+ for name,script,tail,expected in [('contract','tools/verify_plan.py',['--self-test','--check-completion'],2),('snapshot','remaining-work/verify_snapshot.py',['--self-test'],0)]:
+  argv=['/usr/bin/python3','-B']+(['-O'] if optimized else [])+[str(p/script)]+tail
+  r=subprocess.run(argv,cwd=w,capture_output=True);stem=('optimized-' if optimized else 'normal-')+name
+  (b/(stem+'-stdout.json')).write_bytes(r.stdout);(b/(stem+'-stderr.txt')).write_bytes(r.stderr)
+  if r.returncode!=expected:raise RuntimeError((stem,r.returncode,r.stderr.decode()))
+  rows.append({'label':stem,'argv':argv,'exit':r.returncode,'expected_exit':expected,'result':json.loads(r.stdout)})
+for n,d in inputs.items():
+ if hashlib.sha256((p/n).read_bytes()).hexdigest()!=d:raise RuntimeError('input changed: '+n)
+old=json.loads(subprocess.check_output(['git','show','63cca75ceebf7cfbfad1effe562d9855145edb2f:porting/rust-parity-plan-20261026/execution.json'],cwd=w));new=json.loads((p/'execution.json').read_bytes())
+if old['units']!=new['units'] or new['integration_history'][:-1]!=old['integration_history'] or new['integration_history'][-1]!=old['current_integration']:raise RuntimeError('historical record or timeline change')
+receipt={'status':'PASS_STATIC_PLAN_AND_SNAPSHOT_ONLY','checks':rows,'input_sha256_before_and_after':inputs,'historical_records_preserved':len(old['units']),'full_parity_claimed':False}
+(b/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+(p/'validation-routing-batch25.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps({'checks':[(x['label'],x['exit']) for x in rows],'input_count':len(inputs),'historical_records':len(old['units']),'full_parity_claimed':False}))

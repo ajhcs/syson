@@ -1,0 +1,20 @@
+from pathlib import Path
+import hashlib, json, shutil
+p = Path('/workspace/worktrees/builderbob/syson/batch24-routing-amendment/porting/rust-parity-plan-20261026')
+f = p / 'remaining-work/units.json'
+register = json.loads(f.read_bytes())
+original = json.dumps(register, sort_keys=True)
+extra = ['primary_family', 'brief', 'brief_sha256', 'complete_plan_unit_sha256', 'feature_acceptance']
+register['units'] = [{key: row[key] for key in register['copied_plan_fields'] if key in row} |
+                     {key: row[key] for key in extra} for row in register['units']]
+if json.dumps(register, sort_keys=True) != original:
+    raise RuntimeError('projection formatting changed task data')
+f.write_text(json.dumps(register, indent=2) + '\n')
+relative = 'remaining-work/checkpoint-batch25/formatting-source.raw'
+shutil.copyfile(Path(__file__), p / relative)
+f = p / 'remaining-work/snapshot.lock.json'
+lock = json.loads(f.read_bytes())
+lock['progress_inputs'] = sorted(set(lock['progress_inputs']) | {relative})
+lock['sha256'] = {name: hashlib.sha256((p / name).read_bytes()).hexdigest()
+                  for name in sorted(set(lock['sha256']) | {relative})}
+f.write_text(json.dumps(lock, indent=2) + '\n')
