@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "contract_id": "SYSON-RUST-COMPLETION/1.0.4",
-  "version": "1.0.4",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.5",
+  "version": "1.0.5",
   "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
   "document": "COMPLETION-CONTRACT.md",
   "packet_schema": "acceptance-packet.schema.json",
@@ -78,6 +78,8 @@
     "C09",
     "C09a",
     "C09b",
+    "C09b1",
+    "C09b2",
     "C99",
     "I01",
     "I02",
@@ -809,7 +811,9 @@
       "C02a",
       "C09",
       "C09a",
-      "C09b"
+      "C09b",
+      "C09b1",
+      "C09b2"
     ],
     "landing": [
       "C03",
@@ -2231,6 +2235,193 @@
         "UI_and_performance": "Actual browser/native workflows, meaningful screenshots, focus/accessibility and resource/performance evidence remain original parent obligations. No UI, native capacity, p95 or production-language acceptance follows from a comparator result; existing workload ranges and holds remain unchanged."
       },
       "counting_scope": "All handwritten development-tool implementation, validators, helper/import/CLI code and shared wiring count; evidence-path placement grants no production discount. Meaningful tests also count toward authored lines."
+    }
+  },
+  "comparison_repairs": {
+    "C09b": {
+      "amendment": {
+        "path": "amendments/1.0.5-partial-comparison-split.md",
+        "sha256": "921a60081b2ff0c1e0d75d4f81b258a10f5f3f500d8769ae5c7f9979a8a4e1d7"
+      },
+      "parent": "C09b",
+      "children": [
+        "C09b1",
+        "C09b2"
+      ],
+      "implementation_order": [
+        "C09a",
+        "C09b1",
+        "C09b2"
+      ],
+      "original_unit_count": 784,
+      "original_unit_ids_sha256": "10ced8b0c18d9b754cc7f2ff88416eb16aa17f1cde52db4556179a4b932c5609",
+      "original_parent_keys": [
+        "authored_or_touched_upper_estimate",
+        "budget",
+        "budget_counting",
+        "commit_plan",
+        "coordinator_wiring",
+        "dependencies",
+        "done_when",
+        "external_prs",
+        "id",
+        "implementation_ready_dependencies",
+        "lane",
+        "original_control_requirements",
+        "ownership",
+        "paths",
+        "prerequisite_policy",
+        "production_delta_estimate",
+        "prototype_requirements",
+        "retained_control_source",
+        "source_epoch_requirements",
+        "source_refs",
+        "source_regions",
+        "split_parent",
+        "state",
+        "tasks",
+        "title",
+        "verification"
+      ],
+      "original_parent_sha256": "78b8fac9b0b23236f96e7367beea5306ba5b3cc25fc3e142a15e9b1e7b0c594a",
+      "normalized_parent_keys": [
+        "authored_or_touched_upper_estimate",
+        "budget",
+        "budget_counting",
+        "commit_plan",
+        "coordinator_wiring",
+        "dependencies",
+        "done_when",
+        "external_pr_details",
+        "external_prs",
+        "id",
+        "implementation_ready_dependencies",
+        "lane",
+        "original_control_requirements",
+        "ownership",
+        "paths",
+        "prerequisite_policy",
+        "production_delta_estimate",
+        "prototype_requirements",
+        "retained_control_source",
+        "source_epoch_requirements",
+        "source_fragment",
+        "source_refs",
+        "source_regions",
+        "split_parent",
+        "state",
+        "tasks",
+        "title",
+        "verification"
+      ],
+      "normalized_parent_sha256": "d75c05943fdc7402080ee05251911af863083bfa2ce85189a966c1cd6ca1c4d2",
+      "original_parent_dependencies": [
+        "C09a"
+      ],
+      "parent_dependencies": [
+        "C09a",
+        "C09b2"
+      ],
+      "child_dependencies": {
+        "C09b1": [
+          "C09a"
+        ],
+        "C09b2": [
+          "C09b1"
+        ]
+      },
+      "child_raw_sha256": {
+        "C09b1": "88d70c136e505a3eab5a3dadbef3f5884eef2007174607fc6c49ab6f98f28070",
+        "C09b2": "30da2d7c550c9c978b61e713317359a0a044d4e8055c7854ad43f25bb86da69f"
+      },
+      "production_lines_max": 400,
+      "authored_lines_max": 900,
+      "count_basis": "added_plus_deleted",
+      "production_changed_upper_estimates": {
+        "C09b1": 380,
+        "C09b2": 390
+      },
+      "authored_upper_estimates": {
+        "C09b1": 800,
+        "C09b2": 850
+      },
+      "capture_module": {
+        "path": "porting/rust-parity-evidence/C09/batch22-comment-comparison/capture_p01.py",
+        "sha256": "57c141ae620d103b1fe6104286cb887a62ec8dcccaf45ed34fc6baf64985a88c"
+      },
+      "candidate": {
+        "sha256": "16daa02867fcbb06cafc12f67d14c9d21f7898646392dcf15ecb12584c1d10a8",
+        "line_count": 400,
+        "state": "REJECTED;ACTUAL_TWO_FALSE_SUCCESSES_AND_NATIVE_ROOT_SCHEMA_FAILURE",
+        "archive_path": "remaining-work/checkpoint-batch24/rejected-comparator.raw"
+      },
+      "source_assignment": {
+        "C09b1": [
+          [
+            1,
+            7
+          ],
+          [
+            9,
+            9
+          ],
+          [
+            11,
+            15
+          ],
+          [
+            18,
+            32
+          ],
+          [
+            35,
+            223
+          ]
+        ],
+        "C09b2": [
+          [
+            8,
+            8
+          ],
+          [
+            10,
+            10
+          ],
+          [
+            16,
+            17
+          ],
+          [
+            33,
+            34
+          ],
+          [
+            224,
+            400
+          ]
+        ]
+      },
+      "assignment_sha256": {
+        "C09b1": "9c9d8ba3e27632a3be86e7ee64b7104352c4432f81ef1c4cccde56062dbdd16c",
+        "C09b2": "fdf9c4a4cc23e6c756b74770bb3f9e06757ee2958a604f829bae1c93c51bbe5b"
+      },
+      "original_controls_sha256": "5ee68a2a8a96714e999ac517ca66410cbf8d5091fd834d94246169bbcfa95982",
+      "additional_controls": [
+        "partial-reference-info-namespace-name",
+        "missing-first-ref-origin-later-text",
+        "missing-first-ref-origin-same-text",
+        "missing-first-ref-text-later-origin",
+        "missing-typeref-origin-later-text",
+        "missing-first-ref-origin-only",
+        "missing-first-ref-text-only",
+        "missing-typeref-origin-only",
+        "capture-module-source-hash",
+        "projection-module-source-hash"
+      ],
+      "total_controls": 45,
+      "public_api": "compare(corpus_raw,native_raw,rust_raw,receipt_raw,constructor_path,capture_path); fresh pinned C09a admission per call; context projection private",
+      "partial_field_policy": "Known absent names compare exactly; only unavailable fields are skipped. Preserve every available reference row/part/text/span and simultaneous DIVERGED/OPEN findings. Malformed data remains refused.",
+      "readiness_policy": "C09b2 follows actual reviewed landed and locally qualified C09b1 and exact byte pin, not full feature acceptance. Parent accepted children and all original C09/C01/C02/RR15/native/UI/runtime gates remain required."
     }
   }
 }

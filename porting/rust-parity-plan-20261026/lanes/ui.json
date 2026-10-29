@@ -488,10 +488,12 @@
       "id": "C09b",
       "title": "Compare admitted P01 projections with preserved CLI and all35 controls",
       "dependencies": [
-        "C09a"
+        "C09a",
+        "C09b2"
       ],
       "implementation_ready_dependencies": [
-        "C09a"
+        "C09a",
+        "C09b2"
       ],
       "paths": [
         "porting/rust-parity-evidence/C09/batch22-comment-comparison/compare_p01.py",
@@ -591,7 +593,22 @@
         "control_count": 35,
         "region_sha256": "d53eae6797fbd5cd4c679145cb3594bd815c302fbe6a7db1f6305037fa64783b"
       },
-      "done_when": "The exact composed split CLI preserves all assigned frozen behaviors, both epochs and all35 original controls with typed source/schema/causality failures and independent review inside400/900. Parent C09/RR15 runtime/native/UI/teardown acceptance stays OPEN."
+      "done_when": "The exact composed split CLI preserves all assigned frozen behaviors, both epochs and all35 original controls with typed source/schema/causality failures and independent review inside400/900. Parent C09/RR15 runtime/native/UI/teardown acceptance stays OPEN.",
+      "acceptance_children": [
+        "C09b1",
+        "C09b2"
+      ],
+      "delegated_comparison": {
+        "children": [
+          "C09b1",
+          "C09b2"
+        ],
+        "original_dependencies": [
+          "C09a"
+        ],
+        "implementation_input": "C09b2",
+        "meaning": "Original parent tasks/paths/gates remain; children add finite raw-admission/kernel and harness/control prerequisites, never acceptance waivers."
+      }
     },
     {
       "id": "U01",
@@ -984,7 +1001,7 @@
       "bounded_child_disposition": "Standalone flat-graph prerequisites only. Every original U10 task, source path, U02/U09 dependency, native/caller/worker/geometry/identity/routing and usability obligation remains required; no child result accepts the parent.",
       "kernel_parent_gates": {
         "native_source_artifact": "Matching effective ELK/Sirius artifact, source/options and original invocation/native geometry comparisons; Rust graph invariants cannot replace them.",
-        "actual_caller": "Actual measurement\u2192layout\u2192routing with one numeric admission policy, document/revision/font/request identities, stale/cancel/refusal and no successful identity-layout fallback.",
+        "actual_caller": "Actual measurement→layout→routing with one numeric admission policy, document/revision/font/request identities, stale/cancel/refusal and no successful identity-layout fallback.",
         "geometry_and_worker": "Ports, pins, containers, partial/manual layout, nested labels, route attachment/obstacle clearance, worker/history publication, disposal and supported graph shapes retain all original U10/U11 gates.",
         "usability": "Real 320/1440px rendered readability, clipping, focus/selection/pan/zoom, cancellation/retry, broader device/assistive-technology matrix and intentional improvement dispositions.",
         "resources": "64/128/256/1024 nodes and representative edges/IDs, 32nodes/64edges interactive fixture; two warmups/seven measured ranges, >=30 samples for p95; allocation traffic/live heap/RSS and logical work distinct. No guard relaxation to claim capacity.",
@@ -1020,7 +1037,7 @@
         "Pin source contracts and original tests, then implement the assigned behavior with meaningful regressions.",
         "Record exact source/build/native-oracle boundaries, raw failures and resource checks in a separate evidence/disposition commit."
       ],
-      "whole_parent_gates": "Original U10 effective ELK/native/UI/measurement\u2192layout\u2192routing/worker/pin/port/container/identity/revision/cancellation/capacity obligations remain OPEN until actual parent integration and acceptance.",
+      "whole_parent_gates": "Original U10 effective ELK/native/UI/measurement→layout→routing/worker/pin/port/container/identity/revision/cancellation/capacity obligations remain OPEN until actual parent integration and acceptance.",
       "prerequisite_policy": "A standalone finite kernel may prepare and qualify its typed API without pretending U02/U09 or the complete application exists. Parent implementation still requires U02/U09 and U10b. No Java/ELK runtime fallback is shipped.",
       "id": "U10a",
       "title": "Admit canonical flat layout graphs with bounded work and buffers",
@@ -1049,7 +1066,7 @@
         "added_upper": 309,
         "deleted_upper": 0,
         "changed_upper": 309,
-        "basis": "529-line donor: input/error types, guard/fallible buffers, numeric validity and canonical adjacency admission; 35\u201355 factoring lines estimated. Exact ordinary-formatted additions plus deletions control admission."
+        "basis": "529-line donor: input/error types, guard/fallible buffers, numeric validity and canonical adjacency admission; 35–55 factoring lines estimated. Exact ordinary-formatted additions plus deletions control admission."
       },
       "authored_or_touched_upper_estimate": 650,
       "original_case_requirements": [],
@@ -1085,7 +1102,7 @@
         "Pin source contracts and original tests, then implement the assigned behavior with meaningful regressions.",
         "Record exact source/build/native-oracle boundaries, raw failures and resource checks in a separate evidence/disposition commit."
       ],
-      "whole_parent_gates": "Original U10 effective ELK/native/UI/measurement\u2192layout\u2192routing/worker/pin/port/container/identity/revision/cancellation/capacity obligations remain OPEN until actual parent integration and acceptance.",
+      "whole_parent_gates": "Original U10 effective ELK/native/UI/measurement→layout→routing/worker/pin/port/container/identity/revision/cancellation/capacity obligations remain OPEN until actual parent integration and acceptance.",
       "prerequisite_policy": "A standalone finite kernel may prepare and qualify its typed API without pretending U02/U09 or the complete application exists. Parent implementation still requires U02/U09 and U10b. No Java/ELK runtime fallback is shipped.",
       "id": "U10b",
       "title": "Place admitted flat directed graphs with canonical SCC ranks and weak-component bands",
@@ -3474,6 +3491,264 @@
       "done_when": "Every named task has a matched source/runtime disposition; actual Rust caller and user journey pass the specified gates; unsupported residuals remain open under separate IDs.",
       "state": "PLANNED",
       "ownership": "One agent owns this module; coordinator serializes root exports, manifests and composition."
+    },
+    {
+      "lane": "verification",
+      "external_prs": [],
+      "source_refs": [
+        "Frozen unexecuted 686-line prototype /workspace/build/builderbob/syson-batch22-20261029/compare_p01.py SHA-256 56e59184a7190cc6beffc7f5e413e4fbff9ff9b965f02740b976accce931ec5f",
+        "porting/rust-parity-plan-20261026/amendments/1.0.4-comment-comparison-split.md",
+        "porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py SHA-256 3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "counting_scope": "All handwritten development-tool implementation, validators, helper/import/CLI code and shared wiring count; evidence-path placement grants no production discount. Meaningful tests also count toward authored lines."
+      },
+      "budget_counting": "added_plus_deleted",
+      "coordinator_wiring": [
+        "porting/rust-parity-evidence/C09/batch22-comment-comparison/README.md"
+      ],
+      "state": "PLANNED;NO_IMPLEMENTATION_OR_EXECUTION_LEASE",
+      "commit_plan": [
+        "Pin the complete frozen behavior/cases and interfaces, then implement only the leased module with meaningful typed controls.",
+        "Keep exact sources, failed/successful raw results, source/epoch/receipt limitations and independent disposition in a separate evidence commit."
+      ],
+      "source_epoch_requirements": [
+        {
+          "raw_sha256": "971dcf43457b511ee7f7df99b676c38179a6450b3241caf66d7a9682320982ca",
+          "case_count": 15,
+          "canonical_sha256": "d4212968de38e574f8aebe8f5c64b9245115a36f057a7e5d46c8654702d0e348"
+        },
+        {
+          "raw_sha256": "c5fce29e6ac91d6d0c65ad657edfb12f20fe7bdc5a408ca3deaef6816a714cc6",
+          "case_count": 25,
+          "canonical_sha256": "17d3985d0f5b64430715bda98c4ce8b211db22c916a52184b14b736232b0adb2"
+        }
+      ],
+      "prototype_requirements": {
+        "sha256": "56e59184a7190cc6beffc7f5e413e4fbff9ff9b965f02740b976accce931ec5f",
+        "line_count": 686,
+        "constructor_sha256": "3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6",
+        "receipt_causality_limit": "Receipt input/command declarations are checked. The receipt has no output digest; capture-to-execution causality requires independent artifact/stdout review."
+      },
+      "prerequisite_policy": "Finite development capture/comparison may qualify pinned existing inputs independently of complete C01/C02/RR15 application readiness. Original parent dependencies, RR15 acceptance and full native/runtime/UI/teardown gates remain mandatory; no feature acceptance or process lease follows.",
+      "id": "C09b1",
+      "title": "Compare every available P01 field through fresh pinned capture admission",
+      "split_parent": "C09b",
+      "dependencies": [
+        "C09a"
+      ],
+      "implementation_ready_dependencies": [
+        "C09a"
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/C09/batch22-comment-comparison/projection_p01.py",
+        "porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_projection_p01.py",
+        "porting/rust-parity-evidence/C09b1/"
+      ],
+      "ownership": "Exclusive kernel/test lease after versioned adoption and actual prerequisite admission. Every public call source-pins and readmits four raw captures through landed C09a. Root owns shared wiring and all runtime execution; no source or execution lease follows from this plan.",
+      "tasks": [
+        "Expose compare(corpus_raw, native_raw, rust_raw, receipt_raw, constructor_path, capture_path); check exact C09a bytes before execution and freshly invoke actual admit on every call. Keep context projection private; no mutable trust token or unchecked/cached import.",
+        "Preserve native/Rust type census, ordered selected names and origins, ownership/reachability, raw references, diagnostics, exact six refusal dispositions and the known native coordinate-fault OPEN. Retain source/receipt/capture causality limits.",
+        "Compare known absent name_units=None exactly. Track unavailable origins per field; preserve each reference row, available part text/span and later siblings when another field is missing. Never infer missing native values from Rust or normalize a real mismatch away.",
+        "Factor all assigned frozen behavior under ordinary 400/900 caps. Report each available contradiction as DIVERGED while preserving simultaneous OPEN findings; malformed data still fails admission."
+      ],
+      "verification": [
+        "Use the actual pinned C09a raw-input API on both complete epochs under normal and optimized Python. Missing data alone stays OPEN; available same/later-part text and spans and known absent Namespace names still diverge. No permissive schema mirror.",
+        "Preserve old15 two root-span differences and final25 expected zero selected differences with six restriction/recovery cases and coordinate/getter/target/lifecycle limits OPEN. Retain all actual failed and silent-pass captures separately.",
+        "Independently review source assignment and per-field availability; count all helpers/imports/wiring after normal formatting before execution. Qualification covers this finite API only, not parent acceptance."
+      ],
+      "source_assignment": [
+        [
+          1,
+          7
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          11,
+          15
+        ],
+        [
+          18,
+          32
+        ],
+        [
+          35,
+          223
+        ]
+      ],
+      "production_delta_estimate": {
+        "added_upper": 380,
+        "deleted_upper": 0,
+        "changed_upper": 380,
+        "basis": "217 assigned candidate lines plus checked raw-input API, explicit availability policy and source/report bindings; no budget exception."
+      },
+      "authored_or_touched_upper_estimate": 800,
+      "original_control_requirements": [],
+      "additional_control_requirements": [
+        "partial-reference-info-namespace-name",
+        "missing-first-ref-origin-later-text",
+        "missing-first-ref-origin-same-text",
+        "missing-first-ref-text-later-origin",
+        "missing-typeref-origin-later-text",
+        "missing-first-ref-origin-only",
+        "missing-first-ref-text-only",
+        "missing-typeref-origin-only",
+        "capture-module-source-hash",
+        "projection-module-source-hash"
+      ],
+      "done_when": "Exact reviewed kernel source and real-C09a focused normal/optimized checks preserve every assigned behavior and available native expectation within400/900. Landed/local qualification makes C09b2 implementation eligible; parent feature gates remain OPEN."
+    },
+    {
+      "lane": "verification",
+      "external_prs": [],
+      "source_refs": [
+        "Frozen unexecuted 686-line prototype /workspace/build/builderbob/syson-batch22-20261029/compare_p01.py SHA-256 56e59184a7190cc6beffc7f5e413e4fbff9ff9b965f02740b976accce931ec5f",
+        "porting/rust-parity-plan-20261026/amendments/1.0.4-comment-comparison-split.md",
+        "porting/rust-parity-evidence/C09/batch21-constructor-tools/compare_construction.py SHA-256 3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6"
+      ],
+      "budget": {
+        "production_lines_max": 400,
+        "authored_lines_max": 900,
+        "counting_scope": "All handwritten development-tool implementation, validators, helper/import/CLI code and shared wiring count; evidence-path placement grants no production discount. Meaningful tests also count toward authored lines."
+      },
+      "budget_counting": "added_plus_deleted",
+      "coordinator_wiring": [
+        "porting/rust-parity-evidence/C09/batch22-comment-comparison/README.md"
+      ],
+      "state": "PLANNED;NO_IMPLEMENTATION_OR_EXECUTION_LEASE",
+      "commit_plan": [
+        "Pin the complete frozen behavior/cases and interfaces, then implement only the leased module with meaningful typed controls.",
+        "Keep exact sources, failed/successful raw results, source/epoch/receipt limitations and independent disposition in a separate evidence commit."
+      ],
+      "source_epoch_requirements": [
+        {
+          "raw_sha256": "971dcf43457b511ee7f7df99b676c38179a6450b3241caf66d7a9682320982ca",
+          "case_count": 15,
+          "canonical_sha256": "d4212968de38e574f8aebe8f5c64b9245115a36f057a7e5d46c8654702d0e348"
+        },
+        {
+          "raw_sha256": "c5fce29e6ac91d6d0c65ad657edfb12f20fe7bdc5a408ca3deaef6816a714cc6",
+          "case_count": 25,
+          "canonical_sha256": "17d3985d0f5b64430715bda98c4ce8b211db22c916a52184b14b736232b0adb2"
+        }
+      ],
+      "prototype_requirements": {
+        "sha256": "56e59184a7190cc6beffc7f5e413e4fbff9ff9b965f02740b976accce931ec5f",
+        "line_count": 686,
+        "constructor_sha256": "3d7d2451ff2300510cda71ad6c5debee6fab47193277d8c1292f2490eb7874d6",
+        "receipt_causality_limit": "Receipt input/command declarations are checked. The receipt has no output digest; capture-to-execution causality requires independent artifact/stdout review."
+      },
+      "prerequisite_policy": "Finite development capture/comparison may qualify pinned existing inputs independently of complete C01/C02/RR15 application readiness. Original parent dependencies, RR15 acceptance and full native/runtime/UI/teardown gates remain mandatory; no feature acceptance or process lease follows.",
+      "id": "C09b2",
+      "title": "Bind the P01 kernel and retain all35 plus ten compound/source controls",
+      "split_parent": "C09b",
+      "dependencies": [
+        "C09b1"
+      ],
+      "implementation_ready_dependencies": [
+        "C09b1"
+      ],
+      "paths": [
+        "porting/rust-parity-evidence/C09/batch22-comment-comparison/compare_p01.py",
+        "porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_compare_p01.py",
+        "porting/rust-parity-evidence/C09b2/"
+      ],
+      "ownership": "Exclusive harness/test lease follows actual reviewed landed C09b1 plus local-qualified source pin, not full feature acceptance. Root owns README and serialized subject execution; the plan grants no source/process lease.",
+      "tasks": [
+        "Verify actual reviewed landed kernel bytes before execution, then use its public raw-input API for baseline and every comparison mutation. Bind kernel/C09a/constructor paths and hashes plus all original raw inputs; no unchecked sibling import or cached-bytecode substitution.",
+        "Preserve CLI options, reporting and typed exits0/1/2. Retain every original35 identity and branch plus all ten additional controls; module-pin sentinels must reject before untrusted code executes.",
+        "Repair native-root by cloning range and position records under unique IDs and changing only root CST bounds/reference. Actual C09a must admit it, original shared positions and non-root CST ranges stay unchanged, then root_origin diverges; unrelated schema failure cannot satisfy this control.",
+        "Exercise compound missing-information cases without collapsing reference rows/parts or skipping known absent names. Preserve OPEN for missing-only fields and exact refusal/coordinate limitations. Compare available native expectations independently from Rust."
+      ],
+      "verification": [
+        "Run final composed CLI on both raw epochs, normal and optimized Python, with all35 original plus ten named controls. Preserve old15 two root-span differences/exit1 and final25 expected zero selected differences/exit0 with required OPEN dispositions.",
+        "Reproduce seven old209 silent-pass holes and both actual400 compound false successes through final entry. Target typed source/schema failures, precise semantic differences and missing-only OPEN; a different failure does not prove the intended guard.",
+        "Run actual C09a19 focused checks separately; independently inspect source bytes, raw stdout/artifacts and receipt causality limits. Count imports/helpers/control bodies/shared wiring normally; stop before400/900 without compression or test deletion."
+      ],
+      "source_assignment": [
+        [
+          8,
+          8
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          16,
+          17
+        ],
+        [
+          33,
+          34
+        ],
+        [
+          224,
+          400
+        ]
+      ],
+      "production_delta_estimate": {
+        "added_upper": 390,
+        "deleted_upper": 0,
+        "changed_upper": 390,
+        "basis": "183 assigned candidate lines plus kernel pinning, repaired root control and ten compound/source controls, ordinary formatting and wiring counted."
+      },
+      "authored_or_touched_upper_estimate": 850,
+      "original_control_requirements": [
+        "native-type",
+        "native-root",
+        "native-name",
+        "Rust-root",
+        "Rust-name",
+        "Rust-source",
+        "duplicate",
+        "missing",
+        "schema",
+        "bool-root",
+        "missing-node-origin",
+        "missing-Datum-lexeme",
+        "unknown-node",
+        "native-missing-data-value",
+        "native-descriptor-flag",
+        "missing-CST",
+        "dangling-object",
+        "remove-TypeReference",
+        "remove-FeatureTyping",
+        "selected-origin",
+        "nonselected-origin",
+        "bad-default-lexeme",
+        "reference-text",
+        "reference-span",
+        "coherent-truncation",
+        "coherent-reorder",
+        "wrong-bundle",
+        "wrong-prefix",
+        "fake-comment-interior-refusal",
+        "truncated-Malformed",
+        "missing-native-reference-info",
+        "receipt-kernel",
+        "receipt-corpus",
+        "receipt-timeout",
+        "constructor-source-hash"
+      ],
+      "additional_control_requirements": [
+        "partial-reference-info-namespace-name",
+        "missing-first-ref-origin-later-text",
+        "missing-first-ref-origin-same-text",
+        "missing-first-ref-text-later-origin",
+        "missing-typeref-origin-later-text",
+        "missing-first-ref-origin-only",
+        "missing-first-ref-text-only",
+        "missing-typeref-origin-only",
+        "capture-module-source-hash",
+        "projection-module-source-hash"
+      ],
+      "done_when": "Independently reviewed composed CLI retains all35 original and ten additional controls, exact epochs/source/receipt bindings and typed outcomes within400/900. Both child acceptances and every original C09b/C09/RR15 native/UI/runtime gate remain required."
     }
   ]
 }
