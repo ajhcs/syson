@@ -1,0 +1,1 @@
+This finite integer routing extraction is qualified by the immutable source bindings, 34-case checks and actual search observations referenced in qualification.json. The packet retains original donors and failure epochs; native UI, fractional-coordinate and capacity acceptance remain open.
