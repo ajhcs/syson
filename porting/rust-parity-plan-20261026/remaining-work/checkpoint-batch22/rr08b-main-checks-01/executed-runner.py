@@ -1,0 +1,21 @@
+from pathlib import Path
+import fcntl,hashlib,json,os,re,signal,subprocess,time
+b=Path(__file__).parent;o=b/'rr08b-main-checks-01';o.mkdir();(o/'tmp').mkdir();w=Path('/workspace/worktrees/builderbob/syson/batch21-rr08-main');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();files=set()
+for name in ['syson-ast','syson-ast-adapter','syson-ast-values','syson-reflection','syson-ast-dispatch']:files.update(p for p in (w/'rust/crates'/name).rglob('*') if p.is_file())
+files.add(b/'probe_rr08b_publication.rs');snap=lambda:{str(p):sha(p) for p in sorted(files)};r={'status':'RUNNING','inputs_before':snap(),'commands':[],'scope':'RR08bcompletejournal+boundedflatvalidation;69cases,source-reviewedguarddeviation;fullparentacceptanceOPEN'};lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());env=dict(os.environ,CARGO_BUILD_JOBS='1',RUST_TEST_THREADS='1',CARGO_INCREMENTAL='0',CARGO_TARGET_DIR='/workspace/build/builderbob/syson-batch15-20261029/target',TMPDIR=str(o/'tmp'),PYTHONDONTWRITEBYTECODE='1')
+def run(label,argv,expected=0):
+ start=time.monotonic();child=subprocess.Popen(list(map(str,argv)),cwd=o,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:stdout,stderr=child.communicate(timeout=180);timed=False
+ except subprocess.TimeoutExpired:os.killpg(child.pid,signal.SIGKILL);stdout,stderr=child.communicate(timeout=10);timed=True
+ (o/(label+'-stdout.txt')).write_bytes(stdout);(o/(label+'-stderr.txt')).write_bytes(stderr);row={'label':label,'argv':list(map(str,argv)),'exit':child.returncode,'expected_exit':expected,'timed_out':timed,'wall_seconds':time.monotonic()-start,'passed':sum(map(int,re.findall(rb'test result: ok\. (\d+) passed;',stdout)))};r['commands'].append(row);print(json.dumps(row),flush=True)
+ if child.returncode!=expected or timed:raise RuntimeError('Preserve failed '+label)
+ return stdout
+try:
+ manifest=o/'Cargo.toml';q=lambda p:json.dumps(str(p));manifest.write_text('[package]\nname="rr08-publication-probes"\nversion="0.0.0"\nedition="2021"\n[dependencies]\nsyson-ast={path='+q(w/'rust/crates/syson-ast')+'}\n[[test]]\nname="publication"\npath='+q(b/'probe_rr08b_publication.rs')+'\n[workspace]\n');run('probe-lock',['cargo','generate-lockfile','--offline','--manifest-path',manifest]);stdout=run('fixed-publication-probes',['cargo','test','--offline','--locked','--jobs','1','--manifest-path',manifest,'--test','publication','--','--test-threads=1','--nocapture']);assert b'3 passed; 0 failed' in stdout
+ for label,crate,expected in [('ast',w/'rust/crates/syson-ast',42),('adapter',w/'rust/crates/syson-ast-adapter',27)]:
+  run(label+'-format',['cargo','fmt','--manifest-path',crate/'Cargo.toml','--','--check']);run(label+'-tests',['cargo','test','--offline','--locked','--jobs','1','--manifest-path',crate/'Cargo.toml','--','--test-threads=1','--nocapture']);assert r['commands'][-1]['passed']==expected;run(label+'-clippy',['cargo','clippy','--offline','--locked','--jobs','1','--manifest-path',crate/'Cargo.toml','--all-targets','--','-D','warnings']);run(label+'-wasm',['cargo','check','--offline','--locked','--jobs','1','--manifest-path',crate/'Cargo.toml','--target','wasm32-unknown-unknown'])
+ r['status']='PASS_69_AST_ADAPTER_CASES_PLUS3_PUBLIC_GUARDS_FORMAT_CLIPPY_WASM;PERFORMANCE_AND_PARENT_GATES_OPEN'
+except BaseException as e:r.update(status='FAIL_TERMINAL',error=repr(e));raise
+finally:
+ r['inputs_after']=snap();r['source_unchanged']=r['inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+ if not r['source_unchanged']:raise RuntimeError('Source drift')
