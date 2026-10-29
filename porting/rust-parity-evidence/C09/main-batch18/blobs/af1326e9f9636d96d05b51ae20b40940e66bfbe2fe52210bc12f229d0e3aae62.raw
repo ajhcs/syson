@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "reviewer": "/root/batch18_ui_reconciliation",
+  "mode": "SOURCE_ONLY_READ_ONLY_AUDIT; no product execution, browser, service, compiler, tests or Git mutations",
+  "main": "bd908befaa01adbcbe5030d597f6564f8a90c1cf",
+  "donor": "87c69ce02a826f84d3c9530d215e20e268b2cfc6",
+  "donor_role": "Frozen #130 review snapshot; never merge it or target it with new implementation.",
+  "result": "SMALL_GRAPH_FREE_MODEL_PREREQUISITE_AVAILABLE;ACTUAL_UI_AND_PARENT_ACCEPTANCE_OPEN",
+  "observed_main": {
+    "missing_crates": [
+      "syson-web",
+      "syson-node-measurement",
+      "syson-layout",
+      "syson-routing",
+      "syson-workflow"
+    ],
+    "landed_model_history": "RR20 already matches donor history source; no retransplant required.",
+    "borrowed_api_missing": true
+  },
+  "recommended_next_cut": {
+    "scope": "Bounded RR18b3a borrowed model prerequisite composed with main RR20; separate actual renderer adoption remains required.",
+    "exact_donor_files": [
+      "rust/crates/syson-model/src/element_summary.rs",
+      "rust/crates/syson-model/tests/rr18b3a_regression.rs",
+      "rust/crates/syson-model/tests/batch14_history_summary.rs",
+      "porting/rust-parity-evidence/RR18b3a/fixtures/ownership-amplification.json"
+    ],
+    "production_new_module_lines": 67,
+    "original_model_regression_lines": 171,
+    "original_model_regression_cases": 3,
+    "joint_history_regression_lines": 161,
+    "joint_history_regression_cases": 1,
+    "fixture_bytes": 192234,
+    "coordinator_only_wiring": {
+      "path": "rust/crates/syson-model/src/lib.rs",
+      "operations": [
+        "Add private mod element_summary and public ElementSummaryRef re-export.",
+        "Transpose collect_summaries visitor adapter only, preserving exact owner/order/class/name behavior and owned API.",
+        "Keep main RR20, literal JSON, bounded writer and containment sources intact.",
+        "Exclude donor raw-factory-candidate factory/raw_admission/port_definition_refs registrations and every held source."
+      ],
+      "donor_lines": "15/18 and459-467; registration line numbers differ on main."
+    },
+    "dependencies": "Uses only main model/serde_json/domain/metamodel authorities; no manifest or graph change required.",
+    "budget": "Exact source:67-line newmodule +8 added/22 removed sharedlib lines;332 retainedtestlines.75 production additions/97 changedproduction lines;407 authored additions before packetprose. Within400/900.",
+    "acceptance_boundary": "A reviewed bounded prerequisite disposition is required. This does not satisfy RR18b3a actual App.render, RR18b1/RR18b2 source readiness or full RR20/RR18 acceptance."
+  },
+  "next_independent_geometry": {
+    "F15": {
+      "crate": "syson-node-measurement",
+      "production_lines": 298,
+      "test_lines": 462,
+      "direct_dependencies": [
+        "syson-editor"
+      ],
+      "main_dependency_matches_donor": true,
+      "scope": "Typed supplied host observations; no DOM/font measurement or full native geometry acceptance."
+    },
+    "sizing_needs_review_before_execution": [
+      {
+        "scope": "F16 flat layout",
+        "production_lines": 530,
+        "test_lines": 572,
+        "issue": "Exceeds400 production and900 authored; not covered by1.0.1 F10/F11 amendment."
+      },
+      {
+        "scope": "F17 routing",
+        "production_lines": 403,
+        "test_lines": 439,
+        "issue": "Exceeds400 production; not covered by1.0.1 amendment."
+      },
+      {
+        "scope": "F18 containers",
+        "production_lines": 368,
+        "test_lines": 553,
+        "issue": "921 authored before manifest/notices exceeds900; do not drop original cases or compress formatting."
+      }
+    ]
+  },
+  "actual_UI_reconciliation": {
+    "default_direct_missing": [
+      "syson-node-measurement",
+      "syson-layout",
+      "syson-routing",
+      "ElementSummaryRef / Document::element_summaries"
+    ],
+    "optional_path": "syson-web optional syson-workflow -> optional syson-initializer-graph/raw-factory-candidate and main model raw feature. Manifest resolution/admission needs explicit disposition; cfg alone is not qualification. This audit did not run Cargo to claim a concrete resolution failure.",
+    "source_calls": [
+      {
+        "path": "rust/crates/syson-web/src/lib.rs",
+        "line": 475,
+        "behavior": "Actual App.try_render borrows document summaries."
+      },
+      {
+        "path": "rust/crates/syson-web/src/lib.rs",
+        "line": 339,
+        "behavior": "Undo/redo executes editor methods but reports generic no-history text."
+      },
+      {
+        "path": "rust/crates/syson-web/src/lib.rs",
+        "line": 623,
+        "behavior": "Toolbar controls remain always available; no history_state-driven disabled or retention explanation. RR19 remains open."
+      }
+    ],
+    "holds": "All existing explicit graph/raw/factory/helper/backlog/validation holds remain unchanged. Separate source paths do not grant the graph dependency.",
+    "review_size": "Whole web/geometry source cannot be copied as one appropriately sized PR; reconcile existing behavior scopes and review required splits before expansion."
+  },
+  "required_verification": {
+    "bounded_model_cut": [
+      "Root freezes exact pre/post source and donor fixture; retain original red evidence.",
+      "Run all affected current-main model cases plus all3 borrowed and1 joint history cases; no original test deletion.",
+      "Verify manual preorder, resource/semantic ID separation, relationship owner semantics, unknown class/name shapes, owned compatibility and borrowed pointer identity.",
+      "Through live Editor, commit/undo/redo/retention/failure/noop/stale/foreign/cancel preserve exact opaque numeric spelling, marker objects and Unicode payloads.",
+      "Observe dense1025-row borrowed allocation separately from owned summary API; largest request,total requests/live bytes andRSS differ.",
+      "Formatting, all-target Clippy, locked/offline tests and WASM; independent exactdiff review."
+    ],
+    "actual_UI_candidate": [
+      "Integrate actual prerequisites on main; never merge snapshot tree.",
+      "Requalify old151 Rust host cases/18 release recipes only on changed current composition, retaining earlier attribution.",
+      "Real event release UI at320/1440px: dense import, first/middle/last selection, edit/stage/commit/cancel/refusal/undo/redo, boundary export/reopen, focus/caret/drafts/history.",
+      "Observe actual AX/read-only/state and screenshots; preserve page/console errors, app/model/geometry exports and teardown.",
+      "Two warmups/seven restored samples min/median/max;atleast30 forp95. Separate emission,transfer,parse/insert/layout,event-to-visible,allocation andRSS.",
+      "Identifier text wall,dense33000px browsing,spoken assistive technology,otherbrowser/device/glyphs,whole-render admission,Rust browser ownership,durable page/backend restart remain separate unmet gates."
+    ]
+  },
+  "source_bindings": {
+    "donor": {
+      "rust/crates/syson-model/src/element_summary.rs": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c",
+      "rust/crates/syson-model/tests/rr18b3a_regression.rs": "743da5c96df2e3a0f3b2ed819dbbdeca165a9669111b7240cfebefffc60deea0",
+      "rust/crates/syson-model/tests/batch14_history_summary.rs": "3db519d768ecb7e406d745b048789d6958b799e219581452f7be623d1a5a6f39",
+      "porting/rust-parity-evidence/RR18b3a/fixtures/ownership-amplification.json": "9a1b3e8d49618aa27c6a553519441380ade9d9b93e9024dcccc118e5cce78e7c",
+      "rust/crates/syson-web/Cargo.toml": "d257654818f493fc9f0b2fa419a242d35e8380625e6f461cd092c1b96432a8ad",
+      "rust/crates/syson-web/src/lib.rs": "c3d6527924f4a6899649be670ffab878927d70c1953e415a9fffb5513aff85f4",
+      "rust/crates/syson-workflow/Cargo.toml": "ab48b1f723da116397b0bc3b5b80ade3aee7906670a68d789f190d1afc18d0eb",
+      "rust/crates/syson-node-measurement/Cargo.toml": "82824dc600d622b5d5d75e14d0b60d66226d662e698a6ac13af6c4fbf43f80e1",
+      "rust/crates/syson-node-measurement/src/lib.rs": "a9aa057159a2d71f33ae836d8570246d4fd8e6d3fd7f2d228b174fccf50da1d0"
+    },
+    "main_model_lib": "cdab6f071eb2e91116aed4b64d8139c007acc5e19e911bc901ce0b47dac1db62"
+  },
+  "full_parity_claimed": false,
+  "source_review": {
+    "result": "ACCEPT_FROZEN_SOURCE_FOR_ROOT_QUALIFICATION;NO_DEMONSTRATED_DEFECT",
+    "author_changes": "None; all67 modulelines and332 testlines plusfixture remain exact donor bytes.",
+    "root_shared_wiring_reviewed": true,
+    "root_shared_wiring_excludes_held_exports": true,
+    "preserved_cases": 4,
+    "assessment": [
+      "Shared visit is equivalent to previous collect_summaries preorder and semanticowner rules, including related-before-relationships and relationships carrying noowner.",
+      "Lifetime ties all borrowedfields to immutable Document; no unsafe/productmutableescape; retained rows prevent source replacement while used.",
+      "Existing privateDocument and envelope/node admission invariants justify current unwrapsites; depthlimit128 bounds importedvalue nesting. No new namespaceguard needed.",
+      "OwnedAPI uses samevisitor and intentionallycopies fields; borrowed resultallocates onlyrowvector, not arbitrary repeatedownerstrings. That is a narrower claim than peakheap/RSS or whole-render admission.",
+      "Original3tests cover literalmanualtuples, separateIDs, unknownclass/name shapes,pointeridentity,emptyallocation anddense1025-rowfixture. Jointcase exercises actualEditor history/refusals with exactopaqueJSON andUnicode.",
+      "No demonstrated semantic defect warranted a productionchange or redundanttest. All runtimeclaims wait for rootexecution."
+    ],
+    "frozen_sha256": {
+      "rust/crates/syson-model/src/element_summary.rs": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c",
+      "rust/crates/syson-model/tests/rr18b3a_regression.rs": "743da5c96df2e3a0f3b2ed819dbbdeca165a9669111b7240cfebefffc60deea0",
+      "rust/crates/syson-model/tests/batch14_history_summary.rs": "3db519d768ecb7e406d745b048789d6958b799e219581452f7be623d1a5a6f39",
+      "porting/rust-parity-evidence/RR18b3a/fixtures/ownership-amplification.json": "9a1b3e8d49618aa27c6a553519441380ade9d9b93e9024dcccc118e5cce78e7c",
+      "rust/crates/syson-model/src/lib.rs": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f"
+    },
+    "remaining_limits": "ActualApp.render/navigation/import/history/browser/AX/320and1440px/completeoutput/performance/native/durable/UIparent gates remain open. Source acceptance does not substitute runtimeevidence."
+  },
+  "development_tool_source_review": {
+    "result": "ACCEPT_FOR_ROOT_FORMAT_AND_QUALIFICATION;NO_DEMONSTRATED_DEFECT",
+    "source_only": true,
+    "authored_file": "summary_probe.rs only;124lines before coordinator formatting",
+    "reviewed_file_hashes": {
+      "summary_probe.rs": "154539b3250c2c1b7435746b792bd2f7c7e8e47255f6c2a0027ae3013876dcff",
+      "values_dump.rs": "53b2d3ba66adab9c6c380b47cf0d916f198ab3b5142d5da7d566c44157a92d8e",
+      "values_oracle.cjs": "fd0999c09a8df92069b4d5daf1b834a1b3b6a02acd91834f15bf5bc1f9795f71",
+      "values_corpus.json": "d7d2ad0d9b70e0e0034fcc99e43460159c4b3a851922a1ac8ba7db6bc4469d76",
+      "compare_values.py": "1f8993d86ea7e2b3a7bf3631dfba938aadc54f7ac53a42bb9cff6e4ac14ae85c"
+    },
+    "summary_probe": [
+      "Fixture parsing and source-stringdrop precede counters/timer; actualdoc.elements/element_summaries provide owned/borrowedoutputs.",
+      "Same fivefield checksum outsideAPI timer/allocationwindow;1025rows and192234-byte/rootID65542namedfixture asserted. Root separately verifiesexactfixtureSHA.",
+      "CountersforwardSystemunchanged;allbookkeepingconstantTLS;trackonlyoutputcreation/drop onmainthread. Reallocationrequests differfromcopiedbytes/underlyingallocatortransientpeak.",
+      "Retained/live/peak/cumulative/largestrequest/allocationcalls plusseparateLinuxRSS/HWM before/retained/afterdrop. Zerodropcounterisnotleakproof.",
+      "Checksumisboundedconsumptionwitness, notcollisionproofsemanticidentity; retainedmanualtupleandjointtestsprovideexactfieldchecks.",
+      "No compiler/runtime/profile/browser/native/Git execution byauthor."
+    ],
+    "values_comparison": [
+      "ActualpublicRustAPIs produce valuekind,rawf64bits,UTF16unitarrays andretainedlexemes; nooracleexpectedvalueinput.",
+      "155corpusrows:147comparable and8explicitrestrictions. PresenceNull/Undefined,spanassociation,budget/cancellationchecksremainseparatetests.",
+      "Currentcorpuscontainsnoinput_unitscases;Rustoptionalinput_unitsunsanitizerouteisunusedandneedsnativecounterpartifnewcasesuseit.",
+      "NativeoriginalmethodsreceiveprovidedTerminalRule/Keyword/RuleCalldescriptors;thisdoesnotqualifyrealparser/CSTresolution.",
+      "RecursivecomparisonpreservestypeandIDorder; fourhelperdivergencecontrolsarenotfullschemaorconsumingcallerqualification.",
+      "Node/runtime/sourcegap,actualJavaCSTliteralkind,finiteimport/UI/durablelifecycleandfullacceptanceremainopen."
+    ]
+  }
+}

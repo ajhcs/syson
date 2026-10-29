@@ -1,0 +1,118 @@
+{
+  "status": "PASS_SELECTED_DIFFERENTIAL",
+  "inputs_before": {
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/.gitattributes": "597f88baa1cde3f27cf9c04fb75dcdcd61d13d5d6b6e183c87cf3cf1d2695c02",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/Cargo.lock": "b7aec954c28fef33ee289df4a71b232e942cdea6fac995fcaa44c4077be395db",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/Cargo.toml": "2f9b08c9bea08aed58e81862e9a231f209ddd914f250361fd773126691d77b40",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/LICENSE": "8c349f80764d0648e645f41ef23772a70c995a0924b5235f735f4a3d09df127c",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/NOTICE-LANGIUM.txt": "75f30c0db3fead5fe051473831dc5ceacceb961acf97783a27a77c81376dd228",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/NOTICE.md": "5f2e54789e7420959f5f3b2ef37054aff4a7d04aef72e75dbb7b694cd9607011",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/src/lib.rs": "3a705a7b0dcdbdf9fc10cbc3fad2515bf1b80a3659f7a14a2850fbc7e2c0f4b4",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/tests/conversion.rs": "e0ee5883a18ce26dd35decc8c4e6dc4b254803b8bce62c7834eae93c32265422",
+    "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_oracle.cjs": "fd0999c09a8df92069b4d5daf1b834a1b3b6a02acd91834f15bf5bc1f9795f71",
+    "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_corpus.json": "d7d2ad0d9b70e0e0034fcc99e43460159c4b3a851922a1ac8ba7db6bc4469d76",
+    "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_dump.rs": "53b2d3ba66adab9c6c380b47cf0d916f198ab3b5142d5da7d566c44157a92d8e",
+    "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/compare_values.py": "1f8993d86ea7e2b3a7bf3631dfba938aadc54f7ac53a42bb9cff6e4ac14ae85c",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/backend/application/syson-sysml-import/src/main/resources/syside-cli.js": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "/workspace/build/builderbob/syson-batch18-20261029/values-differential-02/consumer/Cargo.toml": "d133f1c46c4d97c75a2fe96b79afa5288a776d5136041800c7c272c1a4cd57b1",
+    "/usr/bin/node": "f3f93db342d5ac5bb61656d0599a603a73779e98befd9342171e550002725f4d"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/node",
+        "--max-old-space-size=1536",
+        "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_oracle.cjs",
+        "/workspace/worktrees/builderbob/syson/batch18-values-landing/backend/application/syson-sysml-import/src/main/resources/syside-cli.js",
+        "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_corpus.json",
+        "/workspace/build/builderbob/syson-batch18-20261029/values-differential-02/native.json"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.11288544302806258
+    },
+    {
+      "argv": [
+        "cargo",
+        "generate-lockfile",
+        "--offline",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch18-20261029/values-differential-02/consumer/Cargo.toml"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.015908650937490165
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--release",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch18-20261029/values-differential-02/consumer/Cargo.toml",
+        "--bin",
+        "values-dump",
+        "--",
+        "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_corpus.json"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.5403885210398585
+    },
+    {
+      "argv": [
+        "python3",
+        "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/compare_values.py",
+        "--corpus",
+        "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_corpus.json",
+        "--native",
+        "/workspace/build/builderbob/syson-batch18-20261029/values-differential-02/native.json",
+        "--rust",
+        "/workspace/build/builderbob/syson-batch18-20261029/values-differential-02/rust.json",
+        "--out",
+        "/workspace/build/builderbob/syson-batch18-20261029/values-differential-02/comparison.json"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.016836785012856126
+    }
+  ],
+  "inputs_after": {
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/.gitattributes": "597f88baa1cde3f27cf9c04fb75dcdcd61d13d5d6b6e183c87cf3cf1d2695c02",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/Cargo.lock": "b7aec954c28fef33ee289df4a71b232e942cdea6fac995fcaa44c4077be395db",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/Cargo.toml": "2f9b08c9bea08aed58e81862e9a231f209ddd914f250361fd773126691d77b40",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/LICENSE": "8c349f80764d0648e645f41ef23772a70c995a0924b5235f735f4a3d09df127c",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/NOTICE-LANGIUM.txt": "75f30c0db3fead5fe051473831dc5ceacceb961acf97783a27a77c81376dd228",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/NOTICE.md": "5f2e54789e7420959f5f3b2ef37054aff4a7d04aef72e75dbb7b694cd9607011",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/src/lib.rs": "3a705a7b0dcdbdf9fc10cbc3fad2515bf1b80a3659f7a14a2850fbc7e2c0f4b4",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/rust/crates/syson-ast-values/tests/conversion.rs": "e0ee5883a18ce26dd35decc8c4e6dc4b254803b8bce62c7834eae93c32265422",
+    "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_oracle.cjs": "fd0999c09a8df92069b4d5daf1b834a1b3b6a02acd91834f15bf5bc1f9795f71",
+    "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_corpus.json": "d7d2ad0d9b70e0e0034fcc99e43460159c4b3a851922a1ac8ba7db6bc4469d76",
+    "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/values_dump.rs": "53b2d3ba66adab9c6c380b47cf0d916f198ab3b5142d5da7d566c44157a92d8e",
+    "/workspace/worktrees/builderbob/syson/batch18-values-tools/porting/rust-parity-evidence/C09/batch18-tools/compare_values.py": "1f8993d86ea7e2b3a7bf3631dfba938aadc54f7ac53a42bb9cff6e4ac14ae85c",
+    "/workspace/worktrees/builderbob/syson/batch18-values-landing/backend/application/syson-sysml-import/src/main/resources/syside-cli.js": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "/workspace/build/builderbob/syson-batch18-20261029/values-differential-02/consumer/Cargo.toml": "d133f1c46c4d97c75a2fe96b79afa5288a776d5136041800c7c272c1a4cd57b1",
+    "/usr/bin/node": "f3f93db342d5ac5bb61656d0599a603a73779e98befd9342171e550002725f4d"
+  },
+  "source_unchanged": true,
+  "artifacts": {
+    "03-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "02-stderr.txt": "2215aedfb9f2ec584e7b34d8b2e5984b6b7525836c4d6d42d959c9aef8798098",
+    "01-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "comparison.json": "3bbb786e42a365870762074194f7add9d85591ed8e50daca24dc57392cc26182",
+    "native.json": "8e602e26833392f126d32f6be883a9f5cd99fe3681d44091785416299d9d0917",
+    "executed-runner.py": "579a7442c5c4ad885331cc6d162367606542c14cd0984ac677491a7042c52c62",
+    "01-stderr.txt": "eb033200af4dfb9f8d34c434ef2caa645584b2a051757aecda3da0ff706574e4",
+    "00-stdout.txt": "dc8737104bac506eb458c0e8e16887b7075bd1c7a2b442c1f16d189dad43757b",
+    "00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "03-stdout.txt": "792b0c238c86044c01961bb43af115ec3435a2eaf8c70dc10d412a5a75185dd9",
+    "02-stdout.txt": "81e544a74665b9e3355f0bac1e55abe24c083e8fee63632156964fc067b84275",
+    "rust.json": "81e544a74665b9e3355f0bac1e55abe24c083e8fee63632156964fc067b84275",
+    "consumer/Cargo.lock": "616d219480684559caeedbb0bcb12d0e58c8f5a75c3f27bb3e395efc95d7a860",
+    "consumer/Cargo.toml": "d133f1c46c4d97c75a2fe96b79afa5288a776d5136041800c7c272c1a4cd57b1"
+  }
+}

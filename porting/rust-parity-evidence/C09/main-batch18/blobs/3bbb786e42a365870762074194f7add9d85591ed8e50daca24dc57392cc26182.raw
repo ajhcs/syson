@@ -1,0 +1,105 @@
+{
+  "comparable_cases": 147,
+  "differences": [],
+  "restrictions": [
+    {
+      "id": "restriction-unresolved",
+      "native": {
+        "kind": "error",
+        "name": "Error",
+        "message": "This cst node was not parsed by a rule."
+      },
+      "rust": {
+        "kind": "rust_error",
+        "name": "UnresolvedRule"
+      }
+    },
+    {
+      "id": "restriction-bigint",
+      "native": {
+        "kind": "bigint",
+        "decimal": "9007199254740993"
+      },
+      "rust": {
+        "kind": "rust_error",
+        "name": "UnsupportedBigInt"
+      }
+    },
+    {
+      "id": "restriction-bigint-invalid",
+      "native": {
+        "kind": "error",
+        "name": "SyntaxError",
+        "message": "Cannot convert word to a BigInt"
+      },
+      "rust": {
+        "kind": "rust_error",
+        "name": "UnsupportedBigInt"
+      }
+    },
+    {
+      "id": "restriction-date",
+      "native": {
+        "kind": "date",
+        "time_bits": "427a184f4d400000",
+        "valid": true
+      },
+      "rust": {
+        "kind": "rust_error",
+        "name": "UnsupportedDate"
+      }
+    },
+    {
+      "id": "restriction-date-invalid",
+      "native": {
+        "kind": "date",
+        "time_bits": "7ff8000000000000",
+        "valid": false
+      },
+      "rust": {
+        "kind": "rust_error",
+        "name": "UnsupportedDate"
+      }
+    },
+    {
+      "id": "restriction-rule-unicode-case",
+      "native": {
+        "kind": "string",
+        "units": [
+          10
+        ]
+      },
+      "rust": {
+        "kind": "rust_error",
+        "name": "NonAsciiDispatch"
+      }
+    },
+    {
+      "id": "restriction-type-unicode",
+      "native": {
+        "kind": "string",
+        "units": [
+          52,
+          50
+        ]
+      },
+      "rust": {
+        "kind": "rust_error",
+        "name": "NonAsciiDispatch"
+      }
+    },
+    {
+      "id": "restriction-unicode-type-named-rule",
+      "native": {
+        "kind": "number",
+        "bits": "4045000000000000"
+      },
+      "rust": {
+        "kind": "rust_error",
+        "name": "NonAsciiDispatch"
+      }
+    }
+  ],
+  "negative_controls": "PASS_4_TYPED_DIVERGENCE_CONTROLS",
+  "scope": "Selected original converter/name methods on recorded Node; no parser, importer, UI or native deployment closure."
+}
