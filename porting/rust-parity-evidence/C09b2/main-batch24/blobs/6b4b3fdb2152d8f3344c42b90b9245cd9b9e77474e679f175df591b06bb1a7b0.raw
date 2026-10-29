@@ -1,0 +1,48 @@
+test_all_45_composed_controls_match_adopted_identity_and_outcome (__main__.ComparisonCliTests.test_all_45_composed_controls_match_adopted_identity_and_outcome) ... 
+  test_all_45_composed_controls_match_adopted_identity_and_outcome (__main__.ComparisonCliTests.test_all_45_composed_controls_match_adopted_identity_and_outcome) (epoch='15') ... FAIL
+  test_all_45_composed_controls_match_adopted_identity_and_outcome (__main__.ComparisonCliTests.test_all_45_composed_controls_match_adopted_identity_and_outcome) (epoch='25') ... FAIL
+test_cli_binds_raw_paths_all_source_layers_and_receipt_limit (__main__.ComparisonCliTests.test_cli_binds_raw_paths_all_source_layers_and_receipt_limit) ... ok
+test_cli_malformed_json_source_and_receipt_are_exit_two (__main__.ComparisonCliTests.test_cli_malformed_json_source_and_receipt_are_exit_two) ... ok
+test_cli_preserves_typed_old_red_and_current_match_with_open (__main__.ComparisonCliTests.test_cli_preserves_typed_old_red_and_current_match_with_open) ... ok
+test_control_execution_preserves_fixture_bytes_and_fresh_baseline (__main__.ComparisonCliTests.test_control_execution_preserves_fixture_bytes_and_fresh_baseline) ... FAIL
+test_root_control_refuses_colliding_ids_before_reusing_records (__main__.ComparisonCliTests.test_root_control_refuses_colliding_ids_before_reusing_records) ... ok
+test_root_mutation_preserves_original_shared_records_and_is_admitted (__main__.ComparisonCliTests.test_root_mutation_preserves_original_shared_records_and_is_admitted) ... ok
+test_source_pins_are_rechecked_each_call_and_no_sentinel_executes (__main__.ComparisonCliTests.test_source_pins_are_rechecked_each_call_and_no_sentinel_executes) ... ok
+test_valid_divergent_native_retains_json_and_reports_controls_not_applicable (__main__.ComparisonCliTests.test_valid_divergent_native_retains_json_and_reports_controls_not_applicable) ... ok
+test_valid_missing_only_input_cannot_exit_zero_when_control_preconditions_fail (__main__.ComparisonCliTests.test_valid_missing_only_input_cannot_exit_zero_when_control_preconditions_fail) ... ok
+
+======================================================================
+FAIL: test_all_45_composed_controls_match_adopted_identity_and_outcome (__main__.ComparisonCliTests.test_all_45_composed_controls_match_adopted_identity_and_outcome) (epoch='15')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch24-comment-cli/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_compare_p01.py", line 97, in test_all_45_composed_controls_match_adopted_identity_and_outcome
+    self.assertEqual((controls['status'], controls['count'], controls['required_count']),
+AssertionError: Tuples differ: ('FAILED', 9, 45) != ('PASS', 45, 45)
+
+First differing element 0:
+'FAILED'
+'PASS'
+
+- ('FAILED', 9, 45)
++ ('PASS', 45, 45)
+
+======================================================================
+FAIL: test_all_45_composed_controls_match_adopted_identity_and_outcome (__main__.ComparisonCliTests.test_all_45_composed_controls_match_adopted_identity_and_outcome) (epoch='25')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch24-comment-cli/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_compare_p01.py", line 95, in test_all_45_composed_controls_match_adopted_identity_and_outcome
+    self.assertEqual(status, 1 if epoch == '15' else 0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_control_execution_preserves_fixture_bytes_and_fresh_baseline (__main__.ComparisonCliTests.test_control_execution_preserves_fixture_bytes_and_fresh_baseline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch24-comment-cli/porting/rust-parity-evidence/C09/batch22-comment-comparison/tests/test_compare_p01.py", line 244, in test_control_execution_preserves_fixture_bytes_and_fresh_baseline
+    self.assertEqual(report['count'], 45)
+AssertionError: 9 != 45
+
+----------------------------------------------------------------------
+Ran 10 tests in 3.944s
+
+FAILED (failures=3)

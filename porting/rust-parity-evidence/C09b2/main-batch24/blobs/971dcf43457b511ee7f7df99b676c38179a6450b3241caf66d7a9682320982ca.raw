@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "scope": "P01 lexical notes; raw native diagnostics and original CST retained; finite caller restrictions explicit",
+  "cases": [
+    {
+      "id": "01-LF",
+      "source": "// 🚗 }; @ 'fake'\npackage// name boundary\nP {part// definition boundary\ndef T;part x:// type boundary\nT; }// EOF { package Ghost;",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "02-CR",
+      "source": "// 🚗 }; @ 'fake'\rpackage// name boundary\rP {part// definition boundary\rdef T;part x:// type boundary\rT; }// EOF { package Ghost;",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "03-CRLF",
+      "source": "// 🚗 }; @ 'fake'\r\npackage// name boundary\r\nP {part// definition boundary\r\ndef T;part x:// type boundary\r\nT; }// EOF { package Ghost;",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "04-comment-only-EOF",
+      "source": "// 🚗 @ { } 'never closed /* :;",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "05-quoted-slashes",
+      "source": "// 😀 prefix\npackage 'http://example' { part def 'a\\'//b'; part 'x//y': 'http://example' // reference segment\r\n :: 'a\\'//b'; }",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "06-fourth-slash",
+      "source": "////* ordinary\npackage P;",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "07-semantic-block-comment",
+      "source": "/* semantic */ package P;",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "08-overlap-multiline-note",
+      "source": "//* note\n*/ package P;",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "09-commented-closing-brace",
+      "source": "package P { // 😀 }",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "10-no-token-merging",
+      "source": "pack// no lexical merging\nage P;",
+      "origin": "original-P01-exact-source"
+    },
+    {
+      "id": "leading-trailing",
+      "source": "// leading 😀\npackage P; // trailing\n",
+      "origin": "P01-main-reconciliation-new-case"
+    },
+    {
+      "id": "comment-only-root",
+      "source": "// only 雪🧭",
+      "origin": "P01-main-reconciliation-new-case"
+    },
+    {
+      "id": "unicode-separators",
+      "source": "// NELpackage Fake; hidden more\rpackage P;",
+      "origin": "P01-main-reconciliation-new-case"
+    },
+    {
+      "id": "quoted-error-offset",
+      "source": "// 雪🧭\r\npackage 'a//unterminated",
+      "origin": "P01-main-reconciliation-new-case"
+    },
+    {
+      "id": "late-overlap",
+      "source": "// 😀\npackage P; //* remains unsupported",
+      "origin": "P01-main-reconciliation-new-case"
+    }
+  ]
+}
