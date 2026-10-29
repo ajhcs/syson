@@ -1,0 +1,22 @@
+   Compiling syson-reflection v0.1.0 (/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-reflection)
+   Compiling syson-ast-dispatch v0.1.0 (/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-ast-dispatch)
+   Compiling syson-ast v0.1.0 (/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-ast)
+   Compiling syson-ast-values v0.1.0 (/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-ast-values)
+   Compiling syson-ast-adapter v0.1.0 (/workspace/build/builderbob/syson-batch22-20261029/p01-qualification-01/red-adapter)
+error[E0583]: file not found for module `operator_expression`
+ --> src/lib.rs:5:1
+  |
+5 | pub mod operator_expression;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = help: to create the module `operator_expression`, create file "src/operator_expression.rs" or "src/operator_expression/mod.rs"
+  = note: if there is a `mod operator_expression` elsewhere in the crate already, import it with `use crate::...` instead
+
+error: couldn't find file `src/reserved.rs`
+  --> src/lib.rs:15:1
+   |
+15 | include!("reserved.rs");
+   | ^^^^^^^^^^^^^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0583`.
+error: could not compile `syson-ast-adapter` (lib) due to 2 previous errors

@@ -1,0 +1,31 @@
+{
+  "scope": "Retained test executable provenance; old test path named in04stderr contains baseline03source, final fresh-target binary contains current source. Observed debug metadata, not complete compiler/release attestation.",
+  "rows": [
+    {
+      "label": "stale-shared-target",
+      "argv": [
+        "readelf",
+        "--debug-dump=info",
+        "--dwarf-depth=1",
+        "/workspace/build/builderbob/syson-batch15-20261029/target/debug/deps/line_comments-d620c61d6a4c83d4"
+      ],
+      "exit": 0,
+      "executable_sha256": "d0f80efdbb051ae5683f00e2fdd494e18add03e0cb7164d320a2c1e7c540be2c",
+      "debug_compilation_directory": "/p01-qualification-03/red-adapter",
+      "bytes": 12925592
+    },
+    {
+      "label": "final-isolated-target",
+      "argv": [
+        "readelf",
+        "--debug-dump=info",
+        "--dwarf-depth=1",
+        "/workspace/build/builderbob/syson-batch22-20261029/target-p01-v2-current/debug/deps/line_comments-d620c61d6a4c83d4"
+      ],
+      "exit": 0,
+      "executable_sha256": "4ad44ccf07f7a6aafd797b40dd3c7ff0154eaf0d0aad0a343b6aadf55dd3ba08",
+      "debug_compilation_directory": "/workspace/worktrees/builderbob/syson/batch22-line-comments/rust/crates/syson-ast-adapter",
+      "bytes": 12961312
+    }
+  ]
+}
