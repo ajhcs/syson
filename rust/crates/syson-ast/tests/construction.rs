@@ -242,7 +242,7 @@ fn cancellation_and_work_budget_are_explicit_and_not_rolled_back() {
     let mut b = Builder::new(
         reflection(),
         Limits {
-            max_work: 3,
+            max_work: 17,
             ..Limits::default()
         },
         Arc::new(AtomicBool::new(false)),
