@@ -1,0 +1,21 @@
+"""Type-erase exact pinned selected method bodies; no geometry rewrites."""
+from pathlib import Path
+import argparse,hashlib,json,subprocess
+def require(ok, message):
+ if not ok:raise ValueError(message)
+p=argparse.ArgumentParser(description=__doc__)
+for name in ['mapping','syson','sirius','node','out']:p.add_argument('--'+name,type=Path,required=True)
+a=p.parse_args();a.out.mkdir();sha=lambda d:hashlib.sha256(d).hexdigest();m=json.loads(a.mapping.read_text());parts=[];inputs={str(a.mapping):sha(a.mapping.read_bytes()),str(a.node):sha(a.node.read_bytes())};excerpts=[]
+for group in m['source_groups']:
+ for row in group['files']:
+  source=a.syson/row['path'] if group['component']=='syson' else a.sirius/Path(row['path']).name
+  raw=source.read_bytes();require(sha(raw)==row['sha256'], 'pinned source hash mismatch: '+row['path']);inputs[str(source)]=sha(raw)
+  if source.name=='layoutParams.ts':parts.append(raw.decode().replace('export const ','const '))
+  for item in row['excerpts']:
+   selected='\n'.join(raw.decode().splitlines()[item['first_line']-1:item['last_line']]);require(selected==item['source'], 'pinned excerpt mismatch: '+item['name']);excerpts.append({'path':row['path'],'method':item['name'],'sha256':sha(selected.encode()),'first_line':item['first_line'],'last_line':item['last_line']})
+   if group['component']=='syson':
+    cls={'SysMLPackageNodeLayoutHandler.ts':'PackageProbe','SysMLViewFrameNodeLayoutHandler.ts':'ViewFrameProbe','SysMLNoteNodeLayoutHandler.ts':'NoteProbe'}[source.name];parts.append('class '+cls+' {\n'+selected+'\n}')
+   else:parts.append(selected.removeprefix('export '))
+parts.append('globalThis.OriginalHandlers={package:new PackageProbe(),view:new ViewFrameProbe(),note:new NoteProbe()};')
+raw='// EPL-2.0. Original Obeo source; selected bodies unchanged. See source-binding.json.\n'+'\n\n'.join(parts)+'\n';ts=a.out/'original-methods.ts';ts.write_text(raw);js=a.out/'original-methods.js';program="const fs=require('node:fs');const m=require('node:module');fs.writeFileSync(process.argv[2],m.stripTypeScriptTypes(fs.readFileSync(process.argv[1],'utf8'),{mode:'strip'}),{flag:'wx'});";argv=[str(a.node),'-e',program,str(ts),str(js)];r=subprocess.run(argv,capture_output=True);(a.out/'stdout.txt').write_bytes(r.stdout);(a.out/'stderr.txt').write_bytes(r.stderr)
+receipt={'status':'PASS_TYPE_ERASURE_ONLY' if r.returncode==0 else 'FAIL','argv':argv,'exit':r.returncode,'inputs_before':inputs,'inputs_after':{n:sha(Path(n).read_bytes()) for n in inputs},'excerpts':excerpts,'typescript_wrapper_sha256':sha(ts.read_bytes()),'javascript_sha256':sha(js.read_bytes()) if js.exists() else None,'meaning':'Original selected methods/helpers after builtin type erasure and export/wrapper adaptation; not full deployed module/artifact or application UI.'};(a.out/'source-binding.json').write_text(json.dumps(receipt,indent=2)+'\n');require(r.returncode==0 and receipt['inputs_before']==receipt['inputs_after'], 'type erasure failed or source drifted');print(json.dumps({'status':receipt['status'],'original_excerpts':len(excerpts),'javascript_bytes':js.stat().st_size}))
