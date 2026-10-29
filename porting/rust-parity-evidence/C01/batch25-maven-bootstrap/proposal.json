@@ -92,12 +92,12 @@
     "maven-dependency-plugin": "go-offline"
   },
   "cgroup": {
-    "scope": "syson-c01-maven-bootstrap-01.scope",
     "cpu.max": "200000 100000",
     "memory.high": "4294967296",
     "memory.max": "6442450944",
     "memory.swap.max": "0",
-    "pids.max": "128"
+    "pids.max": "128",
+    "scope_prefix": "syson-c01-maven-bootstrap-"
   },
   "bounds": {
     "phase_seconds": 600,
@@ -114,5 +114,11 @@
   "checksum_meaning": "Official primary files publish SHA1 sidecars. Literal SHA1 and sidecar SHA256/length are pinned from metadata-only reads; strong artifact SHA256 is recorded after acquisition. PGP/signature authenticity and full source/binary/dependency closure remain UNQUALIFIED; no SHA512 values are invented.",
   "inspection_meaning": "Retain raw plugin.xml, optional embedded POM, archive member inventory and POM data summaries. Sources JAR is acquired/inventoried, not executed or comprehensively source-reviewed. No recursive parent/BOM/plugin/dependency URL resolution.",
   "resource_gate": "Root separately freezes Samsung/headroom/clean-env launcher, inherited lock, exact cgroup and owned cleanup. Body/output caps are logical bytes, not OS filesystem quota or TLS/wire limits.",
-  "future_gates": "Static bootstrap acquisition does not authorize effective-pom/go-offline or accept plugin execution, dependencies, SysON build/native/source closure/UI/fullC01."
+  "future_gates": "Static bootstrap acquisition does not authorize effective-pom/go-offline or accept plugin execution, dependencies, SysON build/native/source closure/UI/fullC01.",
+  "scope_ownership_repair": {
+    "state": "SOURCE_ONLY_NOT_EXECUTED",
+    "helper_sha256": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "identity": "Fresh random unit and cookie; entry records actual ControlGroup, InvocationID, PID and start ticks before body execution. Cleanup requires matching proof; unknown or reused units are preserved.",
+    "historical_limit": "Earlier fixed-name launchers inferred ownership from absence before launch. Historical receipts and blobs remain unchanged; this source repair does not retroactively validate that cleanup ownership."
+  }
 }

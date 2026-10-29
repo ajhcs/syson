@@ -1,0 +1,11 @@
+# Invocation ownership source repair
+
+The two maintained C01 launchers now use a fresh random unit and cookie. Their entry records its actual cgroup, systemd InvocationID, PID and process start ticks before the body starts. Cleanup requires the same unit, cookie, cgroup and InvocationID; a missing or mismatching proof, noncanonical cgroup path, or invalid/zero InvocationID preserves the unit and fails the attempt. PID/start ticks document entry provenance and need not stay live while its descendants are cleaned.
+
+Keep this helper directory adjacent to the two C01 source directories when preparing a future job. Each launcher and entry pins the helper bytes; each body pins its updated proposal. Existing numbered output paths still refuse reuse. Future execution needs independently reviewed fresh paths and source hashes; this repair does not authorize rerunning retained attempts.
+
+Earlier launchers inferred ownership from a fixed unit being absent before launch. That check did not prove they created a unit observed during cleanup. Historical receipts, executed blobs and archives remain unchanged; their original cleanup ownership limitation is not retroactively resolved.
+
+`test_scope_ownership.py` supplies fake systemd responses and a local fake cgroup tree. It covers absent units, missing proof, wrong cookie/unit/group, stale/zero/malformed InvocationID, matched-invalid proof controls, noncanonical/empty cgroup paths, unit reuse, replacement during cleanup, successful owned cleanup and unobservable state. It never invokes systemd. Source author has not executed these tests, version handlers or Maven acquisition.
+
+The maintained Maven `verify_controls.py` now targets its published adjacent source, pins the corrected body, and uses fresh `c01-maven-bootstrap-controls-ownership-01` output. It qualifies only the existing 12 mocked artifact controls in normal/optimized modes. The version controls retain all 13 original control semantics with their runner pin updated. Run these current recipes separately from the 14-method ownership suite; old fixed-name recipes captured in executed history remain historical evidence, not current qualification of this repair. No test or recipe has been executed by the repair author.

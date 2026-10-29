@@ -16,7 +16,7 @@ import sys
 import time
 
 BASE = Path(__file__).resolve().parent
-PROPOSAL_SHA256 = 'ac7393022ef1bc89320bbd2d580f6d20a3c0bcf230b32cedffbcafc812c76ed9'
+PROPOSAL_SHA256 = 'd9d9cb2da7124ba005a56a2d4e9798592015e83f87d71c5fc0cbcba9345eba27'
 OUTPUT_CAP = 65536
 
 
@@ -177,14 +177,15 @@ def run_one(name, argv, environment, run):
                         for path, value in zip(paths, raw)}}
 
 
-def preflight(proposal, descriptor):
+def preflight(proposal, descriptor, unit):
     require(pwd.getpwuid(os.getuid()).pw_name == 'builderbob', 'trusted builderbob identity required')
     lock = Path(proposal['lock']).stat()
     inherited = os.fstat(descriptor)
     require((lock.st_dev, lock.st_ino) == (inherited.st_dev, inherited.st_ino), 'wrong inherited lock FD')
     fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
     line = Path('/proc/self/cgroup').read_text().strip()
-    require(line.startswith('0::/') and line.endswith('/syson-c01-versions-01.scope'), 'wrong version scope')
+    require(re.fullmatch(re.escape(proposal['resource_gate']['scope_prefix']) + r'[0-9a-f]{32}\.scope', unit)
+            and line.startswith('0::/') and line.endswith('/' + unit), 'wrong version scope')
     group = Path('/sys/fs/cgroup') / line.split(':', 2)[2].lstrip('/')
     expected = {'cpu.max': '200000 100000', 'memory.high': '4294967296',
                 'memory.max': '6442450944', 'memory.swap.max': '0', 'pids.max': '128'}
@@ -199,6 +200,7 @@ def interrupted(signum, frame):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--scope-unit', required=True)
     parser.add_argument('--lock-fd', type=int, required=True)
     args = parser.parse_args()
     signal.signal(signal.SIGTERM, interrupted)
@@ -206,7 +208,7 @@ def main():
     raw = (BASE / 'proposal.json').read_bytes()
     require(hashlib.sha256(raw).hexdigest() == PROPOSAL_SHA256, 'version proposal changed')
     proposal = json.loads(raw)
-    controls = preflight(proposal, args.lock_fd)
+    controls = preflight(proposal, args.lock_fd, args.scope_unit)
     run = Path(proposal['fresh_run_root'])
     require(run.parent.resolve().is_relative_to('/workspace') and
             run.parent.stat().st_dev == Path('/workspace').stat().st_dev and not os.path.lexists(run),

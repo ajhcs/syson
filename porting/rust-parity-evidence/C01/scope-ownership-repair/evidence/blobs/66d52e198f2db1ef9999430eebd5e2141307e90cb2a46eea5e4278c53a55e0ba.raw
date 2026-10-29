@@ -1,0 +1,4 @@
+# C01 fixed tool-version qualification
+
+Five reviewed handlers pass: Java/javac 21.0.12.1, Maven 3.9.16, Node 24.20.0 and npm 11.19.0. All retained distribution entries and 33 bound inputs match before/after. Thirteen normal and optimized mocked controls pass; the owned scope is observed absent before its terminal receipt.
+These are frozen finite-job sources, not a general build launcher. Preserve actual HOME and clean public configurations; Maven’s hidden Java probe is explicitly bounded. No requested network operations or OS network-isolation claim applies. Reproduction needs a new reviewed attempt; dependencies, hooks, build, native application, UI and full C01 acceptance remain OPEN. Handwritten change: 258 production and 700 authored lines including this README and evidence attributes.

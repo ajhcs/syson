@@ -91,19 +91,25 @@
     "ELF read-only metadata: java/javac use bundled libjli with ORIGIN-relative search; libjvm/libjava and all distribution files verified. Known host loader/C/pthread/dl/rt/m/stdlib/gcc inputs and ld.so.cache pinned; /etc/ld.so.preload must remain absent. This is not complete inherited OS source closure."
   ],
   "resource_gate": {
-    "scope": "syson-c01-versions-01.scope",
     "CPUQuota": "200%",
     "MemoryHigh": "4G",
     "MemoryMax": "6G",
     "MemorySwapMax": "0",
     "TasksMax": 128,
     "runtime": "Root outer runner provides fresh bounded whole-phase timeout/owned scope cleanup and preflight headroom. Inner runner verifies actual cgroup values before retained bytes are used; each handler timeout20s with owned processgroup KILL/reap on timeout.",
-    "fds": "Inherited exact compiler-lock FD verified and held; acquired children close all nonstdio FDs. stdin DEVNULL, core0, nofile128, individual regular-file write cap65536. Raw stdout/stderr retained separately under fresh run root."
+    "fds": "Inherited exact compiler-lock FD verified and held; acquired children close all nonstdio FDs. stdin DEVNULL, core0, nofile128, individual regular-file write cap65536. Raw stdout/stderr retained separately under fresh run root.",
+    "scope_prefix": "syson-c01-versions-"
   },
   "network": {
     "requested_operations": "None: reviewed fixed version handlers, empty public configs, offline Maven/npm and no dependency/update/lifecycle goals.",
     "containment_claim": "No OS-enforced network containment is claimed by this source. Root/C may accept reviewed-handler scope or separately admit installed trusted isolation/monitoring; offline flags are not a network prohibition.",
     "available_read_only": "unshare,systemd-run,strace installed; bwrap absent. User namespaces enabled in sysctl but AppArmor unprivileged-userns restriction1; no namespace creation capability tested. No new mandatory namespace prerequisite or custom seccomp/containerization."
   },
-  "acceptance": "Actual fixed-version outputs/exit0 plus complete before/after verification and root-owned cleanup receipt close only this version prerequisite. Preserve failures/new numbered runs; no automatic version/path/budget substitution."
+  "acceptance": "Actual fixed-version outputs/exit0 plus complete before/after verification and root-owned cleanup receipt close only this version prerequisite. Preserve failures/new numbered runs; no automatic version/path/budget substitution.",
+  "scope_ownership_repair": {
+    "state": "SOURCE_ONLY_NOT_EXECUTED",
+    "helper_sha256": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "identity": "Fresh random unit and cookie; entry records actual ControlGroup, InvocationID, PID and start ticks before body execution. Cleanup requires matching proof; unknown or reused units are preserved.",
+    "historical_limit": "Earlier fixed-name launchers inferred ownership from absence before launch. Historical receipts and blobs remain unchanged; this source repair does not retroactively validate that cleanup ownership."
+  }
 }
