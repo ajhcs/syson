@@ -1,0 +1,308 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Proposed finite Rust router, not ELK behavior. Positive integer rectangles,
+//! side-center anchors and exact half-unit points; touching boundaries is allowed.
+use std::fmt;
+use syson_layout::Placement;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Point {
+    /// Twice the input coordinate, allowing exact half-unit side centers.
+    pub x2: i64,
+    pub y2: i64,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Side {
+    Left,
+    Right,
+    Top,
+    Bottom,
+}
+#[derive(Clone, Copy, Debug)]
+pub struct Edge<'a> {
+    pub id: &'a str,
+    pub source: &'a str,
+    pub target: &'a str,
+    pub source_side: Side,
+    pub target_side: Side,
+}
+#[derive(Clone, Copy, Debug)]
+pub struct Limits {
+    pub max_nodes: usize,
+    pub max_edges: usize,
+    pub max_grid_vertices: usize,
+    pub max_output_points: usize,
+    pub max_work: usize,
+    pub max_id_bytes: usize,
+}
+impl Default for Limits {
+    fn default() -> Self {
+        Self {
+            max_nodes: 128,
+            max_edges: 256,
+            max_grid_vertices: 16_384,
+            max_output_points: 65_536,
+            max_work: 20_000_000,
+            max_id_bytes: 1024,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Limit {
+    Nodes,
+    Edges,
+    Grid,
+    Output,
+    Work,
+    IdBytes,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Unsupported {
+    Geometry,
+    OverlappingInteriors,
+    CoincidentAnchors,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Error {
+    EmptyId,
+    DuplicateNode,
+    DuplicateEdge,
+    UnknownEndpoint,
+    Unsupported(Unsupported),
+    Limit(Limit),
+    Allocation,
+    Cancelled,
+    Unroutable,
+}
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Route<'a> {
+    pub id: &'a str,
+    pub points: Vec<Point>,
+}
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Routing<'a> {
+    /// Canonical edge-ID order, independent of input permutations.
+    pub edges: Vec<Route<'a>>,
+    pub charged_work: usize,
+    pub grid_vertices: usize,
+}
+pub(crate) struct Guard<F> {
+    cancel: F,
+    used: usize,
+    max: usize,
+}
+impl<F: FnMut() -> bool> Guard<F> {
+    pub(crate) fn used(&self) -> usize {
+        self.used
+    }
+    pub(crate) fn tick(&mut self, n: usize) -> Result<(), Error> {
+        if (self.cancel)() {
+            return Err(Error::Cancelled);
+        }
+        self.used = self
+            .used
+            .checked_add(n)
+            .filter(|n| *n <= self.max)
+            .ok_or(Error::Limit(Limit::Work))?;
+        Ok(())
+    }
+    pub(crate) fn sort_cost(&mut self, n: usize, bytes: usize) -> Result<(), Error> {
+        self.tick(
+            n.checked_mul(n)
+                .and_then(|v| v.checked_mul(bytes.max(1)))
+                .ok_or(Error::Limit(Limit::Work))?,
+        )
+    }
+}
+pub(crate) fn reserved<T>(n: usize) -> Result<Vec<T>, Error> {
+    let mut v = Vec::new();
+    v.try_reserve_exact(n).map_err(|_| Error::Allocation)?;
+    Ok(v)
+}
+
+#[derive(Clone, Copy, Debug)]
+pub(crate) struct Rect<'a> {
+    pub(crate) id: &'a str,
+    pub(crate) l: i64,
+    pub(crate) r: i64,
+    pub(crate) t: i64,
+    pub(crate) b: i64,
+}
+impl<'a> Rect<'a> {
+    fn from(p: &Placement<'a>) -> Result<Self, Error> {
+        let integer = |v: f64| v.is_finite() && v.fract() == 0.0 && v.abs() <= 2_000_000.0;
+        if ![p.x, p.y, p.width, p.height].into_iter().all(integer)
+            || p.width <= 0.0
+            || p.height <= 0.0
+        {
+            return Err(Error::Unsupported(Unsupported::Geometry));
+        }
+        let doubled = |base: f64, size: f64| {
+            (base as i64)
+                .checked_add(size as i64)
+                .and_then(|v| v.checked_mul(2))
+                .ok_or(Error::Unsupported(Unsupported::Geometry))
+        };
+        let r = Self {
+            id: p.id,
+            l: doubled(p.x, 0.0)?,
+            r: doubled(p.x, p.width)?,
+            t: doubled(p.y, 0.0)?,
+            b: doubled(p.y, p.height)?,
+        };
+        if [r.l, r.r, r.t, r.b]
+            .into_iter()
+            .any(|v| v.abs() > 2_000_000)
+        {
+            return Err(Error::Unsupported(Unsupported::Geometry));
+        }
+        Ok(r)
+    }
+    fn anchor(self, side: Side) -> Point {
+        match side {
+            Side::Left => Point {
+                x2: self.l,
+                y2: (self.t + self.b) / 2,
+            },
+            Side::Right => Point {
+                x2: self.r,
+                y2: (self.t + self.b) / 2,
+            },
+            Side::Top => Point {
+                x2: (self.l + self.r) / 2,
+                y2: self.t,
+            },
+            Side::Bottom => Point {
+                x2: (self.l + self.r) / 2,
+                y2: self.b,
+            },
+        }
+    }
+}
+fn identity(id: &str, limit: usize) -> Result<(), Error> {
+    if id.is_empty() {
+        return Err(Error::EmptyId);
+    }
+    if id.len() > limit {
+        return Err(Error::Limit(Limit::IdBytes));
+    }
+    Ok(())
+}
+
+/// Canonical integer geometry with its original callback and spent work.
+/// Construction, mutable access, guard replacement and recombination are private.
+/// This finite token does not establish native ELK or fractional/UI equivalence.
+pub struct AdmittedRouting<'a, F> {
+    pub(crate) rects: Vec<Rect<'a>>,
+    pub(crate) terminals: Vec<(&'a str, Point, Point)>,
+    pub(crate) limits: Limits,
+    pub(crate) guard: Guard<F>,
+}
+impl<'a, F: FnMut() -> bool> AdmittedRouting<'a, F> {
+    /// Canonical node IDs and doubled left/right/top/bottom bounds.
+    pub fn rectangles(&self) -> impl ExactSizeIterator<Item = (&'a str, [i64; 4])> + '_ {
+        self.rects.iter().map(|r| (r.id, [r.l, r.r, r.t, r.b]))
+    }
+    /// Canonical edge IDs and exact source/target side-center anchors.
+    pub fn terminals(&self) -> &[(&'a str, Point, Point)] {
+        &self.terminals
+    }
+    pub fn limits(&self) -> Limits {
+        self.limits
+    }
+    pub fn charged_work(&self) -> usize {
+        self.guard.used()
+    }
+}
+impl<F: FnMut() -> bool> fmt::Debug for AdmittedRouting<'_, F> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("AdmittedRouting")
+            .field("rectangles", &self.rects)
+            .field("terminals", &self.terminals)
+            .field("charged_work", &self.guard.used())
+            .finish_non_exhaustive()
+    }
+}
+
+/// Admit unchanged placements into owned canonical buffers with borrowed IDs.
+/// Positive integer dimensions and rectangle edges within ±1e6 are required.
+/// Sides select anchor positions, not departure headings. Boundary contact is
+/// allowed; coincident anchors and overlapping interiors are typed refusals.
+/// Logical work/reservations do not bound process RSS or elapsed time. Grid and
+/// output quotas remain unchanged in the token for the consuming search phase.
+pub fn admit<'a, F: FnMut() -> bool>(
+    nodes: &[Placement<'a>],
+    edges: &[Edge<'a>],
+    limits: Limits,
+    cancelled: F,
+) -> Result<AdmittedRouting<'a, F>, Error> {
+    let mut guard = Guard {
+        cancel: cancelled,
+        used: 0,
+        max: limits.max_work,
+    };
+    guard.tick(0)?;
+    if nodes.len() > limits.max_nodes {
+        return Err(Error::Limit(Limit::Nodes));
+    }
+    if edges.len() > limits.max_edges {
+        return Err(Error::Limit(Limit::Edges));
+    }
+    let mut rects = reserved(nodes.len())?;
+    for node in nodes {
+        guard.tick(node.id.len().max(1))?;
+        identity(node.id, limits.max_id_bytes)?;
+        rects.push(Rect::from(node)?);
+    }
+    guard.sort_cost(rects.len(), limits.max_id_bytes)?;
+    rects.sort_unstable_by_key(|r| r.id);
+    for pair in rects.windows(2) {
+        if pair[0].id == pair[1].id {
+            return Err(Error::DuplicateNode);
+        }
+    }
+    for (i, a) in rects.iter().enumerate() {
+        for b in &rects[i + 1..] {
+            guard.tick(1)?;
+            if a.l.max(b.l) < a.r.min(b.r) && a.t.max(b.t) < a.b.min(b.b) {
+                return Err(Error::Unsupported(Unsupported::OverlappingInteriors));
+            }
+        }
+    }
+    let mut ordered = reserved(edges.len())?;
+    for edge in edges {
+        guard.tick(edge.id.len().max(1))?;
+        identity(edge.id, limits.max_id_bytes)?;
+        ordered.push(edge);
+    }
+    guard.sort_cost(ordered.len(), limits.max_id_bytes)?;
+    ordered.sort_unstable_by_key(|e| e.id);
+    for pair in ordered.windows(2) {
+        if pair[0].id == pair[1].id {
+            return Err(Error::DuplicateEdge);
+        }
+    }
+    let mut terminals = reserved(edges.len())?;
+    for edge in ordered {
+        let mut endpoint = |id: &str, side| -> Result<Point, Error> {
+            guard.tick(rects.len().max(1))?;
+            let i = rects
+                .binary_search_by_key(&id, |r| r.id)
+                .map_err(|_| Error::UnknownEndpoint)?;
+            Ok(rects[i].anchor(side))
+        };
+        let a = endpoint(edge.source, edge.source_side)?;
+        let b = endpoint(edge.target, edge.target_side)?;
+        if a == b {
+            return Err(Error::Unsupported(Unsupported::CoincidentAnchors));
+        }
+        terminals.push((edge.id, a, b));
+    }
+    // Fence standalone admission publication without changing positive charges.
+    guard.tick(0)?;
+    Ok(AdmittedRouting {
+        rects,
+        terminals,
+        limits,
+        guard,
+    })
+}
