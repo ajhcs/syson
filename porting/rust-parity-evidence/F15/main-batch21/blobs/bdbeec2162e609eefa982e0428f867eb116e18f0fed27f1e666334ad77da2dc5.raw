@@ -1,0 +1,135 @@
+{
+  "status": "PASS_COMPOSED_MEASUREMENT_GATES;NATIVE_AND_CALLER_GATES_OPEN",
+  "source_before": {
+    "rust/crates/syson-editor/Cargo.lock": "fcddd71633b4d880ac081d484005a91573dde9809d46014687da1ca715e3b486",
+    "rust/crates/syson-editor/Cargo.toml": "6a3846679e0296b4589bd996ccfee1bb3fa83d716f994ff5b78e014ebddef33b",
+    "rust/crates/syson-editor/src/lib.rs": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+    "rust/crates/syson-editor/tests/editor_contracts.rs": "d99e94f2087357ae1c7e415e2d2d0d39970a6399ff91f02499658b2c33b1289b",
+    "rust/crates/syson-node-measurement/Cargo.lock": "a447f5d589f782388d6d5e0945acb5139b4ced0fb6d1ec3b0f37ad2d59e9b28b",
+    "rust/crates/syson-node-measurement/Cargo.toml": "82824dc600d622b5d5d75e14d0b60d66226d662e698a6ac13af6c4fbf43f80e1",
+    "rust/crates/syson-node-measurement/NOTICE.md": "c6fe1a415235d35471b7ffdcf114e79b59f790d28fbb6fab3227aa7b89c29058",
+    "rust/crates/syson-node-measurement/src/lib.rs": "3006fc02a1d34827c435e427e62532e1cd3ec872d14158b6f57cc7b190eb218d",
+    "rust/crates/syson-node-measurement/tests/measurement.rs": "e1fded786700e8b2e3a35c47af28fedafc41d0e3e277bbda3dcfce4f8820dc2e"
+  },
+  "commands": [
+    {
+      "argv": [
+        "rustc",
+        "-vV"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.005174105055630207,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "-V"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.0035906319972127676,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "/workspace/worktrees/builderbob/syson/batch20-measurement-landing/rust/crates/syson-node-measurement/src/lib.rs",
+        "/workspace/worktrees/builderbob/syson/batch20-measurement-landing/rust/crates/syson-node-measurement/tests/measurement.rs"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.009185430011712015,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch20-measurement-landing/rust/crates/syson-node-measurement/Cargo.toml",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.225885261897929,
+      "tests_passed": 19
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch20-measurement-landing/rust/crates/syson-node-measurement/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.13825169298797846,
+      "tests_passed": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch20-measurement-landing/rust/crates/syson-node-measurement/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 0.06733107205945998,
+      "tests_passed": 0
+    }
+  ],
+  "scope": "F15 typedhost/sourcegeometry only on actual repairedEditor; realbrowser/fullapp sourceartifact acceptance separate.",
+  "source_after": {
+    "rust/crates/syson-editor/Cargo.lock": "fcddd71633b4d880ac081d484005a91573dde9809d46014687da1ca715e3b486",
+    "rust/crates/syson-editor/Cargo.toml": "6a3846679e0296b4589bd996ccfee1bb3fa83d716f994ff5b78e014ebddef33b",
+    "rust/crates/syson-editor/src/lib.rs": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+    "rust/crates/syson-editor/tests/editor_contracts.rs": "d99e94f2087357ae1c7e415e2d2d0d39970a6399ff91f02499658b2c33b1289b",
+    "rust/crates/syson-node-measurement/Cargo.lock": "a447f5d589f782388d6d5e0945acb5139b4ced0fb6d1ec3b0f37ad2d59e9b28b",
+    "rust/crates/syson-node-measurement/Cargo.toml": "82824dc600d622b5d5d75e14d0b60d66226d662e698a6ac13af6c4fbf43f80e1",
+    "rust/crates/syson-node-measurement/NOTICE.md": "c6fe1a415235d35471b7ffdcf114e79b59f790d28fbb6fab3227aa7b89c29058",
+    "rust/crates/syson-node-measurement/src/lib.rs": "3006fc02a1d34827c435e427e62532e1cd3ec872d14158b6f57cc7b190eb218d",
+    "rust/crates/syson-node-measurement/tests/measurement.rs": "e1fded786700e8b2e3a35c47af28fedafc41d0e3e277bbda3dcfce4f8820dc2e"
+  },
+  "source_unchanged": true,
+  "artifacts": {
+    "03-stderr.txt": "493caafc62b5cc8f2913d1b204034baff97c5d08ba221ccb2126b9fe639f8673",
+    "02-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "04-stderr.txt": "d15c6386aeaf23b4f9ff2108fc5ae62766a5bb9d372a71e61eaeaa4ee8ed4b92",
+    "01-stdout.txt": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6",
+    "executed-runner.py": "b1a0aba185425c6209fdb2ef07002ded2c358f9ad088cfba3c024454d38e10a9",
+    "04-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "01-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "00-stdout.txt": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+    "00-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "03-stdout.txt": "a4ff7dbf5a7f09d6f22512d5fdade4461a6018c4dda4dd08020ddb9c272f4810",
+    "02-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "05-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "05-stderr.txt": "304c9f8bd0ec65187f055aaea628a877f98be201c7ec4087a641e363e5a4f6f5"
+  }
+}

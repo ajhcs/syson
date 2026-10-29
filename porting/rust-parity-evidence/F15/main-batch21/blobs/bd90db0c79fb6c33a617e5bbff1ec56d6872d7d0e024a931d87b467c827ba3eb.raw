@@ -1,0 +1,88 @@
+{
+  "status": "PASS_BUILD_AND_CAPTURE;COMPARISON_OPEN",
+  "inputs_before": {
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-baseline-01/consumer/Cargo.toml": "1119804872cbf23f80424ee29f1e687c3e9462ae86819d0197fddd7aceb7c412",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/measurement_bridge.rs": "c7c03e2b1a34ce9746079633a3b02f525dd7f040f0deccbb86628a61768f9640",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/measurement_dump.rs": "4573fd69b9297be453f1a74d75b06ba8bce8eeab1cb4ccbafb6ae5245de22fed",
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json": "f0572b4ddfe2437615920f4ba476bd7dfe4106f7b137ec347c99fa1adf85d3c1",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-editor/Cargo.lock": "fcddd71633b4d880ac081d484005a91573dde9809d46014687da1ca715e3b486",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-editor/Cargo.toml": "6a3846679e0296b4589bd996ccfee1bb3fa83d716f994ff5b78e014ebddef33b",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-editor/src/lib.rs": "7b003258448bacc1bcfff3319139ddac8dc2595c9e3a3530c345d61f7de19c01",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-editor/tests/editor_contracts.rs": "1440f70fb70de410a34370a5f264e3ee9889c37d5b8858825f8c1919a64fd40a",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/Cargo.lock": "a447f5d589f782388d6d5e0945acb5139b4ced0fb6d1ec3b0f37ad2d59e9b28b",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/Cargo.toml": "82824dc600d622b5d5d75e14d0b60d66226d662e698a6ac13af6c4fbf43f80e1",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/NOTICE.md": "c6fe1a415235d35471b7ffdcf114e79b59f790d28fbb6fab3227aa7b89c29058",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/src/lib.rs": "a9aa057159a2d71f33ae836d8570246d4fd8e6d3fd7f2d228b174fccf50da1d0",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/tests/measurement.rs": "f67092eb14ffa1785b0deab29cb7303ce767ba75c1b46de96081a5b20d5b2953"
+  },
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "generate-lockfile",
+        "--offline",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-baseline-01/consumer/Cargo.toml"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.03556173201650381
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--release",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-baseline-01/consumer/Cargo.toml",
+        "--bin",
+        "measurement-dump",
+        "--",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "wall_seconds": 0.9454056769609451
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--manifest-path",
+        "/workspace/build/builderbob/syson-batch20-20261029/measurement-baseline-01/consumer/Cargo.toml",
+        "--lib",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit": 0,
+      "timed_out": false,
+      "wall_seconds": 2.438143903040327
+    }
+  ],
+  "wasm_sha256": "314e58de882c84e21bacab2331cdf8b8862f4808fd6463af16147d0a716c56cf",
+  "inputs_after": {
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-baseline-01/consumer/Cargo.toml": "1119804872cbf23f80424ee29f1e687c3e9462ae86819d0197fddd7aceb7c412",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/measurement_bridge.rs": "c7c03e2b1a34ce9746079633a3b02f525dd7f040f0deccbb86628a61768f9640",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/measurement_dump.rs": "4573fd69b9297be453f1a74d75b06ba8bce8eeab1cb4ccbafb6ae5245de22fed",
+    "/workspace/build/builderbob/syson-batch20-20261029/measurement-cases-v2.json": "f0572b4ddfe2437615920f4ba476bd7dfe4106f7b137ec347c99fa1adf85d3c1",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-editor/Cargo.lock": "fcddd71633b4d880ac081d484005a91573dde9809d46014687da1ca715e3b486",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-editor/Cargo.toml": "6a3846679e0296b4589bd996ccfee1bb3fa83d716f994ff5b78e014ebddef33b",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-editor/src/lib.rs": "7b003258448bacc1bcfff3319139ddac8dc2595c9e3a3530c345d61f7de19c01",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-editor/tests/editor_contracts.rs": "1440f70fb70de410a34370a5f264e3ee9889c37d5b8858825f8c1919a64fd40a",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/Cargo.lock": "a447f5d589f782388d6d5e0945acb5139b4ced0fb6d1ec3b0f37ad2d59e9b28b",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/Cargo.toml": "82824dc600d622b5d5d75e14d0b60d66226d662e698a6ac13af6c4fbf43f80e1",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/NOTICE.md": "c6fe1a415235d35471b7ffdcf114e79b59f790d28fbb6fab3227aa7b89c29058",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/src/lib.rs": "a9aa057159a2d71f33ae836d8570246d4fd8e6d3fd7f2d228b174fccf50da1d0",
+    "/workspace/worktrees/builderbob/syson/batch20-measurement/rust/crates/syson-node-measurement/tests/measurement.rs": "f67092eb14ffa1785b0deab29cb7303ce767ba75c1b46de96081a5b20d5b2953"
+  },
+  "source_unchanged": true
+}

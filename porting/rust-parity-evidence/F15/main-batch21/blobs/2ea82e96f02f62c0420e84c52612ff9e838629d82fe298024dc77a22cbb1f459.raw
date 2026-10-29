@@ -1,0 +1,51 @@
+// Isolated actual DOM -> pinned source -> Rust WASM measurement verification.
+const fs=require('node:fs'),path=require('node:path');
+const [url,out,executable,sdk,mode='full']=process.argv.slice(2),samples=[],checks=[],errors=[];
+if(!url||!out||!executable||!sdk||!['full','recovery'].includes(mode))throw Error('usage: run_browser.cjs URL OUT BROWSER PLAYWRIGHT_PACKAGE [full|recovery]');
+const {chromium}=require(path.resolve(sdk));
+const assert=(condition,message)=>{if(!condition)throw Error(message);};
+(async()=>{
+ const browser=await chromium.launch({executablePath:executable,headless:true,args:['--disable-gpu','--no-sandbox']});
+ const result={scope:'Developer DOM/host-boundary fixture, not full SysON/Rust application UI',mode,browser:browser.version(),browser_executable:executable,browser_plugin:'ABSENT;regular Playwright',samples,checks,errors};
+ let activePage=null;
+ try{
+  for(const width of [1440,320]){
+   const context=await browser.newContext({viewport:{width,height:900},deviceScaleFactor:1});
+   const page=await context.newPage();activePage=page;page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push({width,type:'pageerror',message:String(e)}));page.on('console',m=>{if(['error','warning'].includes(m.type()))errors.push({width,type:m.type(),message:m.text()});});
+   await page.goto(url,{waitUntil:'networkidle'});await page.waitForFunction(()=>window.measurementProbe?.ready===true);
+   assert((await page.title())==='SysON measurement qualification','wrong page');assert(await page.getByRole('button',{name:'Measure labels'}).isVisible(),'blank/missing controls');
+   const take=async()=>{const before=await page.evaluate(()=>measurementProbe.last.stamp.request_id);await page.getByRole('button',{name:'Measure labels'}).click();await page.waitForFunction(id=>measurementProbe.last.stamp.request_id>id&&!document.getElementById('measure').disabled,before);return page.evaluate(()=>measurementProbe.last);};
+   const text='Vehicle 雪 🧭\nSecond line';
+   await page.getByLabel('Label text').fill(text);await page.getByRole('button',{name:'Measure labels'}).focus();
+   // Inject at the actual bridge call; this also reproduces the old fixture's
+   // unhandled rejection and stuck busy state without depending on a new hook.
+   await page.evaluate(()=>{const original=window.runMeasurement;window.runMeasurement=(...args)=>{window.runMeasurement=original;throw Error('Injected developer measurement failure');};});
+   await page.keyboard.press('Enter');
+   await page.waitForFunction(()=>measurementProbe.last?.failed===true&&!document.getElementById('measure').hasAttribute('aria-busy'));
+   assert(await page.getByLabel('Label text').inputValue()===text,'exception lost input');
+   assert(await page.evaluate(()=>document.activeElement.id)==='measure','exception lost focus');
+   assert((await page.getByRole('status').textContent()).includes('Controls restored'),'exception status missing');
+   checks.push({width,kind:'injected-bridge-failure-controls-restored',observation:await page.evaluate(()=>measurementProbe.last)});
+   await page.screenshot({path:path.join(out,width+'-failed-recoverable.png'),fullPage:true});
+   const retry=await take();assert(retry.ok&&!retry.failed,'measurement retry failed');
+   checks.push({width,kind:'successful-retry-after-bridge-failure',observation:retry});
+   if(mode==='recovery'){await context.close();activePage=null;continue;}
+   for(let i=0;i<9;i++){
+    await page.getByLabel('Label text').fill(text);await page.getByLabel('Font size').selectOption('24');
+    for(const name of ['Retain previous size','Missing label','Stale font observation'])await page.getByLabel(name,{exact:true}).uncheck();
+    const observation=await take();assert(observation.ok&&observation.observations.every(o=>o.match),'actual DOM/source/WASM difference');samples.push({width,phase:i<2?'warmup':'measured',index:i,observation});
+   }
+   await page.screenshot({path:path.join(out,width+'-measured.png'),fullPage:true});
+   fs.writeFileSync(path.join(out,width+'-accessibility.yaml'),await page.locator('body').ariaSnapshot());
+   const cdp=await context.newCDPSession(page);await cdp.send('DOM.enable');await cdp.send('CSS.enable');const dom=await cdp.send('DOM.getDocument');const node=await cdp.send('DOM.querySelector',{nodeId:dom.root.nodeId,selector:'#node-Package-label-0'});const fonts=await cdp.send('CSS.getPlatformFontsForNode',{nodeId:node.nodeId});checks.push({width,kind:'actual-platform-fonts',fonts});
+   await page.getByLabel('Stale font observation',{exact:true}).check();const stale=await take();assert(stale.ok&&stale.observations.every(o=>!o.rust.ok&&o.rust.error==='StaleObservation'),'stale boundary not refused');assert(await page.getByLabel('Label text').inputValue()===text,'draft text lost');checks.push({width,kind:'stale-font-refusal',observation:stale});await page.screenshot({path:path.join(out,width+'-stale.png'),fullPage:true});
+   await page.getByLabel('Stale font observation',{exact:true}).uncheck();await page.getByLabel('Missing label',{exact:true}).check();const missing=await take();assert(missing.ok&&missing.observations.every(o=>o.input.observation.bounds===null),'missing DOM label not explicit');checks.push({width,kind:'missing-DOM-label',observation:missing});
+   await page.getByLabel('Missing label',{exact:true}).uncheck();await page.getByLabel('Retain previous size',{exact:true}).check();const retained=await take();assert(retained.ok,'previous-size source/WASM mismatch');checks.push({width,kind:'retain-previous-size',observation:retained});
+   await page.getByRole('button',{name:'Measure labels'}).focus();const previous=retained.stamp.request_id;await page.keyboard.press('Enter');await page.waitForFunction(id=>measurementProbe.last.stamp.request_id>id&&!document.getElementById('measure').disabled,previous);assert(await page.evaluate(()=>document.activeElement.id)==='measure','keyboard focus lost');checks.push({width,kind:'keyboard-activation-focus',active_element:'measure'});
+   await context.close();activePage=null;
+  }
+  assert(errors.length===0,'console/page errors');result.status='PASS_NAMED_DEVELOPER_DOM_WASM_CHECKS;FULL_APPLICATION_UI_OPEN';
+ }catch(error){result.status='FAIL_TERMINAL';result.failure=String(error);if(activePage&&!activePage.isClosed()){try{await activePage.screenshot({path:path.join(out,'failure-state.png'),fullPage:true});fs.writeFileSync(path.join(out,'failure-accessibility.yaml'),await activePage.locator('body').ariaSnapshot());}catch(captureError){result.failure_capture_error=String(captureError);}}throw error;
+ }finally{fs.writeFileSync(path.join(out,'browser-results.json'),JSON.stringify(result,null,2)+'\n');await browser.close();}
+ console.log(JSON.stringify({status:result.status,samples:samples.length,checks:checks.length,errors:errors.length}));
+})().catch(error=>{console.error(error);process.exitCode=1;});

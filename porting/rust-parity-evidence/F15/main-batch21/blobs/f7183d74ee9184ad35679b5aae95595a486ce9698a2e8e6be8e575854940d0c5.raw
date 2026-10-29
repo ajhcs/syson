@@ -1,0 +1,25 @@
+// Genuine old/new bridge envelope regressions; actual Rust native/WASM outputs.
+'use strict';
+const fs=require('node:fs'),vm=require('node:vm'),cp=require('node:child_process'),crypto=require('node:crypto');
+const [oldPath,newPath,shim,corpus,nativeBin,out]=process.argv.slice(2);
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+(async()=>{
+ fs.mkdirSync(out);vm.runInThisContext(fs.readFileSync(shim,'utf8'),{filename:shim});
+ const [old,newer]=await Promise.all([oldPath,newPath].map(async p=>(await WebAssembly.instantiate(fs.readFileSync(p))).instance));
+ const initial=JSON.parse(fs.readFileSync(corpus)).cases[0],cases=[];
+ for(const [id,mutate] of [['missing-observation',c=>delete c.observation],['null-observation',c=>c.observation=null],['array-observation',c=>c.observation=[]],['missing-bounds',c=>delete c.observation.bounds],['missing-border',c=>delete c.node.border],['null-border',c=>c.node.border=null],['array-border',c=>c.node.border=[]],['valid-explicit-missing-label',c=>c.observation.bounds=null]]){
+  const c=structuredClone(initial);c.id=id;mutate(c);cases.push(c);
+ }
+ const rows=cases.map(c=>({id:c.id,old:runMeasurement(old,c),current:runMeasurement(newer,c)}));
+ fs.writeFileSync(out+'/corpus.json',JSON.stringify({cases},null,2)+'\n',{flag:'wx'});
+ const result=cp.spawnSync(nativeBin,[out+'/corpus.json'],{encoding:'utf8',timeout:30000});
+ fs.writeFileSync(out+'/native-stdout.txt',result.stdout||'',{flag:'wx'});fs.writeFileSync(out+'/native-stderr.txt',result.stderr||'',{flag:'wx'});
+ if(result.status!==0)throw Error('native bridge probe failed');const native=JSON.parse(result.stdout).rows;
+ for(let i=0;i<rows.length;i++){
+  const row=rows[i];if(JSON.stringify(native[i])!==JSON.stringify(row.current))throw Error('native/WASM envelope outcome differs');
+  if(row.id==='valid-explicit-missing-label'){if(!row.old.ok||!row.current.ok)throw Error('valid missing label refused');continue;}
+  if(!row.old.ok||row.current.ok||!row.current.error.startsWith('input:')||row.current.host_calls.length||'size'in row.current)throw Error('old/new malformed-envelope contract not demonstrated');
+ }
+ const inputs=Object.fromEntries([oldPath,newPath,shim,corpus,nativeBin,__filename].map(p=>[p,sha(fs.readFileSync(p))]));
+ fs.writeFileSync(out+'/report.json',JSON.stringify({status:'PASS_7_GENUINE_OLD_BRIDGE_DEFAULTING_FAILURES_REPAIRED;VALID_NULL_RETAINED',rows,native,inputs,scope:'Developer JSON host envelope; no application JSON/data-model acceptance'},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:'PASS_OLD_NEW_NATIVE_WASM_ENVELOPE_PROBES',cases:rows.length}));
+})().catch(e=>{console.error(e);process.exitCode=1;});

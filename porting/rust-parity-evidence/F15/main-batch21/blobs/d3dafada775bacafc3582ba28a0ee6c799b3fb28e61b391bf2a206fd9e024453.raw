@@ -1,0 +1,45 @@
+# Selected-method measurement qualification tools
+
+These development tools compare the three pinned geometry methods with the actual
+Rust measurement API. They do not ship application behavior. The supplied-fact
+oracle, real DOM developer fixture, and complete application are separate scopes.
+Node's built-in TypeScript erasure preserves the selected original method bodies;
+source hashes and the permitted export/class wrapper adaptation are recorded.
+
+The bridge requires explicit node, border and observation objects. An absent label
+is `observation.bounds: null`; omitted bounds or a malformed container is an input
+error. Float values use 16 lowercase hexadecimal bits, including signed zero.
+The caller owns input memory; `apply` returns a separate output allocation. The
+transport reacquires the memory buffer after calls and frees each allocation once.
+Unsafe exports require valid live pointer/length pairs and are not a hostile-WASM
+memory API. The 1-MiB developer input quota is not a whole-application memory bound.
+
+Use `run_browser.py --build BUILD_CAPTURE --methods ORIGINAL_METHODS_JS --node NODE
+--browser CHROMIUM --playwright PLAYWRIGHT_PACKAGE --libraries SHARED_LIBRARY_DIR
+--out FRESH_WORKSPACE_OUTPUT`. Each path is explicit; `--out` must be fresh and on
+`/workspace`. The build capture must contain the reviewed WASM and passing receipt;
+the methods directory must retain `source-binding.json`. Inputs are checked before
+and after, including build/source closure, tool code, SDK and shared libraries.
+The runner takes the shared runtime lock, serves only owned files on loopback,
+retains failures, limits the child lifetime, and closes its server and browser.
+
+For the genuine old-fixture recovery counterexample, use the new runner with
+`--assets /workspace/build/builderbob/syson-batch21-20261029/measurement-tools-before-review`
+and `--recovery-only`. It injects a one-shot exception at the actual WASM transport
+call. The old async event path rejects and remains busy; retain that failed run.
+Repeat with current assets and a different fresh output: controls, text and focus
+must survive the exception, and the next measurement must succeed. Full mode adds
+two warmups/seven measurements at each viewport plus stale/missing/retention checks.
+
+Separately run malformed-envelope probes against retained old and rebuilt bridges:
+remove `observation`, remove `bounds`, or replace/remove `node.border`. The old
+bridge silently defaulted these cases; the repaired bridge must return an input
+error with no size or host calls. Preserve valid `bounds: null` and the 35-case
+numeric/refusal replay as controls. Root owns these executions and their receipts.
+
+Screenshots use synthetic fixture styles, not full native rendering. Note has no
+synthetic padding; both overflow axes are reported against actual rendered boxes.
+Missing CJK/emoji fonts and complete application/browser/device/accessibility
+acceptance remain open even when original/Rust formula bits agree. Phase timings
+include the named DOM, source-method and JSON/WASM bridge work; they do not establish
+pure Rust API speed, native application speed or supported product capacity.

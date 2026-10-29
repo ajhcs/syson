@@ -1,0 +1,254 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Developer-only JSON/host bridge to actual F15 APIs. Supplied observations do
+//! not establish the full application's DOM/font lifecycle or native parity.
+#![deny(unsafe_op_in_unsafe_fn)]
+use serde_json::{Value, json};
+use syson_node_measurement::*;
+const MAX_INPUT: usize = 1_048_576;
+type InputResult<T> = Result<T, String>;
+fn fail(error: impl std::fmt::Display) -> String {
+    json!({"id":null,"ok":false,"error":error.to_string(),"host_calls":[]}).to_string()
+}
+fn text<'a>(v: &'a Value, key: &str) -> InputResult<&'a str> {
+    v.get(key)
+        .and_then(Value::as_str)
+        .ok_or_else(|| format!("{key}: string required"))
+}
+fn integer(v: &Value, key: &str) -> InputResult<u64> {
+    v.get(key)
+        .and_then(Value::as_u64)
+        .ok_or_else(|| format!("{key}: u64 required"))
+}
+fn boolean(v: &Value, key: &str) -> InputResult<bool> {
+    v.get(key)
+        .and_then(Value::as_bool)
+        .ok_or_else(|| format!("{key}: bool required"))
+}
+fn float(v: &Value) -> InputResult<f64> {
+    let s = v.as_str().ok_or("float bits must be a string")?;
+    if s.len() != 16
+        || !s
+            .bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+    {
+        return Err("float bits require16 lowercase hexadecimal digits".into());
+    }
+    Ok(f64::from_bits(
+        u64::from_str_radix(s, 16).map_err(|e| e.to_string())?,
+    ))
+}
+fn optional(v: &Value, key: &str) -> InputResult<Option<f64>> {
+    v.get(key).map(float).transpose()
+}
+fn dimensions(v: &Value) -> InputResult<OptionalSize> {
+    if !v.is_object() {
+        return Err("dimensions must be an object".into());
+    }
+    Ok(OptionalSize {
+        width: optional(v, "width")?,
+        height: optional(v, "height")?,
+    })
+}
+fn size(v: &Value) -> InputResult<Size> {
+    Ok(Size {
+        width: float(&v["width"])?,
+        height: float(&v["height"])?,
+    })
+}
+fn bits(v: f64) -> String {
+    format!("{:016x}", v.to_bits())
+}
+fn stamp(v: &Value) -> InputResult<MeasurementStamp> {
+    Ok(MeasurementStamp {
+        layout_revision: integer(v, "layout_revision")?,
+        font_revision: integer(v, "font_revision")?,
+        request_id: integer(v, "request_id")?,
+    })
+}
+fn stamp_json(v: MeasurementStamp) -> Value {
+    json!({"layout_revision":v.layout_revision,"font_revision":v.font_revision,"request_id":v.request_id})
+}
+fn target(v: &Value) -> InputResult<LabelTarget> {
+    match text(v, "kind")? {
+        "dom" => Ok(LabelTarget::DomBoundingClientRect {
+            element_id: text(v, "element_id")?.into(),
+        }),
+        "model" => Ok(LabelTarget::InsideLabelModel {
+            node_id: text(v, "node_id")?.into(),
+        }),
+        _ => Err("target kind must be dom or model".into()),
+    }
+}
+fn target_json(v: &LabelTarget) -> Value {
+    match v {
+        LabelTarget::DomBoundingClientRect { element_id } => {
+            json!({"kind":"dom","element_id":element_id})
+        }
+        LabelTarget::InsideLabelModel { node_id } => json!({"kind":"model","node_id":node_id}),
+    }
+}
+struct Host {
+    target: Option<LabelTarget>,
+    stamp: Option<MeasurementStamp>,
+    bounds: Option<Size>,
+    fail: bool,
+    calls: Vec<Value>,
+}
+impl MeasurementHost for Host {
+    type Error = &'static str;
+    fn measure_label(&mut self, q: &LabelRequest<'_>) -> Result<LabelObservation, Self::Error> {
+        self.calls.push(
+            json!({"target":target_json(&q.target),"text":q.text,"stamp":stamp_json(q.stamp),
+            "font":{"family":q.font.family,"size_px":bits(q.font.size_px),"weight":q.font.weight,
+                "letter_spacing_px":bits(q.font.letter_spacing_px),
+                "line_height_px":q.font.line_height_px.map(bits)}}),
+        );
+        if self.fail {
+            return Err("fixture host failure");
+        }
+        Ok(LabelObservation {
+            target: self.target.clone().unwrap_or_else(|| q.target.clone()),
+            stamp: self.stamp.unwrap_or(q.stamp),
+            bounds: self.bounds,
+        })
+    }
+}
+fn execute(v: &Value) -> InputResult<Value> {
+    let n = &v["node"];
+    let kind = match text(v, "kind")? {
+        "Package" => NodeKind::Package,
+        "ViewFrame" => NodeKind::ViewFrame,
+        "Note" => NodeKind::Note,
+        _ => return Err("kind must be Package, ViewFrame or Note".into()),
+    };
+    let previous: Vec<_> = v["previous"]
+        .as_array()
+        .ok_or("previous array required")?
+        .iter()
+        .map(|p| {
+            Ok(PreviousNode {
+                id: text(p, "id")?,
+                dimensions: dimensions(&p["dimensions"])?,
+            })
+        })
+        .collect::<InputResult<_>>()?;
+    let visible: Vec<_> = v["visible_node_ids"]
+        .as_array()
+        .ok_or("visible_node_ids array required")?
+        .iter()
+        .map(|s| {
+            s.as_str()
+                .ok_or_else(|| "visible ID must be a string".to_string())
+        })
+        .collect::<InputResult<_>>()?;
+    let f = &v["font"];
+    let o = &v["observation"];
+    let mut host = Host {
+        target: o.get("target").map(target).transpose()?,
+        stamp: o.get("stamp").map(stamp).transpose()?,
+        bounds: if o["bounds"].is_null() {
+            None
+        } else {
+            Some(size(&o["bounds"])?)
+        },
+        fail: o
+            .get("fail")
+            .map(|_| boolean(o, "fail"))
+            .transpose()?
+            .unwrap_or(false),
+        calls: Vec::new(),
+    };
+    let request = LayoutRequest {
+        node: NodeGeometry {
+            id: text(n, "id")?,
+            kind,
+            current: dimensions(&n["current"])?,
+            defaults: dimensions(&n["defaults"])?,
+            forced: dimensions(&n["forced"])?,
+            is_new: boolean(n, "is_new")?,
+            resized_by_user: boolean(n, "resized_by_user")?,
+            keep_aspect_ratio: boolean(n, "keep_aspect_ratio")?,
+            direct_children: usize::try_from(integer(n, "direct_children")?)
+                .map_err(|e| e.to_string())?,
+            border: BorderWidths {
+                left: optional(&n["border"], "left")?,
+                all: optional(&n["border"], "all")?,
+            },
+        },
+        previous: &previous,
+        visible_node_ids: &visible,
+        label_text: text(v, "label_text")?,
+        font: FontSpec {
+            family: text(f, "family")?,
+            size_px: float(&f["size_px"])?,
+            weight: u16::try_from(integer(f, "weight")?).map_err(|e| e.to_string())?,
+            letter_spacing_px: float(&f["letter_spacing_px"])?,
+            line_height_px: optional(f, "line_height_px")?,
+        },
+        stamp: stamp(&v["stamp"])?,
+    };
+    Ok(match measure_node(&mut host, request) {
+        Ok(result) => {
+            json!({"ok":true,"size":{"width":bits(result.size.width),"height":bits(result.size.height)},
+            "label_target":target_json(&result.label.target),"stamp":stamp_json(result.label.stamp),"host_calls":host.calls})
+        }
+        Err(error) => json!({"ok":false,"error":format!("{error:?}"),"host_calls":host.calls}),
+    })
+}
+/// JSON conversion/host recording overhead belongs to bridge measurements, not
+/// the internal F15 arithmetic timer. Root records fixture provenance separately.
+pub fn run(input: &str) -> String {
+    if input.len() > MAX_INPUT {
+        return fail("developer input quota exceeded");
+    }
+    let v: Value = match serde_json::from_str(input) {
+        Ok(v) => v,
+        Err(e) => return fail(e),
+    };
+    let id = v.get("id").cloned().unwrap_or(Value::Null);
+    let mut output = execute(&v)
+        .unwrap_or_else(|e| json!({"ok":false,"error":format!("input: {e}"),"host_calls":[]}));
+    output["id"] = id;
+    output.to_string()
+}
+#[cfg(target_arch = "wasm32")]
+mod wasm {
+    use super::{MAX_INPUT, fail, run};
+    fn output(text: String) -> u64 {
+        let bytes = text.into_bytes().into_boxed_slice();
+        let len = u32::try_from(bytes.len()).expect("developer output fits u32");
+        let ptr = Box::into_raw(bytes) as *mut u8 as u32;
+        (u64::from(len) << 32) | u64::from(ptr)
+    }
+    #[unsafe(no_mangle)]
+    pub extern "C" fn alloc(len: u32) -> u32 {
+        if len == 0 || len as usize > MAX_INPUT {
+            return 0;
+        }
+        Box::into_raw(vec![0_u8; len as usize].into_boxed_slice()) as *mut u8 as u32
+    }
+    /// # Safety
+    /// ptr/len must identify one live buffer returned by alloc or apply. Free
+    /// exactly once, after use; apply does not free its caller-owned input.
+    #[unsafe(no_mangle)]
+    pub unsafe extern "C" fn free(ptr: u32, len: u32) {
+        if ptr != 0 {
+            let slice = std::ptr::slice_from_raw_parts_mut(ptr as *mut u8, len as usize);
+            drop(unsafe { Box::from_raw(slice) });
+        }
+    }
+    /// # Safety
+    /// ptr/len must be a live input allocation of that length, initialized by
+    /// the caller. Returned low32 pointer/high32 length owns a separate buffer.
+    #[unsafe(no_mangle)]
+    pub unsafe extern "C" fn apply(ptr: u32, len: u32) -> u64 {
+        if ptr == 0 || len as usize > MAX_INPUT {
+            return output(fail("invalid input buffer/quota"));
+        }
+        let bytes = unsafe { std::slice::from_raw_parts(ptr as *const u8, len as usize) };
+        output(match std::str::from_utf8(bytes) {
+            Ok(text) => run(text),
+            Err(e) => fail(e),
+        })
+    }
+}

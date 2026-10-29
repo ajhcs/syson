@@ -1,0 +1,229 @@
+// EPL-2.0. Original Obeo source; selected bodies unchanged. See source-binding.json.
+class PackageProbe {
+          handleLeafNode(
+    previousDiagram                ,
+    node                                                ,
+    visibleNodes                                   ,
+    _borderWidth        ,
+    _forceDimensions                   
+  ) {
+    const nodeIndex         = visibleNodes.findIndex((nd) => nd.id === node.id);
+    const labelElement                     = document.getElementById(`${node.id}-label-${nodeIndex}`);
+
+    const labelHeight         =
+      rectangularNodePadding + (labelElement?.getBoundingClientRect().height ?? 0) + rectangularNodePadding;
+
+    const minNodeWidth         = node.data.resizedByUser ? 75 : node.data.defaultWidth ?? 75;
+    const minNodeHeight         = Math.max(labelHeight, node.data.resizedByUser ? 50 : node.data.defaultHeight ?? 50);
+
+    const previousNode                                              = (previousDiagram?.nodes ?? []).find(
+      (prevNode) => prevNode.id === node.id
+    );
+    const previousDimensions             = computePreviousSize(previousNode, node);
+
+    if (node.data.resizedByUser && !_forceDimensions?.width) {
+      if (minNodeWidth > previousDimensions.width) {
+        node.width = minNodeWidth;
+      } else {
+        node.width = previousDimensions.width;
+      }
+    } else {
+      node.width = minNodeWidth;
+    }
+
+    if (node.data.resizedByUser && !_forceDimensions?.height) {
+      if (minNodeHeight > previousDimensions.height) {
+        node.height = minNodeHeight;
+      } else {
+        node.height = previousDimensions.height;
+      }
+    } else {
+      node.height = minNodeHeight;
+    }
+  }
+}
+
+class ViewFrameProbe {
+          handleLeafNode(
+    previousDiagram                ,
+    node                                                    ,
+    visibleNodes                                   ,
+    _borderWidth        ,
+    _forceDimensions                   
+  ) {
+    const nodeIndex         = visibleNodes.findIndex((nd) => nd.id === node.id);
+    const labelElement                     = document.getElementById(`${node.id}-label-${nodeIndex}`);
+
+    const labelHeight         =
+      rectangularNodePadding + (labelElement?.getBoundingClientRect().height ?? 0) + rectangularNodePadding;
+
+    const minNodeWidth         = node.data.resizedByUser ? 75 : node.data.defaultWidth ?? 75;
+    const minNodeHeight         = Math.max(labelHeight, node.data.resizedByUser ? 50 : node.data.defaultHeight ?? 50);
+
+    const previousNode                                              = (previousDiagram?.nodes ?? []).find(
+      (prevNode) => prevNode.id === node.id
+    );
+    const previousDimensions             = computePreviousSize(previousNode, node);
+
+    if (node.data.resizedByUser && !_forceDimensions?.width) {
+      if (minNodeWidth > previousDimensions.width) {
+        node.width = minNodeWidth;
+      } else {
+        node.width = previousDimensions.width;
+      }
+    } else {
+      node.width = minNodeWidth;
+    }
+
+    if (node.data.resizedByUser && !_forceDimensions?.height) {
+      if (minNodeHeight > previousDimensions.height) {
+        node.height = minNodeHeight;
+      } else {
+        node.height = previousDimensions.height;
+      }
+    } else {
+      node.height = minNodeHeight;
+    }
+  }
+}
+
+class NoteProbe {
+         handle(
+    _layoutEngine               ,
+    previousDiagram                ,
+    node                                          ,
+    _                                   ,
+    _directChildren                                   ,
+    _newlyAddedNodes                                   ,
+    forceDimensions                   
+  ) {
+    const borderWidth = getNodeBorderWidth(node.data.style);
+
+    const nodeMinComputeHeight = (node.data.insideLabel?.height ?? 0) + borderWidth * 2;
+
+    const nodeWidth = forceDimensions?.width ?? node?.width ?? 200;
+    const nodeHeight = forceDimensions?.height ?? getDefaultOrMinHeight(nodeMinComputeHeight, node);
+
+    const previousNode = (previousDiagram?.nodes ?? []).find((previousNode) => previousNode.id === node.id);
+    const previousDimensions = computePreviousSize(previousNode, node);
+
+    if (node.data.resizedByUser && !forceDimensions?.width) {
+      if (nodeWidth > previousDimensions.width) {
+        node.width = nodeWidth;
+      } else {
+        node.width = previousDimensions.width;
+      }
+    } else {
+      node.width = nodeWidth;
+    }
+
+    if (node.data.resizedByUser && !forceDimensions?.height) {
+      if (nodeMinComputeHeight > previousDimensions.height) {
+        node.height = nodeMinComputeHeight;
+      } else {
+        node.height = previousDimensions.height;
+      }
+    } else {
+      node.height = nodeHeight;
+    }
+
+    if (node.data.nodeDescription?.keepAspectRatio) {
+      applyRatioOnNewNodeSizeValue(node);
+    }
+  }
+}
+
+const computePreviousSize = (
+  previousNode                                             ,
+  node                                 
+)             => {
+  let previousDimensions            ;
+  const nodeDefaultHeight         = node.data.defaultHeight ?? defaultHeight;
+  const nodeDefaultWidth         = node.data.defaultWidth ?? defaultWidth;
+
+  if (node.data.isNew) {
+    previousDimensions = {
+      height: nodeDefaultHeight,
+      width: nodeDefaultWidth,
+    };
+  } else if (previousNode) {
+    previousDimensions = {
+      height: previousNode.height ?? nodeDefaultHeight,
+      width: previousNode.width ?? nodeDefaultWidth,
+    };
+  } else {
+    previousDimensions = {
+      height: node.height ?? nodeDefaultHeight,
+      width: node.width ?? nodeDefaultWidth,
+    };
+  }
+
+  return previousDimensions;
+};
+
+const getDefaultOrMinHeight = (minHeight                    , node                )         => {
+  return Math.max(minHeight ?? -Infinity, node.data.defaultHeight ?? defaultHeight);
+};
+
+const applyRatioOnNewNodeSizeValue = (node                ) => {
+  const initRatio = (node.data.defaultWidth || defaultWidth) / (node.data.defaultHeight || defaultHeight);
+  if (node.width && node.height) {
+    const newRatio = node.width / node.height;
+    if (initRatio > newRatio) {
+      node.width = node.height * initRatio;
+    }
+    if (initRatio < newRatio) {
+      node.height = node.width / initRatio;
+    }
+  }
+};
+
+const getNodeBorderWidth = (style               )         => {
+  const borderWidthStyle                              = style.borderLeftWidth ?? style.borderWidth;
+  if (borderWidthStyle === undefined) {
+    return 0;
+  }
+
+  const borderWidth         =
+    typeof borderWidthStyle === 'number' ? borderWidthStyle : Number.parseFloat(borderWidthStyle);
+  return Number.isFinite(borderWidth) ? borderWidth : 0;
+};
+
+/*******************************************************************************
+ * Copyright (c) 2023, 2026 Obeo.
+ * This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ *     Obeo - initial API and implementation
+ *******************************************************************************/
+
+const gap = 25;
+const rectangularNodePadding = 8;
+const defaultNodeMargin = 8;
+const borderLeftAndRight = 2;
+const borderTopAndBottom = 2;
+const borderNodeOffset = 5;
+const defaultWidth = 150;
+const defaultHeight = 70;
+const headerVerticalOffset = 25;
+const labelVerticalPadding = 8;
+const labelHorizontalPadding = 16;
+const borderNodeReferencePositionRatio = 0.2;
+const verticalHelperLinesSnapGap = 10;
+const horizontalHelperLinesSnapGap = 10;
+const verticalLayoutAngleMin = 30;
+const verticalLayoutAngleMax = 150;
+const horizontalLayoutAngleMin = 300;
+const horizontalLayoutAngleMax = 60;
+const edgeBendPointOffset = 25;
+const borderNodeGap = 10;
+const maxOverflowIteration = 10;
+const borderNodeLabelGap = 2;
+
+
+globalThis.OriginalHandlers={package:new PackageProbe(),view:new ViewFrameProbe(),note:new NoteProbe()};

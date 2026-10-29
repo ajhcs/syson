@@ -1,0 +1,27 @@
+from pathlib import Path
+import json,hashlib,subprocess,shutil,fcntl
+b=Path(__file__).parent;o=b/'measurement-admission-regressions-01';o.mkdir();t=Path('/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools');old=b/'measurement-admission-before-root-review';w=Path('/workspace/worktrees/builderbob/syson/batch20-measurement-landing');prior=Path('/workspace/build/builderbob/syson-batch20-20261029');node=Path('/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node');mapping=w/'porting/follow-ons/F15/source-mapping.json';rows=[]
+lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+def run(label,argv):
+ r=subprocess.run(argv,capture_output=True,timeout=40);(o/(label+'-stdout.txt')).write_bytes(r.stdout);(o/(label+'-stderr.txt')).write_bytes(r.stderr);row={'label':label,'argv':argv,'exit':r.returncode};rows.append(row);return r
+for kind in ['source','excerpt']:
+ data=json.loads(mapping.read_text())
+ if kind=='source':data['source_groups'][0]['files'][0]['sha256']='0'*64
+ else:next(row for g in data['source_groups'] for row in g['files'] if row['excerpts'])['excerpts'][0]['source']+='\n// Deliberately wrong expected excerpt'
+ mutant=o/('bad-'+kind+'.json');mutant.write_text(json.dumps(data,indent=2)+'\n')
+ for version,root in [('old',old),('current',t)]:
+  for mode,flags in [('normal',[]),('optimized',['-O'])]:
+   label=kind+'-'+version+'-'+mode;argv=['python3',*flags,str(root/'prepare_originals.py'),'--mapping',str(mutant),'--syson',str(w),'--sirius',str(prior/'reference-sirius'),'--node',str(node),'--out',str(o/label)];r=run(label,argv);expected=version=='old' and mode=='optimized'
+   if (r.returncode==0)!=expected:raise RuntimeError('Source guard regression not demonstrated: '+label)
+for mode,flags in [('normal',[]),('optimized',['-O'])]:
+ label='valid-current-'+mode;r=run(label,['python3',*flags,str(t/'prepare_originals.py'),'--mapping',str(mapping),'--syson',str(w),'--sirius',str(prior/'reference-sirius'),'--node',str(node),'--out',str(o/label)])
+ if r.returncode:raise RuntimeError('Valid original-method extraction failed')
+ if (o/label/'original-methods.js').read_bytes()!=(prior/'original-methods-01/original-methods.js').read_bytes():raise RuntimeError('Original source methods changed')
+fake=o/'bad-build';fake.mkdir();receipt=json.loads((b/'measurement-fixed-03/receipt.json').read_text());receipt['wasm_sha256']='0'*64;(fake/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');shutil.copy2(b/'measurement-fixed-03/measurement_bridge.wasm',fake/'measurement_bridge.wasm')
+for version,root in [('old',old),('current',t)]:
+ for mode,flags in [('normal',[]),('optimized',['-O'])]:
+  label='build-'+version+'-'+mode;argv=['python3',*flags,str(root/'run_browser.py'),'--build',str(fake),'--methods',str(prior/'original-methods-01/original-methods.js'),'--node',str(node),'--browser','/workspace/__unused_browser_guard_probe__','--playwright','/workspace/__unused_sdk_guard_probe__','--libraries','/workspace/__unused_libs_guard_probe__','--assets',str(o/'missing-assets'),'--out',str(o/label)];r=run(label,argv);d=json.loads((o/label/'receipt.json').read_text());error=d.get('error','')
+  if r.returncode==0 or not d['server_closed'] or 'argv' in d:raise RuntimeError('Guard probe unexpectedly started runtime')
+  expected='FileNotFoundError' if version=='old' and mode=='optimized' else ('AssertionError' if version=='old' else 'WASM bytes differ')
+  if expected not in error:raise RuntimeError('Wrong admission disposition:'+label+error)
+(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());(o/'receipt.json').write_text(json.dumps({'status':'PASS_SOURCE_EXCERPT_AND_BUILD_GUARDS_NORMAL_AND_OPTIMIZED;OLD_OPTIMIZATION_FAILURES_RETAINED','commands':rows,'scope':'Developer source/build admission only; source/excerpts/WASM methods are unchanged on valid extraction; no browser was launched by corrupt-input controls'},indent=2)+'\n');print(json.dumps({'status':'PASS_ADMISSION_REGRESSIONS','commands':len(rows)}))

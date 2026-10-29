@@ -1,0 +1,20 @@
+"""Serve only owned probe files, verify artifact/input hashes, and clean up."""
+from pathlib import Path
+from functools import partial
+import fcntl,hashlib,http.server,json,os,signal,subprocess,threading,time
+b=Path('/workspace/build/builderbob/syson-batch20-20261029');o=b/'measurement-browser-03';o.mkdir();web=o/'web';web.mkdir();tools=Path(__file__).parent;node=Path('/workspace/build/builderbob/runtimes/node-v24.21.0-linux-x64/bin/node');wasm=b/'measurement-fixed-02/measurement_bridge.wasm';build=json.loads((b/'measurement-fixed-02/receipt.json').read_text());sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();assert build['status']=='PASS_BUILD_AND_CAPTURE;COMPARISON_OPEN' and build['source_unchanged'];assert sha(wasm)==build['wasm_sha256'];assert all(sha(Path(p))==h for p,h in build['inputs_after'].items())
+assets={n:tools/n for n in ['measurement_probe.html','measurement_fixture.js','wasm_client.js']};assets['original-methods.js']=b/'original-methods-01/original-methods.js';assets['measurement_bridge.wasm']=wasm
+for n,p in assets.items():(web/('index.html' if n=='measurement_probe.html' else n)).write_bytes(p.read_bytes())
+libs=Path('/workspace/cache/builderbob/global-tools/browser-deps/sysroot/usr/lib/x86_64-linux-gnu');browser=Path('/workspace/cache/builderbob/global-tools/maintenance/staged/playwright/1.64.1/browsers/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell');files=[*assets.values(),tools/'run_browser.cjs',Path(__file__),node,browser,*sorted(p for p in libs.glob('*.so*') if p.is_file())];before={str(p):sha(p) for p in files};(o/'executed-runner.py').write_bytes(Path(__file__).read_bytes());lock=open('/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+class Handler(http.server.SimpleHTTPRequestHandler):
+ def log_message(self,*args):pass
+ def end_headers(self):self.send_header('Cache-Control','no-store');super().end_headers()
+server=http.server.ThreadingHTTPServer(('127.0.0.1',0),partial(Handler,directory=str(web)));thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start();argv=[str(node),str(tools/'run_browser.cjs'),f'http://127.0.0.1:{server.server_port}/',str(o)];r={'status':'RUNNING','argv':argv,'inputs_before':before,'served_assets':{n:sha(p) for n,p in assets.items()}};start=time.monotonic()
+try:
+ p=subprocess.Popen(argv,cwd=o,env=dict(os.environ,TMPDIR=str(o),XDG_CACHE_HOME=str(o/'cache'),LD_LIBRARY_PATH='/workspace/cache/builderbob/global-tools/browser-deps/sysroot/usr/lib/x86_64-linux-gnu'),stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+ try:stdout,stderr=p.communicate(timeout=180);timed=False
+ except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);stdout,stderr=p.communicate();timed=True
+ (o/'stdout.txt').write_bytes(stdout);(o/'stderr.txt').write_bytes(stderr);r.update(exit=p.returncode,timed_out=timed,wall_seconds=time.monotonic()-start,status='PASS_NAMED_DOM_WASM_ONLY' if p.returncode==0 and not timed else 'FAIL_TERMINAL');print(stdout.decode(),flush=True);print(stderr.decode(),flush=True)
+finally:
+ server.shutdown();server.server_close();thread.join(timeout=5);r['server_closed']=not thread.is_alive();r['inputs_after']={str(p):sha(p) for p in files};r['source_unchanged']=r['inputs_before']==r['inputs_after'];(o/'receipt.json').write_text(json.dumps(r,indent=2)+'\n')
+assert r['status']=='PASS_NAMED_DOM_WASM_ONLY' and r['source_unchanged'] and r['server_closed']

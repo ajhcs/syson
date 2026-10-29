@@ -1,0 +1,133 @@
+{
+  "unit": "F15",
+  "source_base": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+  "source_groups": [
+    {
+      "component": "syson",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "files": [
+        {
+          "path": "frontend/syson-components/src/nodes/package/SysMLPackageNodeLayoutHandler.ts",
+          "sha256": "2bf5aa585c3910b02097b1ab1ebf13ac544d27d6ce2e34ed4b49549b454917b8",
+          "excerpts": [
+            {
+              "name": "private handleLeafNode",
+              "first_line": 218,
+              "last_line": 258,
+              "source": "  private handleLeafNode(\n    previousDiagram: Diagram | null,\n    node: Node<SysMLPackageNodeData, 'sysMLPackageNode'>,\n    visibleNodes: Node<NodeData, DiagramNodeType>[],\n    _borderWidth: number,\n    _forceDimensions?: ForcedDimensions\n  ) {\n    const nodeIndex: number = visibleNodes.findIndex((nd) => nd.id === node.id);\n    const labelElement: HTMLElement | null = document.getElementById(`${node.id}-label-${nodeIndex}`);\n\n    const labelHeight: number =\n      rectangularNodePadding + (labelElement?.getBoundingClientRect().height ?? 0) + rectangularNodePadding;\n\n    const minNodeWidth: number = node.data.resizedByUser ? 75 : node.data.defaultWidth ?? 75;\n    const minNodeHeight: number = Math.max(labelHeight, node.data.resizedByUser ? 50 : node.data.defaultHeight ?? 50);\n\n    const previousNode: Node<NodeData, DiagramNodeType> | undefined = (previousDiagram?.nodes ?? []).find(\n      (prevNode) => prevNode.id === node.id\n    );\n    const previousDimensions: Dimensions = computePreviousSize(previousNode, node);\n\n    if (node.data.resizedByUser && !_forceDimensions?.width) {\n      if (minNodeWidth > previousDimensions.width) {\n        node.width = minNodeWidth;\n      } else {\n        node.width = previousDimensions.width;\n      }\n    } else {\n      node.width = minNodeWidth;\n    }\n\n    if (node.data.resizedByUser && !_forceDimensions?.height) {\n      if (minNodeHeight > previousDimensions.height) {\n        node.height = minNodeHeight;\n      } else {\n        node.height = previousDimensions.height;\n      }\n    } else {\n      node.height = minNodeHeight;\n    }\n  }\n// Deliberately wrong expected excerpt"
+            }
+          ]
+        },
+        {
+          "path": "frontend/syson-components/src/nodes/view_frame/SysMLViewFrameNodeLayoutHandler.ts",
+          "sha256": "4f9964eaa5052484e8695dc740380e408b6c4a3f7b4b7aee2fcc177d914fe406",
+          "excerpts": [
+            {
+              "name": "private handleLeafNode",
+              "first_line": 214,
+              "last_line": 254,
+              "source": "  private handleLeafNode(\n    previousDiagram: Diagram | null,\n    node: Node<SysMLViewFrameNodeData, 'sysMLViewFrameNode'>,\n    visibleNodes: Node<NodeData, DiagramNodeType>[],\n    _borderWidth: number,\n    _forceDimensions?: ForcedDimensions\n  ) {\n    const nodeIndex: number = visibleNodes.findIndex((nd) => nd.id === node.id);\n    const labelElement: HTMLElement | null = document.getElementById(`${node.id}-label-${nodeIndex}`);\n\n    const labelHeight: number =\n      rectangularNodePadding + (labelElement?.getBoundingClientRect().height ?? 0) + rectangularNodePadding;\n\n    const minNodeWidth: number = node.data.resizedByUser ? 75 : node.data.defaultWidth ?? 75;\n    const minNodeHeight: number = Math.max(labelHeight, node.data.resizedByUser ? 50 : node.data.defaultHeight ?? 50);\n\n    const previousNode: Node<NodeData, DiagramNodeType> | undefined = (previousDiagram?.nodes ?? []).find(\n      (prevNode) => prevNode.id === node.id\n    );\n    const previousDimensions: Dimensions = computePreviousSize(previousNode, node);\n\n    if (node.data.resizedByUser && !_forceDimensions?.width) {\n      if (minNodeWidth > previousDimensions.width) {\n        node.width = minNodeWidth;\n      } else {\n        node.width = previousDimensions.width;\n      }\n    } else {\n      node.width = minNodeWidth;\n    }\n\n    if (node.data.resizedByUser && !_forceDimensions?.height) {\n      if (minNodeHeight > previousDimensions.height) {\n        node.height = minNodeHeight;\n      } else {\n        node.height = previousDimensions.height;\n      }\n    } else {\n      node.height = minNodeHeight;\n    }\n  }"
+            }
+          ]
+        },
+        {
+          "path": "frontend/syson-components/src/nodes/note/SysMLNoteNodeLayoutHandler.ts",
+          "sha256": "1848a8de0c5d82114b7f02a60618ba5a7da13d2445be7310711a160d37d34668",
+          "excerpts": [
+            {
+              "name": "public handle",
+              "first_line": 36,
+              "last_line": 78,
+              "source": "  public handle(\n    _layoutEngine: ILayoutEngine,\n    previousDiagram: Diagram | null,\n    node: Node<SysMLNoteNodeData, 'sysMLNoteNode'>,\n    _: Node<NodeData, DiagramNodeType>[],\n    _directChildren: Node<NodeData, DiagramNodeType>[],\n    _newlyAddedNodes: Node<NodeData, DiagramNodeType>[],\n    forceDimensions?: ForcedDimensions\n  ) {\n    const borderWidth = getNodeBorderWidth(node.data.style);\n\n    const nodeMinComputeHeight = (node.data.insideLabel?.height ?? 0) + borderWidth * 2;\n\n    const nodeWidth = forceDimensions?.width ?? node?.width ?? 200;\n    const nodeHeight = forceDimensions?.height ?? getDefaultOrMinHeight(nodeMinComputeHeight, node);\n\n    const previousNode = (previousDiagram?.nodes ?? []).find((previousNode) => previousNode.id === node.id);\n    const previousDimensions = computePreviousSize(previousNode, node);\n\n    if (node.data.resizedByUser && !forceDimensions?.width) {\n      if (nodeWidth > previousDimensions.width) {\n        node.width = nodeWidth;\n      } else {\n        node.width = previousDimensions.width;\n      }\n    } else {\n      node.width = nodeWidth;\n    }\n\n    if (node.data.resizedByUser && !forceDimensions?.height) {\n      if (nodeMinComputeHeight > previousDimensions.height) {\n        node.height = nodeMinComputeHeight;\n      } else {\n        node.height = previousDimensions.height;\n      }\n    } else {\n      node.height = nodeHeight;\n    }\n\n    if (node.data.nodeDescription?.keepAspectRatio) {\n      applyRatioOnNewNodeSizeValue(node);\n    }\n  }"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "sirius",
+      "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+      "files": [
+        {
+          "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/bounds.ts",
+          "sha256": "125c005899ca62b8b3096b8500ceac422cc2e494f92ceed1079d75844a9b03dd",
+          "excerpts": [
+            {
+              "name": "export const computePreviousSize",
+              "first_line": 53,
+              "last_line": 79,
+              "source": "export const computePreviousSize = (\n  previousNode: Node<NodeData, DiagramNodeType> | undefined,\n  node: Node<NodeData, DiagramNodeType>\n): Dimensions => {\n  let previousDimensions: Dimensions;\n  const nodeDefaultHeight: number = node.data.defaultHeight ?? defaultHeight;\n  const nodeDefaultWidth: number = node.data.defaultWidth ?? defaultWidth;\n\n  if (node.data.isNew) {\n    previousDimensions = {\n      height: nodeDefaultHeight,\n      width: nodeDefaultWidth,\n    };\n  } else if (previousNode) {\n    previousDimensions = {\n      height: previousNode.height ?? nodeDefaultHeight,\n      width: previousNode.width ?? nodeDefaultWidth,\n    };\n  } else {\n    previousDimensions = {\n      height: node.height ?? nodeDefaultHeight,\n      width: node.width ?? nodeDefaultWidth,\n    };\n  }\n\n  return previousDimensions;\n};"
+            }
+          ]
+        },
+        {
+          "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/layoutNode.ts",
+          "sha256": "2b4be5e40d0abe266bbba086aeb425a932e4cc53bdb8f1f07150b1145e9f1659",
+          "excerpts": [
+            {
+              "name": "export const getDefaultOrMinHeight",
+              "first_line": 77,
+              "last_line": 79,
+              "source": "export const getDefaultOrMinHeight = (minHeight: number | undefined, node: Node<NodeData>): number => {\n  return Math.max(minHeight ?? -Infinity, node.data.defaultHeight ?? defaultHeight);\n};"
+            },
+            {
+              "name": "export const applyRatioOnNewNodeSizeValue",
+              "first_line": 503,
+              "last_line": 514,
+              "source": "export const applyRatioOnNewNodeSizeValue = (node: Node<NodeData>) => {\n  const initRatio = (node.data.defaultWidth || defaultWidth) / (node.data.defaultHeight || defaultHeight);\n  if (node.width && node.height) {\n    const newRatio = node.width / node.height;\n    if (initRatio > newRatio) {\n      node.width = node.height * initRatio;\n    }\n    if (initRatio < newRatio) {\n      node.height = node.width / initRatio;\n    }\n  }\n};"
+            }
+          ]
+        },
+        {
+          "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/getNodeBorderWidth.ts",
+          "sha256": "fd7c7265c5c4c6efa4539d8d78c4a8d662ec81725cade6f17da18716b4b59a0c",
+          "excerpts": [
+            {
+              "name": "export const getNodeBorderWidth",
+              "first_line": 16,
+              "last_line": 25,
+              "source": "export const getNodeBorderWidth = (style: CSSProperties): number => {\n  const borderWidthStyle: string | number | undefined = style.borderLeftWidth ?? style.borderWidth;\n  if (borderWidthStyle === undefined) {\n    return 0;\n  }\n\n  const borderWidth: number =\n    typeof borderWidthStyle === 'number' ? borderWidthStyle : Number.parseFloat(borderWidthStyle);\n  return Number.isFinite(borderWidth) ? borderWidth : 0;\n};"
+            }
+          ]
+        },
+        {
+          "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/layoutParams.ts",
+          "sha256": "fb4e8a8c97f1dad0a5bd0a1e81682094012bee60bffa25ff38684399010d917c",
+          "excerpts": []
+        }
+      ]
+    }
+  ],
+  "reused_dependency_files": [
+    {
+      "path": "rust/crates/syson-editor/Cargo.lock",
+      "sha256": "fcddd71633b4d880ac081d484005a91573dde9809d46014687da1ca715e3b486"
+    },
+    {
+      "path": "rust/crates/syson-editor/Cargo.toml",
+      "sha256": "6a3846679e0296b4589bd996ccfee1bb3fa83d716f994ff5b78e014ebddef33b"
+    },
+    {
+      "path": "rust/crates/syson-editor/src/lib.rs",
+      "sha256": "7b003258448bacc1bcfff3319139ddac8dc2595c9e3a3530c345d61f7de19c01"
+    },
+    {
+      "path": "rust/crates/syson-editor/tests/editor_contracts.rs",
+      "sha256": "1440f70fb70de410a34370a5f264e3ee9889c37d5b8858825f8c1919a64fd40a"
+    }
+  ],
+  "source_contracts": [
+    "SysMLPackageNodeLayoutHandler.handleLeafNode",
+    "SysMLViewFrameNodeLayoutHandler.handleLeafNode",
+    "SysMLNoteNodeLayoutHandler.handle"
+  ],
+  "source_helpers": [
+    "computePreviousSize",
+    "getDefaultOrMinHeight",
+    "applyRatioOnNewNodeSizeValue",
+    "getNodeBorderWidth",
+    "layoutParams.defaultWidth=150/defaultHeight=70"
+  ],
+  "upstream_runtime": "NOT_RUN",
+  "artifact_correspondence": "Sirius source candidate pin is not proof of resolved npm artifact correspondence."
+}

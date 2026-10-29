@@ -1,0 +1,42 @@
+// Developer measurement flow; all sizing decisions use original source or Rust.
+(async()=>{
+ const $=id=>document.getElementById(id),bits=n=>{const b=new DataView(new ArrayBuffer(8));b.setFloat64(0,n);return b.getUint32(0).toString(16).padStart(8,'0')+b.getUint32(4).toString(16).padStart(8,'0');};
+ const nextPaint=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ const instance=(await WebAssembly.instantiate(await(await fetch('measurement_bridge.wasm')).arrayBuffer())).instance;
+ let revision=1,fontRevision=1,request=0;
+ for(const id of ['label','font','resized','missing','stale'])$(id).addEventListener('input',()=>{revision++;if(id==='font')fontRevision++;});
+ async function measure(){
+  const start=performance.now();$('measure').disabled=true;
+  const text=$('label').value,size=Number($('font').value),resized=$('resized').checked,missing=$('missing').checked,stale=$('stale').checked;
+  const stamp={layout_revision:revision,font_revision:fontRevision,request_id:++request},records=[];
+  $('panels').replaceChildren();
+  for(const kind of ['Package','ViewFrame','Note']){
+   const id='node-'+kind,panel=document.createElement('section');panel.className='panel';
+   const heading=document.createElement('h2');heading.textContent=kind;panel.append(heading);
+   const drawing=document.createElement('div');drawing.className='drawing';const node=document.createElement('div');node.className='node'+(kind==='Note'?' note':'');
+   const label=document.createElement('span');label.className='node-label';label.id=id+'-label-0';label.textContent=text;
+   Object.assign(label.style,{fontFamily:'Arial, sans-serif',fontSize:size+'px',fontWeight:'400',letterSpacing:'0.25px',lineHeight:(size*1.4)+'px'});
+   if(!missing)node.append(label);drawing.append(node);panel.append(drawing);
+   const output=document.createElement('pre');output.className='result';panel.append(output);$('panels').append(panel);
+   records.push({kind,id,panel,node,label,output});
+  }
+  await document.fonts.ready;await nextPaint();
+  const observations=[];
+  for(const r of records){
+   const t=performance.now(),rect=missing?null:r.label.getBoundingClientRect(),style=getComputedStyle(r.label),domMs=performance.now()-t;
+   const font={family:style.fontFamily||'Arial, sans-serif',size_px:bits(parseFloat(style.fontSize)||size),weight:400,letter_spacing_px:bits(parseFloat(style.letterSpacing)||0),line_height_px:bits(parseFloat(style.lineHeight)||size*1.4)};
+   const previous=resized?[{id:r.id,width:240,height:140}]:[],n={id:r.id,data:{defaultWidth:150,defaultHeight:70,isNew:false,resizedByUser:resized,style:{borderWidth:1},insideLabel:rect?{height:rect.height}:undefined,nodeDescription:{keepAspectRatio:false}}};
+   const begin=performance.now();if(r.kind==='Note')OriginalHandlers.note.handle(null,{nodes:previous},n,[n],[],[],{});else OriginalHandlers[r.kind==='Package'?'package':'view'].handleLeafNode({nodes:previous},n,[n],0,{});const originalMs=performance.now()-begin;
+   const c={id:r.kind,kind:r.kind,node:{id:r.id,current:{},defaults:{width:bits(150),height:bits(70)},forced:{},is_new:false,resized_by_user:resized,keep_aspect_ratio:false,direct_children:0,border:{all:bits(1)}},previous:previous.map(p=>({id:p.id,dimensions:{width:bits(p.width),height:bits(p.height)}})),visible_node_ids:[r.id],label_text:text,font,stamp,observation:{bounds:rect?{width:bits(rect.width),height:bits(rect.height)}:null,...(stale?{stamp:{...stamp,font_revision:stamp.font_revision-1}}:{})}};
+   const wasmStart=performance.now(),rust=runMeasurement(instance,c),bridgeMs=performance.now()-wasmStart,native={width:bits(n.width),height:bits(n.height)},match=rust.ok&&rust.size.width===native.width&&rust.size.height===native.height;
+   Object.assign(r.node.style,{width:n.width+'px',height:n.height+'px'});
+   r.output.textContent=rust.ok?`Original: ${n.width} × ${n.height}\nRust bits match: ${match}\nLabel: ${rect?rect.width.toFixed(2)+' × '+rect.height.toFixed(2):'missing'}`:`Rust refused: ${rust.error}\nInput and font controls retained.`;
+   observations.push({kind:r.kind,input:c,native,rust,match,dom_read_ms:domMs,original_method_ms:originalMs,wasm_bridge_json_ms:bridgeMs,label_overflow:!!rect&&rect.width>n.width,computed_style:{family:style.fontFamily,size:style.fontSize,weight:style.fontWeight,spacing:style.letterSpacing,line_height:style.lineHeight},note_model_assignment:r.kind==='Note'});
+  }
+  await nextPaint();const expectedRefusal=stale,ok=observations.every(o=>expectedRefusal?!o.rust.ok&&o.rust.error==='StaleObservation':o.match);
+  const result={viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},stamp,controls:{text,font_size:size,resized,missing,stale},observations,event_to_visible_ms:performance.now()-start,wasm_memory_bytes:instance.exports.memory.buffer.byteLength,ok,scope:'Developer fixture only; measured DOM then original selected methods and actual Rust WASM boundary. Bridge includes JSON/allocation; not pure arithmetic or complete application latency.'};
+  $('status').textContent=ok?(stale?'Stale observation refused; controls preserved.':'Original source and Rust agree for all rendered labels.'):'A measurement difference requires review.';
+  $('measure').disabled=false;window.measurementProbe.last=result;return result;
+ }
+ window.measurementProbe={ready:false,last:null,measure};$('measure').addEventListener('click',measure);await measure();window.measurementProbe.ready=true;
+})().catch(error=>{document.getElementById('status').textContent='Probe failed: '+error.message;window.measurementProbeError=String(error);});

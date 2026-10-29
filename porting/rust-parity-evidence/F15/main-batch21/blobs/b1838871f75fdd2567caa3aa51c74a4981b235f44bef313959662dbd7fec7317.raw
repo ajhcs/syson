@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/prepare_originals.py", line 15, in <module>
+    selected='\n'.join(raw.decode().splitlines()[item['first_line']-1:item['last_line']]);require(selected==item['source'], 'pinned excerpt mismatch: '+item['name']);excerpts.append({'path':row['path'],'method':item['name'],'sha256':sha(selected.encode()),'first_line':item['first_line'],'last_line':item['last_line']})
+                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch20-measurement-tools/porting/rust-parity-evidence/C09/batch20-measurement-tools/prepare_originals.py", line 5, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: pinned excerpt mismatch: private handleLeafNode

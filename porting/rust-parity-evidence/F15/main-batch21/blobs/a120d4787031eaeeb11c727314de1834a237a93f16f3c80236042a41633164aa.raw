@@ -1,0 +1,240 @@
+{
+  "schema": 1,
+  "reviewer": "/root/batch18_ui_reconciliation",
+  "mode": "SOURCE_ONLY_ADMISSION_AUDIT; no browser/compiler/tests/Git/packages/services or product execution",
+  "base_main": "69281e60b3093412fd55c889f99f738ad87c6a30",
+  "donor": "e4abad3cf564af08da655703a1e54a52cf54b17e",
+  "result": "SOURCE_SCOPE_COHESIVE;DEPENDENT_NUMERIC_COUNTEREXAMPLE_REQUIRES_ROOT_QUALIFICATION",
+  "author_changes": "None. Original source and all17 tests preserved. Reported finding before any edit.",
+  "source_size": {
+    "production_lines": 298,
+    "test_lines": 462,
+    "Rust_authored": 760,
+    "including_Cargo_and_notice": 785,
+    "caps": [
+      400,
+      900
+    ]
+  },
+  "frozen_source_sha256": {
+    "rust/crates/syson-node-measurement/src/lib.rs": "a9aa057159a2d71f33ae836d8570246d4fd8e6d3fd7f2d228b174fccf50da1d0",
+    "rust/crates/syson-node-measurement/tests/measurement.rs": "f67092eb14ffa1785b0deab29cb7303ce767ba75c1b46de96081a5b20d5b2953",
+    "rust/crates/syson-node-measurement/Cargo.toml": "82824dc600d622b5d5d75e14d0b60d66226d662e698a6ac13af6c4fbf43f80e1",
+    "rust/crates/syson-node-measurement/NOTICE.md": "c6fe1a415235d35471b7ffdcf114e79b59f790d28fbb6fab3227aa7b89c29058"
+  },
+  "dependency_closure": {
+    "crate": "syson-editor",
+    "direct_registry_dependencies": [],
+    "complete_current_four_file_set_matches_recorded_donor_hashes": true,
+    "sha256": {
+      "rust/crates/syson-editor/Cargo.lock": "fcddd71633b4d880ac081d484005a91573dde9809d46014687da1ca715e3b486",
+      "rust/crates/syson-editor/Cargo.toml": "6a3846679e0296b4589bd996ccfee1bb3fa83d716f994ff5b78e014ebddef33b",
+      "rust/crates/syson-editor/src/lib.rs": "7b003258448bacc1bcfff3319139ddac8dc2595c9e3a3530c345d61f7de19c01",
+      "rust/crates/syson-editor/tests/editor_contracts.rs": "1440f70fb70de410a34370a5f264e3ee9889c37d5b8858825f8c1919a64fd40a"
+    },
+    "limit": "Byte closure matches the donor source-mapping and original capture; this does not reproduce donor builds or accept native runtime behavior."
+  },
+  "source_correspondence": {
+    "SysON_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "working_primary_files_and_exact_method_excerpts_match": true,
+    "SysON_sha256": {
+      "frontend/syson-components/src/nodes/package/SysMLPackageNodeLayoutHandler.ts": "2bf5aa585c3910b02097b1ab1ebf13ac544d27d6ce2e34ed4b49549b454917b8",
+      "frontend/syson-components/src/nodes/view_frame/SysMLViewFrameNodeLayoutHandler.ts": "4f9964eaa5052484e8695dc740380e408b6c4a3f7b4b7aee2fcc177d914fe406",
+      "frontend/syson-components/src/nodes/note/SysMLNoteNodeLayoutHandler.ts": "1848a8de0c5d82114b7f02a60618ba5a7da13d2445be7310711a160d37d34668"
+    },
+    "Sirius_revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+    "inherited_helper_verification": "Follow-up source-only read verified all four root-fetched complete Sirius helper files and each retained excerpt against the F15 mapping. No helper/runtime execution or artifact correspondence claim.",
+    "original_methods": [
+      "SysMLPackageNodeLayoutHandler.handleLeafNode",
+      "SysMLViewFrameNodeLayoutHandler.handleLeafNode",
+      "SysMLNoteNodeLayoutHandler.handle",
+      "computePreviousSize",
+      "getDefaultOrMinHeight",
+      "getNodeBorderWidth",
+      "applyRatioOnNewNodeSizeValue"
+    ],
+    "constants": "rectangularNodePadding=8; Sirius defaultWidth=150/defaultHeight=70; note defaultWidth=200",
+    "inherited_helper_initial_phase": "Retained method excerpts/source hashes reviewed before complete helper files were available.",
+    "inherited_helper_full_files_sha256": {
+      "bounds.ts": "125c005899ca62b8b3096b8500ceac422cc2e494f92ceed1079d75844a9b03dd",
+      "layoutNode.ts": "2b4be5e40d0abe266bbba086aeb425a932e4cc53bdb8f1f07150b1145e9f1659",
+      "getNodeBorderWidth.ts": "fd7c7265c5c4c6efa4539d8d78c4a8d662ec81725cade6f17da18716b4b59a0c",
+      "layoutParams.ts": "fb4e8a8c97f1dad0a5bd0a1e81682094012bee60bffa25ff38684399010d917c"
+    }
+  },
+  "reviewed_semantics": [
+    "Renderer type names are exact; package/view-frame parent paths refuse before host invocation; note ignores direct children as original handler.",
+    "Label targets retain first visible-node index including -1; notes request InsideLabelModel instead of claiming a DOM target.",
+    "Exact target and layout/font/request stamps prevent accidental mismatches, not forged host data or proof of actual measurement.",
+    "New nodes ignore previous/current for previous-size selection; first matching previous ID wins; missing previous axes fall back to defaults, not current axes.",
+    "Leaf nonzero force suppresses old-size retention but is not an output dimension; zero and -0 remain false for the retention decision.",
+    "Note nullish force dimensions and falsy-zero retention differ intentionally; numeric left border overrides all-border even when nonfinite and then falls back to zero.",
+    "Ratio uses truthy default150/70 fallback, expands one axis and skips zero output axes.",
+    "Finite nonnegative dimensions and labels, finite font fields, finite negative letter spacing, nonfinite border zero fallback and computed-overflow refusal are explicit Rust domain policies. Ignored invalid supplied fields may still be refused; native JavaScript invalid-input behavior is not claimed.",
+    "No direct input/model mutation; host calls may have external effects, so error return does not itself prove external rollback or lifecycle safety."
+  ],
+  "findings": [
+    {
+      "id": "F15_DEPENDENT_LEAF_ROUNDING_ORDER",
+      "status": "SOURCE_DERIVED_COUNTEREXAMPLE;ROOT_RUNTIME_NOT_RUN_BY_REVIEWER",
+      "severity": "P2",
+      "path": "rust/crates/syson-editor/src/lib.rs",
+      "symbol": "layout_package_leaf",
+      "source": "Original package/view-frame use (8 + labelHeight) + 8; reused Rust uses16 + labelHeight.",
+      "counterexample": {
+        "label_height": 72057594037927936,
+        "explanation": "At2^56 the binary64 spacing is16. Each +8 is a ties-to-even operation that rounds to the even2^56 value, whereas adding16 once yields2^56+16.",
+        "predicted_original_height": 72057594037927936,
+        "predicted_Rust_height": 72057594037927952
+      },
+      "impact": "A finite nonnegative supplied host observation is admitted but can produce a different height. This is not a claim that a browser client rectangle can reach that value.",
+      "next_action": "Root reproduces with original methods and actual public API, preserves red evidence, then leases a focused syson-editor dependency repair/regression if confirmed. F15 author must not mutate the shared dependency."
+    },
+    {
+      "id": "F15_NOTE_SIGNED_ZERO_TIES",
+      "status": "QUALIFICATION_HYPOTHESIS;NO_EXECUTED_DEFECT_CLAIM",
+      "path": "rust/crates/syson-node-measurement/src/lib.rs",
+      "symbol": "note_size",
+      "source": "Rust f64::max ties for -0/+0 need not match source strict comparison/else-previous or JS Math.max.",
+      "next_action": "Retain raw numeric results for both zero orders in note resized/default cases. Existing PartialEq size tests do not distinguish signed zero. Record observed equivalence or a real difference without silent normalization."
+    }
+  ],
+  "real_browser_recipe": {
+    "purpose": "Real DOM/font facts consumed by original selected helpers and public Rust API; not full native app, renderer or Rust DOM-host acceptance.",
+    "setup": [
+      "Use existing installed browser and owned Samsung local artifacts only; root owns browser/runtime. Do not install packages or start full services as a side effect.",
+      "Freeze primary/helper source, compiled/extracted original methods, fixture, browser executable, fonts and consumer hashes; any TS removal/extraction must preserve complete original method bodies and dependency constants, not handwritten expected formulas.",
+      "Use320/1440px and preserve actual browser/device/viewport/DPR/zoom/font details. Package/view-frame whiteSpace pre/overflow hidden/paddingRight0/justifyContent flex-start/textAlign left overrides derive from original components.",
+      "Await document.fonts.ready and two animation frames; record requested and computed family,size,weight,letter spacing,line height,white-space and exact DOM rectangles. Capture screenshots and console/page errors."
+    ],
+    "measurement": [
+      "Create ordered visible-node representation IDs and exact${id}-label-${firstIndex} targets; include first duplicate index, missing ID(-1), existing ID with missing DOM element and an actual zero-height rectangle as separate cases.",
+      "Exercise short/multiline/Unicode astral+combining/long labels and multiple actual font/line-height/spacing styles. Native leaf methods must read getBoundingClientRect from that same DOM.",
+      "Important: Note.handle reads node.data.insideLabel.height, not the DOM rectangle directly. Record modelheight independently. If a developer fixture assigns captured DOM height to the model, disclose that assignment; it does not qualify Sirius actual label-measurement/update pipeline.",
+      "Feed captured facts with exact target/stamps to actual Rust measure_node; preserve numeric output, absent versus zero, request fields and native output without convenient normalization."
+    ],
+    "controls": [
+      "New/previous/current fallback branches, per-axis absence, first matching previous ID, forced nonzero/zero/-0, note border precedence and aspect ratios.",
+      "Delayed real font/layout change, stale revision/request observation and wrong-target result must produce typed refusal. Host provider failure remains separate from native missing-label zero fallback.",
+      "Typed supplied-input finite rounding/overflow/signed-zero controls are separate from actual DOM capacity claims; string CSS parsing, negative/nonfinite general geometry and containers retain explicit unsupported/restricted dispositions."
+    ],
+    "repetition": [
+      "Restore DOM text/styles/fonts, node/previous/default/forced values, visible order and stamps before every sample.",
+      "Two warmups plus seven restored measured samples per named action/viewport. Retain all raw values and min/median/max; >=30 measured values and declared estimator before p95.",
+      "Separate DOM-read/layout cost, original helper arithmetic, Rust API time, transfer and actual event-to-visible observation if any. No native speed ratio without equivalent workloads."
+    ],
+    "remaining_gates": [
+      "Actual full native app and deployed Sirius artifact correspondence",
+      "Actual Rust DOM/font binding and asynchronous lifecycle/observer/cancellation ownership under U02",
+      "F18 container/layout/routing/ports and complete renderer composition",
+      "Accessibility, glyph/device/browser matrix, focus/caret, U27/U28 usability and capacity",
+      "Durable project/UI lifecycle and full feature acceptance"
+    ]
+  },
+  "all_explicit_holds_preserved": true,
+  "full_parity_claimed": false,
+  "developer_bridge_source": {
+    "path": "porting/rust-parity-evidence/C09/batch20-measurement-tools/measurement_bridge.rs",
+    "worktree": "/workspace/worktrees/builderbob/syson/batch20-measurement-tools",
+    "lines_before_root_formatting": 163,
+    "sha256_before_root_formatting": "eb828406f1944c30e30894de87dadf5ddefa3ae3a1f1cc99211b4d8900d1697b",
+    "execution": "NOT_RUN_BY_AUTHOR",
+    "behavior": [
+      "ActualpublicF15measure_node plus typedMeasurementHost; supplied facts remain explicit.",
+      "Allfloatinputs strict16lowercasehexbits; from_bits and to_bits preserveNaN/zero representations at the bridge boundary.",
+      "Host records requestedtarget,text,fontandstamp; target/stampoverrides andfailureallow explicitRustboundarycontrols.",
+      "Developerinputquota1MiB; run returns structuredJSON or typedF15debugerror.",
+      "WASMalloc/free/apply use ownedboxedbytebuffers; applyleavesinputownedbycaller andreturnsseparatepackedoutputpointer/length. UnsafeFFIrequires validallocatedpointer/exactlength andonefreeperbuffer.",
+      "JSONparse, hostrecording andserializationarebridgecosts, notpureinternalarithmetic timing.",
+      "Root owns manifests, formatting, compiler/browser/nativeexecution and allpublication."
+    ]
+  },
+  "root_baseline_qualification_followup": {
+    "review_mode": "Read root-produced raw comparison JSON only; reviewer did not execute native/Rust/WASM.",
+    "scope": "Source-method suppliednumeric controls; not realDOM",
+    "report": "/workspace/build/builderbob/syson-batch20-20261029/measurement-baseline-differences.json",
+    "report_sha256": "32cd79c51c2fbac19a673cd218f1bbcc99132918bda4166e9283a9e724d0d44e",
+    "differences": [
+      {
+        "id": "rounding-Package-56",
+        "native": {
+          "width": "4052c00000000000",
+          "height": "4370000000000000"
+        },
+        "rust": {
+          "height": "4370000000000001",
+          "width": "4052c00000000000"
+        }
+      },
+      {
+        "id": "rounding-ViewFrame-56",
+        "native": {
+          "width": "4052c00000000000",
+          "height": "4370000000000000"
+        },
+        "rust": {
+          "height": "4370000000000001",
+          "width": "4052c00000000000"
+        }
+      },
+      {
+        "id": "note-default-0000000000000000-8000000000000000",
+        "native": {
+          "width": "4069000000000000",
+          "height": "0000000000000000"
+        },
+        "rust": {
+          "height": "8000000000000000",
+          "width": "4069000000000000"
+        }
+      }
+    ],
+    "disposition": "Root native execution confirms both source-derived2^56 leaf rounding differences and the Note Math.max(+0,-0) default-height sign difference. WASM resized-zero behavior remains pending separately.",
+    "new_regression": {
+      "path": "rust/crates/syson-node-measurement/tests/measurement.rs",
+      "test": "note_default_height_preserves_javascript_max_positive_zero_tie",
+      "lines": 472,
+      "sha256": "e81bcea32b109a7ed75a61e99aeaded2eb4bd42ca1f524fa7acc569de728b933",
+      "original462line17caseprefix_preserved": true,
+      "production_modified_by_author": false,
+      "execution": "Pending root red capture; no author runtime.",
+      "expected": "label +0/default -0 must yield height +0 per original Math.max; use to_bits because PartialEq hides it."
+    },
+    "production_proposal": "After root red capture, use explicit positive-zero tie selection for Note default Math.max. Preserve strict comparison/else-previous semantics separately for resized retention; do not use a single max policy for both."
+  },
+  "repaired_F15_source_freeze": {
+    "scope": "OnlydelegatedF15source/testchanges afterrootredcapture; no bridge/dependency/manifest edits.",
+    "production_lines": 319,
+    "test_lines": 497,
+    "Rust_authored": 816,
+    "with_manifest_notice": 841,
+    "original17cases_preserved": true,
+    "new_cases": 2,
+    "total_cases": 19,
+    "changes": [
+      "Note default/minimum height uses explicitpositive-zeroMath.maxtiepolicy on admittedoperands.",
+      "Resized note width/height preserve exactoriginal strictcomparison/else-previous branches instead of unspecifiedf64::max zero ties.",
+      "Newdefaultzero observedredregression andcompact4-order exact-bit retentioncontrol; alloldtestbytes retained."
+    ],
+    "sha256": {
+      "rust/crates/syson-node-measurement/src/lib.rs": "a14146e3dbeefcbc446a2d243cca9f66dd229d6cb6a16535b8af0dbad006f09e",
+      "rust/crates/syson-node-measurement/tests/measurement.rs": "e1fded786700e8b2e3a35c47af28fedafc41d0e3e277bbda3dcfce4f8820dc2e"
+    },
+    "execution": "NOT_RUN_BY_AUTHOR; rootmustcomposequalifiedEditorprerequisiteandrunfinalF15gates/native/WASM/browserqualification."
+  },
+  "independent_Editor_repair_review": {
+    "result": "PASS_BOUNDED_SHARED_PREREQUISITE_SOURCE_AND_RECORDED_GATES",
+    "scope": "One expression16+h becomes(8+h)+8; existingjs_max andNaNdomainunchanged.",
+    "original_cases_preserved": 13,
+    "new_cases": 1,
+    "final_recorded_cases": 14,
+    "recorded_gates": "Formatting,tests,alltargetClippyandWASMcheck passed; frozeninputsand13outputartifacthashesmatchedreceipt. Reviewer didnotexecutecommands.",
+    "source_sha256": {
+      "rust/crates/syson-editor/src/lib.rs": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+      "rust/crates/syson-editor/tests/editor_contracts.rs": "d99e94f2087357ae1c7e415e2d2d0d39970a6399ff91f02499658b2c33b1289b"
+    },
+    "extra_caller_source": "Current SysMLImportedPackageNodeLayoutHandler uses same8+rectheight+8order, consistentwithsharedleafrepair; notnewruntimequalification.",
+    "baseline_counts": "35sameIDorderedcapture rows on originalmethods/nativeRust/WASM;30size-comparable and5explicitRustboundaryrefusals. Exactly2leafULP+1NoteMath.maxdifferences; all8resizedzero rowsmatchbothactualtargets.",
+    "limits": "Theseare source-method numeric/developerAPI controls, notrealDOM orfullapplication/nativeartifact equivalence. FinalcomposedF15WASMandbrowserwork remainrequired."
+  }
+}
