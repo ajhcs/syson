@@ -7,3 +7,5 @@ The adopted admission assignment covers 241 original lines; source hash f5467b1e
 The complete original 439-line/16-test routing file remains assigned to U11b search.
 The public input uses the landed std-only syson-layout placement contract.
 Search, fractional/native geometry, actual callers and UI acceptance remain open.
+
+U11b restores the retained finite search and all 16 original routing tests, with continued admission work/callback state and added zero-charge cancellation fences. Native ELK, fractional geometry and application/UI acceptance remain open.
