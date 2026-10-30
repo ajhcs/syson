@@ -1,0 +1,76 @@
+{
+  "schema": "C03-RR13-P1-INDEPENDENT-SOURCE-FINDINGS/1",
+  "status": "HOLD_INITIAL_SOURCE;REPAIRED_SOURCE_AND_NEW_EXECUTION_ADMISSION_REQUIRED",
+  "pins": {
+    "initial_author_freeze": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-01/author-freeze.json",
+      "bytes": 9795,
+      "sha256": "41cbd7fd5f8e82f82c6197f7835fbbcef55a332c52e5aaf8f90f474510cfee48"
+    },
+    "initial_sources": {
+      "porting/rust-parity-plan-20261026/composition/registration/prepare.py": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-01/prepare.py.raw",
+        "bytes": 19027,
+        "sha256": "09ead9334dde1025459073815aabba8eb52ea04ad7a16220f13eb1593476e56a"
+      },
+      "porting/rust-parity-plan-20261026/composition/registration/test_prepare.py": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-01/test_prepare.py.raw",
+        "bytes": 14100,
+        "sha256": "1e767750ede89685a105fa2b9c1d51b49d6e26e23d379da5cade9d7472cd2af6"
+      },
+      "porting/rust-parity-plan-20261026/composition/registration/README.md": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-01/README.md.raw",
+        "bytes": 3657,
+        "sha256": "1f258785cad5cb1ccd9467a5abfd96c4a01cf892432b5047ba42be433b9c90f0"
+      }
+    },
+    "repair_lease_v4": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-lease-v4.json",
+      "bytes": 4071,
+      "sha256": "27e28c14a5f43f48b7b7e8f79a3f814de874cc7025a2b275b4c57211595b5bdb"
+    }
+  },
+  "findings": [
+    {
+      "id": "P1-SNAPSHOT-BASELINE-RESTORATION",
+      "priority": "blocking",
+      "source": "snapshot() validates794IDs/pointers/historyandgraphrecompilationbutnot792normalizedoldrecordsorpolicyinverse. contract_lock()hashescurrentcontentwithoutbaseline-preservationvalidation.",
+      "source_grounded_counterexample_not_executed": "Startingfromvalidcurrentfixture,replaceM06a1.tasks with[] inplan.json. ExistingID/family/pointer/history/dependencies/typedgraph remainunchanged. plan.json isnotintheoldcontractlock,soeventhecurrentcontractlockneednotchange. snapshot computesfreshcomplete_plan_unit_sha256/lock overalteredrecordandcopieslossintoregister.",
+      "expected_repair": "Reusestaticlandedguard fullvalidate_storage_splits(contract,plan,read=realmap), includingall792oldrecords/1584nodes/childrecords/policyinverse/cycles/heldbytes. DefaultPENDINGrefusesproduction;tests mayscopedpatchsyntheticsealonly. No productionoverride/noopcallback."
+    },
+    {
+      "id": "P1-COHERENT-HELD-POLICY-REPIN",
+      "priority": "blocking",
+      "source": "snapshot() doesnotapplyderive() PRESERVEDconstantchecks;regeneratingcurrentcontractlockhashesonmodifiedteams/otherheldfilesmakesthesnapshotselfconsistent.",
+      "source_grounded_counterexample_not_executed": "Changeunknownfieldorteamownershipin teams.json,regenerateitscurrentcontractlockentry,thenprojectthesameotherwisevalidplan. Hashclosureproveschangedbyteswithoutprovingpreservedholds.",
+      "expected_repair": "RequireexactPRESERVEDdictionaryandactualsixrawholdhashesplusfullguardreadcallback. Testactualsnapshotwithcoherentheldchangeandfreshmatchingcurrentlock."
+    },
+    {
+      "id": "P1-WHOLE-EXECUTION-ATTRIBUTION",
+      "priority": "blocking_root_confirmed",
+      "source": "derive()/snapshot() pinonlystate.units;current_integrationandothertoplevelattributionarenotcoveredandcanpropagateintoregister.",
+      "source_grounded_counterexample_not_executed": "Changeexecution.current_integrationwhileleavingall55unitsunchanged. Historyfingerprintpasses;snapshotcopieschangedattribution.",
+      "expected_repair": "RequireexactrawexecutionSHAa08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e inbothderiveandsnapshot. Testtop-levelattributiondriftwithunitsunchanged."
+    },
+    {
+      "id": "P1-INPUT-FRAMING-AND-RESERVED-PROVENANCE",
+      "priority": "repair_before_final_admission",
+      "source": "inputs() currentlychargesonlybytevalues,notpath/hashmetadata;dict(files,**prior)canoverwriteuser-suppliedprior/* valuesbeforeaggregate/provenancechecks.",
+      "source_grounded_counterexample_not_executed": "ManyemptybyteentriesorverylongcanonicalkeysproduceunboundedinputSHAframingwithsmallrawvalues;acollidingprior/contract-lock.jsoninputcanbesilentlydiscardedandreplacedbyseparatebeforeargument.",
+      "expected_repair": "Include path+digest framing/entryoverheadin64MiBinputboundaryandrefuse reservedprior-keycollisionsbeforemerging,whilepreservingalllegitimatefullbaselineinputs. Keepseparatepriorargumentsinsideearlyboundedinputvalidationbeforehash/parse."
+    }
+  ],
+  "source_observations": [
+    "Independentdata-setreconstructionshowednewrequiredsnapshotsetretainsall1148oldrequiredpaths: no lockset-lossfinding.",
+    "Initialfull302-linehelper/208-line9-testsource/13-lineREADMEwereinspectedwithoutsubjectexecution;sourcelease-v4nowadmitscompleteguardreuseandrepairwithin376production/626authoredallocationandhard400/900caps.",
+    "StrictfiniteJSONincludingoverflowexponents,duplicatekeys,typedcyclecheck,privatefreshworkspaceemitterandunsignedstatusaresounddirections;nonegrantadoptionorseal.",
+    "ActualfullRR13draft86/15/26remainsoutsideP1syntheticcontrols; futureP2mustuseitandverifyfullplan/currentguard/seals/shim/source/lock/snapshotcomposition."
+  ],
+  "next_gates": [
+    "Authorfreezescompletev4repairwithinitialepochretained.",
+    "IndependentlyreviewstrictsinglePOLICYliteralnormalization,fixedprep/rawsourceclosure,actualfile/lock/proposalbindings,noproductionsealassignment,defaultrefusal,fullguardreadcallbackandcoherentmutationnegativecontrols.",
+    "Recountallsource/tests/helpers/docs/rootwiringagainstleaseandordinary400/900caps.",
+    "OnlyaftersourcePASSprepare/reviewexactnormal+optimizedrootunitsspec;noimports/tests/runtimebeforethen."
+  ],
+  "reviewer_actions": "Source/datareasoningandthisreportonly; no subjectimports/execution,tests,compiler,network,Git/source/providerwrites."
+}

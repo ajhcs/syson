@@ -1,0 +1,206 @@
+{
+  "schema": "C03-RR13-P1-INDEPENDENT-RUNTIME-ORACLE-FIX-SOURCE-REVIEW/1",
+  "status": "PASS_EXACT_TEST_DOC_ONLY_SOURCE_FIX_PENDING_NEW_SPEC_AND_FULL_ROOT_REEXECUTION",
+  "reviewer": "/root/registration_review",
+  "reviewed_at_utc": "2026-10-30T21:52:17.130534+00:00",
+  "pins": {
+    "runtime_fix_author_freeze": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/author-freeze-runtime-fix-01.json",
+      "bytes": 8825,
+      "physical_lines": 142,
+      "sha256": "8a4bb4121495aa1f207b69e49a4dc541b77b59c001147c4d787f3c1c91dd6012"
+    },
+    "prior_repaired_author_freeze": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/author-freeze-repaired.json",
+      "bytes": 7342,
+      "physical_lines": 109,
+      "sha256": "047ba80c43661887aaca48e3f04a1ac935964b056703172b9e95c778e4e029cf"
+    },
+    "prior_source_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-storage-registration-tools-source-repaired.json",
+      "bytes": 16806,
+      "physical_lines": 275,
+      "sha256": "315bc168698dab7fc8fea7d17c645756264cb54c6c3d224e960b3d9567a0bcff"
+    },
+    "prior_runtime_admission": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-storage-registration-tools-runtime-admission.json",
+      "bytes": 359634,
+      "physical_lines": 1821,
+      "sha256": "2fa77e2f0a2fd51247f11517de5d7647a285061e0dc68f274655c39545a3d408"
+    },
+    "failed_root_receipt": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/checks-01/receipt.json",
+      "bytes": 692634,
+      "physical_lines": 3044,
+      "sha256": "a681f58c3243cc7037454a54f1e5368e5bb0587612381564d001e12a2fb435be"
+    },
+    "failed_root_stderr": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/checks-01/registration-normal.stderr",
+      "bytes": 3351,
+      "physical_lines": 28,
+      "sha256": "a00afb7ca5e0cde7f240613495a48647e477e3dc46244103adfafff1bbf40be9"
+    },
+    "failed_root_cleanup": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/checks-01-cleanup.json",
+      "bytes": 160,
+      "physical_lines": 10,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    "normative_snapshot_checker": {
+      "path": "/workspace/worktrees/builderbob/syson/batch35-storage-registration-tools-20261030/porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+      "bytes": 5801,
+      "physical_lines": 128,
+      "sha256": "65c949f70c040952969d5d525aec1636b6b0e176b0324957309bac8dde537072"
+    }
+  },
+  "reviewed_source": {
+    "porting/rust-parity-plan-20261026/composition/registration/prepare.py": {
+      "path": "/workspace/worktrees/builderbob/syson/batch35-storage-registration-tools-20261030/porting/rust-parity-plan-20261026/composition/registration/prepare.py",
+      "bytes": 22249,
+      "physical_lines": 353,
+      "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59"
+    },
+    "porting/rust-parity-plan-20261026/composition/registration/test_prepare.py": {
+      "path": "/workspace/worktrees/builderbob/syson/batch35-storage-registration-tools-20261030/porting/rust-parity-plan-20261026/composition/registration/test_prepare.py",
+      "bytes": 23417,
+      "physical_lines": 349,
+      "sha256": "029024ddf59037a97c8ed8fcfa930bcb53737381a632a398c0eb1f0573208604"
+    },
+    "porting/rust-parity-plan-20261026/composition/registration/README.md": {
+      "path": "/workspace/worktrees/builderbob/syson/batch35-storage-registration-tools-20261030/porting/rust-parity-plan-20261026/composition/registration/README.md",
+      "bytes": 4723,
+      "physical_lines": 14,
+      "sha256": "78359101804a6899edaf978268de136f8e963eca44040bed5686f4fcd61ee305"
+    }
+  },
+  "findings": [],
+  "diagnosis": {
+    "status": "CONFIRMED_SOURCE_AND_RETAINED_RUNTIME_EVIDENCE",
+    "actual_failure": "checks-01 registration-normal ran14tests:13passed and1failure at old test line173 asserting every source field literally equals snapshot row. Receipt FAIL_TERMINAL,only1 command executed,all1508 before/after input hashes equal; cleanup confirms absent scope.",
+    "canonical_rule": "remaining-work/verify_snapshot.py54-65 copies full source then explicitly overwrites exactly5 derived projection columns. Historical feature_acceptance comes from execution.units[id] or OPEN_NO_ACCEPTANCE_RECORD. Source plan may independently say OPEN.",
+    "actual_data": {
+      "M06a1_plan_feature_acceptance": "OPEN",
+      "M06a1_present_in_history": false,
+      "M06a1_existing_canonical_register_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD"
+    },
+    "helper_assessment": "Helper353 already follows normative five-column derivation and complete original-unit digest. No genuine helper functional defect identified in this incident; helper byte-exact61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59 retained.",
+    "review_correction": "Prior source review missed the test oracle collision; source PASS did not establish executable test success. checks-01 is retained as terminal failure, not converted to PASS."
+  },
+  "fix_review": {
+    "changed_function_names": [
+      "test_snapshot_has_every_field_brief_full_history_and_exact_lockset"
+    ],
+    "unchanged_other_test_methods": 13,
+    "unchanged_other_functions_including_test_helpers": 18,
+    "top_level_tests": 14,
+    "oracle": "New target method checks exact row-key union of all source keys and exactly5 derived columns, every nonderived source field, every derived value explicitly, full copied_plan_fields union and identity/order. No unchecked skipped-field exception.",
+    "derived_oracles": {
+      "primary_family": "Actual source completion_contract.family",
+      "brief": "../prs/<id>.md",
+      "brief_sha256": "Independent hashlib SHA of actual raw brief bytes",
+      "complete_plan_unit_sha256": "Independent hashlib/json canonical SHA of complete original source unit,including original source feature_acceptance",
+      "feature_acceptance": "Exact55-record execution history value or OPEN_NO_ACCEPTANCE_RECORD"
+    },
+    "collision_control": "Explicit M06a1 source OPEN,absent history,projected OPEN_NO_ACCEPTANCE_RECORD. Full-source digest is asserted different from digest with projected acceptance substituted; snapshot cannot silently rewrite source record.",
+    "immutability": "Full current input byte map captured before snapshot and compared unchanged afterward. Authoritative plan/contract/snapshot bytes independently rehashed unchanged.",
+    "retained_controls": "All13 previously passing methods source-identical,including coherent M06a1 task omission/held-policy repins,whole execution attribution,private copies,strict JSON,framing/prior collision,source pin/cache/seal/default refusal,cycles and fresh output boundaries.",
+    "documentation": "Only canonical projection explanation sentence expanded. Complete original plan record/hash remains authority; five derived columns and absent-history default stated explicitly. Root-neutral qualification ownership sentence retained byte-for-byte.",
+    "optimization": "Source AST parsed only. Zero assert statements and no skip/new case/decorator/dynamic selection; unittest assertions remain under -O."
+  },
+  "readonly_authority_integrity": {
+    "completion-contract.lock.json": {
+      "path": "/workspace/worktrees/builderbob/syson/batch35-storage-registration-tools-20261030/porting/rust-parity-plan-20261026/completion-contract.lock.json",
+      "bytes": 4143,
+      "physical_lines": 45,
+      "sha256": "87ca5b8de8bd19420d6abf06dd49c87d4ad2f44fa915546ef5a3ab3ee616ad53",
+      "locked_inputs": 37,
+      "all_current_bytes_match": true,
+      "mismatches": []
+    },
+    "remaining-work/snapshot.lock.json": {
+      "path": "/workspace/worktrees/builderbob/syson/batch35-storage-registration-tools-20261030/porting/rust-parity-plan-20261026/remaining-work/snapshot.lock.json",
+      "bytes": 150647,
+      "physical_lines": 1470,
+      "sha256": "0c006791f6952eef5fe360f5604976ff6a85eba2f933ab14cde55c8a0a329a47",
+      "locked_inputs": 1148,
+      "all_current_bytes_match": true,
+      "mismatches": []
+    }
+  },
+  "root_wiring_unchanged": {
+    ".github/workflows/storage-guard-checks.yml": {
+      "path": "/workspace/worktrees/builderbob/syson/batch35-storage-registration-tools-20261030/.github/workflows/storage-guard-checks.yml",
+      "sha256": "16e51693a43c575ea8761e0943b0fb7d0b13c47578f86277b250bf141786be19",
+      "bytes": 921,
+      "physical_lines": 22
+    },
+    "porting/rust-parity-evidence/C03/batch35-storage-registration-tools/.gitattributes": {
+      "path": "/workspace/worktrees/builderbob/syson/batch35-storage-registration-tools-20261030/porting/rust-parity-evidence/C03/batch35-storage-registration-tools/.gitattributes",
+      "sha256": "44de1c400fbf981689257d46e4ff3fe6a7796292dd5551642680fb7822f2dd97",
+      "bytes": 21,
+      "physical_lines": 1
+    }
+  },
+  "failed_epoch_pins": {
+    "README.md.raw": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-05-failed-checks-01/README.md.raw",
+      "bytes": 4469,
+      "physical_lines": 14,
+      "sha256": "27c9bf2f6480e0576249d49bde97c77a42b67ed3a4e9142591bd00bf1fbbe05e"
+    },
+    "checks-01-cleanup.json.raw": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-05-failed-checks-01/checks-01-cleanup.json.raw",
+      "bytes": 160,
+      "physical_lines": 10,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    "checks-01-spec.json.raw": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-05-failed-checks-01/checks-01-spec.json.raw",
+      "bytes": 247033,
+      "physical_lines": 1668,
+      "sha256": "2260083a6b24502afdfb4dbdbf7752eaab843eb793a066a421c802768d2539e6"
+    },
+    "coordinator-freeze-01.json.raw": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-05-failed-checks-01/coordinator-freeze-01.json.raw",
+      "bytes": 1996,
+      "physical_lines": 48,
+      "sha256": "4c48d158d0a69aa480a938a9bfe4914327cb4588367ec9e91ac46e06f3c1e2f3"
+    },
+    "prepare.py.raw": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-05-failed-checks-01/prepare.py.raw",
+      "bytes": 22249,
+      "physical_lines": 353,
+      "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59"
+    },
+    "test_prepare.py.raw": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration-tools/source-epoch-05-failed-checks-01/test_prepare.py.raw",
+      "bytes": 21919,
+      "physical_lines": 329,
+      "sha256": "2846fc7f6b5e94d488861f30bd7567bb156cd24ff0d12b56b29f547c936bf471"
+    }
+  },
+  "budget": {
+    "helper": 353,
+    "README": 14,
+    "root_CI": 2,
+    "root_attributes": 1,
+    "production": 370,
+    "test_source": 349,
+    "authored": 719,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "within_active_v5_allocations": true,
+    "actual_Git_A_plus_D": "PENDING_ROOT"
+  },
+  "required_next_gates": [
+    "New exact spec02 admission with fixed test/doc hashes,fresh output/cookie/scope and all actual inputs; prior spec01 pins bind failed source and must not be reused.",
+    "Root full14normal/-O plus oldguard10normal/-O,oldtools31normal/-O,currentplan/snapshot selftests both modes with raw output and all before/after pins/resource/cleanup evidence.",
+    "Inspect raw unittest counts rather than F25 Rust-only passed counter. No execution result asserted by this report.",
+    "Independent executed review and exact public/hosted/merge/postflight gates remain separate; futureP2 real policy/manual seal and actual draft qualification remain open."
+  ],
+  "reviewer_actions": "Read/parse/hash source/data and retained root output only; wrote this owned report. No subject imports/tests/runtime/generators/compiler,Git,network,source/provider/shared-file edits,administration or Plumbob.",
+  "acceptance_boundary": "All production application/native/UI/durability/performance/Rust parity and full original SnapshotStore/identity integration acceptance remain OPEN; no hold/source lease/adoption/release granted.",
+  "holds_released": false
+}
