@@ -1,6 +1,7 @@
 """Read-only static contract checks. Behavioral acceptance remains RR16b/RR17 work."""
 import hashlib
 import json
+from preparation_splits import validate_preparation_splits, legacy_contract, legacy_plan
 
 CONTRACT_PATH = 'completion-contract.json'
 LOCK_PATH = 'completion-contract.lock.json'
@@ -24,6 +25,8 @@ def canonical_hash(value):
 
 def forest_children(contract):
     """Admit the sealed forest policy before any old-inventory exclusion."""
+    if contract.get('version') == '1.0.9':
+        return forest_children(legacy_contract(contract))
     splits = contract.get('forest_kernel_splits', {})
     require(splits or contract['version'] not in ('1.0.7', '1.0.8'), 'U12 split policy missing')
     if not splits:
@@ -58,6 +61,8 @@ def restore_forest_record(unit, children, normalized=True):
 
 def validate_forest_splits(contract, plan=None, lane=None, check_original_records=True):
     """Finite forest preparation preserves all package/native acceptance gates."""
+    if contract.get('version') == '1.0.9':
+        return validate_forest_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane, check_original_records)
     children = forest_children(contract)
     if not children:
         return
@@ -128,6 +133,8 @@ def validate_forest_splits(contract, plan=None, lane=None, check_original_record
 
 def routing_children(contract):
     """Validate the exact new policy before excluding its IDs from older proofs."""
+    if contract.get('version') == '1.0.9':
+        return routing_children(legacy_contract(contract))
     forest_children(contract)
     splits = contract.get('routing_kernel_splits', {})
     require(splits or contract['version'] not in ('1.0.6', '1.0.7', '1.0.8'), 'U11 split policy missing')
@@ -149,6 +156,8 @@ def routing_children(contract):
 
 def validate_routing_splits(contract, plan=None, lane=None, check_original_records=True):
     """Finite routing source preservation, never native/UI feature acceptance."""
+    if contract.get('version') == '1.0.9':
+        return validate_routing_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane, check_original_records)
     children = routing_children(contract)
     if not children:
         return
@@ -235,6 +244,8 @@ def validate_routing_splits(contract, plan=None, lane=None, check_original_recor
 
 def validate_comparison_repairs(contract, plan=None, lane=None):
     """Validate the finite C09b split before any legacy coverage exclusions."""
+    if contract.get('version') == '1.0.9':
+        return validate_comparison_repairs(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane)
     splits = contract.get('comparison_repairs', {})
     require(splits or contract['version'] not in ('1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'C09 split repair policy missing')
     if not splits:
@@ -314,6 +325,8 @@ def validate_comparison_repairs(contract, plan=None, lane=None):
 
 def validate_repair_splits(contract, plan=None):
     """Static RR08 scope preservation; never a runtime or acceptance decision."""
+    if contract.get('version') == '1.0.9':
+        return validate_repair_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None)
     splits = contract.get('repair_splits', {})
     require(splits or contract['version'] not in ('1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'RR08 split policy missing')
     if not splits:
@@ -409,6 +422,8 @@ def validate_repair_splits(contract, plan=None):
 
 def validate_layout_splits(contract, plan=None, lane=None):
     """Static U10 prerequisite mapping; no native, UI or feature acceptance."""
+    if contract.get('version') == '1.0.9':
+        return validate_layout_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane)
     splits = contract.get('layout_kernel_splits', {})
     require(splits or contract['version'] not in ('1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'U10 split policy missing')
     if not splits:
@@ -533,6 +548,8 @@ def validate_layout_splits(contract, plan=None, lane=None):
 
 def validate_comparator_splits(contract, plan=None, lane=None):
     """Static C09 module/case preservation; no capture or runtime acceptance."""
+    if contract.get('version') == '1.0.9':
+        return validate_comparator_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane)
     splits = contract.get('tooling_comparator_splits', {})
     require(splits or contract['version'] not in ('1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'C09 split policy missing')
     if not splits:
@@ -674,7 +691,7 @@ def read_contract(root, read=None):
     require(contract['contract_id'] == lock['contract_id'], 'Contract/lock version mismatch')
     require(contract['contract_id'] == 'SYSON-RUST-COMPLETION/' + contract['version'],
             'Contract ID/version mismatch')
-    validate_comparison_repairs(contract)
+    require(contract['version'] == '1.0.9' and 'source_preparation_splits' in contract, 'Current contract version and preparation policy required')
     required = {CONTRACT_PATH, contract['document'], contract['packet_schema'],
                 contract['performance_policy'], 'cross-lane-review.json', 'rereview-overlay.json'}
     disposition = contract.get('legacy_prerequisite_budget_dispositions')
@@ -685,6 +702,7 @@ def read_contract(root, read=None):
     amendments += [policy['amendment'] for policy in contract.get('comparison_repairs', {}).values()]
     amendments += [policy['amendment'] for policy in contract.get('routing_kernel_splits', {}).values()]
     amendments += [policy['amendment'] for policy in contract.get('forest_kernel_splits', {}).values()]
+    amendments.append(contract['source_preparation_splits']['amendment'])
     team = contract.get('team_execution')
     require(team is not None or contract['version'] != '1.0.8', 'Team adoption missing')
     if team is not None:
@@ -721,6 +739,8 @@ def read_contract(root, read=None):
             'Packet schema contract mismatch')
     require(schema['properties']['target_source']['const'] == contract['target_source'],
             'Packet schema target mismatch')
+    validate_preparation_splits(contract)
+    validate_comparison_repairs(contract)
     validate_comparator_splits(contract, lane=json.loads(read('lanes/ui.json')))
     validate_repair_splits(contract)
     validate_layout_splits(contract, lane=json.loads(read('lanes/ui.json')))
@@ -735,13 +755,6 @@ def validate_bindings(contract, plan, root):
             'path': CONTRACT_PATH, 'lock': LOCK_PATH}, 'Missing plan contract binding')
     require({u['id'] for u in plan['units']} == set(contract['unit_ids']),
             'Plan/contract unit coverage mismatch')
-    validate_comparator_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()))
-    validate_repair_splits(contract, plan)
-    validate_layout_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()))
-    validate_forest_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()),
-                           check_original_records=False)
-    validate_routing_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()),
-                            check_original_records=False)
     require(plan.get('team_execution') == contract['team_execution'], 'Missing team plan binding')
     families = {uid: family for family, ids in contract['families'].items() for uid in ids}
     for unit in plan['units']:
@@ -752,3 +765,11 @@ def validate_bindings(contract, plan, root):
                          '../' + contract['document'], '../' + contract['packet_schema'],
                          'Primary acceptance family: ' + families[unit['id']]]:
             require(expected in brief, 'Missing brief contract binding: ' + unit['id'])
+    validate_preparation_splits(contract, plan)
+    validate_comparator_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()))
+    validate_repair_splits(contract, plan)
+    validate_layout_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()))
+    validate_forest_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()),
+                           check_original_records=False)
+    validate_routing_splits(contract, plan, json.loads((root / 'lanes/ui.json').read_text()),
+                            check_original_records=False)

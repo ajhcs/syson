@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
+from preparation_splits import legacy_contract, legacy_plan
 from completion_contract import read_contract, validate_bindings, validate_repair_splits, validate_layout_splits, validate_comparator_splits, validate_comparison_repairs, validate_routing_splits, validate_forest_splits
 
 def require(ok,message):
@@ -23,10 +24,12 @@ def acyclic(graph):
 
 def validate(plan,root):
     contract=read_contract(root)
-    validate_bindings(contract,plan,root)
     units=plan['units'];ids={u['id'] for u in units};byid={u['id']:u for u in units}
+    require(ids == set(contract['unit_ids']), 'Plan/contract unit coverage mismatch')
     require(len(ids)==len(units)==plan['unit_count'],'Duplicate/missing unit count')
     require(not plan['full_parity_claimed'],'A plan must not claim feature parity')
+    for unit in units:
+        require(unit.get('completion_contract', {}).get('id') == contract['contract_id'], 'Missing unit contract binding')
     graph={u['id']:u['dependencies'] for u in units};acyclic(graph)
     stages=plan['readiness_graph'];acyclic(stages)
     require(set(stages)=={prefix+uid for prefix in ['implementation:','accepted:'] for uid in ids},'Readiness node mismatch')
@@ -104,6 +107,7 @@ def validate(plan,root):
     from team_policy import validate_teams
     expected = validate_teams(json.loads((root/'teams.json').read_bytes()), plan)
     require(json.loads((root/'team-dispatch.json').read_bytes()) == expected, 'Team dispatch drift')
+    validate_bindings(contract,plan,root)
     return {'static_contract_integrity':'PASS;behavioral_acceptance_remains_open','units':len(units),'source_graph_acyclic':True,'readiness_graph_nodes':len(stages),'readiness_graph_acyclic':True,'unordered_write_conflicts':0,'all_14_original_remaining_briefs_mapped':True,'source_assignment_counts_verified':True}
 
 def completion(plan,state,repo):
@@ -148,6 +152,7 @@ def self_test(plan,root):
     amendment_paths += [policy['amendment']['path'] for policy in contract.get('forest_kernel_splits', {}).values()]
     if contract.get('team_execution'):
         amendment_paths.append(contract['team_execution']['amendment']['path'])
+    amendment_paths.append(contract['source_preparation_splits']['amendment']['path'])
     for amendment_path in amendment_paths:
         rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
                 (b'\n' if name==amendment_path else b'')), 'amendment hash mismatch')
@@ -218,6 +223,9 @@ def self_test(plan,root):
     except ValueError as e:require('coordinator_wiring' in str(e),'Wrong rejection for omitted coordinator wiring')
     else:raise AssertionError('Omitted coordinator wiring accepted')
 
+    current_contract = contract
+    plan = legacy_plan(current_contract, plan)
+    contract = legacy_contract(current_contract)
     # Mutate both graph representations together, defeating superficial consistency checks.
     split_mutations = ['child-order', 'parent-order', 'acceptance', 'scope', 'parent-scope',
                        'lease', 'cap', 'counting', 'task', 'verification', 'gates', 'cases', 'estimate']
@@ -245,7 +253,7 @@ def self_test(plan,root):
         elif mutation == 'gates': parent['whole_parent_gates']['workload_points'].pop()
         elif mutation == 'cases': second['original_case_requirements'].pop()
         else: first['production_delta_estimate']['changed'] = 401
-        rejects(lambda:validate(bad, root), 'RR08 split')
+        rejects(lambda:validate_repair_splits(contract, bad), 'RR08 split')
     contract_mutations = ['policy', 'unit', 'workloads', 'cases', 'exception', 'cap']
     for mutation in contract_mutations:
         bad = copy.deepcopy(contract)
@@ -265,6 +273,7 @@ def self_test(plan,root):
 
 def layout_split_self_test(plan, root):
     """Refuse coherent layout split omissions, not merely stale input hashes."""
+    plan = legacy_plan(read_contract(root), plan)
     def rejects(action, expected='U10 split'):
         try:
             action()
@@ -310,9 +319,9 @@ def layout_split_self_test(plan, root):
         elif mutation == 'estimate': second['production_delta_estimate']['changed_upper'] = 400
         elif mutation == 'kernel-dependency': first['kernel_dependency_policy'] = 'runtime ELK dependency'
         else: first['tasks'].pop()
-        rejects(lambda: validate_layout_splits(read_contract(root), bad,
+        rejects(lambda: validate_layout_splits(legacy_contract(read_contract(root)), bad,
                 json.loads((root / 'lanes/ui.json').read_text())))
-    contract = read_contract(root)
+    contract = legacy_contract(read_contract(root))
     contract_mutations = ['policy', 'old-unit', 'production-cap', 'authored-cap', 'tests',
                           'donor', 'paths', 'parent-proof', 'gates', 'order', 'measurement-interface', 'kernel-dependency']
     for mutation in contract_mutations:
@@ -339,6 +348,7 @@ def layout_split_self_test(plan, root):
 
 def comparator_split_self_test(plan, root):
     """Refuse coherent module, RR15, source-epoch and composed-control losses."""
+    plan = legacy_plan(read_contract(root), plan)
     def rejects(action):
         try:
             action()
@@ -346,7 +356,7 @@ def comparator_split_self_test(plan, root):
             require('C09 split' in str(error), 'Wrong comparator rejection: ' + str(error))
         else:
             raise AssertionError('C09 split mutation accepted')
-    contract = read_contract(root)
+    contract = legacy_contract(read_contract(root))
     lane = json.loads((root / 'lanes/ui.json').read_text())
     mutations = ['missing-child', 'child-order', 'parent-ready', 'RR15-ready', 'RR15-acceptance',
                  'joint-input', 'expanded-input', 'parent-task', 'parent-verification', 'parent-path',
@@ -422,7 +432,8 @@ def comparator_split_self_test(plan, root):
 
 def comparison_repair_self_test(plan, root):
     """Reject coherent child/edge loss and changed partial-comparison requirements."""
-    contract = read_contract(root)
+    plan = legacy_plan(read_contract(root), plan)
+    contract = legacy_contract(read_contract(root))
     lane = json.loads((root / 'lanes/ui.json').read_text())
 
     def rejects(action):
@@ -488,7 +499,8 @@ def comparison_repair_self_test(plan, root):
 
 def routing_split_self_test(plan, root):
     """Reject coherent routing omissions under normal and optimized Python."""
-    contract = read_contract(root)
+    plan = legacy_plan(read_contract(root), plan)
+    contract = legacy_contract(read_contract(root))
     lane = json.loads((root / 'lanes/ui.json').read_text())
 
     def rejects(action):
@@ -565,7 +577,8 @@ def routing_split_self_test(plan, root):
 
 def forest_split_self_test(plan, root):
     """Reject coherent forest and historical-obligation omissions."""
-    contract = read_contract(root)
+    plan = legacy_plan(read_contract(root), plan)
+    contract = legacy_contract(read_contract(root))
     lane = json.loads((root / 'lanes/ui.json').read_text())
 
     def rejects(action):

@@ -1,7 +1,8 @@
 """Static team overlay checks; actual ownership, readiness and acceptance stay external."""
 import hashlib
 import json
-from pathlib import PurePosixPath
+from pathlib import PurePosixPath, Path
+from preparation_splits import legacy_contract, legacy_plan, validate_preparation_splits
 
 TEAMS = [
     'reference', 'semantic-model', 'language-interchange', 'services-persistence',
@@ -36,7 +37,7 @@ def canonical_hash(value):
     ).encode()).hexdigest()
 
 
-def validate_teams(policy, plan):
+def validate_teams_legacy(policy, plan):
     """Return a deterministic projection without changing any plan/unit record."""
     require(set(policy) == {'schema', 'team_ids', 'integration_coordinator',
                            'execution_policy', 'preservation', 'assignments'},
@@ -88,6 +89,23 @@ def validate_teams(policy, plan):
     return {'assignment': assignment, 'cross_team_edges': edges,
             'team_counts': {team: list(assignment.values()).count(team) for team in TEAMS},
             'policy': dict(EXECUTION)}
+
+
+def validate_teams(policy, plan):
+    contract = json.loads((Path(__file__).resolve().parents[1] / 'completion-contract.json').read_bytes())
+    addition = validate_preparation_splits(contract, plan)
+    result = validate_teams_legacy(policy, legacy_plan(contract, plan))
+    assignment = result['assignment']
+    for uid, child in addition['children'].items():
+        require(child['team'] in TEAMS, 'unknown preparation team')
+        assignment[uid] = child['team']
+    result['cross_team_edges'] = [
+        {'from': source, 'to': target, 'from_team': assignment[source.split(':', 1)[1]],
+         'to_team': assignment[target.split(':', 1)[1]]}
+        for source in sorted(plan['readiness_graph']) for target in sorted(plan['readiness_graph'][source])
+        if assignment[source.split(':', 1)[1]] != assignment[target.split(':', 1)[1]]]
+    result['team_counts'] = {team: list(assignment.values()).count(team) for team in TEAMS}
+    return result
 
 
 def contains(parent, child):

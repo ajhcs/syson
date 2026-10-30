@@ -113,6 +113,11 @@ for uid,item in rereview_overlay['units'].items():
             u['implementation_ready_dependencies']=sorted(set(u['implementation_ready_dependencies']+repairs))
     u['rereview_policy']='Required future repair acceptance; original local evidence is not acceptance of repaired source.'
 
+for uid, fields in CONTRACT['source_preparation_splits']['record_updates'].items():
+    for field, change in fields.items():
+        if field != 'expanded_implementation_inputs':
+            byid[uid][field] = change['after']
+
 def ancestors(uid, trail=()):
     assert uid not in trail, 'Dependency cycle: '+' -> '.join(trail+(uid,))
     result=set()
