@@ -1,0 +1,152 @@
+{
+  "kind": "CURRENT_MAIN_PROVIDER_ADOPTION_LOCAL_CHECKS",
+  "unit": "F25",
+  "baseline_main": "f327396a85ed40a2a8d0fc482f886980516e4396",
+  "donor": "a85366ae8252596b417384d02e0ded6784d93eed",
+  "result": "PASS_NAMED_LOCAL_CHECKS_ONLY",
+  "source_unchanged": true,
+  "source_sha256": {
+    "rust/crates/syson-document-reconcile/Cargo.lock": "e3c1c8e475a12b372db2d6d58252dc2a72e9b269d72646a3bc59a0a3ab8e7c46",
+    "rust/crates/syson-document-reconcile/Cargo.toml": "478b6ba90eb6ecd4bfbd5a1a633247ebafac81069795ffa93ca5186b2986d55b",
+    "rust/crates/syson-document-reconcile/examples/reconcile_bench.rs": "855853c74139c011c1abb4e782cc8b32574e1d8a4c9617b592772a232e698a67",
+    "rust/crates/syson-document-reconcile/src/lib.rs": "c4688a700982dc50857678a95300e77dc8f55b06f556f93e33a6b35afe2cb693",
+    "rust/crates/syson-document-reconcile/tests/reconciliation.rs": "52e46162ebf1fc6f14620f59edef173c2759eafda96ef958869e9b443bbaf105"
+  },
+  "qualification_provider": {
+    "path": "porting/rust-parity-evidence/F25/main-batch31/qualify.py",
+    "sha256": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9",
+    "retained_executed_bytes": true
+  },
+  "commands": [
+    {
+      "name": "fmt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.031826694030314684,
+      "passed": 0,
+      "stdout": "porting/rust-parity-evidence/F25/main-batch31/captures/fmt.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0,
+      "stderr_retained_in_coordinator_epoch": true
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "Cargo.toml",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.614574366947636,
+      "passed": 16,
+      "stdout": "porting/rust-parity-evidence/F25/main-batch31/captures/tests.stdout",
+      "stdout_sha256": "8462c79953edbf9d43c9e5aaf5db0573698ee3ecc004122dcf9fd2b984ea5a65",
+      "stderr_sha256": "39e7f6f2b6b880a4386a801f9f427856877d7754fceea40915119f2b5915e0c4",
+      "stderr_bytes": 583,
+      "stderr_retained_in_coordinator_epoch": true
+    },
+    {
+      "name": "clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--manifest-path",
+        "Cargo.toml",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.1639271379681304,
+      "passed": 0,
+      "stdout": "porting/rust-parity-evidence/F25/main-batch31/captures/clippy.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "02ac5003a9aadece5c23a3aaff14ae9baf3ff1e522b2cecc7c4fd150c8c9d6a7",
+      "stderr_bytes": 219,
+      "stderr_retained_in_coordinator_epoch": true
+    },
+    {
+      "name": "wasm",
+      "argv": [
+        "cargo",
+        "check",
+        "--manifest-path",
+        "Cargo.toml",
+        "--offline",
+        "--locked",
+        "--jobs",
+        "1",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.06381842296104878,
+      "passed": 0,
+      "stdout": "porting/rust-parity-evidence/F25/main-batch31/captures/wasm.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "fce2f22403faf32033bb35269f7f2ac0be5038fab378b20da62b1cb69373bc45",
+      "stderr_bytes": 219,
+      "stderr_retained_in_coordinator_epoch": true
+    },
+    {
+      "name": "release-profile",
+      "argv": [
+        "cargo",
+        "run",
+        "--manifest-path",
+        "Cargo.toml",
+        "--offline",
+        "--locked",
+        "--release",
+        "--example",
+        "reconcile_bench"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.6144218550762162,
+      "passed": 0,
+      "stdout": "porting/rust-parity-evidence/F25/main-batch31/captures/release-profile.stdout",
+      "stdout_sha256": "dca5055768272dc4230c87c5aac721fb786135ea52844d8ed1acb6fdaf36bf07",
+      "stderr_sha256": "8ab1dfd3343b184429b7b759683770af20c68f8d10e68139b8eecaa5ceaf720f",
+      "stderr_bytes": 334,
+      "stderr_retained_in_coordinator_epoch": true
+    }
+  ],
+  "scope_cleanup_confirmed": true,
+  "local_limits": {
+    "cpu_quota": "200%",
+    "memory_high": "2G",
+    "memory_max": "3G",
+    "swap_max": 0,
+    "tasks_max": 128,
+    "per_command_timeout_seconds": 180,
+    "output_size_quota_enforced": false,
+    "property_readback_performed": false,
+    "evidence": "Coordinator-applied systemd-run arguments; properties were not independently read back during the epoch"
+  },
+  "dependency_binding": "Local provider source hashes and locked offline Cargo; complete RR16 tool/external closure remains OPEN",
+  "native_runtime_executed": false,
+  "actual_ui_executed": false,
+  "full_feature_acceptance": "OPEN",
+  "holds_released": false
+}

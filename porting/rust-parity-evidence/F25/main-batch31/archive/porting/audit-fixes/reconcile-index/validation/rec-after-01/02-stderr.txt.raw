@@ -1,0 +1,20 @@
+    Checking syson-document-reconcile v0.1.0 (/workspace/worktrees/builderbob/syson/audit-reconcile-index/rust/crates/syson-document-reconcile)
+error: manual implementation of `.is_multiple_of()`
+   --> tests/reconciliation.rs:355:28
+    |
+355 |         .filter(|position| (COUNT - 1 - position) % 257 == 0)
+    |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: replace with: `(COUNT - 1 - position).is_multiple_of(257)`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#manual_is_multiple_of
+    = note: `-D clippy::manual-is-multiple-of` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::manual_is_multiple_of)]`
+
+error: manual implementation of `.is_multiple_of()`
+   --> tests/reconciliation.rs:364:12
+    |
+364 |         if index % 257 == 0 {
+    |            ^^^^^^^^^^^^^^^^ help: replace with: `index.is_multiple_of(257)`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#manual_is_multiple_of
+
+error: could not compile `syson-document-reconcile` (test "reconciliation") due to 2 previous errors

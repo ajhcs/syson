@@ -1,0 +1,27 @@
+# F25: pure document reconciliation planner
+
+The standalone `syson-document-reconcile` crate produces plans for the pinned candidate Sirius `SemanticData.updateDocuments`, `addDependencies` and `removeDependencies` methods. It performs no I/O, clock reads, random-ID allocation, database update or event publication. `PROVENANCE.json` identifies the exact five source blobs inspected; matching deployed artifact correspondence and upstream runtime comparison remain unproven.
+
+A `Document<T>` is a nonnull, fully built observation with opaque caller timestamps. Borrowed observation addresses model Java `Document` object identity; UUID bytes remain a distinct identity. Caller-provided slice order is the observed iteration order of the original set. The planner does not reconstruct Java HashSet ordering. Repeated addresses represent one set member; distinct objects with duplicate UUIDs remain distinct. It finds the first existing same-ID instance for each incoming set member.
+
+Unchanged ID/name/content retains the existing instance, timestamps and readOnly flag. Changed same-ID values request a fresh document whose readOnly defaults to false and whose two timestamps share one new clock value. New IDs retain the incoming instance and its timestamps/readOnly. Repeated reuse of one existing instance is deduplicated; separate rebuilt instances are not. The UUID-set comparison detects removals but does not notice removal of one of several old objects with the same UUID. Reordering, timestamp-only/readOnly-only changes and domain-only changes do not independently trigger replacement. `Unchanged` therefore preserves the entire old collection and domains, rather than returning the candidate reordered list.
+
+A replacement contains requested domain set values (including an empty URI, which the source constructor accepts) and ordered effect requests: each rebuilt document timestamp, one aggregate timestamp, then one updated event. The caller must supply fresh event UUID/cause and actual application effects. Dependency insertion checks only original IDs, preserving incoming duplicates and order. Removal uses the supplied wrapper equality callback in the source `contains` direction and, after admitted mutation, requests the aggregate timestamp/event even when no entry is removed. Arbitrary `AggregateReference.equals` behavior is not replaced with UUID equality.
+
+## Input dispositions
+
+The Java public document builder rejects null ID/name/content and domain wrappers reject null URI. Typed UUID bytes, Rust strings and references deliberately exclude those null/type-invalid shapes. Null collections/elements or reflective malformed stored objects may throw at source-dependent points, including after mutation; that malformed-Java execution domain is unsupported here, not normalized into a successful plan. Rust strings also exclude unpaired Java UTF16 surrogate values. No mandatory nonempty-name/URI rule is invented. Generic timestamps are preserved without clock/encoding interpretation. A dependency adapter must provide nonnull UUID IDs and the actual reference-wrapper equality; unresolved wrapper equality is not accepted as proven compatibility.
+
+## Validation
+
+Fifteen owner-authored source-contract tests cover instance/timestamp preservation, content/name changes, defaults, removals, empty inputs, duplicate UUIDs, repeated references, first-existing order, dependency batch duplication and no-op event asymmetry. The first coordinator run (`f25-01`) passed formatting but failed compilation with E0308: the pointer-equality call caused `seen` to infer pointer rather than reference elements. The source now explicitly declares the borrowed-reference vector. That original failure is preserved by the coordinator. The second run (`f25-02`) compiled the library, then found E0716 in the empty-domain fixture because a temporary owned string array was borrowed by the returned plan. The fixture now binds its domain vector and also asserts the retained empty URI; the second failure is preserved. The fresh coordinator run (`f25-03`) passed formatting, all 15 tests and Clippy with warnings denied at 20:05:50.796654–20:05:51.263314 UTC on 2026-10-24. Its crate files remained byte-identical before and after execution. [VALIDATION.json](VALIDATION.json) links the original two failed captures and passing capture; [REVIEW.md](REVIEW.md) records separate coordinator source/receipt review. No Java/reference application test, database acceptance, transactional event publication, full DB parity or independent full-application acceptance is claimed.
+
+Run only after allocation, with build outputs on the verified workspace:
+
+```sh
+CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR="$F25_BUILD_DIR" cargo test --offline --locked --manifest-path rust/crates/syson-document-reconcile/Cargo.toml -- --test-threads=1
+```
+
+## Dependency mutation admission
+
+`SemanticData.Builder.dependencies` uses `Stream.toList()` and assigns the result directly. The later aggregate methods invoke `addAll`/`removeIf`, so wrapper values alone cannot prove those mutations succeed. Each dependency plan therefore requires operation-specific `MutationAdmission`: `Allowed`, `ThrowsUnsupportedOperation`, or `Unresolved`. Rejected or unresolved invoked mutations return an error and no successful timestamp/event plan. No-addition updates skip `addAll` and need no admission; removal always checks `removeIf`, including empty/no-op removals. This does not claim transaction execution or actual Java collection mutability.

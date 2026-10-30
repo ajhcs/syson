@@ -1,0 +1,127 @@
+{
+  "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+  "excerpts": [
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticData.java",
+      "sha256": "cf019f0abe58095c8cf3c6d5ffdc80e43b7823a4464e85f40c2467e8a71fb4e0",
+      "declaration": "public void updateDocuments",
+      "start_line": 94,
+      "end_line": 133,
+      "source": "    public void updateDocuments(ICause cause, Set<Document> newDocuments, Set<String> domainUris) {\n        boolean shouldBeUpdated = false;\n\n        Set<Document> documentsToSet = new LinkedHashSet<>();\n        for (var document : newDocuments) {\n            var optionalExistingDocument = this.documents.stream()\n                    .filter(existingDocument -> existingDocument.getId().equals(document.getId()))\n                    .findFirst();\n\n            if (optionalExistingDocument.isPresent()) {\n                var existingDocument = optionalExistingDocument.get();\n                if (this.sameContent(existingDocument, document)) {\n                    // Reuse the existing instance, timestamps included\n                    documentsToSet.add(existingDocument);\n                } else {\n                    var newDocument = Document.newDocument(existingDocument.getId())\n                            .name(document.getName())\n                            .content(document.getContent())\n                            .build();\n                    documentsToSet.add(newDocument);\n                    shouldBeUpdated = true;\n                }\n            } else {\n                // New document which did not exist before\n                documentsToSet.add(document);\n                shouldBeUpdated = true;\n            }\n        }\n        // The previous code will not detect the removal of an existing document as cause for update, so also check if the set of document ids has changed\n        shouldBeUpdated = shouldBeUpdated || !this.documents.stream()\n                .map(Document::getId)\n                .collect(Collectors.toSet())\n                .equals(documentsToSet.stream()\n                        .map(Document::getId)\n                        .collect(Collectors.toSet()));\n\n        if (shouldBeUpdated) {\n            this.doUpdateDocuments(cause, documentsToSet, domainUris);\n        }\n    }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticData.java",
+      "sha256": "cf019f0abe58095c8cf3c6d5ffdc80e43b7823a4464e85f40c2467e8a71fb4e0",
+      "declaration": "public void addDependencies",
+      "start_line": 135,
+      "end_line": 148,
+      "source": "    public void addDependencies(ICause cause, List<AggregateReference<SemanticData, UUID>> dependencySemanticDataIds) {\n        var newDependencies = dependencySemanticDataIds.stream()\n                .filter(newDependency -> this.dependencies.stream()\n                        .map(SemanticDataDependency::dependencySemanticDataId)\n                        .map(AggregateReference::getId)\n                        .noneMatch(dependencyId -> dependencyId.equals(newDependency.getId())))\n                .map(SemanticDataDependency::new)\n                .toList();\n        if (!newDependencies.isEmpty()) {\n            this.dependencies.addAll(newDependencies);\n            this.lastModifiedOn = Instant.now();\n            this.registerEvent(new SemanticDataUpdatedEvent(UUID.randomUUID(), this.lastModifiedOn, cause, this));\n        }\n    }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticData.java",
+      "sha256": "cf019f0abe58095c8cf3c6d5ffdc80e43b7823a4464e85f40c2467e8a71fb4e0",
+      "declaration": "public void removeDependencies",
+      "start_line": 150,
+      "end_line": 154,
+      "source": "    public void removeDependencies(ICause cause, List<AggregateReference<SemanticData, UUID>> dependencySemanticDataIds) {\n        this.dependencies.removeIf(dependency -> dependencySemanticDataIds.contains(dependency.dependencySemanticDataId()));\n        this.lastModifiedOn = Instant.now();\n        this.registerEvent(new SemanticDataUpdatedEvent(UUID.randomUUID(), this.lastModifiedOn, cause, this));\n    }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticData.java",
+      "sha256": "cf019f0abe58095c8cf3c6d5ffdc80e43b7823a4464e85f40c2467e8a71fb4e0",
+      "declaration": "private boolean sameContent",
+      "start_line": 156,
+      "end_line": 160,
+      "source": "    private boolean sameContent(Document currentDocument, Document newDocument) {\n        return currentDocument.getId().equals(newDocument.getId())\n                && currentDocument.getName().equals(newDocument.getName())\n                && currentDocument.getContent().equals(newDocument.getContent());\n    }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticData.java",
+      "sha256": "cf019f0abe58095c8cf3c6d5ffdc80e43b7823a4464e85f40c2467e8a71fb4e0",
+      "declaration": "private void doUpdateDocuments",
+      "start_line": 162,
+      "end_line": 170,
+      "source": "    private void doUpdateDocuments(ICause cause, Set<Document> newDocuments, Set<String> domainUris) {\n        this.documents = newDocuments;\n        this.domains = domainUris.stream()\n                .map(SemanticDataDomain::new)\n                .collect(Collectors.toSet());\n\n        this.lastModifiedOn = Instant.now();\n        this.registerEvent(new SemanticDataUpdatedEvent(UUID.randomUUID(), this.lastModifiedOn, cause, this));\n    }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/Document.java",
+      "sha256": "325b62f127f360a6b3986f9cd4aca5dc5ba3030730eb36ef0aa5ec6fc0e0e17e",
+      "declaration": "public static Builder newDocument",
+      "start_line": 65,
+      "end_line": 67,
+      "source": "    public static Builder newDocument(UUID id) {\n        return new Builder(id);\n    }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/Document.java",
+      "sha256": "325b62f127f360a6b3986f9cd4aca5dc5ba3030730eb36ef0aa5ec6fc0e0e17e",
+      "declaration": "private Builder(UUID",
+      "start_line": 85,
+      "end_line": 87,
+      "source": "        private Builder(UUID id) {\n            this.id = Objects.requireNonNull(id);\n        }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/Document.java",
+      "sha256": "325b62f127f360a6b3986f9cd4aca5dc5ba3030730eb36ef0aa5ec6fc0e0e17e",
+      "declaration": "public Builder name",
+      "start_line": 89,
+      "end_line": 92,
+      "source": "        public Builder name(String name) {\n            this.name = Objects.requireNonNull(name);\n            return this;\n        }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/Document.java",
+      "sha256": "325b62f127f360a6b3986f9cd4aca5dc5ba3030730eb36ef0aa5ec6fc0e0e17e",
+      "declaration": "public Builder content",
+      "start_line": 94,
+      "end_line": 97,
+      "source": "        public Builder content(String content) {\n            this.content = Objects.requireNonNull(content);\n            return this;\n        }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/Document.java",
+      "sha256": "325b62f127f360a6b3986f9cd4aca5dc5ba3030730eb36ef0aa5ec6fc0e0e17e",
+      "declaration": "public Document build",
+      "start_line": 104,
+      "end_line": 116,
+      "source": "        public Document build() {\n            var document = new Document();\n            document.id = Objects.requireNonNull(this.id);\n            document.name = Objects.requireNonNull(this.name);\n            document.content = Objects.requireNonNull(this.content);\n            document.isReadOnly = this.isReadOnly;\n\n            var now = Instant.now();\n            document.createdOn = now;\n            document.lastModifiedOn = now;\n\n            return document;\n        }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticDataDependency.java",
+      "sha256": "4364a1100936eced1532acb2266368a78f5235cb45f53b8a8780aba15fc67db0",
+      "declaration": "public SemanticDataDependency {",
+      "start_line": 28,
+      "end_line": 30,
+      "source": "    public SemanticDataDependency {\n        Objects.requireNonNull(dependencySemanticDataId);\n    }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticDataDomain.java",
+      "sha256": "15c7b5203d76ddfbbf2913ea5eb7fee14974377c018a07a6e4e212b2415c0692",
+      "declaration": "public SemanticDataDomain {",
+      "start_line": 26,
+      "end_line": 28,
+      "source": "    public SemanticDataDomain {\n        Objects.requireNonNull(uri);\n    }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticData.java",
+      "sha256": "cf019f0abe58095c8cf3c6d5ffdc80e43b7823a4464e85f40c2467e8a71fb4e0",
+      "declaration": "public Builder documents",
+      "start_line": 193,
+      "end_line": 196,
+      "source": "        public Builder documents(List<Document> documents) {\n            this.documents = documents.stream().collect(Collectors.toSet());\n            return this;\n        }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticData.java",
+      "sha256": "cf019f0abe58095c8cf3c6d5ffdc80e43b7823a4464e85f40c2467e8a71fb4e0",
+      "declaration": "public Builder dependencies",
+      "start_line": 205,
+      "end_line": 210,
+      "source": "        public Builder dependencies(List<AggregateReference<SemanticData, UUID>> dependencies) {\n            this.dependencies = dependencies.stream()\n                    .map(SemanticDataDependency::new)\n                    .toList();\n            return this;\n        }\n"
+    },
+    {
+      "path": "packages/sirius-web/backend/sirius-web-domain/src/main/java/org/eclipse/sirius/web/domain/boundedcontexts/semanticdata/SemanticData.java",
+      "sha256": "cf019f0abe58095c8cf3c6d5ffdc80e43b7823a4464e85f40c2467e8a71fb4e0",
+      "declaration": "public SemanticData build",
+      "start_line": 212,
+      "end_line": 227,
+      "source": "        public SemanticData build(ICause cause) {\n            var semanticData = new SemanticData();\n\n            semanticData.isNew = true;\n            semanticData.id = UUID.randomUUID();\n            semanticData.documents = Objects.requireNonNull(this.documents);\n            semanticData.domains = Objects.requireNonNull(this.domains);\n            semanticData.dependencies = Objects.requireNonNull(this.dependencies);\n\n            var now = Instant.now();\n            semanticData.createdOn = now;\n            semanticData.lastModifiedOn = now;\n\n            semanticData.registerEvent(new SemanticDataCreatedEvent(UUID.randomUUID(), now, cause, semanticData));\n            return semanticData;\n        }\n"
+    }
+  ],
+  "identity_contract": "Document.java class has no equals/hashCode override; set equality is object identity. Caller supplies observed iteration order. AggregateReference equality is injected separately; not inferred from getId.",
+  "mutation_admission": "Operation-specific list capability must be supplied. addAll is skipped when no new dependencies exist; removeIf is always invoked. Rejected/unresolved invocation produces no successful effect plan."
+}
