@@ -1,0 +1,19 @@
+name: Offline model tool controls
+on: [pull_request, push, workflow_dispatch]
+permissions: {contents: read}
+jobs:
+  synthetic-controls:
+    if: github.repository == 'ajhcs/syson'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - name: Run fixture-only controls
+        env:
+          SYSON_OFFLINE_TEST_TMP: ${{ runner.temp }}/offline-model-tests
+        run: |
+          mkdir -p "$SYSON_OFFLINE_TEST_TMP"
+          export SYSON_OFFLINE_SOURCE_SHA256="$(sha256sum porting/rust-parity-evidence/C01/batch32-offline-model/replay.py | cut -d ' ' -f1)"
+          python3 -I -B -m unittest discover -s porting/rust-parity-evidence/C01/batch32-offline-model/tests -v
+          python3 -I -O -B -m unittest discover -s porting/rust-parity-evidence/C01/batch32-offline-model/tests -v

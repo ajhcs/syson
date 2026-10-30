@@ -1,0 +1,307 @@
+"""Owned fixtures/fake processes only; the coordinator admits execution."""
+from pathlib import Path
+import hashlib
+import importlib.util
+import json
+import os
+import sys
+import tempfile
+import unittest
+from unittest import mock
+
+SOURCE = Path(__file__).resolve().parents[1] / 'replay.py'
+if hashlib.sha256(SOURCE.read_bytes()).hexdigest() != os.environ['SYSON_OFFLINE_SOURCE_SHA256']:
+    raise RuntimeError('tests must bind reviewed replay source')
+loader = importlib.util.spec_from_file_location('reviewed_replay', SOURCE)
+R = importlib.util.module_from_spec(loader)
+loader.loader.exec_module(R)
+
+
+class ReplayTests(unittest.TestCase):
+    def setUp(self):
+        base = Path(os.environ['SYSON_OFFLINE_TEST_TMP'])
+        hosted = os.environ.get('GITHUB_ACTIONS') == 'true'
+        if not base.is_dir() or (not hosted and not base.resolve().is_relative_to('/workspace')):
+            raise RuntimeError('admitted local workspace or hosted CI fixture root required')
+        self.temporary = tempfile.TemporaryDirectory(dir=base, prefix='offline-fixture-')
+        self.root = Path(self.temporary.name)
+        self.addCleanup(self.temporary.cleanup)
+
+    def put(self, name, content):
+        path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(content.encode() if isinstance(content, str) else content)
+        return path
+
+    def reactor(self, name, count=36, edit=''):
+        rows = ''.join('<project><groupId>org.eclipse.syson</groupId><artifactId>module-' + str(i) +
+                       '</artifactId><version>2026.9.3</version>' + edit + '</project>' for i in range(count))
+        return self.put(name, '<projects xmlns="urn:test:model">' + rows + '</projects>')
+
+    def cache(self):
+        root = self.root / 'cache'
+        self.put('cache/artifact.pom', '<project/>')
+        self.put('cache/org/example/_remote.repositories', 'artifact.jar>c01-model-central=')
+        return root, R.inventory(root)
+
+    def test_inventory_and_exact_cache_copy_preserve_bytes_and_origin_metadata(self):
+        cache, rows = self.cache()
+        run = self.root / 'run'
+        run.mkdir()
+        R.prepare({'cache_root': str(cache), 'cache': rows}, run)
+        self.assertEqual(R.inventory(run / 'm2'), rows)
+        settings = (run / 'config/user.xml').read_text()
+        self.assertIn('<offline>true</offline>', settings)
+        self.assertIn('<id>c01-model-central</id>', settings)
+        self.assertNotIn('<servers>', settings)
+        self.assertEqual(R.inventory(cache), rows)
+
+    def test_cache_drift_and_unsafe_manifest_refuse_without_escape(self):
+        cache, rows = self.cache()
+        self.put('cache/artifact.pom', 'changed')
+        run = self.root / 'run'
+        run.mkdir()
+        for manifest in [rows, {'../escape': {'bytes': 1, 'sha256': '0' * 64}}]:
+            with self.assertRaises(RuntimeError):
+                R.prepare({'cache_root': str(cache), 'cache': manifest}, run)
+        self.assertFalse((self.root / 'escape').exists())
+        self.assertEqual(list(run.iterdir()), [])
+
+    def test_inventory_rejects_symlinks_and_nonregular_nodes_without_opening(self):
+        root = self.root / 'inputs'
+        root.mkdir()
+        target = self.put('target', 'retained')
+        (root / 'link').symlink_to(target)
+        with self.assertRaises(RuntimeError):
+            R.inventory(root)
+        (root / 'link').unlink()
+        os.mkfifo(root / 'fifo')
+        with self.assertRaises(RuntimeError):
+            R.inventory(root)
+
+    def test_provider_hash_mismatch_stops_before_import_execution(self):
+        provider = self.put('provider.py', 'raise RuntimeError("must not execute")')
+        with self.assertRaisesRegex(RuntimeError, 'provider bytes changed'):
+            R.provider((str(provider), '0' * 64))
+
+    def test_proposal_rejects_rehashed_missing_bindings_cache_and_target_changes(self):
+        own = str(SOURCE.resolve())
+        spec = {'schema': 'C01-OFFLINE-MODEL/1',
+                'target_commit': '6ba2ac64e6b16ee2b05752ad55395eebb87d4910',
+                'target_tree': '6f95eaa306da38f835bd406888cade433a7c02de',
+                'source_manifest': '/source-manifest', 'prior_model': '/prior-model',
+                'prior_stdout': '/prior-stdout',
+                'cache': {str(i): {'bytes': 4116566 if i == 0 else 0} for i in range(309)},
+                'bundles': [{'id': 'temurin-jdk', 'manifest': '/jdk-manifest'},
+                            {'id': 'maven', 'manifest': '/maven-manifest'}]}
+        required = [own, '/source-manifest', '/prior-model', '/prior-stdout', '/jdk-manifest',
+                    '/maven-manifest'] + [str(R.REPO / p[0]) for p in [R.VERSION, R.OWNERSHIP]]
+        spec['bindings'] = dict.fromkeys(required, '0' * 64)
+        spec['bindings'][own] = R.digest(SOURCE)
+        path = self.put('proposal.json', json.dumps(spec))
+        self.assertEqual(R.proposal(path, R.digest(path)), spec)
+        with self.assertRaises(RuntimeError):
+            R.proposal(path, '0' * 64)
+        for change in ['binding', 'cache', 'tree', 'runner']:
+            bad = json.loads(json.dumps(spec))
+            if change == 'binding':
+                bad['bindings'].pop('/prior-model')
+            elif change == 'cache':
+                bad['cache'].pop('308')
+            elif change == 'tree':
+                bad['target_tree'] = 'wrong'
+            else:
+                bad['bindings'][own] = '0' * 64
+            path.write_text(json.dumps(bad))
+            with self.assertRaises(RuntimeError):
+                R.proposal(path, R.digest(path))
+
+    def test_wrong_lock_descriptor_and_foreign_scope_identity_refuse(self):
+        expected = self.put('expected-lock', '')
+        wrong = self.put('wrong-lock', '')
+        with expected.open() as good, wrong.open() as other:
+            R.verify_lock(expected, good.fileno())
+            with self.assertRaises(RuntimeError):
+                R.verify_lock(expected, other.fileno())
+        owned = R.provider(R.OWNERSHIP)
+        with self.assertRaises(RuntimeError):
+            owned.validate('foreign.scope', '0' * 32, R.PREFIX)
+        proof = {'unit': R.PREFIX + '1' * 32 + '.scope', 'cookie': '2' * 32,
+                 'control_group': '/group/' + R.PREFIX + '1' * 32 + '.scope',
+                 'invocation_id': '3' * 32, 'entry_pid': 1, 'entry_start_ticks': '10'}
+        observed = {'ControlGroup': proof['control_group'], 'InvocationID': proof['invocation_id']}
+        with self.assertRaises(RuntimeError):
+            owned.owned(observed, proof, proof['unit'], '4' * 32)
+
+    def test_complete36model_structure_preserves_values_attributes_order_and_tail(self):
+        original = self.reactor('old.xml', edit='<configuration x="1"><a/>tail</configuration>')
+        equivalent = self.put('pretty.xml', original.read_text().replace('<project>', '\n<!--origin--><project>'))
+        self.assertEqual(R.model(original), R.model(equivalent))
+        for index, (old, new) in enumerate([('x="1"', 'x="2"'), ('/>tail', '/>different'),
+                                           ('2026.9.3', '2026.9.4'), ('<a/>', '<b/>')]):
+            changed = self.put('changed-' + str(index), original.read_text().replace(old, new, 1))
+            self.assertNotEqual(R.model(original), R.model(changed))
+
+    def test_leaf_whitespace_and_inherited_xml_space_are_not_discarded(self):
+        def pair(left, right):
+            return R.model(self.reactor('left.xml', edit=left)), R.model(self.reactor('right.xml', edit=right))
+        self.assertNotEqual(*pair('<configuration><leaf> </leaf></configuration>',
+                                  '<configuration><leaf/></configuration>'))
+        self.assertNotEqual(*pair('<configuration xml:space="preserve"><nested><a/> </nested></configuration>',
+                                  '<configuration xml:space="preserve"><nested><a/></nested></configuration>'))
+        self.assertNotEqual(*pair('<configuration xml:space="preserve"><a xml:space="default"/> </configuration>',
+                                  '<configuration xml:space="preserve"><a xml:space="default"/></configuration>'))
+        self.assertEqual(*pair('<configuration xml:space="preserve"><reset xml:space="default"><a/> </reset></configuration>',
+                               '<configuration xml:space="preserve"><reset xml:space="default"> <a/></reset></configuration>'))
+        self.assertNotEqual(*pair('<configuration>a<y/> </configuration>',
+                                  '<configuration>a<y/></configuration>'))
+        self.assertNotEqual(*pair('<configuration><x/>a<y/> </configuration>',
+                                  '<configuration><x/>a<y/></configuration>'))
+        self.assertNotEqual(*pair('<configuration> <x/>a</configuration>',
+                                  '<configuration><x/>a</configuration>'))
+        self.assertEqual(*pair('<configuration> <x/>\n<y/> </configuration>',
+                               '<configuration><x/><y/></configuration>'))
+        with self.assertRaises(RuntimeError):
+            R.model(self.reactor('bad-space.xml', edit='<configuration xml:space="invalid"/>'))
+
+    def test_incomplete_duplicate_and_unsafe_XML_never_compare_as_valid(self):
+        with self.assertRaises(RuntimeError):
+            R.model(self.reactor('missing.xml', count=35))
+        duplicate = self.reactor('duplicate.xml')
+        duplicate.write_text(duplicate.read_text().replace('module-1</', 'module-0</', 1))
+        with self.assertRaises(RuntimeError):
+            R.model(duplicate)
+        valid = self.reactor('valid.xml').read_text()
+        for index, prefix in enumerate(['<!DOCTYPE projects>', '<!ENTITY x "bad">', '\x00',
+                                         '<?xml-stylesheet href="file:///not-read"?>']):
+            with self.assertRaises((RuntimeError, ValueError)):
+                R.model(self.put('unsafe-' + str(index), prefix + valid))
+        ambiguous = self.put('ambiguous.xml', valid.replace('<groupId>', '<groupId>extra</groupId><groupId>', 1))
+        with self.assertRaises(RuntimeError):
+            R.model(ambiguous)
+
+    def test_model_file_size_is_checked_before_parse(self):
+        huge = self.root / 'huge.xml'
+        with huge.open('wb') as output:
+            output.truncate(R.FILE_CAP + 1)
+        with self.assertRaisesRegex(RuntimeError, 'too large'):
+            R.model(huge)
+
+    def test_classrealm_requires_exact_help_realm_and_ordered13_entries(self):
+        header = '[DEBUG] Created new class realm maven.api\n'
+        header += '[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-help-plugin:3.5.1\n'
+        header += '[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-help-plugin:3.5.1\n'
+        rows = ['[DEBUG]   Included: artifact:' + str(i) for i in range(13)]
+        before = self.put('realm.txt', header + '\n'.join(rows))
+        self.assertEqual(R.realms(before), ['artifact:' + str(i) for i in range(13)])
+        swapped = self.put('swapped.txt', header + '\n'.join(reversed(rows)))
+        self.assertNotEqual(R.realms(before), R.realms(swapped))
+        with self.assertRaises(RuntimeError):
+            R.realms(self.put('missing.txt', header + '\n'.join(rows[:-1])))
+        with self.assertRaises(RuntimeError):
+            R.realms(self.put('extra.txt', before.read_text() + '\n[DEBUG] Created new class realm evil-maven.api'))
+
+    def test_actual_control_readback_accepts_only_exact_applied_values(self):
+        group = self.root / 'cgroup'
+        group.mkdir()
+        for name, value in R.CONTROLS.items():
+            (group / name).write_text(value + '\n')
+        self.assertEqual(R.verify_controls(group), R.CONTROLS)
+        (group / 'memory.max').write_text('max')
+        with self.assertRaises(RuntimeError):
+            R.verify_controls(group)
+        (group / 'memory.max').unlink()
+        with self.assertRaises(FileNotFoundError):
+            R.verify_controls(group)
+
+    def test_complete_source_manifest_rejects_hash_mode_and_extra_path_changes(self):
+        target = self.root / 'target'
+        target.mkdir()
+        rows = []
+        for index in range(3552):
+            name = 'file-' + str(index)
+            path = self.put('target/' + name, '')
+            path.chmod(0o600)
+            rows.append({'path': name, 'mode': '100644', 'bytes': 0, 'sha256': R.digest(path)})
+        manifest = self.put('manifest.json', json.dumps({'commit': 'target', 'tree': 'tree',
+                                                       'tracked_files': 3552, 'files': rows}))
+        spec = {'target_root': str(target), 'target_commit': 'target', 'target_tree': 'tree',
+                'source_manifest': str(manifest), 'source_modes': {'100644': 0o600}}
+        self.assertTrue(R.verify_source(spec))
+        first = target / 'file-0'
+        first.write_text('changed')
+        with self.assertRaises(RuntimeError):
+            R.verify_source(spec)
+        first.write_text('')
+        first.chmod(0o640)
+        with self.assertRaises(RuntimeError):
+            R.verify_source(spec)
+        first.chmod(0o600)
+        self.put('target/extra', '')
+        with self.assertRaises(RuntimeError):
+            R.verify_source(spec)
+
+    def test_fixed_offline_goal_and_environment_exclude_inherited_injection(self):
+        spec = {'bundles': [{'root': '/jdk'}, {'root': '/maven'}], 'target_root': '/exact-target'}
+        home = os.environ['HOME']
+        identity = mock.Mock(pw_name='builderbob', pw_dir=home)
+        with mock.patch.object(R.pwd, 'getpwuid', return_value=identity), mock.patch.dict(
+            os.environ, {'JAVA_TOOL_OPTIONS': 'bad', 'MAVEN_ARGS': 'deploy',
+                         'HTTPS_PROXY': 'bad', 'TOKEN': 'not-a-secret-fixture'}
+        ):
+            env = R.environment(spec, self.root)
+        with mock.patch.object(R.pwd, 'getpwuid', return_value=identity), mock.patch.dict(
+            os.environ, {'HOME': home + '/wrong'}
+        ):
+            with self.assertRaisesRegex(RuntimeError, 'operator HOME changed'):
+                R.environment(spec, self.root)
+        self.assertFalse(set(env) & {'JAVA_TOOL_OPTIONS', 'MAVEN_ARGS', 'HTTPS_PROXY', 'TOKEN'})
+        self.assertEqual(env['HOME'], os.environ['HOME'])
+        command = R.command(spec, self.root)
+        self.assertIn('-o', command)
+        self.assertEqual(command[command.index('-f') + 1], '/exact-target/pom.xml')
+        self.assertEqual(command.count('org.apache.maven.plugins:maven-help-plugin:3.5.1:effective-pom'), 1)
+        self.assertNotIn('deploy', command)
+
+    def test_existing_output_is_preserved_before_workspace_or_scope_launch(self):
+        run = self.root / 'existing'
+        run.mkdir()
+        sentinel = self.put('existing/sentinel', 'retained')
+        with self.assertRaisesRegex(RuntimeError, 'preserve existing'):
+            R.controller({}, self.root / 'unused', 'unused', run, None)
+        self.assertEqual(sentinel.read_text(), 'retained')
+
+    def test_output_poll_uses_stat_and_tolerates_disappearing_temporary_files(self):
+        regular = self.put('out/data', '12345')
+        class Vanished:
+            def lstat(self):
+                raise FileNotFoundError('temporary file removed')
+        class PollRoot:
+            def rglob(self, pattern):
+                return [Vanished(), regular]
+        self.assertEqual(R.retained_size(PollRoot()), 5)
+        (regular.parent / 'link').symlink_to(regular)
+        with self.assertRaises(RuntimeError):
+            R.retained_size(regular.parent)
+
+    def test_fake_process_failure_timeout_and_output_bound_preserve_streams(self):
+        success = self.root / 'success'
+        success.mkdir()
+        R.execute([sys.executable, '-c', 'print("ok")'], success, os.environ.copy(), success, 2)
+        self.assertEqual((success / 'maven-stdout.txt').read_text().strip(), 'ok')
+        for index, (script, seconds, cap) in enumerate([
+            ('print("failed",flush=True);raise SystemExit(7)', 2, R.TOTAL_CAP),
+            ('import time;print("started",flush=True);time.sleep(30)', 2, R.TOTAL_CAP),
+            ('print("x"*256,flush=True)', 2, 16),
+        ]):
+            run = self.root / ('process-' + str(index))
+            run.mkdir()
+            with self.assertRaises(RuntimeError):
+                R.execute([sys.executable, '-c', script], run, os.environ.copy(), run, seconds, cap)
+            self.assertTrue((run / 'maven-stdout.txt').exists())
+            self.assertTrue((run / 'maven-stderr.txt').exists())
+            self.assertTrue((run / 'maven-stdout.txt').read_text())
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,0 +1,360 @@
+"""Frozen offline complete-reactor model replay; no build or online fallback."""
+from pathlib import Path, PurePosixPath
+import fcntl
+import hashlib
+import importlib.util
+import json
+import os
+import pwd
+import re
+import resource
+import signal
+import stat
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+
+REPO = Path(__file__).resolve().parents[4]
+VERSION = ('porting/rust-parity-evidence/C01/batch24-tool-versions/check_versions.py',
+           'd2a539db7b4aabdda93a1702c2ac35b0659ddc44813e9a7402cc70feecdc4682')
+OWNERSHIP = ('porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py',
+             'ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d')
+PREFIX = 'syson-c01-offline-'
+FILE_CAP, TOTAL_CAP = 32 * 1024**2, 64 * 1024**2
+CONTROLS = {'cpu.max': '200000 100000', 'memory.high': str(3 * 1024**3),
+            'memory.max': str(4 * 1024**3), 'memory.swap.max': '0', 'pids.max': '128'}
+
+
+def require(ok, message):
+    if not ok:
+        raise RuntimeError(message)
+
+
+def digest(path):
+    with Path(path).open('rb') as stream:
+        return hashlib.file_digest(stream, 'sha256').hexdigest()
+
+
+def provider(pair):
+    path, expected = pair
+    path = REPO / path
+    require(digest(path) == expected, 'provider bytes changed')
+    spec = importlib.util.spec_from_file_location('offline_' + path.stem, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def proposal(path, expected):
+    require(Path(path).stat().st_size <= 4 * 1024**2 and digest(path) == expected, 'proposal drift')
+    spec = json.loads(Path(path).read_bytes())
+    require(spec['schema'] == 'C01-OFFLINE-MODEL/1' and spec['target_commit'] ==
+            '6ba2ac64e6b16ee2b05752ad55395eebb87d4910' and spec['target_tree'] ==
+            '6f95eaa306da38f835bd406888cade433a7c02de', 'wrong target/schema')
+    require(len(spec['cache']) == 309 and sum(r['bytes'] for r in spec['cache'].values()) == 4116566,
+            'incomplete frozen cache')
+    needed = [str(Path(__file__).resolve()), spec['source_manifest'], spec['prior_model'], spec['prior_stdout']]
+    needed += [b['manifest'] for b in spec['bundles']] + [str(REPO / p[0]) for p in [VERSION, OWNERSHIP]]
+    require(set(needed) <= set(spec['bindings']), 'missing required input binding')
+    require([b['id'] for b in spec['bundles']] == ['temurin-jdk', 'maven'], 'wrong tool bundle roles')
+    require(digest(__file__) == spec['bindings'][str(Path(__file__).resolve())], 'runner drift')
+    return spec
+
+
+def inventory(root):
+    root = Path(root)
+    require(root.is_dir() and not root.is_symlink(), 'invalid inventory root')
+    rows = {}
+    for path in root.rglob('*'):
+        require(not path.is_symlink(), 'inventory symlink')
+        if path.is_dir():
+            continue
+        st = path.lstat()
+        require(stat.S_ISREG(st.st_mode) and st.st_uid == os.getuid(), 'nonregular/foreign input')
+        rows[str(path.relative_to(root))] = {'bytes': st.st_size, 'sha256': digest(path)}
+    return rows
+
+
+def verify_source(spec):
+    root = Path(spec['target_root'])
+    require(root.resolve() == root and not root.is_symlink(), 'noncanonical target')
+    manifest = json.loads(Path(spec['source_manifest']).read_bytes())
+    require(manifest['commit'] == spec['target_commit'] and manifest['tree'] == spec['target_tree']
+            and manifest['tracked_files'] == 3552,
+            'wrong complete target manifest')
+    actual = inventory(root)
+    actual.pop('.git', None)
+    expected = {}
+    for row in manifest['files']:
+        name = row['path']
+        require(name not in expected and str(PurePosixPath(name)) == name and
+                not PurePosixPath(name).is_absolute() and '..' not in PurePosixPath(name).parts,
+                'unsafe/repeated source path')
+        require(stat.S_IMODE((root / name).lstat().st_mode) == spec['source_modes'][row['mode']],
+                'source mode changed')
+        expected[name] = {'bytes': row['bytes'], 'sha256': row['sha256']}
+    require(len(expected) == 3552 and actual == expected, 'target source changed')
+    return hashlib.sha256(json.dumps(actual, sort_keys=True).encode()).hexdigest()
+
+
+def prepare(spec, run):
+    cache = Path(spec['cache_root'])
+    require(inventory(cache) == spec['cache'], 'frozen cache changed')
+    for name in ['cwd', 'tmp', 'java-home', 'config', 'evidence', 'm2']:
+        (run / name).mkdir(mode=0o700)
+    for name, row in spec['cache'].items():
+        relative = PurePosixPath(name)
+        require(relative.parts and str(relative) == name and not relative.is_absolute() and
+                '..' not in relative.parts, 'unsafe cache path')
+        target = run / 'm2' / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        data = (cache / name).read_bytes()
+        require(len(data) == row['bytes'] and hashlib.sha256(data).hexdigest() == row['sha256'],
+                'cache changed during copy')
+        with target.open('xb') as stream:
+            stream.write(data)
+    settings = ('<settings><offline>true</offline><interactiveMode>false</interactiveMode>'
+                '<mirrors><mirror><id>c01-model-central</id><mirrorOf>*</mirrorOf>'
+                '<url>https://repo.maven.apache.org/maven2</url></mirror></mirrors></settings>')
+    for name, text in [('user.xml', settings), ('global.xml', '<settings/>'),
+                       ('toolchains.xml', '<toolchains/>')]:
+        (run / 'config' / name).write_text(text)
+    require(inventory(run / 'm2') == spec['cache'], 'seed copy differs')
+
+
+def environment(spec, run):
+    home = pwd.getpwuid(os.getuid())
+    require(home.pw_name == 'builderbob' and os.environ.get('HOME') == home.pw_dir, 'operator HOME changed')
+    jdk, maven = (b['root'] for b in spec['bundles'])
+    options = ('-Xms64m -Xmx1024m -XX:ActiveProcessorCount=2 -XX:+PerfDisableSharedMem '
+               '-Duser.home=' + str(run / 'java-home') + ' -Djava.io.tmpdir=' + str(run / 'tmp'))
+    return {'HOME': home.pw_dir, 'PATH': jdk + '/bin:' + maven + '/bin:/usr/bin:/bin',
+            'JAVA_HOME': jdk, 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8', 'TMPDIR': str(run / 'tmp'),
+            'MAVEN_SKIP_RC': '1', 'MAVEN_BASEDIR': str(run / 'cwd'),
+            'MAVEN_OPTS': options, 'JDK_JAVA_OPTIONS': options}
+
+
+def command(spec, run):
+    return [spec['bundles'][1]['root'] + '/bin/mvn', '-B', '-ntp', '-C', '-o', '-T', '1', '-X',
+            '-s', str(run / 'config/user.xml'), '-gs', str(run / 'config/global.xml'),
+            '-t', str(run / 'config/toolchains.xml'), '-Dmaven.repo.local=' + str(run / 'm2'),
+            '-Dstyle.color=never', '-P', '!sonar,!verify-iplog', '-f', spec['target_root'] + '/pom.xml',
+            'org.apache.maven.plugins:maven-help-plugin:3.5.1:effective-pom', '-Dartifact=',
+            '-Dverbose=true', '-Doutput=' + str(run / 'evidence/effective-reactor.xml')]
+
+
+def model(path):
+    require(Path(path).stat().st_size <= FILE_CAP, 'model XML too large')
+    text = Path(path).read_bytes().decode('utf-8-sig')
+    require('\x00' not in text and '<!DOCTYPE' not in text.upper() and '<!ENTITY' not in text.upper()
+            and not re.search(r'<\?(?!xml(?:\s|\?>))', text),
+            'unsupported XML declaration')
+    root = ET.fromstring(text)
+    local = lambda tag: tag.rsplit('}', 1)[-1]
+    require(local(root.tag) == 'projects' and len(root) == 36, 'expected complete36model wrapper')
+    gavs = []
+    for project in root:
+        require(local(project.tag) == 'project', 'unexpected model member')
+        row = []
+        for name in ['groupId', 'artifactId', 'version']:
+            fields = [e for e in project if local(e.tag) == name]
+            require(len(fields) == 1 and fields[0].text, 'ambiguous GAV')
+            row.append(fields[0].text)
+        gavs.append(tuple(row))
+    require(len(set(gavs)) == 36, 'duplicate model GAV')
+    def canonical(node):
+        return (node.tag, sorted(node.attrib.items()), node.text if (node.text or '').strip() else '',
+                [canonical(child) for child in node], node.tail if (node.tail or '').strip() else '')
+    return gavs, canonical(root)
+
+
+def realms(path):
+    require(Path(path).stat().st_size < FILE_CAP, 'debug stream too large')
+    rows, active = [], False
+    for line in Path(path).read_text().splitlines():
+        if line.startswith('[DEBUG] Created new class realm '):
+            require(line.split('realm ', 1)[1] in ['maven.api',
+                    'plugin>org.apache.maven.plugins:maven-help-plugin:3.5.1'], 'unexpected executable realm')
+        if 'Populating class realm ' in line:
+            active = 'plugin>org.apache.maven.plugins:maven-help-plugin:3.5.1' in line
+        if active and line.startswith('[DEBUG]   Included: '):
+            rows.append(line.split('Included: ', 1)[1])
+    require(len(rows) == 13, 'incomplete Help classrealm')
+    return rows
+
+
+def child_limits():
+    resource.setrlimit(resource.RLIMIT_FSIZE, (FILE_CAP, FILE_CAP))
+    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+    resource.setrlimit(resource.RLIMIT_NOFILE, (128, 128))
+
+
+def stop(child):
+    if child is not None and child.poll() is None:
+        try:
+            os.killpg(child.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        child.wait(timeout=10)
+
+
+def retained_size(root):
+    total = 0
+    for path in root.rglob('*'):
+        try:
+            observed = path.lstat()
+        except FileNotFoundError:
+            continue
+        require(observed.st_uid == os.getuid() and
+                (stat.S_ISREG(observed.st_mode) or stat.S_ISDIR(observed.st_mode)), 'unexpected output type/owner')
+        total += observed.st_size if stat.S_ISREG(observed.st_mode) else 0
+    return total
+
+
+def execute(argv, cwd, env, run, seconds=600, cap=TOTAL_CAP):
+    child = None
+    try:
+        with (run / 'maven-stdout.txt').open('xb') as out, (run / 'maven-stderr.txt').open('xb') as err:
+            child = subprocess.Popen(argv, cwd=cwd, env=env, stdout=out, stderr=err,
+                                     start_new_session=True, preexec_fn=child_limits)
+            deadline = time.monotonic() + seconds
+            while child.poll() is None:
+                require(time.monotonic() < deadline, 'native model deadline')
+                require(retained_size(run) <= cap, 'task byte threshold')
+                time.sleep(0.05)
+            require(child.returncode == 0, 'offline Maven failed; no online fallback')
+            require(retained_size(run) <= cap, 'final task byte threshold')
+    finally:
+        stop(child)
+
+
+def verify_controls(group):
+    actual = {key: (group / key).read_text().strip() for key in CONTROLS}
+    require(actual == CONTROLS, 'actual resource controls differ')
+    return actual
+
+
+def verify_lock(path, descriptor):
+    expected, actual = Path(path).stat(), os.fstat(descriptor)
+    require((expected.st_dev, expected.st_ino) == (actual.st_dev, actual.st_ino), 'wrong compiler lock')
+    fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+
+def body(spec, run, unit, cookie, descriptor, versions, owned):
+    record = {'status': 'FAIL_PRESERVED'}
+    try:
+        proof = owned.attest(unit, cookie, PREFIX, run / 'ownership.json', os.environ)
+        owned.owned(owned.state(unit, os.environ), proof, unit, cookie)
+        group = Path('/sys/fs/cgroup') / proof['control_group'].lstrip('/')
+        record['controls'] = verify_controls(group)
+        verify_lock(spec['compiler_lock'], descriptor)
+        record['inputs_before'] = versions.bound_inputs(spec)
+        record['tools_before'] = [versions.verify_tree(b) for b in spec['bundles']]
+        record['source_before'] = verify_source(spec)
+        prepare(spec, run)
+        record['cache_before'] = inventory(run / 'm2')
+        record.update(argv=command(spec, run), environment=environment(spec, run))
+        execute(record['argv'], run / 'cwd', record['environment'], run)
+        baseline, replayed = model(spec['prior_model']), model(run / 'evidence/effective-reactor.xml')
+        record['effective_model'] = {'models': len(replayed[0]), 'sha256': digest(run / 'evidence/effective-reactor.xml'),
+                                     'structured_equal': baseline == replayed,
+                                     'expected_gavs': baseline[0], 'replayed_gavs': replayed[0]}
+        require(record['effective_model']['structured_equal'], 'effective model structured difference')
+        record['classrealms'] = {'prior': realms(spec['prior_stdout']), 'replayed': realms(run / 'maven-stdout.txt')}
+        require(record['classrealms']['prior'] == record['classrealms']['replayed'], 'classrealm difference')
+        record['status'] = 'PASS_FROZEN_OFFLINE_NATIVE_REACTOR_MODEL_ONLY'
+    except BaseException as error:
+        record['error'] = repr(error)
+    finally:
+        try:
+            record['cache_after'] = inventory(run / 'm2')
+            require(record['cache_before'] == record['cache_after'] == spec['cache'] ==
+                    inventory(spec['cache_root']), 'cache drift')
+            record['source_after'] = verify_source(spec)
+            record['tools_after'] = [versions.verify_tree(b) for b in spec['bundles']]
+            record['inputs_after'] = versions.bound_inputs(spec)
+            for key in ['source', 'tools', 'inputs']:
+                require(record[key + '_before'] == record[key + '_after'], 'input drift: ' + key)
+        except BaseException as error:
+            record.update(status='FAIL_PRESERVED', after_error=repr(error))
+        (run / 'model-receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    require(record['status'] == 'PASS_FROZEN_OFFLINE_NATIVE_REACTOR_MODEL_ONLY', 'model replay failed')
+
+
+def controller(spec, path, expected, run, owned):
+    require(run.parent.resolve() == run.parent and run.is_relative_to('/workspace/build/builderbob') and
+            not os.path.lexists(run), 'preserve existing/noncanonical output')
+    home = pwd.getpwuid(os.getuid())
+    require(home.pw_name == 'builderbob' and os.environ.get('HOME') == home.pw_dir, 'operator HOME changed')
+    env = {'HOME': home.pw_dir, 'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8',
+           'XDG_RUNTIME_DIR': os.environ.get('XDG_RUNTIME_DIR', '/run/user/' + str(os.getuid()))}
+    check = subprocess.run(['/usr/local/sbin/bob-admin', 'workspace-status'], env=env, capture_output=True, timeout=15)
+    require(check.returncode == 0 and json.loads(check.stdout)['outcome'] == 'ok', 'Samsung workspace unavailable')
+    memory = int(next(l.split()[1] for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:')))
+    disk = os.statvfs('/workspace')
+    require(memory >= 8 * 1024**2 and disk.f_bavail * disk.f_frsize >= 30 * 1024**3, 'insufficient fresh headroom')
+    os.umask(0o077)
+    run.mkdir(mode=0o700)
+    (run / 'workspace-status.json').write_bytes(check.stdout)
+    unit, cookie = owned.new_attempt(PREFIX)
+    record, child, attempted, lock = {'status': 'FAIL_PRESERVED', 'unit': unit,
+                                      'headroom_memory_kib': memory, 'headroom_disk_bytes': disk.f_bavail * disk.f_frsize}, None, False, None
+    try:
+        require(owned.state(unit, env)['LoadState'] == 'not-found', 'preserve existing scope')
+        lock = open(spec['compiler_lock'])
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        args = ['/usr/bin/systemd-run', '--user', '--scope', '--quiet', '--collect', '--unit=' + unit,
+                '-p', 'CPUQuota=200%', '-p', 'MemoryHigh=3G', '-p', 'MemoryMax=4G',
+                '-p', 'MemorySwapMax=0', '-p', 'TasksMax=128', '-p', 'RuntimeMaxSec=720s',
+                '/usr/bin/python3', '-I', '-B', str(Path(__file__).resolve()), '--body',
+                str(path), expected, str(lock.fileno()), unit, cookie]
+        record['argv'], attempted = args, True
+        with (run / 'resource-stdout.txt').open('xb') as out, (run / 'resource-stderr.txt').open('xb') as err:
+            child = subprocess.Popen(args, env=env, pass_fds=(lock.fileno(),), stdout=out, stderr=err,
+                                     start_new_session=True, preexec_fn=child_limits)
+            child.wait(timeout=660)
+        require(child.returncode == 0 and json.loads((run / 'model-receipt.json').read_bytes())['status'] ==
+                'PASS_FROZEN_OFFLINE_NATIVE_REACTOR_MODEL_ONLY', 'offline body failed')
+        record['status'] = 'PASS_FROZEN_OFFLINE_NATIVE_REACTOR_MODEL_ONLY'
+    except BaseException as error:
+        record['error'] = repr(error)
+    finally:
+        try:
+            stop(child)
+        except BaseException as error:
+            record.update(status='FAIL_PRESERVED', stop_error=repr(error))
+        try:
+            if attempted:
+                record['cleanup'] = owned.cleanup(unit, cookie, run / 'ownership.json', env)
+            require(digest(path) == expected, 'proposal changed during replay')
+        except BaseException as error:
+            record.update(status='FAIL_PRESERVED', cleanup_error=repr(error))
+        if lock is not None:
+            lock.close()
+        record['exit'] = child.returncode if child is not None else None
+        (run / 'resource-receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    require(record['status'] == 'PASS_FROZEN_OFFLINE_NATIVE_REACTOR_MODEL_ONLY', 'offline controller failed')
+
+
+def interrupted(signum, frame):
+    raise RuntimeError('offline replay interrupted: ' + str(signum))
+
+
+def main():
+    signal.signal(signal.SIGTERM, interrupted)
+    role, path, expected, *extra = sys.argv[1:]
+    require(role in ['--run', '--body'], 'expected --run or --body')
+    spec = proposal(path, expected)
+    versions, owned = provider(VERSION), provider(OWNERSHIP)
+    run = Path(spec['run_root'])
+    if role == '--body':
+        descriptor, unit, cookie = extra
+        body(spec, run, unit, cookie, int(descriptor), versions, owned)
+    else:
+        require(not extra, 'unexpected controller arguments')
+        controller(spec, Path(path), expected, run, owned)
+
+
+if __name__ == '__main__':
+    main()
