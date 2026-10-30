@@ -1,0 +1,69 @@
+{
+  "status": "PASS_ACTUAL_CONTROLLER_ONLY_3_NORMAL_3_OPTIMIZED;NO_FULL_GETTER_OR_NETWORK_ACCEPTANCE",
+  "receipt_sha256": "0cadfb2eec1d576c53eaaa7a51861f35033dd0001398de6ca51ec7f182911604",
+  "commands": [
+    {
+      "name": "controller-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_launch.py",
+        "-v"
+      ],
+      "exit": 0,
+      "cases": 3,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "820b3ef62a395cb28cbfa0258087c10de6691e69c13794c605b1068e2e0e17c5"
+    },
+    {
+      "name": "controller-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-O",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_launch.py",
+        "-v"
+      ],
+      "exit": 0,
+      "cases": 3,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "42f5e3fd63c6e7da49a59fac11e6b652c6ff14e1f0855a8a030fe8770bb3d725"
+    }
+  ],
+  "inputs_before_after_equal": true,
+  "current_input_sha256": {
+    "/workspace/worktrees/builderbob/syson/batch33-closure-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/launch.py": "947e2ea8bb6acf9e83d4f53a9e9602815a3dfa8fd91cf398cf5489d3c13b38d5",
+    "/workspace/worktrees/builderbob/syson/batch33-closure-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/tests/test_launch.py": "08a5788035b347b448ad541764c73f9f9a96bbb7bedcb2bc4a88d46597641c5e",
+    "/workspace/worktrees/builderbob/syson/batch33-closure-20261030/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "/workspace/worktrees/builderbob/syson/batch33-closure-20261030/porting/rust-parity-evidence/F25/main-batch31/qualify.py": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9",
+    "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+  },
+  "cleanup": {
+    "confirmed_empty_or_absent": true,
+    "observations": [
+      {
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "InvocationID": ""
+      }
+    ]
+  },
+  "cleanup_sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+  "source_review_sha256": "9e95860c5dafc5a32a946debaa869e8733701923de0aa34c78c2566e2e8b67b0",
+  "boundary": "These are actual local ownedPython child pipe/drain/deadline tests for the frozen99line launcher. They do not execute systemd/network/acquiredcode and do not qualify newgetter controls. Fullgetter source/spec/normaloptimizedtests and anynetwork remain separate gates. Source/cgroup launchcontrol claims remain limited as previously reviewed.",
+  "actions": "Existingsource/receipt/rawlogs read and report only, no tests/runtime/network/Git/source edits."
+}
