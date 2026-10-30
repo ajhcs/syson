@@ -1,0 +1,148 @@
+{
+  "kind": "C01_EXACT_PASSIVE_CLOSURE_AUTHOR_FREEZE",
+  "recorded_at_utc": "2026-10-30T17:59:26.623506+00:00",
+  "status": "COMPLETE_SOURCE_FROZEN_INDEPENDENT_SOURCE_SPEC_REVIEW_REQUIRED_BEFORE_NETWORK",
+  "source_lease": "/workspace/build/builderbob/syson-durable-batch33-20261030/closure/source-lease.json",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch33-closure-20261030",
+  "author_files": {
+    "fetch.py": {
+      "sha256": "faaa2a57387bf4f6880ea3189d95ec75ffcc02a1df53703fae335d57f09aef25",
+      "lines": 261
+    },
+    "tests/test_fetch.py": {
+      "sha256": "64ee1a7df62ce1e8908e5ea58f06616ec599b921d56c48f4281b2c9c10e1aa11",
+      "lines": 441
+    },
+    "README.md": {
+      "sha256": "a92d66a0216bd376b88c00452dadccc0cccdcd3f8c463bbcc0fd3b123b69105b",
+      "lines": 11
+    }
+  },
+  "root_files_read_only": {
+    "launch.py": {
+      "sha256": "947e2ea8bb6acf9e83d4f53a9e9602815a3dfa8fd91cf398cf5489d3c13b38d5",
+      "lines": 99
+    },
+    "tests/test_launch.py": {
+      "sha256": "08a5788035b347b448ad541764c73f9f9a96bbb7bedcb2bc4a88d46597641c5e",
+      "lines": 48
+    },
+    ".gitattributes": {
+      "sha256": "e73bb8304509b2eac6b0c868d0610e59f7fb5b2fdd13baa6513b35438277b3da",
+      "lines": 2
+    }
+  },
+  "workflow_sha256": "d2441348b980759b5c07fe272e2e9adb2946d8e0460981c98d0d6476bb9c8d67",
+  "manifest": {
+    "path": "porting/rust-parity-evidence/C01/batch33-passive-closure/requests.json",
+    "sha256": "9c710bb285eff7ffb52c1608a2e8497451dd86bbd4057ddb444c04d4fcc415a0",
+    "bytes": 211161,
+    "requests": 395,
+    "payloads": 79,
+    "generated_data_with_active_raw_hash_and_structural_validation": true
+  },
+  "original_control_preservation": {
+    "original_cases": 18,
+    "current_fetch_cases": 25,
+    "new_fetch_cases": 7,
+    "renamed_case": {
+      "test_frozen_request_set_has_exact_15_urls_and_destinations": "test_frozen_request_set_has_exact_395_urls_and_destinations"
+    },
+    "all_original_obligations_retained": true,
+    "old_getter_unchanged_sha256": "d6bcbd127a36596fc62261bd34573cb731eb158b12e69b30178d81ae6e3303a7",
+    "original_names": [
+      "test_frozen_request_set_has_exact_15_urls_and_destinations",
+      "test_request_mutations_refuse_url_order_count_path_and_caps",
+      "test_fresh_output_rejects_occupied_symlink_and_noncanonical_path",
+      "test_success_preserves_exact_body_hash_and_status",
+      "test_header_count_exact_boundary_and_overflow_keep_only_bounded_prefix",
+      "test_header_byte_exact_boundary_and_one_byte_overflow",
+      "test_header_unicode_budget_counts_utf8_keys_values_and_crlf",
+      "test_redirect_handler_and_changed_final_url_never_follow",
+      "test_non200_body_and_headers_are_retained_without_becoming_200",
+      "test_open_failure_still_retains_failure_metadata_without_an_artifact",
+      "test_file_and_remaining_aggregate_limits_keep_exact_partial_prefix",
+      "test_interrupted_stream_keeps_partial_body_and_response_record",
+      "test_deadline_interrupts_a_blocked_read_and_preserves_partial_metadata",
+      "test_foreign_timer_is_refused_without_replacing_timer_or_handler",
+      "test_deadline_restores_handler_and_clears_timer_when_body_raises",
+      "test_strong_checksum_matches_uppercase_and_legacy_is_labelled_sha1",
+      "test_bad_strong_checksum_cannot_fall_back_to_valid_legacy",
+      "test_malformed_checksum_refuses_and_absent_checksums_grant_no_match"
+    ],
+    "current_names": [
+      "test_frozen_request_set_has_exact_395_urls_and_destinations",
+      "test_request_mutations_refuse_url_order_count_path_and_caps",
+      "test_fresh_output_rejects_occupied_symlink_and_noncanonical_path",
+      "test_success_preserves_exact_body_hash_and_status",
+      "test_header_count_exact_boundary_and_overflow_keep_only_bounded_prefix",
+      "test_header_byte_exact_boundary_and_one_byte_overflow",
+      "test_header_unicode_budget_counts_utf8_keys_values_and_crlf",
+      "test_redirect_handler_and_changed_final_url_never_follow",
+      "test_non200_body_and_headers_are_retained_without_becoming_200",
+      "test_open_failure_still_retains_failure_metadata_without_an_artifact",
+      "test_file_and_remaining_aggregate_limits_keep_exact_partial_prefix",
+      "test_interrupted_stream_keeps_partial_body_and_response_record",
+      "test_deadline_interrupts_a_blocked_read_and_preserves_partial_metadata",
+      "test_foreign_timer_is_refused_without_replacing_timer_or_handler",
+      "test_deadline_restores_handler_and_clears_timer_when_body_raises",
+      "test_raw_manifest_hash_and_duplicate_json_keys_refuse",
+      "test_manifest_payload_duplicates_coordinates_and_metadata_profile_refuse",
+      "test_nested_destination_preserves_existing_files_and_refuses_symlinks",
+      "test_exact_128mib_aggregate_boundary_refuses_without_large_allocation",
+      "test_metadata_charges_existing_proof_and_actual_serialized_bytes",
+      "test_96mib_metadata_profile_counts_proof_and_reserves_failure_receipt",
+      "test_actual_transfer_records_feed_checksum_validation_without_losing_paths",
+      "test_strong_checksum_matches_uppercase_and_legacy_is_labelled_sha1",
+      "test_bad_strong_checksum_cannot_fall_back_to_valid_legacy",
+      "test_malformed_checksum_refuses_and_absent_checksums_grant_no_match"
+    ],
+    "root_launcher_cases": 3,
+    "total_expected_fetch_plus_launcher_cases": 28
+  },
+  "exact_budget": {
+    "author_source": 261,
+    "author_tests": 441,
+    "author_README": 11,
+    "author_total": 713,
+    "root_launcher": 99,
+    "root_launcher_tests": 48,
+    "root_CI_changed_lines_coordinator_declared": 21,
+    "root_attributes": 2,
+    "root_total": 170,
+    "production_total": 381,
+    "authored_total": 883,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "unused_production": 19,
+    "unused_authored": 17,
+    "counting": "Fullnewgetter+launcher+tests+README+CI+attributes;no minification or originaltest deletion. Fixedmanifest is generateddata;unexecutedhistoricaldraft is retained only in localauthorhistory."
+  },
+  "design": [
+    "Rawfixedmanifest9c710\u2026 hash/256KiB gate before parsing;395ordereduniquerequests/79coordinates/path/caps/status records validated. No arbitraryURL,recursivefetch,mediation,archive extraction,installation or acquired-code execution.",
+    "Exclusive canonical nested bodydestinations under freshprivateownedworkspaceout;symlink/noncanonical/existingfile refusal. No root/cache/oldgetterwrites.",
+    "128MiB total body+sidecar bytes with exactremaining accounting;64headers/16KiB UTF8 perresponse;15sidle and60swall deadlines;rootowns900sprocess/1020sscope.",
+    "95MiB getter metadata ledger includes existing proof andactualserialized response/receipt bytes. Ordinarywrites reserve1MiB forfinalfailure. Fallback is explicitFAIL_METADATA_LIMIT retaining before/afterinputmaps,controls,priorerror,completedresponsecount andboundedfailedresponse. Rootlogs/controller separately <=1MiB;combined96MiBprofile.",
+    "Allservedstrongandlegacychecksumschecked;badstrongcannotfall back;404sidecars retained,ASCunverified. Sameoriginconsistencydoesnotadmitexecution.",
+    "FrozenCLI/spec/proposal/environment/status names preserved;newscopeprefixsyson-b33-closure-. Existingownershipprovider/CargoFD/actualcgroupcontrols/inputbeforeafter checks retained."
+  ],
+  "meaningful_new_controls": [
+    "Rawmanifesthash plus duplicate JSONkeys",
+    "Coherently duplicatedpayload AND itsfiveexpectedrequestrows;wrongcoordinate/count/metadata cap",
+    "Realnestedfilesystem pathcreation,existingbytes preservation andsymlinkescape refusal",
+    "Exact128MiB aggregate accounting withonebyte remaining andtwo-byte fakebody,withoutallocating128MiB",
+    "Existingproof+actualUTF8JSONserializedbyteledger",
+    "Exact95MiB helpermetadata/1MiB failure reserve withsuccessprevented andinputmapsretained",
+    "Actualfake transfer\u2192record\u2192threechecksum pipeline verifiesrelativepath/role fields survive transport"
+  ],
+  "static_failure_preserved": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/closure/author-draft-before-transport-field-repair.py.raw",
+    "sha256": "9f0c8575297cb4628be7aa991e89fd4cd83162dda96f2dd1e197345564bda084",
+    "disposition": "Pre-freeze source inspection found newchecksumstage neededrole/relative_path intransferresults. Correctedbeforeanyexecution andaddedrealfakepipelinecase;no redruntimeclaim."
+  },
+  "author_executed_tests_network_runtime_compilers_or_Git": false,
+  "source_peer_required": "durable_journey_admission independently reviews finalgetter/tests/rootlauncher/spec before anynetwork. Rootnormal/-O unitsand finalsource/inputbindings mustbe newlyqualified.",
+  "feature_acceptance": "OPEN;dataacquisitiononly,no mediatedrealm/JVM/JNI/code-trust/nativecompile/C01/RR16acceptance"
+}

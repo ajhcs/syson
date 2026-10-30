@@ -1,0 +1,35 @@
+{
+  "status": "PASS_FROZEN_ROOT_LAUNCHER_SOURCE_ONLY;GETTER_AND_RUNTIME_SPEC_REVIEW_PENDING",
+  "source_sha256": {
+    "/workspace/worktrees/builderbob/syson/batch33-closure-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/launch.py": "947e2ea8bb6acf9e83d4f53a9e9602815a3dfa8fd91cf398cf5489d3c13b38d5",
+    "/workspace/worktrees/builderbob/syson/batch33-closure-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/tests/test_launch.py": "08a5788035b347b448ad541764c73f9f9a96bbb7bedcb2bc4a88d46597641c5e"
+  },
+  "review": "Independent source inspection only. capture drains both pipes with selectors into caller files, accounts aggregate960KiB before overflow and retains exactly bounded prefix, observes900s deadline even silent process then boundedwait. Outer launcher terminates/reaps live owned systemd-run and performs pinned proof-bound scope cleanup while retaining exclusive exact lock. ControllerJSON encoded size checked<=64KiB before writing, so owned logs+controller consume<=1MiB within revised96MiB profile. Fixed closure prefix/sourcepin/env and actual5cgroup guard expectations remain; no generic parentSIGKILL/RR16 claim.",
+  "three_actual_process_test_sources": [
+    "Both stdout/stderr retained exactly and child reaped",
+    "2million-byte stdout overflows at exactlyLOG_BYTES prefix and refuses",
+    "Silent5s child cannot bypass20ms controller deadline; testcontext always kills/waits/closes its own child"
+  ],
+  "tests_not_executed_by_reviewer": true,
+  "findings": [],
+  "limits": "Script-level descendant/socket timeout/cleanup owned by root/pinned helper; neither source inspection nor these three pipe tests prove general systemd/kernel isolation or parentdeath monitoring. Actualscopecontrols/readbacks/cleanup remain runtime evidence gate.",
+  "budget_superseding_old_checklist": {
+    "root_production": 120,
+    "root_authored": 170,
+    "root_components": {
+      "launcher": 99,
+      "launcher_tests": 48,
+      "CI": 21,
+      "attributes": 2
+    },
+    "author_production_remaining": 280,
+    "author_authored_remaining": 730,
+    "total_caps": [
+      400,
+      900
+    ],
+    "metadata_split": "Getter95MiB plus root1MiB within fixed96MiB; requires complete newgetter source review.",
+    "previous_checklist_sha256": "a870834e3dcd6568bcf5f82b1b716ffc54dcc6b0cb5cabc2f0b4fa6365dfbb40"
+  },
+  "actions": "Root explicitly frozen launcher/test bytes read and report written; no partial authorgetter source read, no runtime/network/Git/source edits."
+}
