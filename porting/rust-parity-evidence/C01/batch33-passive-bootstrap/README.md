@@ -1,0 +1,11 @@
+# Passive Maven bootstrap acquisition
+
+This coordinator tool acquires the fixed Maven Dependency Plugin 3.10.0 POM, binary and source JAR plus twelve checksum/signature sidecars. It writes bytes and metadata in a fresh owned workspace scope. It does not load Java classes, extract JAR members, run Maven, or establish a native SysON build.
+
+The source-pinned proposal permits fifteen exact Central URLs, no redirects, credentials or proxy lookup, bounded body/header storage, whole-request deadlines, an inherited compiler lock and invocation-bound cleanup. The launcher checks the actual workspace/operator/headroom; the child reads back all five cgroup controls. A 900-second controller wait and 1,020-second scope lifetime contain the phase. This is not a general RR16 parent-SIGKILL monitor or kernel network sandbox.
+
+All three artifacts were received. Their SHA-1 sidecars matched; SHA-512/SHA-256 sidecars returned 404 and the detached signatures remain unverified. Locally computed SHA-256 values identify retained bytes; same-origin TLS and legacy checksums do not prove publisher authenticity or source/binary correspondence. The [qualification](qualification.json) records exact results and current source pins. Every response, partial file, input snapshot and cleanup record remains in the coordinator epoch.
+
+Eighteen fake-response controls pass under normal and optimized Python, including escaping symlinks, slow-body interruption, response cleanup, exact/over body/header budgets, Unicode accounting and malformed checksums. Hosted CI runs only these controls. Its temporary-root override exists inside tests; the production output root and builderbob/workspace guards remain fixed. No test is permission to run a newly acquired plugin.
+
+Before the real core metamodel compile, review and freeze the complete dependency/plugin closure and any native-library activation, including the pending descriptor inventory. The next request set is a proposal, not a download or execution lease. Full compilation, application/runtime correspondence, frontend entitlement, database/UI workflows and C01 feature acceptance remain open. Original review findings and earlier passing unit epochs are retained separately.

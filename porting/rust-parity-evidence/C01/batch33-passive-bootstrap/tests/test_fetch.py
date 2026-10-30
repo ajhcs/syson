@@ -1,0 +1,330 @@
+"""Fake-response controls only: no acquired code, sockets, Maven or JVM."""
+import copy
+import hashlib
+import importlib.util
+import io
+import json
+import os
+import signal
+import time
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+import urllib.error
+
+SOURCE = Path(__file__).resolve().parents[1] / 'fetch.py'
+SPEC = importlib.util.spec_from_file_location('passive_fetch_under_test', SOURCE)
+fetch = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(fetch)
+BASE = 'https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-dependency-plugin/3.10.0/'
+NAMES = ['maven-dependency-plugin-3.10.0.pom', 'maven-dependency-plugin-3.10.0.jar',
+         'maven-dependency-plugin-3.10.0-sources.jar']
+
+
+def proposal():
+    artifacts = []
+    for name in NAMES:
+        item = {'url': BASE + name, 'relative_path': 'downloads/' + name,
+                'maximum_bytes': (2 if name.endswith('.pom') else 16) * 1024**2}
+        item['sidecars'] = [{'url': BASE + name + suffix,
+                            'relative_path': 'downloads/' + name + suffix,
+                            'maximum_bytes': 65536}
+                           for suffix in ['.sha512', '.sha256', '.sha1', '.asc']]
+        artifacts.append(item)
+    return {'phase_A_exact_passive_request_set': {
+        'artifacts': artifacts, 'total_request_limit': 15,
+        'total_download_bytes_limit': 40 * 1024**2}}
+
+
+class Response(io.BytesIO):
+    def __init__(self, body, url, code=200, fail_after=None):
+        super().__init__(body)
+        self.url, self.code = url, code
+        self.headers = {'Content-Length': str(len(body)), 'X-Fixture': 'synthetic'}
+        self.reads, self.fail_after = [], fail_after
+
+    def geturl(self):
+        return self.url
+
+    def read(self, size=-1):
+        if self.fail_after is not None and len(self.reads) >= self.fail_after:
+            raise OSError('synthetic interrupted body')
+        self.reads.append(size)
+        return super().read(size)
+
+
+class Opener:
+    def __init__(self, response):
+        self.response, self.calls = response, []
+
+    def open(self, request, timeout):
+        self.calls.append((request.full_url, timeout))
+        if isinstance(self.response, Exception):
+            raise self.response
+        return self.response
+
+
+class PassiveFetchControls(unittest.TestCase):
+    def setUp(self):
+        self.assertEqual(fetch.OUTPUT_ROOT, Path('/workspace/build/builderbob'))
+        root = Path(os.environ['SYSON_BOOTSTRAP_TEST_ROOT'])
+        if not root.is_absolute() or root.resolve() != root or not root.is_dir():
+            raise AssertionError('existing canonical test fixture root required')
+        if os.environ.get('GITHUB_ACTIONS') == 'true':
+            runner = Path(os.environ['RUNNER_TEMP'])
+            if not runner.is_absolute() or runner.resolve() != runner or not runner.is_dir():
+                raise AssertionError('canonical GitHub runner temporary directory required')
+            if not root.is_relative_to(runner):
+                raise AssertionError('hosted fixtures must stay beneath runner.temp')
+        elif not root.is_relative_to('/workspace/build/builderbob'):
+            raise AssertionError('local test data must remain on admitted workspace')
+        self.temporary = tempfile.TemporaryDirectory(prefix='fetch-controls-', dir=root)
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        fixture_root = patch.object(fetch, 'OUTPUT_ROOT', self.root)
+        fixture_root.start()
+        self.addCleanup(fixture_root.stop)
+        self.socket_guard = patch('socket.create_connection', side_effect=AssertionError('network forbidden'))
+        self.socket_guard.start()
+        self.addCleanup(self.socket_guard.stop)
+
+    def test_frozen_request_set_has_exact_15_urls_and_destinations(self):
+        rows = fetch.requests(proposal())
+        self.assertEqual(len(rows), 15)
+        self.assertEqual(rows[0]['url'], BASE + NAMES[0])
+        self.assertEqual(rows[-1]['relative_path'], 'downloads/' + NAMES[-1] + '.asc')
+
+    def test_request_mutations_refuse_url_order_count_path_and_caps(self):
+        changes = [
+            lambda p: p['artifacts'][0].update(url=BASE.replace('https:', 'http:') + NAMES[0]),
+            lambda p: p['artifacts'][0].update(url=BASE.replace('repo.maven.apache.org', 'example.invalid') + NAMES[0]),
+            lambda p: p['artifacts'][0].update(url=BASE + NAMES[0] + '?extra=1'),
+            lambda p: p['artifacts'][0].update(relative_path='../escape'),
+            lambda p: p['artifacts'][0].update(maximum_bytes=2 * 1024**2 + 1),
+            lambda p: p['artifacts'][0]['sidecars'][0].update(maximum_bytes=65537),
+            lambda p: p.update(total_request_limit=16),
+            lambda p: p.update(total_download_bytes_limit=40 * 1024**2 + 1),
+            lambda p: p['artifacts'].reverse(),
+            lambda p: p['artifacts'][0]['sidecars'].pop(),
+        ]
+        for index, change in enumerate(changes):
+            with self.subTest(mutation=index):
+                value = copy.deepcopy(proposal())
+                change(value['phase_A_exact_passive_request_set'])
+                with self.assertRaises(ValueError):
+                    fetch.requests(value)
+
+    def test_fresh_output_rejects_occupied_symlink_and_noncanonical_path(self):
+        empty = self.root / 'empty'
+        empty.mkdir()
+        fetch.fresh_output(empty)
+        link = self.root / 'escaping-output-link'
+        link.symlink_to(empty, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'fresh owned output'):
+            fetch.fresh_output(link)
+        with self.assertRaisesRegex(ValueError, 'fresh owned output'):
+            fetch.fresh_output(self.root / 'empty' / '..' / 'empty')
+        (empty / 'existing').write_bytes(b'preserved')
+        with self.assertRaisesRegex(ValueError, 'fresh owned output'):
+            fetch.fresh_output(empty)
+        self.assertEqual((empty / 'existing').read_bytes(), b'preserved')
+
+    def row(self):
+        return fetch.requests(proposal())[1]  # .pom.sha512: 64KiB sidecar cap
+
+    def test_success_preserves_exact_body_hash_and_status(self):
+        row, body = self.row(), b'synthetic served bytes\x00\xff'
+        response = Response(body, row['url'])
+        opener, path = Opener(response), self.root / 'served.partial'
+        result = fetch.transfer(opener, row, path, 40 * 1024**2)
+        self.assertEqual(path.read_bytes(), body)
+        self.assertEqual(result['sha256'], hashlib.sha256(body).hexdigest())
+        self.assertEqual(result['status'], 200)
+        self.assertEqual(opener.calls, [(row['url'], 15)])
+        self.assertTrue(response.closed)
+
+    def check_header_fixture(self, label, headers, expected_prefix, refused):
+        row, body = self.row(), b'body must remain unread on metadata refusal'
+        path = self.root / (label + '.partial')
+        response = Response(body, row['url'])
+        response.headers = headers
+        if refused:
+            with self.assertRaisesRegex(ValueError, 'header metadata limit'):
+                fetch.transfer(Opener(response), row, path, 1000)
+            self.assertEqual(response.reads, [])
+            self.assertEqual(path.read_bytes(), b'')
+        else:
+            fetch.transfer(Opener(response), row, path, 1000)
+            self.assertTrue(response.reads)
+            self.assertEqual(path.read_bytes(), body)
+        self.assertTrue(response.closed)
+        record = json.loads(path.with_suffix('.partial.response.json').read_text())
+        self.assertEqual(record['headers'], [list(pair) for pair in expected_prefix])
+        self.assertEqual(record['bytes'], 0 if refused else len(body))
+        self.assertEqual(record['sha256'], hashlib.sha256(b'' if refused else body).hexdigest())
+        self.assertLessEqual(len(record['headers']), 64)
+        self.assertLessEqual(sum(len(k.encode('utf-8')) + len(v.encode('utf-8')) + 4
+                                 for k, v in record['headers']), 16384)
+
+    def test_header_count_exact_boundary_and_overflow_keep_only_bounded_prefix(self):
+        headers = {f'X-{i}': 'v' for i in range(64)}
+        self.check_header_fixture('headers64', headers, list(headers.items()), False)
+        expanded = dict(headers, Extra='never retained')
+        self.check_header_fixture('headers65', expanded, list(headers.items()), True)
+
+    def test_header_byte_exact_boundary_and_one_byte_overflow(self):
+        # First pair costs 6bytes; second pair costs5bytes plus its value.
+        prefix = [('A', 'B')]
+        exact = dict(prefix + [('X', 'x' * 16373)])
+        self.check_header_fixture('header-bytes-exact', exact, list(exact.items()), False)
+        overflow = dict(prefix + [('X', 'x' * 16374)])
+        self.check_header_fixture('header-bytes-overflow', overflow, prefix, True)
+
+    def test_header_unicode_budget_counts_utf8_keys_values_and_crlf(self):
+        prefix = [('A', 'B')]  # 6bytes,including key/value separator and CRLF.
+        value = '😀' * 4093  # 16372 UTF8bytes,not4093.
+        exact = dict(prefix + [('é', value)])  # 6+2+16372+4 ==16384.
+        self.assertLess(sum(len(k) + len(v) + 4 for k, v in exact.items()), 16384)
+        self.check_header_fixture('header-unicode-exact', exact, list(exact.items()), False)
+        overflow = dict(prefix + [('é', value + 'x')])
+        self.check_header_fixture('header-unicode-overflow', overflow, prefix, True)
+
+    def test_redirect_handler_and_changed_final_url_never_follow(self):
+        self.assertIsNone(fetch.NoRedirect().redirect_request(None, None, 302, '', {}, 'https://example.invalid/'))
+        row, path = self.row(), self.root / 'redirect.partial'
+        response = Response(b'not an artifact', 'https://example.invalid/')
+        with self.assertRaisesRegex(ValueError, 'redirect refused'):
+            fetch.transfer(Opener(response), row, path, 100)
+        self.assertEqual(path.read_bytes(), b'')
+        self.assertTrue(response.closed)
+        record = json.loads(path.with_suffix('.partial.response.json').read_text())
+        self.assertEqual(record['final_url'], 'https://example.invalid/')
+        self.assertEqual(record['sha256'], hashlib.sha256(b'').hexdigest())
+
+    def test_non200_body_and_headers_are_retained_without_becoming_200(self):
+        row, path = self.row(), self.root / 'failure.partial'
+        error = urllib.error.HTTPError(row['url'], 403, 'Forbidden', {'X-Fixture': 'denied'}, io.BytesIO(b'denied body'))
+        result = fetch.transfer(Opener(error), row, path, 100)
+        self.assertEqual(result['status'], 403)
+        self.assertEqual(path.read_bytes(), b'denied body')
+        self.assertIn(('X-Fixture', 'denied'), result['headers'])
+
+    def test_open_failure_still_retains_failure_metadata_without_an_artifact(self):
+        row, path = self.row(), self.root / 'open-failure.partial'
+        with self.assertRaisesRegex(OSError, 'synthetic connection refused'):
+            fetch.transfer(Opener(OSError('synthetic connection refused')), row, path, 100)
+        self.assertFalse(path.exists())
+        record = json.loads(path.with_suffix('.partial.response.json').read_text())
+        self.assertEqual(record['url'], row['url'])
+        self.assertIsNone(record['status'])
+        self.assertIsNone(record['sha256'])
+        self.assertEqual(record['bytes'], 0)
+
+    def test_file_and_remaining_aggregate_limits_keep_exact_partial_prefix(self):
+        row = self.row()
+        for label, available, retained in [('file', 100000, 65536), ('aggregate', 3, 3)]:
+            with self.subTest(limit=label):
+                path = self.root / (label + '.partial')
+                response = Response(b'x' * 65537, row['url'])
+                with self.assertRaisesRegex(ValueError, 'stream byte limit'):
+                    fetch.transfer(Opener(response), row, path, available)
+                self.assertEqual(path.read_bytes(), b'x' * retained)
+                record = json.loads(path.with_suffix('.partial.response.json').read_text())
+                self.assertEqual(record['bytes'], retained)
+                self.assertEqual(record['sha256'], hashlib.sha256(b'x' * retained).hexdigest())
+                self.assertTrue(response.closed)
+
+    def test_interrupted_stream_keeps_partial_body_and_response_record(self):
+        row, path = self.row(), self.root / 'interrupted.partial'
+        response = Response(b'partial bytes', row['url'], fail_after=1)
+        with self.assertRaisesRegex(OSError, 'synthetic interrupted body'):
+            fetch.transfer(Opener(response), row, path, 100)
+        self.assertEqual(path.read_bytes(), b'partial bytes')
+        record = json.loads(path.with_suffix('.partial.response.json').read_text())
+        self.assertEqual(record['bytes'], 13)
+        self.assertTrue(response.closed)
+
+    def test_deadline_interrupts_a_blocked_read_and_preserves_partial_metadata(self):
+        row, path = self.row(), self.root / 'blocked.partial'
+        class BlockingResponse(Response):
+            def read(self, size=-1):
+                if self.reads:
+                    time.sleep(1)  # Actual blocking operation interrupted by the signal.
+                return super().read(size)
+        response = BlockingResponse(b'prefix', row['url'])
+        original = fetch.request_deadline
+        previous = signal.getsignal(signal.SIGALRM)
+        with patch.object(fetch, 'request_deadline', side_effect=lambda _: original(0.02)):
+            with self.assertRaisesRegex(TimeoutError, 'request wall deadline'):
+                fetch.transfer(Opener(response), row, path, 100)
+        self.assertEqual(path.read_bytes(), b'prefix')
+        self.assertEqual(json.loads(path.with_suffix('.partial.response.json').read_text())['bytes'], 6)
+        self.assertTrue(response.closed)
+        self.assertEqual(signal.getitimer(signal.ITIMER_REAL), (0.0, 0.0))
+        self.assertIs(signal.getsignal(signal.SIGALRM), previous)
+
+    def test_foreign_timer_is_refused_without_replacing_timer_or_handler(self):
+        previous = signal.getsignal(signal.SIGALRM)
+        self.assertEqual(signal.getitimer(signal.ITIMER_REAL), (0.0, 0.0))
+        def foreign_handler(signum, frame):
+            raise AssertionError('foreign timer unexpectedly fired')
+        signal.signal(signal.SIGALRM, foreign_handler)
+        signal.setitimer(signal.ITIMER_REAL, 60)
+        try:
+            with self.assertRaisesRegex(ValueError, 'existing/invalid request timer'):
+                with fetch.request_deadline(0.02):
+                    self.fail('foreign timer must prevent entering request')
+            self.assertIs(signal.getsignal(signal.SIGALRM), foreign_handler)
+            self.assertGreater(signal.getitimer(signal.ITIMER_REAL)[0], 0)
+        finally:
+            signal.setitimer(signal.ITIMER_REAL, 0)
+            signal.signal(signal.SIGALRM, previous)
+
+    def test_deadline_restores_handler_and_clears_timer_when_body_raises(self):
+        previous = signal.getsignal(signal.SIGALRM)
+        with self.assertRaisesRegex(RuntimeError, 'synthetic body failure'):
+            with fetch.request_deadline(60):
+                raise RuntimeError('synthetic body failure')
+        self.assertEqual(signal.getitimer(signal.ITIMER_REAL), (0.0, 0.0))
+        self.assertIs(signal.getsignal(signal.SIGALRM), previous)
+
+    def checksum_fixture(self):
+        downloads = self.root / 'downloads'
+        downloads.mkdir()
+        for name in NAMES:
+            (downloads / (name + '.partial')).write_bytes(b'opaque synthetic artifact')
+        rows = [{'url': row['url'], 'status': 404} for row in fetch.requests(proposal())]
+        return downloads, rows
+
+    def enable_checksum(self, downloads, rows, suffix, content):
+        url = BASE + NAMES[0] + suffix
+        next(row for row in rows if row['url'] == url)['status'] = 200
+        (downloads / (NAMES[0] + suffix + '.partial')).write_text(content)
+
+    def test_strong_checksum_matches_uppercase_and_legacy_is_labelled_sha1(self):
+        downloads, rows = self.checksum_fixture()
+        body = b'opaque synthetic artifact'
+        self.enable_checksum(downloads, rows, '.sha512', hashlib.sha512(body).hexdigest().upper() + '\n')
+        self.enable_checksum(downloads, rows, '.sha1', hashlib.sha1(body).hexdigest())
+        self.assertEqual(fetch.checksums(self.root, rows), [
+            {'artifact': NAMES[0], 'algorithm': 'sha512', 'match': True},
+            {'artifact': NAMES[0], 'algorithm': 'sha1', 'match': True}])
+
+    def test_bad_strong_checksum_cannot_fall_back_to_valid_legacy(self):
+        downloads, rows = self.checksum_fixture()
+        self.enable_checksum(downloads, rows, '.sha512', '0' * 128)
+        self.enable_checksum(downloads, rows, '.sha1', hashlib.sha1(b'opaque synthetic artifact').hexdigest())
+        with self.assertRaisesRegex(ValueError, 'checksum mismatch'):
+            fetch.checksums(self.root, rows)
+
+    def test_malformed_checksum_refuses_and_absent_checksums_grant_no_match(self):
+        downloads, rows = self.checksum_fixture()
+        self.assertEqual(fetch.checksums(self.root, rows), [])
+        self.enable_checksum(downloads, rows, '.sha256', 'not a checksum')
+        with self.assertRaisesRegex(ValueError, 'invalid sidecar'):
+            fetch.checksums(self.root, rows)
+
+
+if __name__ == '__main__':
+    unittest.main()
