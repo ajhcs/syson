@@ -1,0 +1,77 @@
+{
+  "unit": "B25b",
+  "status": "PREPARED_SOURCE_ONLY_NOT_EXECUTED",
+  "upstream": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "participant": "org.eclipse.syson.application.migration.ConnectorAsUsageSourceAndTargetMigrationParticipant",
+  "helper": "org.eclipse.syson.application.migration.MigrationParticipantService",
+  "native_method": "new ConnectorAsUsageSourceAndTargetMigrationParticipant().preDeserialization(null, JsonParser.parseString(input).getAsJsonObject())",
+  "source_refs": [
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/ConnectorAsUsageSourceAndTargetMigrationParticipant.java",
+      "sha256": "f3c9c962a40f84742d2a2f25ce1beff3a90ff1fcc41cf117a6a16eb0ee205b47"
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/MigrationParticipantService.java",
+      "sha256": "b67a9002a581a7b3ec00508c180274fa89b3357f3fb513fd43cc4decc08cde61"
+    },
+    {
+      "path": "backend/metamodel/syson-sysml-metamodel/src/main/resources/model/sysml.ecore",
+      "sha256": "82463c8f21d1a688603866ec02c6d4880b4e9224e34e9833a464aed0bd8f5440"
+    }
+  ],
+  "comparison": "Exact parsed JSON tree and participant getVersion; source input bytes/hash preserved. Class/namespace selection and object-child quirks are part of the comparison. Input/error predictions are separate from future actual observations.",
+  "native_scope": "Pinned participant + pinned helper + native SysML metamodel via root-owned artifact dependencies. No application server, database, resource deserialization, feature derivation or persistence is exercised.",
+  "rust_scope": "b25b::prepare input; immutable output/version only after success; shared B25S owns original-order first-namespace predicate, bounded traversal and subtype matching.",
+  "policy_limits": "Root shared Rust byte/depth/count admission limits are finite local policy and must be recorded separately from native participant behavior.",
+  "no_browser_or_performance_claim": true,
+  "cases": [
+    {
+      "id": "01-all-eight-connector-classes",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:AllocationUsage\",\"source\":\"raw-parent\",\"target\":73,\"data\":{\"source\":[\"old\"],\"target\":null,\"keep\":\"AllocationUsage\"},\"vendor\":{\"source\":false,\"target\":7,\"keep\":true}},{\"eClass\":\"sysml:BindingConnectorAsUsage\",\"source\":\"raw-parent\",\"target\":73,\"data\":{\"source\":[\"old\"],\"target\":null,\"keep\":\"BindingConnectorAsUsage\"},\"vendor\":{\"source\":false,\"target\":7,\"keep\":true}},{\"eClass\":\"sysml:ConnectionUsage\",\"source\":\"raw-parent\",\"target\":73,\"data\":{\"source\":[\"old\"],\"target\":null,\"keep\":\"ConnectionUsage\"},\"vendor\":{\"source\":false,\"target\":7,\"keep\":true}},{\"eClass\":\"sysml:ConnectorAsUsage\",\"source\":\"raw-parent\",\"target\":73,\"data\":{\"source\":[\"old\"],\"target\":null,\"keep\":\"ConnectorAsUsage\"},\"vendor\":{\"source\":false,\"target\":7,\"keep\":true}},{\"eClass\":\"sysml:FlowUsage\",\"source\":\"raw-parent\",\"target\":73,\"data\":{\"source\":[\"old\"],\"target\":null,\"keep\":\"FlowUsage\"},\"vendor\":{\"source\":false,\"target\":7,\"keep\":true}},{\"eClass\":\"sysml:InterfaceUsage\",\"source\":\"raw-parent\",\"target\":73,\"data\":{\"source\":[\"old\"],\"target\":null,\"keep\":\"InterfaceUsage\"},\"vendor\":{\"source\":false,\"target\":7,\"keep\":true}},{\"eClass\":\"sysml:SuccessionAsUsage\",\"source\":\"raw-parent\",\"target\":73,\"data\":{\"source\":[\"old\"],\"target\":null,\"keep\":\"SuccessionAsUsage\"},\"vendor\":{\"source\":false,\"target\":7,\"keep\":true}},{\"eClass\":\"sysml:SuccessionFlowUsage\",\"source\":\"raw-parent\",\"target\":73,\"data\":{\"source\":[\"old\"],\"target\":null,\"keep\":\"SuccessionFlowUsage\"},\"vendor\":{\"source\":false,\"target\":7,\"keep\":true}}]}"
+    },
+    {
+      "id": "02-direct-child-and-array-quirk",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":{\"eClass\":\"sysml:ConnectorAsUsage\",\"source\":{\"source\":\"inner\",\"target\":2,\"keep\":3},\"target\":[{\"source\":\"array-item-stays\",\"target\":4}],\"vendor\":{\"source\":\"remove\",\"target\":null,\"deeper\":{\"source\":\"grandchild-stays\",\"target\":5}},\"data\":{\"source\":\"remove\",\"target\":\"remove\",\"nested\":[[{\"eClass\":\"sysml:SuccessionAsUsage\",\"data\":{\"source\":\"remove\",\"target\":\"remove\",\"keep\":true}}]]}}}"
+    },
+    {
+      "id": "03-nested-and-unrelated-classes",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:Package\",\"data\":{\"source\":\"unrelated\",\"target\":\"unrelated\"},\"vendor\":[[null,{\"eClass\":\"sysml:ConnectionUsage\",\"data\":{\"source\":[],\"target\":{},\"keep\":1}}]]},{\"eClass\":\"sysml:Connector\",\"data\":{\"source\":\"kernel\",\"target\":\"kernel\"}},{\"eClass\":\"vendor:ConnectorAsUsage\",\"data\":{\"source\":\"prefix\",\"target\":\"prefix\"}},{\"eClass\":\"sysml:UnknownConnector\",\"data\":{\"source\":\"unknown\",\"target\":\"unknown\"}},{\"eClass\":false,\"data\":{\"source\":\"boolean-class\",\"target\":7}},{\"eClass\":{},\"data\":{\"source\":\"object-class\",\"target\":8}}]}"
+    },
+    {
+      "id": "04-first-namespace-wrong",
+      "input": "{\"ns\":{\"a\":\"urn:vendor\",\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"eClass\":\"sysml:ConnectorAsUsage\",\"data\":{\"source\":1,\"target\":2}}"
+    },
+    {
+      "id": "05-first-namespace-right",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\",\"a\":\"urn:vendor\"},\"eClass\":\"sysml:ConnectorAsUsage\",\"data\":{\"source\":1,\"target\":2}}"
+    },
+    {
+      "id": "06-empty-namespace-noop",
+      "input": "{\"ns\":{},\"eClass\":\"sysml:ConnectorAsUsage\",\"data\":{\"source\":1,\"target\":2}}"
+    },
+    {
+      "id": "07-primitive-namespace-no-fallback",
+      "input": "{\"ns\":{\"vendor\":false,\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"eClass\":\"sysml:ConnectorAsUsage\",\"data\":{\"source\":1,\"target\":2}}"
+    },
+    {
+      "id": "08-object-first-namespace-error",
+      "input": "{\"ns\":{\"bad\":{},\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"data\":{\"source\":1}}"
+    },
+    {
+      "id": "09-noop-large-integer",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:InterfaceUsage\",\"data\":{\"declaredName\":\"Link\",\"nested\":{\"large\":900719925474099312345}},\"vendor\":{\"keep\":[false,null,\"source\"]}}]}"
+    },
+    {
+      "id": "10-document-b01-handoff",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"id\":\"connector-node\",\"eClass\":\"sysml:ConnectionUsage\",\"data\":{\"elementId\":\"connector-semantic\",\"declaredName\":\"Link\",\"source\":[\"legacy-source\"],\"target\":[\"legacy-target\"]}},{\"id\":\"typing-node\",\"eClass\":\"sysml:FeatureTyping\",\"data\":{\"elementId\":\"typing-semantic\",\"type\":\"sysml:Type sysmllibrary:/Types#old\"}}]}"
+    },
+    {
+      "id": "11-malformed-json",
+      "input": "{\"ns\":"
+    },
+    {
+      "id": "12-nonobject-root",
+      "input": "[]"
+    }
+  ]
+}
