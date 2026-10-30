@@ -1,0 +1,97 @@
+{
+  "status": "PASS_ORDINARY_M06a1_TOTAL_BUDGET_DISPOSITION_WITH_EXPLICIT_PLANNING_VARIANCES;NO_CAP_OR_SCOPE_WAIVER",
+  "decision": "A formal contract amendment or behavior split is not required for this rustfmt-only expansion within the same admitted paths/tasks and the unchanged400production/900authored caps. Treat75/60 in physical_line_allocation as the planning allocation maximums used to estimate350/877, disclose their actual overrun without claiming those two estimates were met, and preserve the sealed original planning record. Do not edit/reseal the plan just to substitute actual evidence counts.",
+  "basis": [
+    {
+      "path": "amendments/1.0.9-source-preparation.md",
+      "line": 9,
+      "quote": "Each child stays within 400 changed handwritten production lines and 900 authored lines including tests, helpers, examples and coordinator wiring. B25S1 targets 327/763 and M06a1 targets 350/877.",
+      "implication": "The adopted amendment names400/900 as caps and350/877 as targets."
+    },
+    {
+      "path": "plan.json unit M06a1 budget",
+      "quote": "Freeze and register an actual bounded behavior split before either inclusive cap is exceeded.",
+      "implication": "The explicit overrun action applies before either inclusive cap is exceeded; physical_line_allocation is the breakdown inside planned totals, not a second declared acceptance-cap policy."
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/leases-01.json",
+      "quote": {
+        "planned_budget": [
+          350,
+          877
+        ],
+        "hard_caps": [
+          400,
+          900
+        ]
+      },
+      "implication": "The admitted exact source lease distinguishes plan estimates from hard400/900 caps before source was authored."
+    },
+    {
+      "path": "tools/preparation_splits.py",
+      "lines": [
+        160,
+        165
+      ],
+      "implication": "The sealed child record cannot be silently edited; operational cap checks explicitly bind production_lines_max400/authored_lines_max900. Qualification actual count evidence can differ from planning targets without changing the plan record."
+    }
+  ],
+  "actual_counts_independently_read": {
+    "API": 285,
+    "original18tests": 435,
+    "caller": 78,
+    "probe": 72,
+    "README": 11,
+    "root_wiring_allowance": 5,
+    "attributes": 2,
+    "production_inclusive": 362,
+    "authored_inclusive": 888,
+    "production_headroom": 38,
+    "authored_headroom": 12
+  },
+  "planning_variance": {
+    "actual_importer_test_max": {
+      "planned": 75,
+      "actual": 78,
+      "difference": 3
+    },
+    "release_probe_max": {
+      "planned": 60,
+      "actual": 72,
+      "difference": 12
+    },
+    "planned_production": {
+      "planned": 350,
+      "actual": 362,
+      "difference": 12
+    },
+    "planned_authored": {
+      "planned": 877,
+      "actual": 888,
+      "difference": 11
+    },
+    "reconciliation": "Caller72\u219278 and probe55\u219272 through ordinary formatting; README11 instead of15 allocation partly offsets the increase. Every changed/new active helper/test/probe/wiring byte remains counted; no minification or test removal."
+  },
+  "format_review": "Independently read both retained preformat files and final diffs. Changes wrap imports/chains/assertions/closures/println and add ordinary trailing punctuation; same caller/probe operations, samples, assertions and literal values remain. API285 and all original435test lines match frozen original hashes. This is allocation review only, not a full independent source/runtime verdict.",
+  "required_evidence_before_execution_publication": [
+    "Root records the exact planned75/60 versus formatted78/72 variances and actual362/888 inclusive count in source-bound qualification/review; do not label the physical planning allocations satisfied.",
+    "Keep original plan/seal/holds/dependencies/acceptance gates untouched and preserve preformat/raw historical epochs.",
+    "Root must recount final actual A+D/wiring/README/CI/attributes after integration;888 includes only5 root wiring lines and2 attrs, leaving12 authored lines. Any additional required source/helper/wiring must fit that remaining headroom or receive a meaningful registered split before either hard cap is exceeded.",
+    "No new ownership paths or added behavior are admitted by this interpretation. A behavior/path/scope expansion or exceeding400/900 still requires its ordinary explicit admission/split; all native/parent/actual caller/hosted/source verification gates remain."
+  ],
+  "file_sha256": {
+    "/workspace/worktrees/builderbob/syson/batch33-reference-20261030/porting/rust-parity-plan-20261026/amendments/1.0.9-source-preparation.md": "10c13a883f7ec966370fc4541723abe1b449612207bcd2ded6b50634785332e5",
+    "/workspace/worktrees/builderbob/syson/batch33-reference-20261030/porting/rust-parity-plan-20261026/plan.json": "2a30cac14037502dc18128ff9b57d477b6fd18b5d36c658ff7413d07dca324e3",
+    "/workspace/worktrees/builderbob/syson/batch33-reference-20261030/porting/rust-parity-plan-20261026/tools/preparation_splits.py": "7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3",
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/leases-01.json": "4cce334f4767044d89a0ea56384f088de4bbb2e109202b1ff41094c00034c99b",
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/author-freeze.json": "3bbcebab01dae14ea473f8fd436a2e1aaecb24818925d9f0f4a0fe2a5e7cb982",
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-domain/src/identity_context.rs": "512b6bd710783370dbfa9e6068b98a6c4f36bc489ae19052a64b03ebd1d77388",
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-domain/tests/identity_context.rs": "e6102721c76371099fc8414d9ac1a5576ba84c20fadefa5cc35c45c50d9d2755",
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-domain/examples/identity_context_probe.rs": "5f45beb756c09662efd722b93695213fc2ba1b1dd2b1cac65c78f49c5ebbcae3",
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-text-import/tests/identity_context.rs": "36ea5d63b0514f754c7f507ef050e7e5f3226679c3912622eb3e9df3ce3f8ef1",
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/README.md": "b28b3df99bddaa54221e44b284cd27b645365b2b99b2623d3f398a5f6a02bb68",
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/pre-format-01/tests-identity_context.rs.raw": "a871af8799f707dab898b8c5da2a833b2fe768b2e26954d418ac362d1299f7c0",
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/pre-format-01/examples-identity_context_probe.rs.raw": "376a6da2fc14cb5ed9be0cb378397620c6f6cf8e9ec5dce57d092b28cd1b2e1d"
+  },
+  "reviewer_actions": "Read-only policy/source/preformat data; wrote report only. No source edits/runtime/Git."
+}

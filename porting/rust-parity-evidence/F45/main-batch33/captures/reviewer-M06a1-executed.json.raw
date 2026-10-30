@@ -1,0 +1,748 @@
+{
+  "status": "PASS_INDEPENDENT_EXECUTED_SOURCE_AND_PUBLIC_PACKET_REVIEW_NAMED_LOCAL_CHECKS_ONLY",
+  "reviewer": "/root/semantic_admission",
+  "unit": "M06a1",
+  "source_review": "semantic/reviewer-M06a1-source.json",
+  "new_runtime_execution_by_reviewer": false,
+  "source_Git_or_shared_edits_by_reviewer": false,
+  "execution": {
+    "epochs": [
+      {
+        "epoch": "lock-01",
+        "input_count": 122,
+        "current_source_all_match": true,
+        "before_after_equal": true,
+        "commands": 2,
+        "status": "PASS_NAMED_LOCAL_CHECKS_ONLY"
+      },
+      {
+        "epoch": "checks-01",
+        "input_count": 130,
+        "current_source_all_match": true,
+        "before_after_equal": true,
+        "commands": 15,
+        "status": "PASS_NAMED_LOCAL_CHECKS_ONLY"
+      }
+    ],
+    "all_commands_exit_zero": true,
+    "expected_current_tests": {
+      "syson-domain": 46,
+      "syson-model": 81,
+      "syson-references": 18,
+      "syson-linker": 16,
+      "syson-migration-pipeline": 12,
+      "syson-text-import": 17,
+      "syson-migrations": 14,
+      "total": 204
+    },
+    "actual_full_test_names": {
+      "syson-domain": [
+        "absent_owner_is_explicit_and_non_mutating",
+        "conflict_short_circuits_and_keeps_successful_name_reservation",
+        "conflict_uses_alias_identity_as_upstream_does",
+        "every_pinned_keyword_is_quoted",
+        "existing_member_fill_reserves_both_names_without_aliases",
+        "identifier_edges",
+        "java_split_edges_are_preserved",
+        "java_utf16_escape_compatibility",
+        "long_and_unicode_uuid_name_sha1_blocks",
+        "membership_projection_lookup_and_owned_precedence",
+        "names_use_java_strip_and_optional_quote_rules",
+        "public_import_is_fallback_only_for_namespaces",
+        "qualified_lookup_first_name_wins_even_if_type_does_not",
+        "qualified_lookup_ignores_unnamed_root_and_accepts_short_names",
+        "qualified_name_does_not_fall_back_to_short_name",
+        "qualified_name_uses_actual_owner_behavior",
+        "standard_library_uri_prefix_quirk",
+        "unescape_is_outer_quote_removal_only",
+        "upstream_library_uuid_fixtures",
+        "upstream_quote_regression",
+        "absent_resource_and_null_name_fall_back_without_resolving_unused_values",
+        "eager_provider_precedes_null_element_and_enforces_v4_input_contract",
+        "excluded_relationship_families_ignore_qualified_name_and_namespace_id",
+        "named_library_member_matches_source_golden_and_namespace_hex_case",
+        "nonstandard_packages_and_nonstandard_library_contexts_stay_fresh",
+        "null_declared_name_skips_while_empty_declared_and_qualified_names_count",
+        "null_uri_and_unresolved_resource_uri_name_remain_distinct",
+        "only_exact_kerml_colon_prefix_selects_kerml_base",
+        "ordinary_context_uses_injected_fresh_id_without_unrelated_getters",
+        "provider_exhaustion_does_not_retry_or_bypass_deterministic_branch",
+        "qualified_name_unicode_quotes_and_whitespace_are_hashed_verbatim",
+        "reached_namespace_id_null_unresolved_invalid_and_unsupported_are_explicit",
+        "resource_collision_does_not_reserve_semantic_id_and_scopes_are_independent",
+        "selected_field_errors_are_role_specific_and_do_not_generate_ids",
+        "selected_roles_remain_separate_allow_equal_values_and_preserve_field_spelling",
+        "semantic_collision_is_atomic_and_does_not_reserve_new_resource",
+        "source_library_root_goldens_are_repeatable_but_consume_fresh_each_time",
+        "unresolved_namespace_precedes_declared_getter_and_null_qname_ignores_id",
+        "first_owned_name_blocks_imports_and_later_same_name_even_if_type_is_wrong",
+        "first_owned_path_blocks_import_fallback_when_deeper_segment_is_missing",
+        "imports_are_evaluated_only_after_owned_miss_and_names_stop_at_first_match",
+        "qualified_final_type_check_preserves_the_adapters_error_type",
+        "supplied_root_order_and_empty_resource_set_remain_observable",
+        "unnamed_namespace_uses_actual_container_and_effective_name_null",
+        "unqualified_raw_preorder_and_qualified_semantic_children_are_independent",
+        "unqualified_type_filter_does_not_force_unused_effective_name_getters"
+      ],
+      "syson-model": [
+        "rr20_revision_tests::exhausted_revision_refuses_before_history_or_document_changes",
+        "scalar::tests::unrecognized_external_datatype_has_explicit_unsupported_state",
+        "borrowed_dense_identity_and_literal_authority_survive_retention_and_refusals",
+        "duplicate_resource_within_fragment_and_across_staged_attachments_is_refused",
+        "foreign_editor_refuses_attached_transaction_even_when_base_values_match",
+        "malformed_fragment_shapes_do_not_publish_an_earlier_valid_attachment",
+        "missing_parent_poison_preserves_prior_staged_value_and_live_redo",
+        "nested_resource_and_semantic_collisions_against_existing_descendants_are_atomic",
+        "unknown_parent_classifier_refuses_attachment_and_malformed_parent_arrays_refuse_load",
+        "appends_preallocated_subtree_in_one_undoable_transaction_without_rewriting_ids_or_unknown_fields",
+        "cancellation_discards_staged_containment_and_preserves_history",
+        "duplicate_semantic_or_case_folded_resource_id_poison_transaction_without_commit",
+        "late_failure_discards_prior_scalar_change_and_preserves_redo",
+        "malformed_identity_unknown_class_abstract_class_and_duplicate_nested_ids_are_rejected",
+        "rejects_invalid_parent_child_and_nested_containment",
+        "stale_attachment_cannot_replace_intervening_editor_document",
+        "supports_owned_related_element_on_relationship_and_preserves_append_order",
+        "add_child_uses_type_feature_rule_for_imported_action_and_namespace",
+        "nonfeature_package_child_always_uses_owning_membership",
+        "source_subtypes_are_accepted_for_typed_part_endpoints",
+        "unknown_prefix_enum_or_missing_parent_never_advertise_creation",
+        "create_real_package_part_definition_usage_and_typing",
+        "duplicate_ids_and_invalid_uuid_rejected_without_partial_state",
+        "exact_upstream_emf_sql_value_roundtrip",
+        "feature_membership_only_for_feature_in_type",
+        "fixture_projection_uses_semantic_owner_and_stable_ids",
+        "independent_resource_and_element_duplicate_checks",
+        "invalid_operation_poisons_whole_transaction_and_preserves_history",
+        "malformed_json_flat_rest_and_invalid_containment_rejected",
+        "stable_ids_never_use_process_local_indices",
+        "staged_edits_are_invisible_until_commit_and_cancel_is_complete",
+        "stale_transactions_rejected_after_commit_and_undo",
+        "transaction_cannot_commit_to_equivalent_other_editor",
+        "undo_redo_preserves_ids_fields_and_new_edit_clears_redo",
+        "unknown_fields_and_large_numbers_survive_rename",
+        "wrong_typing_endpoint_and_missing_parent_are_explicit",
+        "canonical_byte_boundary_is_reloadable_and_raw_or_pretty_overflow_refuses",
+        "created_nested_packages_obey_the_same_reload_depth_before_publication",
+        "decoded_duplicate_keys_have_typed_refusal_while_syntax_remains_json_error",
+        "literal_marker_objects_survive_every_member_position_with_manual_oracles",
+        "model_value_depth_128_is_explicit_and_one_level_more_refuses",
+        "original_numeric_lexemes_survive_model_save_and_unrelated_edits",
+        "oversized_rename_refusal_preserves_document_history_revision_and_ids",
+        "typed_scalar_edit_and_owned_file_reopen_preserve_literal_payloads_and_identities",
+        "unrelated_editor_rename_and_save_reopen_preserve_nested_literal_objects",
+        "cancellation_after_the_last_acknowledged_write_can_leave_complete_external_output",
+        "cancellation_precedes_owned_reservation_and_discards_any_late_private_output",
+        "count_allocates_no_output_and_owned_reservation_is_exact_at_the_publication_cap",
+        "dense_provisional_export_refuses_before_the_old_16mib_output_allocation",
+        "exact_count_owned_and_external_output_share_the_legacy_canonical_bytes",
+        "external_failure_reports_acknowledged_prefix_and_does_not_mutate_document",
+        "external_short_writes_and_interrupted_retries_preserve_exact_output_without_flush",
+        "interrupted_io_retries_poll_cancellation_instead_of_hiding_a_retry_loop",
+        "invalid_budgets_and_initial_cancellation_touch_no_external_writer",
+        "late_external_cancellation_can_leave_a_prefix_and_broken_sinks_have_typed_errors",
+        "provisional_depth_is_refused_before_external_output_without_semantic_bypass",
+        "utf8_escape_expansion_marker_objects_and_numeric_lexemes_remain_authoritative_values",
+        "borrowed_rows_follow_manual_preorder_owner_and_class_oracles",
+        "dense_long_owner_rows_allocate_only_borrowed_record_storage",
+        "empty_borrowed_collection_does_not_allocate",
+        "combined_stacks_evict_oldest_undo_then_farthest_redo",
+        "entry_boundary_evicts_oldest_and_reports_unavailable_undo",
+        "exact_charge_is_retained_and_one_byte_less_refuses_it",
+        "failed_publication_does_not_change_live_history",
+        "noop_cancel_poison_foreign_and_stale_preserve_history",
+        "owned_capacity_is_charged_and_numeric_lexemes_survive_moves",
+        "policy_change_does_not_stale_a_document_transaction",
+        "repeated_commits_do_not_retain_more_than_sixty_four_undo_snapshots",
+        "undo_with_larger_current_drops_oversized_redo_without_losing_restored_data",
+        "zero_limits_disable_retention_without_refusing_document_commits",
+        "all175_domain_class_attribute_contracts_can_be_inspected_without_materializing_defaults",
+        "crossreference_and_containment_editing_are_explicitly_unsupported",
+        "derived_many_valued_identity_and_unknown_edits_reject_with_distinct_diagnostics",
+        "enum_representation_is_exact_literal_string_and_reset_is_explicitly_unsupported",
+        "generic_string_boolean_and_null_edits_match_typed_attribute_storage",
+        "java_int_boundaries_and_double_normalization_are_enforced",
+        "scalar_descriptor_preserves_origin_default_absence_and_unknown_fields",
+        "scalar_error_after_success_poison_rolls_back_whole_transaction_and_history",
+        "scalar_history_cancel_and_roundtrip_do_not_materialize_other_fields",
+        "strict_projection_query_uses_full_transitive_type_lattice",
+        "unresolved_external_branch_is_diagnostic_not_a_guessed_writable_attribute"
+      ],
+      "syson-references": [
+        "actual_batmobile_local_reference_resolves_node_identity_only",
+        "actual_batmobile_wires_resolve_local_and_standard_view_targets",
+        "actual_general_view_object_resolves_under_explicit_synthetic_registry_uri",
+        "actual_native_library_wire_decodes_but_missing_registry_target_stays_unresolved",
+        "bare_local_id_and_library_type_prefix_decode_without_normalization",
+        "duplicate_and_empty_registry_keys_fail_admission",
+        "equal_ids_in_two_resources_do_not_alias_or_fall_back",
+        "external_fragment_policy_is_explicit_without_identity_fallback",
+        "malformed_empty_control_and_multiple_fragments_are_invalid",
+        "missing_and_explicit_null_are_absent",
+        "nonclass_or_unknown_class_is_explicitly_unsupported",
+        "overlapping_node_and_semantic_ids_select_only_the_requested_domain",
+        "registry_owns_document_snapshot_after_caller_edit",
+        "spelling_case_is_preserved_with_no_uri_or_id_normalization",
+        "targets_cannot_be_replayed_against_identical_foreign_snapshots",
+        "unadmitted_proxy_path_relative_scheme_and_encoding_families_are_unsupported",
+        "unresolved_resource_and_fragment_preserve_exact_context",
+        "wire_type_and_caller_type_both_use_real_assignability"
+      ],
+      "syson-linker": [
+        "actual_f11_reference_resolves_then_explicit_f04_binding_preserves_both_ids",
+        "alias_cycles_fail_without_publishing_a_partial_target",
+        "alias_work_admission_is_bounded_and_external_proxy_bindings_are_not_admitted",
+        "caller_observed_alias_chain_resolves_without_claiming_f11_alias_parsing",
+        "current_p01_notes_preserve_qualified_lookup_and_original_source",
+        "duplicate_or_ambiguous_sanitized_names_refuse_snapshot_admission",
+        "foreign_alias_scopes_and_foreign_or_duplicate_binding_nodes_refuse",
+        "later_qualified_segments_do_not_fall_back_to_the_parent_scope",
+        "missing_alias_target_and_case_mismatch_are_explicit_unresolved_outcomes",
+        "nearest_lexical_scope_wins_without_testing_later_parent_candidates",
+        "qualified_alias_targets_use_their_observed_scope_and_wrong_types_stay_visible",
+        "quoted_unicode_and_escaped_names_are_sanitized_for_lookup_without_editing_syntax",
+        "result_and_semantic_targets_cannot_be_replayed_in_an_identical_new_snapshot",
+        "semantic_bindings_never_fall_back_from_json_node_id_to_semantic_element_id",
+        "semantic_mapping_checks_the_actual_declaration_classifier",
+        "wrong_type_is_retained_as_found_but_never_as_a_resolved_target"
+      ],
+      "syson-migration-pipeline": [
+        "all_semantic_documents_precede_diagrams_and_resolved_ids_win",
+        "item_document_aggregate_depth_and_expanding_output_budgets",
+        "literal_metadata_and_numbers_survive_migration_reparse_and_replay",
+        "many_expansions_stop_before_per_document_and_project_growth_exhaustion",
+        "native_sql_fixture_prepares_the_two_ids_asserted_by_native_integration_test",
+        "nested_semantic_and_diagram_migrations_preserve_nonreferences_and_replay",
+        "oversized_resolver_id_refuses_without_formatting_or_mutating_input",
+        "real_document_admission_rejects_duplicate_ids_before_pipeline",
+        "resolver_failure_after_semantic_work_returns_no_partial_project",
+        "unknown_library_features_and_invalid_reference_shape_refuse_atomically",
+        "unsupported_watermarks_refuse_before_resolution",
+        "wrong_kind_and_nonlibrary_reference_do_not_call_resolver"
+      ],
+      "syson-text-import": [
+        "generated_roles_survive_real_import_history_and_refused_publication",
+        "cancellation_after_staging_prevents_commit",
+        "constructor_selects_definition_body_feature_membership",
+        "current_p01_notes_import_the_same_model",
+        "empty_input_is_noop_and_parser_limits_remain_authoritative",
+        "exhausted_colliding_and_late_typing_identities_publish_no_prefix",
+        "explicit_and_mid_creation_cancellation_drop_the_whole_owned_transaction",
+        "explicit_existing_parent_attaches_parts_without_injecting_existing_symbols",
+        "failed_and_cancelled_import_preserve_existing_redo_and_history",
+        "forward_and_cross_package_references_use_actual_f13",
+        "literal_values_survive_import_history_and_json_reopen",
+        "malformed_suffix_and_unsupported_input_leave_data_and_history_unchanged",
+        "missing_parent_and_unnamed_constructs_are_explicitly_unsupported",
+        "missing_wrong_type_duplicate_and_outer_fallback_references_refuse_atomically",
+        "pinned_java_quote_stripping_is_distinct_from_ast_lookup",
+        "source_stages_and_commits_one_model_with_distinct_ids_and_actual_linked_types",
+        "stale_and_foreign_editor_commit_keep_current_documents"
+      ],
+      "syson-migrations": [
+        "collects_object_children_not_parent_fields_or_untyped_array_items",
+        "edited_output_rechecks_depth_and_value_budget_before_serializing",
+        "long_ancestor_key_many_targets_keep_values_without_path_key_copies",
+        "malformed_namespace_root_and_budget_failures_have_no_partial_result",
+        "namespace_serialization_uses_current_values_and_remaining_insertion_order",
+        "original_namespace_order_and_duplicate_first_key_value_are_not_sorted",
+        "pass_collection_is_a_snapshot_and_later_pass_sees_current_output",
+        "serialization_preserves_predicate_across_participants_in_both_orders",
+        "subtype_predicate_and_opaque_values_preserve_exact_selected_behavior",
+        "actual_document_and_b01_handoff_preserve_literal_payloads_ids_and_reopen",
+        "late_pass_failure_leaves_input_and_prior_preparation_unchanged",
+        "literal_first_namespace_and_duplicate_order_cannot_be_coerced",
+        "manual_objects_and_numeric_tokens_survive_each_shared_transport_boundary",
+        "physical_overwritten_values_and_exact_byte_and_depth_edges_remain_bounded"
+      ]
+    },
+    "no_missing_or_extra_test_function_names": true,
+    "no_ignored_or_filtered_cases": true,
+    "seven_consumers_total": 204,
+    "composition": "Six previously reviewed domain/model/references/linker/pipeline/importer consumers190 plus B25S1 migrations14 on frozen parent ed09bcd928340da8de0223a5fed622b3b414eeb7. Original identity18 and importer16 plus newcaller1 all actually ran. No ignored original SnapshotStore integration was substituted into this count.",
+    "full_stream_review": "All34 stdout/stderr files read and matched byte-for-byte to public copies; all17 actual command records match local receipts. No warning/error lines in compiler stderr. Zero-length streams retained. Both public epoch receipt/spec hashes, proof and cleanup projections match originals."
+  },
+  "source_custody": {
+    "checks130": "All130 before hashes equal after hashes and current filesystem bytes, including external include_str resources,tools,current provider/caller source,manifests/locks and frozen shared migration.",
+    "lock122": "Both offline generate-lockfile commands exit0;122pinned inputs unchanged before/after/current. Selected generated locks intentionally excluded from generation epoch inputs; checks epoch binds both final locks. Domain lock byte-identical; importer lock changes only syson-domain dependency edge.",
+    "original_source": "Complete285line API and435line/all18test donor bodies remain byte-exact to #31 head7200b3c7583e6c3bd7a474030344323e3fcb93e2 archived sources. Original38file inventory hashes and byte counts independently verified;166lineSnapshotStore and failed original lock remain retained.",
+    "root_wiring": "Compared actual language to frozen B25S1 semantic tree: exactly module export1, importerdevdependency3 physical lines including blanksection, CI matrix syson-domain1. No other workflow guard/permission/concurrency/checkout/toolchain/oldmatrix changes. Existing importer job still compiles/runs actualcaller; new domain job covers provider.",
+    "review_plan_difference": "Preparation proposed broad fmt/clippy/WASM commands across6 consumers. Actual root executes fmt/clippyalltargets/WASM for changed provider domain and actualcaller importer, testsall7 consumers; dependencies compile through those targets. This narrower lint/target scope is appropriate to changed paths and must not be described as7crate Clippy/WASM checks."
+  },
+  "caller_and_identity_assessment": {
+    "actual_oracle": "New finite F14 test generated6fixed separate resource/semantic pairs with eager freshv4 provider, restored caller-private registry, staged actual package/partdef/typedusage, checked no prior editor mutation, committed all6 exactnodeIDs, checked fixed semanticusage4\u2192target2typing, JSONreopened equal, undo, empty-supply refusal, cancellation afterstaging preserves emptydoc/history/redo, redo equals committed.",
+    "privacy_boundary": "SelectedIdentityRegistry is caller-private immutable planning after restore and separate per-instance typed role HashSets. It is not Editor-owned allocation, native resource registry, entropy provider, database identity service or a rollback proof for eager provider counters. Original tests prove both-role atomic collision checks within this selected registry only. No broader privacy/security assessment claimed.",
+    "preserved_original_semantics": "Eager provider consumption and invalidv4 rejection precede deterministic branches/nullcontext; immutable supplied graph/library observations, exact v5 fixture text and UUIDspelling remain sourcebound. Tests do not establish actual native adapter/getter or resource-load equivalence."
+  },
+  "release_profile": {
+    "groups": [
+      {
+        "pairs": 256,
+        "warmups": 2,
+        "samples": 7,
+        "raw_ns": [
+          105641,
+          101915,
+          99490,
+          99670,
+          99200,
+          98768,
+          98207
+        ],
+        "min_ns": 98207,
+        "median_ns": 99490,
+        "max_ns": 105641
+      },
+      {
+        "pairs": 1024,
+        "warmups": 2,
+        "samples": 7,
+        "raw_ns": [
+          400105,
+          389194,
+          398772,
+          392500,
+          400295,
+          394053,
+          398051
+        ],
+        "min_ns": 389194,
+        "median_ns": 398051,
+        "max_ns": 400295
+      },
+      {
+        "pairs": 4096,
+        "warmups": 2,
+        "samples": 7,
+        "raw_ns": [
+          1625036,
+          1626629,
+          1632401,
+          1635196,
+          1640626,
+          1551766,
+          1555954
+        ],
+        "min_ns": 1551766,
+        "median_ns": 1626629,
+        "max_ns": 1640626
+      }
+    ],
+    "binary": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/language/target-01/release/examples/identity_context_probe",
+      "bytes": 507616,
+      "sha256": "9ebe7e872f9dae3c3931603c86afbb2d51583517aad10a914de67e461e202bb1"
+    },
+    "whole_process_max_rss_kib": 3848,
+    "whole_process_time_stderr": "max_rss_kib=3848 elapsed_seconds=0.02",
+    "correctness": "Source-bound probe ran exit0. Each group9 repetitions resets provider/registry; full independent pair equality, exact provider/registrycounts and everyrole membership asserted aftertimer, including warmups. All3 group row counts/sample counts/min/median/max recomputed against rawstdout.",
+    "scope": "Timer includes freshID generation, resource/semantic string formatting, pairallocation,roleparsing and registryrestore; expectedfixtures/providerreset and full validation/drops excluded.2warmups+7raw samples per256/1024/4096group, no p95/matchednative/baseline ratio/hard timingveto. RSS3848KiB is wholeprocess acrossallgroups/validation, not innerallocationpeak or broadcapacity. Measured ranges in11lineREADME round correctly to0.098\u20130.106/0.389\u20130.400/1.552\u20131.641ms."
+  },
+  "verification_scope": {
+    "fmt": "Domain and importer successful on finalsource.",
+    "clippy": "Domain and importer all-targets -Dwarnings successful; dependencies checked under these callergraphs, not separately alltargetlinted7crates.",
+    "wasm": "Domain and importer wasm32-unknown-unknown compile checks exit0; no wasm execution.",
+    "containment": "Both exact unit/cgroup/InvocationID entryproofs retained and cleanup independently projected to confirmedempty/notfound. Public statement correctly says coordinator-applied CPU200%,MemoryHigh2G,MemoryMax3G,swap0,Tasks128 without independent propertyreadback claim. Runner has180spercommand operational timeout and serial nonblocking compilerlock; no outputquota or globalRR16closure claimed."
+  },
+  "public_packet": {
+    "qualification_projection": "All122/130 input maps normalize exact worktree-relative paths with externalpaths retained; all34capturebytecounts/hashes matchlocalstreams, and directory contains exactly these34streams. Tests204/groupdata/executable/hash/lockdelta/source-reviewhash/budget-reviewhash agree.",
+    "README_finding_resolved": "Original11line README incorrectly said executionpending; retainedverbatim as archive/README-before-runtime-qualification.md.raw SHA b28b3df99bddaa54221e44b284cd27b645365b2b99b2623d3f398a5f6a02bb68. Docs-only11line replacement SHA b80789fda487df2dbb39c8cdd4c56a0e369416af24bef70b0f484ec63df3965a linksactualqualification204tests and measuredranges/separateRSS while retaining openUI/storage/nativeparents. README was not oneof130executioninputs; no runtimeinputexception or rerun required.",
+    "public_archive": "All38originalfiles unchanged, oldreadme separate39thhistoricalitem; archive/capture attrs -text -whitespace retain rawbytes. Generated projection/raw receipts/unchanged verbatim archives remain separate from authored implementationbudget."
+  },
+  "budget": {
+    "production": 362,
+    "authored": 888,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "count": "API285+probe72+rootwiring5=362; originaltests435+actualcaller78+README11+attrs2 bring888. Planned350/877 and perfile75/60 remain acknowledged unmet estimates; ordinary reviewed variance didnot waive caps, scope or original gates. No executablehelper/probe dropped or minified."
+  },
+  "remaining_acceptance": "Named local source-preparation and public evidence PASS only. Original166lineSnapshotStore actualfile-backed integration, nativegraph/libraryfacts, source/artifactclosure, M06/M104/C01/C02 gates, defaultUI, SQL/database/restart, durableID/load-save and fullRustSysONparity stayOPEN. Stackedcandidate existingparent actualmerge, hostedexacthead gates and finalmainpostflight remain root publication obligations; this report grants none.",
+  "unresolved_findings": [],
+  "reviewed_file_pins": {
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/lock-01-syson-domain-lock.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/lock-01-syson-domain-lock.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/lock-01-syson-text-import-lock.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/lock-01-syson-text-import-lock.stderr": {
+      "sha256": "f7181ebbb8b83e0740e1e13fa363cc1a9154fa4730472eb4f989b3bce2301a3d",
+      "bytes": 68
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/lock-01/receipt.json": {
+      "sha256": "116467b22a389974e6c8a24855c8a3e6bd37e6a469fdc13f79b8074381762650",
+      "bytes": 45963
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/lock-01-spec.json": {
+      "sha256": "9a994cb9af907db7801953f17ca2f5989293f5f2af0934ae593e5184e9ff7518",
+      "bytes": 16357
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/lock-01/scope-proof.json": {
+      "sha256": "7c86f39842a18ee5d0c01a1f62fabf3f342b56cd65adb7a8fc0eeef952a0c549",
+      "bytes": 382
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/lock-01-cleanup.json": {
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+      "bytes": 160
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-domain-fmt.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-domain-fmt.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-text-import-fmt.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-text-import-fmt.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-domain-tests.stdout": {
+      "sha256": "ed1c1f5eb44510525b61234ce46f7c06a9c8bd0ae3a539661027953f5f01cfec",
+      "bytes": 3716
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-domain-tests.stderr": {
+      "sha256": "318bbbb897df7c42369d14d9867ab878778d53072fa9399289c988d480802743",
+      "bytes": 854
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-model-tests.stdout": {
+      "sha256": "fe75d1aca1e4b886ac489fc8f80404ea3e2ec7a6e1fab46220b4369808d9fe3c",
+      "bytes": 7714
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-model-tests.stderr": {
+      "sha256": "f730ea01155966d19b5dad21711c1609ba7d32604ca63f36ded0f6085e5c76a6",
+      "bytes": 2794
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-references-tests.stdout": {
+      "sha256": "913f6bbbc18514c127cb103e83af601281675048125738ebea4c49fded80444d",
+      "bytes": 1640
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-references-tests.stderr": {
+      "sha256": "080073c78dd00092f31ad2b0325cac93fbecf910ce6c793cda03ec3970459c7e",
+      "bytes": 668
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-linker-tests.stdout": {
+      "sha256": "e7ae8f15f58b05845c6d8500dc23ce59e8d89ed8dd6fc4a3e0554e9393655846",
+      "bytes": 1639
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-linker-tests.stderr": {
+      "sha256": "d8a37111687374c5462662b2e532fecab8c52ce7d5a5ede5ac07153c09840805",
+      "bytes": 1308
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-migration-pipeline-tests.stdout": {
+      "sha256": "2cc0d001daab3df4384970d9b73b69ad3088748ee1ccc75c1b5b2a37f9423fd5",
+      "bytes": 1260
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-migration-pipeline-tests.stderr": {
+      "sha256": "bb6c3153efd4c1392b35fbf7967d6bb76a6030e7c64f20fdef6e63ec022ec50f",
+      "bytes": 714
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-text-import-tests.stdout": {
+      "sha256": "1549796649b72f141c02acc9abe0db0453b24c8e45fbb592037e47d9c37da72c",
+      "bytes": 1706
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-text-import-tests.stderr": {
+      "sha256": "d76182d3c7833115c92b312d1feb7a68213b68788fc3c6f2e4c5597fd7ed493d",
+      "bytes": 830
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-migrations-tests.stdout": {
+      "sha256": "c46dec08da99dea4348094a4953d5806bc877c3aac348c4a14fea495da9710a7",
+      "bytes": 1578
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-migrations-tests.stderr": {
+      "sha256": "646f489a88d4bb9c928d68ab6ae8f3baa4228a086b424ffbc737927fd90cdf43",
+      "bytes": 842
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-domain-clippy.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-domain-clippy.stderr": {
+      "sha256": "a937d38e3b1809813e497ddf8c50ae8e1af2462ebbd43bf595cbaa64c64512cc",
+      "bytes": 196
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-domain-wasm.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-domain-wasm.stderr": {
+      "sha256": "8ab85e9092f6d78f0e79c2309c4f2f5c485a220b032e98bc18914f4bf7a9dc86",
+      "bytes": 196
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-text-import-clippy.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-text-import-clippy.stderr": {
+      "sha256": "f566df08eb00eb040ed5398655616596ac69e1d4568a7efb4d5e15e5007ce797",
+      "bytes": 1795
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-text-import-wasm.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-syson-text-import-wasm.stderr": {
+      "sha256": "b04a8463f56d43a012a58ce764c66d8b6905d254f103f7776ce31788b4879b4d",
+      "bytes": 1795
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-release-build.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-release-build.stderr": {
+      "sha256": "407ffa473698048a7b0334ca3b7f604385adf027cc3515bc722db7cc495c6048",
+      "bytes": 186
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-release-profile.stdout": {
+      "sha256": "e5357cc5a5bb955b5bb836074fb7658962db0edd2706a1aa723e9bc0c2108b0a",
+      "bytes": 470
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/captures/checks-01-release-profile.stderr": {
+      "sha256": "9fb139bf421280d6fccf3142840ecbd094ac6c7e8f5c6ff2454fd990cd368d22",
+      "bytes": 38
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/checks-01/receipt.json": {
+      "sha256": "e322a56dadf2bbacfd10ec49188a486604c540b9f2d5698486e47656949c76b5",
+      "bytes": 56586
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/checks-01-spec.json": {
+      "sha256": "bcea0f78385d85446779170ffa4eba96402ac1068ce0aa0d5c86f395478da29d",
+      "bytes": 23729
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/checks-01/scope-proof.json": {
+      "sha256": "98ab5ad2f2824c2370adbc50a92a332060ef71cc77277506fc5e03d4a8ecd287",
+      "bytes": 372
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/checks-01-cleanup.json": {
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+      "bytes": 160
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/language/target-01/release/examples/identity_context_probe": {
+      "sha256": "9ebe7e872f9dae3c3931603c86afbb2d51583517aad10a914de67e461e202bb1",
+      "bytes": 507616
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/domain/identity-context/README.md.raw": {
+      "sha256": "0c7af50587268e1e5c4ab6f826ebe8b3775202c1bc4f6885ccaa2f789fe7f968",
+      "bytes": 4533
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/domain/identity-context/SOURCE-CONTRACT.json.raw": {
+      "sha256": "8a9356c4950e94187d76f2dac9865c3662505a13e394ca15ad91e5d575750488",
+      "bytes": 8156
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/domain/identity-context/integration/Cargo.lock.raw": {
+      "sha256": "740775ed1195262d00612a99064c3d6a3be02a88ebc7a91d28b69f959fd249d9",
+      "bytes": 3173
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/domain/identity-context/integration/Cargo.toml.raw": {
+      "sha256": "6525c944a5619a8e86892ecc723d75f99200add2990b8ed62198e2c13f98bc9c",
+      "bytes": 351
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/domain/identity-context/integration/src/lib.rs.raw": {
+      "sha256": "3da3dbecc6b793f1c901891a84e2d1664551ebe8d664e8f44f38a4f3b7ec288e",
+      "bytes": 112
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/domain/identity-context/integration/tests/snapshots.rs.raw": {
+      "sha256": "fa3167489a78e30fc972bf9fc552efbeece240f38081709c1f632108263e9a8f",
+      "bytes": 5805
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/domain/identity-context/reproduce.py.raw": {
+      "sha256": "e70a1ed932a713a9593ef807a24db032d4f81bd7a04193ee91084c18373f65ed",
+      "bytes": 3274
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/.gitattributes.raw": {
+      "sha256": "cdc5ef0dac5ac9e15be9c9afb1322eb60ff779450e797d7acc448c0e8ffa64d0",
+      "bytes": 107
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/README.md.raw": {
+      "sha256": "2a16d26895898f77e61e1396bedc3bfa78528ff8af9d4ca9e14f5abea91ba26d",
+      "bytes": 1826
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/REVIEW.md.raw": {
+      "sha256": "ed06e263ef21db05d3e192e2cad86d4d2857c4090b51829f21688bd64ca9c824",
+      "bytes": 1284
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/VALIDATION.json.raw": {
+      "sha256": "6ba1c0623af33e24a4ca63df3a59d45da02bd9e8f7958802e53c4f685133f0e5",
+      "bytes": 1377
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-domain-01/00-stderr.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-domain-01/00-stdout.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-domain-01/01-stderr.txt.raw": {
+      "sha256": "3954b509c29e0432dbd377b32032d52cba65012bcb3012fc8e79aeb11668b6d1",
+      "bytes": 623
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-domain-01/01-stdout.txt.raw": {
+      "sha256": "ed1c1f5eb44510525b61234ce46f7c06a9c8bd0ae3a539661027953f5f01cfec",
+      "bytes": 3716
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-domain-01/02-stderr.txt.raw": {
+      "sha256": "8d514251ef97a97099809583505d3650642be5201ddd653a0870c7db7e21fcb4",
+      "bytes": 185
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-domain-01/02-stdout.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-domain-01/receipt.json.raw": {
+      "sha256": "51b5eb1278d9e476902cfb3476647adfd62aaf02de4da7c6f74892c1abf2cfc1",
+      "bytes": 5975
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-01/00-stderr.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-01/00-stdout.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-01/01-stderr.txt.raw": {
+      "sha256": "ee3b5c7122e3dbf12d7ae73d24d2993c66cda8fd580ea26be680f674ed978bf3",
+      "bytes": 302
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-01/01-stdout.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-01/executed-runner.py.raw": {
+      "sha256": "b5246fd8d68f4a13b9db6f6a6f4fde7a7f299300a4a9188af6dff12b539d1182",
+      "bytes": 3657
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-01/original-Cargo.lock.raw": {
+      "sha256": "2727e1c2639a7f043584421b4a911f0225f7dfa9804a7e52351d98c1435d6cf2",
+      "bytes": 3491
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-01/receipt.json.raw": {
+      "sha256": "723f39bdc99ad3ee10e6be749c73c05751bbfdd0e37e0e7184dde762a19afce0",
+      "bytes": 13382
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-02/00-stderr.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-02/00-stdout.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-02/01-stderr.txt.raw": {
+      "sha256": "5f11a1265ad1bd7bdc3a85ac70d849b21f1fa63bf8be1e180787438cace6bfd5",
+      "bytes": 1333
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-02/01-stdout.txt.raw": {
+      "sha256": "c44f9d7200de7fd7cd873597bf82cfdb2751cfa3816166b8d1d6a64a2a3a069f",
+      "bytes": 431
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-02/02-stderr.txt.raw": {
+      "sha256": "1cf6b3202ab1daa5d0c8addd84d3089e43f6d7442bf979939cb9f39345204a3e",
+      "bytes": 1067
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-02/02-stdout.txt.raw": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/f45-integration-02/receipt.json.raw": {
+      "sha256": "274828b8ac9fd72512c5a482c21aa1a71926c1bd7a4eb359a653d0d8c1d9de17",
+      "bytes": 14031
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/runner-f45-domain-01.py.raw": {
+      "sha256": "81de7f6ec05823ad91f3cb44f105bd18d94fbe27f886507597ef421429909224",
+      "bytes": 5460
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/runner-f45-integration-01.py.raw": {
+      "sha256": "b5246fd8d68f4a13b9db6f6a6f4fde7a7f299300a4a9188af6dff12b539d1182",
+      "bytes": 3657
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/porting/follow-ons/F45/validation/runner-f45-integration-02.py.raw": {
+      "sha256": "4356034091b62835600615dcc97055bb0f202f0470f7cbe27a511f0db7346d11",
+      "bytes": 4022
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/rust/crates/syson-domain/src/identity_context.rs.raw": {
+      "sha256": "512b6bd710783370dbfa9e6068b98a6c4f36bc489ae19052a64b03ebd1d77388",
+      "bytes": 9985
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/rust/crates/syson-domain/src/lib.rs.raw": {
+      "sha256": "17e42444fab2b2968a5dbe48695eee5d3e7b3ae0ddd303885b373abf809a3c11",
+      "bytes": 697
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/original-F45/rust/crates/syson-domain/tests/identity_context.rs.raw": {
+      "sha256": "e6102721c76371099fc8414d9ac1a5576ba84c20fadefa5cc35c45c50d9d2755",
+      "bytes": 14193
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/README.md": {
+      "sha256": "b80789fda487df2dbb39c8cdd4c56a0e369416af24bef70b0f484ec63df3965a",
+      "bytes": 2406
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/archive/README-before-runtime-qualification.md.raw": {
+      "sha256": "b28b3df99bddaa54221e44b284cd27b645365b2b99b2623d3f398a5f6a02bb68",
+      "bytes": 2068
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/qualification.json": {
+      "sha256": "c7170635f6d7776bcd82690bbb71e3e7d6ccf26f1f4d7d68f5aceffeae3b07d3",
+      "bytes": 58296
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/donor-inventory.json": {
+      "sha256": "328150790c7354a271cf3b483422d5ca2bf7c05b46b3f01b90b94aa365d8b5ea",
+      "bytes": 17410
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/porting/rust-parity-evidence/F45/main-batch33/.gitattributes": {
+      "sha256": "e73bb8304509b2eac6b0c868d0610e59f7fb5b2fdd13baa6513b35438277b3da",
+      "bytes": 59
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/reviewer-M06a1-source.json": {
+      "sha256": "aa6b708097418ac0ca1e37b703856a54c8cdd55f29929f270655495caac668bc",
+      "bytes": 6874
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-M06a1-budget-allocation.json": {
+      "sha256": "dd7a9f34baa2b9115173a748138ff89d2683688e5a6537cc84baa129c63efb7f",
+      "bytes": 6943
+    },
+    "/workspace/build/builderbob/syson-durable-batch33-20261030/leases-03.json": {
+      "sha256": "d577158960bfec17f9a77d3e3b3017cb3fc4c03799c9f337d5cfa5dc33ad21b5",
+      "bytes": 4811
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-domain/src/identity_context.rs": {
+      "sha256": "512b6bd710783370dbfa9e6068b98a6c4f36bc489ae19052a64b03ebd1d77388",
+      "bytes": 9985
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-domain/tests/identity_context.rs": {
+      "sha256": "e6102721c76371099fc8414d9ac1a5576ba84c20fadefa5cc35c45c50d9d2755",
+      "bytes": 14193
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-text-import/tests/identity_context.rs": {
+      "sha256": "36ea5d63b0514f754c7f507ef050e7e5f3226679c3912622eb3e9df3ce3f8ef1",
+      "bytes": 3217
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-domain/examples/identity_context_probe.rs": {
+      "sha256": "5f45beb756c09662efd722b93695213fc2ba1b1dd2b1cac65c78f49c5ebbcae3",
+      "bytes": 2738
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-domain/src/lib.rs": {
+      "sha256": "17e42444fab2b2968a5dbe48695eee5d3e7b3ae0ddd303885b373abf809a3c11",
+      "bytes": 697
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/rust/crates/syson-text-import/Cargo.toml": {
+      "sha256": "7365e85e207d1541457f2e3d78d6ad50aaef4c87812da664ce466b02f3c05286",
+      "bytes": 555
+    },
+    "/workspace/worktrees/builderbob/syson/batch33-language-20261030/.github/workflows/rust-checks.yml": {
+      "sha256": "d4c2a1ced495a784adff227979ca0f987306f17d99e38c94e391e3901a283c4b",
+      "bytes": 2450
+    }
+  }
+}
