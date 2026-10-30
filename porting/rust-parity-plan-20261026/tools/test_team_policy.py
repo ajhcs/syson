@@ -3,7 +3,10 @@ import copy
 import json
 from pathlib import Path
 import unittest
-from team_policy import validate_dispatch, validate_projection, validate_teams
+from team_policy import validate_dispatch, validate_projection, validate_teams_legacy as validate_teams
+from unittest.mock import patch
+from preparation_splits import legacy_plan
+import team_policy
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -12,6 +15,12 @@ class TeamPolicyTests(unittest.TestCase):
     def setUp(self):
         self.policy = json.loads((ROOT / 'teams.json').read_bytes())
         self.plan = json.loads((ROOT / 'plan.json').read_bytes())
+        self.current_plan = copy.deepcopy(self.plan)
+        contract = json.loads((ROOT / 'completion-contract.json').read_bytes())
+        self.plan = legacy_plan(contract, self.plan)
+        mocked = patch.object(team_policy, 'validate_teams', validate_teams)
+        mocked.start()
+        self.addCleanup(mocked.stop)
         self.byid = {unit['id']: unit for unit in self.plan['units']}
         self.assignment = {row['unit']: row['primary_team'] for row in self.policy['assignments']}
 
@@ -156,6 +165,19 @@ class TeamPolicyTests(unittest.TestCase):
         lease['team'] = 'reference'
         with self.assertRaisesRegex(ValueError, 'lease primary team'):
             validate_dispatch(self.policy, self.plan, self.dispatch([lease]))
+
+
+class CurrentPreparationTeamTests(unittest.TestCase):
+    def test_current_overlay_and_pointer_refusal(self):
+        policy = json.loads((ROOT / 'teams.json').read_bytes())
+        plan = json.loads((ROOT / 'plan.json').read_bytes())
+        report = team_policy.validate_teams(policy, plan)
+        self.assertEqual(len(report['assignment']), 792)
+        self.assertEqual(report['assignment']['B25S1'], 'services-persistence')
+        self.assertEqual(report['assignment']['M06a1'], 'language-interchange')
+        plan['units'][0]['completion_contract'] = {'version': 'invalid'}
+        with self.assertRaises(ValueError):
+            team_policy.validate_teams(policy, plan)
 
 
 if __name__ == '__main__':
