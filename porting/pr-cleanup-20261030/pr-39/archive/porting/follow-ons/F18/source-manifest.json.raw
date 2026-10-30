@@ -1,0 +1,67 @@
+{
+  "unit": "F18",
+  "family": "PACKAGE_ONLY_NUMERIC_PREOBSERVED_GEOMETRY",
+  "sources": [
+    {
+      "component": "syson",
+      "revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+      "path": "frontend/syson-components/src/nodes/package/SysMLPackageNodeLayoutHandler.ts",
+      "sha256": "2bf5aa585c3910b02097b1ab1ebf13ac544d27d6ce2e34ed4b49549b454917b8",
+      "blob": "b8b1e58e06a73b0fb75a854512a2448a02225b52",
+      "anchors": [
+        {
+          "name": "private handleParentNode(",
+          "first": 75,
+          "last": 218,
+          "sha256": "97c846f4361ca385cf2ad33b7d8ac17df0b51a84a97276ea7b2971047057713a",
+          "source": "  private handleParentNode(\n    layoutEngine: ILayoutEngine,\n    previousDiagram: Diagram | null,\n    node: Node<SysMLPackageNodeData, 'sysMLPackageNode'>,\n    visibleNodes: Node<NodeData, DiagramNodeType>[],\n    directChildren: Node<NodeData, DiagramNodeType>[],\n    newlyAddedNodes: Node<NodeData, DiagramNodeType>[],\n    borderWidth: number,\n    forceDimensions?: ForcedDimensions\n  ) {\n    layoutEngine.layoutNodes(previousDiagram, visibleNodes, directChildren, newlyAddedNodes);\n\n    const headerHeightFootprint: number = getHeaderHeightFootprint(node.data.insideLabel, 'TOP', borderWidth);\n    const borderNodes: Node<NodeData, DiagramNodeType>[] = directChildren.filter((node) => node.data.isBorderNode);\n    const directNodesChildren: Node<NodeData, DiagramNodeType>[] = directChildren.filter(\n      (child) => !child.data.isBorderNode\n    );\n\n    // Update children position to be under the label and at the right padding.\n    directNodesChildren.forEach((child, index) => {\n      const previousNode = (previousDiagram?.nodes ?? []).find((prevNode) => prevNode.id === child.id);\n      const previousPosition = computePreviousPosition(previousNode, child);\n      const createdNode = newlyAddedNodes.find((n) => n.id === child.id);\n\n      if (!!createdNode) {\n        child.position = createdNode.position;\n        if (child.position.y < borderWidth + headerHeightFootprint + rectangularNodePadding) {\n          child.position = { ...child.position, y: borderWidth + headerHeightFootprint + rectangularNodePadding };\n        }\n        if (child.position.x < 0) {\n          child.position = { ...child.position, x: rectangularNodePadding };\n        }\n      } else if (previousPosition) {\n        child.position = previousPosition;\n        if (child.position.y < headerHeightFootprint + rectangularNodePadding) {\n          child.position = { ...child.position, y: headerHeightFootprint + rectangularNodePadding };\n        }\n        if (child.position.x < 0) {\n          child.position = { ...child.position, x: rectangularNodePadding };\n        }\n      } else {\n        child.position = getChildNodePosition(visibleNodes, child, headerHeightFootprint, borderWidth);\n        if (child.position.y < headerHeightFootprint + rectangularNodePadding) {\n          child.position = { ...child.position, y: child.position.y + headerHeightFootprint };\n        }\n        const previousSibling = directNodesChildren[index - 1];\n        if (previousSibling) {\n          child.position = getChildNodePosition(\n            visibleNodes,\n            child,\n            headerHeightFootprint,\n            borderWidth,\n            previousSibling\n          );\n        }\n        if (child.position.x < 0) {\n          child.position = { ...child.position, x: rectangularNodePadding };\n        }\n      }\n    });\n\n    // Update node to layout size\n    // WARN: We suppose label are always on top of children (that wrong)\n    const childrenContentBox: Rect = computeNodesBox(visibleNodes, directNodesChildren); // WARN: The current content box algorithm does not take the margin of direct children (it should)\n    const directChildrenAwareNodeWidth: number =\n      childrenContentBox.x + childrenContentBox.width + rectangularNodePadding;\n    const northBorderNodeFootprintWidth: number = getNorthBorderNodeFootprintWidth(\n      visibleNodes,\n      borderNodes,\n      previousDiagram\n    );\n    const southBorderNodeFootprintWidth: number = getSouthBorderNodeFootprintWidth(\n      visibleNodes,\n      borderNodes,\n      previousDiagram\n    );\n\n    const nodeMinComputeWidth: number =\n      Math.max(\n        directChildrenAwareNodeWidth,\n        northBorderNodeFootprintWidth,\n        southBorderNodeFootprintWidth,\n        node.data.defaultWidth && !node.data.resizedByUser ? node.data.defaultWidth : 0\n      ) +\n      borderWidth * 2;\n\n    // WARN: the label is not used for the height because children are already position under the label\n    const directChildrenAwareNodeHeight: number =\n      childrenContentBox.y + childrenContentBox.height + rectangularNodePadding;\n    const eastBorderNodeFootprintHeight: number = getEastBorderNodeFootprintHeight(\n      visibleNodes,\n      borderNodes,\n      previousDiagram\n    );\n    const westBorderNodeFootprintHeight: number = getWestBorderNodeFootprintHeight(\n      visibleNodes,\n      borderNodes,\n      previousDiagram\n    );\n\n    const nodeMinComputeHeight: number =\n      Math.max(\n        directChildrenAwareNodeHeight,\n        eastBorderNodeFootprintHeight,\n        westBorderNodeFootprintHeight,\n        node.data.defaultHeight && !node.data.resizedByUser ? node.data.defaultHeight : 0\n      ) +\n      borderWidth * 2;\n\n    const nodeWidth: number = forceDimensions?.width ?? getDefaultOrMinWidth(nodeMinComputeWidth, node);\n    const nodeHeight: number = getDefaultOrMinHeight(nodeMinComputeHeight, node);\n\n    const previousNode: Node<NodeData, DiagramNodeType> | undefined = (previousDiagram?.nodes ?? []).find(\n      (prevNode) => prevNode.id === node.id\n    );\n    const previousDimensions: Dimensions = computePreviousSize(previousNode, node);\n    if (node.data.resizedByUser && !forceDimensions?.width) {\n      if (nodeMinComputeWidth > previousDimensions.width) {\n        node.width = nodeMinComputeWidth;\n      } else {\n        node.width = previousDimensions.width;\n      }\n    } else {\n      node.width = nodeWidth;\n    }\n\n    if (node.data.resizedByUser && !forceDimensions?.height) {\n      if (nodeMinComputeHeight > previousDimensions.height) {\n        node.height = nodeMinComputeHeight;\n      } else {\n        node.height = previousDimensions.height;\n      }\n    } else {\n      node.height = nodeHeight;\n    }\n\n    // Update border nodes positions\n    borderNodes.forEach((borderNode) => {\n      borderNode.extent = getBorderNodeExtent(node, borderNode);\n    });\n    setBorderNodesPosition(borderNodes, node, previousDiagram);\n  }\n\n  private handleLeafNode("
+        }
+      ]
+    },
+    {
+      "component": "sirius",
+      "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+      "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/layoutNode.ts",
+      "sha256": "2b4be5e40d0abe266bbba086aeb425a932e4cc53bdb8f1f07150b1145e9f1659",
+      "blob": "cfc127d98c827400918c6b36b40708d183123426",
+      "anchors": [
+        {
+          "name": "export const getDefaultOrMinWidth",
+          "first": 73,
+          "last": 75,
+          "sha256": "d9bb586fbe7819b4e95adba649626bdd86fea6e0e4c30672c6a6d928468173f6",
+          "source": "export const getDefaultOrMinWidth = (minWidth: number | undefined, node: Node<NodeData>): number => {\n  return Math.max(minWidth ?? -Infinity, node.data.defaultWidth ?? defaultWidth);\n};"
+        },
+        {
+          "name": "export const getDefaultOrMinHeight",
+          "first": 77,
+          "last": 79,
+          "sha256": "04e3618e9ea3157fcdc9611545a89105f2d04520d3aa6b1932b4577ff077dd9e",
+          "source": "export const getDefaultOrMinHeight = (minHeight: number | undefined, node: Node<NodeData>): number => {\n  return Math.max(minHeight ?? -Infinity, node.data.defaultHeight ?? defaultHeight);\n};"
+        },
+        {
+          "name": "export const getHeaderHeightFootprint",
+          "first": 121,
+          "last": 138,
+          "sha256": "c061b511bcfa5abc8e7b7f4ca5f5885b04ba41766ba0cd150cc2293439cf8b96",
+          "source": "export const getHeaderHeightFootprint = (\n  insideLabel: InsideLabel | null,\n  headerPosition: string | null,\n  borderWith: number = 0\n): number => {\n  let headerHeightFootprint = 0;\n  const withHeader: boolean = insideLabel?.isHeader ?? false;\n  const displayHeaderSeparator: boolean = insideLabel?.displayHeaderSeparator ?? false;\n\n  if (withHeader && insideLabel?.headerPosition === headerPosition) {\n    headerHeightFootprint = insideLabel.height;\n    if (displayHeaderSeparator) {\n      headerHeightFootprint += borderWith;\n    }\n  }\n\n  return headerHeightFootprint;\n};"
+        }
+      ]
+    },
+    {
+      "component": "sirius",
+      "revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+      "path": "packages/diagrams/frontend/sirius-components-diagrams/src/renderer/layout/layoutParams.ts",
+      "sha256": "fb4e8a8c97f1dad0a5bd0a1e81682094012bee60bffa25ff38684399010d917c",
+      "blob": "891c48f1be17d06c90f06708d528c2f556db19d1",
+      "anchors": []
+    }
+  ],
+  "sibling_strategy": "PROPOSED_F16_FLAT_LAYOUT_PER_SIBLING_GROUP",
+  "sirius_artifact_correspondence": "CANDIDATE_SOURCE_ONLY_NOT_DEPLOYED_ARTIFACT_PROOF",
+  "upstream_runtime": "NOT_RUN",
+  "frozen_rust_inputs": {
+    "rust/crates/syson-layout/src/containers.rs": "9d86a510de50586ffaacabb14ecb54415493d6888d9457ec87783b3399d1bec8",
+    "rust/crates/syson-layout/tests/containers.rs": "e486c5c2e96b07d786f772ee322c83762db24ba3ef70bd6bc81c2fbaff393aea"
+  }
+}
