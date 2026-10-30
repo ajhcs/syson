@@ -1,0 +1,38 @@
+{
+  "schema": "SYSON-B01-SOURCE-PROVENANCE/1",
+  "upstream_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+  "base_rust_head": "6dc96e2cb4ef548656f4c9ac3a24f6e37ff9c194",
+  "native_runtime_differential": "not executed for B01; fixtures extracted from source SQL without executing it",
+  "sources": [
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesElementsReferencesMigrationParticipant.java",
+      "sha256": "f95dcc035a65532bde00fd93a53991326a02ee10f1006dfda21f4a779c2b90a2"
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesElementsDiagramMigrationParticipant.java",
+      "sha256": "96310b9b53b4b04c2bbc4bf7a43989e35b22c201163d19e31fb3148dd8b91645"
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/java/org/eclipse/syson/application/migration/StandardLibrariesIdsResourceToMapParser.java",
+      "sha256": "2b84a9b736477d8ed0cd257981302ca5c7b7eecea3596b1f65cdd241c477510a"
+    },
+    {
+      "path": "backend/application/syson-application-configuration/src/main/resources/migration/stdlib_oldId_to_elementId.txt",
+      "sha256": "977fd398c58a924f11fbbd056c4004b38bc2766bac30cbffac0f2be8ddaa7eae"
+    },
+    {
+      "path": "backend/application/syson-application/src/test/resources/scripts/database-content/StandardLibrariesElementsIdsMigrationParticipant-Test.sql",
+      "sha256": "609f5e09f3ddeda0cc14dc161b1a8eac895823a47d85fcce5461e1308e3d9d71"
+    },
+    {
+      "path": "backend/application/syson-application/src/test/java/org/eclipse/syson/application/migration/StandardLibrariesIdsMigrationParticipantTest.java",
+      "sha256": "016896597c445ebdfb9c2806958837b7ab1185c449ada63dbc5164b8e1b96097"
+    }
+  ],
+  "fixture_derivation": {
+    "native-document.json": "JSON string from INSERT INTO public.document; SQL doubled single quotes decoded; JSON whitespace normalized",
+    "native-diagram.json": "JSON string from INSERT INTO public.representation_content; SQL doubled single quotes decoded; JSON whitespace normalized",
+    "native-id-map.txt": "Only four exact source map lines used by this fixture; original order preserved"
+  },
+  "source_only_preparation": "No compiler, native runtime, DB, browser or network execution by source worker."
+}
