@@ -1,0 +1,2111 @@
+{
+  "schema": "C01-DIRECT-UNMODIFIED-CORE-COMPILE-ROUTE/1",
+  "status": "RECOMMENDED_NEXT_PASSIVE_INPUT_FRONTIER;NO_DOWNLOAD_OR_CODE_ADMISSION",
+  "recommendation": "Prefer passively closing normal core compile inputs then directly invoke exact offline Maven compile. Do not require dependency-plugin go-offline execution, its complete43-JAR realm or its entire26-POM frontier as product prerequisites. Preserve those acquired bytes and reports for evidence/reuse, and revisit only if an exact normal compile dependency independently needs them.",
+  "bindings": {
+    "effective_reactor_XML": {
+      "path": "/workspace/build/builderbob/syson-durable-batch32-20261030/reference/native-replay-01/evidence/effective-reactor.xml",
+      "bytes": 29757767,
+      "sha256": "9706b2950bb417378e06b1a64213048e5d8ac13a683625dda0e8f6246edc9a70"
+    },
+    "original_next_compile_admission": {
+      "path": "/workspace/build/builderbob/syson-durable-batch32-20261030/import/next-reference-build-admission.json",
+      "bytes": 17927,
+      "sha256": "3839872e59d121f19c6793e915e5f66cdd1b519bb4cdc48fadbc1990fcc0e04e"
+    },
+    "source_POMs": [
+      {
+        "path": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01/pom.xml",
+        "bytes": 10967,
+        "sha256": "f49d6760fd6ea2d3c079e9607c472eb27c23bfab64560d9166e362c85c58e656"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01/backend/metamodel/syson-sysml-metamodel/pom.xml",
+        "bytes": 3324,
+        "sha256": "2a03b2e89e4e727afe564aa8f1adf6b07e70c7dade4ad904032c625a920dee1a"
+      }
+    ],
+    "observed_closure_metadata": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/closure-metadata-inspection.json",
+      "bytes": 302527,
+      "sha256": "37ef5916812709a72b24601ab9f14f57f2fc43f0f288e8e2e2df42ebe3a01174"
+    },
+    "earlier26POMfrontier_preserved": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/next-passive-parent-BOM-request-set.json",
+      "bytes": 73719,
+      "sha256": "97ca695f849a6ecf9894c685e8acd03b1609f51f49ff40062a5d0eaec69215b6"
+    },
+    "old_cache_manifest": {
+      "path": "/workspace/build/builderbob/syson-durable-batch32-20261030/reference/proposal-offline-01.json",
+      "bytes": 64467,
+      "sha256": "8fb7a9fb5a6e13734158990a1953b6147258ad57d33a97ab05dcae374a27b39a"
+    }
+  },
+  "facts": {
+    "compile_root_dependencies": [
+      {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.common",
+        "version": "2.45.0",
+        "scope": "compile"
+      },
+      {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore",
+        "version": "2.42.0",
+        "scope": "compile"
+      },
+      {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore.xmi",
+        "version": "2.40.0",
+        "scope": "compile"
+      },
+      {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0",
+        "scope": "compile"
+      },
+      {
+        "groupId": "com.fasterxml.uuid",
+        "artifactId": "java-uuid-generator",
+        "version": "5.1.0",
+        "scope": "compile"
+      },
+      {
+        "groupId": "org.apache.commons",
+        "artifactId": "commons-lang3",
+        "version": "3.20.0",
+        "scope": "compile"
+      },
+      {
+        "groupId": "org.apache.commons",
+        "artifactId": "commons-text",
+        "version": "1.10.0",
+        "scope": "compile"
+      },
+      {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1",
+        "scope": "test"
+      },
+      {
+        "groupId": "org.testcontainers",
+        "artifactId": "testcontainers-junit-jupiter",
+        "version": "2.0.5",
+        "scope": "test"
+      }
+    ],
+    "all_active_build_plugins": [
+      {
+        "coordinate": {
+          "groupId": "org.jacoco",
+          "artifactId": "jacoco-maven-plugin",
+          "version": "0.8.14"
+        },
+        "executions": [
+          {
+            "id": null,
+            "phase": null,
+            "goals": [
+              "prepare-agent"
+            ]
+          },
+          {
+            "id": "report",
+            "phase": "prepare-package",
+            "goals": [
+              "report"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-source-plugin",
+          "version": "3.3.1"
+        },
+        "executions": [
+          {
+            "id": "attach-sources",
+            "phase": null,
+            "goals": [
+              "jar"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-jar-plugin",
+          "version": "3.5.1"
+        },
+        "executions": [
+          {
+            "id": "default-jar",
+            "phase": "package",
+            "goals": [
+              "jar"
+            ]
+          },
+          {
+            "id": null,
+            "phase": null,
+            "goals": [
+              "test-jar"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-clean-plugin",
+          "version": "3.5.0"
+        },
+        "executions": [
+          {
+            "id": "default-clean",
+            "phase": "clean",
+            "goals": [
+              "clean"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-resources-plugin",
+          "version": "3.5.0"
+        },
+        "executions": [
+          {
+            "id": "default-testResources",
+            "phase": "process-test-resources",
+            "goals": [
+              "testResources"
+            ]
+          },
+          {
+            "id": "default-resources",
+            "phase": "process-resources",
+            "goals": [
+              "resources"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-compiler-plugin",
+          "version": "3.15.0"
+        },
+        "executions": [
+          {
+            "id": "default-compile",
+            "phase": "compile",
+            "goals": [
+              "compile"
+            ]
+          },
+          {
+            "id": "default-testCompile",
+            "phase": "test-compile",
+            "goals": [
+              "testCompile"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-surefire-plugin",
+          "version": "3.5.6"
+        },
+        "executions": [
+          {
+            "id": "default-test",
+            "phase": "test",
+            "goals": [
+              "test"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-install-plugin",
+          "version": "3.1.4"
+        },
+        "executions": [
+          {
+            "id": "default-install",
+            "phase": "install",
+            "goals": [
+              "install"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-deploy-plugin",
+          "version": "3.1.4"
+        },
+        "executions": [
+          {
+            "id": "default-deploy",
+            "phase": "deploy",
+            "goals": [
+              "deploy"
+            ]
+          }
+        ],
+        "extensions": "false"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-site-plugin",
+          "version": "3.12.1"
+        },
+        "executions": [
+          {
+            "id": "default-site",
+            "phase": "site",
+            "goals": [
+              "site"
+            ]
+          },
+          {
+            "id": "default-deploy",
+            "phase": "site-deploy",
+            "goals": [
+              "deploy"
+            ]
+          }
+        ],
+        "extensions": "false"
+      }
+    ],
+    "no_build_extensions": true,
+    "no_target_dotmvn_files": true,
+    "dependency_plugin_build_active": false,
+    "dependency_plugin_only_pluginManagement": true,
+    "reused_exact_compile_root_POM_JAR": [
+      {
+        "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.pom",
+        "artifact": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/closure/passive-a98dee23b15b4ab18094a871f0692ff1/downloads/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.pom.partial",
+          "bytes": 32571,
+          "sha256": "7ca83b2709c1e7a9e03b576cd41422190379489a80866e542f8c8b955411a2aa"
+        }
+      },
+      {
+        "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar",
+        "artifact": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/closure/passive-a98dee23b15b4ab18094a871f0692ff1/downloads/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar.partial",
+          "bytes": 713862,
+          "sha256": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4"
+        }
+      }
+    ],
+    "main_Java_source_files": 378
+  },
+  "lifecycle_analysis": {
+    "expected_executing_goals": [
+      {
+        "coordinate": {
+          "groupId": "org.jacoco",
+          "artifactId": "jacoco-maven-plugin",
+          "version": "0.8.14"
+        },
+        "goal": "prepare-agent",
+        "phase": "descriptor default initialize to confirm from newly acquired descriptor"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-resources-plugin",
+          "version": "3.5.0"
+        },
+        "goal": "resources",
+        "phase": "explicit process-resources"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-compiler-plugin",
+          "version": "3.15.0"
+        },
+        "goal": "compile",
+        "phase": "explicit compile"
+      }
+    ],
+    "unphased_active_goals_need_descriptor_confirmation": [
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-source-plugin",
+          "version": "3.3.1"
+        },
+        "goal": "jar",
+        "expected_default_phase": "package; confirm actual descriptor before final plan"
+      },
+      {
+        "coordinate": {
+          "groupId": "org.apache.maven.plugins",
+          "artifactId": "maven-jar-plugin",
+          "version": "3.5.1"
+        },
+        "goal": "test-jar",
+        "expected_default_phase": "package; confirm actual descriptor before final plan"
+      }
+    ],
+    "not_a_skip": "Normal compile stops at compile phase by definition. Existing test/package/install/deploy/site/source/clean declarations remain intact. No source/plugin/dependency pruning or skip flags.",
+    "project_collection_caution": "Even compile-only Maven may collect declared test dependencies POM metadata before classpath scope filtering. Preserve both direct test declarations and acquire their root POMs; do not claim seven direct binary roots are a complete model/collection closure. Actual descriptor required-dependency-resolution scopes and offline planner/runtime evidence determine further metadata/binary needs."
+  },
+  "exact_next_passive_payloads": [
+    {
+      "coordinate": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.common",
+        "version": "2.45.0"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.common",
+        "version": "2.45.0"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore",
+        "version": "2.42.0"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore",
+        "version": "2.42.0"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore.xmi",
+        "version": "2.40.0"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore.xmi",
+        "version": "2.40.0"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "com.fasterxml.uuid",
+        "artifactId": "java-uuid-generator",
+        "version": "5.1.0"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "com.fasterxml.uuid",
+        "artifactId": "java-uuid-generator",
+        "version": "5.1.0"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.commons",
+        "artifactId": "commons-text",
+        "version": "1.10.0"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.commons",
+        "artifactId": "commons-text",
+        "version": "1.10.0"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "exact compile dependency",
+      "relative_artifact": "org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.jacoco",
+        "artifactId": "jacoco-maven-plugin",
+        "version": "0.8.14"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "normal lifecycle executing plugin root",
+      "relative_artifact": "org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.jacoco",
+        "artifactId": "jacoco-maven-plugin",
+        "version": "0.8.14"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "normal lifecycle executing plugin root",
+      "relative_artifact": "org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-resources-plugin",
+        "version": "3.5.0"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "normal lifecycle executing plugin root",
+      "relative_artifact": "org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-resources-plugin",
+        "version": "3.5.0"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "normal lifecycle executing plugin root",
+      "relative_artifact": "org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-compiler-plugin",
+        "version": "3.15.0"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "normal lifecycle executing plugin root",
+      "relative_artifact": "org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-compiler-plugin",
+        "version": "3.15.0"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "normal lifecycle executing plugin root",
+      "relative_artifact": "org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-source-plugin",
+        "version": "3.3.1"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "unphased active goal default-phase descriptor/root metadata; do not assume no resolution",
+      "relative_artifact": "org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-source-plugin",
+        "version": "3.3.1"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "unphased active goal default-phase descriptor/root metadata; do not assume no resolution",
+      "relative_artifact": "org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-jar-plugin",
+        "version": "3.5.1"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "unphased active goal default-phase descriptor/root metadata; do not assume no resolution",
+      "relative_artifact": "org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-jar-plugin",
+        "version": "3.5.1"
+      },
+      "extension": "jar",
+      "classifier": null,
+      "reason": "unphased active goal default-phase descriptor/root metadata; do not assume no resolution",
+      "relative_artifact": "org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.jacoco",
+        "artifactId": "jacoco-maven-plugin",
+        "version": "0.8.14"
+      },
+      "extension": "jar",
+      "classifier": "sources",
+      "reason": "passive source review of selected executing goals and side effects before code admission",
+      "relative_artifact": "org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-resources-plugin",
+        "version": "3.5.0"
+      },
+      "extension": "jar",
+      "classifier": "sources",
+      "reason": "passive source review of selected executing goals and side effects before code admission",
+      "relative_artifact": "org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-compiler-plugin",
+        "version": "3.15.0"
+      },
+      "extension": "jar",
+      "classifier": "sources",
+      "reason": "passive source review of selected executing goals and side effects before code admission",
+      "relative_artifact": "org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "retain declared test roots for project dependency collection/model metadata; no test binary execution or tests goal admitted",
+      "relative_artifact": "org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.testcontainers",
+        "artifactId": "testcontainers-junit-jupiter",
+        "version": "2.0.5"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "retain declared test roots for project dependency collection/model metadata; no test binary execution or tests goal admitted",
+      "relative_artifact": "org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.commons",
+        "artifactId": "commons-parent",
+        "version": "92"
+      },
+      "extension": "pom",
+      "classifier": null,
+      "reason": "exact observed parent of acquired compile-root commons-lang3 3.20.0",
+      "relative_artifact": "org/apache/commons/commons-parent/92/commons-parent-92.pom"
+    }
+  ],
+  "exact_next_passive_requests": [
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.sha512",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.sha256",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.sha1",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.asc",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.sha512",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.sha256",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.sha1",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.asc",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.common/2.45.0/org.eclipse.emf.common-2.45.0.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.sha512",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.sha256",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.sha1",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.asc",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.sha512",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.sha256",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.sha1",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.asc",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore/2.42.0/org.eclipse.emf.ecore-2.42.0.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.sha512",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.sha256",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.sha1",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.asc",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.sha512",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.sha256",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.sha1",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.asc",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.ecore.xmi/2.40.0/org.eclipse.emf.ecore.xmi-2.40.0.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.sha512",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.sha256",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.sha1",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.asc",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.sha512",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.sha256",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.sha1",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.asc",
+      "relative_path": "downloads/org/eclipse/emf/org.eclipse.emf.codegen.ecore/2.46.0/org.eclipse.emf.codegen.ecore-2.46.0.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.sha512",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.sha256",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.sha1",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.asc",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.sha512",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.sha256",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.sha1",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.asc",
+      "relative_path": "downloads/com/fasterxml/uuid/java-uuid-generator/5.1.0/java-uuid-generator-5.1.0.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.sha512",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.sha256",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.sha1",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.asc",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.sha512",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.sha256",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.sha1",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.asc",
+      "relative_path": "downloads/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.sha512",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.sha256",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.sha1",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.asc",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.sha512",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.sha256",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.sha1",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.asc",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-source-plugin/3.3.1/maven-source-plugin-3.3.1.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-jar-plugin/3.5.1/maven-jar-plugin-3.5.1.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.sha512",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.sha256",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.sha1",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.asc",
+      "relative_path": "downloads/org/jacoco/jacoco-maven-plugin/0.8.14/jacoco-maven-plugin-0.8.14-sources.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-resources-plugin/3.5.0/maven-resources-plugin-3.5.0-sources.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.partial",
+      "role": "jar",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 16777216
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.sha512",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.sha256",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.sha1",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.asc",
+      "relative_path": "downloads/org/apache/maven/plugins/maven-compiler-plugin/3.15.0/maven-compiler-plugin-3.15.0-sources.jar.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom",
+      "relative_path": "downloads/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.sha512",
+      "relative_path": "downloads/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.sha256",
+      "relative_path": "downloads/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.sha1",
+      "relative_path": "downloads/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.asc",
+      "relative_path": "downloads/org/springframework/boot/spring-boot-starter-test/4.1.1/spring-boot-starter-test-4.1.1.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom",
+      "relative_path": "downloads/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.sha512",
+      "relative_path": "downloads/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.sha256",
+      "relative_path": "downloads/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.sha1",
+      "relative_path": "downloads/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.asc",
+      "relative_path": "downloads/org/testcontainers/testcontainers-junit-jupiter/2.0.5/testcontainers-junit-jupiter-2.0.5.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/92/commons-parent-92.pom",
+      "relative_path": "downloads/org/apache/commons/commons-parent/92/commons-parent-92.pom.partial",
+      "role": "pom",
+      "allowed_statuses": [
+        200
+      ],
+      "body_cap_bytes": 2097152
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/92/commons-parent-92.pom.sha512",
+      "relative_path": "downloads/org/apache/commons/commons-parent/92/commons-parent-92.pom.sha512.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/92/commons-parent-92.pom.sha256",
+      "relative_path": "downloads/org/apache/commons/commons-parent/92/commons-parent-92.pom.sha256.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/92/commons-parent-92.pom.sha1",
+      "relative_path": "downloads/org/apache/commons/commons-parent/92/commons-parent-92.pom.sha1.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/92/commons-parent-92.pom.asc",
+      "relative_path": "downloads/org/apache/commons/commons-parent/92/commons-parent-92.pom.asc.partial",
+      "role": "checksum_or_unverified_signature",
+      "allowed_statuses": [
+        200,
+        404
+      ],
+      "body_cap_bytes": 65536
+    }
+  ],
+  "proposed_reuse_of_existing_upper_safety_profile": {
+    "payload_count": 28,
+    "requests": 140,
+    "per_POM_bytes": 2097152,
+    "per_JAR_or_sources_bytes": 16777216,
+    "sidecar_bytes": 65536,
+    "aggregate_body_bytes": 134217728,
+    "getter_metadata_proof_receipt_bytes": 99614720,
+    "root_logs_and_controller_bytes": 1048576,
+    "logical_total_bytes": 234881024,
+    "disk_polling_or_physical_quota_claim": false,
+    "controller_scope_seconds": [
+      900,
+      1020
+    ],
+    "scope_readbacks": [
+      "cpu.max=100000 100000",
+      "memory.high=536870912",
+      "memory.max=1073741824",
+      "memory.swap.max=0",
+      "pids.max=32"
+    ],
+    "new_manifest_source_test_spec_peer_gate_required": true
+  },
+  "next_after_passive_data": [
+    "Verify every required status/checksum/current artifact hash; retain every sidecar error/signature unverified and actual controls/ownership/cleanup.",
+    "Bounded parse actual11 new GAV POMs plus2 test POMs and observedcommons-parent92; inspect3 executable plugin sources/descriptors and2 unphased active plugin descriptors. Derive observed parent/BOM/import/version-range/relocation/runtime frontier, not guessed complete closure.",
+    "Resolve project vs plugin dependencyManagement separately, nearest/first conflict ordering, exclusions, provided/system/optional/profile edges, classifier/type metadata and version ranges. Existing dependency-plugin selected versions cannot substitute normal core versions. Preserve core commons-text1.10.0.",
+    "Inspect all ultimately selected code-bearing JARs for exact service/Sisu/Plexus/annotation-processor/extension/native registration and external process/file/network side effects. A zstd-JNI dependency from the unused resolver realm is not intrinsically admitted to direct compile; it remains untrusted inert data unless independently required.",
+    "Pin clean environment/settings/toolchains, exact JDK21/Maven3.9.16/source3552cache manifests, normal lifecycle plan includingJacoco, source-identical fresh task copy/classes absent, compilerFD/cgroup/proof/headroom and bounded logs/disk/memory. Final separate code admission applies only to necessary frozen closure.",
+    "Run exact offline module compile without dependency-plugin goal, profiles/skipflags/alteredversions/source. Capture actual selected plugin realms/dependencies/processors, full javac378-source work, class major65 and complete fresh outputs, unchanged source/tool/cache pins, actual resources/cleanup. Failure remains preserved, no silent online retry.",
+    "Existing125annotation/47test-source inventory stays unexecuted until separately admitted upstream test closure and real test execution; a compile success is bounded core reference evidence only."
+  ],
+  "remaining_unknowns": [
+    "Public availability of the exact new root artifacts and sources has not been fetched or verified.",
+    "Complete transitive project and plugin graph including EMF codegen range/OSGi dependencies is unknown until root POMs arrive. Do not guess EMF versions or exclude codegen because source imports appear unnecessary.",
+    "Actual3selected plugin descriptor resolution scopes, Jacoco agent dependency classifier/packaging and prepare-agent side effects remain unverified.",
+    "Default phases of unphased source:jar and jar:test-jar and any required planning-time plugin resolution remain to be confirmed.",
+    "Annotation processor discovery on JDK21 classpath must be reviewed rather than disabled.",
+    "No new private entitlement, authentication, full application service/UI/Postgres/nativeC01 acceptance is established."
+  ],
+  "actions": "Only read existing source/XML/JSON/hash data and write this proposal. No downloads, Maven/JVM, compilers, source/Git/cache/tool mutations."
+}
