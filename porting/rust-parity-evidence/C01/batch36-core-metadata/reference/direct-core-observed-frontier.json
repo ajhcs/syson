@@ -1,0 +1,2365 @@
+{
+  "schema": 1,
+  "status": "PASS_METADATA_ONLY_FRONTIER_OBSERVED_NOT_CLOSURE_OR_EXECUTION_ADMISSION",
+  "inspection_sha256": "c43b152bf106748244e343237d413664f10f1b05cf3308731f6d272a56d38cc4",
+  "candidate_intermediate_sha256": "869b0822c154cd0a8793391b806dbb9d7ec77962ea90d365b97d7ee55b1f2dd0",
+  "network_receipt_sha256": "b0b1c91009b5cb964b4a6a277dbabd6389212c9bf8110c75ef09ecf0b3260ec8",
+  "read_limits_and_actuals": {
+    "pom_limit": 2097152,
+    "zip_entries_each_limit": 8192,
+    "zip_entries_total_limit": 65536,
+    "declared_uncompressed_total_limit": 134217728,
+    "selected_member_limit": 2097152,
+    "selected_total_limit": 8388608,
+    "actual_entries": 1870,
+    "actual_declared_uncompressed": 9893399,
+    "actual_selected_bytes": 501791,
+    "source_members_read": 3,
+    "DTD_entity_NUL_rejected": true
+  },
+  "bounds_notes": [
+    "14 new POMs parsed with strict UTF-8, NUL/DOCTYPE/ENTITY refusal and2MiB each ceiling. Parent POM exact retained reads bounded to64 parents and2MiB each.",
+    "14 ZIP central directories inspected; selected14 manifests,5plugin descriptors and exactly3 Java source members only. No extraction, classloading, downloaded-code execution, Maven/JVM/network/Git/cache mutation.",
+    "Existing36project effective-model XML29,757,767bytes hash-pinned and read as data only; its root management overrides checked explicitly."
+  ],
+  "actual_normal_compile_goals": [
+    {
+      "plugin": {
+        "groupId": "org.jacoco",
+        "artifactId": "jacoco-maven-plugin",
+        "version": "0.8.14"
+      },
+      "descriptor_member_sha256": "a81941a3bc4fef6801ce04d33be274b832ae2dd32020e3a099f95444ce03553c",
+      "goal": {
+        "goal": "prepare-agent",
+        "phase": "initialize",
+        "requiresDependencyResolution": "runtime",
+        "requiresDependencyCollection": null,
+        "requiresProject": "true",
+        "implementation": "org.jacoco.maven.AgentMojo",
+        "language": "java",
+        "threadSafe": "true",
+        "executePhase": null,
+        "executeGoal": null
+      },
+      "descriptor_dependency_rows": 12
+    },
+    {
+      "plugin": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-resources-plugin",
+        "version": "3.5.0"
+      },
+      "descriptor_member_sha256": "3eefa2e5be0bc0417024a5cff71febc44522c8ed9ff66e2428ea84d759d4266d",
+      "goal": {
+        "goal": "resources",
+        "phase": "process-resources",
+        "requiresDependencyResolution": null,
+        "requiresDependencyCollection": null,
+        "requiresProject": "true",
+        "implementation": "org.apache.maven.plugins.resources.ResourcesMojo",
+        "language": "java",
+        "threadSafe": "true",
+        "executePhase": null,
+        "executeGoal": null
+      },
+      "descriptor_dependency_rows": 8
+    },
+    {
+      "plugin": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-compiler-plugin",
+        "version": "3.15.0"
+      },
+      "descriptor_member_sha256": "d4d13d1910922c0411bb764225ad4fd6c81a1d6eb2dab9af072ee2e7f93002fe",
+      "goal": {
+        "goal": "compile",
+        "phase": "compile",
+        "requiresDependencyResolution": "compile",
+        "requiresDependencyCollection": null,
+        "requiresProject": "true",
+        "implementation": "org.apache.maven.plugin.compiler.CompilerMojo",
+        "language": "java",
+        "threadSafe": "true",
+        "executePhase": null,
+        "executeGoal": null
+      },
+      "descriptor_dependency_rows": 12
+    }
+  ],
+  "unphased_goals_confirmed_after_compile": [
+    {
+      "plugin": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-source-plugin",
+        "version": "3.3.1"
+      },
+      "goal": {
+        "goal": "jar",
+        "phase": "package",
+        "requiresDependencyResolution": null,
+        "requiresDependencyCollection": null,
+        "requiresProject": "true",
+        "implementation": "org.apache.maven.plugins.source.SourceJarMojo",
+        "language": "java",
+        "threadSafe": "true",
+        "executePhase": "generate-sources",
+        "executeGoal": null
+      },
+      "descriptor_member_sha256": "29d1eb2e480e7b10142b842a0b8711cdbb5ed8ac6a8602c440ed3ead51650349"
+    },
+    {
+      "plugin": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-jar-plugin",
+        "version": "3.5.1"
+      },
+      "goal": {
+        "goal": "test-jar",
+        "phase": "package",
+        "requiresDependencyResolution": "test",
+        "requiresDependencyCollection": null,
+        "requiresProject": "true",
+        "implementation": "org.apache.maven.plugins.jar.TestJarMojo",
+        "language": "java",
+        "threadSafe": "true",
+        "executePhase": null,
+        "executeGoal": null
+      },
+      "descriptor_member_sha256": "46a114c5ac71cae217f0231a91dee7fec59a2ad502a45fc03d47f59b8bf14a51"
+    }
+  ],
+  "source_crosschecks": [
+    {
+      "coordinate": {
+        "groupId": "org.jacoco",
+        "artifactId": "jacoco-maven-plugin",
+        "version": "0.8.14"
+      },
+      "members": [
+        {
+          "name": "org/jacoco/maven/AgentMojo.java",
+          "bytes": 3315,
+          "sha256": "bcd7f35a53d5270c1a60252827f6b09852f2a7598598f40d3218fe82d71d920f",
+          "scope_relevant_source_lines": [
+            {
+              "line": 88,
+              "text": "@Mojo(name = \"prepare-agent\", defaultPhase = LifecyclePhase.INITIALIZE, requiresDependencyResolution = ResolutionScope.RUNTIME, threadSafe = true)"
+            },
+            {
+              "line": 89,
+              "text": "public class AgentMojo extends AbstractAgentMojo {"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-resources-plugin",
+        "version": "3.5.0"
+      },
+      "members": [
+        {
+          "name": "org/apache/maven/plugins/resources/ResourcesMojo.java",
+          "bytes": 21437,
+          "sha256": "a7331728170b8d5b142b8fef31506773e39796c11e97a7d4a8c99e14d592e499",
+          "scope_relevant_source_lines": [
+            {
+              "line": 56,
+              "text": "@Mojo(name = \"resources\", defaultPhase = LifecyclePhase.PROCESS_RESOURCES, threadSafe = true)"
+            },
+            {
+              "line": 57,
+              "text": "public class ResourcesMojo extends AbstractMojo {"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-compiler-plugin",
+        "version": "3.15.0"
+      },
+      "members": [
+        {
+          "name": "org/apache/maven/plugin/compiler/CompilerMojo.java",
+          "bytes": 17231,
+          "sha256": "1480f7b7c48a36c81ef43892736f07e7623cba1fd8371608bd370074794658ff",
+          "scope_relevant_source_lines": [
+            {
+              "line": 66,
+              "text": "@Mojo("
+            },
+            {
+              "line": 68,
+              "text": "defaultPhase = LifecyclePhase.COMPILE,"
+            },
+            {
+              "line": 70,
+              "text": "requiresDependencyResolution = ResolutionScope.COMPILE)"
+            },
+            {
+              "line": 71,
+              "text": "public class CompilerMojo extends AbstractCompilerMojo {"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "significant_findings": [
+    "JaCoCo prepare-agent requires RUNTIME project dependency resolution at initialize; seven direct binary roots do not close the build.",
+    "EMF codegen2.46.0 nonoptional dependencies include core.runtime/core.resources/JDT core/JDT launching/text ranges, codegen2.28.0, and inherited Ecore brings OSGi3.23.100. No source/dependency removal or guessed latest version.",
+    "Actual source:jar and jar:test-jar descriptor phases are package; their forks/resolution do not turn them into normal compile goals. Existing declarations remain unchanged.",
+    "Plugin realm32 rows across3active plugin descriptors are scoped independently; preserve different Plexus/ASM/commons-io versions per realm. Descriptor org.jacoco.agent loses runtime classifier; actual plugin POM explicitly requires runtime classifier.",
+    "Root target dependencyManagement manages commons-lang3 to3.20.0 and slf4j-api to2.0.18. Raw commons-text3.12.0/java-uuid1.7.36 are not final project classpath versions. Plugin slf4j1.7.36 remains a separate realm candidate.",
+    "commons-parent92 newly captured imports junit-bom5.13.4; do not substitute root Boot junit-bom6.0.3.",
+    "Both direct test roots retain their metadata graph; their17 observed immediate dependencies are metadata candidates pending scope/collection proof. This is not test-binary execution approval."
+  ],
+  "hash_verified_parent_chain": [
+    {
+      "coordinate": {
+        "groupId": "com.fasterxml",
+        "artifactId": "oss-parent",
+        "version": "58"
+      },
+      "relative_artifact": "com/fasterxml/oss-parent/58/oss-parent-58.pom",
+      "availability": "NOT_IN_THREE_BOUND_AVAILABLE_INVENTORIES",
+      "retained": [],
+      "url": "https://repo.maven.apache.org/maven2/com/fasterxml/oss-parent/58/oss-parent-58.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.commons",
+        "artifactId": "commons-parent",
+        "version": "54"
+      },
+      "relative_artifact": "org/apache/commons/commons-parent/54/commons-parent-54.pom",
+      "availability": "NOT_IN_THREE_BOUND_AVAILABLE_INVENTORIES",
+      "retained": [],
+      "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/54/commons-parent-54.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.jacoco",
+        "artifactId": "org.jacoco.build",
+        "version": "0.8.14"
+      },
+      "relative_artifact": "org/jacoco/org.jacoco.build/0.8.14/org.jacoco.build-0.8.14.pom",
+      "availability": "NOT_IN_THREE_BOUND_AVAILABLE_INVENTORIES",
+      "retained": [],
+      "url": "https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.build/0.8.14/org.jacoco.build-0.8.14.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-plugins",
+        "version": "47"
+      },
+      "relative_artifact": "org/apache/maven/plugins/maven-plugins/47/maven-plugins-47.pom",
+      "availability": "HASH_VERIFIED_RETAINED_DATA",
+      "retained": [
+        {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/closure/passive-a98dee23b15b4ab18094a871f0692ff1/downloads/org/apache/maven/plugins/maven-plugins/47/maven-plugins-47.pom.partial",
+          "sha256": "58ddbb8e429cb5e9054c2f5f7b7cdfeb7adbcdfda21d92b67f67fa2b94edf982",
+          "bytes": 7204,
+          "epoch": "prior395"
+        }
+      ],
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/47/maven-plugins-47.pom",
+      "declared_parent": {
+        "groupId": "org.apache.maven",
+        "artifactId": "maven-parent",
+        "version": "47"
+      },
+      "properties": {
+        "maven.site.path": "plugins-archives/${project.artifactId}-${maven.site.path.suffix}",
+        "enforce.dependency.declarations": "false"
+      },
+      "imports": []
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-plugins",
+        "version": "41"
+      },
+      "relative_artifact": "org/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom",
+      "availability": "NOT_IN_THREE_BOUND_AVAILABLE_INVENTORIES",
+      "retained": [],
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven.plugins",
+        "artifactId": "maven-plugins",
+        "version": "49"
+      },
+      "relative_artifact": "org/apache/maven/plugins/maven-plugins/49/maven-plugins-49.pom",
+      "availability": "NOT_IN_THREE_BOUND_AVAILABLE_INVENTORIES",
+      "retained": [],
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/49/maven-plugins-49.pom"
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache",
+        "artifactId": "apache",
+        "version": "35"
+      },
+      "relative_artifact": "org/apache/apache/35/apache-35.pom",
+      "availability": "HASH_VERIFIED_RETAINED_DATA",
+      "retained": [
+        {
+          "path": "/workspace/build/builderbob/syson-batch22-20261029/c01-maven-model-run-02/m2/org/apache/apache/35/apache-35.pom",
+          "sha256": "ea297dcd114136e8b8e8b630230d52a76c2fc69f6c5db25d672b1857000728b8",
+          "bytes": 24249,
+          "epoch": "frozen309"
+        }
+      ],
+      "url": "https://repo.maven.apache.org/maven2/org/apache/apache/35/apache-35.pom",
+      "declared_parent": null,
+      "properties": {
+        "distMgmtReleasesId": "apache.releases.https",
+        "distMgmtReleasesName": "Apache Release Distribution Repository",
+        "distMgmtReleasesUrl": "https://repository.apache.org/service/local/staging/deploy/maven2",
+        "distMgmtSnapshotsId": "apache.snapshots.https",
+        "distMgmtSnapshotsName": "Apache Development Snapshot Repository",
+        "distMgmtSnapshotsUrl": "https://repository.apache.org/content/repositories/snapshots",
+        "organization.logo": "https://www.apache.org/images/asf_logo_wide_2016.png",
+        "project.build.sourceEncoding": "UTF-8",
+        "project.reporting.outputEncoding": "UTF-8",
+        "sourceReleaseAssemblyDescriptor": "source-release",
+        "resourceBundleArtifact": "apache-jar-resource-bundle",
+        "gpg.useagent": "true",
+        "minimalMavenBuildVersion": "3.6.3",
+        "minimalJavaBuildVersion": "${maven.compiler.target}",
+        "maven.compiler.source": "${maven.compiler.target}",
+        "maven.compiler.target": "8",
+        "surefire.version": "3.5.3",
+        "assembly.tarLongFileMode": "posix",
+        "project.build.outputTimestamp": "2025-06-09T20:48:22Z",
+        "version.apache-rat-plugin": "0.16.1",
+        "version.apache-resource-bundles": "1.7",
+        "version.checksum-maven-plugin": "1.11",
+        "version.maven-antrun-plugin": "3.1.0",
+        "version.maven-assembly-plugin": "3.7.1",
+        "version.maven-clean-plugin": "3.5.0",
+        "version.maven-checkstyle-plugin": "3.6.0",
+        "version.maven-compiler-plugin": "3.14.0",
+        "version.maven-dependency-plugin": "3.8.1",
+        "version.maven-deploy-plugin": "3.1.4",
+        "version.maven-ear-plugin": "3.3.0",
+        "version.maven-enforcer-plugin": "3.5.0",
+        "version.maven-fluido-skin": "2.1.0",
+        "version.maven-gpg-plugin": "3.2.7",
+        "version.maven-help-plugin": "3.5.1",
+        "version.maven-install-plugin": "3.1.4",
+        "version.maven-invoker-plugin": "3.9.0",
+        "version.maven-jar-plugin": "3.4.2",
+        "version.maven-javadoc-plugin": "3.11.2",
+        "version.maven-plugin-tools": "3.15.1",
+        "version.maven-project-info-reports-plugin": "3.9.0",
+        "version.maven-release-plugin": "3.1.1",
+        "version.maven-remote-resources-plugin": "3.3.0",
+        "version.maven-resources-plugin": "3.3.1",
+        "version.maven-scm-plugin": "2.1.0",
+        "version.maven-scm-publish-plugin": "3.3.0",
+        "version.maven-shade-plugin": "3.6.0",
+        "version.maven-site-plugin": "3.21.0",
+        "version.maven-source-plugin": "3.3.1",
+        "version.maven-surefire": "${surefire.version}",
+        "version.maven-war-plugin": "3.4.0"
+      },
+      "imports": []
+    },
+    {
+      "coordinate": {
+        "groupId": "org.apache.maven",
+        "artifactId": "maven-parent",
+        "version": "47"
+      },
+      "relative_artifact": "org/apache/maven/maven-parent/47/maven-parent-47.pom",
+      "availability": "NOT_IN_THREE_BOUND_AVAILABLE_INVENTORIES",
+      "retained": [],
+      "url": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-parent/47/maven-parent-47.pom"
+    }
+  ],
+  "observed_project_transitives_with_root_management": [
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore",
+        "version": "2.42.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.common",
+        "version": "2.45.0",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "2.45.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore",
+        "version": "2.42.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.platform",
+        "artifactId": "org.eclipse.osgi",
+        "version": "3.23.100",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "3.23.100",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore.xmi",
+        "version": "2.40.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore",
+        "version": "2.42.0",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "2.42.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.platform",
+        "artifactId": "org.eclipse.core.runtime",
+        "version": "[3.9.0,4.0.0)",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "[3.9.0,4.0.0)",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.platform",
+        "artifactId": "org.eclipse.core.resources",
+        "version": "[3.8.0,4.0.0)",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "[3.8.0,4.0.0)",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.jdt",
+        "artifactId": "org.eclipse.jdt.core",
+        "version": "[3.26.0,4.0.0)",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "[3.26.0,4.0.0)",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.jdt",
+        "artifactId": "org.eclipse.jdt.launching",
+        "version": "[3.5.0,4.0.0)",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "[3.5.0,4.0.0)",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore",
+        "version": "2.42.0",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "2.42.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen",
+        "version": "2.28.0",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "2.28.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.ecore.xmi",
+        "version": "2.40.0",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "2.40.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.eclipse.emf",
+        "artifactId": "org.eclipse.emf.codegen.ecore",
+        "version": "2.46.0"
+      },
+      "raw": {
+        "groupId": "org.eclipse.platform",
+        "artifactId": "org.eclipse.text",
+        "version": "[3.5.0,4.0.0)",
+        "optional": "false"
+      },
+      "target_dependencyManagement_version": null,
+      "observed_selected_version_or_range": "[3.5.0,4.0.0)",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "com.fasterxml.uuid",
+        "artifactId": "java-uuid-generator",
+        "version": "5.1.0"
+      },
+      "raw": {
+        "groupId": "org.slf4j",
+        "artifactId": "slf4j-api",
+        "version": "${slf4j.version}"
+      },
+      "target_dependencyManagement_version": "2.0.18",
+      "observed_selected_version_or_range": "2.0.18",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.apache.commons",
+        "artifactId": "commons-text",
+        "version": "1.10.0"
+      },
+      "raw": {
+        "groupId": "org.apache.commons",
+        "artifactId": "commons-lang3",
+        "version": "3.12.0"
+      },
+      "target_dependencyManagement_version": "3.20.0",
+      "observed_selected_version_or_range": "3.20.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter",
+        "version": "4.1.1",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "4.1.1",
+      "observed_selected_version_or_range": "4.1.1",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-test",
+        "version": "4.1.1",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "4.1.1",
+      "observed_selected_version_or_range": "4.1.1",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-test-autoconfigure",
+        "version": "4.1.1",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "4.1.1",
+      "observed_selected_version_or_range": "4.1.1",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "com.jayway.jsonpath",
+        "artifactId": "json-path",
+        "version": "2.10.0",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "2.10.0",
+      "observed_selected_version_or_range": "2.10.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "jakarta.xml.bind",
+        "artifactId": "jakarta.xml.bind-api",
+        "version": "4.0.5",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "4.0.5",
+      "observed_selected_version_or_range": "4.0.5",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "net.minidev",
+        "artifactId": "json-smart",
+        "version": "2.6.0",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "2.6.0",
+      "observed_selected_version_or_range": "2.6.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.assertj",
+        "artifactId": "assertj-core",
+        "version": "3.27.7",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "3.27.7",
+      "observed_selected_version_or_range": "3.27.7",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.awaitility",
+        "artifactId": "awaitility",
+        "version": "4.3.0",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "4.3.0",
+      "observed_selected_version_or_range": "4.3.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.hamcrest",
+        "artifactId": "hamcrest",
+        "version": "3.0",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "3.0",
+      "observed_selected_version_or_range": "3.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.junit.jupiter",
+        "artifactId": "junit-jupiter",
+        "version": "6.0.3",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "6.0.3",
+      "observed_selected_version_or_range": "6.0.3",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.mockito",
+        "artifactId": "mockito-core",
+        "version": "5.23.0",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "5.23.0",
+      "observed_selected_version_or_range": "5.23.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.mockito",
+        "artifactId": "mockito-junit-jupiter",
+        "version": "5.23.0",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "5.23.0",
+      "observed_selected_version_or_range": "5.23.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.skyscreamer",
+        "artifactId": "jsonassert",
+        "version": "1.5.3",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "1.5.3",
+      "observed_selected_version_or_range": "1.5.3",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.springframework",
+        "artifactId": "spring-core",
+        "version": "7.0.9",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "7.0.9",
+      "observed_selected_version_or_range": "7.0.9",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.springframework",
+        "artifactId": "spring-test",
+        "version": "7.0.9",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "7.0.9",
+      "observed_selected_version_or_range": "7.0.9",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.springframework.boot",
+        "artifactId": "spring-boot-starter-test",
+        "version": "4.1.1"
+      },
+      "raw": {
+        "groupId": "org.xmlunit",
+        "artifactId": "xmlunit-core",
+        "version": "2.11.0",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "2.11.0",
+      "observed_selected_version_or_range": "2.11.0",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    },
+    {
+      "from": {
+        "groupId": "org.testcontainers",
+        "artifactId": "testcontainers-junit-jupiter",
+        "version": "2.0.5"
+      },
+      "raw": {
+        "groupId": "org.testcontainers",
+        "artifactId": "testcontainers",
+        "version": "2.0.5",
+        "scope": "compile"
+      },
+      "target_dependencyManagement_version": "2.0.5",
+      "observed_selected_version_or_range": "2.0.5",
+      "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+    }
+  ],
+  "exact_next_passive_frontier": {
+    "primary_count": 56,
+    "kind_counts": {
+      "pom": 51,
+      "version_metadata": 5
+    },
+    "rows": [
+      {
+        "relative_artifact": "com/fasterxml/oss-parent/58/oss-parent-58.pom",
+        "url": "https://repo.maven.apache.org/maven2/com/fasterxml/oss-parent/58/oss-parent-58.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed exact parent POM"
+        ],
+        "provenance": [
+          {
+            "coordinate": {
+              "groupId": "com.fasterxml",
+              "artifactId": "oss-parent",
+              "version": "58"
+            },
+            "from": "new14 POMs or their hash-verified retained parent chain"
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "com/jayway/jsonpath/json-path/2.10.0/json-path-2.10.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/com/jayway/jsonpath/json-path/2.10.0/json-path-2.10.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "com.jayway.jsonpath",
+              "artifactId": "json-path",
+              "version": "2.10.0",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "2.10.0",
+            "observed_selected_version_or_range": "2.10.0",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "com/thoughtworks/qdox/qdox/2.2.0/qdox-2.2.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/com/thoughtworks/qdox/qdox/2.2.0/qdox-2.2.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "com.thoughtworks.qdox",
+              "artifactId": "qdox",
+              "version": "2.2.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "commons-io/commons-io/2.11.0/commons-io-2.11.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/commons-io/commons-io/2.11.0/commons-io-2.11.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "commons-io",
+              "artifactId": "commons-io",
+              "version": "2.11.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "commons-io/commons-io/2.19.0/commons-io-2.19.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/commons-io/commons-io/2.19.0/commons-io-2.19.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "commons-io",
+              "artifactId": "commons-io",
+              "version": "2.19.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "jakarta/xml/bind/jakarta.xml.bind-api/4.0.5/jakarta.xml.bind-api-4.0.5.pom",
+        "url": "https://repo.maven.apache.org/maven2/jakarta/xml/bind/jakarta.xml.bind-api/4.0.5/jakarta.xml.bind-api-4.0.5.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "4.0.5",
+            "observed_selected_version_or_range": "4.0.5",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "javax/inject/javax.inject/1/javax.inject-1.pom",
+        "url": "https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "javax.inject",
+              "artifactId": "javax.inject",
+              "version": "1",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "net/minidev/json-smart/2.6.0/json-smart-2.6.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/net/minidev/json-smart/2.6.0/json-smart-2.6.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "net.minidev",
+              "artifactId": "json-smart",
+              "version": "2.6.0",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "2.6.0",
+            "observed_selected_version_or_range": "2.6.0",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/commons/commons-parent/54/commons-parent-54.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/54/commons-parent-54.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed exact parent POM"
+        ],
+        "provenance": [
+          {
+            "coordinate": {
+              "groupId": "org.apache.commons",
+              "artifactId": "commons-parent",
+              "version": "54"
+            },
+            "from": "new14 POMs or their hash-verified retained parent chain"
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/maven/doxia/doxia-sink-api/1.0/doxia-sink-api-1.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/maven/doxia/doxia-sink-api/1.0/doxia-sink-api-1.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.apache.maven.doxia",
+              "artifactId": "doxia-sink-api",
+              "version": "1.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/maven/maven-parent/47/maven-parent-47.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/maven/maven-parent/47/maven-parent-47.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed exact parent POM"
+        ],
+        "provenance": [
+          {
+            "coordinate": {
+              "groupId": "org.apache.maven",
+              "artifactId": "maven-parent",
+              "version": "47"
+            },
+            "from": "new14 POMs or their hash-verified retained parent chain"
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed exact parent POM"
+        ],
+        "provenance": [
+          {
+            "coordinate": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-plugins",
+              "version": "41"
+            },
+            "from": "new14 POMs or their hash-verified retained parent chain"
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/maven/plugins/maven-plugins/49/maven-plugins-49.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/49/maven-plugins-49.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed exact parent POM"
+        ],
+        "provenance": [
+          {
+            "coordinate": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-plugins",
+              "version": "49"
+            },
+            "from": "new14 POMs or their hash-verified retained parent chain"
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/maven/reporting/maven-reporting-api/3.0/maven-reporting-api-3.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/maven/reporting/maven-reporting-api/3.0/maven-reporting-api-3.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.apache.maven.reporting",
+              "artifactId": "maven-reporting-api",
+              "version": "3.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/maven/shared/file-management/3.2.0/file-management-3.2.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/maven/shared/file-management/3.2.0/file-management-3.2.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.apache.maven.shared",
+              "artifactId": "file-management",
+              "version": "3.2.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/maven/shared/maven-filtering/3.5.0/maven-filtering-3.5.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-filtering/3.5.0/maven-filtering-3.5.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-resources-plugin",
+              "version": "3.5.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.apache.maven.shared",
+              "artifactId": "maven-filtering",
+              "version": "3.5.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/apache/maven/shared/maven-shared-incremental/1.1/maven-shared-incremental-1.1.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-shared-incremental/1.1/maven-shared-incremental-1.1.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.apache.maven.shared",
+              "artifactId": "maven-shared-incremental",
+              "version": "1.1",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/assertj/assertj-core/3.27.7/assertj-core-3.27.7.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/assertj/assertj-core/3.27.7/assertj-core-3.27.7.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.assertj",
+              "artifactId": "assertj-core",
+              "version": "3.27.7",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "3.27.7",
+            "observed_selected_version_or_range": "3.27.7",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/awaitility/awaitility/4.3.0/awaitility-4.3.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/awaitility/awaitility/4.3.0/awaitility-4.3.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.awaitility",
+              "artifactId": "awaitility",
+              "version": "4.3.0",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "4.3.0",
+            "observed_selected_version_or_range": "4.3.0",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/codehaus/plexus/plexus-build-api/1.2.0/plexus-build-api-1.2.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-build-api/1.2.0/plexus-build-api-1.2.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-resources-plugin",
+              "version": "3.5.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.codehaus.plexus",
+              "artifactId": "plexus-build-api",
+              "version": "1.2.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/codehaus/plexus/plexus-classworlds/2.9.0/plexus-classworlds-2.9.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-classworlds/2.9.0/plexus-classworlds-2.9.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-resources-plugin",
+              "version": "3.5.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.codehaus.plexus",
+              "artifactId": "plexus-classworlds",
+              "version": "2.9.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/codehaus/plexus/plexus-compiler-api/2.16.2/plexus-compiler-api-2.16.2.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-compiler-api/2.16.2/plexus-compiler-api-2.16.2.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.codehaus.plexus",
+              "artifactId": "plexus-compiler-api",
+              "version": "2.16.2",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/codehaus/plexus/plexus-compiler-javac/2.16.2/plexus-compiler-javac-2.16.2.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-compiler-javac/2.16.2/plexus-compiler-javac-2.16.2.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.codehaus.plexus",
+              "artifactId": "plexus-compiler-javac",
+              "version": "2.16.2",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/codehaus/plexus/plexus-compiler-manager/2.16.2/plexus-compiler-manager-2.16.2.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-compiler-manager/2.16.2/plexus-compiler-manager-2.16.2.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.codehaus.plexus",
+              "artifactId": "plexus-compiler-manager",
+              "version": "2.16.2",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/codehaus/plexus/plexus-java/1.5.2/plexus-java-1.5.2.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-java/1.5.2/plexus-java-1.5.2.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.codehaus.plexus",
+              "artifactId": "plexus-java",
+              "version": "1.5.2",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/codehaus/plexus/plexus-utils/3.0.24/plexus-utils-3.0.24.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.0.24/plexus-utils-3.0.24.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.codehaus.plexus",
+              "artifactId": "plexus-utils",
+              "version": "3.0.24",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/codehaus/plexus/plexus-utils/3.6.0/plexus-utils-3.6.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.6.0/plexus-utils-3.6.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-resources-plugin",
+              "version": "3.5.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.codehaus.plexus",
+              "artifactId": "plexus-utils",
+              "version": "3.6.0",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/eclipse/emf/org.eclipse.emf.codegen/2.28.0/org.eclipse.emf.codegen-2.28.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/eclipse/emf/org.eclipse.emf.codegen/2.28.0/org.eclipse.emf.codegen-2.28.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.eclipse.emf",
+              "artifactId": "org.eclipse.emf.codegen.ecore",
+              "version": "2.46.0"
+            },
+            "raw": {
+              "groupId": "org.eclipse.emf",
+              "artifactId": "org.eclipse.emf.codegen",
+              "version": "2.28.0",
+              "optional": "false"
+            },
+            "target_dependencyManagement_version": null,
+            "observed_selected_version_or_range": "2.28.0",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/eclipse/jdt/org.eclipse.jdt.core/maven-metadata.xml",
+        "url": "https://repo.maven.apache.org/maven2/org/eclipse/jdt/org.eclipse.jdt.core/maven-metadata.xml",
+        "kind": "version_metadata",
+        "reasons": [
+          "Nonoptional transitive version range: metadata needed; no concrete version guessed"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.eclipse.emf",
+              "artifactId": "org.eclipse.emf.codegen.ecore",
+              "version": "2.46.0"
+            },
+            "raw": {
+              "groupId": "org.eclipse.jdt",
+              "artifactId": "org.eclipse.jdt.core",
+              "version": "[3.26.0,4.0.0)",
+              "optional": "false"
+            },
+            "target_dependencyManagement_version": null,
+            "observed_selected_version_or_range": "[3.26.0,4.0.0)",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/eclipse/jdt/org.eclipse.jdt.launching/maven-metadata.xml",
+        "url": "https://repo.maven.apache.org/maven2/org/eclipse/jdt/org.eclipse.jdt.launching/maven-metadata.xml",
+        "kind": "version_metadata",
+        "reasons": [
+          "Nonoptional transitive version range: metadata needed; no concrete version guessed"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.eclipse.emf",
+              "artifactId": "org.eclipse.emf.codegen.ecore",
+              "version": "2.46.0"
+            },
+            "raw": {
+              "groupId": "org.eclipse.jdt",
+              "artifactId": "org.eclipse.jdt.launching",
+              "version": "[3.5.0,4.0.0)",
+              "optional": "false"
+            },
+            "target_dependencyManagement_version": null,
+            "observed_selected_version_or_range": "[3.5.0,4.0.0)",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/eclipse/platform/org.eclipse.core.resources/maven-metadata.xml",
+        "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.resources/maven-metadata.xml",
+        "kind": "version_metadata",
+        "reasons": [
+          "Nonoptional transitive version range: metadata needed; no concrete version guessed"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.eclipse.emf",
+              "artifactId": "org.eclipse.emf.codegen.ecore",
+              "version": "2.46.0"
+            },
+            "raw": {
+              "groupId": "org.eclipse.platform",
+              "artifactId": "org.eclipse.core.resources",
+              "version": "[3.8.0,4.0.0)",
+              "optional": "false"
+            },
+            "target_dependencyManagement_version": null,
+            "observed_selected_version_or_range": "[3.8.0,4.0.0)",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/eclipse/platform/org.eclipse.core.runtime/maven-metadata.xml",
+        "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.runtime/maven-metadata.xml",
+        "kind": "version_metadata",
+        "reasons": [
+          "Nonoptional transitive version range: metadata needed; no concrete version guessed"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.eclipse.emf",
+              "artifactId": "org.eclipse.emf.codegen.ecore",
+              "version": "2.46.0"
+            },
+            "raw": {
+              "groupId": "org.eclipse.platform",
+              "artifactId": "org.eclipse.core.runtime",
+              "version": "[3.9.0,4.0.0)",
+              "optional": "false"
+            },
+            "target_dependencyManagement_version": null,
+            "observed_selected_version_or_range": "[3.9.0,4.0.0)",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/eclipse/platform/org.eclipse.osgi/3.23.100/org.eclipse.osgi-3.23.100.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.osgi/3.23.100/org.eclipse.osgi-3.23.100.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.eclipse.emf",
+              "artifactId": "org.eclipse.emf.ecore",
+              "version": "2.42.0"
+            },
+            "raw": {
+              "groupId": "org.eclipse.platform",
+              "artifactId": "org.eclipse.osgi",
+              "version": "3.23.100",
+              "optional": "false"
+            },
+            "target_dependencyManagement_version": null,
+            "observed_selected_version_or_range": "3.23.100",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/eclipse/platform/org.eclipse.text/maven-metadata.xml",
+        "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.text/maven-metadata.xml",
+        "kind": "version_metadata",
+        "reasons": [
+          "Nonoptional transitive version range: metadata needed; no concrete version guessed"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.eclipse.emf",
+              "artifactId": "org.eclipse.emf.codegen.ecore",
+              "version": "2.46.0"
+            },
+            "raw": {
+              "groupId": "org.eclipse.platform",
+              "artifactId": "org.eclipse.text",
+              "version": "[3.5.0,4.0.0)",
+              "optional": "false"
+            },
+            "target_dependencyManagement_version": null,
+            "observed_selected_version_or_range": "[3.5.0,4.0.0)",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/eclipse/sisu/org.eclipse.sisu.plexus/0.9.0.M4/org.eclipse.sisu.plexus-0.9.0.M4.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/eclipse/sisu/org.eclipse.sisu.plexus/0.9.0.M4/org.eclipse.sisu.plexus-0.9.0.M4.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-resources-plugin",
+              "version": "3.5.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.eclipse.sisu",
+              "artifactId": "org.eclipse.sisu.plexus",
+              "version": "0.9.0.M4",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/hamcrest/hamcrest/3.0/hamcrest-3.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest/3.0/hamcrest-3.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.hamcrest",
+              "artifactId": "hamcrest",
+              "version": "3.0",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "3.0",
+            "observed_selected_version_or_range": "3.0",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.jacoco",
+              "artifactId": "org.jacoco.agent",
+              "version": "0.8.14",
+              "type": "jar"
+            },
+            "classifier_caution": "Descriptor omits runtime classifier; actual plugin POM declares classifier runtime. Do not fetch/use unclassified substitute."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/jacoco/org.jacoco.build/0.8.14/org.jacoco.build-0.8.14.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.build/0.8.14/org.jacoco.build-0.8.14.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed exact parent POM"
+        ],
+        "provenance": [
+          {
+            "coordinate": {
+              "groupId": "org.jacoco",
+              "artifactId": "org.jacoco.build",
+              "version": "0.8.14"
+            },
+            "from": "new14 POMs or their hash-verified retained parent chain"
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/jacoco/org.jacoco.core/0.8.14/org.jacoco.core-0.8.14.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.core/0.8.14/org.jacoco.core-0.8.14.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.jacoco",
+              "artifactId": "org.jacoco.core",
+              "version": "0.8.14",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/jacoco/org.jacoco.report/0.8.14/org.jacoco.report-0.8.14.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.report/0.8.14/org.jacoco.report-0.8.14.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.jacoco",
+              "artifactId": "org.jacoco.report",
+              "version": "0.8.14",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed imported BOM POM; local property substituted exactly"
+        ],
+        "provenance": [
+          {
+            "parent": {
+              "groupId": "org.apache.commons",
+              "artifactId": "commons-parent",
+              "version": "92"
+            },
+            "xml_path": "/project/dependencyManagement/dependencies/dependency",
+            "raw": {
+              "groupId": "org.junit",
+              "artifactId": "junit-bom",
+              "version": "${commons.junit.version}",
+              "type": "pom",
+              "scope": "import"
+            }
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/junit/jupiter/junit-jupiter/6.0.3/junit-jupiter-6.0.3.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/6.0.3/junit-jupiter-6.0.3.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.junit.jupiter",
+              "artifactId": "junit-jupiter",
+              "version": "6.0.3",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "6.0.3",
+            "observed_selected_version_or_range": "6.0.3",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/mockito/mockito-core/5.23.0/mockito-core-5.23.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/mockito/mockito-core/5.23.0/mockito-core-5.23.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.mockito",
+              "artifactId": "mockito-core",
+              "version": "5.23.0",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "5.23.0",
+            "observed_selected_version_or_range": "5.23.0",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/mockito/mockito-junit-jupiter/5.23.0/mockito-junit-jupiter-5.23.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/mockito/mockito-junit-jupiter/5.23.0/mockito-junit-jupiter-5.23.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.mockito",
+              "artifactId": "mockito-junit-jupiter",
+              "version": "5.23.0",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "5.23.0",
+            "observed_selected_version_or_range": "5.23.0",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/ow2/asm/asm-commons/9.9/asm-commons-9.9.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.9/asm-commons-9.9.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.ow2.asm",
+              "artifactId": "asm-commons",
+              "version": "9.9",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/ow2/asm/asm-tree/9.9/asm-tree-9.9.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.9/asm-tree-9.9.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.jacoco",
+              "artifactId": "jacoco-maven-plugin",
+              "version": "0.8.14"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.ow2.asm",
+              "artifactId": "asm-tree",
+              "version": "9.9",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/ow2/asm/asm/9.9.1/asm-9.9.1.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.9.1/asm-9.9.1.pom",
+        "kind": "pom",
+        "reasons": [
+          "Actual initialize/process-resources/compile plugin descriptor realm metadata"
+        ],
+        "provenance": [
+          {
+            "plugin": {
+              "groupId": "org.apache.maven.plugins",
+              "artifactId": "maven-compiler-plugin",
+              "version": "3.15.0"
+            },
+            "descriptor_dependency": {
+              "groupId": "org.ow2.asm",
+              "artifactId": "asm",
+              "version": "9.9.1",
+              "type": "jar"
+            },
+            "classifier_caution": null
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.skyscreamer",
+              "artifactId": "jsonassert",
+              "version": "1.5.3",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "1.5.3",
+            "observed_selected_version_or_range": "1.5.3",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/slf4j/slf4j-api/2.0.18/slf4j-api-2.0.18.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/2.0.18/slf4j-api-2.0.18.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "com.fasterxml.uuid",
+              "artifactId": "java-uuid-generator",
+              "version": "5.1.0"
+            },
+            "raw": {
+              "groupId": "org.slf4j",
+              "artifactId": "slf4j-api",
+              "version": "${slf4j.version}"
+            },
+            "target_dependencyManagement_version": "2.0.18",
+            "observed_selected_version_or_range": "2.0.18",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/springframework/boot/spring-boot-starter/4.1.1/spring-boot-starter-4.1.1.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter/4.1.1/spring-boot-starter-4.1.1.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter",
+              "version": "4.1.1",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "4.1.1",
+            "observed_selected_version_or_range": "4.1.1",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/springframework/boot/spring-boot-test-autoconfigure/4.1.1/spring-boot-test-autoconfigure-4.1.1.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-test-autoconfigure/4.1.1/spring-boot-test-autoconfigure-4.1.1.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-test-autoconfigure",
+              "version": "4.1.1",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "4.1.1",
+            "observed_selected_version_or_range": "4.1.1",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/springframework/boot/spring-boot-test/4.1.1/spring-boot-test-4.1.1.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-test/4.1.1/spring-boot-test-4.1.1.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-test",
+              "version": "4.1.1",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "4.1.1",
+            "observed_selected_version_or_range": "4.1.1",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/springframework/spring-core/7.0.9/spring-core-7.0.9.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-core/7.0.9/spring-core-7.0.9.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.springframework",
+              "artifactId": "spring-core",
+              "version": "7.0.9",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "7.0.9",
+            "observed_selected_version_or_range": "7.0.9",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/springframework/spring-test/7.0.9/spring-test-7.0.9.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-test/7.0.9/spring-test-7.0.9.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.springframework",
+              "artifactId": "spring-test",
+              "version": "7.0.9",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "7.0.9",
+            "observed_selected_version_or_range": "7.0.9",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/testcontainers/testcontainers/2.0.5/testcontainers-2.0.5.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/testcontainers/testcontainers/2.0.5/testcontainers-2.0.5.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.testcontainers",
+              "artifactId": "testcontainers-junit-jupiter",
+              "version": "2.0.5"
+            },
+            "raw": {
+              "groupId": "org.testcontainers",
+              "artifactId": "testcontainers",
+              "version": "2.0.5",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "2.0.5",
+            "observed_selected_version_or_range": "2.0.5",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      },
+      {
+        "relative_artifact": "org/xmlunit/xmlunit-core/2.11.0/xmlunit-core-2.11.0.pom",
+        "url": "https://repo.maven.apache.org/maven2/org/xmlunit/xmlunit-core/2.11.0/xmlunit-core-2.11.0.pom",
+        "kind": "pom",
+        "reasons": [
+          "Observed nonoptional project dependency metadata, preserving both declared test roots"
+        ],
+        "provenance": [
+          {
+            "from": {
+              "groupId": "org.springframework.boot",
+              "artifactId": "spring-boot-starter-test",
+              "version": "4.1.1"
+            },
+            "raw": {
+              "groupId": "org.xmlunit",
+              "artifactId": "xmlunit-core",
+              "version": "2.11.0",
+              "scope": "compile"
+            },
+            "target_dependencyManagement_version": "2.11.0",
+            "observed_selected_version_or_range": "2.11.0",
+            "selection_limitation": "Root dependencyManagement override recorded; this is not a full Resolver traversal, scope/exclusion/nearest mediation or range selection."
+          }
+        ],
+        "remote_availability": "NOT_OBSERVED",
+        "not_in_bound_inventories": true
+      }
+    ],
+    "requirements": [
+      "New separately reviewed immutable request manifest/client epoch; current getter only admits its exact140 requests.",
+      "Only passive metadata suggested now; bound bodies, framing, resources, provenance and server-cookie projection as separately admitted.",
+      "Fetch checksum/signature sidecars under separately explicit policy; remote availability unknown until actual response. Same-origin matches are not publisher authentication.",
+      "Inspect newly observed parents/BOMs/range metadata before concrete range version or complete POM/JAR closure selection.",
+      "Parent/BOM/profiles/property/nearest/exclusion/type/classifier and per-plugin realm mediation remain open; never broaden into unused dependency-plugin43realm."
+    ]
+  },
+  "remaining_gates": [
+    "Freeze exact minimal parent/BOM/metadata and classpath/realm closure, including range selection from actual metadata and all inherited managed versions.",
+    "Reconcile scope/project collection honestly; preserve optional/test/provided declarations in source and captured raw metadata.",
+    "Actual offline planner/build requires new execution admission, fixed cache/settings/source/tool/profile binding and no online fallback.",
+    "No acquired source/plugin/JAR code trust is granted by passive availability/checksum verification.",
+    "Exact target378Java normal compile, native application, storage/restart/UI and full Rust feature parity remain OPEN."
+  ],
+  "all_holds_preserved": true
+}
