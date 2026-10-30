@@ -118,10 +118,19 @@ for uid, fields in CONTRACT['source_preparation_splits']['record_updates'].items
         if field != 'expanded_implementation_inputs':
             byid[uid][field] = change['after']
 
+for uid, fields in CONTRACT['storage_source_splits']['record_updates'].items():
+    for field, change in fields.items():
+        if field != 'expanded_implementation_inputs':
+            byid[uid][field] = change['after']
+
+def source_dependencies(unit):
+    return sorted(set(unit['dependencies'] + unit.get('source_preparation_children', [])))
+
+
 def ancestors(uid, trail=()):
     assert uid not in trail, 'Dependency cycle: '+' -> '.join(trail+(uid,))
     result=set()
-    for dep in byid[uid]['dependencies']:
+    for dep in source_dependencies(byid[uid]):
         result.add(dep)
         result.update(ancestors(dep,trail+(uid,)))
     return result
@@ -131,7 +140,7 @@ def cached_ancestors(uid,trail=()):
     assert uid not in trail, 'Dependency cycle: '+' -> '.join(trail+(uid,))
     if uid not in memo:
         result=set()
-        for dep in byid[uid]['dependencies']:
+        for dep in source_dependencies(byid[uid]):
             result.add(dep);result.update(cached_ancestors(dep,trail+(uid,)))
         memo[uid]=result
     return memo[uid]
@@ -182,7 +191,7 @@ for i,a in enumerate(UNITS):
 # A bounded dispatch simulation; a wave means potential source authors, never compiler/runtime concurrency.
 done=set();waves=[]
 while len(done)<len(byid):
-    ready=sorted((u['id'] for u in UNITS if u['id'] not in done and set(u['dependencies'])<=done), key=lambda uid:(uid not in ['P01','I01','B01'],uid))
+    ready=sorted((u['id'] for u in UNITS if u['id'] not in done and set(source_dependencies(u))<=done), key=lambda uid:(uid not in ['P01','I01','B01'],uid))
     assert ready, 'No acyclic dispatch remains'
     wave=[]
     for uid in ready:
