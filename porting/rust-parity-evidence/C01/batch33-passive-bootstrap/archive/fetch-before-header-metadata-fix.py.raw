@@ -1,0 +1,158 @@
+"""Passive, source-pinned Central bootstrap; never executes acquired code."""
+from pathlib import Path
+import fcntl, hashlib, importlib.util, json, os, pwd, re, ssl, sys, time
+import urllib.error, urllib.request
+import contextlib, signal
+
+CONTROLS = {'cpu.max': '100000 100000', 'memory.high': '536870912',
+            'memory.max': '1073741824', 'memory.swap.max': '0', 'pids.max': '32'}
+PREFIX = 'syson-b33-passive-'
+OUTPUT_ROOT = Path('/workspace/build/builderbob')
+BASE = 'https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-dependency-plugin/3.10.0/'
+NAMES = ['maven-dependency-plugin-3.10.0' + x for x in ['.pom', '.jar', '-sources.jar']]
+SUFFIXES = ['', '.sha512', '.sha256', '.sha1', '.asc']
+OWNED_SHA = 'ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d'
+
+
+def require(ok, message):
+    if not ok:
+        raise ValueError(message)
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def requests(proposal):
+    phase = proposal['phase_A_exact_passive_request_set']
+    rows = [row for item in phase['artifacts'] for row in [item] + item['sidecars']]
+    expected = [BASE + name + suffix for name in NAMES for suffix in SUFFIXES]
+    require([row['url'] for row in rows] == expected and phase['total_request_limit'] == 15,
+            'exact passive request set changed')
+    require(phase['total_download_bytes_limit'] == 40 * 1024**2, 'aggregate limit changed')
+    for row, url in zip(rows, expected):
+        name = url.rsplit('/', 1)[1]
+        require(row['relative_path'] == 'downloads/' + name, 'noncanonical destination')
+        maximum = 65536 if name.endswith(tuple(SUFFIXES[1:])) else (2 if name.endswith('.pom') else 16) * 1024**2
+        require(type(row['maximum_bytes']) is int and row['maximum_bytes'] == maximum, 'byte limit changed')
+    return rows
+
+
+def fresh_output(out):
+    require(out.parent.resolve() == out.parent and out.resolve() == out and not out.is_symlink()
+            and out.is_relative_to(OUTPUT_ROOT) and out.is_dir()
+            and out.stat().st_uid == os.getuid() and not any(out.iterdir()), 'fresh owned output required')
+
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):
+        return None
+
+
+@contextlib.contextmanager
+def request_deadline(seconds):
+    require(seconds > 0 and signal.getitimer(signal.ITIMER_REAL) == (0.0, 0.0), 'existing/invalid request timer')
+    def expired(signum, frame):
+        raise TimeoutError('request wall deadline')
+    previous = signal.signal(signal.SIGALRM, expired)
+    signal.setitimer(signal.ITIMER_REAL, seconds)
+    try:
+        yield
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous)
+
+
+def transfer(opener, row, destination, available):
+    started = time.monotonic()
+    result = {'url': row['url'], 'status': None, 'final_url': None, 'headers': [], 'bytes': 0}
+    try:
+        with request_deadline(60):
+            request = urllib.request.Request(row['url'], headers={'User-Agent': 'Syson-Passive-Bootstrap/1.0'})
+            try:
+                response = opener.open(request, timeout=15)
+            except urllib.error.HTTPError as error:
+                response = error
+            result.update(status=response.code, final_url=response.geturl(), headers=list(response.headers.items()))
+            with response, destination.open('xb') as output:
+                require(result['final_url'] == row['url'], 'redirect refused')
+                maximum = min(row['maximum_bytes'], available)
+                while True:
+                    raw = response.read(min(65536, maximum - result['bytes'] + 1))
+                    if not raw:
+                        break
+                    keep = raw[:maximum - result['bytes']]
+                    output.write(keep)
+                    result['bytes'] += len(keep)
+                    require(len(keep) == len(raw), 'stream byte limit')
+        return result
+    finally:
+        result['seconds'] = time.monotonic() - started
+        result['sha256'] = digest(destination) if destination.exists() else None
+        destination.with_suffix(destination.suffix + '.response.json').write_text(json.dumps(result, indent=2) + '\n')
+
+
+def checksums(out, rows):
+    result = []
+    for name in NAMES:
+        artifact = out / 'downloads' / name
+        for suffix, algorithm in [('.sha512', 'sha512'), ('.sha256', 'sha256'), ('.sha1', 'sha1')]:
+            row = next(row for row in rows if row['url'] == BASE + name + suffix)
+            if row['status'] != 200:
+                continue
+            expected = (out / 'downloads' / (name + suffix + '.partial')).read_text().strip()
+            require(re.fullmatch('[0-9a-fA-F]{' + str(hashlib.new(algorithm).digest_size * 2) + '}', expected), 'invalid sidecar')
+            actual = hashlib.new(algorithm, artifact.with_suffix(artifact.suffix + '.partial').read_bytes()).hexdigest()
+            require(expected.lower() == actual, 'checksum mismatch')
+            result.append({'artifact': name, 'algorithm': algorithm, 'match': True})
+    return result
+
+
+def main():
+    spec_path, expected, descriptor, unit, cookie = sys.argv[1:]
+    require(digest(__file__) == os.environ['SYSON_BOOTSTRAP_SOURCE_SHA256'], 'source pin changed')
+    require(digest(spec_path) == expected, 'specification pin changed')
+    spec = json.loads(Path(spec_path).read_bytes()); out = Path(spec['out'])
+    fresh_output(out)
+    home = pwd.getpwuid(os.getuid())
+    require(home.pw_name == 'builderbob' and os.environ['HOME'] == home.pw_dir, 'operator changed')
+    require(digest(spec['ownership_helper']) == OWNED_SHA, 'ownership provider changed')
+    loader = importlib.util.spec_from_file_location('owned', spec['ownership_helper'])
+    owned = importlib.util.module_from_spec(loader); loader.loader.exec_module(owned)
+    proof = owned.attest(unit, cookie, PREFIX, out / 'scope-proof.json', os.environ)
+    group = Path('/sys/fs/cgroup') / proof['control_group'].lstrip('/')
+    record = {'status': 'FAIL_PRESERVED', 'requests': []}
+    try:
+        record['controls'] = {key: (group / key).read_text().strip() for key in CONTROLS}
+        require(record['controls'] == CONTROLS, 'actual controls changed')
+        expected_lock, observed_lock = Path(spec['compiler_lock']).stat(), os.fstat(int(descriptor))
+        require((expected_lock.st_dev, expected_lock.st_ino) == (observed_lock.st_dev, observed_lock.st_ino), 'lock descriptor mismatch')
+        fcntl.flock(int(descriptor), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        record['inputs_before'] = {p: digest(p) for p in spec['inputs']}
+        require(record['inputs_before'] == spec['input_sha256'], 'input differs from frozen admission')
+        require(digest(spec['proposal']) == spec['proposal_sha256'], 'proposal changed')
+        rows = requests(json.loads(Path(spec['proposal']).read_bytes()))
+        (out / 'downloads').mkdir(mode=0o700)
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect(),
+                    urllib.request.HTTPSHandler(context=ssl.create_default_context()))
+        started, total = time.monotonic(), 0
+        for row in rows:
+            require(time.monotonic() - started < 900, 'phase deadline')
+            value = transfer(opener, row, out / (row['relative_path'] + '.partial'), 40 * 1024**2 - total)
+            record['requests'].append(value); total += value['bytes']
+            require(value['status'] == 200 or (value['status'] == 404 and row['url'].endswith(tuple(SUFFIXES[1:]))), 'HTTP failure retained; no fallback')
+        record['checksums'] = checksums(out, record['requests'])
+        record.update(status='PASS_PASSIVE_ACQUISITION_ONLY', signature_verified=False,
+                      trust='Sidecars are same-origin consistency only; no acquired code may execute from this result')
+    except BaseException as error:
+        record['error'] = repr(error)
+    finally:
+        record['inputs_after'] = {p: digest(p) for p in spec['inputs']}
+        if record.get('inputs_before') != record['inputs_after'] or digest(spec_path) != expected:
+            record['status'] = 'FAIL_INPUT_DRIFT'
+        (out / 'receipt.json').write_text(json.dumps(record, indent=2) + '\n')
+    require(record['status'] == 'PASS_PASSIVE_ACQUISITION_ONLY', 'passive acquisition failed')
+
+
+if __name__ == '__main__':
+    main()

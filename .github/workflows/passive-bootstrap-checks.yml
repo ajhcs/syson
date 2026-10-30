@@ -1,0 +1,21 @@
+name: Passive bootstrap controls
+on:
+  pull_request: {branches: [main]}
+  push: {branches: [main]}
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  passive-controls:
+    if: github.repository == 'ajhcs/syson'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - name: Run fixture-only controls
+        env:
+          SYSON_BOOTSTRAP_TEST_ROOT: ${{ runner.temp }}/passive-bootstrap-tests
+        run: |
+          mkdir -p "$SYSON_BOOTSTRAP_TEST_ROOT"
+          python3 -I -B -m unittest discover -s porting/rust-parity-evidence/C01/batch33-passive-bootstrap/tests -v
+          python3 -I -O -B -m unittest discover -s porting/rust-parity-evidence/C01/batch33-passive-bootstrap/tests -v
