@@ -260,3 +260,6 @@ pub mod b25a;
 
 #[path = "../b25b.rs"]
 pub mod b25b;
+
+#[path = "../b25c.rs"]
+pub mod b25c;

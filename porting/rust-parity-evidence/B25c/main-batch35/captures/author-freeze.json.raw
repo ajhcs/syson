@@ -1,0 +1,161 @@
+{
+  "status": "AUTHOR_FROZEN_PRE_ROOT_FORMAT_SOURCE_ONLY_NO_TESTS_EXECUTED",
+  "unit": "B25c",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch35-view-usage-20261030",
+  "baseline_main": "47402a9d5eb2feb803a071a6197423d0fbaf4182",
+  "source_lease": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/view-usage/source-lease.json",
+    "sha256": "a46a9f3b734cbfd56b6a2aec5e21b1fdaffd3bba272a11a4fc91f1e2b1352738"
+  },
+  "author_files": {
+    "rust/crates/syson-migrations/b25c.rs": {
+      "sha256": "17a233036342ffc7402fc9f55c401113eecabf92cd1fa205608e722f51081179",
+      "bytes": 736,
+      "physical_lines": 20
+    },
+    "rust/crates/syson-migrations/tests/b25c.rs": {
+      "sha256": "f9777ab551c7a749572af90a9ccd57b7a57127733eaec60d693386d1fd061732",
+      "bytes": 8729,
+      "physical_lines": 232
+    },
+    "rust/crates/syson-migrations/tests/b25c_literal.rs": {
+      "sha256": "21d51f9a836f6d9f199b08af7a93712e91b9111147b604bc3253fc4e19a76dbf",
+      "bytes": 4874,
+      "physical_lines": 97
+    },
+    "rust/crates/syson-migrations/examples/b25c_probe.rs": {
+      "sha256": "f97d126784b8a00772e01cdfd36642660ad43c6b6fab9711340e6599b8ab97a0",
+      "bytes": 2128,
+      "physical_lines": 48
+    },
+    "porting/rust-parity-evidence/B25c/native-fixtures.json": {
+      "sha256": "b60c22bdac7a3ab1cfa858aaba24f7a3edfe1699a33bb18bd3f7e14081374729",
+      "bytes": 3592,
+      "physical_lines": 57
+    },
+    "porting/rust-parity-evidence/B25c/source-predictions.json": {
+      "sha256": "16d572da04727a1d37dd5c08a5b6c77968860b75bda679a56c0e3c8acafa31be",
+      "bytes": 7093,
+      "physical_lines": 266
+    },
+    "porting/rust-parity-evidence/B25c/README.md": {
+      "sha256": "5f03f6523f8e374fb8c128f9250d7b548cb707e581805f9458000742ea5e178a",
+      "bytes": 2850,
+      "physical_lines": 13
+    }
+  },
+  "full_original_files_byte_exact": true,
+  "canonical_donor": "#104 d98994ae1b795ff38ad418ce2725f9cc3117b0bc;retained#74 ac478624f5c78d247a624b887b5e8dd3666acbce",
+  "expected_migration_suite": {
+    "previous_A_B_and_shared": 27,
+    "all_original_C_methods": [
+      "exact_feature_is_removed_while_spelling_neighbors_and_ids_survive",
+      "child_object_collection_includes_vendor_objects_but_not_parent_fields",
+      "traversal_reaches_arbitrary_nested_arrays_and_objects",
+      "sibling_unknown_enum_and_foreign_classes_preserve_the_same_property",
+      "first_namespace_entry_decides_in_original_json_order",
+      "absent_empty_and_nonobject_namespace_are_noops",
+      "null_array_and_primitive_feature_values_are_removed_identically",
+      "repeat_is_idempotent_and_failure_cannot_replace_prior_publication",
+      "actual_document_and_b01_preparation_keep_node_and_semantic_identity"
+    ],
+    "new_methods": [
+      "literal_order_and_private_failure_survive_the_actual_view_participant",
+      "complete_thirteen_row_packet_matches_its_labeled_source_expectations"
+    ],
+    "expected_total": 38,
+    "not_executed": true
+  },
+  "active_packet": {
+    "rows": 13,
+    "source_schema": "cases, status SOURCE_DERIVED_NOT_NATIVE_OBSERVATIONS",
+    "success": 12,
+    "error_id": "11-null-first-namespace",
+    "error_expected": "Error::NamespaceShape; diagnostic expected_json is never treated as a returned result",
+    "matched_false_ids": [
+      "09-first-namespace-foreign",
+      "10-empty-namespace"
+    ],
+    "all_other_success_rows_match": true,
+    "input_unique_ID_and_prediction_coverage": true,
+    "source_prediction_not_native": "All fixture/prediction bytes preserved and counted normally; new Rustpacket test consumes previously separate13row corpus,but doesnot establish fresh nativeobservations."
+  },
+  "manual_literal_regression": {
+    "oracles": "Direct Map object construction with fixed Number=not numeric and RawValue=encodedViewUsage JSON string; no parsed/copied output or json! typed-number normalization.",
+    "tokens": [
+      "-0",
+      "1.2300e+004",
+      "1E+400"
+    ],
+    "entrypoints": "Actual b25c::prepare,to_json,actual reprepare; decodedescaped z/a/z duplicate final value determines true/false eligibility at originalfirstposition. Exactwire substring checks z-before-a; original exposedElement removed onlyifmatched, exposeElement neighbor and keep7 stay. Markerobjects/tokenstrings/match/byte-idempotence verified acrossreplay.",
+    "refusals": "Malformed trailing suffix Input; independently prepared editedMAX_BYTES oversized output Limit. Original source and separate priorprepared wire remain unchanged; these privatepreparation checks do not prove database atomicity."
+  },
+  "probe": {
+    "groups": [
+      1,
+      256,
+      1024
+    ],
+    "source_fixture_inspection_only": [
+      {
+        "groups": 1,
+        "expected_input_bytes": 175,
+        "rows": 1
+      },
+      {
+        "groups": 256,
+        "expected_input_bytes": 26077,
+        "rows": 256
+      },
+      {
+        "groups": 1024,
+        "expected_input_bytes": 104437,
+        "rows": 1024
+      }
+    ],
+    "warmups": 2,
+    "raw_samples": 7,
+    "correctness": "Every timed freshprepare result compared to independent complete expectedJSON with everyordinal,exact ViewUsage class/rawparent/exposedElement removal,matchflag and fixedliteralVERSION. Namespace z,a output and actual reprepare fullvalue/byte-idempotence checked aftertimer. Ordinaryinteger expectedfixture json! doesnot handle unusualrawtoken/marker oracle cases.",
+    "timed": "Only actualprepare plus Result unwrap. Expectedfixtures,sourceconstruction,completeassertions,to_json,replay,sorting/output/drops outside timer. Untimedreplay warms inter-callcontext.",
+    "run_required": "Root must run exact built releasebinary,not onlybuildexample. Exactly3JSON rows participantb25c,groups1/256/1024,input_bytes asabove,2warmups/7rawsamples and correctmin/median/max. No hardtimingveto,p95,native/UI/capacity claim; wholeprocessRSS separate ifmeasured."
+  },
+  "budget": {
+    "actual_module": 20,
+    "all_original_tests": 232,
+    "new_literal_packet_tests": 97,
+    "new_probe": 48,
+    "active_fixture": 57,
+    "active_source_prediction": 266,
+    "README": 13,
+    "root_reserved_export": 3,
+    "root_reserved_attributes": 2,
+    "conservative_production_including_docs_attrs": 86,
+    "authored_inclusive": 738,
+    "lease_allocations": [
+      108,
+      783
+    ],
+    "hard_caps": [
+      400,
+      900
+    ],
+    "per_file_maxima_satisfied_before_format": true,
+    "actual_formatted_recount_required": true,
+    "no_active_data_exclusion": true
+  },
+  "root_shared_wiring": {
+    "before_library_lines": 262,
+    "before_library_sha256": "1e81c0dbecfe0ab75461537e5d8d072a3b601817c8c71fca7386e88738d780c0",
+    "shared256_prefix_sha256": "ba894ed9965b4865042faf9e8d4d786e73af79ee1d4fc66c1c2bfd474c10897e",
+    "after": "Root appends exact original3line Cblock for265line fullprefix; manifests/locks/CI/attrs remainroot-only. No Cexport added byauthor."
+  },
+  "required_gates": [
+    "Root preserves this preformat epoch,formats admitted newfiles and recounts allactual source; original4files remainbyte-exact unless explicit separate reviewedformatdisposition.",
+    "Independent source review before offline/locked serial fullcrate38case test/fmt/alltargetClippy/wasmlib/releasebuild and actualprobe. Bind everyactiveinclude_str input plus provider/model/B01/tool bytes before/after; preserve failures and cleanup.",
+    "Existing complete Document/B01 caller exercises stable view-node/view-semantic IDs,independentREFERENCES_VERSION,replay and NoLoad refusal. It is not durable publication.",
+    "Independent executed/publicpacket review,hostedexacthead checks,push/merge/postflight remainroot. B25d/RR24full376/bothRR22callergates/native/defaultUI/storageacceptance stayOPEN; no hold/human196–201release."
+  ],
+  "format_status": "No rustfmt/compiler/test/probe run byauthor. Source manually laid out; root owns actual formatting and fresh source freeze after any byte change.",
+  "skill": "write-with-purpose used for README; separate source-fidelity and reader pass complete.",
+  "actions": "Wrote only7leased B25c source/test/probe/data/docpaths plus this requested report. Source-only JSON/hash/fixture-size inspection. No shared files,B25d,guard/originalplan files,Git/compiler/subjectruntime/network touched."
+}

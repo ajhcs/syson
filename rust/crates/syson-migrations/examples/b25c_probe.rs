@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Actual view preparation; fixture setup and complete checks are untimed.
+use serde_json::json;
+use std::time::Instant;
+use syson_migrations::{SYSML_URI, b25c};
+const ROW: &str = r#"{"eClass":"sysml:ViewUsage","exposedElement":"raw-parent","data":{"exposedElement":"old","keep":@}}"#;
+fn main() {
+    for count in [1usize, 256, 1024] {
+        let rows: Vec<_> = (0..count)
+            .map(|n| ROW.replace('@', &n.to_string()))
+            .collect();
+        let source = format!(
+            r#"{{"ns":{{"z":"{SYSML_URI}","a":"foreign"}},"content":[{}]}}"#,
+            rows.join(",")
+        );
+        let content: Vec<_> = (0..count).map(|n| {
+            json!({"eClass":"sysml:ViewUsage","exposedElement":"raw-parent","data":{"keep":n}})
+        }).collect();
+        let expected = json!({"ns":{"z":SYSML_URI,"a":"foreign"},"content":content});
+        let mut raw = Vec::new();
+        for repetition in 0..9 {
+            let started = Instant::now();
+            let prepared = b25c::prepare(&source).unwrap();
+            let nanos = started.elapsed().as_nanos();
+            assert!(prepared.matched_resource);
+            assert_eq!(prepared.participant_version, "2025.6.0-202506110000");
+            assert_eq!(prepared.json, expected);
+            let wire = prepared.to_json().unwrap();
+            assert!(wire.contains(&format!(r#""ns":{{"z":"{SYSML_URI}","a":"foreign"}}"#)));
+            let replay = b25c::prepare(&wire).unwrap();
+            assert!(replay.matched_resource);
+            assert_eq!(replay.json, expected);
+            assert_eq!(replay.to_json().unwrap(), wire);
+            if repetition >= 2 {
+                raw.push(nanos);
+            }
+        }
+        let mut sorted = raw.clone();
+        sorted.sort_unstable();
+        println!(
+            "{}",
+            json!({"participant":"b25c","groups":count,
+            "input_bytes":source.len(),"warmups":2,"samples":7,"raw_ns":raw,
+            "min_ns":sorted[0],"median_ns":sorted[3],"max_ns":sorted[6],
+            "complete_expected_value_and_replay_verified":true})
+        );
+    }
+}
