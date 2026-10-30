@@ -1,0 +1,683 @@
+{
+  "kind": "B25S1_SHARED_MIGRATION_LOCAL_QUALIFICATION_ONLY",
+  "status": "PASS_NAMED_LOCAL_CHECKS_ONLY",
+  "baseline_main": "b6046209e56700ab1e1e0dbf61e5c02819fe8dd2",
+  "unit": "B25S1",
+  "epochs": [
+    {
+      "epoch": "lock-01",
+      "status": "PASS_NAMED_LOCAL_CHECKS_ONLY",
+      "commands": [
+        {
+          "name": "generate-lock",
+          "argv": [
+            "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+            "generate-lockfile",
+            "--offline",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/batch33-semantic-20261030/rust/crates/syson-migrations/Cargo.toml"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.06380792299751192,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/lock-01-generate-lock.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/lock-01-generate-lock.stderr",
+            "bytes": 68,
+            "sha256": "eb9c720fb9c2542c7d92e75ec12c7c289745a98a6a60649890ae9621bf006de2"
+          }
+        }
+      ],
+      "inputs_sha256": {
+        "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/Cargo.lock-original.raw": "4f8eeccb6e0bf22b69c0ed2523e2814b5765b96c05cd07e25ee7b901575e2404",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo-clippy": "4255f7671a17fba900ffd84a20f1dd0c986d52a2404496d3b7518f5044de5663",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/clippy-driver": "89b6cc8d0d988b00a3f65bc90c76fedbaedb6bcb442b34563aefe3621f26544b",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustfmt": "68cb47a2a38daa8ff2ec6d623a2374b0a165d77ec74f1f654216665018c04598",
+        ".github/workflows/rust-checks.yml": "f457ecc5f6f37eff62dc0750fe12cbdf16a1d1871fd8527dea6397e96b3dc4af",
+        "porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+        "porting/rust-parity-evidence/F25/main-batch31/qualify.py": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9",
+        "rust/crates/syson-domain/Cargo.lock": "9af05380551c03381265ca5e0e917c7371a784a521fef57fcfa2fd0bc14b0251",
+        "rust/crates/syson-domain/Cargo.toml": "3a7c8cd8f3de857273114262ec3e9056736952d837f09c5c8032ab8d5cfb786c",
+        "rust/crates/syson-domain/src/lib.rs": "b61a2458613465b321c622d5fbc471dccf9b3347b65c2158878c1f77fad27f5b",
+        "rust/crates/syson-domain/src/model.rs": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+        "rust/crates/syson-domain/src/names.rs": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+        "rust/crates/syson-domain/src/query.rs": "ef3515e88721df2fe35c5dc67e37675bc8cfe0b469b5303b8195c464e71f1e0c",
+        "rust/crates/syson-domain/src/uuid.rs": "63f34e679acc05cbec751d93abb62103d211a70a9481ee3bd704a9c481248d5a",
+        "rust/crates/syson-domain/tests/compatibility.rs": "d6190421e348a8125b63d9fd19b3f9cfd52764d592a2f1b80f50c5c2ff687851",
+        "rust/crates/syson-domain/tests/query_graph.rs": "5a3f838943e44f2535fe32e9e4e92da47327e3946d4795aae01e80b8ddb3057a",
+        "rust/crates/syson-json-value/Cargo.lock": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e",
+        "rust/crates/syson-json-value/Cargo.toml": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5",
+        "rust/crates/syson-json-value/README.md": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f",
+        "rust/crates/syson-json-value/examples/compat_parse_probe.rs": "57d396fdbce6a7ab5c2c7957e8b9e00fd728c998a04d203aa9f8062f53a17a08",
+        "rust/crates/syson-json-value/examples/strict_parse_probe.rs": "79b2f73c08b40160bfed8c69e0ceb42484a78d51820bcc4ac6ce7f754cc5f543",
+        "rust/crates/syson-json-value/src/lib.rs": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+        "rust/crates/syson-json-value/tests/literal.rs": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c",
+        "rust/crates/syson-json-value/tests/rr24a_duplicates.rs": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a",
+        "rust/crates/syson-metamodel/Cargo.lock": "5a41a1dd1d2de207ea0c222cde9d7e02ce3265c8b1ff09ad819684b45c15a9c2",
+        "rust/crates/syson-metamodel/Cargo.toml": "a01b76bc383bfbcd998e1f5cb12ef0ada41034308ab75fb9b539cc88f529cedd",
+        "rust/crates/syson-metamodel/src/generated.rs": "02d68b123460a89590d4c3d62a6421e94d0b8d933ad9a80cc67fbcd816158aab",
+        "rust/crates/syson-metamodel/src/lib.rs": "f5755e0e1b7910389cce955280f1424cdc75b9e33e0dde99a7cb6386613cf61c",
+        "rust/crates/syson-metamodel/tests/registry.rs": "bcda1c594260f03f32d577d6a33e48381ed0865aa4b904bbfb820b0a3d38de48",
+        "rust/crates/syson-metamodel/tools/generate.py": "e39239f219da9b726d435d984945cd42d437a85b5ae7ea6ca7f56d44e7dd4d6c",
+        "rust/crates/syson-migration-pipeline/Cargo.lock": "a09d9483c3354184c034be8d2d3f148e9762ccc6fa0b3a21d7f8bb3e7a1ecfc5",
+        "rust/crates/syson-migration-pipeline/Cargo.toml": "ae9bc581a21f4d74a9816952621c46117cf2e718f6cedba57162a1e9d47e91da",
+        "rust/crates/syson-migration-pipeline/src/lib.rs": "4b3c71daaa62f7b317a43e6fcec3c29f0ac299d1c358e0bd2bdb0d582cd28cb3",
+        "rust/crates/syson-migration-pipeline/tests/fixtures/native-diagram.json": "86056d801eb929cf9f432c7213f5f1000d83a7d8aaba3f7e4ea810b9f383d25d",
+        "rust/crates/syson-migration-pipeline/tests/fixtures/native-document.json": "2ec9446e01d53c323a622556f7371a170a2ea694c889d19f77677d7d6a4704b8",
+        "rust/crates/syson-migration-pipeline/tests/fixtures/native-id-map.txt": "cf391861cb30be757ced9c1539c4c4df9199a59b3736f842d64b23cdedcd9269",
+        "rust/crates/syson-migration-pipeline/tests/preparation.rs": "759deea394e89aa15f1ce6cf0d93c99639c12070b0bbdd2701afda3f4454b9fb",
+        "rust/crates/syson-migrations/Cargo.toml": "71a9e26dfd3a4d414bebdc0aab6f917b3a3b2e5a39f52fefb3fd9ce4257c30e8",
+        "rust/crates/syson-migrations/examples/path_memory.rs": "4ef9b14c97b845ee65648ba527b9bef5ed305592fafe441e266dc587a9cc70a2",
+        "rust/crates/syson-migrations/src/lib.rs": "ba894ed9965b4865042faf9e8d4d786e73af79ee1d4fc66c1c2bfd474c10897e",
+        "rust/crates/syson-migrations/tests/core.rs": "10f19569979ac444768c8654216ca1a891382a050022b498a1f54c949cb165e5",
+        "rust/crates/syson-migrations/tests/shared_literal.rs": "c350b7f4418f95bf6bef7d4d7af2d2a4aff4e42ad0b96740a229460b9dd44eb0",
+        "rust/crates/syson-model/Cargo.lock": "4242272f5f97f1e96b3f0f2607c3a4bce56488785674092ae7398c9d9d4bd842",
+        "rust/crates/syson-model/Cargo.toml": "2fb33c209ab50cd691834e7ff8da68d827e8af5ff75bc4b76189d53c29d93ce8",
+        "rust/crates/syson-model/src/containment.rs": "353a750d15425dbfc161e98eaf5f69e6fd17a2bc55be5e5ebd52c7985223382b",
+        "rust/crates/syson-model/src/element_summary.rs": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c",
+        "rust/crates/syson-model/src/lib.rs": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+        "rust/crates/syson-model/src/scalar.rs": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+        "rust/crates/syson-model/tests/batch14_history_summary.rs": "3db519d768ecb7e406d745b048789d6958b799e219581452f7be623d1a5a6f39",
+        "rust/crates/syson-model/tests/batch15_containment_regression.rs": "6eae2469c589344776a349407cec0436abd6ec9b28cd5e1bd44d68445d200aa5",
+        "rust/crates/syson-model/tests/containment.rs": "c6498b45977f2607754a2f869dd93762a71f49d033ea5de531bdebb1170e4ab6",
+        "rust/crates/syson-model/tests/creation_capabilities.rs": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+        "rust/crates/syson-model/tests/fixtures/simple-project.emf.json": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d",
+        "rust/crates/syson-model/tests/model.rs": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+        "rust/crates/syson-model/tests/rr02_regression.rs": "ca70e6c35a7eb2e8bce062b464051cc7e383268283925b90232cd80f2184d515",
+        "rust/crates/syson-model/tests/rr04_regression.rs": "e974bc3ab219c1a25ab12840384379fe2b583fd9f91f76503ce82c4fa988a0ee",
+        "rust/crates/syson-model/tests/rr18b3a_regression.rs": "743da5c96df2e3a0f3b2ed819dbbdeca165a9669111b7240cfebefffc60deea0",
+        "rust/crates/syson-model/tests/rr20_regression.rs": "829dcef07fe0c5d4e08d253c612d749f3e57c08ba957584f35818b04b1615bd7",
+        "rust/crates/syson-model/tests/scalars.rs": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d",
+        "rust/crates/syson-persistence/Cargo.lock": "c4d5176a081c3511c5b624c9543d948875e7a911b1b139ad550ae9dae6f98409",
+        "rust/crates/syson-persistence/Cargo.toml": "e6a4e978476a663e88d62510692da9132fe4b2ce7fb62db68ccc7683f946aff9",
+        "rust/crates/syson-persistence/src/lib.rs": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476",
+        "rust/crates/syson-persistence/tests/migration_contracts.rs": "aa5e8c6cac168e04594a6aa78344202e2dbaca6a66a0ba5d97c67f226402f8c0"
+      },
+      "source_unchanged": true,
+      "receipt_sha256": "d159234ef8c2dc20372b6b858b6f63417f3ef3d2e49e397939e6442c6c4731cd",
+      "spec_sha256": "323c76b715fbf4b3202c908cc65b63cfa6f4316c3ed0658734f81faf986a1436",
+      "scope_proof": {
+        "unit": "syson-b33-migrations-lock-927b8c3705c64d95b73ca7a5fe4a369c.scope",
+        "cookie": "7496d85ff4314958a2a4217e68eb2873",
+        "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-b33-migrations-lock-927b8c3705c64d95b73ca7a5fe4a369c.scope",
+        "invocation_id": "6a1664a16efb4d50ab6dd096a7b9e181",
+        "entry_pid": 3152033,
+        "entry_start_ticks": "75612102"
+      },
+      "cleanup": {
+        "confirmed_empty_or_absent": true,
+        "observations": [
+          {
+            "ControlGroup": "",
+            "LoadState": "not-found",
+            "InvocationID": ""
+          }
+        ]
+      }
+    },
+    {
+      "epoch": "checks-01",
+      "status": "PASS_NAMED_LOCAL_CHECKS_ONLY",
+      "commands": [
+        {
+          "name": "fmt",
+          "argv": [
+            "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+            "fmt",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/batch33-semantic-20261030/rust/crates/syson-migrations/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.06447632005438209,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-fmt.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-fmt.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        {
+          "name": "tests",
+          "argv": [
+            "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+            "test",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/batch33-semantic-20261030/rust/crates/syson-migrations/Cargo.toml",
+            "--offline",
+            "--locked",
+            "--jobs",
+            "1",
+            "--",
+            "--test-threads=1",
+            "--nocapture"
+          ],
+          "expected_tests": 14,
+          "exit": 0,
+          "wall_seconds": 3.3684951489558443,
+          "passed": 14,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-tests.stdout",
+            "bytes": 1578,
+            "sha256": "c46dec08da99dea4348094a4953d5806bc877c3aac348c4a14fea495da9710a7"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-tests.stderr",
+            "bytes": 1657,
+            "sha256": "a1690ec3245948b0577542e651649befeb618c262c94b63d592c0a7270b70849"
+          }
+        },
+        {
+          "name": "clippy",
+          "argv": [
+            "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+            "clippy",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/batch33-semantic-20261030/rust/crates/syson-migrations/Cargo.toml",
+            "--offline",
+            "--locked",
+            "--jobs",
+            "1",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit": 0,
+          "wall_seconds": 1.465811760048382,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-clippy.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-clippy.stderr",
+            "bytes": 1167,
+            "sha256": "9a090a201b0d789e5e0098f909eae4f87f9c93dc78c6efb237906a800c0a8ea9"
+          }
+        },
+        {
+          "name": "wasm",
+          "argv": [
+            "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+            "check",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/batch33-semantic-20261030/rust/crates/syson-migrations/Cargo.toml",
+            "--offline",
+            "--locked",
+            "--jobs",
+            "1",
+            "--target",
+            "wasm32-unknown-unknown"
+          ],
+          "exit": 0,
+          "wall_seconds": 1.415775324916467,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-wasm.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-wasm.stderr",
+            "bytes": 639,
+            "sha256": "e346c0dedaaaa6b09a8f720fc8c0ea54edd28c91c56b88c3540663c9dfedd44b"
+          }
+        },
+        {
+          "name": "release-build",
+          "argv": [
+            "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+            "build",
+            "--manifest-path",
+            "/workspace/worktrees/builderbob/syson/batch33-semantic-20261030/rust/crates/syson-migrations/Cargo.toml",
+            "--offline",
+            "--locked",
+            "--jobs",
+            "1",
+            "--release",
+            "--example",
+            "path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 6.372277107904665,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-release-build.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-release-build.stderr",
+            "bytes": 1157,
+            "sha256": "687a1b81ecc24b40d9d46fb6717334100c78264db7525bd266d3c990407e1fed"
+          }
+        },
+        {
+          "name": "warmup-0",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.0034093279391527176,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-warmup-0.stdout",
+            "bytes": 136,
+            "sha256": "735b2220cf9a8655bc5e86c455ffcc33d1c4846321944955b59e9f67c735f5ec"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-warmup-0.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        },
+        {
+          "name": "warmup-1",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.003354612970724702,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-warmup-1.stdout",
+            "bytes": 136,
+            "sha256": "aa261504a6ef2a56a1db1237fc59627f33f739e59b5ab8de5852d609e13aed67"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-warmup-1.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        },
+        {
+          "name": "sample-0",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.0012122680200263858,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-0.stdout",
+            "bytes": 136,
+            "sha256": "f9caad1e6693427db6de3bd7854275376853320757bded62ffac94c52e5beb10"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-0.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        },
+        {
+          "name": "sample-1",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.0012075690319761634,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-1.stdout",
+            "bytes": 136,
+            "sha256": "321a59a1aaca41272abafbb6aeb4973f411f04aa35ccc2fb40ad2f32f5c63d29"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-1.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        },
+        {
+          "name": "sample-2",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.001202598912641406,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-2.stdout",
+            "bytes": 136,
+            "sha256": "321a59a1aaca41272abafbb6aeb4973f411f04aa35ccc2fb40ad2f32f5c63d29"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-2.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        },
+        {
+          "name": "sample-3",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.0012014269595965743,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-3.stdout",
+            "bytes": 136,
+            "sha256": "c923afc0b3d6e276f20188e4719516db6b8d1f31ebe893e2f894fdbd47ea3982"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-3.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        },
+        {
+          "name": "sample-4",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.001199463033117354,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-4.stdout",
+            "bytes": 136,
+            "sha256": "2e2bf7b82bb9e13ff141ef482413dd68ed8b468682bab8a09a844ccdae673a04"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-4.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        },
+        {
+          "name": "sample-5",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.0012027599150314927,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-5.stdout",
+            "bytes": 136,
+            "sha256": "c923afc0b3d6e276f20188e4719516db6b8d1f31ebe893e2f894fdbd47ea3982"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-5.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        },
+        {
+          "name": "sample-6",
+          "argv": [
+            "/usr/bin/time",
+            "-f",
+            "max_rss_kib=%M elapsed_seconds=%e",
+            "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory"
+          ],
+          "exit": 0,
+          "wall_seconds": 0.0011978999245911837,
+          "passed": 0,
+          "stdout": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-6.stdout",
+            "bytes": 136,
+            "sha256": "ab2823a4bd4c75b72e0f2870ed88c16db7a340f8550946c1326f3c7df55e2d2a"
+          },
+          "stderr": {
+            "path": "porting/rust-parity-evidence/B25S1/main-batch33/captures/checks-01-sample-6.stderr",
+            "bytes": 38,
+            "sha256": "4e44f30a5415458048427cf524f10ef1c4b836534561ed07f192e1cb012c4bed"
+          }
+        }
+      ],
+      "inputs_sha256": {
+        "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/Cargo.lock-original.raw": "4f8eeccb6e0bf22b69c0ed2523e2814b5765b96c05cd07e25ee7b901575e2404",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo": "a670e02cfa39ac2e53f77a2d911ca1fc9e2c479b0603ec956625be1daf24e3af",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo-clippy": "4255f7671a17fba900ffd84a20f1dd0c986d52a2404496d3b7518f5044de5663",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/clippy-driver": "89b6cc8d0d988b00a3f65bc90c76fedbaedb6bcb442b34563aefe3621f26544b",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc": "b53b780f77f952062f8ca8a3b70aef2390b1e45ad91939be94afdc9543026853",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustfmt": "68cb47a2a38daa8ff2ec6d623a2374b0a165d77ec74f1f654216665018c04598",
+        ".github/workflows/rust-checks.yml": "f457ecc5f6f37eff62dc0750fe12cbdf16a1d1871fd8527dea6397e96b3dc4af",
+        "porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+        "porting/rust-parity-evidence/F25/main-batch31/qualify.py": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9",
+        "rust/crates/syson-domain/Cargo.lock": "9af05380551c03381265ca5e0e917c7371a784a521fef57fcfa2fd0bc14b0251",
+        "rust/crates/syson-domain/Cargo.toml": "3a7c8cd8f3de857273114262ec3e9056736952d837f09c5c8032ab8d5cfb786c",
+        "rust/crates/syson-domain/src/lib.rs": "b61a2458613465b321c622d5fbc471dccf9b3347b65c2158878c1f77fad27f5b",
+        "rust/crates/syson-domain/src/model.rs": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+        "rust/crates/syson-domain/src/names.rs": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+        "rust/crates/syson-domain/src/query.rs": "ef3515e88721df2fe35c5dc67e37675bc8cfe0b469b5303b8195c464e71f1e0c",
+        "rust/crates/syson-domain/src/uuid.rs": "63f34e679acc05cbec751d93abb62103d211a70a9481ee3bd704a9c481248d5a",
+        "rust/crates/syson-domain/tests/compatibility.rs": "d6190421e348a8125b63d9fd19b3f9cfd52764d592a2f1b80f50c5c2ff687851",
+        "rust/crates/syson-domain/tests/query_graph.rs": "5a3f838943e44f2535fe32e9e4e92da47327e3946d4795aae01e80b8ddb3057a",
+        "rust/crates/syson-json-value/Cargo.lock": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e",
+        "rust/crates/syson-json-value/Cargo.toml": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5",
+        "rust/crates/syson-json-value/README.md": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f",
+        "rust/crates/syson-json-value/examples/compat_parse_probe.rs": "57d396fdbce6a7ab5c2c7957e8b9e00fd728c998a04d203aa9f8062f53a17a08",
+        "rust/crates/syson-json-value/examples/strict_parse_probe.rs": "79b2f73c08b40160bfed8c69e0ceb42484a78d51820bcc4ac6ce7f754cc5f543",
+        "rust/crates/syson-json-value/src/lib.rs": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+        "rust/crates/syson-json-value/tests/literal.rs": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c",
+        "rust/crates/syson-json-value/tests/rr24a_duplicates.rs": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a",
+        "rust/crates/syson-metamodel/Cargo.lock": "5a41a1dd1d2de207ea0c222cde9d7e02ce3265c8b1ff09ad819684b45c15a9c2",
+        "rust/crates/syson-metamodel/Cargo.toml": "a01b76bc383bfbcd998e1f5cb12ef0ada41034308ab75fb9b539cc88f529cedd",
+        "rust/crates/syson-metamodel/src/generated.rs": "02d68b123460a89590d4c3d62a6421e94d0b8d933ad9a80cc67fbcd816158aab",
+        "rust/crates/syson-metamodel/src/lib.rs": "f5755e0e1b7910389cce955280f1424cdc75b9e33e0dde99a7cb6386613cf61c",
+        "rust/crates/syson-metamodel/tests/registry.rs": "bcda1c594260f03f32d577d6a33e48381ed0865aa4b904bbfb820b0a3d38de48",
+        "rust/crates/syson-metamodel/tools/generate.py": "e39239f219da9b726d435d984945cd42d437a85b5ae7ea6ca7f56d44e7dd4d6c",
+        "rust/crates/syson-migration-pipeline/Cargo.lock": "a09d9483c3354184c034be8d2d3f148e9762ccc6fa0b3a21d7f8bb3e7a1ecfc5",
+        "rust/crates/syson-migration-pipeline/Cargo.toml": "ae9bc581a21f4d74a9816952621c46117cf2e718f6cedba57162a1e9d47e91da",
+        "rust/crates/syson-migration-pipeline/src/lib.rs": "4b3c71daaa62f7b317a43e6fcec3c29f0ac299d1c358e0bd2bdb0d582cd28cb3",
+        "rust/crates/syson-migration-pipeline/tests/fixtures/native-diagram.json": "86056d801eb929cf9f432c7213f5f1000d83a7d8aaba3f7e4ea810b9f383d25d",
+        "rust/crates/syson-migration-pipeline/tests/fixtures/native-document.json": "2ec9446e01d53c323a622556f7371a170a2ea694c889d19f77677d7d6a4704b8",
+        "rust/crates/syson-migration-pipeline/tests/fixtures/native-id-map.txt": "cf391861cb30be757ced9c1539c4c4df9199a59b3736f842d64b23cdedcd9269",
+        "rust/crates/syson-migration-pipeline/tests/preparation.rs": "759deea394e89aa15f1ce6cf0d93c99639c12070b0bbdd2701afda3f4454b9fb",
+        "rust/crates/syson-migrations/Cargo.toml": "71a9e26dfd3a4d414bebdc0aab6f917b3a3b2e5a39f52fefb3fd9ce4257c30e8",
+        "rust/crates/syson-migrations/examples/path_memory.rs": "4ef9b14c97b845ee65648ba527b9bef5ed305592fafe441e266dc587a9cc70a2",
+        "rust/crates/syson-migrations/src/lib.rs": "ba894ed9965b4865042faf9e8d4d786e73af79ee1d4fc66c1c2bfd474c10897e",
+        "rust/crates/syson-migrations/tests/core.rs": "10f19569979ac444768c8654216ca1a891382a050022b498a1f54c949cb165e5",
+        "rust/crates/syson-migrations/tests/shared_literal.rs": "c350b7f4418f95bf6bef7d4d7af2d2a4aff4e42ad0b96740a229460b9dd44eb0",
+        "rust/crates/syson-model/Cargo.lock": "4242272f5f97f1e96b3f0f2607c3a4bce56488785674092ae7398c9d9d4bd842",
+        "rust/crates/syson-model/Cargo.toml": "2fb33c209ab50cd691834e7ff8da68d827e8af5ff75bc4b76189d53c29d93ce8",
+        "rust/crates/syson-model/src/containment.rs": "353a750d15425dbfc161e98eaf5f69e6fd17a2bc55be5e5ebd52c7985223382b",
+        "rust/crates/syson-model/src/element_summary.rs": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c",
+        "rust/crates/syson-model/src/lib.rs": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+        "rust/crates/syson-model/src/scalar.rs": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+        "rust/crates/syson-model/tests/batch14_history_summary.rs": "3db519d768ecb7e406d745b048789d6958b799e219581452f7be623d1a5a6f39",
+        "rust/crates/syson-model/tests/batch15_containment_regression.rs": "6eae2469c589344776a349407cec0436abd6ec9b28cd5e1bd44d68445d200aa5",
+        "rust/crates/syson-model/tests/containment.rs": "c6498b45977f2607754a2f869dd93762a71f49d033ea5de531bdebb1170e4ab6",
+        "rust/crates/syson-model/tests/creation_capabilities.rs": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+        "rust/crates/syson-model/tests/fixtures/simple-project.emf.json": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d",
+        "rust/crates/syson-model/tests/model.rs": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+        "rust/crates/syson-model/tests/rr02_regression.rs": "ca70e6c35a7eb2e8bce062b464051cc7e383268283925b90232cd80f2184d515",
+        "rust/crates/syson-model/tests/rr04_regression.rs": "e974bc3ab219c1a25ab12840384379fe2b583fd9f91f76503ce82c4fa988a0ee",
+        "rust/crates/syson-model/tests/rr18b3a_regression.rs": "743da5c96df2e3a0f3b2ed819dbbdeca165a9669111b7240cfebefffc60deea0",
+        "rust/crates/syson-model/tests/rr20_regression.rs": "829dcef07fe0c5d4e08d253c612d749f3e57c08ba957584f35818b04b1615bd7",
+        "rust/crates/syson-model/tests/scalars.rs": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d",
+        "rust/crates/syson-persistence/Cargo.lock": "c4d5176a081c3511c5b624c9543d948875e7a911b1b139ad550ae9dae6f98409",
+        "rust/crates/syson-persistence/Cargo.toml": "e6a4e978476a663e88d62510692da9132fe4b2ce7fb62db68ccc7683f946aff9",
+        "rust/crates/syson-persistence/src/lib.rs": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476",
+        "rust/crates/syson-persistence/tests/migration_contracts.rs": "aa5e8c6cac168e04594a6aa78344202e2dbaca6a66a0ba5d97c67f226402f8c0",
+        "rust/crates/syson-migrations/Cargo.lock": "4d88c090c98c0c901a9469c1477bcfad1980043aa4a4dbb45b906e2ce0740d1b",
+        "/usr/bin/time": "3b11dec50514a8473e9f6efa7a34d584d0657538c09988f61b72d38ad4991a10"
+      },
+      "source_unchanged": true,
+      "receipt_sha256": "7c7b73b4c411346318b22738c8606d003cea09cd75637e112f24c1c89ea9e4d8",
+      "spec_sha256": "683de5b550cd56a3b7d38a8e4d0eb1af9b4fd841f6b7ee2ed6b865bd02989469",
+      "scope_proof": {
+        "unit": "syson-b33-migrations-4c26829170b74614ab1b3510df2006a3.scope",
+        "cookie": "f8c46e1a23c24f4e9641f477a25c484a",
+        "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-b33-migrations-4c26829170b74614ab1b3510df2006a3.scope",
+        "invocation_id": "94ca04fede0147bb9f85208c8c2122bb",
+        "entry_pid": 3152078,
+        "entry_start_ticks": "75613939"
+      },
+      "cleanup": {
+        "confirmed_empty_or_absent": true,
+        "observations": [
+          {
+            "ControlGroup": "",
+            "LoadState": "not-found",
+            "InvocationID": ""
+          }
+        ]
+      }
+    }
+  ],
+  "generated_lock": {
+    "original_sha256": "4f8eeccb6e0bf22b69c0ed2523e2814b5765b96c05cd07e25ee7b901575e2404",
+    "current_sha256": "4d88c090c98c0c901a9469c1477bcfad1980043aa4a4dbb45b906e2ce0740d1b",
+    "offline_reconciled": true
+  },
+  "source_review": {
+    "path": "language/reviewer-B25S1-source.json",
+    "sha256": "35cba82b78fccda6e181c446a7e9309218044438a30d32d0a729ea584645a52b",
+    "findings": []
+  },
+  "performance": {
+    "scope": "Exact original41line fixed128KiBancestor/256child probe,2warmups7measured process invocations. Innerpreparation time excludesJSONfixturebuild/verification; processRSS includeswholeprocess. No native/UI/capacity/p95/baselineclaim.",
+    "rows": [
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 256,
+        "sample": "warmup-0",
+        "max_rss_kib": 3648
+      },
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 250,
+        "sample": "warmup-1",
+        "max_rss_kib": 3648
+      },
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 245,
+        "sample": "sample-0",
+        "max_rss_kib": 3648
+      },
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 249,
+        "sample": "sample-1",
+        "max_rss_kib": 3648
+      },
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 249,
+        "sample": "sample-2",
+        "max_rss_kib": 3648
+      },
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 243,
+        "sample": "sample-3",
+        "max_rss_kib": 3648
+      },
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 244,
+        "sample": "sample-4",
+        "max_rss_kib": 3648
+      },
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 243,
+        "sample": "sample-5",
+        "max_rss_kib": 3648
+      },
+      {
+        "all_removals_verified": true,
+        "ancestor_key_bytes": 131072,
+        "input_bytes": 143494,
+        "matching_object_children": 256,
+        "preparation_micros": 255,
+        "sample": "sample-6",
+        "max_rss_kib": 3648
+      }
+    ],
+    "preparation_micros": {
+      "min": 243,
+      "median": 245,
+      "max": 255
+    },
+    "max_rss_kib": {
+      "min": 3648,
+      "median": 3648,
+      "max": 3648
+    }
+  },
+  "executable": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/target-01/release/examples/path_memory",
+    "bytes": 1354816,
+    "sha256": "12de4349f176142d58b8621b83cf092e60a1c2f3f0208214568c0463867041f4"
+  },
+  "budget": {
+    "production": 317,
+    "authored": 741,
+    "caps": [
+      400,
+      900
+    ],
+    "scope": "Allsource/tests/probe/rootCargo/CI/README/attributesincluded; generatedlockandverbatimarchives/rawcapturesseparate"
+  },
+  "runtime_containment": "AppliedCPU200%,MemoryHigh2G,MemoryMax3G,swap0,Tasks128; scopeownershipattested andemptycleanupconfirmed. Notindependentreadbackofallresourceproperties. Percommand180soperationaltimeout; timingrangesarenotvetoes. FullRR16closurestillopen.",
+  "feature_acceptance": "OPEN;fullB25S/RR24participants,RR22callers,realSQLatomicity,native/UI/durableworkflowremainrequired",
+  "holds_released": false
+}
