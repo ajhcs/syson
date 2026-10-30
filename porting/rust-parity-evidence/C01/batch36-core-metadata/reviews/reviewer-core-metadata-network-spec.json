@@ -1,0 +1,562 @@
+{
+  "schema": "C01-CORE-METADATA-INDEPENDENT-EXECUTED-UNITS-NETWORK-SPEC-REVIEW/1",
+  "status": "PASS_EXACT_UNIT_EXECUTION_AND_PASSIVE_GET_SPEC;ROOT_FRESH_HOST_LAUNCH_AND_ACTUAL_NETWORK_READBACKS_PENDING",
+  "network_spec": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/network-01-spec.json",
+    "sha256": "19726fa7f46628bade160fafa0884c768d02d95fbf227ea4c591c909ea58d874",
+    "bytes": 12042,
+    "physical_lines": 95
+  },
+  "unit_receipt": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/receipt.json",
+    "sha256": "942c192ac2140c9d121997cae04d036ba66c885d35fa8d1f7984e380e02d5825",
+    "bytes": 393497,
+    "physical_lines": 1352
+  },
+  "unit_spec": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01-spec.json",
+    "sha256": "b322a11100e3797b03b73d009429447a4ff0f9e1f216e3cf88eb06ea92d1dca8",
+    "bytes": 156447,
+    "physical_lines": 730
+  },
+  "unit_peer_report": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/language/reviewer-core-metadata-unit-spec.json",
+    "sha256": "47f7b6b94f713abd5dfc8cde19a36912cf123ce612b44b76dbcd83e3a9e4bad0",
+    "bytes": 214714,
+    "physical_lines": 979
+  },
+  "source_peer_report": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/language/reviewer-core-metadata-source.json",
+    "sha256": "e8128f03abbdcd93e690630acf4fa19e947387ecb39b0f8264e8c22c185c05e1",
+    "bytes": 13999,
+    "physical_lines": 199
+  },
+  "unit_execution": {
+    "status": "PASS_NAMED_LOCAL_CHECKS_ONLY",
+    "commands": [
+      {
+        "command": {
+          "name": "old28-normal",
+          "argv": [
+            "/usr/bin/python3",
+            "-I",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "porting/rust-parity-evidence/C01/batch33-passive-closure/tests",
+            "-v"
+          ]
+        },
+        "exit": 0,
+        "named_methods": [
+          "test_96mib_metadata_profile_counts_proof_and_reserves_failure_receipt",
+          "test_actual_transfer_records_feed_checksum_validation_without_losing_paths",
+          "test_bad_strong_checksum_cannot_fall_back_to_valid_legacy",
+          "test_deadline_interrupts_a_blocked_read_and_preserves_partial_metadata",
+          "test_deadline_restores_handler_and_clears_timer_when_body_raises",
+          "test_exact_128mib_aggregate_boundary_refuses_without_large_allocation",
+          "test_file_and_remaining_aggregate_limits_keep_exact_partial_prefix",
+          "test_foreign_timer_is_refused_without_replacing_timer_or_handler",
+          "test_fresh_output_rejects_occupied_symlink_and_noncanonical_path",
+          "test_frozen_request_set_has_exact_395_urls_and_destinations",
+          "test_header_byte_exact_boundary_and_one_byte_overflow",
+          "test_header_count_exact_boundary_and_overflow_keep_only_bounded_prefix",
+          "test_header_unicode_budget_counts_utf8_keys_values_and_crlf",
+          "test_interrupted_stream_keeps_partial_body_and_response_record",
+          "test_malformed_checksum_refuses_and_absent_checksums_grant_no_match",
+          "test_manifest_payload_duplicates_coordinates_and_metadata_profile_refuse",
+          "test_metadata_charges_existing_proof_and_actual_serialized_bytes",
+          "test_nested_destination_preserves_existing_files_and_refuses_symlinks",
+          "test_non200_body_and_headers_are_retained_without_becoming_200",
+          "test_open_failure_still_retains_failure_metadata_without_an_artifact",
+          "test_raw_manifest_hash_and_duplicate_json_keys_refuse",
+          "test_redirect_handler_and_changed_final_url_never_follow",
+          "test_request_mutations_refuse_url_order_count_path_and_caps",
+          "test_strong_checksum_matches_uppercase_and_legacy_is_labelled_sha1",
+          "test_success_preserves_exact_body_hash_and_status",
+          "test_both_streams_are_retained_and_reaped",
+          "test_overflow_preserves_bounded_prefix_and_refuses",
+          "test_silent_child_cannot_escape_controller_deadline"
+        ],
+        "named_count": 28,
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/old28-normal.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "physical_lines": 0
+        },
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/old28-normal.stderr",
+          "sha256": "1be515e844ae9eff21c5a0ce92f5377b082d86605b53ec637392ce0b2042f1db",
+          "bytes": 4736,
+          "physical_lines": 33
+        },
+        "stdout_empty": true,
+        "stderr_Ran_and_OK_match": true
+      },
+      {
+        "command": {
+          "name": "old28-optimized",
+          "argv": [
+            "/usr/bin/python3",
+            "-I",
+            "-O",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "porting/rust-parity-evidence/C01/batch33-passive-closure/tests",
+            "-v"
+          ]
+        },
+        "exit": 0,
+        "named_methods": [
+          "test_96mib_metadata_profile_counts_proof_and_reserves_failure_receipt",
+          "test_actual_transfer_records_feed_checksum_validation_without_losing_paths",
+          "test_bad_strong_checksum_cannot_fall_back_to_valid_legacy",
+          "test_deadline_interrupts_a_blocked_read_and_preserves_partial_metadata",
+          "test_deadline_restores_handler_and_clears_timer_when_body_raises",
+          "test_exact_128mib_aggregate_boundary_refuses_without_large_allocation",
+          "test_file_and_remaining_aggregate_limits_keep_exact_partial_prefix",
+          "test_foreign_timer_is_refused_without_replacing_timer_or_handler",
+          "test_fresh_output_rejects_occupied_symlink_and_noncanonical_path",
+          "test_frozen_request_set_has_exact_395_urls_and_destinations",
+          "test_header_byte_exact_boundary_and_one_byte_overflow",
+          "test_header_count_exact_boundary_and_overflow_keep_only_bounded_prefix",
+          "test_header_unicode_budget_counts_utf8_keys_values_and_crlf",
+          "test_interrupted_stream_keeps_partial_body_and_response_record",
+          "test_malformed_checksum_refuses_and_absent_checksums_grant_no_match",
+          "test_manifest_payload_duplicates_coordinates_and_metadata_profile_refuse",
+          "test_metadata_charges_existing_proof_and_actual_serialized_bytes",
+          "test_nested_destination_preserves_existing_files_and_refuses_symlinks",
+          "test_non200_body_and_headers_are_retained_without_becoming_200",
+          "test_open_failure_still_retains_failure_metadata_without_an_artifact",
+          "test_raw_manifest_hash_and_duplicate_json_keys_refuse",
+          "test_redirect_handler_and_changed_final_url_never_follow",
+          "test_request_mutations_refuse_url_order_count_path_and_caps",
+          "test_strong_checksum_matches_uppercase_and_legacy_is_labelled_sha1",
+          "test_success_preserves_exact_body_hash_and_status",
+          "test_both_streams_are_retained_and_reaped",
+          "test_overflow_preserves_bounded_prefix_and_refuses",
+          "test_silent_child_cannot_escape_controller_deadline"
+        ],
+        "named_count": 28,
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/old28-optimized.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "physical_lines": 0
+        },
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/old28-optimized.stderr",
+          "sha256": "0fe0e02f2f6d65aa4a7a2f3aae6211ee31156d2cd18a9e48a6bf4d86bfdfa457",
+          "bytes": 4736,
+          "physical_lines": 33
+        },
+        "stdout_empty": true,
+        "stderr_Ran_and_OK_match": true
+      },
+      {
+        "command": {
+          "name": "direct13-normal",
+          "argv": [
+            "/usr/bin/python3",
+            "-I",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "porting/rust-parity-evidence/C01/batch34-direct-core/tests",
+            "-v"
+          ]
+        },
+        "exit": 0,
+        "named_methods": [
+          "test_31mib_ledger_has_a_real_failure_receipt_reserve",
+          "test_actual_newmain_140_transfers_checksums_profile_and_receipt",
+          "test_bad_raw_manifest_and_old395_manifest_never_get_admitted",
+          "test_coherent_commons_text_version_replacement_is_not_a_profile",
+          "test_count_duplicate_status_and_exact_profiles_cannot_be_changed",
+          "test_default_import_reads_only_verified_provider_and_keeps_old_profiles",
+          "test_exact64mib_boundary_uses_new_remaining_with_real_shared_transfer",
+          "test_exact_28_payloads_140_urls_and_three_source_classifiers",
+          "test_newmain_403_preserves_first_response_and_never_falls_back",
+          "test_newmain_bad_strong_checksum_retains_all_files_and_fails",
+          "test_newmain_exact_header_boundary_charges_both_escaped_metadata_copies",
+          "test_source_classifier_and_null_classifier_presence_are_required",
+          "test_wrong_provider_bytes_are_rejected_before_any_execution"
+        ],
+        "named_count": 13,
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/direct13-normal.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "physical_lines": 0
+        },
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/direct13-normal.stderr",
+          "sha256": "5c12ff41ca904010fc4f767ee95fa5a51744e24a64c5f68c67bc52d7fa70c5e6",
+          "bytes": 2255,
+          "physical_lines": 18
+        },
+        "stdout_empty": true,
+        "stderr_Ran_and_OK_match": true
+      },
+      {
+        "command": {
+          "name": "direct13-optimized",
+          "argv": [
+            "/usr/bin/python3",
+            "-I",
+            "-O",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "porting/rust-parity-evidence/C01/batch34-direct-core/tests",
+            "-v"
+          ]
+        },
+        "exit": 0,
+        "named_methods": [
+          "test_31mib_ledger_has_a_real_failure_receipt_reserve",
+          "test_actual_newmain_140_transfers_checksums_profile_and_receipt",
+          "test_bad_raw_manifest_and_old395_manifest_never_get_admitted",
+          "test_coherent_commons_text_version_replacement_is_not_a_profile",
+          "test_count_duplicate_status_and_exact_profiles_cannot_be_changed",
+          "test_default_import_reads_only_verified_provider_and_keeps_old_profiles",
+          "test_exact64mib_boundary_uses_new_remaining_with_real_shared_transfer",
+          "test_exact_28_payloads_140_urls_and_three_source_classifiers",
+          "test_newmain_403_preserves_first_response_and_never_falls_back",
+          "test_newmain_bad_strong_checksum_retains_all_files_and_fails",
+          "test_newmain_exact_header_boundary_charges_both_escaped_metadata_copies",
+          "test_source_classifier_and_null_classifier_presence_are_required",
+          "test_wrong_provider_bytes_are_rejected_before_any_execution"
+        ],
+        "named_count": 13,
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/direct13-optimized.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "physical_lines": 0
+        },
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/direct13-optimized.stderr",
+          "sha256": "5c12ff41ca904010fc4f767ee95fa5a51744e24a64c5f68c67bc52d7fa70c5e6",
+          "bytes": 2255,
+          "physical_lines": 18
+        },
+        "stdout_empty": true,
+        "stderr_Ran_and_OK_match": true
+      },
+      {
+        "command": {
+          "name": "metadata25-normal",
+          "argv": [
+            "/usr/bin/python3",
+            "-I",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "porting/rust-parity-evidence/C01/batch36-core-metadata/tests",
+            "-v"
+          ]
+        },
+        "exit": 0,
+        "named_methods": [
+          "test_actual280maxescaped_headers_charge_both_copies_below63mib",
+          "test_actual280pipeline_all56_primary_checksums_roles_and_receipt",
+          "test_aggregate_body_limit_refuses_even_when_old64mib_would_allow",
+          "test_bad_provider_unknown_provider_and_symlink_refused_before_loading",
+          "test_bad_strong_metadata_checksum_fails_after_all280_and_retains_roles",
+          "test_coherent_primary_and_request_float_or_boolean_status_lists_refused",
+          "test_coherent_range_metadata_path_replacement_is_not_admitted",
+          "test_coherent_version_coordinate_replacement_fails_independent_primary_seal",
+          "test_exact56_primary280_order_all_metadata_roles_and_sidecars",
+          "test_explicit16mib_boundary_real_transfer_partial_and_remaining_types",
+          "test_frozen_input_drift_fails_after_pipeline_without_changing_admission",
+          "test_import_whole_provider_pin_and_old_profiles_unchanged",
+          "test_mandatory_metadata404_stops_without_fallback_preserving_response",
+          "test_metadata_body_limit_retains256kib_partial_and_private_response",
+          "test_metadata_component_uses_real_escaped_bytes_and_failure_reserve",
+          "test_optional_metadata_sidecar404_is_recorded_with_remaining_checksums",
+          "test_phase_deadline_actual_controls_and_lock_protocol_refuse_before_requests",
+          "test_primary_coordinate_kind_order_and_index_cannot_change",
+          "test_raw_hash_size_duplicate_keys_and_old_profiles_refused",
+          "test_raw_header_overflow_preserves_empty_body_and_failure_receipt",
+          "test_response_and_static_proof_frames_refused_without_mocking_ledger",
+          "test_rows_status_role_index_algorithm_path_count_and_profile_are_exact",
+          "test_sidecar_float_boolean_or_reordered_status_lists_refused",
+          "test_specification_whole_byte_limit_is_checked_before_scope_or_output",
+          "test_static_frame_counts_proof_and_both_actual_escaped_input_maps"
+        ],
+        "named_count": 25,
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/metadata25-normal.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "physical_lines": 0
+        },
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/metadata25-normal.stderr",
+          "sha256": "035041a9c818ae892d32ec5a388b2496514445165f877245837e5b5ca9d5758e",
+          "bytes": 4461,
+          "physical_lines": 30
+        },
+        "stdout_empty": true,
+        "stderr_Ran_and_OK_match": true
+      },
+      {
+        "command": {
+          "name": "metadata25-optimized",
+          "argv": [
+            "/usr/bin/python3",
+            "-I",
+            "-O",
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "porting/rust-parity-evidence/C01/batch36-core-metadata/tests",
+            "-v"
+          ]
+        },
+        "exit": 0,
+        "named_methods": [
+          "test_actual280maxescaped_headers_charge_both_copies_below63mib",
+          "test_actual280pipeline_all56_primary_checksums_roles_and_receipt",
+          "test_aggregate_body_limit_refuses_even_when_old64mib_would_allow",
+          "test_bad_provider_unknown_provider_and_symlink_refused_before_loading",
+          "test_bad_strong_metadata_checksum_fails_after_all280_and_retains_roles",
+          "test_coherent_primary_and_request_float_or_boolean_status_lists_refused",
+          "test_coherent_range_metadata_path_replacement_is_not_admitted",
+          "test_coherent_version_coordinate_replacement_fails_independent_primary_seal",
+          "test_exact56_primary280_order_all_metadata_roles_and_sidecars",
+          "test_explicit16mib_boundary_real_transfer_partial_and_remaining_types",
+          "test_frozen_input_drift_fails_after_pipeline_without_changing_admission",
+          "test_import_whole_provider_pin_and_old_profiles_unchanged",
+          "test_mandatory_metadata404_stops_without_fallback_preserving_response",
+          "test_metadata_body_limit_retains256kib_partial_and_private_response",
+          "test_metadata_component_uses_real_escaped_bytes_and_failure_reserve",
+          "test_optional_metadata_sidecar404_is_recorded_with_remaining_checksums",
+          "test_phase_deadline_actual_controls_and_lock_protocol_refuse_before_requests",
+          "test_primary_coordinate_kind_order_and_index_cannot_change",
+          "test_raw_hash_size_duplicate_keys_and_old_profiles_refused",
+          "test_raw_header_overflow_preserves_empty_body_and_failure_receipt",
+          "test_response_and_static_proof_frames_refused_without_mocking_ledger",
+          "test_rows_status_role_index_algorithm_path_count_and_profile_are_exact",
+          "test_sidecar_float_boolean_or_reordered_status_lists_refused",
+          "test_specification_whole_byte_limit_is_checked_before_scope_or_output",
+          "test_static_frame_counts_proof_and_both_actual_escaped_input_maps"
+        ],
+        "named_count": 25,
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/metadata25-optimized.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "physical_lines": 0
+        },
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/metadata25-optimized.stderr",
+          "sha256": "fc4c45682f4a9105da4f3e5f38fc093eed05299873873c7b030ebc3b93525450",
+          "bytes": 4461,
+          "physical_lines": 30
+        },
+        "stdout_empty": true,
+        "stderr_Ran_and_OK_match": true
+      }
+    ],
+    "commands_total": 6,
+    "named_tests_total": 132,
+    "each_mode": 66,
+    "all132expected_named_methods_match_source_and_pass": true,
+    "unitqualifier_Rust_passed_counter_not_used_as_Python_test_evidence": true,
+    "619inputs_before_after_equal_to_sealed_peer_map": true,
+    "all619current_bytes_still_match": true,
+    "canonical_input_map_sha256": "70d569d4bb1acc761b3d20f47775eb8265145f44d45077a030861a6529522fc2",
+    "scope_proof": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/scope-proof.json",
+      "sha256": "f590c2dba40f129f0c94d78724c6326049f0b51322436b5503277daf95224462",
+      "bytes": 390,
+      "physical_lines": 8
+    },
+    "proof_matches_unit_spec_and_canonical_invocation_identity_without_printing_nonce": true,
+    "cleanup": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01-cleanup.json",
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+      "bytes": 160,
+      "physical_lines": 10
+    },
+    "cleanup_confirmed": true,
+    "last_observed_LoadState": "not-found",
+    "controller_stdout": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01-controller.stdout",
+      "sha256": "b2ad965fa6ab20ad53f59670b60149d9b7b9b305ed8d220198ee7f6b6232c233",
+      "bytes": 1441,
+      "physical_lines": 6
+    },
+    "controller_stderr": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01-controller.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "physical_lines": 0
+    }
+  },
+  "main_FF_proof": {
+    "artifact": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/main-FF-unit-proof-01.json",
+      "sha256": "43f960abbac2839d92afc1f803c26b075ee824f20462fef445c33b67fdee554a",
+      "bytes": 584,
+      "physical_lines": 23
+    },
+    "reported_main": "dea672ee0b2b728c5b6f1cf30af5cef70659179b",
+    "proof_receipt_case_and_cleanup_bindings_match_actual_evidence": true,
+    "all619current_source_bytes_match_executed_epoch": true,
+    "boundary": "Root supplied mainFFrecord is pinned and internally crosschecked against actual unit evidence/currentbytes. Reviewer used no Git and does not independently claim commit-ancestry/ref history verification."
+  },
+  "network_input_closure": {
+    "count": 32,
+    "unique_exact_pathset": true,
+    "every_current_hash_matches_spec": true,
+    "input_sha256": {
+      "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/author-freeze-repaired.json": "5562edca3283fcf497f56e2acab48cf89ddfc78cd6bc3869147fc77286ed1dea",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/coordinator-freeze-01.json": "dd567fe240f966dc5df4095dba2065430ba79ca0255519d5d27b146ed381e7e7",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01-cleanup.json": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01-spec.json": "b322a11100e3797b03b73d009429447a4ff0f9e1f216e3cf88eb06ea92d1dca8",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/units-01/receipt.json": "942c192ac2140c9d121997cae04d036ba66c885d35fa8d1f7984e380e02d5825",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/language/reviewer-core-frontier-manifest.json": "54a2099cb73fcecbcf0c81b71aa4350c29737517312892326f3678c04f1ad08c",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/language/reviewer-core-metadata-source.json": "e8128f03abbdcd93e690630acf4fa19e947387ecb39b0f8264e8c22c185c05e1",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/language/reviewer-core-metadata-unit-spec.json": "47f7b6b94f713abd5dfc8cde19a36912cf123ce612b44b76dbcd83e3a9e4bad0",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/next-core-metadata-request-set.json": "d4c51a84aa264eaa057d42f4d208744573520085dca116103b874790c8fb445d",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-next-core-metadata-request-set.json": "bb18814070b08c84bcc2a1653ff4efb0a417f1e13ea9105b10799390f97a7d4f",
+      "/workspace/build/builderbob/syson-durable-batch33-20261030/semantic/direct-core-observed-frontier.json": "0cdc8d1d9d263e616c6ef3d86766f3443e20e0f5d8e78bc614ec844dcfca8ebf",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/.github/workflows/passive-closure-checks.yml": "33c8a0d1dc22a9d43c7f90f819e6a783a170c9ec5fa5ec1e35ab336ce414e7a9",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/README.md": "06e653971d4178f3ee1f084de0cadb94464e53d6b47aa0269dd453c40ece6a3d",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/fetch.py": "faaa2a57387bf4f6880ea3189d95ec75ffcc02a1df53703fae335d57f09aef25",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/launch.py": "947e2ea8bb6acf9e83d4f53a9e9602815a3dfa8fd91cf398cf5489d3c13b38d5",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/requests.json": "9c710bb285eff7ffb52c1608a2e8497451dd86bbd4057ddb444c04d4fcc415a0",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/tests/test_fetch.py": "64ee1a7df62ce1e8908e5ea58f06616ec599b921d56c48f4281b2c9c10e1aa11",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/tests/test_launch.py": "08a5788035b347b448ad541764c73f9f9a96bbb7bedcb2bc4a88d46597641c5e",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch34-direct-core/README.md": "84ef9fe26eb4eeb73ee0fb7628358f8f9a53e9b80da7b12ed36c366f585e01d5",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch34-direct-core/fetch.py": "ec12a274a1b51f527072d7605cd36e9ec449183a639656f17b45a5554df8129d",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch34-direct-core/project_metadata.py": "26819c7fc1235a9f811b3d47df974d5e9615e75a0e632a653b114904b2cbfdd9",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch34-direct-core/requests.json": "f9e8ae517ca7323326ebe63f0a2974febd3c966a51bb0f0c23d80434214516ff",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch34-direct-core/tests/test_fetch.py": "00b26b204814af646dc8b92ae0e4d008ede12bce8793fbd318c141a0d5fe3f70",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch36-core-metadata/.gitattributes": "e73bb8304509b2eac6b0c868d0610e59f7fb5b2fdd13baa6513b35438277b3da",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch36-core-metadata/README.md": "4104d58de9c614c57b99d204c0cdf2da520947b8d3c373a3288a7a2849f10b94",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch36-core-metadata/fetch.py": "6edae32a8e554d298160c1f496270597a36b113041f270dae705fbacdbf46822",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch36-core-metadata/requests.json": "d4c51a84aa264eaa057d42f4d208744573520085dca116103b874790c8fb445d",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch36-core-metadata/tests/test_fetch.py": "b02ae9854e72a2c594dbe08b9d9dfc1136702b1eb292b4f3864c4b636f63afb1",
+      "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+      "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01/backend/metamodel/syson-sysml-metamodel/pom.xml": "2a03b2e89e4e727afe564aa8f1adf6b07e70c7dade4ad904032c625a920dee1a",
+      "/workspace/worktrees/builderbob/syson/c01-native-target-6ba2-01/pom.xml": "f49d6760fd6ea2d3c079e9607c472eb27c23bfab64560d9166e362c85c58e656"
+    },
+    "full_double_input_map_serialized_bytes": 12416,
+    "review_maps_are_observations_not_future_state_guarantees": true
+  },
+  "network_source_provider_pins": {
+    "client": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch36-core-metadata/fetch.py",
+      "sha256": "6edae32a8e554d298160c1f496270597a36b113041f270dae705fbacdbf46822",
+      "bytes": 11202,
+      "physical_lines": 203
+    },
+    "immutable_transport": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/fetch.py",
+      "sha256": "faaa2a57387bf4f6880ea3189d95ec75ffcc02a1df53703fae335d57f09aef25",
+      "bytes": 13378,
+      "physical_lines": 261
+    },
+    "immutable99launcher": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch33-passive-closure/launch.py",
+      "sha256": "947e2ea8bb6acf9e83d4f53a9e9602815a3dfa8fd91cf398cf5489d3c13b38d5",
+      "bytes": 5781,
+      "physical_lines": 99
+    },
+    "ownership_helper": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py",
+      "sha256": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+      "bytes": 4356,
+      "physical_lines": 96
+    },
+    "client_matches_executed_and_source_reviewed_SHA": true
+  },
+  "fixed_request_admission": {
+    "manifest": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-core-metadata-20261030/porting/rust-parity-evidence/C01/batch36-core-metadata/requests.json",
+      "sha256": "d4c51a84aa264eaa057d42f4d208744573520085dca116103b874790c8fb445d",
+      "bytes": 203892,
+      "physical_lines": 5583
+    },
+    "manifest_SHA_matches_frozen_peer_and_client": "d4c51a84aa264eaa057d42f4d208744573520085dca116103b874790c8fb445d",
+    "independent_primary_path_kind_sha256": "fd3874c62b6d7068fe9bb42446c65098ca55f425657fe8b4f4997fdbab0647af",
+    "primaries": 56,
+    "POMs": 51,
+    "version_metadata_XMLs": 5,
+    "exact_GET_URLs": 280,
+    "strict_whole_manifest_primaryseal_coordinate_path_role_status_index_profile_controls_executed": true,
+    "all_metadata_payload_checksum_adapter_covered_by_executed_pipeline_and_bad_strong_sidecar_case": true,
+    "HTTP_primary200_only_optional_sidecar200_or404": true,
+    "transport": "Fixed HTTPS GET, no redirects/retries/fallback/recursivediscovery or Maven/JVM/code execution. Explicit checksum/signature sidecars; signatures unverified and same-origin consistency only."
+  },
+  "logical_profile": {
+    "body_bytes": 16777216,
+    "getter_metadata_bytes": 66060288,
+    "root_stdout_stderr_bytes": 983040,
+    "root_controller_JSON_bytes": 65536,
+    "total_bytes": 83886080,
+    "per_POM_bytes": 2097152,
+    "per_metadata_bytes": 262144,
+    "per_sidecar_bytes": 65536,
+    "header_pair_limit": 64,
+    "raw_header_UTF8_bytes": 16384,
+    "nonheader_row_bytes": 4096,
+    "static_frame_bytes": 1048576,
+    "getter_failure_reserve_bytes": 1048576,
+    "whole_manifest_spec_each_maximum": 262144,
+    "controller_seconds": 900,
+    "scope_seconds": 1020,
+    "actual_serialized_ledger_and_nearbound_two_copy_header_tests_passed": true,
+    "physical_quota_disk_poll_fullRR16_parentSIGKILL_or_completion_promised": false
+  },
+  "freshness": {
+    "out": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/passive-05a9ce0ad1824192acfbc152a888bd28",
+    "out_and_three_controller_paths_absent": true,
+    "parent_canonical": true,
+    "parent_owner_uid": 1000,
+    "launcher_will_generate_new_local_scope_identity_and_nonce_then_refuse_preexisting_unit": true,
+    "freshness_is_current_readonly_observation_root_must_recheck_at_launch": true
+  },
+  "actual_resource_and_cleanup_obligations": {
+    "root_prelaunch": "Run unchanged99launcher against exact networkspec19726fa7... and pinnedlauncher947e... under trustedbuilderbob/Samsung context, freshmemory>=10GiB/disk>=30GiB/lock/headroom and exactnewoutput. Source creates exclusive0700output and inheritedcompilerlockdescriptor.",
+    "scope_properties": "CPUQuota100%,MemoryHigh512M,MemoryMax1G,MemorySwapMax0,TasksMax32,RuntimeMaxSec1020s.",
+    "mandatory_getter_actual_readbacks": {
+      "cpu.max": "100000 100000",
+      "memory.high": "536870912",
+      "memory.max": "1073741824",
+      "memory.swap.max": "0",
+      "pids.max": "32"
+    },
+    "readback_order": "Actual invocation/cgroup proof and5controls must match before any GET. Source also checks inheritedlockdevice/inode and flock, input/admission maps before requests and source/spec/provider/manifest pins.",
+    "postlaunch": "Retain rawprivateoutput/response/receipt/controller streams; verify32inputsbeforeafter against sealed map, actualbody/metadata/logaccounting, all56mandatory responses/servedchecksums/signatureunknowns, and invocation-bound confirmedempty/absentcleanup. Stop/refuse and preserve partials on failure.",
+    "no_current_network_actual_readback_claim": "Network scope not launched by reviewer; actual future resource proof/cleanup remain root-executed evidence obligations."
+  },
+  "findings": [],
+  "claim_boundaries": [
+    "UnitPASS qualifies exactofflinecontrols only; no real remoteavailability/closure/publisheridentity/executabletrust claim.",
+    "PassiveXMLmetadata acquisition does not select concrete rangeversions or authorize scopepruning. New parent/BOM/XML data need bounded inspection before further frontier.",
+    "No acquiredcode execution, extraction, classloading, cacheinstall, Maven/JVM/compiler/nativecompile, fullapp/UI/storage/restart/Rustparity acceptance or hold release.",
+    "Allreviewactions were read/hash/rawlog/JSON/AST-source reasoning only; no network, subjectimports/tests/runtime/Git or source mutation by reviewer. No ownership nonce/rawheader values printed or copied in this review turn/report."
+  ],
+  "holds_released": false,
+  "reviewer_network_or_subject_execution": false
+}

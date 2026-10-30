@@ -1,0 +1,1216 @@
+{
+  "schema": "C01-CORE-METADATA-NETWORK01-INDEPENDENT-FAILURE-DATA-REVIEW/1",
+  "status": "FAILURE_RETAINED_FAIL_PRESERVED;READ_ONLY_BODY_SIDECAR_HEADER_AUDIT_COMPLETE",
+  "network_spec": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/network-01-spec.json",
+    "sha256": "19726fa7f46628bade160fafa0884c768d02d95fbf227ea4c591c909ea58d874",
+    "bytes": 12042,
+    "physical_lines": 95
+  },
+  "failed_receipt": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/passive-05a9ce0ad1824192acfbc152a888bd28/receipt.json",
+    "sha256": "cacfd3aade10468835e4cac70ff48eefec59dd75ca296e8f5b608f9430e42dfa",
+    "bytes": 575953,
+    "physical_lines": 19893
+  },
+  "failed_controller": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/passive-05a9ce0ad1824192acfbc152a888bd28.controller.json",
+    "sha256": "5e70414448a936c4c9fc46812ecc643e82fec3dc04328fb9dc952c5f5b03b6b8",
+    "bytes": 461,
+    "physical_lines": 19
+  },
+  "failed_scope_proof": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/passive-05a9ce0ad1824192acfbc152a888bd28/scope-proof.json",
+    "sha256": "ec755c770ddec32f688619341f1279783815e455aed4a43e0077345d84eda15c",
+    "bytes": 366,
+    "physical_lines": 8
+  },
+  "controller_stdout": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/passive-05a9ce0ad1824192acfbc152a888bd28.controller.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0,
+    "physical_lines": 0
+  },
+  "controller_stderr": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/passive-05a9ce0ad1824192acfbc152a888bd28.controller.stderr",
+    "sha256": "b831176afd6a2f44e66784d08a323b1e6239effc5f8ea7048b4fd874107fdcfa",
+    "bytes": 719,
+    "physical_lines": 8
+  },
+  "root_failure_analysis": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/network-01-failure-analysis.json",
+    "sha256": "13393c8093ce3a7b7a8ee7ef81df27c472e9d3a5fdd7579511d1fd2639821b88",
+    "bytes": 1084,
+    "physical_lines": 28
+  },
+  "preserved_source_epoch": {
+    "directory": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/source-epoch-02-before-sidecar-repair",
+    "client": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/source-epoch-02-before-sidecar-repair/fetch.py.raw",
+      "sha256": "6edae32a8e554d298160c1f496270597a36b113041f270dae705fbacdbf46822",
+      "bytes": 11202,
+      "physical_lines": 203
+    },
+    "tests": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/source-epoch-02-before-sidecar-repair/test_fetch.py.raw",
+      "sha256": "b02ae9854e72a2c594dbe08b9d9dfc1136702b1eb292b4f3864c4b636f63afb1",
+      "bytes": 24073,
+      "physical_lines": 421
+    },
+    "freeze": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/core-metadata/source-epoch-02-before-sidecar-repair/author-freeze-repaired.json.raw",
+      "sha256": "5562edca3283fcf497f56e2acab48cf89ddfc78cd6bc3869147fc77286ed1dea",
+      "bytes": 8182,
+      "physical_lines": 108
+    }
+  },
+  "failure_classification": {
+    "recorded_status": "FAIL_PRESERVED",
+    "recorded_error": "ValueError('invalid sidecar')",
+    "cause": "The immutable bare-hex-only sidecar verifier rejects one validly named GNU text checksum. New fixed client must implement its explicitly bounded grammar locally; old261transport/99launcher/source/test policies remain unchanged.",
+    "sidecar_relative_artifact": "javax/inject/javax.inject/1/javax.inject-1.pom.sha1",
+    "sidecar_bytes": 138,
+    "observed_format": "40hex SHA1 followed by exactly two spaces and an absolute POSIX named-file string; terminal basename javax.inject-1.pom matches primary URL basename.",
+    "same_origin_digest_matches_actual_primary": true,
+    "receipt_is_not_relabelled_PASS": true,
+    "no_reGET_or_subject_execution_performed": true
+  },
+  "actual_integrity_checks": {
+    "responses": 280,
+    "HTTP200": 222,
+    "HTTP404": 58,
+    "body_bytes": 521207,
+    "all280body_raw_SHA256_and_size_records_match": true,
+    "all280private_response_JSONs_equal_receipt_rows": true,
+    "role_status_counts": {
+      "pom:200": 51,
+      "checksum:404": 52,
+      "checksum:200": 116,
+      "signature:200": 50,
+      "signature:404": 6,
+      "version_metadata:200": 5
+    },
+    "all32captured_inputs_before_after_equal_original_sealed_network_map": true,
+    "five_actual_cgroup_readbacks_match_fixed_source": {
+      "cpu.max": "100000 100000",
+      "memory.high": "536870912",
+      "memory.max": "1073741824",
+      "memory.swap.max": "0",
+      "pids.max": "32"
+    },
+    "cleanup_confirmed_empty_or_absent": true,
+    "last_cleanup_LoadState": "not-found",
+    "body_under16MiB": true,
+    "proof_response_receipt_metadata_bytes": 1059878,
+    "metadata_under63MiB": true,
+    "controller_stdout_stderr_bytes": 719,
+    "controller_JSON_bytes": 461,
+    "maximum_header_pairs": 16,
+    "maximum_raw_header_UTF8_bytes": 841,
+    "current_live_repaired_source_not_assumed_equal_failed_epoch": "Author may now edit only separately leased newclient source; failure maps/sourceepoch are immutable evidence."
+  },
+  "all_served_sidecar_audit": {
+    "served": 116,
+    "optional404": 52,
+    "formats": {
+      "bare_hex": 115,
+      "GNU_text": 1
+    },
+    "SHA512_matches": 30,
+    "SHA256_matches": 30,
+    "SHA1_matches": 56,
+    "primary_availability": {
+      "POM_SHA1_only": 26,
+      "POM_all_three": 25,
+      "version_metadata_all_three": 5
+    },
+    "additional_observed_format_or_digest_or_named_filename_issue_count": 0,
+    "per_served_sidecar": [
+      {
+        "primary_relative_artifact": "com/fasterxml/oss-parent/58/oss-parent-58.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "d37ef755b47a583ada2521878f5b5a5c9bc23d1a1f466e0f322cc482f263f87f",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "com/jayway/jsonpath/json-path/2.10.0/json-path-2.10.0.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "b63a8e927022888b63378b413f2ccd66b71a58b2ced78759e95642bd34002465",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "com/jayway/jsonpath/json-path/2.10.0/json-path-2.10.0.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "740545df72ff2e9df5f18848a8b2dd44847d404e5ccfe4fe4d1a126f99472b48",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "com/jayway/jsonpath/json-path/2.10.0/json-path-2.10.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "f63e600f76ad42414cc53cabefe79d30fd7d88f75ba5e98bff691968ae66c58e",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "com/thoughtworks/qdox/qdox/2.2.0/qdox-2.2.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "353a9a4e94c2903b72268d1d3cdaa6ea6efde514bd5c788ab860ba77cfed1e08",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "commons-io/commons-io/2.11.0/commons-io-2.11.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "ab1e16447a216df3c236d01d92c980df5bf7da6834c9a6a79470798a3074ff20",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "commons-io/commons-io/2.19.0/commons-io-2.19.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "d08b1b7784b114c5e525b39ec1b5bac4b630d53c4d316221487e38d9c4e4f20a",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "jakarta/xml/bind/jakarta.xml.bind-api/4.0.5/jakarta.xml.bind-api-4.0.5.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "00fb9797beaca1587b67f32e82f808a0df9c755bb0d222dfef1a60fff280f99b",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "jakarta/xml/bind/jakarta.xml.bind-api/4.0.5/jakarta.xml.bind-api-4.0.5.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "07c5e9091650600c80d73ce91f6380425d74b03e5ccde964c16f5dbb778ccda0",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "jakarta/xml/bind/jakarta.xml.bind-api/4.0.5/jakarta.xml.bind-api-4.0.5.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "a6ec0802e8fb5a7f9d6c9c4e930267cfab50acdfc33d45f1050d7061a6284c3e",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "javax/inject/javax.inject/1/javax.inject-1.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "8ac184b467ccff882fe11508898931d3cf6d629636d1b4a3b9df53a67b2690d6",
+        "sidecar_bytes": 138,
+        "grammar": "GNU_text",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": true
+      },
+      {
+        "primary_relative_artifact": "net/minidev/json-smart/2.6.0/json-smart-2.6.0.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "f13743e9a1bca86ca31a3a383c3d137664298e18eeeed484ee382d70df9de81e",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "net/minidev/json-smart/2.6.0/json-smart-2.6.0.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "2403f3decdf29cce8a2ce40f79efbdfd77c6643fa5716cfa6477861722c0965e",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "net/minidev/json-smart/2.6.0/json-smart-2.6.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "5f8c9c4247d33b0a2a8ddc7217f4b8a62a61a79ee28fab3cc5dc12d090e67a39",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/commons/commons-parent/54/commons-parent-54.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "5b01edc636df4af68d586f292fa4ec5ee7b88e6c7518dfbab716681505b6378e",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/maven/doxia/doxia-sink-api/1.0/doxia-sink-api-1.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "0173868fd4bc4f76c4378cd106a0f5fb156705825211ad1944b7d2f68f0377af",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/maven/maven-parent/47/maven-parent-47.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "e4e5b8846b39b7942a6c91f6b7b53bea0a83899d0fd50af73b6002ddc3236795",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "541d80583a3aa200b58a760c2d4ff37f2b2f2153e4f2ea41363023f34c3de31a",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/maven/plugins/maven-plugins/49/maven-plugins-49.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "0f687d95068e1737e0b65d38d80e6d57956c6f8cad16cc65ce939ca2937177cd",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/maven/reporting/maven-reporting-api/3.0/maven-reporting-api-3.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "26be2e12cfa61c3a7b82b8781dd97e13dfb7857a29a5c70a0795b9827cd25b12",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/maven/shared/file-management/3.2.0/file-management-3.2.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "8255f4606044db3ce3ad34ece312240fa1e18581ccfcd6ac764bca5f2b45fad7",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/maven/shared/maven-filtering/3.5.0/maven-filtering-3.5.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "555bff282152c4914276f327a37c48aea18e9c91b6acd6a02880342644dc9367",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/apache/maven/shared/maven-shared-incremental/1.1/maven-shared-incremental-1.1.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "6a9192d42f4b58a31e584136f5b499a6f45d8d3d2d5f52d3bbf70b7618360309",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/assertj/assertj-core/3.27.7/assertj-core-3.27.7.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "eb3acf8571ba7376451d9fac55d5b79e685b29ca6e9f2d38bf57a0a07221873e",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/assertj/assertj-core/3.27.7/assertj-core-3.27.7.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "a8468ff2b9422370fc0c08a4e87dd658ea77f31a1576b383895a811df256af48",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/assertj/assertj-core/3.27.7/assertj-core-3.27.7.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "b2ff63ea290a9d6d8f9343bc683171c4dabc801ce629e2d429db0eae35037175",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/awaitility/awaitility/4.3.0/awaitility-4.3.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "2cc8e892ebb2c5788d40e088de7a02d0f7f811f50c71cd40a28005a31802a7ba",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-build-api/1.2.0/plexus-build-api-1.2.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "5b8f1f5d9bf93eff982e2a0ea6e4b5c91b632d49962eab7e8d870b41909ce47e",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-classworlds/2.9.0/plexus-classworlds-2.9.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "32395921799ed33affd4348b8b8ec6044567feb6fb82c80b9b760cb34cb9be43",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-api/2.16.2/plexus-compiler-api-2.16.2.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "caabffe9dda33644d6626a2590c4717790a0ea5b7a76ee38c079a17d44de853f",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-api/2.16.2/plexus-compiler-api-2.16.2.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "9a11a6b2172ab442f11af574d93f5906184ad5c55bf16fb6b387371cdf18a02d",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-api/2.16.2/plexus-compiler-api-2.16.2.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "41de4c5db7b205ade98af9513c72122dd231ffdde74a1d4d4b151ccbf92c91af",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-javac/2.16.2/plexus-compiler-javac-2.16.2.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "c735a32f9e54cca5d714af4a1ab1f4f5c64738e2e240df6e09cfee517e3b0422",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-javac/2.16.2/plexus-compiler-javac-2.16.2.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "ae5095780bb66aa613ef44acd0c030d8db85f50bf861f71cbb95c889393eada1",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-javac/2.16.2/plexus-compiler-javac-2.16.2.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "3f3bb3d6d02d8ce98cc2b06a93bc2ce518cdd1a1cb2c6c640918deeca4cd054b",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-manager/2.16.2/plexus-compiler-manager-2.16.2.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "404991be52bcf20db4b1386c1fb353fec0ed32115232871865b2b854c9b9a43a",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-manager/2.16.2/plexus-compiler-manager-2.16.2.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "93601c33ed01ca2ab37ee490256747c4ed5744aa1911eede2685e5a77cff5dba",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-compiler-manager/2.16.2/plexus-compiler-manager-2.16.2.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "5a42f88a424ae3ca511b6c991c4520a98c429302d4eab322255d24d7b4501056",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-java/1.5.2/plexus-java-1.5.2.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "47b71b88833bb12750e3ed232b6ebbb08a5816b7958f02716fbbfec49de10ce7",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-java/1.5.2/plexus-java-1.5.2.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "59cfc2387ae96760bf8bded7663041b39e15db481f52c8c4f963144882a2a98e",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-java/1.5.2/plexus-java-1.5.2.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "9384257e41b16494e7c6b817fb557291ebbd3d3306df533229b17aaff26c7deb",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-utils/3.0.24/plexus-utils-3.0.24.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "b76f7a5cd04ece0458e8d96fb8ad8bb3aba6098c9036609473e0a2e9e43dd7de",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/codehaus/plexus/plexus-utils/3.6.0/plexus-utils-3.6.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "69f07473ea031b5f3c02f05c92ca330ff8fd949a3d8ee7bc838f69a985db4740",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/emf/org.eclipse.emf.codegen/2.28.0/org.eclipse.emf.codegen-2.28.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "4c00bd2741d106277b376fabbfe19af33ffd43ead5a81a9f917edf0bbfab5952",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/jdt/org.eclipse.jdt.core/maven-metadata.xml",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "73fe77b069d3da4ee1da1115e808e3681334d26c0176873a6850f4d5d0c16d9e",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/jdt/org.eclipse.jdt.core/maven-metadata.xml",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "a71b6e7f7997106e094a2c330e4f95117d191171e7305577c79965f960cad6cd",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/jdt/org.eclipse.jdt.core/maven-metadata.xml",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "89aba0b771fa2190e39adea64fb0438cb4435b75ef2145b0515ada52583f9359",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/jdt/org.eclipse.jdt.launching/maven-metadata.xml",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "72cb61593617185965c1a65e7cebb633cccf280cdb2d2b7367ba53abd43a8132",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/jdt/org.eclipse.jdt.launching/maven-metadata.xml",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "381ac7c0207360bd776c26acbfadb42cc9418d9afe0e670a34674e85b523c44c",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/jdt/org.eclipse.jdt.launching/maven-metadata.xml",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "2af59dae5a7a5a3ce1693468061f8c628106a6230d93719a59dbf987734ac97e",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.core.resources/maven-metadata.xml",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "2f4ad4763bc1d3dc98a01798a3e8de21c9d69b9389ff2cb9c0a71455d5886cdd",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.core.resources/maven-metadata.xml",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "93b1eff2bfc6ed3f91d374c15ac5bd808318ad187ba82d8a429c98c0899c958f",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.core.resources/maven-metadata.xml",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "74ce60fb936d16b394217fc9b680b6e65022921fbf40456b4a8c682a1e934683",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.core.runtime/maven-metadata.xml",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "35e5ba3a5ba114dd9aac6c409254763d577dec7064283f4ae6f60f66b3b98bc1",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.core.runtime/maven-metadata.xml",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "afe2afb53266e75789c928163b25c6e24933084c4001b267216023a21965aa22",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.core.runtime/maven-metadata.xml",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "b55d71a8b2ddac7bcc55487c107fe40a03ee03f4b0882821e3bee5488a4b4eb8",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.osgi/3.23.100/org.eclipse.osgi-3.23.100.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "913c6d1f29d53a57b39bef5ce923db5258d8811152457183bb94ee01a230277f",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.text/maven-metadata.xml",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "8596f38a2709c3c432352b779e0a2619ed4ec94a40f373cf42a9f11ad615ef25",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.text/maven-metadata.xml",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "32854a9829275bb2f949a5513e36973d6fb86a322e2f5c9cffce6570237267fb",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/platform/org.eclipse.text/maven-metadata.xml",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "7c18a9435168b9b5d98d689603265785babfe59638fa41fd4dc83f8414c04746",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/sisu/org.eclipse.sisu.plexus/0.9.0.M4/org.eclipse.sisu.plexus-0.9.0.M4.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "fdbd0d42116edc2b019e1fe880dd44c8f3d6786ce6fe1a87e80e67700d28414f",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/sisu/org.eclipse.sisu.plexus/0.9.0.M4/org.eclipse.sisu.plexus-0.9.0.M4.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "b1180f52f71446935ff6fad0a0b3a77951b1258fca9d6e471be9ad2a89a95b98",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/eclipse/sisu/org.eclipse.sisu.plexus/0.9.0.M4/org.eclipse.sisu.plexus-0.9.0.M4.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "9235395c38fadb7729378badaae715838df4717c3f6f1ef6bb47f3eb5ae3069d",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/hamcrest/hamcrest/3.0/hamcrest-3.0.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "af7c5fb921d80323e88e7074323aad4e71ecfcf6389b2868a53b5f0fb8d9006b",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/hamcrest/hamcrest/3.0/hamcrest-3.0.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "eb105faaaff649dbf70f126e38521d351f200d7efce78f918022eecabce962c4",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/hamcrest/hamcrest/3.0/hamcrest-3.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "ed57d418c275c51648c337ae22efceddbb01ee7b1a3d6e4b174e72ad7eb4d1c0",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/jacoco/org.jacoco.agent/0.8.14/org.jacoco.agent-0.8.14.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "2e675ed774fd7f67f9db2ee04fb074b0aa7d0893c32f25b59ace690c58026442",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/jacoco/org.jacoco.build/0.8.14/org.jacoco.build-0.8.14.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "9021011f90b5e16087b635336b181c44aeec6439bbda08b90316da39c0164d62",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/jacoco/org.jacoco.core/0.8.14/org.jacoco.core-0.8.14.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "e810fe88947fa3dfee20318e7188c5fd74066e4d545ecdaced36185240bfcdc3",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/jacoco/org.jacoco.report/0.8.14/org.jacoco.report-0.8.14.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "4760cc629f16b00951094cddcfe52c7bf8f46c997a57e04bc98255804be82aa5",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "e6696cc0c6c0a313aa328707f1c5cb1d3f5cea24a8d8e172e78e68626a09986c",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "c89bfe3c4e19869009c160c7451295cb6fa9c9eb2157dbbb6e8d604c31c2a806",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "9b598979a5eeb4cd511acd03efc79452df53d1f56e866bccf7bdd5126be666cc",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/junit/jupiter/junit-jupiter/6.0.3/junit-jupiter-6.0.3.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "641287b865a727d1e4903e5ae4286b2cc575127a6d8e0cf1a97ddb0efe6175da",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/junit/jupiter/junit-jupiter/6.0.3/junit-jupiter-6.0.3.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "7c91f5350647f4d156e5d34077cdfaa395537528bbdd74263d45a7b094a6558a",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/junit/jupiter/junit-jupiter/6.0.3/junit-jupiter-6.0.3.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "eac14cf69167d41960e3f2f0deebd15033d469be6f113215f047b807d6f2178b",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/mockito/mockito-core/5.23.0/mockito-core-5.23.0.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "fc59bc0c383a3f6cbf203f985185437540cd9448648272ffdd647fbd126e55fe",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/mockito/mockito-core/5.23.0/mockito-core-5.23.0.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "f7f99e8f06e8b120fa2e48947bb99094c76f313193b7462bdc1508a0e9b5e143",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/mockito/mockito-core/5.23.0/mockito-core-5.23.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "6affb9e7594123fd2ae33d3b459491bdaa4bfd4bd0cf62b57464cfb58572417c",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/mockito/mockito-junit-jupiter/5.23.0/mockito-junit-jupiter-5.23.0.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "0877b08ca06ebe075ac9976533e0c813a80e971a71b19cfacc7d56d081117fa6",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/mockito/mockito-junit-jupiter/5.23.0/mockito-junit-jupiter-5.23.0.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "e4998fd93401887d63a2c476fb2310bc93ca8d3e5940b24bbc88b805c8b14f4d",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/mockito/mockito-junit-jupiter/5.23.0/mockito-junit-jupiter-5.23.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "12a0237dbf83cd9713e65199507d2293ea3d3baa241ee40887eccef81820544a",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm-commons/9.9/asm-commons-9.9.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "f4c41cca3710a7d572b51aa362261ab2dd57a230564c46cb3ada03e8f7efed12",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm-commons/9.9/asm-commons-9.9.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "5c5360f7521c394d5d4e1c75ce04be0c4aaaf836ae017a4adc37c53cb259a67d",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm-commons/9.9/asm-commons-9.9.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "079323937410131deba2b26ee5c04b9d945f8b455ab739192987a0cf89d8adcc",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm-tree/9.9/asm-tree-9.9.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "f33ecc2cd5bdf09974900a61917bde7698fa9d42e47f13714b14140fbe4bc11d",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm-tree/9.9/asm-tree-9.9.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "93cf2c5e1aeedaf6620f5e015a3a375b11596370e8617947244e45f772c6d4b0",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm-tree/9.9/asm-tree-9.9.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "3efb59c604368c76b1193e961121ff91ab5c91ad1a8579e624a0ff5ee6cdb4ae",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm/9.9.1/asm-9.9.1.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "3248ce0842a83cc37dfda988da482afba9b1d8afda85f377c3f4503efc838fc7",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm/9.9.1/asm-9.9.1.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "c2d166cf59b99ac63644643080e90238e210307c370af1a218a1ed92856dd286",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/ow2/asm/asm/9.9.1/asm-9.9.1.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "bbb6a24a8db246b7abcd6991dfcd542fd2adb3f02d2cc0bc526ece9bdc70d5db",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "da1c3b40736918c93a942ca96d2a5e45f22cee7522d15c6f1d7d67b955e69129",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/slf4j/slf4j-api/2.0.18/slf4j-api-2.0.18.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "12ba426da9ea20c9e13793d10f3dacf9d177301d0dc9adb9a8aa459ec41f5533",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/slf4j/slf4j-api/2.0.18/slf4j-api-2.0.18.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "65da3dcc8510ec1b88018b1d4ef02875af03a50e93a455ec15ae3961ba669101",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/slf4j/slf4j-api/2.0.18/slf4j-api-2.0.18.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "d340a6e277427c4dc82131529b85c3045fae131bfb32ae69f13b130335024ffd",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-starter/4.1.1/spring-boot-starter-4.1.1.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "71a8bbad89fa7ab3d74ef7c4f87a19ba3112564bd4154548503fcee8cd8ee6c5",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-starter/4.1.1/spring-boot-starter-4.1.1.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "395ac571471b129990227184b8c407f83074aee6d8739d10bdec129487984b45",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-starter/4.1.1/spring-boot-starter-4.1.1.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "8f4229a67d75914c675c5c9872933553deee385a7a243fd9ef251955960f7e5b",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-test-autoconfigure/4.1.1/spring-boot-test-autoconfigure-4.1.1.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "1690e0ae1ae347e4e65c8f6faa39a5bd7c947058d8dc8f3a534b183762ea6610",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-test-autoconfigure/4.1.1/spring-boot-test-autoconfigure-4.1.1.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "e2421a5dbb2ca50b6fd0a8ba0ff79612e9b0ebf619c1ca4858a7b44aac2a2e04",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-test-autoconfigure/4.1.1/spring-boot-test-autoconfigure-4.1.1.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "fc207f49bf9f09f3bfa9d266a5bfc7cde454dd51cb88ad3f95052a690e9bd3c6",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-test/4.1.1/spring-boot-test-4.1.1.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "d115a5781d482f89f0455673e22a4bedf406c6b29924c1916e466846c2aa4303",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-test/4.1.1/spring-boot-test-4.1.1.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "c7a315512d0701be66e4d73fbe316af399f4dd0327a6466a7be68394366f70ca",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/boot/spring-boot-test/4.1.1/spring-boot-test-4.1.1.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "43effed24f7543806d84ee01d5af6c70316f4575d7bf702b355f8cfa63679118",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/spring-core/7.0.9/spring-core-7.0.9.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "3e68110ddf6fb1eaafc20a40171ea61ef82764e09fe57d040385eab25705707c",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/spring-core/7.0.9/spring-core-7.0.9.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "e81a4244cef1af867be3a838c721161b56de6e957582a0c5772c78ff131a3831",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/spring-core/7.0.9/spring-core-7.0.9.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "48ed807033abbc6579f4c21ea5d6824ebe869697c90efc07fd4c1544f03cd5dc",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/spring-test/7.0.9/spring-test-7.0.9.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "84e5d6e40377c223ad53578cf46d5643d22bf33c1a8acd66955148dbce04fe4c",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/spring-test/7.0.9/spring-test-7.0.9.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "81deaef0d445102174ffaec764d6d8adedea4c9e4f79f8cdc7d3d52ff0360a9f",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/springframework/spring-test/7.0.9/spring-test-7.0.9.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "738ee15d054492e841096c84fa941e0a690906c2883e1cd220e3a3bc55f4f51e",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/testcontainers/testcontainers/2.0.5/testcontainers-2.0.5.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "df81284ae1e3100e8b898ba43d0473162a7c69e58ecbf7b68fb11b424efffc44",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/testcontainers/testcontainers/2.0.5/testcontainers-2.0.5.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "d36585ecf719447f2e4b6cb7bd25e93b500c7dbf061368504f385fed1eadd35c",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/testcontainers/testcontainers/2.0.5/testcontainers-2.0.5.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "0ab94373f9277bc4a32da0ddb06abc9933f595a0eaebcb53643ae5d35a2fcf72",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/xmlunit/xmlunit-core/2.11.0/xmlunit-core-2.11.0.pom",
+        "algorithm": "sha512",
+        "sidecar_raw_sha256": "a5d899384a2ec3e4cf5540ac3b05855b725aaceb25bdab3c0c7004f88906300d",
+        "sidecar_bytes": 128,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/xmlunit/xmlunit-core/2.11.0/xmlunit-core-2.11.0.pom",
+        "algorithm": "sha256",
+        "sidecar_raw_sha256": "ce73ed0e7938b07f2b8e51ebf3155eeee677435d6ee109c46abcded8f33fcd38",
+        "sidecar_bytes": 64,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      },
+      {
+        "primary_relative_artifact": "org/xmlunit/xmlunit-core/2.11.0/xmlunit-core-2.11.0.pom",
+        "algorithm": "sha1",
+        "sidecar_raw_sha256": "b14a09f8a1813d923b2686c768269766abb36f61205590759944006803b472ca",
+        "sidecar_bytes": 40,
+        "grammar": "bare_hex",
+        "digest_matches_retained_primary_body": true,
+        "declared_terminal_filename_matches": null
+      }
+    ]
+  },
+  "advertised_checksum_header_data_audit": {
+    "HTTP200_response_bodies": 222,
+    "header_fields_audited": [
+      "ETag observed quoted MD5",
+      "x-checksum-md5",
+      "x-checksum-sha1"
+    ],
+    "successful_body_matches_by_header": {
+      "etag": 222,
+      "x-checksum-md5": 222,
+      "x-checksum-sha1": 222
+    },
+    "total_header_body_checks": 666,
+    "additional_mismatch_or_unknown_grammar": 0,
+    "raw_header_or_cookie_values_copied": false,
+    "semantics": "Observed headers hash their own response bodies, including checksum/signature sidecar response bodies. They corroborate same-origin consistency only; header agreement cannot replace/refute a malformed or mismatching primary sidecar policy result, authenticate publisher, verify signatures or grant executable trust.",
+    "production_scope": "No additional header-policy repair is needed to explain this observed failure. These audit observations do not silently add a generic production header-verification framework."
+  },
+  "bounded_newclient_checksum_grammar_expectations": {
+    "bare_hex": "Retain exact algorithm-length hexadecimal checksum record, case-insensitive hex, with only explicitly bounded surrounding ASCII whitespace/record terminator permitted.",
+    "GNU_text": "Accept <exactNhex><space><space><namedfile>; namedfile is a single nonempty bounded text field.",
+    "GNU_binary": "Accept <exactNhex><space><asterisk><namedfile> with same exact digest/name semantics. No GNUbinary record was observed; meaningful synthetic positive/negative controls must qualify this intentionally supported branch.",
+    "named_filename": "Match declared terminal POSIX filename exactly and case-sensitively to the requested primary URL basename, including maven-metadata.xml. Absolute/relative parent directory text is untrusted annotation only; never open/resolve/extract/install that named path or use it as destination. The observed absolute parent path is not reproduced here.",
+    "mandatory_refusals": [
+      "Wrong algorithm length/nonhex/empty or nonASCII malformed body.",
+      "Wrong GNU marker/separator, blank filename, NUL/control/newline or multiple-record ambiguity.",
+      "Any named terminal filename different from the primary basename, including naming the sidecar or local.partial file instead.",
+      "Any served digest mismatch for SHA512/SHA256/SHA1; valid weaker digest/advertised headers never override a bad strong sidecar.",
+      "Unsupported BSD/escaped-GNU/arbitrary trailing prose formats without separate observed evidence and admission.",
+      "HTTP200 malformed or inconsistent sidecars cannot be silently downgraded to optional404absence; optional404 remains explicit retained absence."
+    ],
+    "repair_scope": "Implement in newfixedclient only, all pom+version_metadata roles. Preserve actual receipt roles, all previous25tests, immutableold261/99/oldsuites/manifests/profiles, full source+case accounting and both normal/O gates."
+  },
+  "remaining_gates": [
+    "Independent exact newchecksum source/tests freeze review and newunit-spec admission; no source imports/tests by this reviewer.",
+    "Root fresh serialized offline qualification with old/new suites and complete source/input/protocol/cleanup evidence before any separately admitted networkreGET.",
+    "Failed network01rawbytes/sourceepoch/controller/logs stay retained asFAIL even if a later epoch succeeds.",
+    "Metadata-only acquisition/consistency never establishes range/parent/BOM mediation, code trust, native/UI/storage/Rustparity/fullacceptance; allholds remain."
+  ],
+  "actions": "Read/hash/decode bounded retained sidecar and response data only. No network/reGET, subject import/test/runtime/compiler/Git/source mutation, acquired-code execution or extraction. Only this newreport written. No rawservercookies/header values printed/copied.",
+  "holds_released": false
+}
