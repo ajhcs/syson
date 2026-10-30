@@ -3,7 +3,7 @@
 #![forbid(unsafe_code)]
 use serde::Deserialize;
 use serde_json::{Map, Number, Value, value::RawValue};
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, btree_map::Entry};
 
 pub const HARD_BYTES: usize = 32 * 1024 * 1024;
 pub const HARD_DEPTH: usize = 256;
@@ -54,6 +54,14 @@ impl std::fmt::Display for Error {
     }
 }
 impl std::error::Error for Error {}
+/// Duplicate policy is explicit at the caller boundary. Existing `parse` stays strict.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DuplicateKeys {
+    Reject,
+    /// Keep the final value at the first decoded-key insertion position. All
+    /// physical occurrences still consume admission budgets; raw bytes survive.
+    LastWins,
+}
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct Statistics {
     pub values: usize,
@@ -229,6 +237,7 @@ struct Builder<'a, 'c, F> {
     text: &'a str,
     cursor: usize,
     cancel: &'c mut F,
+    duplicates: DuplicateKeys,
 }
 impl<'a, F: FnMut() -> bool> Builder<'a, '_, F> {
     fn whitespace(&mut self) -> Result<(), Error> {
@@ -254,8 +263,8 @@ impl<'a, F: FnMut() -> bool> Builder<'a, '_, F> {
             b'{' => {
                 self.cursor += 1;
                 self.whitespace()?;
-                let mut result = Vec::new();
-                let mut keys = BTreeSet::new();
+                let mut result: Vec<(String, Node<'a>)> = Vec::new();
+                let mut keys: BTreeMap<String, usize> = BTreeMap::new();
                 if self.text.as_bytes()[self.cursor] == b'}' {
                     self.cursor += 1;
                     return Ok(Node::Object(result));
@@ -263,13 +272,24 @@ impl<'a, F: FnMut() -> bool> Builder<'a, '_, F> {
                 loop {
                     self.whitespace()?;
                     let key = self.string()?;
-                    if !keys.insert(key.clone()) {
+                    // Search once; moving the decoded key avoids duplicate-key clones.
+                    let entry = keys.entry(key);
+                    if self.duplicates == DuplicateKeys::Reject
+                        && matches!(&entry, Entry::Occupied(_))
+                    {
                         return Err(Error::DuplicateKey);
                     }
                     self.whitespace()?;
                     self.cursor += 1;
                     let child = self.node()?;
-                    push(&mut result, (key, child))?;
+                    match entry {
+                        Entry::Occupied(entry) => result[*entry.get()].1 = child,
+                        Entry::Vacant(entry) => {
+                            let key = entry.key().clone();
+                            entry.insert(result.len());
+                            push(&mut result, (key, child))?;
+                        }
+                    }
                     self.whitespace()?;
                     let last = self.text.as_bytes()[self.cursor] == b'}';
                     self.cursor += 1;
@@ -319,6 +339,18 @@ impl<'a, F: FnMut() -> bool> Builder<'a, '_, F> {
 pub fn parse<'a>(
     text: &'a str,
     limits: Limits,
+    cancelled: impl FnMut() -> bool,
+) -> Result<Literal<'a>, Error> {
+    parse_with_duplicate_keys(text, limits, DuplicateKeys::Reject, cancelled)
+}
+/// Opt-in compatibility for native last-value callers. The shared preflight
+/// charges every physical key/value/scalar before any duplicate is collapsed.
+/// The ordered tree retains first key positions and final values; `raw()` still
+/// retains all original bytes. No generic Value deserialization is introduced.
+pub fn parse_with_duplicate_keys<'a>(
+    text: &'a str,
+    limits: Limits,
+    duplicates: DuplicateKeys,
     mut cancelled: impl FnMut() -> bool,
 ) -> Result<Literal<'a>, Error> {
     if limits.bytes > HARD_BYTES
@@ -344,6 +376,7 @@ pub fn parse<'a>(
         text,
         cursor: 0,
         cancel: &mut cancelled,
+        duplicates,
     }
     .node()?;
     check(&mut cancelled)?;
