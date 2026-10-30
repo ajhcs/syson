@@ -1,0 +1,87 @@
+{
+  "unit": "F17",
+  "run": "f17-01",
+  "started_utc": "2026-10-25T20:20:18.964134+00:00",
+  "source_before": {
+    "rust/crates/syson-routing/Cargo.lock": "cbeb1ec0e9bb18f268a50a5e180b3b41adc56c6d5d906ac4b8f6ed3cf4ad0339",
+    "rust/crates/syson-routing/Cargo.toml": "a19cd635eca728f7c1778913ad3a67d39a2a68d306355090727c8d3c00a6be38",
+    "rust/crates/syson-routing/src/lib.rs": "4ef440f6c241ce7e008b679e0781e65a9df03861b625fae3349343f3782c5c0e",
+    "rust/crates/syson-routing/tests/routing.rs": "2f84297784fd60b6dbe18e6842f45f196c6d11866cad11cdb09d246af5006ec6",
+    "rust/crates/syson-layout/Cargo.lock": "f42752ea0ff35cd2c33d1ddc16b2d6b1048c211c5131e78bab20f3122e5e6ab9",
+    "rust/crates/syson-layout/Cargo.toml": "d32e1c499c9c20393c897367ae0cba379f2449e7f5b7b947f2057b388394f3b2",
+    "rust/crates/syson-layout/NOTICE.md": "b95805cc6e77099799291b7ede3e5acdd733e79c5e9340d94e31ac5282cf1d3a",
+    "rust/crates/syson-layout/src/lib.rs": "fd713fada8d59d9654783236d64709ef47329afc7029f8c06b65131c9615f1ad",
+    "rust/crates/syson-layout/tests/layout.rs": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a"
+  },
+  "source_base": "6c198db81434ad4b1f318a6895fee8933a331d53",
+  "runner_sha256": "0f0715e40a30db93cf94f1ba4c6d97bb8728b583d17b601c3f3c38e834fba191",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/f17-routing/rust/crates/syson-routing/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "started_utc": "2026-10-25T20:20:18.966423+00:00",
+      "completed_utc": "2026-10-25T20:20:18.985986+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/f17-routing/rust/crates/syson-routing/Cargo.toml",
+        "--",
+        "--test-threads=1"
+      ],
+      "started_utc": "2026-10-25T20:20:18.986002+00:00",
+      "completed_utc": "2026-10-25T20:20:19.876106+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "f3062310468033356dd31339d1f38ea2f5c1aadaa41145a078b50b5e1f43493d",
+      "stderr_sha256": "e484b7f5b7f902aa8dd6b77af9adfc08a9e88a2daa93f23e8aa987a3b54d60aa"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/f17-routing/rust/crates/syson-routing/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started_utc": "2026-10-25T20:20:19.876128+00:00",
+      "completed_utc": "2026-10-25T20:20:20.078187+00:00",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "62ef735479dabdcbfa6798dd2f36a4a6288348854399bd6a80c6ddabb6c3d7ee"
+    }
+  ],
+  "upstream_runtime": "NOT_RUN",
+  "execution": "COORDINATOR_SERIAL_ONE_JOB",
+  "status": "PASS",
+  "completed_utc": "2026-10-25T20:20:20.078213+00:00",
+  "source_after": {
+    "rust/crates/syson-routing/Cargo.lock": "cbeb1ec0e9bb18f268a50a5e180b3b41adc56c6d5d906ac4b8f6ed3cf4ad0339",
+    "rust/crates/syson-routing/Cargo.toml": "a19cd635eca728f7c1778913ad3a67d39a2a68d306355090727c8d3c00a6be38",
+    "rust/crates/syson-routing/src/lib.rs": "4ef440f6c241ce7e008b679e0781e65a9df03861b625fae3349343f3782c5c0e",
+    "rust/crates/syson-routing/tests/routing.rs": "2f84297784fd60b6dbe18e6842f45f196c6d11866cad11cdb09d246af5006ec6",
+    "rust/crates/syson-layout/Cargo.lock": "f42752ea0ff35cd2c33d1ddc16b2d6b1048c211c5131e78bab20f3122e5e6ab9",
+    "rust/crates/syson-layout/Cargo.toml": "d32e1c499c9c20393c897367ae0cba379f2449e7f5b7b947f2057b388394f3b2",
+    "rust/crates/syson-layout/NOTICE.md": "b95805cc6e77099799291b7ede3e5acdd733e79c5e9340d94e31ac5282cf1d3a",
+    "rust/crates/syson-layout/src/lib.rs": "fd713fada8d59d9654783236d64709ef47329afc7029f8c06b65131c9615f1ad",
+    "rust/crates/syson-layout/tests/layout.rs": "e7700f18f4f673e9a21fd7d1379234bc1014211f7722f48c456c91980ba5fe2a"
+  },
+  "source_unchanged": true
+}
