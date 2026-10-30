@@ -1,0 +1,27 @@
+{
+  "schema": "SYSON-B01-VALIDATION/1",
+  "status": "PASS",
+  "run": "b01-01",
+  "base": "6dc96e2cb4ef548656f4c9ac3a24f6e37ff9c194",
+  "integration_tests_passed": 11,
+  "unit_tests": 0,
+  "doc_tests": 0,
+  "checks": [
+    "cargo fmt --check",
+    "cargo test --offline --locked -- --test-threads=1",
+    "cargo clippy --offline --locked --all-targets -- -D warnings"
+  ],
+  "source_inputs_verified": 40,
+  "source_before_equals_after": true,
+  "current_source_matches_capture": true,
+  "registry_tuples": 11,
+  "registry_tuples_already_present_in_existing_locks": true,
+  "receipt_sha256": "ca873f49f17f414b457bcc4269d01340bb7e8488279dbba70e8628dff29c12f4",
+  "runner_sha256": "52d44fd30a79d4f3ee52ca609966f87aae8a137447bfde9d0ccf711f16b3e0dc",
+  "captured_at": "2026-10-26T17:56:20.599662+00:00",
+  "external_original_input_snapshots": "/workspace/build/builderbob/syson-rust-parity-20261026/captures/b01-01/original-inputs",
+  "native_runtime": "NOT_RUN",
+  "database_runtime": "NOT_RUN",
+  "measured_performance": "NOT_MEASURED; resource guard regressions are correctness checks, not a benchmark",
+  "feature_disposition": "B01 pure selected-participant migration preparation qualified; native migration history and atomic durable project load/save remain B06 and later participant work."
+}
