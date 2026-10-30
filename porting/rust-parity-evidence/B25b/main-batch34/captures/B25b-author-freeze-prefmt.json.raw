@@ -1,0 +1,110 @@
+{
+  "unit": "B25b",
+  "status": "COMPLETE_SOURCE_DRAFT_ROOT_FORMAT_AND_INDEPENDENT_REVIEW_PENDING",
+  "baseline_main": "faa6f3c7b6c9e2ca50434dcd14ddce93ed11e346",
+  "source_lease": "/workspace/build/builderbob/syson-durable-batch33-20261030/participant-source-leases-01.json",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch34-connector-20261030",
+  "canonical_corrected_donor": "d98994ae1b795ff38ad418ce2725f9cc3117b0bc (#104)",
+  "original_unit_donor": {
+    "head": "23a48ab073cad592316bfa8d9b586e9d12d608de",
+    "branch": "codex/syson-rp-b25b",
+    "pull_request": "https://github.com/ajhcs/syson/pull/73",
+    "source_capture": "b25b-01"
+  },
+  "files": {
+    "rust/crates/syson-migrations/b25b.rs": {
+      "sha256": "39912a769b6cd5eaf65abe665475913a4bbe6e1bb867e6e73c7f04a1021c083d",
+      "lines": 20
+    },
+    "rust/crates/syson-migrations/tests/b25b.rs": {
+      "sha256": "078e49f7df3e9c9bddcda05c3c82bc710b8201349d02d79d6e55c2523defe020",
+      "lines": 228
+    },
+    "rust/crates/syson-migrations/tests/b25b_literal.rs": {
+      "sha256": "de72d83e806d20c174653fa5253f79c5a8e868342523a5074892fcd12ef912be",
+      "lines": 45
+    },
+    "rust/crates/syson-migrations/examples/b25b_probe.rs": {
+      "sha256": "960a86b8722ce2b63306ac306d0d061d533d4ce4e93ce9df9e809f39ef169e04",
+      "lines": 38
+    },
+    "porting/rust-parity-evidence/B25b/native-fixtures.json": {
+      "sha256": "2fd1de3e80f8bfc7017b80b03d29b4fd4aaf32ff56932cf9495ec833095e55dd",
+      "lines": 77
+    },
+    "porting/rust-parity-evidence/B25b/source-predictions.json": {
+      "sha256": "390ee68001500affbf52b3194154d01ea2005ac88c01bc8141b58e9593a8e14a",
+      "lines": 390
+    },
+    "porting/rust-parity-evidence/B25b/README.md": {
+      "sha256": "dc367a04cb3d90178ecf79995774608f7011ec8544b923c544fc1d038d5c8541",
+      "lines": 11
+    }
+  },
+  "all_original_API_tests_active_fixtures_predictions_byte_exact": true,
+  "original_case_names": [
+    "exact_version_and_every_connector_subclass_remove_only_direct_object_children_fields",
+    "matching_typed_parent_selects_vendor_objects_but_not_array_items_or_grandchildren",
+    "arbitrary_nested_arrays_reach_connectors_without_migrating_unrelated_classes",
+    "first_namespace_entry_controls_matching_without_reordering_or_later_fallback",
+    "absent_fields_replay_and_unknown_json_values_are_preserved_without_null_insertion",
+    "malformed_input_and_nonobject_roots_publish_no_prepared_output",
+    "migrated_json_opens_as_document_then_b01_prepares_library_ids_with_separate_watermark",
+    "exact_packet_bytes_match_separately_recorded_source_predictions"
+  ],
+  "original_fixture_cases": 12,
+  "source_predictions_are_actual_native_observations": false,
+  "new_case_names": [
+    "literal_order_and_private_failure_remain_correct_through_the_actual_participant"
+  ],
+  "new_case_parameter_points": 6,
+  "new_oracles": [
+    "ManualMap markerobjects andfixedencodednode-lookingRawValuestring",
+    "Exactoriginal numeric lexemes -0/1.2300e+004/1E+400",
+    "Decodedduplicate namespacefirstposition/finalvalue withtrueandfalsepredicatebranches",
+    "Actualparticipantfieldremovals,unrelatedfields andcompletewire replay",
+    "Malformed trailinginput andoversized editedprivatecandidate refuse while prioroutput/source remainunchanged"
+  ],
+  "probe": {
+    "groups": [
+      1,
+      256,
+      1024
+    ],
+    "objects_per_group": 1,
+    "warmups": 2,
+    "measured_samples": 7,
+    "timed_scope": "Only actual participant prepare;fixturegeneration/fullindependentexpectedvalues andallresult/version/order/parentfield/namespace/replaychecks outside timer.",
+    "fresh_state": "Fresh owned preparation for eachcall;untimed replaybetween samples warms thatcontext. No persistent product/session state.",
+    "observations_pending": true,
+    "p95_native_UI_capacity_or_allocator_claim": false
+  },
+  "inclusive_preformat_budget": {
+    "production": 60,
+    "authored_including_every_active_fixture_prediction_line": 813,
+    "root_exports": 2,
+    "root_attributes_reserved": 2,
+    "additional_manifest_or_CI_needed": 0,
+    "active_fixture_prediction_lines": 467,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "no_original_test_or_active_data_discount": true
+  },
+  "expected_case_counts": {
+    "newcrate_on_current_base": 23,
+    "after_annotation_adoption_if_connector_rebound": 27
+  },
+  "root_only_actions": [
+    "Format ONLYnewliteraltest/example andretainpreformatbytes",
+    "src/lib.rs twoexports,rootattributes/manifests/CI ifneeded",
+    "All compilers/tests/probes/native/network/Git andexact-headmerge"
+  ],
+  "parent_obligations": [
+    "B25S/B25d/RR24complete376line recipeandbothRR22caller gates remainopen",
+    "Latercorrected preparation/wire,all independentstamps,publication/native/UI/storage/restart remainrequired",
+    "No existing ownershiphold released"
+  ],
+  "author_runtime_formatter_compiler_tests_network_or_Git_execution": false
+}
