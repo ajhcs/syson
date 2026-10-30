@@ -1,0 +1,224 @@
+{
+  "status": "PASS_INDEPENDENT_SOURCE_REVIEW_READY_FOR_ROOT_NAMED_RUNTIME_NO_TESTS_EXECUTED",
+  "unit": "B25a",
+  "reviewer": "/root/semantic_admission",
+  "author": "/root/language_admission",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch34-annotation-20261030",
+  "lease": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/participant-source-leases-01.json",
+    "sha256": "a694e1889b05af4efb7c6e41d4bbd9de3338cec9023c1a7b24858ad47c1fc570",
+    "baseline_main": "faa6f3c7b6c9e2ca50434dcd14ddce93ed11e346"
+  },
+  "author_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/annotation/author-freeze.json",
+    "sha256": "4cd2c74fd00c8a9f9503a416877100c6165411d13802cb1d00e1a29d2478673f"
+  },
+  "runtime_or_compiler_execution_by_reviewer": false,
+  "code_Git_or_ownership_mutation_by_reviewer": false,
+  "original_preservation": {
+    "canonical_lineage": "#104 d98994ae1b795ff38ad418ce2725f9cc3117b0bc",
+    "original_unit_PR": 72,
+    "full_API_and_original_tests_byte_identical": true,
+    "active_fixture_and_source_prediction_byte_identical": true,
+    "fixture_count": 19,
+    "fixture_prediction_ID_coverage_unique_and_equal": true,
+    "original_test_names": [
+      "source_contract_packet_preserves_native_quirks_without_claiming_native_execution",
+      "invalid_input_and_budget_failures_do_not_replace_an_existing_preparation",
+      "participant_output_enters_actual_document_admission_and_b01_preparation"
+    ],
+    "all_original_exports": [
+      "VERSION: &str",
+      "prepare(input: &str) -> Result<crate::Prepared, crate::Error>"
+    ],
+    "version": "2025.4.0-202503140000",
+    "behavior": "Two exact ordered passes Annotation/annotatingElement then AnnotatingElement/annotation; pinned subtype-aware object-child traversal is delegated unchanged to shared helper.",
+    "existing_actual_caller": "Original Document::from_json via Prepared::to_json then current B01 preparation preserved, including exact node/semantic IDs and prior project immutability. Annotation resolver must not loadresources; connector maps old→new and new→wrong-on-replay, keeps independent REFERENCES_VERSION versus participant VERSION, and verifies idempotence."
+  },
+  "shared_prerequisites": {
+    "implementation_ready": "Lease explicitly admits qualified actual B01 and complete B25S shared implementation adopted via#217/B25S1, with current14shared cases. It does not accept B25S/native/RR24/caller parents.",
+    "sourcepins_match": true,
+    "module_export_pending": "Root added the exact original3line blank/#[path = \"../b25a.rs\"]/pub mod b25a block. Full259line library SHA 42559baa76e40bce087f250a3f5baa2a9112e72158fe28cf55b31111f7773b84 equals original donor first259bytes-lines; shared256prefix remains exact. All current code ready for root18case qualification.",
+    "dependencies": "Current19line manifest/lock already contain literal-json/metamodel normal providers and model/migration-pipeline/persistence dev callers. No new packages, feature flags or held source needed. Existing migration CI job runs this crate when root exports module.",
+    "shared256_prefix_still_exact": true
+  },
+  "new_literal_regression": {
+    "test_names": [
+      "literal_order_and_private_failure_remain_correct_through_the_actual_participant"
+    ],
+    "manual_oracles": "Expected reserved marker objects are constructed by direct Map insert of fixed Value::String values, not parsed input/output or serde_json json! conversion. Explicit Number marker not numeric string and RawValue marker with fixed encoded node-looking JSON remain ordinary objects/strings.",
+    "raw_tokens": [
+      "-0",
+      "1.2300e+004",
+      "1E+400"
+    ],
+    "namespace": "For each token, manual raw input uses z, a, escaped\\u007a duplicate. Firstdecoded key z retains position while its final value controls eligibility: foreign→SYSML mustmatch, SYSML→foreign mustnot. Both output field removal/no-op and exact z-before-a wire substring are asserted.",
+    "actual_entrypoints": "Calls actual b25a::prepare then Prepared::to_json then actual participant again; both marker objects, exact number to_string lexeme and byte-identical second serialization must survive reentry. Unicode body/keep values asserted for annotation; connector keeps ordinal7 and removes only source/target iff matched.",
+    "refusals": "Malformed trailing suffix yields Error::Input. An independently prepared private copy gets MAX_BYTES string added and to_json refuses Error::Limit; previously prepared wire remains byte-identical, original source string unchanged. This proves immutable/private preparation boundaries, not database atomic publication or late migration-failure recovery.",
+    "coverage_limits": "These are six actual entrypoint combinations, not six independent #[test] cases. Shared14tests retain deep/physical overwritten-value/exact-byte/numeric marker boundaries and late-pass failure; this small wrapper adds no new parser. Complete RR24 and later RR22 integration remain mandatory."
+  },
+  "probe_review": {
+    "source": "rust/crates/syson-migrations/examples/b25a_probe.rs",
+    "groups": [
+      1,
+      256,
+      1024
+    ],
+    "rows_per_group": 2,
+    "classes": [
+      "Annotation",
+      "Comment"
+    ],
+    "oracle": "Expected complete JSON is built before timing from independently declared postmigration shape with every ordinal n and preserved raw parent fields; it never copies a prepared result. json! is safe here because fixtures contain ordinary integer ordinals and strings, while unusual numeric/marker expectations use direct Maps/raw token tests. Full Value equality validates row counts/order/content and exact removal, plus fixed independent version string, match predicate, namespace wire order, actual replay and byte-stable repeated serialization.",
+    "reset": "Each timed call prepares fresh owned state from same immutable source.2warmups+7recorded samples per group. Expectedfixture generation, assertions, to_json, complete replay and drops are untimed; replay between calls deliberately warms caches/allocator.",
+    "timing_scope": "Instant brackets only actual participant prepare plus Result unwrap, including shared parse/typed traversal/removal/result creation. Serialization/replay are outside timer. No matched native/baseline ratio or timing veto follows.",
+    "expected_stdout": "Exactly3 JSON rows with participant b25a, groups1/256/1024, correct input_bytes, warmups2/samples7/raw_ns length7, sorted min/median index3/max and complete_expected_value_and_replay_verified=true. Require actualbinary exit0; source assertions plus successful bound binary execution establish correctness.",
+    "limits": "Largest source is a bounded representative workload below1MiB/65536physical entries, not application-capacity proof. Optional /usr/bin/time RSS covers wholeprocess expectedfixtures/prepare/assertion/serialization/replay acrossallgroups, not an inner allocator peak. No p95/cold-start/native/UI/DB/storage claims.",
+    "independently_reconstructed_fixture_sizes": [
+      {
+        "groups": 1,
+        "input_bytes": 272,
+        "physical_key_value_entries": 31,
+        "typed_rows": 2
+      },
+      {
+        "groups": 256,
+        "input_bytes": 51311,
+        "physical_key_value_entries": 5641,
+        "typed_rows": 512
+      },
+      {
+        "groups": 1024,
+        "input_bytes": 205727,
+        "physical_key_value_entries": 22537,
+        "typed_rows": 2048
+      }
+    ],
+    "fixture_inspection_method": "Read raw ROW source literal and rebuild only the ordinary immutable JSON fixture with declared ordinals/namespace in inspection code; decode/count container+scalar values and object keys. No Rust/library/probe/test subject execution. Expected future input_bytes must match these source-derived values; this is not a runtime measurement."
+  },
+  "inclusive_budget": {
+    "production": 78,
+    "authored": 831,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "module_lines": 26,
+    "original_test_lines": 135,
+    "new_literal_lines": 66,
+    "probe_lines": 49,
+    "active_fixture_and_prediction_lines_counted": 539,
+    "README": 11,
+    "attributes": 2,
+    "reserved_root_export_lines": 2,
+    "authored_headroom": 69,
+    "meaning": "All active fixture/prediction lines counted normally; no data-classification waiver, omitted original test/API or minification. Recount actual final exports/README/wiring and any later source change.",
+    "actual_root_export_lines": 3,
+    "planning_variance": "Original reserved2line export77/830 becomes exact donor3line export78/831 including blank. All active fixtures counted; no cap or scope waiver. Coordinator-freeze still retains77/830 planning fields; actual root/library count here supersedes that estimate."
+  },
+  "root_runtime_expectations": {
+    "primary_test_total_isolated": 18,
+    "primary_count_breakdown": {
+      "core": 9,
+      "shared_literal": 5,
+      "original_participant": 3,
+      "new_literal": 1
+    },
+    "stacked_both_participants_total": 27,
+    "stacking": "B25a/B25b are disjoint author files. Root serializes shared exports and may stack connector after annotation. Re-enumerate final source: isolated connector23 becomes27 if annotation4cases are also present; keep all earlier cases, not just filtered new targets.",
+    "commands": [
+      "cargo +1.99.1 fmt --manifest-path rust/crates/syson-migrations/Cargo.toml -- --check",
+      "cargo +1.99.1 test --offline --locked --manifest-path rust/crates/syson-migrations/Cargo.toml -j 1 -- --test-threads=1",
+      "cargo +1.99.1 clippy --offline --locked --manifest-path rust/crates/syson-migrations/Cargo.toml --all-targets -j 1 -- -D warnings",
+      "cargo +1.99.1 check --offline --locked --manifest-path rust/crates/syson-migrations/Cargo.toml --lib --target wasm32-unknown-unknown -j 1",
+      "cargo +1.99.1 build --offline --locked --manifest-path rust/crates/syson-migrations/Cargo.toml --release --example b25a_probe -j 1"
+    ],
+    "run_probe": "Run exact built release/examples/b25a_probe directly under fresh root-owned scope after source review; compile time excluded. Preserve raw streams, tool/binary/source hashes, exact actual active include_str fixtures and before/after equality, applied-versus-readback limits and lifetime/cleanup proof. No execution performed by reviewer.",
+    "regressions": "Original actual Document/B01 caller already executes in participant suite. If root broadens named downstream regressions, current model has81cases and pipeline12; independently label their scope rather than claiming dependency tests run automatically. Source model/B01 unchanged and current provider qualification remains distinct.",
+    "source_reopen": "Any change to API/originaltests/newtests/probe or actual runtime inputs requires fresh source review and qualification. Docs-only correction may be rebound separately with retained prior bytes and unchanged runtime-input proof."
+  },
+  "findings": [],
+  "functional_source_findings": [],
+  "publication_limits": "All identified prose corrections resolved on current11line README; prior bytes retained and bound. No tests/probe promisedpassed. Root must qualify current exact source, independently review actual receipts/public packet and existing hosted exacthead/merge/postflight gates. Source predictions/historical selected native observations remain distinct from fresh comparison. B25d/whole376lineRR24/bothRR22preparation-wiregates/full4participant ordering and stamps/semantic+representation atomic persistence/native/defaultUI/storage parity stayOPEN; no hold release.",
+  "reviewed_file_pins": {
+    "rust/crates/syson-migrations/b25a.rs": {
+      "sha256": "70aca70d43fc0af655fc7294e59d38d3bda232c56ec7b33812976e2826bb853d",
+      "lines": 26
+    },
+    "rust/crates/syson-migrations/tests/b25a.rs": {
+      "sha256": "b0010b8517ea1087cc26453b5792f97f7ded3d2610cd29a5659a98d6992917f9",
+      "lines": 135
+    },
+    "rust/crates/syson-migrations/tests/b25a_literal.rs": {
+      "sha256": "f2eac3ffc2cb010c7711f9421d56aac5da21afccde083625b9302ae7a7e22e51",
+      "lines": 66
+    },
+    "rust/crates/syson-migrations/examples/b25a_probe.rs": {
+      "sha256": "fd0a0c6901b29935e032e0fbcef34ca1bc322d67a2618ba6787f1c0c334f143d",
+      "lines": 49
+    },
+    "porting/rust-parity-evidence/B25a/native-fixtures.json": {
+      "sha256": "ce12ab82dd11cfb3fa2dc1eaba7e513b2e9c715c2e2f1a33d700876971178388",
+      "lines": 82
+    },
+    "porting/rust-parity-evidence/B25a/source-predictions.json": {
+      "sha256": "6288230c1e3e43afc59b0f3d0cc6c5d337f750e82b74e2b527530c123cccd591",
+      "lines": 457
+    },
+    "porting/rust-parity-evidence/B25a/README.md": {
+      "sha256": "e406bbb6d30c9509d9f807f5c647d23fa795047b085c8a05d8744ae1265835c6",
+      "lines": 11
+    },
+    "porting/rust-parity-evidence/B25a/.gitattributes": {
+      "sha256": "65b580490c7153db4481248899b78542a1a80244788e8ef48f16d485b7299dcd",
+      "lines": 2
+    },
+    "rust/crates/syson-migrations/src/lib.rs": {
+      "sha256": "42559baa76e40bce087f250a3f5baa2a9112e72158fe28cf55b31111f7773b84",
+      "lines": 259
+    },
+    "rust/crates/syson-migrations/tests/core.rs": {
+      "sha256": "10f19569979ac444768c8654216ca1a891382a050022b498a1f54c949cb165e5",
+      "lines": 206
+    },
+    "rust/crates/syson-migrations/tests/shared_literal.rs": {
+      "sha256": "c350b7f4418f95bf6bef7d4d7af2d2a4aff4e42ad0b96740a229460b9dd44eb0",
+      "lines": 203
+    },
+    "rust/crates/syson-migrations/Cargo.toml": {
+      "sha256": "71a9e26dfd3a4d414bebdc0aab6f917b3a3b2e5a39f52fefb3fd9ce4257c30e8",
+      "lines": 19
+    },
+    "rust/crates/syson-migrations/Cargo.lock": {
+      "sha256": "4d88c090c98c0c901a9469c1477bcfad1980043aa4a4dbb45b906e2ce0740d1b",
+      "lines": 151
+    },
+    "rust/crates/syson-json-value/src/lib.rs": {
+      "sha256": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+      "lines": 422
+    },
+    "rust/crates/syson-model/src/lib.rs": {
+      "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+      "lines": 989
+    },
+    "rust/crates/syson-migration-pipeline/src/lib.rs": {
+      "sha256": "4b3c71daaa62f7b317a43e6fcec3c29f0ac299d1c358e0bd2bdb0d582cd28cb3",
+      "lines": 359
+    }
+  },
+  "coordinator_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/annotation/coordinator-freeze-01.json",
+    "sha256": "845c1dbc02085db50ed393d607efdea7378c88a0d0007ee7e34f1258cad1f18c",
+    "old_README_raw": "/workspace/build/builderbob/syson-durable-batch33-20261030/annotation/README-before-review-corrections.md.raw",
+    "old_README_sha256": "3664d88bf8a5996a9809895ab42abe7e92022f5fec847e2a978cbead7861ae9a",
+    "new_README_sha256": "e406bbb6d30c9509d9f807f5c647d23fa795047b085c8a05d8744ae1265835c6"
+  },
+  "resolved_documentation_findings": [
+    {
+      "severity": "documentation_before_publication",
+      "location": "porting/rust-parity-evidence/B25a/README.md:9",
+      "finding": "README says root formatting remains pending although root formatted/froze these files. Current execution genuinely remains pending. Correct source status now or in source-bound postexecution README; do not call tests/probe passed before root actually runs them.",
+      "blocks_runtime": false
+    }
+  ]
+}
