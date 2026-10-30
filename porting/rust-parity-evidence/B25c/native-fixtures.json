@@ -1,0 +1,57 @@
+{
+  "participant": "B25c",
+  "cases": [
+    {
+      "id": "01-field-and-neighbors",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"id\":\"view-node\",\"eClass\":\"sysml:ViewUsage\",\"data\":{\"elementId\":\"view-semantic\",\"exposedElement\":[\"old\"],\"exposeElement\":\"stay\",\"exposedElements\":\"stay\"}}]}"
+    },
+    {
+      "id": "02-vendor-and-parent",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:ViewUsage\",\"exposedElement\":\"parent stays\",\"data\":{\"exposedElement\":7},\"vendor\":{\"exposedElement\":null,\"label\":\"stay\"},\"array\":[{\"exposedElement\":\"array row stays\"}]}]}"
+    },
+    {
+      "id": "03-nested-arrays",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"vendor\":[[[{\"wrapper\":{\"id\":\"view-node\",\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"old\",\"elementId\":\"nested\"}}}]]]}"
+    },
+    {
+      "id": "04-nonmatching-PartUsage",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:PartUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}"
+    },
+    {
+      "id": "05-nonmatching-ViewDefinition",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:ViewDefinition\",\"data\":{\"exposedElement\":\"stay\"}}]}"
+    },
+    {
+      "id": "06-nonmatching-MissingClass",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:MissingClass\",\"data\":{\"exposedElement\":\"stay\"}}]}"
+    },
+    {
+      "id": "07-nonmatching-ViewUsage",
+      "input": "{\"json\":{\"version\":\"1.0\",\"encoding\":\"utf-8\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"other:ViewUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}"
+    },
+    {
+      "id": "08-first-namespace-matches",
+      "input": "{\"ns\":{\"z\":\"http://www.eclipse.org/syson/sysml\",\"a\":\"urn:foreign\"},\"content\":[{\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"old\"}}]}"
+    },
+    {
+      "id": "09-first-namespace-foreign",
+      "input": "{\"ns\":{\"z\":\"urn:foreign\",\"a\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}"
+    },
+    {
+      "id": "10-empty-namespace",
+      "input": "{\"ns\":{},\"content\":[{\"id\":\"view-node\",\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}"
+    },
+    {
+      "id": "11-null-first-namespace",
+      "input": "{\"ns\":{\"sysml\":null},\"content\":[{\"id\":\"view-node\",\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"stay\"}}]}"
+    },
+    {
+      "id": "12-typed-parent-property-only",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"eClass\":\"sysml:ViewUsage\",\"exposedElement\":\"parent primitive stays\",\"vendor\":[{\"exposedElement\":\"untyped row stays\"}]}"
+    },
+    {
+      "id": "13-large-opaque-number",
+      "input": "{\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"},\"content\":[{\"eClass\":\"sysml:ViewUsage\",\"data\":{\"exposedElement\":\"old\",\"opaque\":12345678901234567890123456789012345678901234567890}}]}"
+    }
+  ]
+}
