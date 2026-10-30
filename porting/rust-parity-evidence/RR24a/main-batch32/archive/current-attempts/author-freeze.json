@@ -1,0 +1,38 @@
+{
+  "status": "FORMATTED_ENTRY_OPTIMIZATION_AUTHOR_FROZEN_PEER_REVIEW_AND_CHECKS03_PENDING",
+  "author": "/root/language_admission",
+  "baseline_main": "716b5745118b688cfad717ca22ac69fa495fdcff",
+  "source_path": "rust/crates/syson-json-value/src/lib.rs",
+  "source_sha256": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+  "source_lines": 422,
+  "baseline_source_delta": {
+    "additions": 38,
+    "deletions": 5,
+    "changed": 43
+  },
+  "full_original_donor_sha256": "fb83a0daad8b57c43109651b5d6a8aa1ab4220b8e09c825faf3d05f94862efea",
+  "old_donor_retained": "/workspace/build/builderbob/syson-durable-batch32-20261030/json/strict-entry-optimization/source-before.rs.raw",
+  "algorithm": "One owned-key BTreeMap entry lookup, no duplicate-key lookup clone, clone vacant key after successful child only; occupied index preserves first decoded-key position and replaces final value.",
+  "strict_and_compat_public_contract_unchanged": true,
+  "preflight_limits_and_cancellation_unchanged": true,
+  "all_existing_tests_and_both_probes_unchanged": {
+    "rust/crates/syson-json-value/tests/rr24a_duplicates.rs": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a",
+    "rust/crates/syson-json-value/tests/literal.rs": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c",
+    "rust/crates/syson-json-value/examples/strict_parse_probe.rs": "79b2f73c08b40160bfed8c69e0ceb42484a78d51820bcc4ac6ce7f754cc5f543",
+    "rust/crates/syson-json-value/examples/compat_parse_probe.rs": "57d396fdbce6a7ab5c2c7957e8b9e00fd728c998a04d203aa9f8062f53a17a08",
+    "rust/crates/syson-json-value/README.md": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f",
+    "porting/rust-parity-evidence/RR24a/main-batch32/README.md": "aa11c11dfe4228e6734dc8360f99ec444007135f39cd706f41108e3487f37dea"
+  },
+  "budget": {
+    "production_changed": 191,
+    "authored_including_examples_docs_attributes": 378,
+    "probe_lines": 148,
+    "production_cap": 400,
+    "authored_cap": 900
+  },
+  "reviewer": "Root-selected independent peer; final binding required before checks03",
+  "root_fresh_checks": "16provider cases and all actual current strict consumers including native-library-catalog default-feature suite with fresh owned catalog root; rebuild/matched strict baseline/current and separate LastWins probe.",
+  "no_performance_pass_ratio_or_timing_veto": true,
+  "earlier_143_cases": "Only checks01 source; not evidence for optimized source or catalog suite",
+  "runtime_executed_by_author": false
+}
