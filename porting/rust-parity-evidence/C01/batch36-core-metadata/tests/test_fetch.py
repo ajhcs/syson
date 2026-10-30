@@ -252,6 +252,15 @@ class MetadataClientTests(unittest.TestCase):
             for suffix, algorithm in [('.sha512', 'sha512'), ('.sha256', 'sha256'), ('.sha1', 'sha1')]:
                 if request.full_url.endswith(suffix):
                     content = hashlib.new(algorithm, body).hexdigest().encode()
+                    if mode in ('gnu', 'gnu_badname', 'gnu_badstrong'):
+                        filename = request.full_url.rsplit('/', 1)[-1][:-len(suffix)]
+                        declared = '/home/maven/repository-staging/to-ibiblio/maven2/' + filename
+                        if mode == 'gnu_badname' and index == 143:
+                            declared = '/metadata-only/wrong.xml'
+                        if mode == 'gnu_badstrong' and index == 141:
+                            content = b'0' * 128
+                        marker = '*' if algorithm == 'sha256' else ' '
+                        content = content.upper() + (' ' + marker + declared + '\n').encode()
             if request.full_url.endswith('.asc'):
                 content, status = b'unverified signature absent', 404
             if mode == 'checksum' and index == 141:
@@ -415,6 +424,84 @@ class MetadataClientTests(unittest.TestCase):
         self.assertEqual(len(calls), 280)
         self.assertEqual(record['status'], 'FAIL_INPUT_DRIFT')
         self.assertNotEqual(record['inputs_before'], record['inputs_after'])
+
+    def test_actual_observed138byte_gnu_sha1_is_only_filename_metadata(self):
+        raw = (b'b8e00a8a0deb0ebef447570e37ff8146ccd92cbe  '
+               b'/home/maven/repository-staging/to-ibiblio/maven2/javax/inject/javax.inject/1/'
+               b'javax.inject-1.pom\n')
+        self.assertEqual(len(raw), 138)
+        with patch.object(Path, 'open', side_effect=AssertionError('declared filename was opened')):
+            self.assertEqual(fetch.sidecar_digest(raw, 'sha1', 'javax.inject-1.pom'),
+                             'b8e00a8a0deb0ebef447570e37ff8146ccd92cbe')
+
+    def test_every_algorithm_accepts_bare_gnu_text_binary_case_and_single_ending(self):
+        for algorithm in ['sha512', 'sha256', 'sha1']:
+            digest = hashlib.new(algorithm, b'bounded source fixture').hexdigest().upper()
+            for ending in ['', '\n', '\r\n']:
+                for tail in ['', '  leaf.pom', ' */metadata-only/leaf.pom', '  /tmp/δ/leaf.pom']:
+                    raw = (digest + tail + ending).encode()
+                    with self.subTest(algorithm=algorithm, tail=tail, ending=ending):
+                        self.assertEqual(fetch.sidecar_digest(raw, algorithm, 'leaf.pom'), digest)
+
+    def test_checksum_parser_rejects_controls_multirecord_markers_names_and_lengths(self):
+        digest = hashlib.sha256(b'fixed').hexdigest()
+        bad = [digest[:-1], 'z' + digest[1:], ' ' + digest, digest + ' ',
+               digest + '\n\n', digest + '\n' + digest,
+               digest + ' leaf.pom', digest + ' +leaf.pom', digest + '\t\tleaf.pom',
+               digest + '  wrong.pom', digest + ' *dir/', digest + '  ',
+               digest + '  /tmp/\0/leaf.pom', digest + '  /tmp/\r/leaf.pom',
+               digest + '  /tmp/\x1b/leaf.pom', digest + '  /tmp/\x85/leaf.pom']
+        for text in bad:
+            with self.subTest(text=repr(text)), self.assertRaises(ValueError):
+                fetch.sidecar_digest(text.encode(), 'sha256', 'leaf.pom')
+        for raw, algorithm in [(b'0' * 65537, 'sha256'), (b'\xff', 'sha256'), (b'0' * 64, 'md5')]:
+            with self.subTest(algorithm=algorithm, bytes=len(raw)), self.assertRaises(ValueError):
+                fetch.sidecar_digest(raw, algorithm, 'leaf.pom')
+
+    def test_complete_checksum_verifier_refuses_real_oversized_sidecar_and_primary(self):
+        rows = [dict(r, status=200 if i < 2 else 404)
+                for i, r in enumerate(fetch.requests(MANIFEST.read_bytes())[:5])]
+        primary = fetch.base.destination(self.root, rows[0])
+        primary.write_bytes(b'fixed primary')
+        sidecar = fetch.base.destination(self.root, rows[1])
+        sidecar.write_bytes(b'0' * 65537)
+        with self.assertRaisesRegex(ValueError, 'bounded fixed checksum'):
+            fetch.checksums(self.root, rows)
+        self.assertEqual(sidecar.stat().st_size, 65537)
+        sidecar.write_bytes(hashlib.sha512(b'fixed primary').hexdigest().encode())
+        primary.write_bytes(b'x' * (2 * fetch.MIB + 1))
+        with self.assertRaisesRegex(ValueError, 'checksum primary byte limit'):
+            fetch.checksums(self.root, rows)
+
+    def test_newmain_all280_gnu_text_binary_checksums_cover_metadata_and_preserve_raw(self):
+        record, calls, out, error = self.run_main('gnu')
+        self.assertIsNone(error)
+        self.assertEqual((len(calls), len(record['checksums'])), (280, 168))
+        self.assertEqual(sum(c['artifact'].endswith('maven-metadata.xml') for c in record['checksums']), 15)
+        self.assertFalse(record['signature_verified'])
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertEqual(record['requests'][140]['role'], 'version_metadata')
+        raw = (out / record['requests'][142]['relative_path']).read_bytes()
+        self.assertIn(b' *', raw)
+        self.assertTrue(raw.startswith(hashlib.sha256(b'opaque passive metadata').hexdigest().upper().encode()))
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), record['requests'][142]['sha256'])
+
+    def test_newmain_gnu_wrong_metadata_filename_refuses_without_weak_fallback(self):
+        record, calls, out, error = self.run_main('gnu_badname')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 280)
+        self.assertIn('checksum filename mismatch', record['error'])
+        self.assertEqual(record['status'], 'FAIL_PRESERVED')
+        self.assertIn(b'/metadata-only/wrong.xml', (out / record['requests'][143]['relative_path']).read_bytes())
+
+    def test_newmain_gnu_bad_strong_metadata_digest_refuses_despite_good_weaker(self):
+        record, calls, out, error = self.run_main('gnu_badstrong')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 280)
+        self.assertIn('checksum mismatch', record['error'])
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertTrue((out / record['requests'][142]['relative_path']).read_bytes().startswith(
+                        hashlib.sha256(b'opaque passive metadata').hexdigest().upper().encode()))
 
 
 if __name__ == '__main__':

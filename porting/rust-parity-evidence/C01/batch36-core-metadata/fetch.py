@@ -114,11 +114,40 @@ class Metadata(base.Metadata):
         super().response(path, value)
 
 
+def sidecar_digest(raw, algorithm, filename):
+    require(type(raw) is bytes and len(raw) <= 65536 and algorithm in ('sha512', 'sha256', 'sha1'),
+            'bounded fixed checksum required')
+    text = raw.decode('utf-8')
+    if text.endswith('\r\n'):
+        text = text[:-2]
+    elif text.endswith('\n'):
+        text = text[:-1]
+    require(text and all(character.isprintable() for character in text), 'invalid checksum record')
+    length = hashlib.new(algorithm).digest_size * 2
+    match = base.re.fullmatch(r'([0-9a-fA-F]{' + str(length) + r'})(?: ([ *])(.+))?', text)
+    require(match is not None, 'invalid checksum format/length')
+    require(match[3] is None or match[3].rsplit('/', 1)[-1] == filename,
+            'checksum filename mismatch')
+    return match[1]
+
+
 def checksums(out, rows):
-    # Copy roles only for the immutable provider's pom/jar filter; keep receipts unchanged.
-    adapted = [dict(row, role='pom') if row['role'] == 'version_metadata' else dict(row)
-               for row in rows]
-    return base.checksums(out, adapted)
+    result = []
+    for payload in (r for r in rows if r['role'] in ('pom', 'version_metadata')):
+        maximum = 2 * MIB if payload['role'] == 'pom' else 256 * 1024
+        with (out / payload['relative_path']).open('rb') as stream:
+            body = stream.read(maximum + 1)
+        require(len(body) <= maximum, 'checksum primary byte limit')
+        for suffix, algorithm in [('.sha512', 'sha512'), ('.sha256', 'sha256'), ('.sha1', 'sha1')]:
+            row = next(r for r in rows if r['url'] == payload['url'] + suffix)
+            if row['status'] != 200:
+                continue
+            with (out / row['relative_path']).open('rb') as stream:
+                raw = stream.read(65537)
+            expected = sidecar_digest(raw, algorithm, payload['url'].rsplit('/', 1)[-1])
+            require(expected.lower() == hashlib.new(algorithm, body).hexdigest(), 'checksum mismatch')
+            result.append({'artifact': payload['url'][len(BASE):], 'algorithm': algorithm, 'match': True})
+    return result
 
 
 def controls(proof):
