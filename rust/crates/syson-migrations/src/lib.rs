@@ -257,3 +257,6 @@ pub fn prepare(input: &str, version: &'static str, passes: &[Removal]) -> Result
 
 #[path = "../b25a.rs"]
 pub mod b25a;
+
+#[path = "../b25b.rs"]
+pub mod b25b;

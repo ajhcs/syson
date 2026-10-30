@@ -1,0 +1,390 @@
+{
+  "unit": "B25b",
+  "status": "SOURCE_PREDICTIONS_NOT_EXECUTED_NATIVE_RESULTS",
+  "participant_version": "2025.4.0-202502270000",
+  "predictions": [
+    {
+      "id": "01-all-eight-connector-classes",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:AllocationUsage",
+              "source": "raw-parent",
+              "target": 73,
+              "data": {
+                "keep": "AllocationUsage"
+              },
+              "vendor": {
+                "keep": true
+              }
+            },
+            {
+              "eClass": "sysml:BindingConnectorAsUsage",
+              "source": "raw-parent",
+              "target": 73,
+              "data": {
+                "keep": "BindingConnectorAsUsage"
+              },
+              "vendor": {
+                "keep": true
+              }
+            },
+            {
+              "eClass": "sysml:ConnectionUsage",
+              "source": "raw-parent",
+              "target": 73,
+              "data": {
+                "keep": "ConnectionUsage"
+              },
+              "vendor": {
+                "keep": true
+              }
+            },
+            {
+              "eClass": "sysml:ConnectorAsUsage",
+              "source": "raw-parent",
+              "target": 73,
+              "data": {
+                "keep": "ConnectorAsUsage"
+              },
+              "vendor": {
+                "keep": true
+              }
+            },
+            {
+              "eClass": "sysml:FlowUsage",
+              "source": "raw-parent",
+              "target": 73,
+              "data": {
+                "keep": "FlowUsage"
+              },
+              "vendor": {
+                "keep": true
+              }
+            },
+            {
+              "eClass": "sysml:InterfaceUsage",
+              "source": "raw-parent",
+              "target": 73,
+              "data": {
+                "keep": "InterfaceUsage"
+              },
+              "vendor": {
+                "keep": true
+              }
+            },
+            {
+              "eClass": "sysml:SuccessionAsUsage",
+              "source": "raw-parent",
+              "target": 73,
+              "data": {
+                "keep": "SuccessionAsUsage"
+              },
+              "vendor": {
+                "keep": true
+              }
+            },
+            {
+              "eClass": "sysml:SuccessionFlowUsage",
+              "source": "raw-parent",
+              "target": 73,
+              "data": {
+                "keep": "SuccessionFlowUsage"
+              },
+              "vendor": {
+                "keep": true
+              }
+            }
+          ]
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": true
+      },
+      "reason": "All pinned ConnectorAsUsage subtypes; raw scalar fields on typed parent survive, each direct object child loses source and target."
+    },
+    {
+      "id": "02-direct-child-and-array-quirk",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": {
+            "eClass": "sysml:ConnectorAsUsage",
+            "source": {
+              "keep": 3
+            },
+            "target": [
+              {
+                "source": "array-item-stays",
+                "target": 4
+              }
+            ],
+            "vendor": {
+              "deeper": {
+                "source": "grandchild-stays",
+                "target": 5
+              }
+            },
+            "data": {
+              "nested": [
+                [
+                  {
+                    "eClass": "sysml:SuccessionAsUsage",
+                    "data": {
+                      "keep": true
+                    }
+                  }
+                ]
+              ]
+            }
+          }
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": true
+      },
+      "reason": "Parent type is tested for object child selection, not child eClass. Array items are traversed but not directly selected from typed array parent."
+    },
+    {
+      "id": "03-nested-and-unrelated-classes",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:Package",
+              "data": {
+                "source": "unrelated",
+                "target": "unrelated"
+              },
+              "vendor": [
+                [
+                  null,
+                  {
+                    "eClass": "sysml:ConnectionUsage",
+                    "data": {
+                      "keep": 1
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "eClass": "sysml:Connector",
+              "data": {
+                "source": "kernel",
+                "target": "kernel"
+              }
+            },
+            {
+              "eClass": "vendor:ConnectorAsUsage",
+              "data": {
+                "source": "prefix",
+                "target": "prefix"
+              }
+            },
+            {
+              "eClass": "sysml:UnknownConnector",
+              "data": {
+                "source": "unknown",
+                "target": "unknown"
+              }
+            },
+            {
+              "eClass": false,
+              "data": {
+                "source": "boolean-class",
+                "target": 7
+              }
+            },
+            {
+              "eClass": {},
+              "data": {
+                "source": "object-class",
+                "target": 8
+              }
+            }
+          ]
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": true
+      },
+      "reason": ""
+    },
+    {
+      "id": "04-first-namespace-wrong",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "ns": {
+            "a": "urn:vendor",
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "eClass": "sysml:ConnectorAsUsage",
+          "data": {
+            "source": 1,
+            "target": 2
+          }
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": false
+      },
+      "reason": "First namespace URI controls matching; later matching sysml URI is ignored. Input order is authoritative."
+    },
+    {
+      "id": "05-first-namespace-right",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml",
+            "a": "urn:vendor"
+          },
+          "eClass": "sysml:ConnectorAsUsage",
+          "data": {}
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": true
+      },
+      "reason": ""
+    },
+    {
+      "id": "06-empty-namespace-noop",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "ns": {},
+          "eClass": "sysml:ConnectorAsUsage",
+          "data": {
+            "source": 1,
+            "target": 2
+          }
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": false
+      },
+      "reason": ""
+    },
+    {
+      "id": "07-primitive-namespace-no-fallback",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "ns": {
+            "vendor": false,
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "eClass": "sysml:ConnectorAsUsage",
+          "data": {
+            "source": 1,
+            "target": 2
+          }
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": false
+      },
+      "reason": "Gson primitive boolean string conversion is false; no second-entry fallback."
+    },
+    {
+      "id": "08-object-first-namespace-error",
+      "source_prediction": {
+        "outcome": "ERROR_NO_PREPARED_OUTPUT",
+        "error_boundary": "Native helper getAsJsonPrimitive on first namespace object throws; Rust shared policy refuses immutable preparation."
+      },
+      "reason": ""
+    },
+    {
+      "id": "09-noop-large-integer",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "eClass": "sysml:InterfaceUsage",
+              "data": {
+                "declaredName": "Link",
+                "nested": {
+                  "large": 900719925474099312345
+                }
+              },
+              "vendor": {
+                "keep": [
+                  false,
+                  null,
+                  "source"
+                ]
+              }
+            }
+          ]
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": true
+      },
+      "reason": "Unknown values and absent fields preserved; no null insertion. Replay output must equal first output."
+    },
+    {
+      "id": "10-document-b01-handoff",
+      "source_prediction": {
+        "outcome": "PREPARED",
+        "json": {
+          "json": {
+            "version": "1.0",
+            "encoding": "utf-8"
+          },
+          "ns": {
+            "sysml": "http://www.eclipse.org/syson/sysml"
+          },
+          "content": [
+            {
+              "id": "connector-node",
+              "eClass": "sysml:ConnectionUsage",
+              "data": {
+                "elementId": "connector-semantic",
+                "declaredName": "Link"
+              }
+            },
+            {
+              "id": "typing-node",
+              "eClass": "sysml:FeatureTyping",
+              "data": {
+                "elementId": "typing-semantic",
+                "type": "sysml:Type sysmllibrary:/Types#old"
+              }
+            }
+          ]
+        },
+        "participant_version": "2025.4.0-202502270000",
+        "matched_resource": true
+      },
+      "reason": "Native participant only removes connector child data source/target; B01 integration separately converts type library old→new with REFERENCES_VERSION, not this participant version."
+    },
+    {
+      "id": "11-malformed-json",
+      "source_prediction": {
+        "outcome": "ERROR_NO_PREPARED_OUTPUT",
+        "error_boundary": "JSON parse boundary before participant invocation."
+      },
+      "reason": ""
+    },
+    {
+      "id": "12-nonobject-root",
+      "source_prediction": {
+        "outcome": "ERROR_NO_PREPARED_OUTPUT",
+        "error_boundary": "JsonObject entrypoint admission before participant invocation."
+      },
+      "reason": ""
+    }
+  ]
+}

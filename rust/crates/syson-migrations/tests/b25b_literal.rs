@@ -1,0 +1,61 @@
+// SPDX-License-Identifier: EPL-2.0
+use serde_json::{Map, Value};
+use syson_migrations::{Error, MAX_BYTES, SYSML_URI, b25b};
+const ENCODED: &str = r#"{"eClass":"sysml:ConnectionUsage","data":{"source":"phantom"}}"#;
+const MARKERS: &str = r#""number":{"$serde_json::private::Number":"not numeric"},"raw":{"$serde_json::private::RawValue":"{\"eClass\":\"sysml:ConnectionUsage\",\"data\":{\"source\":\"phantom\"}}"}"#;
+const CONTENT: &str =
+    r#"{"eClass":"sysml:ConnectionUsage","data":{"source":"old","target":"old","keep":7}}"#;
+fn marker(key: &str, text: &str) -> Value {
+    let mut object = Map::new();
+    object.insert(key.into(), Value::String(text.into()));
+    Value::Object(object)
+}
+fn opaque(value: &Value) {
+    assert_eq!(
+        value["number"],
+        marker("$serde_json::private::Number", "not numeric")
+    );
+    assert_eq!(
+        value["raw"],
+        marker("$serde_json::private::RawValue", ENCODED)
+    );
+}
+#[test]
+fn literal_order_and_private_failure_remain_correct_through_the_actual_participant() {
+    for token in ["-0", "1.2300e+004", "1E+400"] {
+        for (first, last, matched) in [("foreign", SYSML_URI, true), (SYSML_URI, "foreign", false)]
+        {
+            let source = format!(
+                r#"{{{MARKERS},"token":{token},"ns":{{"z":"{first}","a":"foreign","\u007a":"{last}"}},"content":[{CONTENT}]}}"#
+            );
+            let original = source.clone();
+            let prepared = b25b::prepare(&source).unwrap();
+            assert_eq!(prepared.matched_resource, matched);
+            assert_eq!(prepared.participant_version, b25b::VERSION);
+            opaque(&prepared.json);
+            assert_eq!(prepared.json["token"].to_string(), token);
+            for key in ["source", "target"] {
+                assert_eq!(
+                    prepared.json["content"][0]["data"].get(key).is_none(),
+                    matched
+                );
+            }
+            assert_eq!(prepared.json["content"][0]["data"]["keep"], 7);
+            let wire = prepared.to_json().unwrap();
+            assert!(wire.contains(&format!(r#""ns":{{"z":"{last}","a":"foreign"}}"#)));
+            let replay = b25b::prepare(&wire).unwrap();
+            opaque(&replay.json);
+            assert_eq!(replay.json["token"].to_string(), token);
+            assert_eq!(replay.to_json().unwrap(), wire);
+            assert!(matches!(
+                b25b::prepare(&(source.clone() + " trailing")),
+                Err(Error::Input(_))
+            ));
+            let mut private = b25b::prepare(&source).unwrap();
+            private.json["oversized"] = Value::String("x".repeat(MAX_BYTES));
+            assert_eq!(private.to_json(), Err(Error::Limit));
+            assert_eq!(prepared.to_json().unwrap(), wire);
+            assert_eq!(source, original);
+        }
+    }
+}
