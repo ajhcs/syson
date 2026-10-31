@@ -43,6 +43,33 @@ def modules():
     return package.derive, package.guard
 
 
+def current_identity():
+    path = Path(__file__).resolve().parents[2] / 'tools/identity_partition_splits.py'
+    if path.resolve() != path or path.is_symlink() or not path.is_file() or path.stat().st_size > 65536:
+        raise ValueError('canonical bounded current identity loader required')
+    with path.open('rb') as stream:
+        raw = stream.read(65537)
+    if len(raw) > 65536 or hashlib.sha256(raw).hexdigest() != '10cffe7888a4ddae06f30e01a4dd87840cff3cc5b02bbe5b762910db008633b6':
+        raise ValueError('whole current identity loader changed')
+    name = 'identity_partition_splits'
+    if name in sys.modules:
+        actual = sys.modules[name]
+        package = '_syson_identity_partition_1_0_12'
+        expected = path.parents[1] / 'composition/identity_partition_prepare/facade.py'
+        if (type(actual) is not types.ModuleType or actual.__name__ != package + '.facade' or
+                sys.modules.get(actual.__name__) is not actual or getattr(actual, '__file__', None) != str(expected) or
+                any(type(getattr(actual, field, None)) is not types.ModuleType or
+                    sys.modules.get(package + '.' + name) is not getattr(actual, field) for name, field in
+                    [('derive', 'D'), ('guard', 'G'), ('construct', 'C'), ('capture', 'H')])):
+            raise ValueError('foreign current identity facade')
+        return actual
+    module = types.ModuleType(name)
+    module.__file__ = str(path)
+    sys.modules[name] = module
+    exec(compile(raw, str(path), 'exec'), module.__dict__)
+    return sys.modules[name]
+
+
 class GuardTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -154,7 +181,8 @@ class GuardTests(unittest.TestCase):
             self.seal.stop()
             contract = self.P.parse((self.root / 'completion-contract.json').read_bytes())
             plan = self.P.parse((self.root / 'plan.json').read_bytes())
-            self.assertEqual(self.G.digest(self.G.previous_plan(contract, plan)),
+            guard = current_identity() if contract['version'] == '1.0.12' else self.G
+            self.assertEqual(self.G.digest(guard.previous_plan(contract, plan)),
                              self.G.PLANS['1.0.10'][0])
         def missing(name):
             if name == self.D.FRAGMENT:

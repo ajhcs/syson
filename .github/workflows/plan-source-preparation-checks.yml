@@ -8,7 +8,7 @@ jobs:
   plan-controls:
     if: github.repository == 'ajhcs/syson'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 40
     env:
       SYSON_IDENTITY_PARTITION_FIXTURES: ${{ github.workspace }}/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/fixtures
     defaults:
@@ -25,6 +25,8 @@ jobs:
           python3 -I -O -B remaining-work/verify_snapshot.py --self-test
           python3 -I -B -m unittest discover -s composition/identity_partition_prepare -p 'test_[dg]*.py' -v
           python3 -I -O -B -m unittest discover -s composition/identity_partition_prepare -p 'test_[dg]*.py' -v
+          python3 -I -B -m unittest discover -s composition/identity_partition_prepare -p test_loader_controls.py -v
+          python3 -I -O -B -m unittest discover -s composition/identity_partition_prepare -p test_loader_controls.py -v
   constructor-controls:
     if: github.repository == 'ajhcs/syson'
     runs-on: ubuntu-24.04

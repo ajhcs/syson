@@ -172,7 +172,7 @@ class CurrentPreparationTeamTests(unittest.TestCase):
         policy = json.loads((ROOT / 'teams.json').read_bytes())
         plan = json.loads((ROOT / 'plan.json').read_bytes())
         report = team_policy.validate_teams(policy, plan)
-        self.assertEqual(len(report['assignment']), 797)
+        self.assertEqual(len(report['assignment']), 799)
         self.assertEqual(report['assignment']['B25S1'], 'services-persistence')
         self.assertEqual(report['assignment']['M06a1'], 'language-interchange')
         self.assertEqual(report['assignment']['RR13a'], 'services-persistence')
@@ -180,6 +180,8 @@ class CurrentPreparationTeamTests(unittest.TestCase):
         self.assertEqual(report['assignment']['B25d1'], 'services-persistence')
         self.assertEqual(report['assignment']['B25d2'], 'services-persistence')
         self.assertEqual(report['assignment']['M06a2'], 'services-persistence')
+        self.assertEqual(report['assignment']['M06a2a'], 'services-persistence')
+        self.assertEqual(report['assignment']['M06a2b'], 'services-persistence')
         plan['units'][0]['completion_contract'] = {'version': 'invalid'}
         with self.assertRaises(ValueError):
             team_policy.validate_teams(policy, plan)

@@ -128,6 +128,10 @@ for uid, fields in CONTRACT['source_next_splits']['record_updates'].items():
         if field != 'expanded_implementation_inputs':
             byid[uid][field] = change['after']
 
+for uid, fields in CONTRACT['identity_partition_splits']['record_updates'].items():
+    for field, change in fields.items():
+        byid[uid][field] = change['after']
+
 def source_dependencies(unit):
     return sorted(set(unit['dependencies'] + unit.get('source_preparation_children', [])))
 
