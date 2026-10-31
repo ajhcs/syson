@@ -1,0 +1,90 @@
+{
+  "status": "PASS_EXACT_REPAIRED_SPEC_SOURCE_ONLY_NO_EXECUTION",
+  "observed_at_utc": "2026-10-31T09:23:04.791959+00:00",
+  "scope": "Narrow independent re-admission of repaired exact B46 checks-02, relying on the preserved full source and checks-01 protocol/closure review. No imports, compiler, formatter, tests, subject execution, network, Git or source/spec changes.",
+  "bindings": {
+    "spec_path": "/workspace/build/builderbob/syson-durable-batch46-20261031/checks-02-spec.json",
+    "spec_sha256": "47acdafd112c725ec706da12acc53923e3b68a6f32f3ddd5a37aebdc984efd2b",
+    "spec_bytes": 163103,
+    "freeze_path": "/workspace/build/builderbob/syson-durable-batch46-20261031/source-freeze-02.json",
+    "freeze_sha256": "b5579653a0008876c54331e336a8c5ee4c2d6940384f7fc5cd41a6fb2e85ccf3",
+    "previous_hold_sha256": "a750621781b50c41fbfed07935d846f390d1b7c701860696006be34222d95b60",
+    "full_source_review_sha256": "fa47c1f1d83839549a951025bfb083574679ccd00ca7c5c4287c4c11e6149607",
+    "repaired_main_qualification_sha256": "a238683e18f290dfe6d6acebf4994a5cdd323929ac436aa13b93875f882450fc"
+  },
+  "delta": {
+    "original_inputs": 760,
+    "current_inputs": 764,
+    "original_inputs_removed_or_changed": 0,
+    "added_exact_pins": {
+      "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/checks-01-spec.json": "cc34f860e3f04e866c3b3f906eb42b3f7cb35e9ef17500806b4950b084e0234a",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/source-freeze-01.json": "d3cf6fbddfc7f20fd1565c1bc762a920f67ea99cd15168396f3689c2f0ecc34d",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/reviewer-checks-spec-01.json": "a750621781b50c41fbfed07935d846f390d1b7c701860696006be34222d95b60"
+    },
+    "only_other_changed_fields": [
+      "unit",
+      "cookie",
+      "out"
+    ],
+    "commands_exactly_unchanged": true,
+    "environment_exactly_unchanged": true,
+    "source_freeze_input_map_and_spec_hash_match": true,
+    "missing_direct_launcher_finding": "B46-SPEC-01 closed by whole-byte /usr/bin/systemd-run pin de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16. B32 launcher/F25 qualifier/ownership helper remain unchanged and pinned; no new runner code."
+  },
+  "current_readback": {
+    "all_764_input_hashes_match": true,
+    "checks_01_retained_unexecuted": true,
+    "checks_01_and_checks_02_controller_streams_cleanup_absent": true,
+    "new_scope_identity_and_nonce": true,
+    "scope_prefix_binding": true,
+    "nonce_handling": "Compared exact identity bindings without printing or copying values into this review.",
+    "checks_02_output": "Absent, canonical, nonsymlink; parent existing.",
+    "target_tmp_test": "Each canonical, nonsymlink, uid1000, mode0700 and empty; unchanged exact env paths.",
+    "closure": "All seven local path-dependency crates and every regular crate file remain frozen. The exact qualified B38 640-file Rust1.99.1/registry cache closure, native/WASM std, actual source/provider/runner hashes and unchanged Cargo.lock remain covered. No ancestor or explicit CARGO_HOME config file was present in the prior complete readback.",
+    "protected_source_semantics": "API200 and original direct tests171 remain byte-identical; reviewed formatted literal tests202 and probe85 plus root export3 remain unchanged."
+  },
+  "execution_plan": {
+    "commands": [
+      "rustc-version",
+      "cargo-version",
+      "fmt",
+      "tests",
+      "clippy",
+      "release-tests",
+      "release-probe-build",
+      "wasm-library"
+    ],
+    "command_count": 8,
+    "test_counts_each_debug_release": [
+      48,
+      48
+    ],
+    "named_execution_total": 96,
+    "composition_each_mode": {
+      "existing": 38,
+      "retained_b25d_direct": 6,
+      "literal": 4
+    },
+    "actual_source_test_names_count": 48,
+    "source_case_identity_digest": "d5b62d7b573d1b4f69ef65b19787e8bf1a7be2abd6199d54bb9568b4c5c13151",
+    "count_caveat": "Later executed review must independently check all 48 raw names in each mode, no skipped cases, aggregate counts and exits; source enumeration is not execution.",
+    "isolation": "Explicit unchanged pinned Cargo/Rust homes, offline locked compile/test/check/build, one compiler job and one test thread, test NNP via setpriv, global nonblocking compiler lock, fixed owned scope CPU200%/2G high/3G max/swap0/tasks128, 180-second per-command timeout, exact proof-bound cleanup.",
+    "probe_boundary": "Release example build only; no probe main execution is authorized by this admission. Cargo example test harness is distinct from executing probe main."
+  },
+  "budget": {
+    "current_production": 302,
+    "current_authored": 675,
+    "forecast_with_attributes": [
+      304,
+      677
+    ],
+    "new_runner_source_AD": 0
+  },
+  "admission": "Root may proceed with this exact spec after its required fresh Samsung/device/headroom/lock and ownership preflight. Admission is limited to the eight commands; actual execution, before/after/spec/current equality, observed controls and terminal cleanup require separate evidence.",
+  "limitations": [
+    "No actual tool version/test/compiler/format/WASM/probe/performance result is claimed. No live caps or whole-run peak/RSS claim.",
+    "Earlier checks-01 HOLD remains an immutable unexecuted observation. Original B43 main10-minute timeout and repaired B47 full16 successful main gate remain separate.",
+    "B25d2, full native/reference and original C01 closure, parent B25d, SQL/native/UI/restart/backend and held/human acceptance gates remain OPEN."
+  ]
+}

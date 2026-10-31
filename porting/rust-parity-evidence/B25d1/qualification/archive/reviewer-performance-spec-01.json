@@ -1,0 +1,135 @@
+{
+  "status": "PASS_EXACT_BINARY_BOUND_PERFORMANCE_SPEC_NO_EXECUTION",
+  "observed_at_utc": "2026-10-31T09:34:26.590779+00:00",
+  "scope": "Read-only data/source/spec review only. No subject imports, compiler, formatter, binary/probe execution, network, Git, source/spec edits or reruns.",
+  "bindings": {
+    "spec_path": "/workspace/build/builderbob/syson-durable-batch46-20261031/performance-01-spec.json",
+    "spec_bytes": 162012,
+    "spec_sha256": "9c6faae351ae3d88f3c6021b3d9a1df1baf9d5247a65575a5a809142937a7405",
+    "freeze_sha256": "9c69abafaf1ac89025d0a4a51176d82c8002472500cac74eca6295bfed3ac96d",
+    "checks_02_executed_review_sha256": "bcc9bcfb5063fc52578c08f5cb93dab94a5e47312c47105f4a124b66b373c23d",
+    "checks_02_receipt_sha256": "d1681572a12c9776eb8c314717cb6485e50e75acd7894d12170c108f775ef9a9",
+    "probe_source_sha256": "4e8ddc5f8e47add5a32499932c1e707e614c34ce1f1ead20308d005339da4f54"
+  },
+  "custody": {
+    "inputs": 772,
+    "all_current_hashes_equal_spec": true,
+    "original_764_removed_or_changed": 0,
+    "added_exact_pins": {
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/checks-02-spec.json": "47acdafd112c725ec706da12acc53923e3b68a6f32f3ddd5a37aebdc984efd2b",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/source-freeze-02.json": "b5579653a0008876c54331e336a8c5ee4c2d6940384f7fc5cd41a6fb2e85ccf3",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/reviewer-checks-spec-02.json": "1268e2fbd61bcf668e1a89f7bdace9e63056596d04746bee6219ac2daf6fa5a9",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/reviewer-executed-02.json": "bcc9bcfb5063fc52578c08f5cb93dab94a5e47312c47105f4a124b66b373c23d",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/checks-02-cleanup.json": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/checks-02/receipt.json": "d1681572a12c9776eb8c314717cb6485e50e75acd7894d12170c108f775ef9a9",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/checks-02/scope-proof.json": "4cf98ba0ab2214f4b373e0ced20e0142c0870ea7749b82bd2190d065fcd04409",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/cargo-target-01/release/examples/b25d_prepare_probe": "450b2650016c36726eece3d948c753b0639d47cf3985dbcf9d552c0c3e21aa9e"
+    },
+    "freeze_input_map_and_spec_digest_equal": true,
+    "binary": {
+      "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/cargo-target-01/release/examples/b25d_prepare_probe",
+      "bytes": 693944,
+      "sha256": "450b2650016c36726eece3d948c753b0639d47cf3985dbcf9d552c0c3e21aa9e",
+      "canonical_nonsymlink_uid1000": true,
+      "fresh_build_linkage": "Exact release artifact independently reviewed against successful checks02 build, previously empty canonical target tree, current actual probe source dep-info, immutable compiler/registry/provider/source closure and all764 before/after/spec/current bindings. No helper copy or recompilation here."
+    },
+    "direct_runtime_pins": {
+      "/usr/bin/time": "3b11dec50514a8473e9f6efa7a34d584d0657538c09988f61b72d38ad4991a10",
+      "/usr/bin/setpriv": "62ec0120791f3afcfb689fed52384ec2b0accc6e118a6b9a1d6fcfa7450aaf37",
+      "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+      "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+      "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63"
+    },
+    "new_executable_helper_source_AD": 0
+  },
+  "execution_plan": {
+    "commands": [
+      {
+        "name": "probe-process-1",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/usr/bin/time",
+          "--verbose",
+          "--",
+          "/workspace/build/builderbob/syson-durable-batch46-20261031/cargo-target-01/release/examples/b25d_prepare_probe"
+        ]
+      },
+      {
+        "name": "probe-process-2",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/usr/bin/time",
+          "--verbose",
+          "--",
+          "/workspace/build/builderbob/syson-durable-batch46-20261031/cargo-target-01/release/examples/b25d_prepare_probe"
+        ]
+      },
+      {
+        "name": "probe-process-3",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/usr/bin/time",
+          "--verbose",
+          "--",
+          "/workspace/build/builderbob/syson-durable-batch46-20261031/cargo-target-01/release/examples/b25d_prepare_probe"
+        ]
+      }
+    ],
+    "commands_count": 3,
+    "exact_argv": "Each command uses setpriv --no-new-privs /usr/bin/time --verbose -- followed solely by the exact reviewed release binary path; no Cargo, shell, dynamic selection, copied helper or extra probe arguments.",
+    "environment_equal_to_admitted_checks02": true,
+    "scope": "Fresh unit/nonce with accepted syson-b46-performance- prefix; output/controller stdout/stderr/cleanup absent. Nonce compared without disclosure.",
+    "paths": "Unchanged canonical uid1000/0700 retained build target, empty TMP and test directories; canonical compiler lock; prior qualification scope absent. Retained target is intentionally populated by the successful build.",
+    "resource_protocol": "Unchanged whole-pinned B32/F25/ownership launcher chain: CPU200%/MemoryHigh2G/MemoryMax3G/swap0/tasks128, global nonblocking compiler flock, 180-second timeout per sequential command, proof/actual invocation/cgroup binding, before/after hashing and proof-bound terminal cleanup. Root fresh device/headroom/ownership checks remain required.",
+    "expected_outputs": {
+      "process_trials": 3,
+      "workloads": [
+        "small-control:1 node",
+        "repeated-controls-1024:1024 nodes"
+      ],
+      "per_workload_per_process": {
+        "warmups": 2,
+        "raw_samples": 7,
+        "summary": 1
+      },
+      "measurement_rows_including_warmups": 54,
+      "raw_measured_rows": 42,
+      "summary_rows": 6,
+      "total_stdout_JSON_rows": 60
+    },
+    "source_algorithm": "Actual fixed loops build each bounded input outside the timed interval, invoke b25d::prepare on unchanged input nine times, and validate matched kind/version/token/manual marker/mapped descriptions/target IDs/count/serialization/input immutability every iteration after the clock. Only seven raw samples enter min/sorted[3] median/max. Serialization and full oracles after prepare are outside prepare_ns; prepare internal admission/output validation is included.",
+    "no_unittest_claim": "No expected_tests field or named unittest executions in this phase. F25 passed=0 is not a test count or row-count proof; later executed review must parse actual stdout JSON schema, all60 rows, indices and summaries plus GNU-time stderr, exits and custody."
+  },
+  "measurement_limits": {
+    "prepare_ns": "Per-call interval around actual prepare only, including its own internal output validation; descriptive raw/min/median/max for supplied finite inputs.",
+    "GNU_time_RSS": "One whole-process maximum resident set size for each complete two-workload process, including setup, warmups, all preparation calls, serialization/oracles and output work. Not per-prepare live allocation or independent per-workload RSS.",
+    "separation": "Do not combine GNU-time whole-process metrics with prepare_ns as if they shared a phase boundary. All three process RSS observations remain separate.",
+    "unsupported_claims": [
+      "p95",
+      "latency veto",
+      "capacity threshold",
+      "unmatched native/UI speed comparison",
+      "parser-only timing",
+      "phase allocation",
+      "whole-run cgroup peak without actual observation"
+    ]
+  },
+  "budget": {
+    "current_production": 302,
+    "current_authored": 675,
+    "forecast_with_attributes": [
+      304,
+      677
+    ],
+    "new_runner_or_probe_helper_source_AD": 0
+  },
+  "admission": "Root may execute only these three exact binary-bound process trials after fresh host/device/headroom/ownership preflight. Separate executed review must confirm actual source/binary/runtime inputs before=after=spec=current, all output rows and summary arithmetic, GNU-time process metrics, exit statuses and terminal owned cleanup.",
+  "boundaries": [
+    "No actual performance result is claimed by source/spec admission.",
+    "Successful build/checks and repaired main qualification remain separately pinned; original checks01 HOLD and B43 timeout retained.",
+    "B25d2, parent B25d, original C01/native/reference closure, SQL/native/UI/restart/backend and held/human acceptance remain OPEN."
+  ]
+}

@@ -1,0 +1,173 @@
+// SPDX-License-Identifier: EPL-2.0
+use serde_json::{Map, Value};
+use std::collections::HashMap;
+use syson_migration_pipeline::{self as library, Project, Representation, Resolver};
+use syson_migrations::{
+    MAX_BYTES, MAX_DEPTH, MAX_VALUES,
+    b25d::{self, Error, KIND, VERSION},
+};
+use syson_persistence::{DIAGRAM_VERSION, ResolvedElement};
+
+const ENCODED: &str = r#"{"descriptionId":"phantom","nodes":[[]]}"#;
+const LITERALS: &str = r#""number":{"$serde_json::private::Number":"not numeric"},"raw":{"$serde_json::private::RawValue":"{\"descriptionId\":\"phantom\",\"nodes\":[[]]}"},"encoded":"{\"descriptionId\":\"phantom\",\"nodes\":[[]]}""#;
+const EXPECT_START: &str = "siriusComponents://nodeDescription?sourceKind=view&sourceId=8dcd14b0-6259-3193-ad2c-743f394c68e4&sourceElementId=596f7e8d-ba35-38d6-937f-011e05b74063";
+
+fn marker(key: &str, text: &str) -> Value {
+    let mut object = Map::new();
+    object.insert(key.into(), Value::String(text.into()));
+    Value::Object(object)
+}
+fn opaque(value: &Value) {
+    assert_eq!(value["number"], marker("$serde_json::private::Number", "not numeric"));
+    assert_eq!(value["raw"], marker("$serde_json::private::RawValue", ENCODED));
+    assert_eq!(value["encoded"], ENCODED);
+}
+
+#[test]
+fn literal_tokens_and_manual_marker_objects_survive_selected_prepare_and_reentry() {
+    let huge = "9".repeat(16_384);
+    for token in ["-0", "0.00", "1E+000", "1e-99999", huge.as_str()] {
+        let input = format!(
+            r#"{{{LITERALS},"token":{token},"descriptionId":"{}","readOnly":true}}"#,
+            b25d::OLD_START_DESCRIPTION_ID
+        );
+        let original = input.clone();
+        let prepared = b25d::prepare(KIND, &input, None).unwrap();
+        assert!(prepared.changed && prepared.matched_kind);
+        assert_eq!(prepared.participant_version.as_deref(), Some(VERSION));
+        assert_eq!(prepared.json["descriptionId"], EXPECT_START);
+        assert_eq!(prepared.json["readOnly"], true);
+        assert_eq!(prepared.json["token"].to_string(), token);
+        opaque(&prepared.json);
+        let wire = prepared.to_json().unwrap();
+        assert!(wire.contains(&format!(r#""token":{token}"#)));
+        let replay = b25d::prepare(KIND, &wire, Some(VERSION)).unwrap();
+        opaque(&replay.json);
+        assert_eq!(replay.json["token"].to_string(), token);
+        assert!(!replay.changed);
+        assert_eq!(replay.to_json().unwrap(), wire);
+        assert_eq!(input, original);
+    }
+}
+
+#[test]
+fn decoded_duplicates_still_pay_physical_and_exact_byte_depth_output_limits() {
+    let duplicate = format!(
+        r#"{{"descriptionId":"unknown","\u0064escriptionId":"{}"}}"#,
+        b25d::OLD_START_DESCRIPTION_ID
+    );
+    assert_eq!(b25d::prepare(KIND, &duplicate, None).unwrap().json["descriptionId"], EXPECT_START);
+    let reversed = format!(
+        r#"{{"descriptionId":"{}","\u0064escriptionId":"unknown"}}"#,
+        b25d::OLD_START_DESCRIPTION_ID
+    );
+    let unchanged = b25d::prepare(KIND, &reversed, None).unwrap();
+    assert!(!unchanged.changed);
+    assert_eq!(unchanged.json["descriptionId"], "unknown");
+    let exact = format!("{{{}}}", vec![r#""x":null"#; MAX_VALUES - 1].join(","));
+    assert_eq!(b25d::prepare(KIND, &exact, None).unwrap().to_json().unwrap(), r#"{"x":null}"#);
+    let over = format!("{{{}}}", vec![r#""x":null"#; MAX_VALUES].join(","));
+    assert_eq!(b25d::prepare(KIND, &over, None), Err(Error::Limit));
+    let mut bytes = format!("{{}}{}", " ".repeat(MAX_BYTES - 2));
+    assert!(b25d::prepare(KIND, &bytes, None).is_ok());
+    bytes.push(' ');
+    assert_eq!(b25d::prepare(KIND, &bytes, None), Err(Error::Limit));
+    for extra in [0, 1] {
+        let depth = MAX_DEPTH + extra;
+        let input = format!("{}0{}", r#"{"x":"#.repeat(depth), "}".repeat(depth));
+        assert_eq!(b25d::prepare(KIND, &input, None).is_ok(), extra == 0);
+    }
+    let watermark = "v".repeat(4096);
+    assert_eq!(
+        b25d::prepare("foreign", "{}", Some(&watermark)).unwrap().participant_version,
+        Some(watermark.clone())
+    );
+    assert_eq!(b25d::prepare("foreign", "{}", Some(&(watermark + "v"))), Err(Error::Limit));
+    let mut edited = b25d::prepare(KIND, "{}", None).unwrap();
+    let payload = MAX_BYTES - r#"{"padding":""}"#.len();
+    edited.json["padding"] = Value::String("x".repeat(payload));
+    let published = edited.to_json().unwrap();
+    assert_eq!(published.len(), MAX_BYTES);
+    edited.json["padding"] = Value::String("x".repeat(payload + 1));
+    assert_eq!(edited.to_json(), Err(Error::Limit));
+    assert_eq!(published.len(), MAX_BYTES);
+}
+
+#[test]
+fn late_traversal_refusal_keeps_literal_input_and_prior_preparation_private() {
+    let source = format!(
+        r#"{{{LITERALS},"token":1e-99999,"descriptionId":"{}"}}"#,
+        b25d::OLD_START_DESCRIPTION_ID
+    );
+    let prior = b25d::prepare(KIND, &source, None).unwrap();
+    let published = prior.to_json().unwrap();
+    let late = format!(
+        r#"{{{LITERALS},"a":{{"descriptionId":"{}"}},"z":[[]]}}"#,
+        b25d::OLD_START_DESCRIPTION_ID
+    );
+    let original = late.clone();
+    assert_eq!(b25d::prepare(KIND, &late, None), Err(Error::NestedArray));
+    assert_eq!(late, original);
+    opaque(&prior.json);
+    assert_eq!(prior.json["token"].to_string(), "1e-99999");
+    assert_eq!(prior.to_json().unwrap(), published);
+    assert_eq!(source, format!(
+        r#"{{{LITERALS},"token":1e-99999,"descriptionId":"{}"}}"#,
+        b25d::OLD_START_DESCRIPTION_ID
+    ));
+}
+
+struct NoLoad(usize);
+impl Resolver for NoLoad {
+    fn resolve(&mut self, _: &str) -> Result<Option<ResolvedElement>, String> {
+        self.0 += 1;
+        Ok(None)
+    }
+}
+#[test]
+fn real_b01_handoff_preserves_literals_and_refuses_budget_before_resolver_work() {
+    let input = format!(
+        r#"{{{LITERALS},"token":-0,"nodes":[{{"descriptionId":"{}","targetObjectId":"old"}}]}}"#,
+        b25d::OLD_START_DESCRIPTION_ID
+    );
+    let control = b25d::prepare(KIND, &input, None).unwrap();
+    let project = Project {
+        documents: vec![],
+        representations: vec![Representation {
+            kind: KIND.into(),
+            // Copy admitted literal values directly; do not reparse a Value carrier.
+            content: control.json.clone(),
+            diagram_version: None,
+        }],
+    };
+    let before = project.clone();
+    let ids = HashMap::from([("old".into(), "new".into())]);
+    let mut resolver = NoLoad(0);
+    let output = library::prepare(&project, &ids, &mut resolver).unwrap();
+    assert_eq!(resolver.0, 1);
+    let representation = &output.representations[0];
+    opaque(&representation.content);
+    assert_eq!(representation.content["token"].to_string(), "-0");
+    assert_eq!(representation.content["nodes"][0]["descriptionId"], EXPECT_START);
+    assert_eq!(representation.content["nodes"][0]["targetObjectId"], "new");
+    assert_eq!(representation.diagram_version.as_deref(), Some(DIAGRAM_VERSION));
+    assert_eq!(control.participant_version.as_deref(), Some(VERSION));
+    assert_ne!(VERSION, DIAGRAM_VERSION);
+    let replay = b25d::prepare(KIND, &representation.content.to_string(), Some(VERSION)).unwrap();
+    assert_eq!(replay.json, representation.content);
+    assert!(!replay.changed);
+    let published = output.clone();
+    let mut oversized = project.clone();
+    oversized.representations[0].content["padding"] = Value::String("x".repeat(MAX_BYTES));
+    let original = oversized.clone();
+    let mut rejected = NoLoad(0);
+    assert!(matches!(
+        library::prepare(&oversized, &ids, &mut rejected),
+        Err(library::Error::Limit)
+    ));
+    assert_eq!(rejected.0, 0);
+    assert_eq!(oversized, original);
+    assert_eq!(output, published);
+    assert_eq!(project, before);
+    assert_eq!(control.json["nodes"][0]["targetObjectId"], "old");
+}

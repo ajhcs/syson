@@ -1,0 +1,266 @@
+{
+  "status": "HOLD_UNEXECUTED_SPEC_MISSING_DIRECT_LAUNCHER_PIN",
+  "review_scope": "Independent read-only source/spec admission; no subject imports, formatter, compiler, tests, network, Git, source/spec edits or execution. Prior full source review remains separate.",
+  "observed_at_utc": "2026-10-31T09:20:39.853898+00:00",
+  "bindings": {
+    "spec": {
+      "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/checks-01-spec.json",
+      "bytes": 162534,
+      "sha256": "cc34f860e3f04e866c3b3f906eb42b3f7cb35e9ef17500806b4950b084e0234a"
+    },
+    "source_freeze": {
+      "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/source-freeze-01.json",
+      "sha256": "d3cf6fbddfc7f20fd1565c1bc762a920f67ea99cd15168396f3689c2f0ecc34d"
+    },
+    "source_review_sha256": "fa47c1f1d83839549a951025bfb083574679ccd00ca7c5c4287c4c11e6149607",
+    "main_qualification_sha256": "a238683e18f290dfe6d6acebf4994a5cdd323929ac436aa13b93875f882450fc"
+  },
+  "finding": {
+    "id": "B46-SPEC-01",
+    "path": "/workspace/build/builderbob/syson-durable-batch32-20261030/run_scope.py",
+    "line": 6,
+    "description": "The actual unchanged B32 launcher directly invokes /usr/bin/systemd-run, but that executable is absent from checks-01 inputs. This omission is inherited from the B38 Rust profile; it is not new executable source. Current binary SHA matches the previously pinned B43 launcher.",
+    "actual_launcher_sha256": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+    "required_correction": "Preserve this unexecuted spec/freeze and add the direct launcher executable to a distinct root-owned spec/freeze before launch. No application source, runner source or test changes are required."
+  },
+  "verified": {
+    "input_count": 760,
+    "all_current_hashes_equal_spec": true,
+    "source_freeze_input_map_equals_spec": true,
+    "cache_count": 640,
+    "cache_map_exactly_equals_qualified_B38": true,
+    "local_dependency_crates": [
+      "syson-domain",
+      "syson-json-value",
+      "syson-metamodel",
+      "syson-migration-pipeline",
+      "syson-migrations",
+      "syson-model",
+      "syson-persistence"
+    ],
+    "all_regular_local_crate_files_frozen": true,
+    "cargo_config_files_on_crate_ancestor_search_or_explicit_CARGO_HOME": 0,
+    "local_crate_build_scripts": 0,
+    "cargo_manifest_sha256": "71a9e26dfd3a4d414bebdc0aab6f917b3a3b2e5a39f52fefb3fd9ce4257c30e8",
+    "cargo_lock_unchanged_sha256": "4d88c090c98c0c901a9469c1477bcfad1980043aa4a4dbb45b906e2ce0740d1b",
+    "toolchain": "actual pinned 1.99.1-x86_64-unknown-linux-gnu; native and wasm32 standard libraries plus exact prior registry sources; version commands remain unexecuted",
+    "commands": [
+      {
+        "name": "rustc-version",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc",
+          "-Vv"
+        ],
+        "expected_tests": null
+      },
+      {
+        "name": "cargo-version",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "-V"
+        ],
+        "expected_tests": null
+      },
+      {
+        "name": "fmt",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "fmt",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/Cargo.toml",
+          "--",
+          "--check"
+        ],
+        "expected_tests": null
+      },
+      {
+        "name": "tests",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "test",
+          "--offline",
+          "--locked",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/Cargo.toml",
+          "--all-targets",
+          "--",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "expected_tests": 48
+      },
+      {
+        "name": "clippy",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "clippy",
+          "--offline",
+          "--locked",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "expected_tests": null
+      },
+      {
+        "name": "release-tests",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "test",
+          "--offline",
+          "--locked",
+          "--release",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/Cargo.toml",
+          "--all-targets",
+          "--",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "expected_tests": 48
+      },
+      {
+        "name": "release-probe-build",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--release",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/Cargo.toml",
+          "--example",
+          "b25d_prepare_probe"
+        ],
+        "expected_tests": null
+      },
+      {
+        "name": "wasm-library",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "check",
+          "--offline",
+          "--locked",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/Cargo.toml",
+          "--target",
+          "wasm32-unknown-unknown",
+          "--lib"
+        ],
+        "expected_tests": null
+      }
+    ],
+    "expected_named_tests_each_mode": 48,
+    "expected_named_tests_composition": [
+      38,
+      6,
+      4
+    ],
+    "expected_named_test_executions": 96,
+    "case_names_by_file": {
+      "tests/core.rs": [
+        "original_namespace_order_and_duplicate_first_key_value_are_not_sorted",
+        "collects_object_children_not_parent_fields_or_untyped_array_items",
+        "pass_collection_is_a_snapshot_and_later_pass_sees_current_output",
+        "subtype_predicate_and_opaque_values_preserve_exact_selected_behavior",
+        "malformed_namespace_root_and_budget_failures_have_no_partial_result",
+        "long_ancestor_key_many_targets_keep_values_without_path_key_copies",
+        "serialization_preserves_predicate_across_participants_in_both_orders",
+        "namespace_serialization_uses_current_values_and_remaining_insertion_order",
+        "edited_output_rechecks_depth_and_value_budget_before_serializing"
+      ],
+      "tests/b25a.rs": [
+        "source_contract_packet_preserves_native_quirks_without_claiming_native_execution",
+        "invalid_input_and_budget_failures_do_not_replace_an_existing_preparation",
+        "participant_output_enters_actual_document_admission_and_b01_preparation"
+      ],
+      "tests/b25d.rs": [
+        "low_level_callback_uses_explicit_value_and_has_no_read_only_or_root_value_fallback",
+        "selected_kind_watermark_replay_and_unknown_policy_are_separate_from_framework_history",
+        "current_unknown_and_absent_description_ids_are_noop_without_inserting_null_fields",
+        "failure_after_earlier_private_changes_publishes_nothing_and_preserves_existing_output",
+        "preparation_and_serialization_enforce_candidate_byte_depth_and_value_budgets",
+        "actual_b01_representation_handoff_migrates_target_ids_without_reusing_watermarks"
+      ],
+      "tests/b25b_literal.rs": [
+        "literal_order_and_private_failure_remain_correct_through_the_actual_participant"
+      ],
+      "tests/shared_literal.rs": [
+        "manual_objects_and_numeric_tokens_survive_each_shared_transport_boundary",
+        "literal_first_namespace_and_duplicate_order_cannot_be_coerced",
+        "physical_overwritten_values_and_exact_byte_and_depth_edges_remain_bounded",
+        "late_pass_failure_leaves_input_and_prior_preparation_unchanged",
+        "actual_document_and_b01_handoff_preserve_literal_payloads_ids_and_reopen"
+      ],
+      "tests/b25b.rs": [
+        "exact_version_and_every_connector_subclass_remove_only_direct_object_children_fields",
+        "matching_typed_parent_selects_vendor_objects_but_not_array_items_or_grandchildren",
+        "arbitrary_nested_arrays_reach_connectors_without_migrating_unrelated_classes",
+        "first_namespace_entry_controls_matching_without_reordering_or_later_fallback",
+        "absent_fields_replay_and_unknown_json_values_are_preserved_without_null_insertion",
+        "malformed_input_and_nonobject_roots_publish_no_prepared_output",
+        "migrated_json_opens_as_document_then_b01_prepares_library_ids_with_separate_watermark",
+        "exact_packet_bytes_match_separately_recorded_source_predictions"
+      ],
+      "tests/b25a_literal.rs": [
+        "literal_order_and_private_failure_remain_correct_through_the_actual_participant"
+      ],
+      "tests/b25d_literal.rs": [
+        "literal_tokens_and_manual_marker_objects_survive_selected_prepare_and_reentry",
+        "decoded_duplicates_still_pay_physical_and_exact_byte_depth_output_limits",
+        "late_traversal_refusal_keeps_literal_input_and_prior_preparation_private",
+        "real_b01_handoff_preserves_literals_and_refuses_budget_before_resolver_work"
+      ],
+      "tests/b25c_literal.rs": [
+        "literal_order_and_private_failure_survive_the_actual_view_participant",
+        "complete_thirteen_row_packet_matches_its_labeled_source_expectations"
+      ],
+      "tests/b25c.rs": [
+        "exact_feature_is_removed_while_spelling_neighbors_and_ids_survive",
+        "child_object_collection_includes_vendor_objects_but_not_parent_fields",
+        "traversal_reaches_arbitrary_nested_arrays_and_objects",
+        "sibling_unknown_enum_and_foreign_classes_preserve_the_same_property",
+        "first_namespace_entry_decides_in_original_json_order",
+        "absent_empty_and_nonobject_namespace_are_noops",
+        "null_array_and_primitive_feature_values_are_removed_identically",
+        "repeat_is_idempotent_and_failure_cannot_replace_prior_publication",
+        "actual_document_and_b01_preparation_keep_node_and_semantic_identity"
+      ]
+    },
+    "environment": "Exact explicit prior Rust/Cargo homes and pinned toolchain PATH; CARGO_NET_OFFLINE=true, CARGO_BUILD_JOBS=1, RUST_TEST_THREADS=1, CARGO_INCREMENTAL=0; no injected wrappers/preloads/PYTHONPATH. Cargo resolution/check/build/test commands use --offline --locked. fmt is check-only. Tests also use setpriv --no-new-privs and --test-threads=1.",
+    "fresh_paths": "Canonical uid1000 mode0700 empty target/TMP/test directories; out and controller stdout/stderr/cleanup absent. Crate/lock canonical and nonsymlink. Scope prefix/nonce/path binding checked without reproducing nonce.",
+    "protocol": "Unchanged F25 attest and actual invocation/cgroup binding; nonblocking global compiler flock; sequential commands with 180-second timeout each; exact Rust passed-count checks; finally before/after hashing and failure receipt; B32 proven-owned terminal cleanup. Root must also compare receipt before/after to frozen spec and current hashes.",
+    "resource_properties": [
+      "CPUQuota=200%",
+      "MemoryHigh=2G",
+      "MemoryMax=3G",
+      "MemorySwapMax=0",
+      "TasksMax=128"
+    ],
+    "source_budget_current": [
+      302,
+      675
+    ],
+    "source_budget_with_future_attributes": [
+      304,
+      677
+    ],
+    "new_runner_source_AD": 0
+  },
+  "limitations": [
+    "This is a preexecution HOLD, not a test failure; no subject command or scope has been launched in this review.",
+    "The aggregate runner count must later be supplemented by exact 48 named cases per mode, no skips, raw exits and source-custody checks.",
+    "The release example is built, not run by its main entry point; performance/probe execution requires its separate reviewed binary-bound spec.",
+    "Inherited registry build machinery/toolchain is prior explicitly admitted code, not newly fetched code; installed OS/dynamic runtime trust is not established by this finite source map.",
+    "Root still must fresh-check Samsung device, headroom, lock and actual owned resource controls before execution. No live control/peak/RSS/performance claim is made here.",
+    "Original B43 10-minute main timeout remains preserved; repaired B47 main qualification is separate.",
+    "B25d2, original native/reference closure, parent B25d, SQL/native/UI, restart/backend and held/human acceptance gates remain OPEN."
+  ]
+}
