@@ -1,0 +1,225 @@
+"""Actual current-loader controls; qualification and final pins remain root gates."""
+import hashlib
+import io
+import re
+import sys
+import types
+import unittest
+from pathlib import Path
+from unittest import mock
+
+PATH = Path(__file__).resolve().parents[2] / 'tools/identity_partition_splits.py'
+if '_identity_loader_controls_actual' in sys.modules:
+    raise ValueError('loader control namespace collision')
+if PATH.resolve() != PATH or PATH.is_symlink() or not PATH.is_file() or PATH.stat().st_size > 65536:
+    raise ValueError('canonical bounded loader source required')
+with PATH.open('rb') as stream:
+    RAW = stream.read(65537)
+if len(RAW) > 65536 or hashlib.sha256(RAW).hexdigest() != 'f87435c178c5146a443b76199276f4ba7c1560d8f047be6729ba80a62e428e79':
+    raise ValueError('whole actual loader source changed')
+L = types.ModuleType('_identity_loader_controls_actual')
+L.__file__ = str(PATH)
+sys.modules[L.__name__] = L
+exec(compile(RAW, str(PATH), 'exec'), L.__dict__)
+PROVIDERS = PATH.parents[1] / 'composition/identity_partition_prepare'
+WRAPPER_SHA256 = '100b158594af8449c88e22a0521f3b73d334543fc65eba76d20b18bd8549ab82'
+
+
+class LoaderControls(unittest.TestCase):
+    def setUp(self):
+        self.assertFalse(any(n == L.PACKAGE or n.startswith(L.PACKAGE + '.') for n in sys.modules))
+        patcher = mock.patch.dict(sys.modules)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def refuses_before_compile(self, message):
+        with mock.patch('builtins.compile', side_effect=AssertionError('provider compiled before admission')):
+            with self.assertRaisesRegex(ValueError, message):
+                L.load()
+        self.assertNotIn(L.PACKAGE, sys.modules)
+
+    def test_pending_or_invalid_facade_pin_refuses_before_source_io(self):
+        for value in ['PENDING_ROOT_QUALIFIED_F', '', 'A' * 64, True]:
+            with mock.patch.object(L, 'FACADE_SHA256', value), mock.patch.object(
+                    Path, 'open', side_effect=AssertionError('unqualified source read')):
+                self.refuses_before_compile('source pins pending or invalid')
+
+    def test_actual_facade_alias_api_globals_and_all_sources_before_exec(self):
+        opened = []
+        real_open, real_compile = Path.open, compile
+        def observed(path, *args, **kwargs):
+            opened.append(path)
+            return real_open(path, *args, **kwargs)
+        expected = {PROVIDERS / (name + '.py') for name in ['derive', 'guard', 'construct', 'capture', 'facade']}
+        def compiling(raw, filename, *args, **kwargs):
+            self.assertEqual(set(opened), expected)
+            self.assertTrue(all(opened.count(path) == 2 for path in expected))
+            return real_compile(raw, filename, *args, **kwargs)
+        old_modules = {name: module for name, module in sys.modules.items() if name.startswith('_syson_source_next')}
+        with mock.patch.object(Path, 'open', observed), mock.patch('builtins.compile', compiling):
+            actual = L.load()
+        package = sys.modules[L.PACKAGE]
+        self.assertIs(actual, package.facade)
+        self.assertEqual(Path(actual.__file__), PROVIDERS / 'facade.py')
+        for name in ['derive', 'guard', 'construct', 'capture', 'facade']:
+            self.assertIs(sys.modules[L.PACKAGE + '.' + name], getattr(package, name))
+        for name in ['source_next_policy', 'previous_contract', 'previous_plan', 'validate_source_next_splits',
+                     'legacy_contract', 'legacy_plan', 'validate_preparation_splits', 'storage_policy',
+                     'validate_storage_splits', 'identity_previous_contract', 'identity_previous_plan']:
+            self.assertIs(getattr(actual, name).__globals__, actual.__dict__)
+        self.assertTrue(all(sys.modules.get(name) is module for name, module in old_modules.items()))
+        for name, field in [('guard', 'POLICY_SHA256'), ('construct', 'CATALOGUE_SHA256')]:
+            raw = (PROVIDERS / (name + '.py')).read_bytes()
+            literal = re.findall(rb"(?m)^" + field.encode() + rb" = '([^']*)'$", raw)
+            self.assertEqual(literal, [getattr(getattr(package, name), field).encode()])
+
+    def test_parent_and_child_namespace_collisions_preserve_foreign_identity_before_io(self):
+        for name in [L.PACKAGE, L.PACKAGE + '.foreign']:
+            foreign = types.ModuleType(name)
+            with mock.patch.dict(sys.modules, {name: foreign}), mock.patch.object(
+                    Path, 'open', side_effect=AssertionError('foreign namespace source read')):
+                with self.assertRaisesRegex(ValueError, 'namespace collision'):
+                    L.load()
+                self.assertIs(sys.modules[name], foreign)
+
+    def test_each_changed_provider_refuses_before_any_provider_exec(self):
+        real_open = Path.open
+        for name in ['derive', 'guard', 'construct', 'capture', 'facade']:
+            target = PROVIDERS / (name + '.py')
+            raw = target.read_bytes()
+            changed = raw[:-1] + (b'!' if raw[-1:] != b'!' else b'?')
+            def opened(path, *args, **kwargs):
+                return io.BytesIO(changed) if path == target else real_open(path, *args, **kwargs)
+            with mock.patch.object(Path, 'open', opened):
+                self.refuses_before_compile('whole actual identity provider changed')
+
+    def test_both_seal_hooks_require_single_strict_literal_without_executing_counterfactual(self):
+        real_open, real_stat = Path.open, Path.stat
+        for name, field in [('guard', 'POLICY_SHA256'), ('construct', 'CATALOGUE_SHA256')]:
+            target = PROVIDERS / (name + '.py')
+            raw = target.read_bytes()
+            pattern = rb"(?m)^" + field.encode() + rb" = '[^']*'$"
+            for changed in [raw + field.encode() + b" = 'PENDING_ROOT_FREEZE'\n",
+                            re.sub(pattern, field.encode() + b" = 'bad'", raw)]:
+                def opened(path, *args, **kwargs):
+                    return io.BytesIO(changed) if path == target else real_open(path, *args, **kwargs)
+                def claimed(path, *args, **kwargs):
+                    value = real_stat(path, *args, **kwargs)
+                    if path == target:
+                        fields = list(value)
+                        fields[6] = len(changed)
+                        return type(value)(fields)
+                    return value
+                with mock.patch.object(Path, 'stat', claimed), mock.patch.object(Path, 'open', opened):
+                    self.refuses_before_compile('single strict identity seal')
+
+    def test_loader_and_every_provider_symlink_refuse_before_io(self):
+        original = Path.is_symlink
+        paths = [PATH] + [PROVIDERS / (name + '.py') for name in
+                          ['derive', 'guard', 'construct', 'capture', 'facade']]
+        for target in paths:
+            with mock.patch.object(Path, 'is_symlink', lambda path: path == target or original(path)), \
+                    mock.patch.object(Path, 'open', side_effect=AssertionError('symlink read')):
+                self.refuses_before_compile('canonical actual identity')
+
+    def test_aggregate_source_claims_refuse_before_any_body_read(self):
+        with mock.patch.object(L, 'SOURCE_TOTAL', 1), mock.patch.object(
+                Path, 'open', side_effect=AssertionError('body read before aggregate source admission')):
+            self.refuses_before_compile('early identity source byte framing bound')
+
+    def test_per_file_stat_and_growing_or_nonbyte_reads_refuse_before_hash(self):
+        target = PROVIDERS / 'derive.py'
+        original = Path.stat
+        def oversized(path, *args, **kwargs):
+            value = original(path, *args, **kwargs)
+            if path == target:
+                fields = list(value)
+                fields[6] = 65537
+                return type(value)(fields)
+            return value
+        with mock.patch.object(Path, 'stat', oversized), mock.patch.object(
+                Path, 'open', side_effect=AssertionError('oversize source body read')):
+            self.refuses_before_compile('early identity source byte framing bound')
+        for raw in [b'x' * 65537, bytearray(b'x'), 'wrong type']:
+            stream = mock.mock_open()
+            stream().read.return_value = raw
+            with mock.patch.object(Path, 'open', stream), mock.patch.object(
+                    L.hashlib, 'sha256', side_effect=AssertionError('unadmitted source hashed')):
+                self.refuses_before_compile('bounded identity source grew')
+            stream().read.assert_called_once_with(65537)
+
+    def test_changed_final_reread_refuses_before_exec(self):
+        target = PROVIDERS / 'facade.py'
+        original = Path.open
+        calls = []
+        def opened(path, *args, **kwargs):
+            if path == target:
+                calls.append(path)
+                if len(calls) == 2:
+                    with original(path, 'rb') as stream:
+                        raw = stream.read(65537)
+                    return io.BytesIO(raw[:-1] + b'!')
+            return original(path, *args, **kwargs)
+        with mock.patch.object(Path, 'open', opened):
+            self.refuses_before_compile('identity source changed before execution')
+        self.assertEqual(len(calls), 2)
+
+    def test_late_namespace_collision_refuses_without_overwrite_or_exec(self):
+        foreign = types.ModuleType(L.PACKAGE + '.foreign')
+        target = PROVIDERS / 'facade.py'
+        original = Path.open
+        calls = []
+        def opened(path, *args, **kwargs):
+            if path == target:
+                calls.append(path)
+                if len(calls) == 2:
+                    sys.modules[foreign.__name__] = foreign
+            return original(path, *args, **kwargs)
+        with mock.patch.object(Path, 'open', opened), mock.patch(
+                'builtins.compile', side_effect=AssertionError('late foreign namespace executed')):
+            with self.assertRaisesRegex(ValueError, 'namespace collision'):
+                L.load()
+        self.assertIs(sys.modules[foreign.__name__], foreign)
+        self.assertNotIn(L.PACKAGE, sys.modules)
+
+    def test_missing_and_noncanonical_loader_or_provider_origins_refuse_before_io(self):
+        paths = [PATH] + [PROVIDERS / (name + '.py') for name in
+                          ['derive', 'guard', 'construct', 'capture', 'facade']]
+        is_file, resolve = Path.is_file, Path.resolve
+        for target in paths:
+            with mock.patch.object(Path, 'is_file', lambda path: path != target and is_file(path)), \
+                    mock.patch.object(Path, 'open', side_effect=AssertionError('missing origin read')):
+                self.refuses_before_compile('canonical actual identity')
+            def noncanonical(path, *args, **kwargs):
+                return path.parent / 'foreign' if path == target else resolve(path, *args, **kwargs)
+            with mock.patch.object(Path, 'resolve', noncanonical), mock.patch.object(
+                    Path, 'open', side_effect=AssertionError('noncanonical origin read')):
+                self.refuses_before_compile('canonical actual identity')
+
+    def test_unknown_root_or_profile_arguments_cannot_widen_source_authority(self):
+        with mock.patch.object(Path, 'open', side_effect=AssertionError('unknown selector read')):
+            with self.assertRaises(TypeError):
+                L.load(Path('/outside'))
+            with self.assertRaises(TypeError):
+                L.load(profile='unregistered')
+
+    def test_normal_loader_and_compatibility_import_names_alias_actual_facade(self):
+        self.assertNotIn('identity_partition_splits', sys.modules)
+        self.assertNotIn('_identity_compatibility_control', sys.modules)
+        module = types.ModuleType('identity_partition_splits')
+        module.__file__ = str(PATH)
+        sys.modules[module.__name__] = module
+        exec(compile(RAW, str(PATH), 'exec'), module.__dict__)
+        actual = sys.modules['identity_partition_splits']
+        self.assertIs(actual, sys.modules[L.PACKAGE + '.facade'])
+        path = PATH.parent / 'source_next_splits.py'
+        self.assertTrue(path.resolve() == path and not path.is_symlink() and path.stat().st_size <= 65536)
+        with path.open('rb') as stream:
+            raw = stream.read(65537)
+        self.assertLessEqual(len(raw), 65536)
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), WRAPPER_SHA256)
+        alias = types.ModuleType('_identity_compatibility_control')
+        alias.__file__ = str(path)
+        sys.modules[alias.__name__] = alias
+        exec(compile(raw, str(path), 'exec'), alias.__dict__)
+        self.assertIs(sys.modules['_identity_compatibility_control'], actual)

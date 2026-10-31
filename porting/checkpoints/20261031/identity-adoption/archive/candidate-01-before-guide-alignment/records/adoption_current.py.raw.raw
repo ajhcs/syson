@@ -1,0 +1,42 @@
+from pathlib import Path
+import hashlib
+import os
+import sys
+
+ROOT = Path('/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026')
+PRIOR = Path('/workspace/worktrees/builderbob/syson/batch53-identity-capture-extension-20261031/porting/rust-parity-plan-20261026')
+OUTPUT_ROOT = Path('/workspace/build/builderbob')
+BASE_MAIN = 'PENDING_ROOT_QUALIFIED_F_MAIN'
+if len(BASE_MAIN) != 40 or any(c not in '0123456789abcdef' for c in BASE_MAIN):
+    raise ValueError('qualified facade parent main required')
+if len(sys.argv) != 3 or sys.argv[1] not in ['derive', 'norm', 'snapshot']:
+    raise ValueError('fixed adoption phase and output required')
+phase, output = sys.argv[1], Path(sys.argv[2])
+if phase == 'derive':
+    if sys.argv[2] != '-':
+        raise ValueError('unsigned proposal uses owned runner stdout only')
+elif not output.is_absolute() or output.parent.resolve() != output.parent or output.exists() or output.is_symlink():
+    raise ValueError('fresh canonical proposal output required')
+elif not output.is_relative_to(OUTPUT_ROOT) or output.parent.stat().st_uid != os.getuid():
+    raise ValueError('owned Samsung proposal output required')
+BOOTSTRAP = ROOT / 'composition/identity_partition_prepare/test_derive.py'
+if BOOTSTRAP.resolve() != BOOTSTRAP or not BOOTSTRAP.is_file() or BOOTSTRAP.is_symlink():
+    raise ValueError('canonical actual bootstrap required')
+with BOOTSTRAP.open('rb') as stream:
+    raw = stream.read(65537)
+if len(raw) > 65536 or hashlib.sha256(raw).hexdigest() != '9974b003e363f729016dd4da74c2ece21cf7a3ac79c49811b6541567d0261d41':
+    raise ValueError('actual bootstrap source changed')
+namespace = {'__file__': str(BOOTSTRAP), '__name__': '_actual_adoption_entry'}
+exec(compile(raw, str(BOOTSTRAP), 'exec'), namespace)
+D, C, H = (namespace[name] for name in ['D', 'C', 'H'])
+if phase == 'derive':
+    files = H.originals(PRIOR)
+    files = {name: raw for name, raw in files.items() if name not in H.TAILS}
+    packet = D.derive(files, H.read(ROOT, 'composition/identity_partition_prepare/fixtures/lane.json', 65536),
+                      H.read(ROOT, 'composition/identity_partition_prepare/fixtures/amendment.md', 65536),
+                      H.read(ROOT, 'tools/build_plan.py', 262144))
+    sys.stdout.buffer.write(C.compact(packet, 8 * C.MIB))
+else:
+    proposal = C.contract_lock() if phase == 'norm' else C.snapshot(
+        'SYSON-RUST-REMAINING/2026-10-31.21', BASE_MAIN)
+    C.emit_fresh(output, proposal)

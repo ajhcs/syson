@@ -1,0 +1,126 @@
+{
+  "schema": "SYSON_M06A2_INDEPENDENT_IDENTITY_CODE_AUDIT/04",
+  "status": "SOURCE_REVIEW_ONE_P2_ALL_DRAFT_CODE_UNEXECUTED_HOLD",
+  "scope": "Actual 130-line shared process harness plus public identity/import/model/snapshot APIs and their use by the 183-line CLI. Not a new production durability library.",
+  "authority": {
+    "formatted_library": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-03/src/lib.rs",
+    "sha256": "b66886b6357b4edc54048dfe1d5b3e1c958e73764fed75d603fbc49383c4a910",
+    "verified_lines": 130,
+    "origin_main": "a70f737c5c829556beb7f21711e3b6597acf22d7",
+    "api_drift": "Read-only git diff against actual origin/main was empty for all five reviewed implementation API files. No fetch."
+  },
+  "pins": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-03/src/lib.rs",
+      "bytes": 4223,
+      "lines": 130,
+      "sha256": "b66886b6357b4edc54048dfe1d5b3e1c958e73764fed75d603fbc49383c4a910"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-03/examples/import_save_reopen.rs",
+      "bytes": 6516,
+      "lines": 183,
+      "sha256": "e5a974fc4cf435f080eb3aed108fbc86e229aa552308d1e54732962ac15256ad"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch45-identity-reopen-20261031/rust/crates/syson-domain/src/identity_context.rs",
+      "bytes": 9985,
+      "lines": 285,
+      "sha256": "512b6bd710783370dbfa9e6068b98a6c4f36bc489ae19052a64b03ebd1d77388"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch45-identity-reopen-20261031/rust/crates/syson-model/src/lib.rs",
+      "bytes": 36789,
+      "lines": 989,
+      "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch45-identity-reopen-20261031/rust/crates/syson-text-import/src/lib.rs",
+      "bytes": 9007,
+      "lines": 266,
+      "sha256": "9eaf961c48417f203ab3f8b8ccf327409f8df7014c291815a2740cea461117f1"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch45-identity-reopen-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "bytes": 12276,
+      "lines": 340,
+      "sha256": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch45-identity-reopen-20261031/rust/crates/syson-workflow/src/snapshot_io.rs",
+      "bytes": 3585,
+      "lines": 86,
+      "sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e"
+    }
+  ],
+  "findings": [
+    {
+      "id": "IDENTITY-CODE-04-P2-01",
+      "priority": "P2",
+      "title": "Protocol validation erases malformed trailing fields and count whitespace",
+      "file": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-03/src/lib.rs",
+      "line": 106,
+      "related_lines": [
+        108,
+        111,
+        112,
+        113
+      ],
+      "evidence_class": "SOURCE_INFERENCE_NOT_EXECUTED",
+      "defect": "text.trim_end() removes tabs and spaces in addition to a line terminator before exact field-count and literal-count checks. A row containing an eleventh empty tab-separated field, or a final count spelled '12 ', is normalized to the accepted ten-field row.",
+      "minimal_counterexample": "M06A2/1\\twrite\\t<actual child PID>\\t1\\t1\\t1\\t0\\t100\\t12\\t12\\t\\n",
+      "counterexample_note": "Replace escape spellings with literal tab/newline bytes; actual PID is required. No counterexample binary was created or run.",
+      "impact": "Malformed CLI output can be counted as exact-wire evidence even though the required protocol has exactly ten fields and literal count strings 12.",
+      "required_change_when_authorized": "Remove only the specified line terminator, preserve all field content and delimiters, then validate exact field count and literal count bytes. Do not edit held source until the formal adoption/source lease gates are met.",
+      "required_verification": "Under a future admitted harness verification, valid row passes; extra trailing tab, space-suffixed final count, and extra blank line refuse while preserving raw logs."
+    }
+  ],
+  "boundary_review": [
+    {
+      "topic": "Public types and lifetimes",
+      "result": "No concrete mismatch found by source inspection. Importer::stage takes an owned Transaction and owned NodeIds iterator; Staged owns the transaction; Editor::commit consumes it. SelectedIdentity borrows fields only during parsing/restore; SelectedIdentityRegistry stores copied typed UUIDs. Document::element output is tied to Document, not temporary lookup IDs. CLI maps non-Error identity/import errors into supported string errors. This is not compiler evidence."
+    },
+    {
+      "topic": "All twelve roles",
+      "result": "Importer creates root1; A2/membership3; B4/membership5; a6/membership7; b8/membership9; typing links10 and11. The CLI creates Generated12 and renames usage6 to EditedA, retaining its FeatureTyping target2; link11 targets4. Package parent selects OwningMembership. Generation equality guard binds generated semantic12 to inserted pair12."
+    },
+    {
+      "topic": "Transaction atomicity",
+      "result": "Importer uses cloned transaction state. Stage parser/link/exhaustion/collision failures drop private staged state. Staged::commit checks cancellation before Editor commit; Editor checks Arc identity, poison and revision/base before mutation, then validation/budget/revision overflow before replacing current document/history. Transaction::apply clones staged document and only publishes successful operation; registry admit prechecks both roles before inserting either. No concrete partial-publication defect found in this finite flow."
+    },
+    {
+      "topic": "Snapshot and process boundaries",
+      "result": "Actual SnapshotStore is syson-workflow, not syson-persistence. save_new stages with create_new, writes/syncs, hard-links without replacement, syncs directory and removes stage. load revalidates regular file/identity/metadata and parses Document. Existing destination remains unchanged on no-replace failure, while failed staging is retained. Writer scope drops Editor before verification and process exit; sample waits/reaps writer before caller starts fresh reader. No claim of crash/power-loss/native durability or private database parity."
+    },
+    {
+      "topic": "Oracle coverage observed",
+      "result": "Read-only complementary inspection of finite_import_restart.rs confirms full independently constructed canonical document/baseline comparisons, both typing links/classes/containment, all twelve restored role pairs, stale/foreign history/document/disk checkpoints, parser/link/exhaustion/cancel and both late role-collision cases. No tests were executed or altered."
+    }
+  ],
+  "nonblocking_risks_and_limits": [
+    {
+      "file": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-03/src/lib.rs",
+      "line": 82,
+      "risk": "Timeout branch kills/waits then returns before capped raw stdout/stderr capture and log creation at90-94. Timeouts therefore retain no harness raw logs, unlike ordinary child-status/protocol failures. Fixed current CLI prints only a final row, so this is recorded as a diagnostic/custody limitation rather than an invented model-integrity defect."
+    },
+    {
+      "file": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-03/src/lib.rs",
+      "line": 73,
+      "risk": "Pipes are drained only after try_wait reports exit. Oversized child output can fill a pipe and reach the15s kill path rather than the4097-byte output-refusal path. Qualified finite CLI emits a single bounded row; no arbitrary-binary or descendant-pipe safety claim was validated."
+    },
+    {
+      "risk": "All compile, rustfmt, Clippy, importer fixture, original166 snapshot tests, original identity/importer caller suites, release/fresh-process and required resource/measurement gates remain unexecuted for this held draft. Source compatibility is not compilation or acceptance."
+    }
+  ],
+  "preservation_and_authority": {
+    "source_implementation_mutations": "NONE",
+    "cargo_rustc_rustfmt_tests_project_execution": "NONE",
+    "git_mutations_network": "NONE",
+    "canonical_dirty_checkout_touched": false,
+    "report_only_output": "/workspace/build/builderbob/syson-durable-batch45-20261031/independent-identity-code-audit-04.json",
+    "uid": 1000,
+    "workspace": "Verified Samsung SSD990PRO2TB nvme1n1p1 UUID dcb87552-b22f-411c-bd86-4e2da80f1c6f using eventual correct unprivileged host workspace-status retry.",
+    "read_only_command_deviation": "An earlier check incorrectly used sudo -n /usr/local/sbin/bob-admin workspace-status (exit0) instead of the required unprivileged host retry. Parent was informed of exact command. It was read-only; subsequent bob-admin workspace-status with host escalation and no sudo returned exit0. No administration, mount or source change occurred.",
+    "gates": "Partition proposal remains proposed until atomic1.0.12 adoption. All held draft epochs, owner holds, old166 tests and parent/native/UI/backend obligations remain unchanged and OPEN. This report grants no adoption, source dispatch, runtime, merge, deployment or feature acceptance."
+  }
+}
