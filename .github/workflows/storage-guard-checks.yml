@@ -21,7 +21,11 @@ jobs:
           python3 -I -B -m unittest discover -s registration -p 'test_prepare.py' -v
           python3 -I -O -B -m unittest discover -s registration -p 'test_prepare.py' -v
           export SYSON_SOURCE_NEXT_FIXTURES="$(pwd -P)/source_next_prepare/fixtures"
+          export SYSON_BOOTSTRAP_TEST_ROOT="$RUNNER_TEMP/source-next-construct"
+          mkdir -m 700 "$SYSON_BOOTSTRAP_TEST_ROOT"
           python3 -I -B -m unittest discover -s source_next_prepare -p 'test_derive.py' -v
           python3 -I -O -B -m unittest discover -s source_next_prepare -p 'test_derive.py' -v
           python3 -I -B -m unittest discover -s source_next_prepare -p 'test_guard.py' -v
           python3 -I -O -B -m unittest discover -s source_next_prepare -p 'test_guard.py' -v
+          python3 -I -B -m unittest discover -s source_next_prepare -p 'test_construct.py' -v
+          python3 -I -O -B -m unittest discover -s source_next_prepare -p 'test_construct.py' -v
