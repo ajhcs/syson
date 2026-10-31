@@ -1,0 +1,87 @@
+# SysON Rust conversion: checkpoint and remaining gaps
+
+This is a source and evidence audit of main `a70f737c5c829556beb7f21711e3b6597acf22d7`, dated October 31, 2026. The comparison target remains Eclipse SysON `6ba2ac64e6b16ee2b05752ad55395eebb87d4910`. It does not establish parity with a newer upstream revision.
+
+**The Rust foundations are substantial; the complete Rust application is unfinished.** There are 23 library crates under `rust/crates`. The current application entry points remain [Spring Java](../../../backend/application/syson-application/src/main/java/org/eclipse/syson/SysONApplication.java) and [React](../../../frontend/syson/src/index.tsx). The Rust catalogue CLI is a development tool, not an application host.
+
+This audit inspected source, the adopted requirements, review records and current GitHub metadata. It did not launch the Rust candidate, a native application, a browser or a database. Existing test results retain their original scope; this report does not transfer them to an unbuilt application.
+
+## Where work was left
+
+Two separate recovery branches preserve unfinished work, with source and passive evidence in separate commits:
+
+- [Identity-adoption checkpoint](https://github.com/ajhcs/syson/tree/30aefb539ef49cdfcc28963fa2073a486d70bfad/porting/checkpoints/20261031/identity-adoption): actual machine documents remain contract 1.0.11 with 797 units, while staged code and guides target 1.0.12 with 799. Both seals are pending. The new eight-proof capture and subsequent 1.0.12 derivation, normative lock, real generator and final snapshot qualification have not run. This is an incomplete, non-runnable candidate, not a plan adoption.
+- [Rust import/edit/save/reopen checkpoint](https://github.com/ajhcs/syson/tree/e59606e7ed9ca0c2f05df419de3bcd8d7818a50e/porting/checkpoints/20261031/identity-reopen): exact raw source, formatting previews and review findings are retained. The full formatted proposal exceeded the ordinary 400-production/900-authored-line caps at 457/951. No Cargo, Rust test or probe execution qualified this candidate.
+
+Independent preservation review checked all 231 changed paths and 196 passive archive files before both branches were pushed. Original worktree HEADs and source bytes were preserved. The branches are recovery checkpoints and must not be merged as completed features.
+
+The unexecuted Rust import/edit/save/reopen draft has three required review repairs: reject malformed trailing protocol fields/counts; retain artifacts when assertions fail; and directly reach the final-key no-overwrite refusal with an absent baseline. These are source-review findings. They are not observations of production data loss.
+
+## PR queue and worktree disposition
+
+The completed queue census found 105 open PRs, all drafts. Of these, 102 target feature or snapshot branches. The three targeting `main` are:
+
+| PR | Disposition |
+| --- | --- |
+| [#1](https://github.com/ajhcs/syson/pull/1) | Conflicting integration rollup; its explicit duplicate-rollup hold remains. |
+| [#148](https://github.com/ajhcs/syson/pull/148) | Capture draft; its prerequisite #147 is merged, but current composed qualification, checks and required environment evidence are absent. A bounded eligibility audit is the next step. |
+| [#232](https://github.com/ajhcs/syson/pull/232) | Conflicting native-reference prerequisite with an explicit compile hold. One synthetic successful check and four skipped jobs do not qualify the required offline compile. |
+
+No existing PR was established ready to merge or confirmed wholly superseded. This pass therefore merged or closed none of those 105 PRs. In particular, #75 needs a complete replacement audit against #237/#238 before anyone treats it as superseded. Draft status or a similar title alone does not decide either merge or closure.
+
+Cleanup removed 82 clean, merged worktrees without force, leaving 140 registered, including the same 24 dirty worktrees and nine explicitly protected paths. Their exact recovery branches remain; build directories, dirty work, owner holds and incident data were retained. Three additional candidates were kept for reference classification or missing live same-name remote recovery. The canonical checkout, native target, W41/W45/W52/W53/W54, #99/#130 and human issues #196–#201 remain protected.
+
+The [queue evidence](evidence/pr-triage.json.raw) and [cleanup readback](evidence/cleanup-readback.json.raw) record the exact observations and limitations. These are dated dispositions, not permanent readiness labels.
+
+## What remains before full parity
+
+The adopted [machine contract](../../rust-parity-plan-20261026/completion-contract.json) assigns 797 review units to 13 families. These counts include implementation, preparation and qualification obligations. They are not remaining feature counts, PR estimates or a completion percentage.
+
+| Family | Adopted units | Remaining acceptance work and evidence required |
+| --- | ---: | --- |
+| Reference | 16 | Close C01's exact source/artifact/configuration and inherited Sirius/EMF/Syside correspondence. Qualify dependency closure and the unmodified offline compile of all 378 core Java sources, then the matching application/runtime. Effective-model replay and selected modified artifacts are narrower results. |
+| Landing | 4 | Reconcile actual prerequisite compositions and held ownership. Verify exact reviewed heads, resulting main trees and real consuming callers. Preserve unique donor evidence before any superseded closure. |
+| Model | 401 | Complete assigned metamodel behavior, construction, containment, references, proxies, visibility, derived state, cache/notification and library lifecycle through actual callers. Library tests must be supplemented by matched native meaning, ordering, identity and failure observations. |
+| Language | 184 | Complete lexical families, grammar, CST/AST recovery, linking, serialization and editor services. The current recognizer and finite importer do not cover the complete language. Compare valid, incomplete and malformed text, references, spans, diagnostics, Unicode and newline behavior. |
+| Interchange | 26 | Complete codecs, identity bridges, loading, archives and migrations. Exercise native → Rust → edit/save → native and the reverse through real files, including corruption, duplicate identities, expansion, cancellation and atomic refusal. |
+| Projects | 9 | Implement connected templates, lifecycle, persistence, restore and recovery. Prove that model and representation state survives reload, close/reopen and backend restart without manual JSON reimport. |
+| Services | 12 | Implement actual Rust host, API, sessions, commands, subscriptions, history, libraries and reconnect callers. Exercise two clients/projects, expiry, stale/duplicate/reordered responses, cancellation, disposal and backpressure. |
+| Views | 82 | Complete effective General, Interconnection, Action Flow and State Transition views, explorer, details, menus, queries, validation and requirements surfaces. Connect semantic services, browser measurement, placement, routing, rendering, history and reopen. |
+| Usability and capacity | 3 | Qualify real task completion, responsive layout, exact-value disclosure, readable glyphs, keyboard and assistive-technology access, focus/caret and representative resource ramps. Historical prototype screenshots cannot qualify the connected application. |
+| Rust delivery | 5 | Move application decisions and the application bridge into Rust. Inspect distributed artifacts and running processes, notices, startup/shutdown, upgrades and rollback. Generated WASM bootstrap is allowed; shipped Java/Syside/Node/Python application fallbacks are not. |
+| Repairs | 49 | Close remaining RR01–RR24 children and their consuming-caller obligations. Preserve counterexamples and failed attempts. A locally repaired provider does not by itself accept its parent feature. |
+| Verification | 5 | Complete independent language/model/query/API/database/migration/geometry/browser comparisons and whole journeys. Negative controls must expose meaningful divergences; hashes and accepted labels alone do not prove behavior. |
+| Final acceptance | 1 | C99 requires every primary and discovered obligation accepted on the same target/candidate release, with reproducible builds, recovery, usability, capacity, notices and upgrade/rollback evidence. Deployment is a separate decision. |
+
+The existing remaining-work guide's family table still carries older model/interchange/repair counts of 399/23/47. The current machine contract has 401/26/49. This report uses the machine counts; correcting the locked guide and snapshot remains part of reviewed adoption, not an undocumented change to the contract.
+
+## The next product milestone and its dependencies
+
+The next milestone is create or import → edit → save → reload → close/reopen → backend restart → fresh inspection. Completion requires the same semantic identities, references, representation state and documented history behavior without manual JSON reimport.
+
+The existing [SnapshotStore](../../../rust/crates/syson-workflow/src/lib.rs) is a real bounded immutable-file adapter. It is explicitly a development facility, not the upstream PostgreSQL store or complete archive interchange. Reopening that adapter in one process does not prove a fresh process or application backend restart. The [model Editor](../../../rust/crates/syson-model/src/lib.rs) and migration preparation likewise need actual application consumers and durable transaction integration.
+
+The existing plan supplies the following execution order; this report grants no new source lease or dependency exception:
+
+1. **Finish the identity split before dispatching its children.** Resume from the saved source. Independently review the exact capture specification and fresh resource/ownership admission, then qualify real capture, derivation, manual seals, normative lock, generator and snapshot. Preserve the complete old register, history and progress bindings; do not install an oracle in place of actual generator output. The final 64 MiB framing check remains unrun and is separate from heap/RSS.
+2. **Repair and qualify the finite Rust journey.** After adoption and ownership admission, retain the original complete snapshot tests and fix the three review findings. Prove actual finite import, typed edit, save and a distinct reader process against full canonical files and all 12 identity pairs, not a counts-only output row. Split functional and measurement work within ordinary review budgets.
+3. **Advance the exact native reference in parallel where admitted.** Resolve #232's dependency/compile gates and C01/C02 comparison prerequisites. Downloaded dependency data, tool versions and model replay do not qualify execution of acquired code or the native application.
+4. **Build the connected Rust application foundation.** B02 owns the HTTP host, B03 GraphQL execution, B04 session/HTTP/WebSocket admission, B05 PostgreSQL connection/schema and B06 atomic semantic/representation/migration persistence. Preserve their actual dependencies, including C01 and the assigned repair gates. Pure DTOs, reconciliation effects and migration preparation are inputs to this work, not substitutes for it.
+5. **Advance language and semantic callers through their declared chain.** P02 requires C01/C02/P01; P11 requires P10 and is not immediately ready. Linking/import, cross-resource identities, library and view consumers retain their own prerequisites and held-owner handoffs. Human starter tasks stay reserved.
+6. **Qualify the application as people use it.** Connect project routing, explorer, details, file import/export and effective views. Then exercise real pointer/keyboard events, accessible state, rendered pixels, errors and resulting saved state. Complete the command/history and full renderer-admission repairs on the resulting composition.
+
+## How we will know the remaining work is done
+
+Functional qualification must include late failure, cancellation, stale/foreign identities, existing-output refusal, project isolation and recovery, in addition to successful authoring. Storage evidence must inspect fresh connections/processes and durable semantic, representation and migration state. UI evidence must cover actual event dispatch, focus/caret, meaningful screenshots, accessibility inspection and model/history/representation artifacts.
+
+For changed performance paths, retain two warmups and seven measured samples with all raw values and min/median/max. Use at least 30 measured samples and a declared estimator for p95. Separate event-to-visible latency, server/database time, allocation traffic, live heap and RSS. A child-process RSS value does not measure the application's heap or user-visible latency.
+
+The adopted provisional latency ranges are 16–50 ms for continuous feedback, 50–150 ms for ordinary authoring, 150–350 ms for named dense authoring and 250–1,000 ms for named large import/export/recovery. They guide review; timing excursions require context and scoped follow-up, not an automatic timing veto. Integrity quotas and data preservation remain required.
+
+Capacity qualification still needs declared workloads, definitions and recovery behavior for the native-documented targets: 10 MB models, 150,000 semantic elements, 2,000 representations per project, 1,000 elements per representation, 1,000 projects and 80 concurrent users. These are qualification targets, not supported Rust capacity claims.
+
+RR16b/RR17 must bind actual commands, tools, artifacts, outcomes and obligation coverage to the final source composition. Final acceptance also requires a clean reproducible Rust release whose application behavior does not delegate to the retained Java/TypeScript implementation. Required unsupported, unresolved or unrun behavior keeps parity open.
+
+The detailed [application audit](evidence/application-gap-audit.json.raw) and [language/semantic audit](evidence/language-semantic-gap-audit.json.raw) map source findings to existing tasks and verification criteria. They identify gaps; they do not grant implementation readiness or accept runtime behavior.
+
+The authoritative tasks and dependencies remain in the [adopted register](../../rust-parity-plan-20261026/remaining-work/units.json) and linked briefs. This audit adds a current handoff; it does not amend those requirements or declare any feature accepted.
