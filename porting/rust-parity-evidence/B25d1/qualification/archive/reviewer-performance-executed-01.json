@@ -1,0 +1,343 @@
+{
+  "status": "PASS_EXECUTED_FINITE_PREPARE_OBSERVATIONS_ONLY",
+  "observed_at_utc": "2026-10-31T09:44:22.277210+00:00",
+  "review_scope": "Independent retained data/source/hash/ELF-header review only; no subject import, compiler, formatter, probe execution, rerun, network, Git or source change.",
+  "bindings": {
+    "spec_sha256": "9c6faae351ae3d88f3c6021b3d9a1df1baf9d5247a65575a5a809142937a7405",
+    "spec_admission_sha256": "4556d72f1f148388ba45c744b88862adab00dadfac8871da1502404f2df6dc51",
+    "performance_freeze_sha256": "9c69abafaf1ac89025d0a4a51176d82c8002472500cac74eca6295bfed3ac96d",
+    "prior_build_executed_review_sha256": "bcc9bcfb5063fc52578c08f5cb93dab94a5e47312c47105f4a124b66b373c23d",
+    "current_probe_source_sha256": "4e8ddc5f8e47add5a32499932c1e707e614c34ce1f1ead20308d005339da4f54",
+    "current_api_source_sha256": "8eba566e467cac3546e5be64143a289b18cdae17d076f3f940e895dd47472135",
+    "raw_evidence": {
+      "performance-01/probe-process-1.stderr": {
+        "bytes": 824,
+        "sha256": "89a3264f5a9b0a3eb9e4071bc62fafdda3a12bc39657458729655a8a1f078d29"
+      },
+      "performance-01/probe-process-1.stdout": {
+        "bytes": 2662,
+        "sha256": "b2516e0b82bc06d1fd29b8e58236f458b9fc34adc7bd1c68a1c145803b3c4839"
+      },
+      "performance-01/probe-process-2.stderr": {
+        "bytes": 823,
+        "sha256": "b68a2dde72cb7eee6cc4687204c0c8e90a0e3fe47c94038d277d051684742b1b"
+      },
+      "performance-01/probe-process-2.stdout": {
+        "bytes": 2662,
+        "sha256": "fb6dfdb9c390114724c490b08a1ecfd04c6a387c6cf5ae8ef88eb072f6c0883d"
+      },
+      "performance-01/probe-process-3.stderr": {
+        "bytes": 824,
+        "sha256": "89a3264f5a9b0a3eb9e4071bc62fafdda3a12bc39657458729655a8a1f078d29"
+      },
+      "performance-01/probe-process-3.stdout": {
+        "bytes": 2662,
+        "sha256": "582febb7c518c79c6ad08ac077ba1b512537b563725d224f3d34b486253dbf73"
+      },
+      "performance-01/receipt.json": {
+        "bytes": 320232,
+        "sha256": "7f9388145c0f90e7345f7e59a896292cfb6fffb3e98b4b8282dcc345097f7cee"
+      },
+      "performance-01/scope-proof.json": {
+        "bytes": 376,
+        "sha256": "b13c7840d3eb8aa4340efda2405a68940cb21b461271adffde2ef8456db73e93"
+      },
+      "performance-01-cleanup.json": {
+        "bytes": 160,
+        "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+      },
+      "performance-01-controller.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "performance-01-controller.stdout": {
+        "bytes": 861,
+        "sha256": "16e40b037da0405b83797aadb560f61f228f3a5696064ecfbbb9c7e601e75fa3"
+      }
+    }
+  },
+  "custody": {
+    "input_count": 772,
+    "all_before_after_spec_current_equal": true,
+    "actual_ELF": {
+      "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/cargo-target-01/release/examples/b25d_prepare_probe",
+      "bytes": 693944,
+      "sha256": "450b2650016c36726eece3d948c753b0639d47cf3985dbcf9d552c0c3e21aa9e",
+      "magic": "7f454c46",
+      "class_bits": 64,
+      "endianness": "little",
+      "machine": 62,
+      "ELF_type": 3,
+      "canonical_nonsymlink_uid1000": true
+    },
+    "build_linkage": "Exact 450b265\u2026 release binary previously independently qualified from the admitted fresh target build, source/provider/toolchain/registry closure and dep-info. Source, original764 inputs, executable/time/setpriv/systemd/provider pins and eight added build-custody pins remain identical.",
+    "no_new_code_or_acquisition": "Actual fixed binary directly executed through setpriv --no-new-privs /usr/bin/time --verbose; no Cargo/helper copy or network step.",
+    "budget": {
+      "current_production": 302,
+      "current_authored": 675,
+      "forecast_with_attributes": [
+        304,
+        677
+      ],
+      "new_runtime_helper_source_AD": 0
+    }
+  },
+  "execution": {
+    "receipt_status": "PASS_NAMED_LOCAL_CHECKS_ONLY",
+    "commands": 3,
+    "all_argv_equal_admitted_spec": true,
+    "all_command_exits_zero": true,
+    "controller_eight_or_three_rows": "Exactly three controller JSON command rows, identical to receipt commands.",
+    "controller_stdout_rows_equal_receipt": true,
+    "controller_stderr_bytes": 0,
+    "named_unit_test_executions": 0,
+    "passed_zero_means": "F25 Rust-test regex finds no unittest output; zero is not a test result and is not used as a row-count proof.",
+    "strict_JSONL": "No duplicate keys or nonfinite values; exact measurement and summary key sets/types, exact ordered workloads/warmup0..1/raw0..6, sizes/nodes and all summary values verified.",
+    "counts": {
+      "JSONL_total": 60,
+      "measurement_rows": 54,
+      "warmup_rows": 12,
+      "raw_rows": 42,
+      "summary_rows": 6
+    },
+    "processes": [
+      {
+        "process": 1,
+        "command_name": "probe-process-1",
+        "exit": 0,
+        "F25_command_wall_seconds": 0.01574535999679938,
+        "stdout_rows": 20,
+        "workloads": [
+          {
+            "workload": "small-control",
+            "nodes": 1,
+            "input_bytes": 278,
+            "output_bytes": 278,
+            "warmup_ns": [
+              11372,
+              2564
+            ],
+            "raw_samples_ns": [
+              2134,
+              1583,
+              1783,
+              1673,
+              1613,
+              1623,
+              1593
+            ],
+            "independently_recomputed": {
+              "min_ns": 1583,
+              "median_ns": 1623,
+              "max_ns": 2134
+            },
+            "source_shape_byte_counts_independently_reconstructed": true
+          },
+          {
+            "workload": "repeated-controls-1024",
+            "nodes": 1024,
+            "input_bytes": 208970,
+            "output_bytes": 208970,
+            "warmup_ns": [
+              830556,
+              774910
+            ],
+            "raw_samples_ns": [
+              742669,
+              622570,
+              744382,
+              745694,
+              625755,
+              628080,
+              744513
+            ],
+            "independently_recomputed": {
+              "min_ns": 622570,
+              "median_ns": 742669,
+              "max_ns": 745694
+            },
+            "source_shape_byte_counts_independently_reconstructed": true
+          }
+        ],
+        "GNU_time": {
+          "maximum_resident_set_size_kbytes": 4416,
+          "maximum_resident_set_size_bytes": 4521984,
+          "exit_status": 0,
+          "reported_elapsed": "0:00.00",
+          "reported_user_seconds": "0.00",
+          "reported_system_seconds": "0.00",
+          "resolution_limit": "GNU time rounded these very short runs; do not infer zero duration. F25 wall includes command launch/NNP/time wrapper.",
+          "scope": "Entire single probe process containing both workloads, input construction, warmups, raw calls, serialization, correctness checks and logging; not per-prepare allocation or per-workload RSS."
+        }
+      },
+      {
+        "process": 2,
+        "command_name": "probe-process-2",
+        "exit": 0,
+        "F25_command_wall_seconds": 0.01558297000156017,
+        "stdout_rows": 20,
+        "workloads": [
+          {
+            "workload": "small-control",
+            "nodes": 1,
+            "input_bytes": 278,
+            "output_bytes": 278,
+            "warmup_ns": [
+              18085,
+              5140
+            ],
+            "raw_samples_ns": [
+              4248,
+              3156,
+              3316,
+              3106,
+              3116,
+              3256,
+              3176
+            ],
+            "independently_recomputed": {
+              "min_ns": 3106,
+              "median_ns": 3176,
+              "max_ns": 4248
+            },
+            "source_shape_byte_counts_independently_reconstructed": true
+          },
+          {
+            "workload": "repeated-controls-1024",
+            "nodes": 1024,
+            "input_bytes": 208970,
+            "output_bytes": 208970,
+            "warmup_ns": [
+              878409,
+              643940
+            ],
+            "raw_samples_ns": [
+              616588,
+              621578,
+              615986,
+              727119,
+              726277,
+              605317,
+              725005
+            ],
+            "independently_recomputed": {
+              "min_ns": 605317,
+              "median_ns": 621578,
+              "max_ns": 727119
+            },
+            "source_shape_byte_counts_independently_reconstructed": true
+          }
+        ],
+        "GNU_time": {
+          "maximum_resident_set_size_kbytes": 4416,
+          "maximum_resident_set_size_bytes": 4521984,
+          "exit_status": 0,
+          "reported_elapsed": "0:00.00",
+          "reported_user_seconds": "0.00",
+          "reported_system_seconds": "0.00",
+          "resolution_limit": "GNU time rounded these very short runs; do not infer zero duration. F25 wall includes command launch/NNP/time wrapper.",
+          "scope": "Entire single probe process containing both workloads, input construction, warmups, raw calls, serialization, correctness checks and logging; not per-prepare allocation or per-workload RSS."
+        }
+      },
+      {
+        "process": 3,
+        "command_name": "probe-process-3",
+        "exit": 0,
+        "F25_command_wall_seconds": 0.01544280300004175,
+        "stdout_rows": 20,
+        "workloads": [
+          {
+            "workload": "small-control",
+            "nodes": 1,
+            "input_bytes": 278,
+            "output_bytes": 278,
+            "warmup_ns": [
+              13556,
+              2465
+            ],
+            "raw_samples_ns": [
+              2264,
+              1723,
+              1824,
+              1723,
+              1683,
+              1693,
+              1674
+            ],
+            "independently_recomputed": {
+              "min_ns": 1674,
+              "median_ns": 1723,
+              "max_ns": 2264
+            },
+            "source_shape_byte_counts_independently_reconstructed": true
+          },
+          {
+            "workload": "repeated-controls-1024",
+            "nodes": 1024,
+            "input_bytes": 208970,
+            "output_bytes": 208970,
+            "warmup_ns": [
+              841839,
+              781884
+            ],
+            "raw_samples_ns": [
+              671723,
+              628120,
+              723864,
+              758028,
+              753079,
+              751175,
+              740164
+            ],
+            "independently_recomputed": {
+              "min_ns": 628120,
+              "median_ns": 740164,
+              "max_ns": 758028
+            },
+            "source_shape_byte_counts_independently_reconstructed": true
+          }
+        ],
+        "GNU_time": {
+          "maximum_resident_set_size_kbytes": 4416,
+          "maximum_resident_set_size_bytes": 4521984,
+          "exit_status": 0,
+          "reported_elapsed": "0:00.00",
+          "reported_user_seconds": "0.00",
+          "reported_system_seconds": "0.00",
+          "resolution_limit": "GNU time rounded these very short runs; do not infer zero duration. F25 wall includes command launch/NNP/time wrapper.",
+          "scope": "Entire single probe process containing both workloads, input construction, warmups, raw calls, serialization, correctness checks and logging; not per-prepare allocation or per-workload RSS."
+        }
+      }
+    ]
+  },
+  "correctness_basis": {
+    "workload_reconstruction": "Read actual MAPPINGS[0]=(OLD_START_DESCRIPTION_ID,NEW_START_DESCRIPTION_ID) literals as text. Independently reconstructed fixed finite one-node and1024-node inputs with raw -0, ordinary private-marker object and fixture-target; old\u2192new description substitution preserves byte count278/208970 respectively.",
+    "actual_in_program_assertions": "Every one of54 prepare iterations succeeded and returned before the next row/summary: matched kind, changed, exact selected VERSION, literal -0/manual marker, exact node count, every mapped description and target ID, bounded serialization, identical repeat serialization and unchanged original input. Assertions are ordinary Rust assert!/assert_eq! and remain active in release. Any failure would terminate nonzero and prevent complete later rows.",
+    "timing_boundary": "Instant interval surrounds actual b25d::prepare(KIND,input,None), including literal parsing/walk/internal validation and its internal output serialization admission. Subsequent oracle checks and explicit prepared.to_json()/repeat comparison are outside prepare_ns.",
+    "evidence_limit": "Probe rows retain metadata/timings, not serialized result payloads. Correctness here is source-bound checked assertions plus independently reconstructed workload shape/byte accounting, supported by separate full manual-oracle debug/release tests; it is not a newly captured full-document byte oracle."
+  },
+  "ownership_and_cleanup": {
+    "proof_unit_nonce_prefix_match": true,
+    "nonzero_invocation": true,
+    "actual_cgroup_bound_to_unit": true,
+    "entry_pid": 732076,
+    "positive_proc_start_ticks": true,
+    "basis": "Pinned ownership helper attestation of actual process/cgroup/systemctl invocation before commands; unchanged global compiler lock and B32/F25 protocol. Nonce values not reproduced in this review.",
+    "cleanup": {
+      "confirmed_empty_or_absent": true,
+      "observations": [
+        {
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "InvocationID": ""
+        }
+      ]
+    },
+    "controls": "No live numeric-cgroup readback or whole-run cgroup peak claimed by this report. Requested caps remain exact admitted source/spec properties. GNU-time process RSS above is separately observed."
+  },
+  "limits": [
+    "Descriptive finite preparation observations only; no performance threshold/latency veto, capacity result, p95, allocations, phase RSS, native comparison, UI or full parity claim.",
+    "All three GNU-time RSS observations are4416KiB separately; they are not added or attributed independently to the two workloads.",
+    "B25d2, parent B25d, original C01/native/reference closure, SQL/native/UI/restart/backend and held/human acceptance gates remain OPEN. Original checks01 HOLD and B43 timeout remain preserved; repaired main and actual96 named tests are separate."
+  ]
+}

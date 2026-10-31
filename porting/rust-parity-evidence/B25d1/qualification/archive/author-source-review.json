@@ -1,0 +1,364 @@
+{
+  "schema": 1,
+  "status": "AUTHOR_SOURCE_FROZEN_ONLY_FOR_INDEPENDENT_REVIEW_NO_RUNTIME_OR_MERGE",
+  "author": "/root/registration_review",
+  "unit": "B25d1",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031",
+  "base_main": "46f069218c3ff545a8eaec36ba14f35a6a014147",
+  "lease": {
+    "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/source-lease.json",
+    "bytes": 1618,
+    "ordinary_lines": 36,
+    "sha256": "925a29940cfe16c2f32e2f7a166ee757f255915a4040ba222d305bf0c26c6ae0"
+  },
+  "source": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/b25d.rs",
+      "bytes": 9289,
+      "ordinary_lines": 200,
+      "sha256": "8eba566e467cac3546e5be64143a289b18cdae17d076f3f940e895dd47472135"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/b25d.rs",
+      "bytes": 6337,
+      "ordinary_lines": 171,
+      "sha256": "0ce3969f1df01cfcd372e93fcfa7684fbe9ee86bf6971b99e63364a121a3b916"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/b25d_literal.rs",
+      "bytes": 7800,
+      "ordinary_lines": 173,
+      "sha256": "5373bb1228831b78db119bf22b7dc8d4fa79722eca9c5da040e57f2c5098dde8"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/examples/b25d_prepare_probe.rs",
+      "bytes": 3041,
+      "ordinary_lines": 78,
+      "sha256": "caf5457c1d0ad3abf10c20d784c81bf6921b7165f77e26af38a0438a792e30af"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/porting/rust-parity-evidence/B25d1/README.md",
+      "bytes": 1158,
+      "ordinary_lines": 14,
+      "sha256": "7ca1ffca1b93365658e58217636c49d7f7835a8d8075d25eb5addaa4c3fdacd5"
+    }
+  ],
+  "donor_preservation": {
+    "corrected_whole_API200_exact_approved_raw": true,
+    "six_complete_direct_cases_and_NoLoad_helper171_exact_approved_raw": true,
+    "projection_of_whole222_original": "inclusive1-10 and62-222; seventh corpus case16-60 plus original fixture constants11-14 retained separately",
+    "frozen_donor_inputs": [
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/approved-b25d.rs.raw",
+        "bytes": 9289,
+        "ordinary_lines": 200,
+        "sha256": "8eba566e467cac3546e5be64143a289b18cdae17d076f3f940e895dd47472135"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/approved-six-direct-tests.rs.raw",
+        "bytes": 6337,
+        "ordinary_lines": 171,
+        "sha256": "0ce3969f1df01cfcd372e93fcfa7684fbe9ee86bf6971b99e63364a121a3b916"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/original-b25d-tests.rs.raw",
+        "bytes": 8527,
+        "ordinary_lines": 222,
+        "sha256": "753dcdffd4e0e7f2030fb77c1a01757ca08272835e62885788afe9e067d8ad9c"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/native-fixtures.json.raw",
+        "bytes": 10712,
+        "ordinary_lines": 140,
+        "sha256": "213e78b54beb06fc7a40300b96e24aac7d5caa5cff7281fbb9b1c24c84bee4f2"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/source-predictions.json.raw",
+        "bytes": 14250,
+        "ordinary_lines": 324,
+        "sha256": "54fa4fa1db055eb4c3051e0f1f80b7b5b044e927cb42d5fb0d0e183a1da17d72"
+      }
+    ],
+    "old193_not_used": true
+  },
+  "public_API": {
+    "namespace": "syson_migrations::b25d; root-owned #[path=\"../b25d.rs\"] pub mod b25d",
+    "constants": [
+      "VERSION",
+      "KIND",
+      "DESCRIPTION_ID",
+      "OLD_START_DESCRIPTION_ID",
+      "NEW_START_DESCRIPTION_ID",
+      "OLD_DONE_DESCRIPTION_ID",
+      "NEW_DONE_DESCRIPTION_ID",
+      "OLD_DECISION_DESCRIPTION_ID",
+      "NEW_DECISION_DESCRIPTION_ID",
+      "OLD_FORK_DESCRIPTION_ID",
+      "NEW_FORK_DESCRIPTION_ID",
+      "OLD_JOIN_DESCRIPTION_ID",
+      "NEW_JOIN_DESCRIPTION_ID",
+      "OLD_MERGE_DESCRIPTION_ID",
+      "NEW_MERGE_DESCRIPTION_ID",
+      "MAPPINGS"
+    ],
+    "Error": [
+      "Input(String)",
+      "Limit",
+      "UnsupportedVersion(String)",
+      "NestedArray"
+    ],
+    "Prepared_public_fields": [
+      "json:serde_json::Value",
+      "participant_version:Option<String>",
+      "matched_kind:bool",
+      "changed:bool"
+    ],
+    "functions": [
+      "replace_json_node(&mut Map<String,Value>,current_attribute:&str,current_value:&Value)->bool",
+      "prepare(kind:&str,input:&str,participant_version:Option<&str>)->Result<Prepared,Error>",
+      "Prepared::to_json(&self)->Result<String,Error>"
+    ],
+    "invariants": [
+      "Full corrected200 source unchanged, including literal_error, shared crate::literal invocation, typed materialization and edited-output streaming counter. No generic Value parse substituted.",
+      "Explicit supplied callback/no root fallback or readOnly policy; matched-kind selection/replay/foreign watermark/unknown watermark ordering and nested-array refusal remain original.",
+      "No new cancellation ABI exists in approved API; original shared parser callback||false is unchanged, no cancellable provider or shared behavior edited. No cancellation runtime claim."
+    ]
+  },
+  "case_inventory": {
+    "original_direct": [
+      "low_level_callback_uses_explicit_value_and_has_no_read_only_or_root_value_fallback",
+      "selected_kind_watermark_replay_and_unknown_policy_are_separate_from_framework_history",
+      "current_unknown_and_absent_description_ids_are_noop_without_inserting_null_fields",
+      "failure_after_earlier_private_changes_publishes_nothing_and_preserves_existing_output",
+      "preparation_and_serialization_enforce_candidate_byte_depth_and_value_budgets",
+      "actual_b01_representation_handoff_migrates_target_ids_without_reusing_watermarks"
+    ],
+    "new_independent": [
+      "literal_tokens_and_manual_marker_objects_survive_selected_prepare_and_reentry",
+      "decoded_duplicates_still_pay_physical_and_exact_byte_depth_output_limits",
+      "late_traversal_refusal_keeps_literal_input_and_prior_preparation_private",
+      "real_b01_handoff_preserves_literals_and_refuses_budget_before_resolver_work"
+    ],
+    "new_unit_source_cases": 10,
+    "existing_migration_source_cases_retained": 38,
+    "expected_composed_migrations_source_case_total": 48,
+    "executed": false
+  },
+  "new_control_coverage": {
+    "literal_tokens_and_manual_marker_objects_survive_selected_prepare_and_reentry": "Manual marker-object oracle and encoded-node-looking strings; raw -0,0.00,1E+000,1e-99999 and16384-digit integer; independent expected start ID; readOnly retained; selected version/changed/matched flags and exact token spellings through serialization/replay; input unchanged.",
+    "decoded_duplicates_still_pay_physical_and_exact_byte_depth_output_limits": "Escaped duplicate descriptionId LastWins in both orders; root+65535 overwritten values exact versus+1 refusal despite collapsed output; exact1MiB/+1 input; selected pure-object depth64/+1 without nested-array masking; watermark4096/+1; exact1MiB edited serialized output/+1 refusal.",
+    "late_traversal_refusal_keeps_literal_input_and_prior_preparation_private": "Earlier private description edit before nested-array failure with opaque markers present; original raw input and previous literal preparation/output remain unchanged; tiny exponent remains exact.",
+    "real_b01_handoff_preserves_literals_and_refuses_budget_before_resolver_work": "Actual B01 Project/Representation/Resolver, direct admitted Value clone avoids generic reparse; target-ID change and one no-load resolver call; opaque markers/-0 and selected B25d versus diagram watermarks remain separate; replay; actual B01 oversized input refuses before resolver and preserves input/prior output."
+  },
+  "probe": {
+    "path": "rust/crates/syson-migrations/examples/b25d_prepare_probe.rs",
+    "API": "Actual b25d::prepare(KIND,&input,None), fresh unstamped call every sample",
+    "fixed_workloads": [
+      {
+        "name": "small-control",
+        "nodes": 1,
+        "passive_input_bytes": 278,
+        "passive_input_sha256": "b32669472614ef23a1dd2042a0008ba1aa820abde0035dde1fc778f80bf010e7"
+      },
+      {
+        "name": "repeated-controls-1024",
+        "nodes": 1024,
+        "passive_input_bytes": 208970,
+        "passive_input_sha256": "d0559f2875cbb2de6190a053e57eb569495172843a4150446c2f83961e4cff48"
+      }
+    ],
+    "warmups_each": 2,
+    "raw_samples_each": 7,
+    "expected_stdout_JSON_rows": 20,
+    "summary": "Per workload9phase/sample rows plus raw7 min/median/max summary. Same full starting input and output bytes checked every call; matched/changed/version/token/opaque/node-count/description/target roles verified.",
+    "timing": "Instant starts immediately before prepare and stops on returned Prepared. Includes prepare internal bounded output serialization/admission; setup/construction, later to_json/oracles/printing outside interval. No compilation timing.",
+    "memory": "No phase allocation or RSS measurements in code. Root separately measures whole-process RSS including setup/retained input/output/oracles; no unmatched native ratio/p95/performance claim.",
+    "passive_input_shape_checks_only": true,
+    "compiled_or_run": false
+  },
+  "read_only_source_checks": {
+    "JSON_constant_marker_shape_parsed_as_data": true,
+    "independent_EXPECT_START_equals_frozen_native_constant": true,
+    "both_probe_input_literals_constructed_as_passive_data_and_under1MiB": true,
+    "all_existing_crate_files_except_root_owned_export_unchanged": true,
+    "protected_files": [
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/Cargo.lock",
+        "bytes": 3333,
+        "ordinary_lines": 151,
+        "sha256": "4d88c090c98c0c901a9469c1477bcfad1980043aa4a4dbb45b906e2ce0740d1b"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/Cargo.toml",
+        "bytes": 528,
+        "ordinary_lines": 19,
+        "sha256": "71a9e26dfd3a4d414bebdc0aab6f917b3a3b2e5a39f52fefb3fd9ce4257c30e8"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/b25a.rs",
+        "bytes": 897,
+        "ordinary_lines": 26,
+        "sha256": "70aca70d43fc0af655fc7294e59d38d3bda232c56ec7b33812976e2826bb853d"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/b25b.rs",
+        "bytes": 699,
+        "ordinary_lines": 20,
+        "sha256": "39912a769b6cd5eaf65abe665475913a4bbe6e1bb867e6e73c7f04a1021c083d"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/b25c.rs",
+        "bytes": 736,
+        "ordinary_lines": 20,
+        "sha256": "17a233036342ffc7402fc9f55c401113eecabf92cd1fa205608e722f51081179"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/examples/b25a_probe.rs",
+        "bytes": 2328,
+        "ordinary_lines": 49,
+        "sha256": "fd0a0c6901b29935e032e0fbcef34ca1bc322d67a2618ba6787f1c0c334f143d"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/examples/b25b_probe.rs",
+        "bytes": 2178,
+        "ordinary_lines": 48,
+        "sha256": "6a2001542fead739a9bbcfb5373a1ec173eee4ad24ef0f6d4493030007d96041"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/examples/b25c_probe.rs",
+        "bytes": 2128,
+        "ordinary_lines": 48,
+        "sha256": "f97d126784b8a00772e01cdfd36642660ad43c6b6fab9711340e6599b8ab97a0"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/examples/path_memory.rs",
+        "bytes": 1336,
+        "ordinary_lines": 41,
+        "sha256": "4ef9b14c97b845ee65648ba527b9bef5ed305592fafe441e266dc587a9cc70a2"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/b25a.rs",
+        "bytes": 5076,
+        "ordinary_lines": 135,
+        "sha256": "b0010b8517ea1087cc26453b5792f97f7ded3d2610cd29a5659a98d6992917f9"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/b25a_literal.rs",
+        "bytes": 3066,
+        "ordinary_lines": 66,
+        "sha256": "f2eac3ffc2cb010c7711f9421d56aac5da21afccde083625b9302ae7a7e22e51"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/b25b.rs",
+        "bytes": 9522,
+        "ordinary_lines": 228,
+        "sha256": "078e49f7df3e9c9bddcda05c3c82bc710b8201349d02d79d6e55c2523defe020"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/b25b_literal.rs",
+        "bytes": 2809,
+        "ordinary_lines": 61,
+        "sha256": "cf78742a687ab273192e6a7d6851fa92a68fb25a808221dcc357f6f557910a8f"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/b25c.rs",
+        "bytes": 8729,
+        "ordinary_lines": 232,
+        "sha256": "f9777ab551c7a749572af90a9ccd57b7a57127733eaec60d693386d1fd061732"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/b25c_literal.rs",
+        "bytes": 4914,
+        "ordinary_lines": 103,
+        "sha256": "66c90f8a28b15a9b55af700df299630058d6ddd3f2c491097e7e9de28862d66d"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/core.rs",
+        "bytes": 7920,
+        "ordinary_lines": 206,
+        "sha256": "10f19569979ac444768c8654216ca1a891382a050022b498a1f54c949cb165e5"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/tests/shared_literal.rs",
+        "bytes": 8283,
+        "ordinary_lines": 203,
+        "sha256": "c350b7f4418f95bf6bef7d4d7af2d2a4aff4e42ad0b96740a229460b9dd44eb0"
+      }
+    ],
+    "no_include_str_corpus_dependency_in171direct_projection": true
+  },
+  "root_owned_wiring": {
+    "record": {
+      "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/root-module-wiring.json",
+      "bytes": 499,
+      "ordinary_lines": 10,
+      "sha256": "9d9d879d0e73ed877162ca3b7d557d043998b74825c0d3caba6ab3114a75384f"
+    },
+    "actual_shared_root": {
+      "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/rust/crates/syson-migrations/src/lib.rs",
+      "bytes": 9257,
+      "ordinary_lines": 268,
+      "sha256": "463379c6f8a1ce729ff183480e7675acf9d39023baa81eabb34c7b8beec06a09"
+    },
+    "root_AD": 3,
+    "author_changed_shared_root": false,
+    "other_needed": "No manifest/dependency/lock change expected; existing serde_json arbitrary_precision/raw_value and literal/metamodel plus model/pipeline/persistence dev dependencies suffice. Existing Rust CI matrix already includes migrations, Cargo discovers new tests/example and all-target Clippy covers them. Root owns any extra CI/attrs/execution/Git. Example main is not executed by cargo test/Clippy; root direct release measurement needs separate admission."
+  },
+  "ordinary_budget": {
+    "API": 200,
+    "original_direct_tests": 171,
+    "new_independent_tests": 173,
+    "probe": 78,
+    "README": 14,
+    "author_production": 292,
+    "author_authored": 636,
+    "actual_root_export_AD": 3,
+    "current_total_production": 295,
+    "current_total_authored": 639,
+    "future_attrs_reserved": 2,
+    "forecast_with_export_and_attrs": [
+      297,
+      641
+    ],
+    "hard_caps": [
+      400,
+      900
+    ],
+    "remaining_after_known_export_attrs": [
+      103,
+      259
+    ],
+    "old_planned": [
+      281,
+      552
+    ],
+    "growth": "New independent tests173 versus100 estimate and probe78 versus60 preserve readable complete coverage. Root acknowledged estimates are not scope ceilings; future source-format/wiring/helper growth must still be counted normally.",
+    "format_status": "No formatter run by author. Root must apply normal formatting and recount final actual bytes; preserve approved original API/case content and any formatting epochs."
+  },
+  "deferred_complete_B25d2": {
+    "all_original_cases": 7,
+    "this_unit_complete_cases": 6,
+    "remaining_case": "explicit_callback_and_inherited_traversal_source_contract_corpus",
+    "active_corpus_lines": 464,
+    "native_fixture_rows": 19,
+    "frozen_both_corpus_files_unchanged": true,
+    "scope": "Complete seventh case/all19rows/all6mappings/two native partial-tree refusals remain mandatory B25d2 work. No partial substitute or active-data exemption implemented here. Predictions remain labeled source-derived, not new native observation."
+  },
+  "author_actions": {
+    "written_only_five_leased_source_paths_and_this_report": true,
+    "source_imports_tests_Cargo_rustc_rustfmt_probe_execution": false,
+    "network_Git": false,
+    "manifests_locks_exports_CI_held_scopes": false
+  },
+  "remaining_gates": [
+    "Independent full source review and root normal-format preview/installation with actual inclusive source recount before any subject execution.",
+    "Separate CI-timeout HOLD disposition and root exact local test/probe spec admission; source readiness is not runtime/merge permission.",
+    "Root bounded offline/locked serial fmt/tests/all-target Clippy/applicable targets on actual composed source, all38existing+6original+4new cases; preserve failures and exact source/provider input maps.",
+    "Root direct release binary source/artifact binding,2warm+7rawsample/result/summary/wholeprocessRSS review, cleanup, public evidence review and exact hosted/source merge gates."
+  ],
+  "limitations": [
+    "No Rust syntax/compiler/typecheck/rustfmt/test/probe PASS is claimed. No private archive source executed.",
+    "Original public Prepared/Input/Project states are checked as pure data; no actual DB/disk commit, native framework history/real read-only editing-context, SQL/UI/backend restart or parent feature acceptance is implemented.",
+    "Parent B25d/RR24, C01/C02/native/storage/SQL/UI/durable restart acceptance and human196-201/#99/#130/raw factory/model/initializer/validation holds remain OPEN/unchanged."
+  ]
+}

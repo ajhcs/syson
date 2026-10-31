@@ -1,0 +1,297 @@
+{
+  "schema": "SYSON_B46_INDEPENDENT_SOURCE_REVIEW/1",
+  "status": "PASS_FULL_FORMATTED_SOURCE_ONLY_NO_RUNTIME_CLEARANCE",
+  "reviewer": "registration_repair",
+  "unit": "B25d1",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031",
+  "main_base_from_root": "f4088d143b40a699336736cdb5a866a96b98fda6",
+  "method": "Read entire API200,original171tests,new202tests,probe85,README14 and actual shared literal/B01 provider APIs; hash/read/JSON/TOML/ordinary source counting only. No subject imports,compiler,tests,formatter,network,Git mutation or source edits.",
+  "bindings": {
+    "author_raw_freeze": {
+      "path": "author-source-review.json",
+      "sha256": "9c511ab555485394a535004e698fdd9f3ad0b8e9be17690a935ae88d205b0bae"
+    },
+    "root_format_application": {
+      "path": "root-format-application-01.json",
+      "sha256": "8f8a56cf9dbb0f144a617505f45b5286e7d3a73f3cfa3e37872d5d62f6b554a1"
+    },
+    "source_lease_sha256": "925a29940cfe16c2f32e2f7a166ee757f255915a4040ba222d305bf0c26c6ae0",
+    "root_module_wiring_sha256": "9d9d879d0e73ed877162ca3b7d557d043998b74825c0d3caba6ab3114a75384f",
+    "current_source": [
+      {
+        "path": "rust/crates/syson-migrations/b25d.rs",
+        "bytes": 9289,
+        "lines": 200,
+        "sha256": "8eba566e467cac3546e5be64143a289b18cdae17d076f3f940e895dd47472135"
+      },
+      {
+        "path": "rust/crates/syson-migrations/tests/b25d.rs",
+        "bytes": 6337,
+        "lines": 171,
+        "sha256": "0ce3969f1df01cfcd372e93fcfa7684fbe9ee86bf6971b99e63364a121a3b916"
+      },
+      {
+        "path": "rust/crates/syson-migrations/tests/b25d_literal.rs",
+        "bytes": 8053,
+        "lines": 202,
+        "sha256": "354e02c6d9d4bb9a8aa84f264a3ef1d7ad0a5e629481cf6846334347aa5be357"
+      },
+      {
+        "path": "rust/crates/syson-migrations/examples/b25d_prepare_probe.rs",
+        "bytes": 3143,
+        "lines": 85,
+        "sha256": "4e8ddc5f8e47add5a32499932c1e707e614c34ce1f1ead20308d005339da4f54"
+      },
+      {
+        "path": "porting/rust-parity-evidence/B25d1/README.md",
+        "bytes": 1158,
+        "lines": 14,
+        "sha256": "7ca1ffca1b93365658e58217636c49d7f7835a8d8075d25eb5addaa4c3fdacd5"
+      },
+      {
+        "path": "rust/crates/syson-migrations/src/lib.rs",
+        "bytes": 9257,
+        "lines": 268,
+        "sha256": "463379c6f8a1ce729ff183480e7675acf9d39023baa81eabb34c7b8beec06a09",
+        "root_added_lines": 3
+      }
+    ]
+  },
+  "source_preservation": {
+    "approved_API200_exact_raw": true,
+    "approved_six_cases171_exact_raw": true,
+    "six_case_projection_of_original222": "Exact bytes original lines1-10 plus62-222; original seventhcase/corpus retained separately, not dropped or relabeled.",
+    "public_API": {
+      "namespace": "syson_migrations::b25d; root-owned #[path=\"../b25d.rs\"] pub mod b25d",
+      "constants": [
+        "VERSION",
+        "KIND",
+        "DESCRIPTION_ID",
+        "OLD_START_DESCRIPTION_ID",
+        "NEW_START_DESCRIPTION_ID",
+        "OLD_DONE_DESCRIPTION_ID",
+        "NEW_DONE_DESCRIPTION_ID",
+        "OLD_DECISION_DESCRIPTION_ID",
+        "NEW_DECISION_DESCRIPTION_ID",
+        "OLD_FORK_DESCRIPTION_ID",
+        "NEW_FORK_DESCRIPTION_ID",
+        "OLD_JOIN_DESCRIPTION_ID",
+        "NEW_JOIN_DESCRIPTION_ID",
+        "OLD_MERGE_DESCRIPTION_ID",
+        "NEW_MERGE_DESCRIPTION_ID",
+        "MAPPINGS"
+      ],
+      "Error": [
+        "Input(String)",
+        "Limit",
+        "UnsupportedVersion(String)",
+        "NestedArray"
+      ],
+      "Prepared_public_fields": [
+        "json:serde_json::Value",
+        "participant_version:Option<String>",
+        "matched_kind:bool",
+        "changed:bool"
+      ],
+      "functions": [
+        "replace_json_node(&mut Map<String,Value>,current_attribute:&str,current_value:&Value)->bool",
+        "prepare(kind:&str,input:&str,participant_version:Option<&str>)->Result<Prepared,Error>",
+        "Prepared::to_json(&self)->Result<String,Error>"
+      ],
+      "invariants": [
+        "Full corrected200 source unchanged, including literal_error, shared crate::literal invocation, typed materialization and edited-output streaming counter. No generic Value parse substituted.",
+        "Explicit supplied callback/no root fallback or readOnly policy; matched-kind selection/replay/foreign watermark/unknown watermark ordering and nested-array refusal remain original.",
+        "No new cancellation ABI exists in approved API; original shared parser callback||false is unchanged, no cancellable provider or shared behavior edited. No cancellation runtime claim."
+      ]
+    },
+    "formatter_custody": "Both original173/78 bytes retained in before-format-apply-01 and match author hashes; current202/85 equal retained pinned formatter stdout/current root hashes. Reviewed diff changes layout only, not literals or assertions. API200/direct171/rootlib already byte-stable under root preview. Reviewer ran no formatter.",
+    "root_export": "Exact old lib bytes plus blank+#[path=\"../b25d.rs\"]+pub mod b25d;3ordinary added lines, no other shared change."
+  },
+  "unchanged_prerequisites": {
+    "author_protected17_hashes_all_match": true,
+    "local_path_dependency_crates": [
+      "rust/crates/syson-domain",
+      "rust/crates/syson-json-value",
+      "rust/crates/syson-metamodel",
+      "rust/crates/syson-migration-pipeline",
+      "rust/crates/syson-migrations",
+      "rust/crates/syson-model",
+      "rust/crates/syson-persistence"
+    ],
+    "baseline_comparison": "Compared current source/manifests/locks/fixtures recursively with root verified repair-main W47; only new b25d API/two tests/probe and3-line rootexport differ. README is separately leased new source documentation.",
+    "unchanged_files": 71,
+    "canonical_relative_hash_map_sha256": "76250bfd8f2f46f765649cb69abcafdf3206ba281bb5aeec3cf6a22457716a17",
+    "sha256": {
+      "rust/crates/syson-domain/Cargo.lock": "9af05380551c03381265ca5e0e917c7371a784a521fef57fcfa2fd0bc14b0251",
+      "rust/crates/syson-domain/Cargo.toml": "3a7c8cd8f3de857273114262ec3e9056736952d837f09c5c8032ab8d5cfb786c",
+      "rust/crates/syson-domain/examples/identity_context_probe.rs": "5f45beb756c09662efd722b93695213fc2ba1b1dd2b1cac65c78f49c5ebbcae3",
+      "rust/crates/syson-domain/tests/compatibility.rs": "d6190421e348a8125b63d9fd19b3f9cfd52764d592a2f1b80f50c5c2ff687851",
+      "rust/crates/syson-domain/tests/identity_context.rs": "e6102721c76371099fc8414d9ac1a5576ba84c20fadefa5cc35c45c50d9d2755",
+      "rust/crates/syson-domain/tests/query_graph.rs": "5a3f838943e44f2535fe32e9e4e92da47327e3946d4795aae01e80b8ddb3057a",
+      "rust/crates/syson-domain/src/uuid.rs": "63f34e679acc05cbec751d93abb62103d211a70a9481ee3bd704a9c481248d5a",
+      "rust/crates/syson-domain/src/names.rs": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+      "rust/crates/syson-domain/src/model.rs": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+      "rust/crates/syson-domain/src/identity_context.rs": "512b6bd710783370dbfa9e6068b98a6c4f36bc489ae19052a64b03ebd1d77388",
+      "rust/crates/syson-domain/src/lib.rs": "17e42444fab2b2968a5dbe48695eee5d3e7b3ae0ddd303885b373abf809a3c11",
+      "rust/crates/syson-domain/src/query.rs": "ef3515e88721df2fe35c5dc67e37675bc8cfe0b469b5303b8195c464e71f1e0c",
+      "rust/crates/syson-json-value/README.md": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f",
+      "rust/crates/syson-json-value/Cargo.lock": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e",
+      "rust/crates/syson-json-value/Cargo.toml": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5",
+      "rust/crates/syson-json-value/examples/strict_parse_probe.rs": "79b2f73c08b40160bfed8c69e0ceb42484a78d51820bcc4ac6ce7f754cc5f543",
+      "rust/crates/syson-json-value/examples/compat_parse_probe.rs": "57d396fdbce6a7ab5c2c7957e8b9e00fd728c998a04d203aa9f8062f53a17a08",
+      "rust/crates/syson-json-value/tests/literal.rs": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c",
+      "rust/crates/syson-json-value/tests/rr24a_duplicates.rs": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a",
+      "rust/crates/syson-json-value/src/lib.rs": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+      "rust/crates/syson-metamodel/Cargo.lock": "5a41a1dd1d2de207ea0c222cde9d7e02ce3265c8b1ff09ad819684b45c15a9c2",
+      "rust/crates/syson-metamodel/Cargo.toml": "a01b76bc383bfbcd998e1f5cb12ef0ada41034308ab75fb9b539cc88f529cedd",
+      "rust/crates/syson-metamodel/tools/generate.py": "e39239f219da9b726d435d984945cd42d437a85b5ae7ea6ca7f56d44e7dd4d6c",
+      "rust/crates/syson-metamodel/tests/registry.rs": "bcda1c594260f03f32d577d6a33e48381ed0865aa4b904bbfb820b0a3d38de48",
+      "rust/crates/syson-metamodel/src/generated.rs": "02d68b123460a89590d4c3d62a6421e94d0b8d933ad9a80cc67fbcd816158aab",
+      "rust/crates/syson-metamodel/src/lib.rs": "f5755e0e1b7910389cce955280f1424cdc75b9e33e0dde99a7cb6386613cf61c",
+      "rust/crates/syson-migration-pipeline/Cargo.lock": "a09d9483c3354184c034be8d2d3f148e9762ccc6fa0b3a21d7f8bb3e7a1ecfc5",
+      "rust/crates/syson-migration-pipeline/Cargo.toml": "ae9bc581a21f4d74a9816952621c46117cf2e718f6cedba57162a1e9d47e91da",
+      "rust/crates/syson-migration-pipeline/tests/preparation.rs": "759deea394e89aa15f1ce6cf0d93c99639c12070b0bbdd2701afda3f4454b9fb",
+      "rust/crates/syson-migration-pipeline/src/lib.rs": "4b3c71daaa62f7b317a43e6fcec3c29f0ac299d1c358e0bd2bdb0d582cd28cb3",
+      "rust/crates/syson-migration-pipeline/tests/fixtures/native-diagram.json": "86056d801eb929cf9f432c7213f5f1000d83a7d8aaba3f7e4ea810b9f383d25d",
+      "rust/crates/syson-migration-pipeline/tests/fixtures/native-document.json": "2ec9446e01d53c323a622556f7371a170a2ea694c889d19f77677d7d6a4704b8",
+      "rust/crates/syson-migration-pipeline/tests/fixtures/native-id-map.txt": "cf391861cb30be757ced9c1539c4c4df9199a59b3736f842d64b23cdedcd9269",
+      "rust/crates/syson-migrations/b25a.rs": "70aca70d43fc0af655fc7294e59d38d3bda232c56ec7b33812976e2826bb853d",
+      "rust/crates/syson-migrations/Cargo.lock": "4d88c090c98c0c901a9469c1477bcfad1980043aa4a4dbb45b906e2ce0740d1b",
+      "rust/crates/syson-migrations/Cargo.toml": "71a9e26dfd3a4d414bebdc0aab6f917b3a3b2e5a39f52fefb3fd9ce4257c30e8",
+      "rust/crates/syson-migrations/b25b.rs": "39912a769b6cd5eaf65abe665475913a4bbe6e1bb867e6e73c7f04a1021c083d",
+      "rust/crates/syson-migrations/b25c.rs": "17a233036342ffc7402fc9f55c401113eecabf92cd1fa205608e722f51081179",
+      "rust/crates/syson-migrations/examples/b25c_probe.rs": "f97d126784b8a00772e01cdfd36642660ad43c6b6fab9711340e6599b8ab97a0",
+      "rust/crates/syson-migrations/examples/path_memory.rs": "4ef9b14c97b845ee65648ba527b9bef5ed305592fafe441e266dc587a9cc70a2",
+      "rust/crates/syson-migrations/examples/b25b_probe.rs": "6a2001542fead739a9bbcfb5373a1ec173eee4ad24ef0f6d4493030007d96041",
+      "rust/crates/syson-migrations/examples/b25a_probe.rs": "fd0a0c6901b29935e032e0fbcef34ca1bc322d67a2618ba6787f1c0c334f143d",
+      "rust/crates/syson-migrations/tests/core.rs": "10f19569979ac444768c8654216ca1a891382a050022b498a1f54c949cb165e5",
+      "rust/crates/syson-migrations/tests/b25a.rs": "b0010b8517ea1087cc26453b5792f97f7ded3d2610cd29a5659a98d6992917f9",
+      "rust/crates/syson-migrations/tests/b25b_literal.rs": "cf78742a687ab273192e6a7d6851fa92a68fb25a808221dcc357f6f557910a8f",
+      "rust/crates/syson-migrations/tests/shared_literal.rs": "c350b7f4418f95bf6bef7d4d7af2d2a4aff4e42ad0b96740a229460b9dd44eb0",
+      "rust/crates/syson-migrations/tests/b25b.rs": "078e49f7df3e9c9bddcda05c3c82bc710b8201349d02d79d6e55c2523defe020",
+      "rust/crates/syson-migrations/tests/b25a_literal.rs": "f2eac3ffc2cb010c7711f9421d56aac5da21afccde083625b9302ae7a7e22e51",
+      "rust/crates/syson-migrations/tests/b25c_literal.rs": "66c90f8a28b15a9b55af700df299630058d6ddd3f2c491097e7e9de28862d66d",
+      "rust/crates/syson-migrations/tests/b25c.rs": "f9777ab551c7a749572af90a9ccd57b7a57127733eaec60d693386d1fd061732",
+      "rust/crates/syson-model/Cargo.lock": "4242272f5f97f1e96b3f0f2607c3a4bce56488785674092ae7398c9d9d4bd842",
+      "rust/crates/syson-model/Cargo.toml": "2fb33c209ab50cd691834e7ff8da68d827e8af5ff75bc4b76189d53c29d93ce8",
+      "rust/crates/syson-model/tests/model.rs": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+      "rust/crates/syson-model/tests/batch15_containment_regression.rs": "6eae2469c589344776a349407cec0436abd6ec9b28cd5e1bd44d68445d200aa5",
+      "rust/crates/syson-model/tests/containment.rs": "c6498b45977f2607754a2f869dd93762a71f49d033ea5de531bdebb1170e4ab6",
+      "rust/crates/syson-model/tests/batch14_history_summary.rs": "3db519d768ecb7e406d745b048789d6958b799e219581452f7be623d1a5a6f39",
+      "rust/crates/syson-model/tests/creation_capabilities.rs": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+      "rust/crates/syson-model/tests/rr02_regression.rs": "ca70e6c35a7eb2e8bce062b464051cc7e383268283925b90232cd80f2184d515",
+      "rust/crates/syson-model/tests/scalars.rs": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d",
+      "rust/crates/syson-model/tests/rr20_regression.rs": "829dcef07fe0c5d4e08d253c612d749f3e57c08ba957584f35818b04b1615bd7",
+      "rust/crates/syson-model/tests/rr18b3a_regression.rs": "743da5c96df2e3a0f3b2ed819dbbdeca165a9669111b7240cfebefffc60deea0",
+      "rust/crates/syson-model/tests/rr04_regression.rs": "e974bc3ab219c1a25ab12840384379fe2b583fd9f91f76503ce82c4fa988a0ee",
+      "rust/crates/syson-model/src/element_summary.rs": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c",
+      "rust/crates/syson-model/src/containment.rs": "353a750d15425dbfc161e98eaf5f69e6fd17a2bc55be5e5ebd52c7985223382b",
+      "rust/crates/syson-model/src/lib.rs": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+      "rust/crates/syson-model/src/scalar.rs": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+      "rust/crates/syson-model/tests/fixtures/simple-project.emf.json": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d",
+      "rust/crates/syson-persistence/Cargo.lock": "c4d5176a081c3511c5b624c9543d948875e7a911b1b139ad550ae9dae6f98409",
+      "rust/crates/syson-persistence/Cargo.toml": "e6a4e978476a663e88d62510692da9132fe4b2ce7fb62db68ccc7683f946aff9",
+      "rust/crates/syson-persistence/tests/migration_contracts.rs": "aa5e8c6cac168e04594a6aa78344202e2dbaca6a66a0ba5d97c67f226402f8c0",
+      "rust/crates/syson-persistence/src/lib.rs": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476"
+    }
+  },
+  "case_inventory": {
+    "new_cases": {
+      "rust/crates/syson-migrations/tests/b25d.rs": [
+        "low_level_callback_uses_explicit_value_and_has_no_read_only_or_root_value_fallback",
+        "selected_kind_watermark_replay_and_unknown_policy_are_separate_from_framework_history",
+        "current_unknown_and_absent_description_ids_are_noop_without_inserting_null_fields",
+        "failure_after_earlier_private_changes_publishes_nothing_and_preserves_existing_output",
+        "preparation_and_serialization_enforce_candidate_byte_depth_and_value_budgets",
+        "actual_b01_representation_handoff_migrates_target_ids_without_reusing_watermarks"
+      ],
+      "rust/crates/syson-migrations/tests/b25d_literal.rs": [
+        "literal_tokens_and_manual_marker_objects_survive_selected_prepare_and_reentry",
+        "decoded_duplicates_still_pay_physical_and_exact_byte_depth_output_limits",
+        "late_traversal_refusal_keeps_literal_input_and_prior_preparation_private",
+        "real_b01_handoff_preserves_literals_and_refuses_budget_before_resolver_work"
+      ]
+    },
+    "all6_original_names_bodies_retained": true,
+    "new_independent_cases": 4,
+    "existing_migrations_source_cases": 38,
+    "expected_total_migrations_source_cases": 48,
+    "executed": false
+  },
+  "substantive_review": [
+    "Complete approved literal-safe API uses shared crate::literal LastWins admission and typed materialization, not generic Value deserialization. Real helper charges physical values/keys before overwritten-key materialization, preserves number source spelling and constructs marker-looking keys as ordinary objects. Root depth0/legacy parser MAX_DEPTH+1 and bounded64 traversal are compatible.",
+    "All sixteen constants,Error4variants,Prepared4fields,replace_json_node/prepare/to_json remain exact approved API. Explicit callback uses supplied value and ignores native readOnly/root fallback as documented. Selected/replay/unsupported/foreign policies and watermark4096/input1MiB/depth64/value65536 limits remain; no new cancellation ABI or migration-framework history is invented.",
+    "Walk mutates only privately materialized candidate. Selected nested array refusal can occur after earlier private changes, yet no Prepared escapes error. Public edited JSON is checked for shape/depth/value and streamed byte count before final output allocation. Low-level mutable callback explicitly has no admission/persistence guarantee.",
+    "Six original cases retain callback/readOnly/no-root-fallback,kind/watermark policy,current/unknown/missing no-op,late atomic refusal/old output,byte/depth/value/public-output bounds and actual B01 representation handoff with distinct selected watermarks.",
+    "Four new tests are meaningful controls: independent hardcoded EXPECT_START and manually constructed marker objects; -0/0.00/1E+000/underflow/16KiBinteger token spellings; opaque encoded-JSON strings; decoded duplicate LastWins plus exact65536physical values/1MiB/depth64/watermark4096/output boundaries; late nested-array refusal preserving prior literals; actual B01 caller with token/marker preservation and early oversize refusal before resolver side effects.",
+    "B01 handoff matches actual Project/Representation/Resolver APIs. Input remains cloned/private; NoLoad is explicit no-load resolver, real mapping changes targetObjectId, selected control and DIAGRAM_VERSION remain distinct. Provider budget executes before resolver; test checks0calls on oversize. No SQL/durability/framework/history acceptance follows.",
+    "Probe calls actual public prepare on fixed1-node and1024-node input,each2warm+7raw,always same unstamped input. Timing covers prepare including its internal output admission; all following serialization/oracles are outside clock. Full mapping/token/marker/count/watermark/input/deterministic wire checks prevent a mere timing-only pass.",
+    "Probe source emits18measurement rows plus2summaries. Raw samples0-6 and min/median/max at sorted0/3/6 are correct. No p95/native ratio or per-workload RSS claim. Root must label same-process warming and measure whole-process RSS externally; shared two-workload process memory is not per-phase allocation. No user-controlled workload expansion.",
+    "Cargo manifest/lock/dependencies unchanged; existing arbitrary_precision/raw_value and B01 dev dependencies support the static call graph. Root public export follows existing b25a/b25b/b25c pattern; Cargo discovery/all-target checks must still establish actual type/build/runtime compatibility."
+  ],
+  "probe_schema": {
+    "workloads": [
+      "small-control",
+      "repeated-controls-1024"
+    ],
+    "nodes": [
+      1,
+      1024
+    ],
+    "warmups_each": 2,
+    "raw_each": 7,
+    "measurement_rows": 18,
+    "summary_rows": 2,
+    "measurement_fields": [
+      "workload",
+      "phase",
+      "sample",
+      "nodes",
+      "input_bytes",
+      "output_bytes",
+      "prepare_ns"
+    ],
+    "summary_fields": [
+      "workload",
+      "raw_samples",
+      "min_ns",
+      "median_ns",
+      "max_ns",
+      "timed_phase"
+    ],
+    "timed_phase": "prepare_only_including_internal_output_validation",
+    "runtime_observed": false
+  },
+  "budget": {
+    "API": 200,
+    "original_direct_tests": 171,
+    "new_tests_formatted": 202,
+    "probe_formatted": 85,
+    "README": 14,
+    "root_export_AD": 3,
+    "current_production": 302,
+    "current_authored": 675,
+    "future_attributes_reserved": 2,
+    "forecast_production": 304,
+    "forecast_authored": 677,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "remaining_after_attrs": [
+      96,
+      223
+    ],
+    "all_future_CI_helpers_docs_wiring_must_count": true,
+    "prior292_636_raw_forecast": "Retained historical author estimate, superseded by current formatted counts; no minification or case cuts."
+  },
+  "remaining_gates": [
+    "B47 resulting-main required16/allreported terminal is still pending at this source review. No runtime clearance follows from this PASS.",
+    "Root freezes exact formattedsource/provider/compiler/stdlib/dependency/fixture inputs and proposed serial offline locked fmt/test/all-target Clippy/targets and release probe spec before execution. Source hash drift requires new retained epoch/review.",
+    "Actual composed migrations48-sourcecase expectation, all unchanged provider/participant cases and real caller checks must run and raw results be independently reviewed. No type/syntax/test/performance result is claimed here.",
+    "Release probe requires20rawJSON records/content validation,source/input-before-after,external same-process RSS with phase limits,owned resource/readback/cleanup and explicit cache/timing boundaries.",
+    "Complete B25d2 seventhcase/all19rows/both464corpusfiles remain immutable and mandatory; source-derived predictions are not new native observations. Parent B25d/RR24/B06/C01/C02/native/SQL/UI/storage/restart and held/human gates stay open."
+  ],
+  "blockers": [],
+  "limits": "Source-only PASS,no compiler/runtime/API behavior/performance/native parity acceptance. No source edits or new API/dependency/cap/hold changes. Independent execution/spec/merge gates remain root-owned."
+}

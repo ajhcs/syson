@@ -1,0 +1,76 @@
+{
+  "status": "HOLD_PUBLIC_MAP_MISSING_TWO_PRE_FORMAT_SOURCE_CAPTURES",
+  "observed_at_utc": "2026-10-31T09:46:58.865134+00:00",
+  "scope": "Independent read-only publication map/content/privacy/budget admission; no copying, subject or captured-program execution, imports, compiler, network, Git or source edits.",
+  "map": {
+    "path": "/workspace/build/builderbob/syson-durable-batch46-20261031/public-packet-copy-map.json",
+    "sha256": "46bb0331cbc2fee6a17e2a50cc46d590c27625807b7d43ab54e71bd0b553047a",
+    "rows": 70,
+    "mapped_bytes": 1878103
+  },
+  "finding": {
+    "id": "B46-PUBLIC-MAP-01",
+    "description": "The map includes author/formatter before-after hash records and current formatted source captures but omits the two exact preformat author-source byte captures. Full before/after source preservation requested for this public packet is incomplete. Both omitted originals remain intact locally; this is a publication completeness issue, not source corruption or execution failure.",
+    "required_passive_captures": [
+      {
+        "source": "/workspace/build/builderbob/syson-durable-batch46-20261031/before-format-apply-01/rust/crates/syson-migrations/tests/b25d_literal.rs",
+        "bytes": 7800,
+        "sha256": "5373bb1228831b78db119bf22b7dc8d4fa79722eca9c5da040e57f2c5098dde8",
+        "recommended_destination": "archive/before-format-apply-01/rust/crates/syson-migrations/tests/b25d_literal.rs.raw"
+      },
+      {
+        "source": "/workspace/build/builderbob/syson-durable-batch46-20261031/before-format-apply-01/rust/crates/syson-migrations/examples/b25d_prepare_probe.rs",
+        "bytes": 3041,
+        "sha256": "caf5457c1d0ad3abf10c20d784c81bf6921b7165f77e26af38a0438a792e30af",
+        "recommended_destination": "archive/before-format-apply-01/rust/crates/syson-migrations/examples/b25d_prepare_probe.rs.raw"
+      }
+    ],
+    "resolution": "Retain this exact first map and HOLD. Root should create a distinct map adding both UTF8 source captures with passive .raw destinations, preserving originals and counting no new executable source for byte copies. Independently review the corrected exact map before copier execution."
+  },
+  "checks_otherwise_clear": {
+    "all_70_sources_read_whole_and_hash_size_match": true,
+    "source_files_regular_nonsymlink": true,
+    "destinations": {
+      "all_canonical_relative_unique": true,
+      "absolute_parent_traversal": false,
+      "reserved_collision": false,
+      "reserved_paths": [
+        "archive/publication_copy.py.raw",
+        "archive/public-packet-copy-map.json",
+        "packet-index.json"
+      ]
+    },
+    "target": {
+      "path": "/workspace/worktrees/builderbob/syson/batch46-action-control-migration-20261031/porting/rust-parity-evidence/B25d1/qualification",
+      "absent": true,
+      "canonical": true,
+      "parent_existing": true,
+      "symlink_ancestry": false
+    },
+    "publication_helper": {
+      "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/publication_copy.py",
+      "sha256": "a49d24a666ee637cfa34e604bdff3bb90a7e98bee8a20dde81012e83110cb9f1",
+      "ordinary_lines": 33,
+      "new_AD": 0,
+      "source_readback": "Unchanged qualified B41 copier checks every source/hash/size/canonical destination, refuses existing output and writes exclusively; it adds its own passive source, exact input map and nonself index. Rows exclude all three reserved paths."
+    },
+    "required_content": "Complete corrected API200, original six-test171, new four-case formatted202, actual probe85, root lib before/current export3, original seventh-case/native corpus provenance, all source/format/wiring/lease/reviews, unexecuted checks01 spec/freeze/HOLD, admitted checks02 spec/freeze/entire raw eight-command logs/96 named results/receipt/proof/cleanup, three performance processes/all JSONL+GNU-time outputs/receipt/proof/cleanup, current source captures and fixed main-repair prerequisites are covered.",
+    "privacy": "All mapped UTF8 contents read and inspected. No private HTTP response/header payload, Set-Cookie/Authorization header, bearer/GitHub/AWS token or private-key payload identified. Retained local ownership nonce/cgroup/invocation correlation fields are authorized cleaned-up scope evidence, not account/service credentials; values not reproduced in this review.",
+    "claim_boundaries": "README19 and limits distinguish finite participant API/test/probe observations, build-only WASM, whole-process RSS vs prepare interval, passive raw captures, B25d2 original seventh+19row corpus and native/framework/UI/SQL/backend/parent/fullparity OPEN. No actual capacity/p95/native ratio or raw capture execution claim.",
+    "budget": {
+      "source_current_production": 302,
+      "source_current_authored": 675,
+      "public_README_lines": 19,
+      "attributes_lines": 2,
+      "total_production": 323,
+      "total_authored": 696,
+      "limits": [
+        400,
+        900
+      ],
+      "new_copier_or_runner_AD": 0,
+      "archive_classification": "Passive copies of already counted current sources, preserved old source/corpus and raw evidence; no active source/test fixture hidden by archive attributes."
+    }
+  },
+  "gate": "Do not run first-map copier. This HOLD concerns only the two omitted before-format files; successful source/unit/performance qualification remains a separate unchanged fact. Root has acknowledged correction with a distinct map02."
+}
