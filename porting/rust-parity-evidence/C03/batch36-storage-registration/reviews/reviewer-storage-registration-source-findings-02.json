@@ -1,0 +1,50 @@
+{
+  "schema": "RR13-P2-INDEPENDENT-SOURCE-FINDINGS/2",
+  "status": "HOLD_DERIVE_INPUT_CLOSURE_REPAIR_AND_FRESH_REQUALIFICATION_REQUIRED",
+  "reviewer": "/root/registration_review",
+  "reviewed_at_utc": "2026-10-30T22:51:19.572735+00:00",
+  "pins": {
+    "failed_spec": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-01-spec.json",
+      "bytes": 342059,
+      "sha256": "8bf4edae179a0d261981d9c7d41b70719d49ee6e036dd159fb6b3b42002c8030"
+    },
+    "failed_receipt": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-01/receipt.json",
+      "bytes": 681121,
+      "sha256": "01db79832ebf6b7e5166b78e25aa2cb51fffa0b3c38ede5c682450cfc85c7873"
+    },
+    "failed_stderr": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-01/derive-normal.stderr",
+      "bytes": 868,
+      "sha256": "4af973c66e21d15665e862a7e4007f61ba8846ccc5aed930a428233b9d5e4cb6"
+    },
+    "failed_cleanup": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-01-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    "initial_source_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-storage-registration-source.json",
+      "bytes": 28347,
+      "sha256": "c83830fd2528ea70fd12e73135e64c6aa225d0179f874cfba9180a36f645e15a"
+    },
+    "initial_derive_admission": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-storage-registration-derive-spec.json",
+      "bytes": 350581,
+      "sha256": "5b84644cb965c30bf8819ed23d18ec4c07542dc2eb0eb9159f873cd6b168897a"
+    }
+  },
+  "finding": {
+    "id": "P2-DERIVE-HELD-POLICY-INPUT-CLOSURE",
+    "classification": "CONFIRMED_ROOT_RUNTIME_FAILURE_SOURCE_CAUSE",
+    "failed_driver_sha256": "d23b7d198843f97511155e745ebe422fa8e974d533b51204cfd51ec8fb08f9ed",
+    "source": "main names starts from old37 contract lock keys|P.EXTRA, but P.derive separately loops all6 P.PRESERVED paths. rereview-batch11-coordinator-ownership.json belongs to P.PRESERVED and is absent from old37/EXTRA; it was in the1523 runtime custody inputs but never inserted into logical helper files.",
+    "actual_result": "derive-normal failed KeyError at fixed helper line148 before candidate output. Only first of2commands executed;1523 before/after hashes stable and scope cleanup absent. No seal/install/output adoption.",
+    "expected_fix": "Union set(P.PRESERVED) into driver names for all phases; unchanged126line count is appropriate. Refresh whole driver pin embedded in unapplied fixture-loader patch and freeze with failed epoch retained. Keep353helper unchanged.",
+    "required_review": "Reconstruct P.derive lookup closure from direct files literals,all37 old locked paths,all6held paths and fixed amendment path,then verify repaired logical map and concrete spec contain every dependency. Fresh normal/-O derive admission/execution and candidate review required."
+  },
+  "review_correction": "Prior source/spec review verified actual driver reads were bound but missed a transitive P.derive required held key. Prior reports remain retained historical reviews; they do not establish executable closure or successful construction. No retrospective rewrite.",
+  "actions": "Read/parse/hash source and retained root runtime evidence only; this owned finding report written. No subject import/test/runtime/rerun/Git/source edits.",
+  "holds_released": false
+}

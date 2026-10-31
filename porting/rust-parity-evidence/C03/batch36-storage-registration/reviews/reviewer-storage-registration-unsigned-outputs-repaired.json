@@ -1,0 +1,1753 @@
+{
+  "schema": "RR13-P2-INDEPENDENT-UNSIGNED-OUTPUT-AND-SHARED-SOURCE-REVIEW/2",
+  "status": "PASS_EXACT_UNSIGNED_POLICY_RECORDS_GRAPH_AND_REPAIRED_SHARED_SOURCE_BEFORE_ROOT_MANUAL_SEAL",
+  "reviewer": "/root/registration_review",
+  "reviewed_at_utc": "2026-10-30T23:09:11.424072+00:00",
+  "pins": {
+    "initial_unsigned_HOLD": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-storage-registration-unsigned-outputs.json",
+      "bytes": 18317,
+      "sha256": "3e8fb3888b6fe55b32d13b014baa653164bff75d22dbd31b08e255cf7f6d1416"
+    },
+    "shared_source_freeze03": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/coordinator-shared-source-freeze-03.json",
+      "bytes": 2120,
+      "sha256": "164e534a71516214dda082e372fa6c9adacf04f92726e3e6229135e62d7d2ffe"
+    },
+    "preserved_shared_source_freeze02": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/coordinator-shared-source-freeze-02.json",
+      "bytes": 1872,
+      "sha256": "186c9193ec40b2be50c0e625f79596623d4ef89f020925ab0c3b89084bc25aee"
+    },
+    "preserved_shared_source_freeze01": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/coordinator-shared-source-freeze-01.json",
+      "bytes": 1538,
+      "sha256": "431d8b6b67746e82db76fe105aa04f620a500389c1f77db4364cce8b0ac015aa"
+    },
+    "pre48reader_retained": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/completion-reader-before-48set-repair.py.raw",
+      "bytes": 55397,
+      "sha256": "ac79e72f099e670f12ff1e7808ba74ee859fad95ef7442564f30aaf7045f1b13"
+    },
+    "documentation_freeze": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/coordinator-docs-freeze-01.json",
+      "bytes": 818,
+      "sha256": "1b3285de2020ea39317d2ef450b84356ada8135492d9762d674b2bcf1e3b6967"
+    },
+    "inclusive_source_budget": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/inclusive-source-budget-01.json",
+      "bytes": 2608,
+      "sha256": "bd9875ca9d3f67c0dc4883771398fd7360c01d15da10f7b2957171d982f85163"
+    },
+    "derive02receipt": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02/receipt.json",
+      "bytes": 684147,
+      "sha256": "aff339ce2e327e35d5bd4566251f6dc98982fd6700b3ba394c6f527c88e728a8"
+    },
+    "derive02admission": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-storage-registration-derive-spec-02.json",
+      "bytes": 354667,
+      "sha256": "a259788017d9421e403bb59915c3dbee9870c2b87a1e35272c0a17d93f5148e8"
+    }
+  },
+  "unsigned_artifacts": {
+    "acceptance-packet.schema.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/acceptance-packet.schema.json",
+      "bytes": 20852,
+      "sha256": "6e675e1463b5d4f90e76978323f3561c43a7ee62e894379e39061f917b273363"
+    },
+    "completion-contract.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/completion-contract.json",
+      "bytes": 426182,
+      "sha256": "0327abf42a0c67837d90dc746e6a25dc85cd1b5cba64fda877b70ef967d3a8ff"
+    },
+    "expected-plan.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/expected-plan.json",
+      "bytes": 5917110,
+      "sha256": "7613de8765d4032c3ae4ab3fbf7f477f74933709f99dccbd5cf1d4edc082f55e"
+    },
+    "manifest.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/manifest.json",
+      "bytes": 20649,
+      "sha256": "053e32893770b8787fd937381f11d8c7bea8443325ba6eec90a83c5b5afac9c0"
+    },
+    "policy.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/policy.json",
+      "bytes": 162847,
+      "sha256": "4436fbdf4c10778be96a421173e5167ea12314b2220183a5619433a3446fca05"
+    }
+  },
+  "all5_same_bytes_as_initial_HOLD_and_both_modes": true,
+  "canonical_policy_seal_target": {
+    "sha256": "26415d63a468ef7376637ccb3ff905ca6bba79695f3a6d2f94f547603f458f66",
+    "raw_policy_sha256": "4436fbdf4c10778be96a421173e5167ea12314b2220183a5619433a3446fca05",
+    "canonical_encoding": "UTF8json sortedkeys,compact comma/colon,ensure_asciiFalse,allow_nanFalse,no newline",
+    "scope": "Exact reviewed unsigned policy is approved as root manual literal seal target. This is source/data approval only; reviewer assigned no constant and performed no seal/install."
+  },
+  "findings": [],
+  "resolved_findings": [
+    {
+      "id": "P2-SOURCE-SCHEDULING-WRITE-CONFLICT",
+      "status": "ADDRESSED_IN_SOURCE_AND_INDEPENDENT_DATA_ORACLE",
+      "evidence": "source_dependencies unions raw dependencies and explicit source_preparation_children only,in both ancestry implementations and source-wave readiness. No reciprocal implementation/joint dependencies substituted. ExistingB25S/M06 alreadyincludedchildren; onlyRR13neworder. Independent data gives0overlaps,794exactonce,max3authors andallraw/prepchildrenearlier."
+    },
+    {
+      "id": "P2-SHARED-READER-49-VS48-LOCKSET",
+      "status": "ADDRESSED_IN_EXACT_SOURCE",
+      "evidence": "Readerf71d5d39 removes only preserved-input promotion that created49th normativekey;fullvalidate_storage_splits(contract,read=read) andall6holdchecks remain. Wholecurrentrequiredset independently reconstructed equalsfixedold37|EXTRA11=48. Ownerfile must explicitly enter finalsnapshotprogress."
+    }
+  ],
+  "shared_source_and_documentation_pins": {
+    "tools/completion_contract.py": "f71d5d39a0e216e32a30f4f93ba197065b3c4687916612f577a32def1938b4d8",
+    "tools/team_policy.py": "6ce0cb64bf6562075f5f37007350414e495ac5b3bdeb22d67594aa98221d08f5",
+    "tools/build_plan.py": "a18c1256b92c9378c80263285633695e07bfe423d6751d7c6b3036db77ef2ced",
+    "tools/test_preparation_splits.py": "807cdfbd5992cf303c851d8e0ae7f84435d579c4d8d7dacc0ca4a379548c0c30",
+    "tools/verify_plan.py": "fc6efba690eb8f2806425b6745f228bf14993796cc47dd9df5d892d3ef8359af",
+    "tools/test_team_policy.py": "d3a6efbbaa1fff33e0ccc2d976e84a9b709bccc622e5e92386fe0de220d2e3ca",
+    "COMPLETION-CONTRACT.md": "06a6001b018244126c28cefc0ba39f9b03cd25f34b5f711d80be7a32697dfddf",
+    "composition/registration/test_prepare.py": "f19e3a25c27e8ed5cfb982951db2d923b5f38edf0cae0bcfbcc0225e0f355e75",
+    "composition/registration/README.md": "6a30dbff58992b863d3517b4ab03ff143e4dc73029391a558e863e3670ffa2fc",
+    "README.md": "32ce12b46ab195d6b606ca9fa02614bf54ed6a8cb4b5d9353af96608125733a7",
+    "REMAINING-WORK.md": "de17388c988601eea8a321a286029727a282b74020b6f1f20a15b21605d2843f",
+    "rereview-batch36-next-prs.md": "b0dec3b01589111a63f65f6ce47bfb910594196028e008d94a03c63ce05ee46f"
+  },
+  "source_review": {
+    "legacy_wrappers": "Completion/team/verify imports exact storageguard alias; current1.0.10 enters complete storageinverse before unchanged1.0.9\u21921.0.8 preparation proofs/old exclusions. Reader enforces currentpointer,amendmentpins,exact48sourceclosure,all6held/history callback. No validator relaxation.",
+    "generator": "Applies exactstorage recordupdates except regeneratedexpandedclosure,then same typedgraph. Only source-ancestry/wave prerequisites gain explicitprepchildren; all794records/policy/1588typededges preserved.",
+    "tests": "Existing14preparation cases firstrestore complete prior storage plan/contract; currentteamassignment794/bothRR13teams checked. One new actualgenerated-wave regression checks fullcoverage/exactonce,max3authors,everyraw/prep prerequisiteearlier,andemptyconflicts. Old17teamtests retained.",
+    "P1migration": "Actual371lineP1testf19e3a25 equals reviewed appliedpatch07b45 withdriverfe193 loaderpin. All14methods/coherent/projection/refusal controls retained; actualdiskguardidentity checked before testprivatependingnormalization and scoped/restored readmocks. Helper353 unchanged.",
+    "docs": "Reviewed README/REMAIN/contract counts794,snapshot.19,basedea672ee,newqueue and version1.0.10 as draft pending actualadoption; full55NOT_ACCEPTED,all792obligations/holds/ordinarycaps/nativeUI/durablejourney limits retained. AddedmergedPR references are rootprovenance claims,not independently network-verified by this reviewer.",
+    "syntax": "AllchangedPython ASTparseonly; no subjectimport/execution."
+  },
+  "normative_proofs_from_same_unchanged_artifacts": {
+    "whole_old_plan_inverse_exact": true,
+    "restored_old_unit_count": 792,
+    "restored_old_typed_nodes": 1584,
+    "normalized_old_records_sha256": "0e635baca84625363aa0ad198b4f4f25c3339a7b5203c6ab3a3af99356f37ed1",
+    "restored_graph_sha256": "860242d1203695c5d3986e51fddc035b37e0a16c49755a5de9e343bf08e966e5",
+    "whole_old_contract_inverse_exact": true,
+    "restored_contract_sha256": "6771410b685f5b9c691705a3821a13202b61535a04e622e8399cfd592fc36e17",
+    "whole_old_schema_inverse_exact": true,
+    "exact_record_delta_owners": {
+      "C04": [
+        "expanded_implementation_inputs"
+      ],
+      "C05": [
+        "expanded_implementation_inputs"
+      ],
+      "C06": [
+        "expanded_implementation_inputs"
+      ],
+      "C07": [
+        "expanded_implementation_inputs"
+      ],
+      "C08": [
+        "expanded_implementation_inputs"
+      ],
+      "C09": [
+        "expanded_implementation_inputs"
+      ],
+      "C99": [
+        "dependencies"
+      ],
+      "RR13": [
+        "implementation_ready_dependencies",
+        "acceptance_children",
+        "source_preparation_children"
+      ]
+    },
+    "complete_new_plan_units": 794,
+    "complete_new_typed_nodes": 1588,
+    "independent_graph_recompile_exact": true,
+    "independent_Kahn_cycle_check_visited": 1588,
+    "old_edges_additive": true,
+    "graph_delta_nodes": 14,
+    "graph_delta_edges": 24,
+    "policy_is_exact_contract_storage_policy": true,
+    "children": {
+      "RR13a": {
+        "full_lane_record_retained": true,
+        "normalized_sha256": "b7056d24c417877f70e63f5b9df5056fd83d58a80a43434e6ddd08aaafed2913",
+        "budget": {
+          "production_lines_max": 400,
+          "authored_lines_max": 900,
+          "planned_production": 337,
+          "planned_authored": 896
+        },
+        "source_freeze": {
+          "donor_head": "575345cdba6b0c1bc2d89f16cfacdd749b1535bb",
+          "implementation": "1e09637714b78e23297e93b43084027491429ac0",
+          "lib348_sha256": "b4e15473b7c825085885c80652fe68c660a3add66d32f40035ae8acfb15ebacb",
+          "lib341_sha256": "6c306d251eb26befc1fef487862bd578d9c5fd247d8424785f2b95ef70eb7f59",
+          "snapshot_io86_sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e",
+          "rr13_tests332_sha256": "d16bdad05af2684d878e94867e75ec7ed73945083c3e9ef054d7a2ec1d8a51d4",
+          "connected103_sha256": "77aa9df2cc81c76a55f876898ed6a7a2032f5df1bfb563d81d14ee469ab2917c",
+          "safe_model_sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f"
+        },
+        "dependencies": [
+          "RR04"
+        ],
+        "team": "services-persistence"
+      },
+      "RR13b": {
+        "full_lane_record_retained": true,
+        "normalized_sha256": "55b5a039882fd0fbe8cc0fbaf46e41a21ae5c2d0ec9db727a825c42117c1ff7b",
+        "budget": {
+          "production_lines_max": 400,
+          "authored_lines_max": 900,
+          "planned_production": 83,
+          "planned_authored": 453
+        },
+        "source_freeze": {
+          "donor_head": "575345cdba6b0c1bc2d89f16cfacdd749b1535bb",
+          "fault_tests356_sha256": "11e769c93d3e7a4648cc1a8b8037c8788f0498c89fd1cad1af3caa70f6885df1"
+        },
+        "dependencies": [
+          "RR13a"
+        ],
+        "team": "verification-release"
+      }
+    },
+    "all6held_raw_hashes_and_exact_policy_dict": true,
+    "whole_execution_sha256": "a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e",
+    "historical_record_count": 55,
+    "historical_units_sha256": "082af527d8dd4140a8d4104f45c62a62b777d24c68837ed03554d14deec25321",
+    "current_integration_and_unknown_execution_attribution_pinned": true
+  },
+  "manifest_runtime_from_same_artifacts": {
+    "manifest": {
+      "exact_all151bindings_independently_reconstructed": true,
+      "logical_inputs": 51,
+      "physical_reads": 60,
+      "logical_capture_origins": 40,
+      "artifact4hashes_match": true,
+      "helper_source_sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59",
+      "current_driver_bound_via_logical_and_physical_inputSHA": {
+        "path": "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py",
+        "bytes": 6572,
+        "sha256": "fe19370c9bdae0aef0b43f6a1f9b3d33811386fa9241739a6a7cbd9bb6411f11"
+      },
+      "all5baseline_physicalpins_and3fullJSON_origins_present": true,
+      "captured_old_bytes_not_misrepresented_as_current_reads": true
+    },
+    "recorded_derive02_1530before_after_equal": true,
+    "bothcommands_exit0": true,
+    "cleanupabsent": true,
+    "time_boundary": "After capture,exactly11bound source/test/doc paths intentionally changed andmatch shared/docsfreezes; newqueue is additionallybound bydocsfreeze. Recordedmanifest/1530hashes describe derive02 epoch,not postpatch currentfilesystem.",
+    "intentional_postderive_deltas": {
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/COMPLETION-CONTRACT.md": "06a6001b018244126c28cefc0ba39f9b03cd25f34b5f711d80be7a32697dfddf",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/README.md": "32ce12b46ab195d6b606ca9fa02614bf54ed6a8cb4b5d9353af96608125733a7",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/REMAINING-WORK.md": "de17388c988601eea8a321a286029727a282b74020b6f1f20a15b21605d2843f",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/composition/registration/README.md": "6a30dbff58992b863d3517b4ab03ff143e4dc73029391a558e863e3670ffa2fc",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/composition/registration/test_prepare.py": "f19e3a25c27e8ed5cfb982951db2d923b5f38edf0cae0bcfbcc0225e0f355e75",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/tools/build_plan.py": "a18c1256b92c9378c80263285633695e07bfe423d6751d7c6b3036db77ef2ced",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/tools/completion_contract.py": "f71d5d39a0e216e32a30f4f93ba197065b3c4687916612f577a32def1938b4d8",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/tools/team_policy.py": "6ce0cb64bf6562075f5f37007350414e495ac5b3bdeb22d67594aa98221d08f5",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/tools/test_preparation_splits.py": "807cdfbd5992cf303c851d8e0ae7f84435d579c4d8d7dacc0ca4a379548c0c30",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/tools/test_team_policy.py": "d3a6efbbaa1fff33e0ccc2d976e84a9b709bccc622e5e92386fe0de220d2e3ca",
+      "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/tools/verify_plan.py": "fc6efba690eb8f2806425b6745f228bf14993796cc47dd9df5d892d3ef8359af"
+    }
+  },
+  "independently_derived_final_top_metadata": {
+    "lane_counts": {
+      "lanes/platform.json": 45,
+      "lanes/migration-support.json": 1,
+      "lanes/source-preparation.json": 2,
+      "lanes/ui.json": 92,
+      "lanes/coordination-support.json": 3,
+      "lanes/batch4.json": 3,
+      "lanes/batch5.json": 3,
+      "lanes/batch6.json": 3,
+      "tools/build_plan.py": 1,
+      "lanes/model.json": 408,
+      "lanes/parser.json": 184,
+      "lanes/rereview.json": 47,
+      "lanes/storage-source.json": 2
+    },
+    "unordered_write_conflicts": [],
+    "source_author_dispatch_waves": [
+      [
+        "B01",
+        "I01",
+        "P01"
+      ],
+      [
+        "C01",
+        "C01a",
+        "C01c"
+      ],
+      [
+        "B02",
+        "C01b",
+        "C01d"
+      ],
+      [
+        "B03",
+        "B04",
+        "C01e"
+      ],
+      [
+        "B30",
+        "C01f",
+        "C01g"
+      ],
+      [
+        "C01h",
+        "C02a",
+        "C09a"
+      ],
+      [
+        "C09b1",
+        "M01",
+        "M06a1"
+      ],
+      [
+        "C09b2",
+        "RR01",
+        "RR06"
+      ],
+      [
+        "C09b",
+        "RR02",
+        "RR03"
+      ],
+      [
+        "RR04",
+        "RR07",
+        "RR08a"
+      ],
+      [
+        "RR05",
+        "RR08b",
+        "RR09"
+      ],
+      [
+        "RR08",
+        "RR10",
+        "RR11"
+      ],
+      [
+        "RR12",
+        "RR13a",
+        "RR15"
+      ],
+      [
+        "B05",
+        "RR13b",
+        "RR16a"
+      ],
+      [
+        "RR13",
+        "RR16c",
+        "RR18a"
+      ],
+      [
+        "B06",
+        "RR18b1",
+        "RR18b2"
+      ],
+      [
+        "B07",
+        "B08",
+        "B09"
+      ],
+      [
+        "B10",
+        "B11",
+        "B13"
+      ],
+      [
+        "B12",
+        "B14",
+        "B15"
+      ],
+      [
+        "B16",
+        "B23",
+        "B24"
+      ],
+      [
+        "B19",
+        "B20",
+        "B21"
+      ],
+      [
+        "B22",
+        "B27",
+        "B29"
+      ],
+      [
+        "B28",
+        "B36",
+        "B37"
+      ],
+      [
+        "B38",
+        "B39",
+        "B40"
+      ],
+      [
+        "B41",
+        "RR18b3a",
+        "RR18b3b"
+      ],
+      [
+        "RR18b3c",
+        "RR20",
+        "RR21"
+      ],
+      [
+        "B17",
+        "M03",
+        "RR18b3c3"
+      ],
+      [
+        "B18",
+        "M04",
+        "M05"
+      ],
+      [
+        "M06",
+        "M40",
+        "RR18b3c2"
+      ],
+      [
+        "M07",
+        "M17",
+        "RR18b3e"
+      ],
+      [
+        "M08",
+        "M10",
+        "M18"
+      ],
+      [
+        "I03",
+        "M11",
+        "M19"
+      ],
+      [
+        "M12",
+        "M14",
+        "M15"
+      ],
+      [
+        "I02",
+        "I04",
+        "M09"
+      ],
+      [
+        "I05",
+        "M13",
+        "M16"
+      ],
+      [
+        "M20",
+        "RR18b3f",
+        "RR24a"
+      ],
+      [
+        "B25S1",
+        "M21",
+        "RR18b3d"
+      ],
+      [
+        "B25S",
+        "I09",
+        "M22"
+      ],
+      [
+        "B25a",
+        "B25b",
+        "B25c"
+      ],
+      [
+        "B25d",
+        "C03a",
+        "M32"
+      ],
+      [
+        "B26a",
+        "B26b",
+        "C03b"
+      ],
+      [
+        "C03c",
+        "M33",
+        "M39"
+      ],
+      [
+        "I07",
+        "RR14",
+        "RR18b3"
+      ],
+      [
+        "RR18b",
+        "RR23a",
+        "RR23b"
+      ],
+      [
+        "RR18",
+        "RR23c",
+        "RR23d"
+      ],
+      [
+        "B31",
+        "RR19",
+        "RR23"
+      ],
+      [
+        "RR16b",
+        "RR24",
+        "U10a"
+      ],
+      [
+        "RR16",
+        "RR22",
+        "U10b"
+      ],
+      [
+        "C02",
+        "RR17",
+        "U11a"
+      ],
+      [
+        "C03",
+        "C04",
+        "C05"
+      ],
+      [
+        "B32",
+        "C06",
+        "C07"
+      ],
+      [
+        "B33",
+        "B34",
+        "C08"
+      ],
+      [
+        "B35",
+        "C09",
+        "M02"
+      ],
+      [
+        "M100",
+        "M101",
+        "M102"
+      ],
+      [
+        "M103",
+        "M104",
+        "M105"
+      ],
+      [
+        "M106",
+        "M107",
+        "M108"
+      ],
+      [
+        "M109",
+        "M110",
+        "M111"
+      ],
+      [
+        "M112",
+        "M113",
+        "M114"
+      ],
+      [
+        "M115",
+        "M116",
+        "M117"
+      ],
+      [
+        "M118",
+        "M119",
+        "M120"
+      ],
+      [
+        "M121",
+        "M122",
+        "M123"
+      ],
+      [
+        "M124",
+        "M125",
+        "M126"
+      ],
+      [
+        "M127",
+        "M128",
+        "M129"
+      ],
+      [
+        "M130",
+        "M131",
+        "M132"
+      ],
+      [
+        "M133",
+        "M134",
+        "M135"
+      ],
+      [
+        "M136",
+        "M137",
+        "M138"
+      ],
+      [
+        "M139",
+        "M140",
+        "M141"
+      ],
+      [
+        "M142",
+        "M143",
+        "M144"
+      ],
+      [
+        "M145",
+        "M146",
+        "M147"
+      ],
+      [
+        "M148",
+        "M149",
+        "M150"
+      ],
+      [
+        "M151",
+        "M152",
+        "M153"
+      ],
+      [
+        "M154",
+        "M155",
+        "M156"
+      ],
+      [
+        "M157",
+        "M158",
+        "M159"
+      ],
+      [
+        "M160",
+        "M161",
+        "M162"
+      ],
+      [
+        "M163",
+        "M164",
+        "M165"
+      ],
+      [
+        "M166",
+        "M167",
+        "M168"
+      ],
+      [
+        "M169",
+        "M170",
+        "M171"
+      ],
+      [
+        "M172",
+        "M173",
+        "M174"
+      ],
+      [
+        "M175",
+        "M176",
+        "M177"
+      ],
+      [
+        "M178",
+        "M179",
+        "M180"
+      ],
+      [
+        "M181",
+        "M182",
+        "M183"
+      ],
+      [
+        "M184",
+        "M185",
+        "M186"
+      ],
+      [
+        "M187",
+        "M188",
+        "M189"
+      ],
+      [
+        "M190",
+        "M191",
+        "M192"
+      ],
+      [
+        "M193",
+        "M194",
+        "M195"
+      ],
+      [
+        "M196",
+        "M197",
+        "M198"
+      ],
+      [
+        "M199",
+        "M200",
+        "M201"
+      ],
+      [
+        "M202",
+        "M203",
+        "M204"
+      ],
+      [
+        "M205",
+        "M206",
+        "M207"
+      ],
+      [
+        "M208",
+        "M209",
+        "M210"
+      ],
+      [
+        "M211",
+        "M212",
+        "M213"
+      ],
+      [
+        "M214",
+        "M215",
+        "M216"
+      ],
+      [
+        "M217",
+        "M218",
+        "M219"
+      ],
+      [
+        "M220",
+        "M221",
+        "M222"
+      ],
+      [
+        "M223",
+        "M224",
+        "M225"
+      ],
+      [
+        "M226",
+        "M227",
+        "M228"
+      ],
+      [
+        "M229",
+        "M23",
+        "M230"
+      ],
+      [
+        "M231",
+        "M232",
+        "M233"
+      ],
+      [
+        "M234",
+        "M235",
+        "M236"
+      ],
+      [
+        "M237",
+        "M238",
+        "M239"
+      ],
+      [
+        "M24",
+        "M240",
+        "M241"
+      ],
+      [
+        "M242",
+        "M243",
+        "M244"
+      ],
+      [
+        "M245",
+        "M246",
+        "M247"
+      ],
+      [
+        "M248",
+        "M249",
+        "M25"
+      ],
+      [
+        "M250",
+        "M251",
+        "M252"
+      ],
+      [
+        "M253",
+        "M254",
+        "M255"
+      ],
+      [
+        "M256",
+        "M257",
+        "M258"
+      ],
+      [
+        "M259",
+        "M26",
+        "M260"
+      ],
+      [
+        "M261",
+        "M262",
+        "M263"
+      ],
+      [
+        "M264",
+        "M265",
+        "M266"
+      ],
+      [
+        "M267",
+        "M268",
+        "M269"
+      ],
+      [
+        "M27",
+        "M270",
+        "M271"
+      ],
+      [
+        "M272",
+        "M273",
+        "M274"
+      ],
+      [
+        "M275",
+        "M276",
+        "M277"
+      ],
+      [
+        "M278",
+        "M279",
+        "M28"
+      ],
+      [
+        "M280",
+        "M281",
+        "M282"
+      ],
+      [
+        "M283",
+        "M284",
+        "M285"
+      ],
+      [
+        "M286",
+        "M287",
+        "M288"
+      ],
+      [
+        "M289",
+        "M29",
+        "M290"
+      ],
+      [
+        "M291",
+        "M292",
+        "M293"
+      ],
+      [
+        "M294",
+        "M295",
+        "M296"
+      ],
+      [
+        "M297",
+        "M298",
+        "M299"
+      ],
+      [
+        "M30",
+        "M300",
+        "M301"
+      ],
+      [
+        "M302",
+        "M303",
+        "M304"
+      ],
+      [
+        "M305",
+        "M306",
+        "M307"
+      ],
+      [
+        "M308",
+        "M309",
+        "M31"
+      ],
+      [
+        "M310",
+        "M311",
+        "M312"
+      ],
+      [
+        "M313",
+        "M314",
+        "M315"
+      ],
+      [
+        "M316",
+        "M317",
+        "M318"
+      ],
+      [
+        "M319",
+        "M320",
+        "M321"
+      ],
+      [
+        "M322",
+        "M323",
+        "M324"
+      ],
+      [
+        "M325",
+        "M326",
+        "M327"
+      ],
+      [
+        "M328",
+        "M329",
+        "M330"
+      ],
+      [
+        "M331",
+        "M332",
+        "M333"
+      ],
+      [
+        "M334",
+        "M335",
+        "M336"
+      ],
+      [
+        "M337",
+        "M338",
+        "M339"
+      ],
+      [
+        "M34",
+        "M340",
+        "M341"
+      ],
+      [
+        "M342",
+        "M343",
+        "M344"
+      ],
+      [
+        "M345",
+        "M346",
+        "M347"
+      ],
+      [
+        "M348",
+        "M349",
+        "M35"
+      ],
+      [
+        "M350",
+        "M351",
+        "M352"
+      ],
+      [
+        "M353",
+        "M354",
+        "M355"
+      ],
+      [
+        "M356",
+        "M357",
+        "M358"
+      ],
+      [
+        "M359",
+        "M36",
+        "M360"
+      ],
+      [
+        "M361",
+        "M362",
+        "M363"
+      ],
+      [
+        "M364",
+        "M365",
+        "M366"
+      ],
+      [
+        "M367",
+        "M368",
+        "M369"
+      ],
+      [
+        "M37",
+        "M370",
+        "M371"
+      ],
+      [
+        "M372",
+        "M373",
+        "M374"
+      ],
+      [
+        "M375",
+        "M376",
+        "M377"
+      ],
+      [
+        "M378",
+        "M379",
+        "M38"
+      ],
+      [
+        "I06",
+        "I08",
+        "M380"
+      ],
+      [
+        "M381",
+        "M382",
+        "M383"
+      ],
+      [
+        "M384",
+        "M385",
+        "M386"
+      ],
+      [
+        "M387",
+        "M388",
+        "M389"
+      ],
+      [
+        "M390",
+        "M391",
+        "M392"
+      ],
+      [
+        "M393",
+        "M394",
+        "M395"
+      ],
+      [
+        "M396",
+        "M397",
+        "M398"
+      ],
+      [
+        "M399",
+        "M400",
+        "M41"
+      ],
+      [
+        "M42",
+        "M43",
+        "M44"
+      ],
+      [
+        "M45",
+        "M46",
+        "M47"
+      ],
+      [
+        "M48",
+        "M50",
+        "M51"
+      ],
+      [
+        "M52",
+        "M53",
+        "M54"
+      ],
+      [
+        "M55",
+        "M56",
+        "M57"
+      ],
+      [
+        "M58",
+        "M59",
+        "M60"
+      ],
+      [
+        "M61",
+        "M62",
+        "M63"
+      ],
+      [
+        "M64",
+        "M65",
+        "M66"
+      ],
+      [
+        "M67",
+        "M68",
+        "M69"
+      ],
+      [
+        "M70",
+        "M71",
+        "M72"
+      ],
+      [
+        "M73",
+        "M74",
+        "M75"
+      ],
+      [
+        "M76",
+        "M77",
+        "M78"
+      ],
+      [
+        "M79",
+        "M80",
+        "M81"
+      ],
+      [
+        "M82",
+        "M83",
+        "M84"
+      ],
+      [
+        "M85",
+        "M86",
+        "M87"
+      ],
+      [
+        "M88",
+        "M89",
+        "M90"
+      ],
+      [
+        "M91",
+        "M92",
+        "M93"
+      ],
+      [
+        "M94",
+        "M95",
+        "M96"
+      ],
+      [
+        "M97",
+        "M98",
+        "M99"
+      ],
+      [
+        "P02",
+        "P03",
+        "P04"
+      ],
+      [
+        "P05",
+        "P155",
+        "P156"
+      ],
+      [
+        "P06",
+        "P157",
+        "P158"
+      ],
+      [
+        "P07",
+        "P159",
+        "P160"
+      ],
+      [
+        "P08",
+        "P161",
+        "P162"
+      ],
+      [
+        "P09",
+        "P163",
+        "P164"
+      ],
+      [
+        "P10",
+        "P165",
+        "P166"
+      ],
+      [
+        "P11",
+        "P167",
+        "P168"
+      ],
+      [
+        "P12",
+        "P169",
+        "P170"
+      ],
+      [
+        "P13",
+        "P171",
+        "P20"
+      ],
+      [
+        "P14",
+        "U01",
+        "U11b"
+      ],
+      [
+        "P15",
+        "U02",
+        "U03"
+      ],
+      [
+        "P100",
+        "P101",
+        "P102"
+      ],
+      [
+        "P103",
+        "P104",
+        "P105"
+      ],
+      [
+        "P106",
+        "P107",
+        "P108"
+      ],
+      [
+        "P109",
+        "P110",
+        "P111"
+      ],
+      [
+        "P112",
+        "P113",
+        "P114"
+      ],
+      [
+        "P115",
+        "P116",
+        "P117"
+      ],
+      [
+        "P118",
+        "P119",
+        "P120"
+      ],
+      [
+        "P121",
+        "P122",
+        "P123"
+      ],
+      [
+        "P124",
+        "P125",
+        "P126"
+      ],
+      [
+        "P127",
+        "P128",
+        "P129"
+      ],
+      [
+        "P130",
+        "P131",
+        "P132"
+      ],
+      [
+        "P133",
+        "P134",
+        "P137"
+      ],
+      [
+        "P135",
+        "P138",
+        "P139"
+      ],
+      [
+        "P136",
+        "P140",
+        "P141"
+      ],
+      [
+        "P142",
+        "P143",
+        "P144"
+      ],
+      [
+        "P145",
+        "P146",
+        "P147"
+      ],
+      [
+        "P148",
+        "P149",
+        "P150"
+      ],
+      [
+        "P16",
+        "P19",
+        "P21"
+      ],
+      [
+        "P17",
+        "P22",
+        "P23"
+      ],
+      [
+        "P18",
+        "P24",
+        "P25"
+      ],
+      [
+        "P151",
+        "P172",
+        "P26"
+      ],
+      [
+        "P152",
+        "P153",
+        "P154"
+      ],
+      [
+        "P173",
+        "P27",
+        "P29"
+      ],
+      [
+        "P174",
+        "P28",
+        "P30"
+      ],
+      [
+        "P175",
+        "P31",
+        "P32"
+      ],
+      [
+        "P176",
+        "P177",
+        "P178"
+      ],
+      [
+        "P179",
+        "P180",
+        "P181"
+      ],
+      [
+        "P182",
+        "P183",
+        "P33"
+      ],
+      [
+        "P34",
+        "P35",
+        "P36"
+      ],
+      [
+        "P37",
+        "P38",
+        "P39"
+      ],
+      [
+        "P40",
+        "P41",
+        "P42"
+      ],
+      [
+        "P43",
+        "P44",
+        "P45"
+      ],
+      [
+        "P46",
+        "P47",
+        "P48"
+      ],
+      [
+        "P49",
+        "P50",
+        "P51"
+      ],
+      [
+        "P52",
+        "P53",
+        "P54"
+      ],
+      [
+        "P55",
+        "P56",
+        "P57"
+      ],
+      [
+        "P58",
+        "P59",
+        "P60"
+      ],
+      [
+        "P61",
+        "P62",
+        "P63"
+      ],
+      [
+        "P64",
+        "P65",
+        "P66"
+      ],
+      [
+        "P67",
+        "P68",
+        "P69"
+      ],
+      [
+        "P70",
+        "P73",
+        "P74"
+      ],
+      [
+        "P71",
+        "P75",
+        "P77"
+      ],
+      [
+        "P72",
+        "P76",
+        "P78"
+      ],
+      [
+        "P79",
+        "P80",
+        "P81"
+      ],
+      [
+        "P82",
+        "P83",
+        "P84"
+      ],
+      [
+        "P85",
+        "P86",
+        "P89"
+      ],
+      [
+        "P87",
+        "P90",
+        "P93"
+      ],
+      [
+        "P88",
+        "P91",
+        "P94"
+      ],
+      [
+        "P92",
+        "P95",
+        "P96"
+      ],
+      [
+        "P97",
+        "P98",
+        "P99"
+      ],
+      [
+        "P184",
+        "U04",
+        "U08"
+      ],
+      [
+        "U05",
+        "U09",
+        "U12a"
+      ],
+      [
+        "U06",
+        "U10",
+        "U12b"
+      ],
+      [
+        "U07",
+        "U11",
+        "U12"
+      ],
+      [
+        "U13",
+        "U14",
+        "U15"
+      ],
+      [
+        "U16",
+        "U17",
+        "U21"
+      ],
+      [
+        "U22",
+        "U23",
+        "U24"
+      ],
+      [
+        "U25",
+        "U26",
+        "V001"
+      ],
+      [
+        "V002",
+        "V003",
+        "V004"
+      ],
+      [
+        "V005",
+        "V006",
+        "V007"
+      ],
+      [
+        "V008",
+        "V009",
+        "V010"
+      ],
+      [
+        "V011",
+        "V012",
+        "V013"
+      ],
+      [
+        "V014",
+        "V015",
+        "V016"
+      ],
+      [
+        "V017",
+        "V018",
+        "V019"
+      ],
+      [
+        "V020",
+        "V021",
+        "V022"
+      ],
+      [
+        "V023",
+        "V024",
+        "V025"
+      ],
+      [
+        "V026",
+        "V027",
+        "V028"
+      ],
+      [
+        "V029",
+        "V030",
+        "V031"
+      ],
+      [
+        "V032",
+        "V033",
+        "V034"
+      ],
+      [
+        "V035",
+        "V036",
+        "V037"
+      ],
+      [
+        "V038",
+        "V039",
+        "V040"
+      ],
+      [
+        "V041",
+        "V042",
+        "V043"
+      ],
+      [
+        "V044"
+      ],
+      [
+        "U18",
+        "U19",
+        "U20"
+      ],
+      [
+        "U27"
+      ],
+      [
+        "U28"
+      ],
+      [
+        "U29"
+      ],
+      [
+        "C99"
+      ]
+    ]
+  },
+  "metadata_oracle": {
+    "combined_canonical_sha256": "948cfe728c8dd24a5f5ce5692f8132e0188a8dfa2692d2fb25e0a9818642c3a4",
+    "field_canonical_sha256": {
+      "lane_counts": "39cda8386c214f6fa9597a4f88eacf6f9357fec792319a26c3f985421a24f030",
+      "unordered_write_conflicts": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "source_author_dispatch_waves": "32266bc8fc98e7ce3f14b1bc67eeb64049c9abadf4f4292809067cdaa164b52c"
+    },
+    "wave_count": 268,
+    "last_zero_based_wave_index": 267,
+    "total_entries": 794,
+    "unique_units": 794,
+    "max_authors": 3,
+    "conflicts": 0,
+    "RR13_one_based_waves": {
+      "RR13a": 13,
+      "RR13b": 14,
+      "RR13": 15
+    },
+    "all_raw_prep_dependencies_strictly_earlier": true,
+    "storage_lane_count": 2,
+    "historical_unsigned_wave_count": 268
+  },
+  "final_comparison_contract": {
+    "rawexpectedplan_is_not_fullgeneratedplan": "Never claim actual byte/fullJSON equals rawunsignedexpected-plan; that reference retains historical3derivedmetadatafields and oldsourceattribution.",
+    "exact_top_exceptions": [
+      "lane_counts",
+      "unordered_write_conflicts",
+      "source_author_dispatch_waves"
+    ],
+    "top_values": "Must equal this report independentmetadata; allother topfields includingunknown/source/acceptance meanings exact.",
+    "unit_rule": "All794completeunitrecords,pointers,tasks,unknownfields,budgets and1588typededges exact against reviewedunsignedreference; onlyC99.source_fragment_sha256 may differ toexactactualbuild_planSHAa18c1256b92c9378c80263285633695e07bfe423d6751d7c6b3036db77ef2ced. SeparatelycheckeveryactualsourcefragmentSHA againstrawboundsource. No genericfield omissions.",
+    "adapted_full_plan_oracle_canonical_sha256": "178f531b9680072ad1de1b910bce39682377d3ee7e7be899e0c93ed48e728be3",
+    "adapted_oracle_scope": "Futuredataoracle replacingonly3derivedtopfields andC99actualgeneratorattribution inunsignedexpectedplan. Not proof actualgenerator ran/producedit.",
+    "otheroutputs": "Actualdispatch/team-dispatch/index/794briefs mustmatchfinalrecords,teams,pointers andeffectiveschedule andenterhashclosure."
+  },
+  "required_input_closure": {
+    "reader": 48,
+    "fixed_helper": 48,
+    "paths": [
+      "COMPLETION-CONTRACT.md",
+      "TEAM-EXECUTION.md",
+      "acceptance-packet.schema.json",
+      "amendments/1.0.1-budget-disposition.md",
+      "amendments/1.0.10-storage-source.md",
+      "amendments/1.0.2-rr08-split.md",
+      "amendments/1.0.3-layout-kernel-split.md",
+      "amendments/1.0.4-comment-comparison-split.md",
+      "amendments/1.0.5-partial-comparison-split.md",
+      "amendments/1.0.6-routing-kernel-split.md",
+      "amendments/1.0.7-forest-kernel-split.md",
+      "amendments/1.0.8-team-execution.md",
+      "amendments/1.0.9-source-preparation.md",
+      "completion-contract.json",
+      "composition/registration/README.md",
+      "composition/registration/prepare.py",
+      "composition/registration/test_prepare.py",
+      "composition/storage_split_guard.py",
+      "cross-lane-review.json",
+      "execution.json",
+      "lanes/batch4.json",
+      "lanes/batch5.json",
+      "lanes/batch6.json",
+      "lanes/coordination-support.json",
+      "lanes/migration-support.json",
+      "lanes/model.json",
+      "lanes/parser.json",
+      "lanes/platform.json",
+      "lanes/rereview.json",
+      "lanes/source-preparation.json",
+      "lanes/storage-source.json",
+      "lanes/ui.json",
+      "performance-policy.json",
+      "remaining-work/checkpoint-batch24/rejected-comparator.raw",
+      "remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py",
+      "rereview-overlay.json",
+      "storage-policy-source.json",
+      "teams.json",
+      "tools/build_plan.py",
+      "tools/build_ui_plan.py",
+      "tools/completion_contract.py",
+      "tools/preparation_splits.py",
+      "tools/storage_splits.py",
+      "tools/team_policy.py",
+      "tools/test_preparation_splits.py",
+      "tools/test_storage_splits.py",
+      "tools/test_team_policy.py",
+      "tools/verify_plan.py"
+    ],
+    "all6held_raw_readchecks_preserved": true,
+    "ownerfile_was_not_in_old1148snapshot": true,
+    "mandatory_final_snapshot_added_progress": [
+      "rereview-batch11-coordinator-ownership.json",
+      "rereview-batch36-next-prs.md"
+    ],
+    "baseline5_progress_also_mandatory": true,
+    "meaning": "Distinguish6sealedpolicyreadchecks fromnewownerfile explicitsnapshotbytepin. Rootconfirmedbothaddedprogresspaths insharedfreeze03."
+  },
+  "expected_tests_each_mode": {
+    "migrated_P1": 14,
+    "oldpreparation": 14,
+    "team_with_wave_regression": 18,
+    "original165storage": 9,
+    "tools_discovery_total": 41,
+    "existing_whole_guard": 10,
+    "execution": "Nonebyreviewer;actualnormal/-Oafterseal/adoptionrequired"
+  },
+  "budget": {
+    "preseal_production": 369,
+    "preseal_tests": 244,
+    "preseal_authored": 613,
+    "planned_manual_seal_A_plus_D": 2,
+    "withseal_production": 371,
+    "withseal_authored": 615,
+    "hardcaps": [
+      400,
+      900
+    ],
+    "verification": "Independentlyrecountedprovidedsourcefiles/newphysicalcounts andlinechangesagainstcapturedoldnormative/P1baseline/pre-docraws. README3same-positionuniqueparagraphsubstitutions is6A+D; genericdifflibblankmatchingwouldovercount4. RootfinalactualGitA+DmustincludeanylaterCI/attributes/helpers/wiring/repairs; machinegeneratedoutputs/capturedpassivedata disclosedseparately."
+  },
+  "state": {
+    "actual_contract_version": "1.0.9",
+    "guard_pending_raw": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/composition/storage_split_guard.py",
+      "bytes": 10317,
+      "sha256": "2672f0a27053abf8db807fa4356b16697a6252879fa08567ff2e065e66fb33d9"
+    },
+    "helper353": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/composition/registration/prepare.py",
+      "bytes": 22249,
+      "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59"
+    },
+    "driver126": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py",
+      "bytes": 6572,
+      "sha256": "fe19370c9bdae0aef0b43f6a1f9b3d33811386fa9241739a6a7cbd9bb6411f11"
+    },
+    "shim24": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/tools/storage_splits.py",
+      "bytes": 1290,
+      "sha256": "15e9febcc1991a7c82c308b6b98e83c77ad409c43c0ce46305da1eb1182462b2"
+    },
+    "no_reviewer_policyassignment_install": true
+  },
+  "remaining_gates": [
+    "Rootfreshsource/spec/platformadmission andaggregatecaprecheck beforeexactmanualseal/candidateinstall/generator/lock/snapshotcommands.",
+    "Manualrootliteral26415d63... only;retainnormalizedwholeguardcodeidentity andbindfinalactualsealedrawSHA/currentlock. No productionoverride.",
+    "Actualgeneration mustmatchadaptedplanoracle,exact48contractset,baseline5+owner+queueprogress,allunit/brief/currentintegration/unknownmetadata; thenindependentexecutedreview.",
+    "RunP1migrated14/guard10/tools41bothmodes,retainedoriginal165storage9,actual794plan/snapshot/negativechecks; preserveallfailedattempts/HOLDs/sourceepochs.",
+    "Hosted/exacthead/merge/postflight andactualRR13a/b/M06/nativeUI/durablejourneyacceptance remain separate."
+  ],
+  "actions": "Read/parse/hash andindependentgraph/scheduling/provenancedataarithmetic only; wrote newreportretaininginitialHOLD. No candidate/helper/guardexecution,subjectrerun/import/tests,policyconstantassignment,Git,network,sourceedit oradministration.",
+  "holds_released": false
+}

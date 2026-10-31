@@ -16,17 +16,22 @@ ROOT = Path(__file__).resolve().parents[2]
 class PreparationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.old_lock = (ROOT / 'completion-contract.lock.json').read_bytes()
-        cls.old_snapshot = (ROOT / 'remaining-work/snapshot.lock.json').read_bytes()
-        cls.old_register = (ROOT / 'remaining-work/units.json').read_bytes()
+        driver_path = ROOT / 'remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py'
+        driver_raw = driver_path.read_bytes()
+        if P.sha(driver_raw) != 'fe19370c9bdae0aef0b43f6a1f9b3d33811386fa9241739a6a7cbd9bb6411f11':
+            raise ValueError('fixed baseline data loader changed')
+        driver = types.ModuleType('registration_fixture_data')
+        driver.__file__ = str(driver_path)
+        exec(compile(driver_raw, str(driver_path), 'exec'), driver.__dict__)
+        cls.driver = driver
+        read, _ = driver.reader(P, ROOT)
+        overrides, prior, _ = driver.baseline(P, read, derive=True)
+        cls.old_lock = prior['completion-contract.lock.json']
+        cls.old_snapshot = prior['remaining-work/snapshot.lock.json']
+        cls.old_register = prior['remaining-work/units.json']
         names = set(P.parse(cls.old_snapshot)['sha256']) | set(P.PRESERVED)
         cls.files = {name: (ROOT / name).read_bytes() for name in names}
-        provenance = P.parse((ROOT / 'composition/fixtures/baseline-provenance.json').read_bytes())
-        for name, row in provenance['files'].items():
-            raw = (ROOT / 'composition/fixtures' / name).read_bytes()
-            if hashlib.sha256(raw).hexdigest() != row['sha256'] or len(raw) != row['bytes']:
-                raise ValueError('captured real baseline changed')
-            cls.files[row['original_path']] = raw
+        cls.files.update(overrides)
         amendment = b'# SYNTHETIC_UNSEALED control; no work registered\n'
         lane = {'lane': 'storage-source', 'units': []}
         for uid, deps, team in [('RR13a', ['RR04'], 'services-persistence'),
@@ -52,7 +57,11 @@ class PreparationTests(unittest.TestCase):
             cls.current.setdefault(name, path.read_bytes() if path.is_file() else
                                    b'SYNTHETIC_UNSEALED inactive adapter binding; never executed\n')
         cls.guard_path = ROOT / 'composition/storage_split_guard.py'
-        cls.pending_guard = cls.guard_path.read_bytes()
+        cls.disk_guard = cls.guard_path.read_bytes()
+        P.storage_guard({'tools/preparation_splits.py': (ROOT / 'tools/preparation_splits.py').read_bytes(),
+                         'composition/storage_split_guard.py': cls.disk_guard})
+        assignment = rb"(?m)^POLICY_SHA256 = '(?:PENDING_ROOT_FREEZE|[0-9a-f]{64})'$"
+        cls.pending_guard = P.re.sub(assignment, b"POLICY_SHA256 = 'PENDING_ROOT_FREEZE'", cls.disk_guard)
         cls.sealed_guard = cls.pending_guard.replace(b"POLICY_SHA256 = 'PENDING_ROOT_FREEZE'",
             ("POLICY_SHA256 = '" + P.digest(cls.proposal['artifacts']['policy.json']) + "'").encode())
         cls.current['composition/storage_split_guard.py'] = cls.sealed_guard
@@ -262,6 +271,13 @@ class PreparationTests(unittest.TestCase):
                          P.parse(self.files['execution.json'])['current_integration'])
 
     def test_input_metadata_reserved_namespace_and_early_prior_bounds(self):
+        read, _ = self.driver.reader(P, ROOT)
+        for name in ['physical', 'physical/plan.json', 'logical-origin', 'logical-origin/x']:
+            with self.subTest(reserved=name), patch.object(Path, 'open',
+                    side_effect=AssertionError('reserved path read before refusal')):
+                with self.assertRaisesRegex(ValueError, 'reserved provenance namespace'):
+                    read(name)
+        self.assertEqual(read('plan.json'), (ROOT / 'plan.json').read_bytes())
         with patch.object(P, 'LIMIT', 100), patch.object(P, 'sha', side_effect=AssertionError('hashed before bounds')):
             for files in [{'a' * 100: b''}, {'a': b'', 'b': b''}]:
                 with self.subTest(files=files), self.assertRaises(ValueError):
@@ -285,12 +301,15 @@ class PreparationTests(unittest.TestCase):
     def test_default_pending_and_provider_raw_closure_refuse(self):
         files = dict(self.current, **{'composition/storage_split_guard.py': self.pending_guard})
         self.relock(files)
-        with self.assertRaisesRegex(ValueError, 'sealed policy'):
-            P.snapshot(files, self.old_register, self.old_snapshot, self.old_lock,
-                       'SYSON-RUST-REMAINING/SYNTHETIC_UNSEALED', 'a' * 40)
-        self.assertEqual(self.guard_path.read_bytes(), self.pending_guard)
+        read_bytes = Path.read_bytes
+        with patch.object(Path, 'read_bytes', lambda path: self.pending_guard
+                          if path == self.guard_path else read_bytes(path)):
+            with self.assertRaisesRegex(ValueError, 'sealed policy'):
+                P.snapshot(files, self.old_register, self.old_snapshot, self.old_lock,
+                           'SYSON-RUST-REMAINING/SYNTHETIC_UNSEALED', 'a' * 40)
+        self.assertEqual(self.guard_path.read_bytes(), self.disk_guard)
         self.snapshot()
-        self.assertEqual(self.guard_path.read_bytes(), self.pending_guard)
+        self.assertEqual(self.guard_path.read_bytes(), self.disk_guard)
         for name in ['composition/storage_split_guard.py', 'tools/preparation_splits.py']:
             files = dict(self.current)
             files[name] += b'\n'
@@ -305,7 +324,10 @@ class PreparationTests(unittest.TestCase):
 
     def test_provider_body_and_seal_syntax_validate_before_execution(self):
         pending_files = dict(self.current, **{'composition/storage_split_guard.py': self.pending_guard})
-        pending_provider = P.storage_guard(pending_files)
+        read_bytes = Path.read_bytes
+        with patch.object(Path, 'read_bytes', lambda path: self.pending_guard
+                          if path == self.guard_path else read_bytes(path)):
+            pending_provider = P.storage_guard(pending_files)
         self.assertEqual(pending_provider.POLICY_SHA256, 'PENDING_ROOT_FREEZE')
         read_bytes = Path.read_bytes
         invalid_sources = [self.pending_guard + b'\n',

@@ -5,6 +5,7 @@ from pathlib import Path
 import unittest
 from unittest import mock
 import preparation_splits as P
+import storage_splits as S
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -13,6 +14,8 @@ class PreparationSplitTests(unittest.TestCase):
     def setUp(self):
         self.contract = json.loads((ROOT / 'completion-contract.json').read_bytes())
         self.plan = json.loads((ROOT / 'plan.json').read_bytes())
+        self.plan = S.previous_plan(self.contract, self.plan)
+        self.contract = S.previous_contract(self.contract)
         self.policy = self.contract['source_preparation_splits']
 
     def unit(self, plan, uid):

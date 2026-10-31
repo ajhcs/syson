@@ -1,0 +1,115 @@
+--- a/porting/rust-parity-plan-20261026/composition/registration/test_prepare.py
++++ b/porting/rust-parity-plan-20261026/composition/registration/test_prepare.py
+@@ -16,17 +16,22 @@
+ class PreparationTests(unittest.TestCase):
+     @classmethod
+     def setUpClass(cls):
+-        cls.old_lock = (ROOT / 'completion-contract.lock.json').read_bytes()
+-        cls.old_snapshot = (ROOT / 'remaining-work/snapshot.lock.json').read_bytes()
+-        cls.old_register = (ROOT / 'remaining-work/units.json').read_bytes()
++        driver_path = ROOT / 'remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py'
++        driver_raw = driver_path.read_bytes()
++        if P.sha(driver_raw) != 'fe19370c9bdae0aef0b43f6a1f9b3d33811386fa9241739a6a7cbd9bb6411f11':
++            raise ValueError('fixed baseline data loader changed')
++        driver = types.ModuleType('registration_fixture_data')
++        driver.__file__ = str(driver_path)
++        exec(compile(driver_raw, str(driver_path), 'exec'), driver.__dict__)
++        cls.driver = driver
++        read, _ = driver.reader(P, ROOT)
++        overrides, prior, _ = driver.baseline(P, read, derive=True)
++        cls.old_lock = prior['completion-contract.lock.json']
++        cls.old_snapshot = prior['remaining-work/snapshot.lock.json']
++        cls.old_register = prior['remaining-work/units.json']
+         names = set(P.parse(cls.old_snapshot)['sha256']) | set(P.PRESERVED)
+         cls.files = {name: (ROOT / name).read_bytes() for name in names}
+-        provenance = P.parse((ROOT / 'composition/fixtures/baseline-provenance.json').read_bytes())
+-        for name, row in provenance['files'].items():
+-            raw = (ROOT / 'composition/fixtures' / name).read_bytes()
+-            if hashlib.sha256(raw).hexdigest() != row['sha256'] or len(raw) != row['bytes']:
+-                raise ValueError('captured real baseline changed')
+-            cls.files[row['original_path']] = raw
++        cls.files.update(overrides)
+         amendment = b'# SYNTHETIC_UNSEALED control; no work registered\n'
+         lane = {'lane': 'storage-source', 'units': []}
+         for uid, deps, team in [('RR13a', ['RR04'], 'services-persistence'),
+@@ -52,7 +57,11 @@
+             cls.current.setdefault(name, path.read_bytes() if path.is_file() else
+                                    b'SYNTHETIC_UNSEALED inactive adapter binding; never executed\n')
+         cls.guard_path = ROOT / 'composition/storage_split_guard.py'
+-        cls.pending_guard = cls.guard_path.read_bytes()
++        cls.disk_guard = cls.guard_path.read_bytes()
++        P.storage_guard({'tools/preparation_splits.py': (ROOT / 'tools/preparation_splits.py').read_bytes(),
++                         'composition/storage_split_guard.py': cls.disk_guard})
++        assignment = rb"(?m)^POLICY_SHA256 = '(?:PENDING_ROOT_FREEZE|[0-9a-f]{64})'$"
++        cls.pending_guard = P.re.sub(assignment, b"POLICY_SHA256 = 'PENDING_ROOT_FREEZE'", cls.disk_guard)
+         cls.sealed_guard = cls.pending_guard.replace(b"POLICY_SHA256 = 'PENDING_ROOT_FREEZE'",
+             ("POLICY_SHA256 = '" + P.digest(cls.proposal['artifacts']['policy.json']) + "'").encode())
+         cls.current['composition/storage_split_guard.py'] = cls.sealed_guard
+@@ -262,6 +271,13 @@
+                          P.parse(self.files['execution.json'])['current_integration'])
+ 
+     def test_input_metadata_reserved_namespace_and_early_prior_bounds(self):
++        read, _ = self.driver.reader(P, ROOT)
++        for name in ['physical', 'physical/plan.json', 'logical-origin', 'logical-origin/x']:
++            with self.subTest(reserved=name), patch.object(Path, 'open',
++                    side_effect=AssertionError('reserved path read before refusal')):
++                with self.assertRaisesRegex(ValueError, 'reserved provenance namespace'):
++                    read(name)
++        self.assertEqual(read('plan.json'), (ROOT / 'plan.json').read_bytes())
+         with patch.object(P, 'LIMIT', 100), patch.object(P, 'sha', side_effect=AssertionError('hashed before bounds')):
+             for files in [{'a' * 100: b''}, {'a': b'', 'b': b''}]:
+                 with self.subTest(files=files), self.assertRaises(ValueError):
+@@ -285,12 +301,15 @@
+     def test_default_pending_and_provider_raw_closure_refuse(self):
+         files = dict(self.current, **{'composition/storage_split_guard.py': self.pending_guard})
+         self.relock(files)
+-        with self.assertRaisesRegex(ValueError, 'sealed policy'):
+-            P.snapshot(files, self.old_register, self.old_snapshot, self.old_lock,
+-                       'SYSON-RUST-REMAINING/SYNTHETIC_UNSEALED', 'a' * 40)
+-        self.assertEqual(self.guard_path.read_bytes(), self.pending_guard)
++        read_bytes = Path.read_bytes
++        with patch.object(Path, 'read_bytes', lambda path: self.pending_guard
++                          if path == self.guard_path else read_bytes(path)):
++            with self.assertRaisesRegex(ValueError, 'sealed policy'):
++                P.snapshot(files, self.old_register, self.old_snapshot, self.old_lock,
++                           'SYSON-RUST-REMAINING/SYNTHETIC_UNSEALED', 'a' * 40)
++        self.assertEqual(self.guard_path.read_bytes(), self.disk_guard)
+         self.snapshot()
+-        self.assertEqual(self.guard_path.read_bytes(), self.pending_guard)
++        self.assertEqual(self.guard_path.read_bytes(), self.disk_guard)
+         for name in ['composition/storage_split_guard.py', 'tools/preparation_splits.py']:
+             files = dict(self.current)
+             files[name] += b'\n'
+@@ -305,7 +324,10 @@
+ 
+     def test_provider_body_and_seal_syntax_validate_before_execution(self):
+         pending_files = dict(self.current, **{'composition/storage_split_guard.py': self.pending_guard})
+-        pending_provider = P.storage_guard(pending_files)
++        read_bytes = Path.read_bytes
++        with patch.object(Path, 'read_bytes', lambda path: self.pending_guard
++                          if path == self.guard_path else read_bytes(path)):
++            pending_provider = P.storage_guard(pending_files)
+         self.assertEqual(pending_provider.POLICY_SHA256, 'PENDING_ROOT_FREEZE')
+         read_bytes = Path.read_bytes
+         invalid_sources = [self.pending_guard + b'\n',
+--- a/porting/rust-parity-plan-20261026/composition/registration/README.md
++++ b/porting/rust-parity-plan-20261026/composition/registration/README.md
+@@ -1,14 +1,14 @@
+ # Fixed unsigned RR13 registration candidates
+ 
+-This inactive preparation library constructs reviewable data for RR13a/RR13b. Contract 1.0.9, its 792 units/1584 typed nodes, 55 historical records and all ownership holds remain unchanged. No default import reads files or runs application code.
++This preparation library constructs unsigned data for RR13a/RR13b. Its immutable 1.0.9 baseline has 792 units/1584 typed nodes and 55 historical records; current registration and generated adoption are separate root-reviewed steps. Default library/driver imports read no application files.
+ `derive(files)` accepts an explicit relative-name→bytes map containing the pinned complete baseline, all old contract inputs, six preserved policies and the proposed storage lane/template/amendment. The template must state parent_intent RR13→[RR13a,RR13b]. It returns unsigned policy, expected-plan, contract and schema artifacts, preserving full old records and rebuilding typed edges with an independent cycle check.
+ `contract_lock(files, old_lock_bytes)` retains every old required path and adds the fixed EXTRA source/input set. Prior arguments enter the aggregate bound before hashing or parsing; the prior/ namespace is reserved. `snapshot(files, old_register_bytes, old_snapshot_lock_bytes, old_contract_lock_bytes, snapshot_id, base_main, progress_inputs=())` preserves every nonderived generated unit field and hashes the complete original plan record, including any source feature_acceptance value. Its five derived columns are primary_family, brief, brief_sha256, complete_plan_unit_sha256 and historical feature_acceptance; absent history yields OPEN_NO_ACCEPTANCE_RECORD even when the plan says OPEN. It preserves current integration attribution, old progress inputs and explicitly added ones.
+ All functions return UNSEALED_PROPOSAL_ONLY with complete supplied-input SHA-256 bindings. Both derive and snapshot pin the entire historical execution file, including integration and unknown attribution. They never install candidates,seal validators,invoke generators or claim source/feature acceptance. The root separately reviews unsigned actual outputs before any 1.0.10 adoption.
+ `emit(fresh_path, proposal)` optionally writes only named candidate JSON artifacts plus a source/input/output-bound manifest into a new owned 0700 directory under /workspace/build/builderbob. Existing/symlink/noncanonical outputs refuse. Input bytes plus canonical key/hash metadata and emitted-output framing each have a 64MiB refusal cap; this is not a sandbox or performance guarantee.
+ Run `python3 -I -B -m unittest discover -s porting/rust-parity-plan-20261026/composition/registration -p test_prepare.py -v` and repeat with `python3 -I -O -B -m unittest discover -s porting/rust-parity-plan-20261026/composition/registration -p test_prepare.py -v`.
+-Snapshot reuses the complete fixed preparation/whole storage guard after checking actual raw bytes against the supplied map/current lock. Only one strict POLICY_SHA256 literal is normalized for guard code identity; the actual verified bytes execute unchanged and cache by raw SHA. The default PENDING guard refuses snapshot; production cannot assign or override its seal.
+-The tests reuse the three exact captured 1.0.9 baseline JSON fixtures and old current snapshot inputs. All tiny added children,amendment, briefs and inactive code bindings are explicitly SYNTHETIC_UNSEALED controls counted as test source. They are not the complete unadopted RR13 work records and must never be installed.
++Snapshot reuses the complete fixed preparation/whole storage guard after checking actual raw bytes against the supplied map/current lock. Only one strict POLICY_SHA256 literal is normalized for guard code identity; verified actual bytes execute unchanged and cache by raw SHA. A canonical pending guard refuses snapshot; only the root performs the separately reviewed production literal seal.
++Tests load old locks/register from the pinned five-file baseline and all 37 normative byte overrides from its compressed capsule, verifying compressed/uncompressed bounds and hashes, exact old-lock coverage and every decoded row length/hash/Git blob. The same three complete captured JSON fixtures remain data-only inputs. A test-only canonical pending guard is normalized from the actual identity-checked guard before constructing a synthetic seal; scoped reads and matching raw-map/lock pins preserve all negative controls after real adoption. Capsule program bytes never execute; tiny synthetic children/amendment/briefs remain unadopted controls.
+ Tests cover strict finite JSON,complete old record/graph restoration,private results,held inputs, source pins, caps, cycles, exact lock sets, full snapshot fields/progress and real private fresh-output/refusal controls. Tests scope and restore a synthetic sealed guard read with matching raw input/lock pins; they never edit the on-disk guard. Hosted output tests patch only OUTPUT_ROOT to their own admitted runner temporary directory; production has no path override.
+ Root records source review and actual normal/optimized execution separately; source authoring establishes no passing runtime result. Existing 165-line current-plan storage tests, 191-line draft guard and 252-line landed guard tests retain their own roles; this library does not replace their adoption gates.
+-Future P2 must use the complete actual RR13 draft, independently inspect its unsigned policy,seal/pin the landed guard and module-alias shim,apply reviewed shared wiring and exact required inputs,run actual build_plan,compare all generated records/edges,then construct and verify the final snapshot. EXTRA lists the exact future adapter/source paths that must also enter the contract validator’s required set.
++Actual RR13 adoption uses the complete source records, independent unsigned-policy review, a real root seal and raw source pin, the module-alias shim, reviewed shared wiring/required inputs, actual build_plan and all-record/edge comparisons, then a verified final snapshot. The fixed driver emits only fresh candidates; DERIVE records captured logical origins and physical reads, while LOCK/SNAPSHOT use current bytes with separate old raw arguments and all five baseline progress paths. Root records adoption separately.
+ The full 26 original SnapshotStore cases,fault/permission/filesystem ranges,M06/M104/C01/C02/native/UI and durable application journey remain open. The complete original identity/SnapshotStore integration still requires its separate later registration; no hold or human reservation is released.

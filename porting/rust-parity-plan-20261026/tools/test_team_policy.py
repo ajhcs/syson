@@ -5,7 +5,7 @@ from pathlib import Path
 import unittest
 from team_policy import validate_dispatch, validate_projection, validate_teams_legacy as validate_teams
 from unittest.mock import patch
-from preparation_splits import legacy_plan
+from storage_splits import legacy_plan
 import team_policy
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -172,12 +172,30 @@ class CurrentPreparationTeamTests(unittest.TestCase):
         policy = json.loads((ROOT / 'teams.json').read_bytes())
         plan = json.loads((ROOT / 'plan.json').read_bytes())
         report = team_policy.validate_teams(policy, plan)
-        self.assertEqual(len(report['assignment']), 792)
+        self.assertEqual(len(report['assignment']), 794)
         self.assertEqual(report['assignment']['B25S1'], 'services-persistence')
         self.assertEqual(report['assignment']['M06a1'], 'language-interchange')
+        self.assertEqual(report['assignment']['RR13a'], 'services-persistence')
+        self.assertEqual(report['assignment']['RR13b'], 'verification-release')
         plan['units'][0]['completion_contract'] = {'version': 'invalid'}
         with self.assertRaises(ValueError):
             team_policy.validate_teams(policy, plan)
+
+
+    def test_generated_source_waves_include_every_preparation_child_first(self):
+        plan = json.loads((ROOT / 'plan.json').read_bytes())
+        units = {unit['id']: unit for unit in plan['units']}
+        waves = plan['source_author_dispatch_waves']
+        flattened = [uid for wave in waves for uid in wave]
+        self.assertEqual(sorted(flattened), sorted(units))
+        self.assertTrue(all(0 < len(wave) <= 3 for wave in waves))
+        position = {uid: index for index, wave in enumerate(waves) for uid in wave}
+        for uid, unit in units.items():
+            prerequisites = unit['dependencies'] + unit.get('source_preparation_children', [])
+            for dependency in prerequisites:
+                with self.subTest(unit=uid, prerequisite=dependency):
+                    self.assertLess(position[dependency], position[uid])
+        self.assertEqual(plan['unordered_write_conflicts'], [])
 
 
 if __name__ == '__main__':
