@@ -1,0 +1,108 @@
+{
+  "schema": "B49_INDEPENDENT_ROOT_CI_SOURCE_REVIEW/1",
+  "status": "PASS_FOUR_LINE_SOURCE_WIRING_ONLY",
+  "reviewer": "/root/core_frontier_admission",
+  "method": "Read-only bytes, hashes, line diff and current qualification-input checks. No subject import/execution, YAML program execution, tests, formatter, network or Git mutation.",
+  "root_record": {
+    "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/root-CI-source-01.json",
+    "bytes": 837,
+    "lines": 19,
+    "sha256": "15e487fcc423bf230b01abd4876272b682f881eb07fed1ebd79d4572fce2c566"
+  },
+  "before": {
+    "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/before-CI-apply-01.yml.raw",
+    "bytes": 870,
+    "lines": 23,
+    "sha256": "962eab88c81cbfc7e509f02c5c7d993bb425f1cd2f5277930e434ef3714bb70f"
+  },
+  "after": {
+    "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/.github/workflows/plan-source-preparation-checks.yml",
+    "bytes": 1209,
+    "lines": 27,
+    "sha256": "00cdb9944a3c3f9f7347a69ea4de5f76530066fd955ae0541448f9cc644771d3"
+  },
+  "exact_delta": {
+    "added": 4,
+    "deleted": 0,
+    "proof": "Removing exactly the two environment lines and two appended test commands reproduces the entire retained old workflow byte for byte. No other edit."
+  },
+  "added_source": [
+    "    env:",
+    "      SYSON_IDENTITY_PARTITION_FIXTURES: ${{ github.workspace }}/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/fixtures",
+    "          python3 -I -B -m unittest discover -s composition/identity_partition_prepare -v",
+    "          python3 -I -O -B -m unittest discover -s composition/identity_partition_prepare -v"
+  ],
+  "preserved": {
+    "existing_commands": 6,
+    "all_old_command_bytes": true,
+    "triggers": [
+      "pull_request main",
+      "push main",
+      "workflow_dispatch"
+    ],
+    "permissions": "contents: read",
+    "repository_guard": "github.repository == 'ajhcs/syson'",
+    "runner": "ubuntu-24.04",
+    "timeout_minutes": 20,
+    "checkout_pin": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "persist_credentials": false,
+    "working_directory": "porting/rust-parity-plan-20261026"
+  },
+  "new_suite": {
+    "fixture_env": "Canonical checked-out sibling composition/identity_partition_prepare/fixtures via github.workspace; matches test fixture contract. No local private build path, extra test-root authority or network source.",
+    "commands": "Normal and optimized isolated Python -I/-B unittest discovery. Current default test*.py discovery selects exactly test_derive.py and test_guard.py, the same two files selected by locally executed test_*.py. All19 names retained; no skip/filter/reduced suite.",
+    "test_files": [
+      "test_derive.py",
+      "test_guard.py"
+    ],
+    "named_count_each_mode": 19,
+    "named_count_both_modes": 38,
+    "root_runtime_environment": "This suite only needs the fixture environment and current pinned .11 repository baseline. No SYSON_BOOTSTRAP_TEST_ROOT use in these tests; no missing CI scratch variable is introduced."
+  },
+  "qualification_preservation": {
+    "workflow_was_in99inputs": false,
+    "all99_before_after_spec_current_equal": true,
+    "executed_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/reviewer-executed-01.json",
+      "bytes": 23273,
+      "lines": 463,
+      "sha256": "c69371c67ff9b52fc7dd4849d8f0f45958db58d507bdbf0986405fa43acd7568"
+    },
+    "candidate_data_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/reviewer-candidate-data-01.json",
+      "bytes": 17907,
+      "lines": 247,
+      "sha256": "e4b6c5c44639cc828edd88288c6cb7bc2faff3c124e95cf935a404ed104b7da7"
+    },
+    "meaning": "CI wiring is a separate later source epoch. Actual local38 results and two captures retain exact unchanged inputs and remain historical qualification; no hosted result is inferred."
+  },
+  "budget": {
+    "actual_with34line_capture": [
+      359,
+      771
+    ],
+    "CI_additions": [
+      4,
+      4
+    ],
+    "public_docs18_attrs2": [
+      20,
+      20
+    ],
+    "inclusive_forecast": [
+      383,
+      795
+    ],
+    "hard": [
+      400,
+      900
+    ],
+    "remaining": [
+      17,
+      105
+    ],
+    "counting": "All four new lines count production and authored, along with capture34 and public prose/attributes. Every further new publication/helper/wiring source still counts; unchanged reused programs are not copied helper exemptions."
+  },
+  "limits": "Source PASS only. The full hosted job must actually complete all old six and new two commands under unchanged bounded20minute timeout. Local approximately40second new-suite timings are not hosted timing guarantees or product latency/native/UI/performance acceptance. No existing control, timeout failure or functional assertion is waived.",
+  "recommendation": "Root may retain this exact CI source alongside separately reviewed source/data qualification and proceed to the independent public-map/committed-byte review. No product adoption, .12 activation, seal or runtime is granted by this report."
+}

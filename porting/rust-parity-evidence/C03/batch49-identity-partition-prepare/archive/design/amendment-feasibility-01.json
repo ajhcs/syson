@@ -1,0 +1,346 @@
+{
+  "schema": "M06A2_AMENDMENT_FEASIBILITY/1",
+  "status": "FEASIBLE_REVIEWED_NEW_PROVIDER_REQUIRED_NOT_ADOPTED_OR_EXECUTED",
+  "observed_utc": "2026-10-31T09:49:56.426120+00:00",
+  "base_main": "f4088d143b40a699336736cdb5a866a96b98fda6",
+  "base_worktree": "/workspace/worktrees/builderbob/syson/batch47-plan-ci-budget-20261031",
+  "scope": "Read-only source/data review and in-memory standard-library JSON/gzip/hash calculations; no subject imports, plan generator, tests, Cargo, source modification, Git/network mutation or admission decision. This report is the sole new file.",
+  "decision": {
+    "formal_amendment_required": true,
+    "data_only_1_0_12_supported_now": false,
+    "ordinary_budgets_unchanged": {
+      "production_AD": 400,
+      "authored_AD": 900
+    },
+    "recommended_route": "Add fixed .12 derive/restoration/constructor layers which reuse the whole-pinned .11 providers unchanged; independently review and adopt before any B45 subject execution. Use compact JSON DATA for the new register and staged prior-register verification to preserve all history under the existing64MiB bound.",
+    "no_budget_fit_or_acceptance_claim": "Concrete new source and full byte inventories must establish fit. This report establishes a feasible design and measures unchanged-data baselines only."
+  },
+  "bindings": {
+    "README.md": {
+      "bytes": 114579,
+      "sha256": "f3ceeba26579db44455220b1b9aae6b6082a679283b5147f8204babb6e5b7602"
+    },
+    "COMPLETION-CONTRACT.md": {
+      "bytes": 29497,
+      "sha256": "084d143b1df1120afb4a5df020c8b03dc06cf46319d9b6bb0739555cfef4ef19"
+    },
+    "completion-contract.json": {
+      "bytes": 609168,
+      "sha256": "37b452269bc81b1c6fb31bbe2c93ab2692c36d272b6682b8d7ae7d36740fd106"
+    },
+    "completion-contract.lock.json": {
+      "bytes": 6729,
+      "sha256": "a36a19cdcbb24441df3afd8f67b9ddd3f8648e0051f09ab387d9f7668d05c70f"
+    },
+    "plan.json": {
+      "bytes": 5937579,
+      "sha256": "4b10b1df933a555debe3c5d2e473d354fabb7b4acf8cfffd3386a881a0bc5691"
+    },
+    "execution.json": {
+      "bytes": 204591,
+      "sha256": "a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e"
+    },
+    "lanes/source-next.json": {
+      "bytes": 16635,
+      "sha256": "bb1a50bec6983d301b830b45ceeee34e19517a43020b85b2f8fa6ebcdfdd6ace"
+    },
+    "tools/build_plan.py": {
+      "bytes": 18372,
+      "sha256": "708982b09860061a0108328877e15f7b3a66c13e2adfd9ef9fe224384ce1be4c"
+    },
+    "tools/completion_contract.py": {
+      "bytes": 55828,
+      "sha256": "9a79f93ded492c54374de4c4acd803dbd5b571e92a8a60fd3db5fcfa559a7770"
+    },
+    "tools/source_next_splits.py": {
+      "bytes": 2362,
+      "sha256": "1819a78e4eec01d952b8d211c37fe9cf287e075883a119cac497537da2383c5d"
+    },
+    "composition/source_next_prepare/derive.py": {
+      "bytes": 17054,
+      "sha256": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17"
+    },
+    "composition/source_next_prepare/guard.py": {
+      "bytes": 17756,
+      "sha256": "c26d1446bddccd6475a6b921f52e2db660b2d0857460434bd9ef45110c4f645b"
+    },
+    "composition/source_next_prepare/construct.py": {
+      "bytes": 15022,
+      "sha256": "89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9"
+    },
+    "composition/registration/prepare.py": {
+      "bytes": 22249,
+      "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59"
+    },
+    "remaining-work/units.json": {
+      "bytes": 5843441,
+      "sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509"
+    },
+    "remaining-work/snapshot.lock.json": {
+      "bytes": 160945,
+      "sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0"
+    },
+    "remaining-work/verify_snapshot.py": {
+      "bytes": 5801,
+      "sha256": "65c949f70c040952969d5d525aec1636b6b0e176b0324957309bac8dde537072"
+    }
+  },
+  "partition_proposal": {
+    "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/partition-proposal-01.json",
+    "sha256": "2fbd8d889902bbc0b494c970b6ecda7715407b1d43e8cf3df4756631fa87d9af"
+  },
+  "policy": [
+    {
+      "source": "README.md:46",
+      "rule": "Each unit owns one behavior family; when a provider/family exceeds review budget freeze named child IDs, dependencies and acceptance cases before coding.",
+      "consequence": "Execution command phasing alone cannot authorize the existing overcap source as two unregistered deliveries."
+    },
+    {
+      "source": "COMPLETION-CONTRACT.md:102",
+      "rule": "A source/gate/scope change requires a versioned reviewed amendment with changed obligations, rationale, compatibility impact, owners/dependencies/cases and preserved evidence; generators never refresh the hash lock.",
+      "consequence": "Root owns explicit .12 adoption after independent review."
+    },
+    {
+      "source": "completion-contract.json:change_control",
+      "value": {
+        "mode": "STATIC_REVIEWED_AMENDMENTS",
+        "generators_may_refresh_lock": false,
+        "new_obligations": "Add reviewed IDs, owners, dependencies and cases before coding; preserve earlier evidence.",
+        "progress": "Update execution/evidence without changing locked obligations. Historical owner holds remain active until explicitly released by the owner.",
+        "amendments": "Increment contract version; record rationale, compatibility impact and changed gates/obligations; regenerate and independently review the new lock."
+      }
+    }
+  ],
+  "why_existing_pipeline_cannot_accept_data_only_amendment": [
+    {
+      "source": "composition/source_next_prepare/derive.py",
+      "fixed": "IDS B25d1/B25d2/M06a2, version.11, exact .10 capsule/provenance/lane/amendment hashes, all794/797 records and1588/1594 typed nodes; whole proposed rows sealed.",
+      "preserve": "Do not rewrite D; old source hashes and prior qualification are normative."
+    },
+    {
+      "source": "composition/source_next_prepare/guard.py",
+      "fixed": "version() accepts only.11/.10/.9; admit() demands.11 and whole source_next_splits policy seal; restore_contract/restore_plan require797 rows and remove exactly3IDs to fixed .10 whole object.",
+      "preserve": "A data-only newversion/newIDs correctly refuses. Keep whole fixed .11 G and its old tests."
+    },
+    {
+      "source": "composition/source_next_prepare/construct.py",
+      "fixed": "60normative roles, old1167snapshot/318progress,3prior raw byte pins, .11 D/G normalized source pins,17proofs and4fixture roles; snapshot hardcodes797.",
+      "preserve": "Do not treat this constructor as generic or bypass its fixed profiles."
+    },
+    {
+      "source": "tools/source_next_splits.py",
+      "fixed": "48line loader seals D/G whole-source, module namespace.11, then aliases fixed G."
+    },
+    {
+      "source": "tools/completion_contract.py:read_contract",
+      "fixed": "Current.11 required, exactly60lock roles, mandatory source-next amendment and D/G/C source/test/docs inputs; historical validators explicitlydispatch .9/.10/.11."
+    },
+    {
+      "source": "tools/build_plan.py",
+      "fixed": "Reads all lane files generically but applies only the3currentlyadopted record_update policy layers. A new parent overlay needs explicit coordinator wiring."
+    },
+    {
+      "source": "remaining-work/verify_snapshot.py",
+      "generic": "No fixed .11 or797 count; validates exact lock coverage, all current rows/fields/history/progress and7refusal controls. Reuse unchanged if the new snapshot respects its existing schema."
+    }
+  ],
+  "proposed_files_and_ownership": {
+    "root_only_new_normative_data": [
+      "lanes/identity-integration.json containing exactly M06a2a/M06a2b",
+      "amendments/1.0.12-identity-integration.md",
+      "completion-contract.json version/IDs/families/new fixed partition policy",
+      "acceptance-packet.schema.json contract_id/unit enum",
+      "completion-contract.lock.json independently reconstructed",
+      "remaining-work/checkpoint-identity-integration-1.0.12/prior/.11 snapshot and normative locks plus lossless prior-register/provenance roles",
+      "remaining-work/units.json and snapshot.lock.json with a fresh snapshot/base"
+    ],
+    "new_readable_bounded_providers": [
+      "composition/identity_integration_prepare/derive.py and its meaningful refusal/regression cases",
+      "composition/identity_integration_prepare/guard.py and restoration/adversarial cases",
+      "composition/identity_integration_prepare/construct.py with phased prior verification and full projected snapshot cases",
+      "tools/identity_integration_splits.py pinned loader/compatibility facade if required by chosen package strategy"
+    ],
+    "minimal_shared_code_wiring": [
+      "tools/build_plan.py: explicit new fixed partition record_updates application before source/typed graph compilation",
+      "tools/completion_contract.py: current.12 guard/required inputs/version dispatch; older validators receive exactly restored .11 values through new facade; no permissive unknown version acceptance",
+      "actual .github plan workflow: add focused new provider suites while retaining every previous suite and normal/optimized mode"
+    ],
+    "generated_by_actual_generator": [
+      "plan.json",
+      "dispatch.json",
+      "team-dispatch.json",
+      "PR-INDEX.md",
+      "all799 prs/<id>.md"
+    ],
+    "explicit_prose": [
+      "COMPLETION-CONTRACT.md amendment note",
+      "README.md and REMAINING-WORK.md exact snapshot/799 scope/status"
+    ],
+    "unchanged_reused_providers": [
+      "whole D/G/C.11 sources and originaltests",
+      "actual registration prepare.py/_graph",
+      "remaining-work/verify_snapshot.py",
+      "all old obligations, held ownership, team policy, source-next lane and55execution records"
+    ],
+    "no_runtime_authority": "Draft source providers first under root-approved narrow lease; independent review/budget accounting before any new helper execution. Preparation PRs do not execute the held B45 candidate."
+  },
+  "minimal_new_layer_algorithm": [
+    "Derive from the exact current.11 complete contract/plan/lanes/source policies/execution bytes using bounded named inputs. Add only2fixed child records and exact before/after M06a2/C99/joint closure metadata. Check all797 prior records,55history and6held policies and original typed edges before emitting unsigned .12 proposals.",
+    "New guard validates the sealed .12 policy, strict builtin types/bounds/child records/caps/ownership and actual source fragments. Remove the two child rows, undo only explicitly declared overlays, restore old contract pointers and C99generator pin, and independently require the complete .11 contract/plan/graph hashes to match before delegating to unchanged .11 G.",
+    "When old G checks oldactual source fragments, its callback must use explicitly pinned archived .11 generator bytes rather than silently supplying current changed .12 generator. Keep old lane bytes unchanged by adding a distinct new lane. Label this callback as a reviewed baseline byte view, never as current actual source. New layer separately validates current .12 generator and new lane.",
+    "Recompile full typed graph/source ancestry/waves/conflicts and C04-C09 closures with actual existing _graph/source_metadata providers; compare all oldedges preserved and exact declared metadata changes. Generate actual output in both modes and compare every file against independently constructed values/bytes.",
+    "New constructor preserves all old342progress roles/pins, takes exact old locks and lossless old register/provenance, and constructs the .12 normative lock plus full current snapshot. Retain source/physical/logical provenance; no automatic sealing or replay of hash-only proposals.",
+    "Stage prior-register decompression/parse/full797row semantic comparison against restored .11plan, oldbrief hashes and unchangedexecution BEFORE filling the full bulkprogress cache. Extract small unchanged header metadata, then release old raw/row/restore buffers. Only then read full active inputs and allocate compact .12 register output. Explicitly bound every phase, buffer/frame and maximum simultaneous lifetime; compact encoding is data formatting, not source minification.",
+    "Run unchanged generic snapshot verifier against complete .12 values, exact all799row projection and every active progress input. Independently inspect generated source/lock/negative cases and retained history before manual root adoption. Then regenerate/qualify actual plan/snapshot and admit fresh B45child source leases."
+  ],
+  "graph_and_ownership": {
+    "new_ids": [
+      "M06a2a",
+      "M06a2b"
+    ],
+    "conditional_unit_count": 799,
+    "conditional_typed_nodes": 1598,
+    "M06a2a": {
+      "family": "model",
+      "team": "services-persistence",
+      "dependencies": [
+        "M06a1",
+        "RR13a"
+      ],
+      "implementation_ready_dependencies": [
+        "M06a1",
+        "RR13a"
+      ],
+      "scope": "Whole functional source sharedlib130, donor166, all4newtests327 and CLI183 plus disclosed manifest/root/support; no performance scope omission."
+    },
+    "M06a2b": {
+      "family": "model",
+      "team": "services-persistence",
+      "dependencies": [
+        "M06a2a"
+      ],
+      "implementation_ready_dependencies": [
+        "M06a2a"
+      ],
+      "execution_gate": "Only after A exact-tree qualification/landing and fresh owner/resource gate. Whole81line release probe/all metrics/rawdata/RSS mandatory."
+    },
+    "M06a2_parent": "Keep all originaltasks/paths/source_freeze/done_when and8acceptancegates. Add both source_preparation_children and acceptance_children and make actual parent implementation require both. Keep its existing M06a1/RR13a prerequisites; no reciprocal child->parent dependency.",
+    "parent_acceptance_gates_unchanged": [
+      "RR13b",
+      "M03",
+      "M05",
+      "RR01",
+      "RR02",
+      "M104",
+      "C01",
+      "C02"
+    ],
+    "M06_outer": "Body/edges/source children M06a1/M06a2 and all original acceptance children remain unchanged. M06a1 full source/body/ownership remains untouched.",
+    "C99": "All798 other units must remain acceptance dependencies; add children in actual source-lane order and update generator source pin.",
+    "leases": "A owns only functional module/tests/CLI paths; B owns probe and separate qualification evidence after A. Root serializes manifests/locks/exports/CI and all compilers/runtime. Existing #99/#130/rawfactory/initializer/model/validation holds and human196-201 reservations remain.",
+    "old_graph_preservation": "Require every oldtyped edge remains, except explicit stronger parent dependencies; no dropped native/library/UI gates. Exactsource waves/conflicts/team dispatch are recomputed, not assumed."
+  },
+  "quota_evidence": {
+    "limit_bytes": 67108864,
+    "current_logical_input_bytes": 59736715,
+    "current_actual_outputs_bytes": 6451428,
+    "current_total_bytes": 66188143,
+    "current_room_bytes": 920721,
+    "old_progress_roles": 342,
+    "old_snapshot_roles": 1206,
+    "naive_new_raw_prior_register_bytes": 5843441,
+    "naive_addition_exceeds_limit_by_at_least": 4922720,
+    "exact_old_register_existing_public_alias": "porting/rust-parity-evidence/C03/batch43-source-next-adoption/archive/actual-snapshot-normal-02/units.json",
+    "exact_old_register_sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509",
+    "in_memory_lossless_gzip_prior": {
+      "bytes": 404752,
+      "sha256": "ae9c5a908350e91f3daad36258d7b890cd14775bb9f9d7b84c05c377aecb8c04",
+      "decoder_must_check_compressed_and_expanded_length_hash": true,
+      "generated_with": "stdlib gzip.compress(raw,mtime=0), actual helper/toolchain hash must be pinned if materialized; no compressedfilewritten inthisreview",
+      "expanded_bytes": 5843441,
+      "expanded_sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509",
+      "no_implicit_trust": "Prior full semantic qualification/unchanged source proof and new parent-preservation review remain required; checksum alone does not establish behavior."
+    },
+    "compact_JSON_DATA_measurements": [
+      {
+        "name": "plan.json",
+        "current_bytes": 5937579,
+        "compact_same_values_bytes": 4835905,
+        "saving_bytes": 1101674,
+        "compact_sha256": "677ec1737d894ca5b81bbaa9545c403d69a6933ea6fbf772af1cdcd76612bf6a",
+        "only_in_memory_no_source_rewrite": true
+      },
+      {
+        "name": "remaining-work/units.json",
+        "current_bytes": 5843441,
+        "compact_same_values_bytes": 4806933,
+        "saving_bytes": 1036508,
+        "compact_sha256": "99161eeaa3f0deb9780c3cf9f053bf862164a08651360eef57c71166025f289c",
+        "only_in_memory_no_source_rewrite": true
+      },
+      {
+        "name": "team-dispatch.json",
+        "current_bytes": 1025185,
+        "compact_same_values_bytes": 754286,
+        "saving_bytes": 270899,
+        "compact_sha256": "93258dfa45b1bef3c0563995adf0f603944b95899875fdb426ffa859c08e8b77",
+        "only_in_memory_no_source_rewrite": true
+      },
+      {
+        "name": "dispatch.json",
+        "current_bytes": 14469,
+        "compact_same_values_bytes": 6158,
+        "saving_bytes": 8311,
+        "compact_sha256": "c96be47d15c41b467a9207478afbf00abe1726012df8fc9ebbee67689ccc00eb",
+        "only_in_memory_no_source_rewrite": true
+      },
+      {
+        "name": "completion-contract.json",
+        "current_bytes": 609168,
+        "compact_same_values_bytes": 226757,
+        "saving_bytes": 382411,
+        "compact_sha256": "79c4ec71215122dec5b461e79348f5bae5204ecc955ef281fefada08012c0c6e",
+        "only_in_memory_no_source_rewrite": true
+      },
+      {
+        "name": "completion-contract.lock.json",
+        "current_bytes": 6729,
+        "compact_same_values_bytes": 6345,
+        "saving_bytes": 384,
+        "compact_sha256": "03f3afa6cb5a8640d2d2890adfdf2c5cecb0749e21bea65ce6cc8bfa71b7b507",
+        "only_in_memory_no_source_rewrite": true
+      },
+      {
+        "name": "remaining-work/snapshot.lock.json",
+        "current_bytes": 160945,
+        "compact_same_values_bytes": 151964,
+        "saving_bytes": 8981,
+        "compact_sha256": "66d36aedad048399c931a62be53900c2154aaf40577df454bcb913360caaf2ed",
+        "only_in_memory_no_source_rewrite": true
+      }
+    ],
+    "recommended_minimal_data_change": "Only new register compactencoding needed; old raw sources/fixtures/receipts/checkpoints retain exactbytes. Changing plan/team/contract serialization is optional and costs separate generator/source review; not needed by baseline arithmetic.",
+    "new_raw_prior_locks_bytes": 167674,
+    "baseline_modeled_total_with_compact_new_register_and_gzip_prior_plus_locks": 65724061,
+    "baseline_modeled_room_before_newchildren_sources_proofs_frames": 1384803,
+    "must_recalculate": "The modeled total omits changed.12 row size/source files/proofs/frame growth and may doublecount/specialcase role aliases only when exact bytes are independentlyverified. Final bounded constructor must enumerate every actual role and phase; no automatic fit assertion.",
+    "lifetime_gate": "Do not fill ~60MiB active cache while retaining expanded oldregister or then allocate newregister. Validate oldregister in early small-input phase, drop full buffers, then primebulkcache and allocatecompact output under64MiB. Explicitly cover parser object/serialization/framing bounds as well as raw byte arrays; OS RSS is distinct."
+  },
+  "review_and_execution_gates": [
+    "Freeze exact normalformatted inclusiveAD before executing each preparation provider. Count tests, root controllers, imports, CI/docs/activefixtures; unchangedproviders only0newAD with exactreuse proof. Split D/G/C preparation into separate PRs if the actual cap requires, retaining dependencies and allcases.",
+    "Derive positives must compare every797 oldunit/field/edge and exacttwo complete newrecords; negative cases omit/alter oldrecords, history, child obligations/caps/gates, owner pins, driftedprovider/lane/generator, duplicateIDs, cycles and unordered write conflicts.",
+    "Guard must reject unknownversion, resealed/rehashed tampering, changedoldgeneratorview, weak baseline restoration, droppedoldgates, shiftedfamily/owner/case, source byte drift and laundering a suppliedbyteclaim into actualsource. Retain original104+9loader cases in both modes unchanged plus newcases.",
+    "Constructor tests must isolate exact/over aggregate and perfile bounds, compressed/expanded bounds, truncate/trailing gzip/data drift, staged buffer lifetimes, missing/extra roles, omittedoldprogress, all799row projections, source identity, freshownedoutput and changedliveproposal refusal. Include actual physical default-reader qualification and independent full generated/snapshot comparisons.",
+    "All original.11 normal/optimized/refusal suites remain mandatory. Actual completionchecker must continueOPEN/exit2. No unit acceptance follows from valid plan/snapshot lock.",
+    "Adopt.12 only after independent review of source/outputs/locks, exactcommit/push/PRhead/checks/merge/mainreadback. No B45 compilation/probe/CLI before registeredchildren and fresh source/runtimegate.",
+    "A functional source stays376production/870authored only if exactnormalformatted source/support matches proposal; retain allcases/no codegolf. B releasequalification remains mandatory and cannot be relabeled a waived optionalbenchmark. Parent acceptance/native/SQL/UI/backendrestart staysOPEN."
+  ],
+  "changes_made": {
+    "report_only": "/workspace/build/builderbob/syson-durable-batch45-20261031/amendment-feasibility-01.json",
+    "subject_source_execution": false,
+    "plan_adoption": false,
+    "B45_runtime_execution": false,
+    "Git_or_network_mutation": false,
+    "existing_source_hold_files_modified": false
+  }
+}

@@ -1,0 +1,463 @@
+{
+  "schema": "B49_INDEPENDENT_EXECUTED_REVIEW/1",
+  "status": "PASS_EXACT_FOUR_COMMANDS_AND_ALL38_NAMED_PYTHON_RESULTS",
+  "reviewer": "/root/core_frontier_admission",
+  "method": "Read-only raw logs, JSON, hashes and file metadata. No subject import/execution, tests, compiler, formatter, Git, network or source edits by reviewer. Root reports PTY session58160 terminal exit0; retained terminal receipt, four exact command rows and cleanup record independently verified.",
+  "admission_bindings": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01-spec.json",
+      "bytes": 22772,
+      "sha256": "da552152b8e73628727132270efbbee13359facb496f0417cd3c475b7729ac7b"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/source-freeze-01.json",
+      "bytes": 20770,
+      "sha256": "45717036174a0d0c44708871cece6c7de36a04a07c7c5a6aba28413eae22ccd0"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/reviewer-checks-spec-01.json",
+      "bytes": 14701,
+      "sha256": "35a3f3356df430ea0eb18d3240b468fe395e87ed3d62a0d4d5bfe660fda26f0e"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/reviewer-source-02.json",
+      "bytes": 16965,
+      "sha256": "7253194bd6b5c93e378925a74fd159ca2c081363096774213a3e9b73fb3dc195"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/root-capture-source-01.json",
+      "bytes": 750,
+      "sha256": "5181f2db9760734fc5e9b031aa7676741834a5941767843c330a524475c79f7e"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/capture_partition.py",
+      "bytes": 1936,
+      "sha256": "18b184abca889ea2cb019f42e46a9ae1245355b3ab3ac5bdb0b17ccbb45ad44e"
+    }
+  ],
+  "terminal_receipt": {
+    "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/receipt.json",
+    "bytes": 41783,
+    "sha256": "8091f597deb0d5faae7ead830432777e2b49180fe0e554b08c6f229fe0978e72"
+  },
+  "receipt_status": "PASS_NAMED_LOCAL_CHECKS_ONLY",
+  "commands": [
+    {
+      "name": "partition19-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 39.80364031500358,
+      "passed": 0
+    },
+    {
+      "name": "partition19-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 39.906768249995366,
+      "passed": 0
+    },
+    {
+      "name": "derive-capture-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch49-20261031/capture_partition.py",
+        "/workspace/build/builderbob/syson-durable-batch49-20261031/candidate-normal-01.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 2.716844934002438,
+      "passed": 0
+    },
+    {
+      "name": "derive-capture-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch49-20261031/capture_partition.py",
+        "/workspace/build/builderbob/syson-durable-batch49-20261031/candidate-optimized-01.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 2.8167934869998135,
+      "passed": 0
+    }
+  ],
+  "exact_argv_and_order_match_spec": true,
+  "all_four_exit_zero": true,
+  "controller": {
+    "stdout": {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01-controller.stdout",
+      "bytes": 1335,
+      "sha256": "82401697ff77cd58e09aa090affae2d2ae7d3706ad78ff14bd793748abcff248"
+    },
+    "stderr": {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01-controller.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout_rows_exactly_equal_receipt_commands": true,
+    "stderr_empty": true
+  },
+  "python_results": {
+    "source_named_methods": [
+      "test_complete799_model_and_all_original_records_and_gates",
+      "test_complete_input_and_actual_provider_provenance",
+      "test_missing_extra_and_changed_baseline_inputs_refuse",
+      "test_coherently_rehashed_normative_baseline_still_refuses",
+      "test_fixed_complete_child_body_survives_envelope_rehash_control",
+      "test_changed_amendment_and_empty_or_overlong_generator_refuse",
+      "test_current_actual_old_provider_pin_and_namespace_are_enforced",
+      "test_exact_generator_byte_boundary_is_a_claim_not_execution",
+      "test_wrong_byte_type_and_aggregate_input_bound_refuse_before_parse",
+      "test_hostile_logical_name_refuses_before_provider_or_serialization",
+      "test_name_framing_refuses_in_isolation_before_provider_or_serialization",
+      "test_full_restoration_before_old_guard_and_no_early_parent_completion",
+      "test_default_pending_and_unknown_version_refuse",
+      "test_missing_duplicate_and_foreign_unit_ids_refuse",
+      "test_coherently_resealed_parent_weakening_refuses",
+      "test_coherent_old_body_rewrite_cannot_be_laundered_as_overlay",
+      "test_whole_child_budget_case_and_path_tampering_refuse",
+      "test_all_old_reader_held_generator_and_schema_bytes_remain_bound",
+      "test_extra_current_metadata_graph_drop_and_cyclic_object_refuse"
+    ],
+    "suites": [
+      {
+        "mode": "normal",
+        "count": 19,
+        "qualified_names": [
+          "test_derive.DeriveTests.test_changed_amendment_and_empty_or_overlong_generator_refuse",
+          "test_derive.DeriveTests.test_coherently_rehashed_normative_baseline_still_refuses",
+          "test_derive.DeriveTests.test_complete799_model_and_all_original_records_and_gates",
+          "test_derive.DeriveTests.test_complete_input_and_actual_provider_provenance",
+          "test_derive.DeriveTests.test_current_actual_old_provider_pin_and_namespace_are_enforced",
+          "test_derive.DeriveTests.test_exact_generator_byte_boundary_is_a_claim_not_execution",
+          "test_derive.DeriveTests.test_fixed_complete_child_body_survives_envelope_rehash_control",
+          "test_derive.DeriveTests.test_hostile_logical_name_refuses_before_provider_or_serialization",
+          "test_derive.DeriveTests.test_missing_extra_and_changed_baseline_inputs_refuse",
+          "test_derive.DeriveTests.test_name_framing_refuses_in_isolation_before_provider_or_serialization",
+          "test_derive.DeriveTests.test_wrong_byte_type_and_aggregate_input_bound_refuse_before_parse",
+          "test_guard.GuardTests.test_all_old_reader_held_generator_and_schema_bytes_remain_bound",
+          "test_guard.GuardTests.test_coherent_old_body_rewrite_cannot_be_laundered_as_overlay",
+          "test_guard.GuardTests.test_coherently_resealed_parent_weakening_refuses",
+          "test_guard.GuardTests.test_default_pending_and_unknown_version_refuse",
+          "test_guard.GuardTests.test_extra_current_metadata_graph_drop_and_cyclic_object_refuse",
+          "test_guard.GuardTests.test_full_restoration_before_old_guard_and_no_early_parent_completion",
+          "test_guard.GuardTests.test_missing_duplicate_and_foreign_unit_ids_refuse",
+          "test_guard.GuardTests.test_whole_child_budget_case_and_path_tampering_refuse"
+        ],
+        "raw_unittest_seconds": 39.721,
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/partition19-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/partition19-normal.stderr",
+          "bytes": 2995,
+          "sha256": "824099812bd45d069d1629ab05f833ffc96d535823be09d91c81d818fbef26b1"
+        },
+        "skipped_or_failed": 0
+      },
+      {
+        "mode": "optimized",
+        "count": 19,
+        "qualified_names": [
+          "test_derive.DeriveTests.test_changed_amendment_and_empty_or_overlong_generator_refuse",
+          "test_derive.DeriveTests.test_coherently_rehashed_normative_baseline_still_refuses",
+          "test_derive.DeriveTests.test_complete799_model_and_all_original_records_and_gates",
+          "test_derive.DeriveTests.test_complete_input_and_actual_provider_provenance",
+          "test_derive.DeriveTests.test_current_actual_old_provider_pin_and_namespace_are_enforced",
+          "test_derive.DeriveTests.test_exact_generator_byte_boundary_is_a_claim_not_execution",
+          "test_derive.DeriveTests.test_fixed_complete_child_body_survives_envelope_rehash_control",
+          "test_derive.DeriveTests.test_hostile_logical_name_refuses_before_provider_or_serialization",
+          "test_derive.DeriveTests.test_missing_extra_and_changed_baseline_inputs_refuse",
+          "test_derive.DeriveTests.test_name_framing_refuses_in_isolation_before_provider_or_serialization",
+          "test_derive.DeriveTests.test_wrong_byte_type_and_aggregate_input_bound_refuse_before_parse",
+          "test_guard.GuardTests.test_all_old_reader_held_generator_and_schema_bytes_remain_bound",
+          "test_guard.GuardTests.test_coherent_old_body_rewrite_cannot_be_laundered_as_overlay",
+          "test_guard.GuardTests.test_coherently_resealed_parent_weakening_refuses",
+          "test_guard.GuardTests.test_default_pending_and_unknown_version_refuse",
+          "test_guard.GuardTests.test_extra_current_metadata_graph_drop_and_cyclic_object_refuse",
+          "test_guard.GuardTests.test_full_restoration_before_old_guard_and_no_early_parent_completion",
+          "test_guard.GuardTests.test_missing_duplicate_and_foreign_unit_ids_refuse",
+          "test_guard.GuardTests.test_whole_child_budget_case_and_path_tampering_refuse"
+        ],
+        "raw_unittest_seconds": 39.662,
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/partition19-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/partition19-optimized.stderr",
+          "bytes": 2995,
+          "sha256": "df95f8ba147b6f2b1b0ebf8f7f3ecbd8caedf5bf92a2bda687f7a3b3402271a2"
+        },
+        "skipped_or_failed": 0
+      }
+    ],
+    "total_named_executions": 38,
+    "new_ordering_regressions": 2,
+    "original_named_methods_preserved": 17,
+    "interpretation": "Actual verbose unittest names and Ran19/OK tails establish the Python count. F25 receipt passed=0 parses Rust output and was explicitly ignored as test evidence. Zero omitted, duplicated, skipped, failed or expected-failure names."
+  },
+  "captures": [
+    {
+      "mode": "normal",
+      "packet": {
+        "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/candidate-normal-01.json",
+        "bytes": 7720372,
+        "sha256": "76ffe76329fba127f6670700e4d6332b1c6ab0ea142beef3a6ded999aa0f4b1d"
+      },
+      "summary": {
+        "bytes": 7720372,
+        "sha256": "76ffe76329fba127f6670700e4d6332b1c6ab0ea142beef3a6ded999aa0f4b1d",
+        "units": 799,
+        "policy_sha256": "6c063476d4996699b5ae1a2410286e4909072d18b4965b6194f3c84bfd249fd8"
+      },
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/derive-capture-normal.stdout",
+        "bytes": 196,
+        "sha256": "84e430c9031d7f210e55fd6dab61f5058549f4059fc43c56cc00f185a39b1c5d"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/derive-capture-normal.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "mode": "optimized",
+      "packet": {
+        "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/candidate-optimized-01.json",
+        "bytes": 7720372,
+        "sha256": "76ffe76329fba127f6670700e4d6332b1c6ab0ea142beef3a6ded999aa0f4b1d"
+      },
+      "summary": {
+        "bytes": 7720372,
+        "sha256": "76ffe76329fba127f6670700e4d6332b1c6ab0ea142beef3a6ded999aa0f4b1d",
+        "units": 799,
+        "policy_sha256": "6c063476d4996699b5ae1a2410286e4909072d18b4965b6194f3c84bfd249fd8"
+      },
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/derive-capture-optimized.stdout",
+        "bytes": 196,
+        "sha256": "84e430c9031d7f210e55fd6dab61f5058549f4059fc43c56cc00f185a39b1c5d"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/derive-capture-optimized.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "both_packets_byteidentical": true,
+  "input_custody": {
+    "count": 99,
+    "before_equals_after_equals_spec_equals_current": true,
+    "map_sha256": "c79c5a6d7117561b3b903bd9445dd4565758f1df392fa792ab955fc9120f9279",
+    "current_input_bytes": 23702634,
+    "roles": "All64 baseline roles, eight new files, six transitive provider programs and exact runner/ownership/runtime/review/proof closure remain bound. The full99map is retained in pinned spec and receipt; no hash-only caller substitution.",
+    "CI_note": "Root proposed later four-line CI wiring is not among these99 runtime inputs. Any intentional later delta must retain its own before/after record; do not relabel this executed epoch."
+  },
+  "scope_custody": {
+    "proof": {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/scope-proof.json",
+      "bytes": 372,
+      "sha256": "f213b188fc34fd78d560c05f8c89cf8168d9d3d51e87c8048b1d3c2dc06c33e3"
+    },
+    "live_observation": {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/live-observation-01.json",
+      "bytes": 941,
+      "sha256": "502fed20de453f26ba4848d4b222b0538b0af3ad00adf2f118fd503eec588a42"
+    },
+    "cleanup": {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    "unit": "syson-b49-partition-bc630e1dda914a92a7772c71c51da709.scope",
+    "invocation_id": "464de68fea9f406a98b103db6cfd9795",
+    "entry_pid": 764938,
+    "entry_start_ticks": "4806266",
+    "proof_matches_live_invocation_and_cgroup": true,
+    "observed_live_controls": {
+      "cpu.max": "200000 100000",
+      "memory.high": "2147483648",
+      "memory.max": "3221225472",
+      "memory.swap.max": "0",
+      "pids.max": "128"
+    },
+    "cleanup_confirmed_empty_or_absent": true,
+    "final_observation": "LoadState=not-found",
+    "limited_memory_observation": {
+      "MemoryCurrent": "112943104",
+      "MemoryPeak": "181219328",
+      "meaning": "One retained live sample only, not final whole-run peak, allocation measurement, product performance or capacity acceptance."
+    },
+    "timeouts": "Existing runner180seconds per step; normal/O unittest wall times and derive durations are qualification observations, not product latency metrics."
+  },
+  "whole_old_snapshot_current_verification": {
+    "role_count": 1206,
+    "summed_current_role_bytes": 65449173,
+    "all_current_body_hashes_match_old_snapshot": true,
+    "progress_count": 342,
+    "all_progress_roles_present_and_current_hash_matched": true,
+    "snapshot_lock": {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/remaining-work/snapshot.lock.json",
+      "bytes": 160945,
+      "sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0"
+    },
+    "meaning": "This additional read-only audit hashes all current old snapshot bodies, including every342 progress role. Only99 roles have an executed before/after map; this does not invent a before/after map for1206 or claim all old bodies were consumed by D.derive. Current whole old map remains complete."
+  },
+  "full_candidate_fidelity": {
+    "report": {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/reviewer-candidate-data-01.json",
+      "bytes": 17907,
+      "sha256": "e4b6c5c44639cc828edd88288c6cb7bc2faff3c124e95cf935a404ed104b7da7"
+    },
+    "status": "PASS; independent full reconstruction matches all five artifacts and complete73-role provenance, not just799counts or policy summaries.",
+    "model": "799 units,1598 typed nodes,270 full source waves, no unordered write conflicts; exact all797 old metadata plus two fixed children and declared parent/C99/C04-C09 overlays. All nine joint gates recomputed; three RR18 closures correctly unchanged. Current generator708982b0 bytes are used without test-only comment.",
+    "history": "All55 historical records,342 progress bindings and six held inputs preserved; actual old live files remain unchanged."
+  },
+  "output_inventory": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/candidate-normal-01.json",
+      "bytes": 7720372,
+      "sha256": "76ffe76329fba127f6670700e4d6332b1c6ab0ea142beef3a6ded999aa0f4b1d"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/candidate-optimized-01.json",
+      "bytes": 7720372,
+      "sha256": "76ffe76329fba127f6670700e4d6332b1c6ab0ea142beef3a6ded999aa0f4b1d"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/derive-capture-normal.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/derive-capture-normal.stdout",
+      "bytes": 196,
+      "sha256": "84e430c9031d7f210e55fd6dab61f5058549f4059fc43c56cc00f185a39b1c5d"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/derive-capture-optimized.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/derive-capture-optimized.stdout",
+      "bytes": 196,
+      "sha256": "84e430c9031d7f210e55fd6dab61f5058549f4059fc43c56cc00f185a39b1c5d"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/partition19-normal.stderr",
+      "bytes": 2995,
+      "sha256": "824099812bd45d069d1629ab05f833ffc96d535823be09d91c81d818fbef26b1"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/partition19-normal.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/partition19-optimized.stderr",
+      "bytes": 2995,
+      "sha256": "df95f8ba147b6f2b1b0ebf8f7f3ecbd8caedf5bf92a2bda687f7a3b3402271a2"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/partition19-optimized.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/receipt.json",
+      "bytes": 41783,
+      "sha256": "8091f597deb0d5faae7ead830432777e2b49180fe0e554b08c6f229fe0978e72"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01/scope-proof.json",
+      "bytes": 372,
+      "sha256": "f213b188fc34fd78d560c05f8c89cf8168d9d3d51e87c8048b1d3c2dc06c33e3"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01-controller.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/checks-01-controller.stdout",
+      "bytes": 1335,
+      "sha256": "82401697ff77cd58e09aa090affae2d2ae7d3706ad78ff14bd793748abcff248"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/live-observation-01.json",
+      "bytes": 941,
+      "sha256": "502fed20de453f26ba4848d4b222b0538b0af3ad00adf2f118fd503eec588a42"
+    }
+  ],
+  "observed_output_bytes": 15491717,
+  "logical_charge": {
+    "candidate_input_alias_raw_bytes": 13682469,
+    "candidate_input_framing_bytes": 8925,
+    "each_packet_serialized_bytes": 7720372,
+    "combined_input_plus_one_packet": 21411766,
+    "limit": 67108864,
+    "meaning": "Exact proposal logical ledger independently recomputed in candidate-data review. Both physical packet files and all scope outputs are inventoried separately. Old1206 audit byte sum, scope input inventory, RSS and logical proposal charge are different quantities; no quota/RSS/whole snapshot-constructor fit claim."
+  },
+  "budget": {
+    "new_author_production": 325,
+    "new_author_authored": 737,
+    "root_capture": 34,
+    "actual_with_capture": [
+      359,
+      771
+    ],
+    "reserved_docs20_CI4": [
+      383,
+      795
+    ],
+    "hard": [
+      400,
+      900
+    ],
+    "condition": "Every future root helper, fixture, CI, capture, documentation and publication source addition counts normally before its own execution/publication. No new helper exemption or cap increase."
+  },
+  "inactive_state": "New G remains PENDING, .12 D/G inactive, live .11 contract/plan/schema/locks/snapshot/generator unchanged. Unsigned proposals only; neither capture installed or sealed. No .12 constructor/loader/atomic adoption or B45 source grant follows. Parent M06a2/M06, native/library/storage/SQL/HTTP/UI/backend-restart and parse-only obligations remain OPEN; all holds retained.",
+  "recommendation": "PASS for this exact inactive preparation qualification and actual unsigned data only. Root may proceed with separately counted CI/publication custody and commit review after rechecking source pins. Future constructor/adoption still requires fresh explicit source and execution gates.",
+  "observed_scope_inputs_plus_outputs_arithmetic": 39194351,
+  "inventory_arithmetic_limit": "Inventory addition only; not a claimed filesystem quota or RSS bound. Read-only1206body audit is separately disclosed, not silently folded into the smaller derive closure."
+}
