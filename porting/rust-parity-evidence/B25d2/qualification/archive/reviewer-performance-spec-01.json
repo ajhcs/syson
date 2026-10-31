@@ -1,0 +1,153 @@
+{
+  "status": "PASS_EXACT_BINARY_BOUND_CORPUS_PERFORMANCE_SPEC_NO_EXECUTION",
+  "observed_at_utc": "2026-10-31T10:25:17.425108+00:00",
+  "scope": "Independent exact source/spec/binary/custody/path review only; no subject imports, probe execution, compiler, formatter, tests, reruns, network, Git or source/spec edits.",
+  "bindings": {
+    "spec_path": "/workspace/build/builderbob/syson-durable-batch48-20261031/performance-01-spec.json",
+    "spec_bytes": 164101,
+    "spec_sha256": "8d0011e6070d2455f55afddd9675cccf9ec0ad0b12c6af85445abf658c13ce0c",
+    "freeze_sha256": "62a89c02890561b8af773505ac0d6489832203e2f6dcd4ecb1be334d4b925c9e",
+    "source_review_sha256": "677c2ab4c6c0ab86fa35650cb2046ddaf8545228c7e9360d92541e33a7721ba4",
+    "actual102_tests_build_review_sha256": "8b249f1d2ac1da317a33e84dab20889c139ca8dfc5242c9c91f949da05b0f311",
+    "qualified_parent_main_sha256": "c9bdf00a55618aae85df764429f6a89efc0ed5009ecd75481e68fdf2c1c69814"
+  },
+  "custody": {
+    "inputs": 784,
+    "all_current_hashes_equal_spec": true,
+    "all_original772_inputs_unchanged": true,
+    "added12_inputs": [
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/checks-01-spec.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/source-freeze-01.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/reviewer-checks-spec-01.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/reviewer-executed-01.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/checks-01/receipt.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/checks-01/scope-proof.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/checks-01-cleanup.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/root-runtime-admission-01.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/source-composition-main-binding-01.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/live-observation-01.json",
+      "/workspace/build/builderbob/syson-durable-batch46-20261031/hosted-main-qualification.json",
+      "/workspace/build/builderbob/syson-durable-batch48-20261031/cargo-target-01/release/examples/b25d_corpus_probe"
+    ],
+    "freeze_input_map_and_digest_match": true,
+    "actual_binary": {
+      "path": "/workspace/build/builderbob/syson-durable-batch48-20261031/cargo-target-01/release/examples/b25d_corpus_probe",
+      "bytes": 756392,
+      "sha256": "4d5ebb293397cf6f2edb0d7138ef5ddc7982a4c66cc743a2cee109e15f007bd9",
+      "canonical_nonsymlink_uid1000": true,
+      "build_linkage": "Exact4d5ebb\u2026 ELF independently reviewed from successful8-command root qualification with102actual named tests, fresh target and current probe/fixture dep-info. Current immutable compiler/source/provider/cache and parent source/main proofs remain pinned."
+    },
+    "direct_runtime_pins": {
+      "/usr/bin/setpriv": "62ec0120791f3afcfb689fed52384ec2b0accc6e118a6b9a1d6fcfa7450aaf37",
+      "/usr/bin/time": "3b11dec50514a8473e9f6efa7a34d584d0657538c09988f61b72d38ad4991a10",
+      "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+      "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63",
+      "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+    },
+    "no_new_code_trust": "No Cargo/helper copy/recompilation/acquisition in commands. Whole-pinned prior B32/F25/ownership protocol reused; new executable helperAD0."
+  },
+  "execution_plan": {
+    "commands": [
+      {
+        "name": "corpus-process-1",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/usr/bin/time",
+          "--verbose",
+          "--",
+          "/workspace/build/builderbob/syson-durable-batch48-20261031/cargo-target-01/release/examples/b25d_corpus_probe",
+          "full-corpus"
+        ]
+      },
+      {
+        "name": "corpus-process-2",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/usr/bin/time",
+          "--verbose",
+          "--",
+          "/workspace/build/builderbob/syson-durable-batch48-20261031/cargo-target-01/release/examples/b25d_corpus_probe",
+          "full-corpus"
+        ]
+      },
+      {
+        "name": "corpus-process-3",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/usr/bin/time",
+          "--verbose",
+          "--",
+          "/workspace/build/builderbob/syson-durable-batch48-20261031/cargo-target-01/release/examples/b25d_corpus_probe",
+          "full-corpus"
+        ]
+      }
+    ],
+    "exact_command_count": 3,
+    "argv_boundary": "Each direct invocation is setpriv --no-new-privs /usr/bin/time --verbose -- followed by exact built binary and sole full-corpus argument. No shell, arbitrary profile/path or Cargo run.",
+    "env_equal_admitted_build": true,
+    "freshness": "New scope/nonce with valid fixed prefix; output/controller stdout/stderr/cleanup absent and canonical output parent. Retained target, TMP/test directories canonical nonsymlink uid1000/0700; target intentionally contains actual build and TMP/test empty. Nonce values compared without reproduction.",
+    "resource_protocol": "Same CPU200%/2G high/3G max/swap0/tasks128, global nonblocking compiler lock,180second per command, actual owned proof/invocation/cgroup binding, before/after hash snapshots and proof-bound terminal cleanup. Root must fresh-check resource/headroom/device/ownership before these three trials.",
+    "runtime_prerequisite": "Exact d752 qualified parent-main report is now included, with successful102test/build review and exact root admission/composition proof. Earlier conditional source gate is preserved as historical; performance requires separate fresh root admission after this PASS."
+  },
+  "source_workload_and_output": {
+    "fixed_scope": "One full immutable19-row corpus per repetition:14callbacks,5traversals including2NestedArray refusals, all6constant mappings and3successful traversal serializations. Not the prior B46 one-node/1024-node workload.",
+    "setup": "Compile-time exact140+324line active fixtures; each<=1MiB asserted, JSON fixture files parsed once outside repetition clocks. Every repetition validates full source-prediction row/tree/status/kind/version, immutable inputs, actual callback changed flag, successful bounded serialization and selected-watermark replay. All release assertions remain active.",
+    "processes": 3,
+    "per_process": {
+      "warmup": 2,
+      "raw": 7,
+      "stdout_rows": 9,
+      "same_process_PID_per9rows": true
+    },
+    "total_expected": {
+      "stdout_JSON_rows": 27,
+      "warmup_rows": 6,
+      "raw_rows": 21
+    },
+    "each_row": {
+      "schema": "B25D_CORPUS_SAMPLE/1",
+      "scope": "RUST_SOURCE_PREDICTIONS_NOT_NATIVE_ACCEPTANCE",
+      "mode": "full-corpus",
+      "callbacks": 14,
+      "traversals": 5,
+      "refusals": 2,
+      "input_bytes": 5658,
+      "serialized_traversal_bytes": 3151
+    },
+    "measurement_schema": "Exactly15keys: schema/scope/mode/phase strings; sample,pid,callbacks,traversals,refusals,input_bytes,serialized_traversal_bytes and four ns metrics exact integers. Warmup sample0..1 then raw0..6; same positive PID within process and separate actual process trials. Later review must refuse malformed/missing/extra/duplicate rows or fields.",
+    "metrics": {
+      "callback_ns": "Sum14 callback call intervals; per-callback input parsing/root clone excluded, full-tree/changed assertions after clock.",
+      "prepare_including_preflight_ns": "Sum5 actual prepare calls, including2refusals and internal parse/preflight/output validation; output/tree/status assertions after clock.",
+      "serialization_ns": "Sum3 extra explicit successful to_json intervals. Preparation already includes its own output validation/serialization work; this is not the total or a normalization of that internal work.",
+      "whole_including_validation_ns": "Includes per-case parsing/cloning, calls, assertions and successful replay/serialization equality across19rows. Fixture-file parse/setup precedes whole; final aggregate-count check and JSON logging follow whole."
+    },
+    "future_statistics": "Probe emits27sample rows only, no summary rows. Independently compute min/sorted[3]median/max for each of4metrics from each process seven raw samples:12summary triples. Keep all21raw rows and6warm rows; no p95 or pooled21-sample claim.",
+    "F25_count_boundary": "passed=0 from Rust unittest regex is not a case or row-count proof. Future executed review must independently parse actual27JSONL rows/schema/order/counts/static bytes/PID,12summary arithmetic, GNU-time metrics, exact argv/exits/input custody and cleanup."
+  },
+  "memory_and_claim_boundaries": {
+    "GNU_time": "One maximum RSS observation per entire full-corpus process, including setup/fixture parsing,2warmups,7raw repetitions, all callback/prepare/serialization/replay/oracles and output. Keep three process measurements separate; not per-operation live allocation or phase RSS.",
+    "timing": "Descriptive finite aggregate ns metrics on actual APIs. No timing veto, capacity threshold, p95, native/UI ratio or whole-product acceptance.",
+    "prior_live_memory": "Build/test scope sampled peak-so-far501403648B is separate historical qualification observation, not corpus probe finalpeak/RSS or phase allocation.",
+    "native": "Immutable fixture status/source-prediction labels remain authoritative; no observed native output/exception equivalence invented."
+  },
+  "budget": {
+    "current_production": 136,
+    "current_authored": 822,
+    "root_reserve": 20,
+    "forecast_production": 156,
+    "forecast_authored": 842,
+    "hard_limits": [
+      400,
+      900
+    ],
+    "new_executable_helper_AD": 0
+  },
+  "admission": "Root may launch only these exact three binary-bound full-corpus trials after its fresh preflight/explicit performance admission. Actual results/custody/control observations/terminal cleanup remain a separate independent executed gate.",
+  "open": [
+    "C01/C02 native trust/equivalent-work comparison, full B25d/RR24 and SQL/HTTP/UI/storage/backend restart acceptance.",
+    "All existing failures/timeouts/held scopes and human reservations remain unchanged."
+  ]
+}
