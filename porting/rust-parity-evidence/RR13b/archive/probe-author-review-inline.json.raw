@@ -1,0 +1,310 @@
+{
+  "readiness": {
+    "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/readiness.json",
+    "bytes": 34390,
+    "lines": 719,
+    "sha256": "8b0c0e0aeab444efe449f9d3f90c85eb24a3e5b5b137d98fe805ee0e24f545d0"
+  },
+  "base_parent_recorded": "e53b166c869994963814b56687e202f24f41326b",
+  "Git_head_not_checked_by_author": true,
+  "inputs_verified": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "bytes": 12276,
+      "lines": 340,
+      "sha256": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/snapshot_io.rs",
+      "bytes": 3585,
+      "lines": 86,
+      "sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+      "bytes": 341,
+      "lines": 14,
+      "sha256": "a4f93436d308f35fe9582f7d121414c932c8d1ef882605a69c60d810884bca74"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.lock",
+      "bytes": 3149,
+      "lines": 141,
+      "sha256": "58e4baa391f1be5c00e27c4867b6de42429790a8b8457541b57f687fd1ce7f80"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-model/src/lib.rs",
+      "bytes": 36789,
+      "lines": 989,
+      "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-plan-20261026/prs/RR13b.md",
+      "bytes": 3573,
+      "lines": 66,
+      "sha256": "ec4326b8e5f11e514db4849099901a8e448539f5bacb8cc2369261e55487bf1e"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-plan-20261026/lanes/storage-source.json",
+      "bytes": 8499,
+      "lines": 86,
+      "sha256": "98d3ddb0c1acfb7e27fefee5f583d2847750dc817f39116422334140764371bf"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-plan-20261026/completion-contract.lock.json",
+      "bytes": 5346,
+      "lines": 56,
+      "sha256": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-plan-20261026/rereview-batch11-coordinator-ownership.json",
+      "bytes": 1039,
+      "lines": 14,
+      "sha256": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a"
+    }
+  ],
+  "focused_review_repairs": [
+    {
+      "finding": "Current Document::elements uses class(node), which strips sysml: prefix.",
+      "repair": "Exact ElementSummary.class oracle Package; raw eClass remains elsewhere unchanged.",
+      "source": {
+        "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-model/src/element_summary.rs",
+        "bytes": 2540,
+        "lines": 67,
+        "sha256": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c"
+      }
+    },
+    {
+      "finding": "All three actual permission controls must prove successful new-key save/load after exact mode restoration.",
+      "repair": "Move afterrestore positive operation outside branch; assert whole loaded Document, complete canonical saved bytes and fixed identity roles for every control, including0300."
+    }
+  ],
+  "mode_restoration": "Local Mode saves exact bits and dev/ino, refuses symlink/nonowner, sets requestedmode and checks it. Explicit restore verifies dev/ino+bits; Drop makes best-effort retry on error/panic, emits shortfailure. Everypositivecontrol follows explicitrestore; root independently verifies cleanup/modes afterfailure. Only own newlycreateddirectories/files modified at runtime; no modechange by author.",
+  "measurement_contract": {
+    "small-package": "ActualEditor creates/commits fixed1package namedRR13b; canonicalbytes<=65536.",
+    "recovery-scalar-850000": "Freshsame actualEditor transaction with name exactly850000ASCII x; canonicalbytes<=851000.",
+    "state": "FreshEditor/committedDocument/fixed distinctresource and semantic IDs/history/directory/samekey eachiteration.2warmups+7raw perprocess mode;18samples over both modes.",
+    "fixed_resource": "00000000-0000-4000-8000-000000000001",
+    "fixed_semantic": "10000000-0000-4000-8000-000000000001",
+    "save_ns": "Actual save_new boundedserialization/admission/create/write/file-sync/no-replacepublish/directory-sync/stageremoval/checkroot.",
+    "reopen_ns": "Drop initialstore outside individual reopenclock then time freshSnapshotStore::open.",
+    "load_ns": "Actual load read/admission/parse, no pre-load rawfile read.",
+    "roundtrip_ns": "Save through drop/reopen/load total, includesphaseclockoverhead, excludes lateroraclework.",
+    "outside_clocks": "Process/path admission, fixtureconstruction/commit, canonicalexpectedbytes, setup/initialstoreopen, post-loadfullDocument/bytes/name/class/identityrole oracles, printing and retaineddatawalk.",
+    "large_diagnostics": "FullDocument/byte/name assertions are boolean with shortmessages, never debug-printed largevalues.",
+    "summary": "Sevenraw values sorted independently perphase; min/median/max only. Warmuprows remain distinct. Cachewarmth disclosed; no coldcacheclaim.",
+    "memory": "Root external/usr/bin/time measures entire one-workload process includingstartup/setup/oracles/9iterations; independently scopedRSS, not phaseheap/allocation or eachsample memory."
+  },
+  "file_bounds": "No arbitraryinputJSON; fixed1package fixtures and two exactrawboundaryfiles. Final twolevel ownedregularfilewalk refuses symlinks/nonowner/oversize>4MiB+1, >64files or >32MiBtotal. Fixedprofiles also bound allwrites in advance by declaredmodel/input sizes; this is not filesystemquota or hostilewriter/physicaldurability guarantee.",
+  "whole26_test_scope": "Probe5controls are additional. All13wholefault356 and all13regular currentcases must run together debug/release on finalsamecomposition; root owns tests. No originaltest source changed here.",
+  "limitations": [
+    "Sameprocess drop/reopen only; independent writerprocess/backend/applicationrestart remain parentgates and laterM06a2registration.",
+    "No coldcache,p95,timingveto/native ratio,physicalpowerloss or native/SQL/HTTP/UI/fullparity acceptance.",
+    "No actualLinuxpermission/probe/runtime/typecheck/formatter result established by author; independent sourcepeer and rootqualification required.",
+    "Ownedstableparents required; no hostilewriter/openat/regular-disk-I/O harddeadline guarantee."
+  ],
+  "schema": "SYSON-RR13B-PROBE-AUTHOR-INLINE-REVIEW/1",
+  "status": "SOURCE_FROZEN_ROOT_NORMAL_FORMAT_INSTALLED_NO_APPLICATION_EXECUTION_PASS",
+  "revised_lease": {
+    "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/source-lease-inline-controls.json",
+    "bytes": 5473,
+    "lines": 98,
+    "sha256": "4bc09bfcf95a36cb2df278e0d058fff32436ae2258a5f8872248e10a8bc18252"
+  },
+  "author_preformat_source": {
+    "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-format-input-02.rs.raw",
+    "bytes": 16824,
+    "lines": 397,
+    "sha256": "89c8887bd762d47ba0f4a6fbfef70289b8575825b51606efe08fab7b8da9b3c8"
+  },
+  "root_formatted_source": {
+    "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/examples/snapshot_roundtrip_probe.rs",
+    "bytes": 17899,
+    "lines": 471,
+    "sha256": "199feaaddd7a947f770315796f9765ab579f7e2c021c80c9ea763ec897784786"
+  },
+  "root_format_installation": {
+    "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-installation.json",
+    "bytes": 963,
+    "lines": 24,
+    "sha256": "6def420a82cbe04de767deb2a5890b4e8835f576ac4ccb2b3b2085ea60482c66"
+  },
+  "initial_author_report_preserved": {
+    "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-author-review.json",
+    "bytes": 12107,
+    "lines": 198,
+    "sha256": "f36a826d12df799345ae8549a0872c9e99527e9368240519250b1075bdf8b8a8"
+  },
+  "root_preserved_epochs": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-before-inline-controls.rs.raw",
+      "bytes": 15726,
+      "lines": 365,
+      "sha256": "429a8ad4d2ec61aab3b8e525e9084a3d479693385abcf5ad2809cf4df027092d"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-author-review-before-inline.json.raw",
+      "bytes": 12107,
+      "lines": 198,
+      "sha256": "f36a826d12df799345ae8549a0872c9e99527e9368240519250b1075bdf8b8a8"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-source-layout-hold.json.raw",
+      "bytes": 15622,
+      "lines": 218,
+      "sha256": "ffac467207d8d57065bc9d2fb58d983b5e234ee2bf103251e685e47291f4df10"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-format-input-01.rs.raw",
+      "bytes": 14963,
+      "lines": 351,
+      "sha256": "c5397a1535b979740397a7578ac6081a63260f41a91da26d3363992974456080"
+    }
+  ],
+  "source_actions": "Author rewrote ONLY registeredexample under revisedlease. Root independently captured/measured/formatted/installed current471lines. No author imports/formatter/compiler/tests/probe/chmod/network/Git/sharedsource edits.",
+  "cfg_test_separation": {
+    "main": "Exactlytwo measurementmodes: small-package|recovery-scalar-850000;verify/unknown/missing/extramodes refuse. No main\u2192controls call or runtimeverify switch.",
+    "test_module": "#[cfg(test)] modcontrols is LAST child insideprobe before itsclosingbrace; absent fromnormalmeasurementbinary.",
+    "testonly_helpers": [
+      "Mode including exactrestorationDrop",
+      "denied",
+      "permission",
+      "boundary"
+    ],
+    "ordinary_test_names": [
+      "create_permission_denied_preserves_prior_and_restores_write",
+      "read_permission_denied_preserves_prior_and_restores_read",
+      "directory_sync_permission_denied_can_leave_published_bytes",
+      "exact_four_mib_input_loads_without_changing_bytes",
+      "one_extra_byte_refuses_without_changing_prior"
+    ],
+    "shared_production_helpers": [
+      "identity",
+      "directory",
+      "document",
+      "roles",
+      "measurements",
+      "retained_bytes",
+      "scope",
+      "run",
+      "outermain and allsharedimports/constants"
+    ],
+    "all_shared_used_helpers_counted_production": true,
+    "genuine_test_only_boundary": "Fiveordinary nonignored #[test] functions each independently executeone actualpermission/boundarycase through test-onlyhelpers; they are not hiddenruntimecallpaths. Maincalls onlysharedscope/measurement/data oracles. All191 test-onlylines still countauthored."
+  },
+  "line_and_scope_audit": {
+    "author_preformat_lines": 397,
+    "root_formatted_lines": 471,
+    "formatted_test_attribute_line": 273,
+    "formatted_test_final_brace_line": 463,
+    "formatted_test_region_lines": 191,
+    "formatted_test_region_sha256": "52e3de4f5c6f649d5a8e133afe7cf1e96670b3e153b7cc88227f0b02a934cb6a",
+    "formatted_normal_projection_lines": 280,
+    "formatted_normal_projection_sha256": "dc35d3049cbcf3d658fafeeabd7ef753b4d2cc2567c97187f0e7bbfec21e496d",
+    "normal_projection_meaning": "Purephysicaldata projection of exacttestregion, not a compiled artifact. Sharedhelperlines remain in280.",
+    "lease_example_authored_max": 519,
+    "lease_measurement_production_max": 375,
+    "root_reported_whole_budget": {
+      "status": "FORMATTED_INLINE_TEST_LAYOUT_INSTALLED_NOT_APPLICATION_EXECUTED",
+      "before_sha256": "89c8887bd762d47ba0f4a6fbfef70289b8575825b51606efe08fab7b8da9b3c8",
+      "after_sha256": "199feaaddd7a947f770315796f9765ab579f7e2c021c80c9ea763ec897784786",
+      "formatted_lines": 471,
+      "cfg_test_lines": 191,
+      "cfg_test_first_line": 273,
+      "cfg_test_last_line": 463,
+      "normal_measurement_production": 280,
+      "fault_test_lines": 356,
+      "README_lines": 12,
+      "CI_added_lines": 11,
+      "attrs_lines": 2,
+      "inclusive_production_total": 305,
+      "authored_total": 852,
+      "hard_production_cap": 400,
+      "hard_authored_cap": 900,
+      "shared_helpers_counted_production": true,
+      "test_only_controls_callable_from_main": false,
+      "original_cases_retained": 26,
+      "additional_example_tests": 5,
+      "expected_all_target_tests": 31,
+      "data_preservation": "Prior365source,351authorfreeze,427overbudgetformatpreview and independentHOLD retained. No application execution occurred."
+    },
+    "arithmetic_checked": "471+356+12+11+2=852 authored;280+12+11+2=305inclusiveproduction. Rootrecords actualCI11; source471/test191/production280 independentlyread/countverified.",
+    "hard_caps": {
+      "production": 400,
+      "authored": 900
+    },
+    "capsule_generated_data_not_executable_claim": "No newactivehelpers/fixtures hidden aspassive. Complete356faultfile/rootdocs/CI/attrs countnormally; finalwholebase-to-headA+D remains root/peerqualificationgate.",
+    "old_forecasts_superseded": "Initial351source427formatted/448production HOLD was valid. Newrootactualformat measurements replace preformatforecasts without minification/guardremoval.",
+    "compiler_or_application_result_claimed": false
+  },
+  "cfg_test_controls": [
+    {
+      "id": "PERM-CREATE-0500",
+      "actual": "Heldstore save_new through FsSnapshotIo refuses PermissionDenied on create; existingoriginal load still works; candidate/stage absent."
+    },
+    {
+      "id": "PERM-READ-0000",
+      "actual": "Ownedoriginalfile mode0000 causes actualload PermissionDenied; root directory0700 unchanged."
+    },
+    {
+      "id": "PERM-DIRSYNC-0300",
+      "actual": "Heldstore root0300 permits create/write/filesync/hardlink; actualdirectory read-open during sync refuses PermissionDenied. Afterrestoration candidate andstage completebytes retained and freshload succeeds; never infer nonpublication."
+    },
+    {
+      "id": "LIMIT-EXACT-4194304",
+      "actual": "ActualemptyDocument JSON padded with spaces to exactly4MiB loads; fullrawbytes unchanged."
+    },
+    {
+      "id": "LIMIT-OVER-4194305",
+      "actual": "Oneadditionalspace causes actualTooLarge; fulloversize/priorbytes unchanged."
+    }
+  ],
+  "control_organization_delta": "Originalcombinedpermissionsloop split into threeordinarytest wrappers overone test-onlypermission helper; each createsnewownedscope and runsonepermission. Originalcombinedboundaries split into independentexact/over ordinarytests, each preserving its ownseparatesuccessfuloriginal bytes/value. All priororacles andrawproc/modes retained.",
+  "raw_identity_and_mode_evidence": {
+    "proc": "9boundedactualrows:Uid/Gid/Groups/Umask/CapInh/Prm/Eff/Amb/NoNewPrivs,4096Baggregate. FourUIDs equal/nonzero, CapInh/Prm/Eff/Amb0,NNP1 required. CIUID maydifferfromlocal1000.",
+    "mode": "Permissionrows contain actualprior/applied/restored octalbits, dev/ino, OSerrno andverifiedflags. All3 require explicitrestore and successfulnewkeysave/load/fullcanonicalbytes/fixedroleoracles, plus unchangedprior;0300 additionally completepublished+stagebytes and actualfreshload.",
+    "scope": "Boundedabsolute/canonicalowned0700SYSON_TEST_DIR below/workspace, sameworkspace dev; rootindependentlybindsactualSamsunglocaldevice and reviewedhostedworkspace. No rootdisk/HOME/tmp fallback or root/DACbypass."
+  },
+  "CLI": {
+    "measurements": "Exactlyone fixedmode small-package|recovery-scalar-850000, noverifycommand. Rootsetpriv --no-new-privs then directreleasebinary; external/usr/bin/time measureswholeone-workloadprocess.",
+    "test_controls": "Root/CI cargo test --all-targets includes31cases; explicitly cargo test --example snapshot_roundtrip_probe debugANDrelease runsfive ordinarycontrols underNoNewPrivs. No normalexecutable controlentrypoint.",
+    "identity": "Nonzero/equalfourUIDs/caps0/NNP1. Existingownedcanonical0700SYSON_TEST_DIR under/workspace.",
+    "memory": "RSS iswholeprocess containingstartup/setup/oracles/9iterations, not phaseheap or persamplememory. Rootrecords actualtool/units/scope."
+  },
+  "expected_stdout_schema": {
+    "proc": "9 lines proc field=<fixedkey:> value=<actualtrimmedvalue>, bounded4096aggregate.",
+    "identity": "identity uid=<nonzero> caps=0 no_new_privs=1 pid=<pid>",
+    "scope": "scope root=<escapedRustPathDebug> dev=<dev> ino=<ino> mode=0700 workload=<fixedmodeorcontrolID>",
+    "sample": "sample workload=<mode> kind=warmup|raw index=0..1|0..6 bytes=<canonical> save_ns=<n> reopen_ns=<n> load_ns=<n> roundtrip_ns=<n> verified=1",
+    "summary": "4lines phase=save|reopen|load|roundtrip count=7 min_ns/median_ns/max_ns;twowarmuprowsnotincluded.",
+    "measurement_completion": "complete workload=<mode> retained_bytes=<n> verified=1 process_restart=0",
+    "measurement_rows_per_process": 25,
+    "permission": "control=<ID> errno=<actual> mode_before=<04o> mode_applied=<04o> mode_after=<04o> dev=<dev> ino=<ino> restored=1 prior_bytes=1 verified=1",
+    "boundary": "control=<ID> bytes=4194304|4194305 verified=1",
+    "test_final": "retained_bytes=<n> verified=1",
+    "control_rows_per_test_excluding_harness": 13,
+    "harness_limit": "Cargo/testharness output additional; --nocapture mayinterleave unless rootserializes controls. PID/private-root/controlID bindrawrows. Rootcaps stdout/stderr separately; failuresretained, never inferredfrommissingrows."
+  },
+  "full_test_composition": {
+    "unchanged_original_regular_cases": 13,
+    "whole_fault_cases": 13,
+    "additional_cfg_test_cases": 5,
+    "required_all_target_cases": 31,
+    "required_modes": "Alloriginal26 plus5controls on finalsamecomposition; rootdebug/release and explicitexampledebug/release; count repeatedexecutions separately fromdistinctcases.",
+    "author_executed": false
+  },
+  "remaining_root_gates": [
+    "Independentreview of exact199fea formattedsource, source/main\u2192test absence, wholebudget,completeinputclosure and runtimeadmission.",
+    "Rootactualofflinecompiler/fmtcheck/alltarget31tests/explicit5exampledebug+release and directtwoworkload2warm7raw execution underUID/cap/NNP/ownedSamsungscope with cleanup/mode proofs.",
+    "Process/backend/applicationrestart/M06a2/native/SQL/HTTP/UI/librarytypedgraph/physicalpowerloss/fullRustparity acceptance remainseparate."
+  ],
+  "actions": {
+    "only_author_source_path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/examples/snapshot_roundtrip_probe.rs",
+    "only_distinct_report": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-author-review-inline.json",
+    "initial_report_not_overwritten": true,
+    "subject_imports_execution": false,
+    "author_formatter_compiler_tests": false,
+    "author_network_Git_sharedchanges": false,
+    "author_chmod": false
+  }
+}

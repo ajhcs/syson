@@ -1,0 +1,25 @@
+proc field=Uid: value=1000	1000	1000	1000
+proc field=Gid: value=1000	1000	1000	1000
+proc field=Groups: value=4 24 27 30 46 101 1000
+proc field=Umask: value=0002
+proc field=CapInh: value=0000000000000000
+proc field=CapPrm: value=0000000000000000
+proc field=CapEff: value=0000000000000000
+proc field=CapAmb: value=0000000000000000
+proc field=NoNewPrivs: value=1
+identity uid=1000 caps=0 no_new_privs=1 pid=501641
+scope root="/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-snapshots-01/rr13b-501641-1793409547059616272" dev=66308 ino=60164785 mode=0700 workload=recovery-scalar-850000
+sample workload=recovery-scalar-850000 kind=warmup index=0 bytes=850359 save_ns=11249262 reopen_ns=26090 load_ns=1133063 roundtrip_ns=12409007 verified=1
+sample workload=recovery-scalar-850000 kind=warmup index=1 bytes=850359 save_ns=11267668 reopen_ns=11773 load_ns=1001542 roundtrip_ns=12281343 verified=1
+sample workload=recovery-scalar-850000 kind=raw index=0 bytes=850359 save_ns=10969047 reopen_ns=17393 load_ns=1548558 roundtrip_ns=12535328 verified=1
+sample workload=recovery-scalar-850000 kind=raw index=1 bytes=850359 save_ns=11050833 reopen_ns=16813 load_ns=1858158 roundtrip_ns=12926395 verified=1
+sample workload=recovery-scalar-850000 kind=raw index=2 bytes=850359 save_ns=10892040 reopen_ns=17664 load_ns=1545551 roundtrip_ns=12455877 verified=1
+sample workload=recovery-scalar-850000 kind=raw index=3 bytes=850359 save_ns=10935022 reopen_ns=11202 load_ns=954593 roundtrip_ns=11901117 verified=1
+sample workload=recovery-scalar-850000 kind=raw index=4 bytes=850359 save_ns=10924722 reopen_ns=10801 load_ns=956366 roundtrip_ns=11892149 verified=1
+sample workload=recovery-scalar-850000 kind=raw index=5 bytes=850359 save_ns=11054600 reopen_ns=13326 load_ns=1389493 roundtrip_ns=12457719 verified=1
+sample workload=recovery-scalar-850000 kind=raw index=6 bytes=850359 save_ns=10899514 reopen_ns=16110 load_ns=1135208 roundtrip_ns=12051183 verified=1
+summary workload=recovery-scalar-850000 phase=save count=7 min_ns=10892040 median_ns=10935022 max_ns=11054600
+summary workload=recovery-scalar-850000 phase=reopen count=7 min_ns=10801 median_ns=16110 max_ns=17664
+summary workload=recovery-scalar-850000 phase=load count=7 min_ns=954593 median_ns=1389493 max_ns=1858158
+summary workload=recovery-scalar-850000 phase=roundtrip count=7 min_ns=11892149 median_ns=12455877 max_ns=12926395
+complete workload=recovery-scalar-850000 retained_bytes=7653231 verified=1 process_restart=0

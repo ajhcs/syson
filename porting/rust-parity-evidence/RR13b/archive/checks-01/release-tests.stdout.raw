@@ -1,0 +1,134 @@
+
+running 3 tests
+test rr13_open_races::regular_to_fifo_between_admission_and_open_refuses ... ok
+test rr13_open_races::regular_to_new_inode_between_admission_and_open_refuses ... ok
+test rr13_open_races::regular_to_symlink_between_admission_and_open_refuses ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 2 tests
+test corrupt_partial_and_invalid_keys_do_not_replace_snapshot ... ok
+test create_type_cancel_undo_save_restart_and_rotate ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 8 tests
+test directory_replacement_invalidates_existing_load_and_save_handles ... ok
+test directory_socket_symlink_and_invalid_utf8_files_refuse_without_following ... ok
+test exact_four_mib_raw_input_loads_and_one_extra_byte_refuses ... ok
+test fifo_load_refuses_without_a_blocking_open ... ok
+test provisional_output_limit_refuses_before_any_injected_io ... ok
+test regular_reopen_preserves_canonical_bytes_and_never_overwrites_a_destination ... ok
+test root_and_ancestor_symlinks_and_parent_components_refuse_before_creation ... ok
+test root_to_fifo_at_directory_sync_refuses_after_publication_without_blocking ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+
+running 13 tests
+test create_failure_leaves_no_candidate ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-before-Create-499525-1793409406761022174-0 (unpublished; original preserved; any staged bytes retained)
+ok
+test directory_sync_error_is_a_published_but_unconfirmed_outcome ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-directory-sync-499525-1793409406771484330-1 (published despite Io error; fresh load succeeds; durability unproven; retry collides; staging retained)
+ok
+test existing_published_snapshot_is_not_replaced_by_retry ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-existing-destination-499525-1793409406787412755-2 (existing destination preserved; new complete staged bytes retained after no-replace collision)
+ok
+test existing_staging_is_preserved_and_not_used_as_a_snapshot ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-existing-staging-499525-1793409406812441606-3 (existing staging preserved byte-for-byte; candidate unpublished)
+ok
+test file_sync_failure_retains_complete_staging_without_publishing ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-before-SyncFile-499525-1793409406822672421-4 (unpublished; original preserved; any staged bytes retained)
+ok
+test invalid_keys_are_rejected_before_any_injected_io ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-invalid-keys-499525-1793409406833141180-5 (invalid keys rejected without snapshot I/O)
+ok
+test partial_write_is_retained_and_never_loaded_as_a_snapshot ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-partial-write-499525-1793409406843539766-6 (unpublished; exact partial-write prefix retained)
+ok
+test publication_failure_retains_complete_staging_without_publishing ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-before-Publish-499525-1793409406853785480-7 (unpublished; original preserved; any staged bytes retained)
+ok
+test publish_side_effect_then_error_makes_failure_ambiguous ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-after-publish-499525-1793409406869590879-8 (published despite Io error; fresh load succeeds; durability unproven; retry collides; staging retained)
+ok
+test removal_side_effect_then_error_leaves_no_staging_but_a_published_snapshot ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-after-remove-499525-1793409406884360911-9 (published despite Io after removal; original staging absent; retry collision preserves destination and new staging; durability unproven)
+ok
+test staging_removal_error_retains_published_snapshot_and_staging ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-remove-staged-499525-1793409406911331119-10 (published despite Io error; fresh load succeeds; durability unproven; retry collides; staging retained)
+ok
+test successful_sequence_loads_from_fresh_store_and_removes_staging ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-success-499525-1793409406931919011-11 (published; full sequence returned success; fresh load matches; no staging)
+ok
+test write_failure_retains_empty_staging ... F31 retained fixture: /workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/f31-before-Write-499525-1793409406952508295-12 (unpublished; original preserved; any staged bytes retained)
+ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+
+running 5 tests
+test probe::controls::create_permission_denied_preserves_prior_and_restores_write ... proc field=Uid: value=1000	1000	1000	1000
+proc field=Gid: value=1000	1000	1000	1000
+proc field=Groups: value=4 24 27 30 46 101 1000
+proc field=Umask: value=0002
+proc field=CapInh: value=0000000000000000
+proc field=CapPrm: value=0000000000000000
+proc field=CapEff: value=0000000000000000
+proc field=CapAmb: value=0000000000000000
+proc field=NoNewPrivs: value=1
+identity uid=1000 caps=0 no_new_privs=1 pid=499539
+scope root="/workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/rr13b-499539-1793409406963684656" dev=66308 ino=60164363 mode=0700 workload=PERM-CREATE-0500
+control=PERM-CREATE-0500 errno=13 mode_before=0700 mode_applied=0500 mode_after=0700 dev=66308 ino=60164364 restored=1 prior_bytes=1 verified=1
+retained_bytes=728 verified=1
+ok
+test probe::controls::directory_sync_permission_denied_can_leave_published_bytes ... proc field=Uid: value=1000	1000	1000	1000
+proc field=Gid: value=1000	1000	1000	1000
+proc field=Groups: value=4 24 27 30 46 101 1000
+proc field=Umask: value=0002
+proc field=CapInh: value=0000000000000000
+proc field=CapPrm: value=0000000000000000
+proc field=CapEff: value=0000000000000000
+proc field=CapAmb: value=0000000000000000
+proc field=NoNewPrivs: value=1
+identity uid=1000 caps=0 no_new_privs=1 pid=499539
+scope root="/workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/rr13b-499539-1793409406984384541" dev=66308 ino=60164722 mode=0700 workload=PERM-DIRSYNC-0300
+control=PERM-DIRSYNC-0300 errno=13 mode_before=0700 mode_applied=0300 mode_after=0700 dev=66308 ino=60164723 restored=1 prior_bytes=1 verified=1
+retained_bytes=1456 verified=1
+ok
+test probe::controls::exact_four_mib_input_loads_without_changing_bytes ... proc field=Uid: value=1000	1000	1000	1000
+proc field=Gid: value=1000	1000	1000	1000
+proc field=Groups: value=4 24 27 30 46 101 1000
+proc field=Umask: value=0002
+proc field=CapInh: value=0000000000000000
+proc field=CapPrm: value=0000000000000000
+proc field=CapEff: value=0000000000000000
+proc field=CapAmb: value=0000000000000000
+proc field=NoNewPrivs: value=1
+identity uid=1000 caps=0 no_new_privs=1 pid=499539
+scope root="/workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/rr13b-499539-1793409407009914869" dev=66308 ino=60164727 mode=0700 workload=LIMIT-EXACT-4194304
+control=LIMIT-EXACT-4194304 bytes=4194304 verified=1
+retained_bytes=4194451 verified=1
+ok
+test probe::controls::one_extra_byte_refuses_without_changing_prior ... proc field=Uid: value=1000	1000	1000	1000
+proc field=Gid: value=1000	1000	1000	1000
+proc field=Groups: value=4 24 27 30 46 101 1000
+proc field=Umask: value=0002
+proc field=CapInh: value=0000000000000000
+proc field=CapPrm: value=0000000000000000
+proc field=CapEff: value=0000000000000000
+proc field=CapAmb: value=0000000000000000
+proc field=NoNewPrivs: value=1
+identity uid=1000 caps=0 no_new_privs=1 pid=499539
+scope root="/workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/rr13b-499539-1793409407026386711" dev=66308 ino=60164731 mode=0700 workload=LIMIT-OVER-4194305
+control=LIMIT-OVER-4194305 bytes=4194305 verified=1
+retained_bytes=4194452 verified=1
+ok
+test probe::controls::read_permission_denied_preserves_prior_and_restores_read ... proc field=Uid: value=1000	1000	1000	1000
+proc field=Gid: value=1000	1000	1000	1000
+proc field=Groups: value=4 24 27 30 46 101 1000
+proc field=Umask: value=0002
+proc field=CapInh: value=0000000000000000
+proc field=CapPrm: value=0000000000000000
+proc field=CapEff: value=0000000000000000
+proc field=CapAmb: value=0000000000000000
+proc field=NoNewPrivs: value=1
+identity uid=1000 caps=0 no_new_privs=1 pid=499539
+scope root="/workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01/rr13b-499539-1793409407038809953" dev=66308 ino=60164735 mode=0700 workload=PERM-READ-0000
+control=PERM-READ-0000 errno=13 mode_before=0664 mode_applied=0000 mode_after=0664 dev=66308 ino=60164737 restored=1 prior_bytes=1 verified=1
+retained_bytes=728 verified=1
+ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+

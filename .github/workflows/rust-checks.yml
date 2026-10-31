@@ -83,3 +83,14 @@ jobs:
           CARGO_HOME: ${{ runner.temp }}/cargo-home
           CARGO_TARGET_DIR: ${{ runner.temp }}/cargo-target
         run: cargo +1.99.1 clippy --locked --manifest-path "$MANIFEST" --all-targets -- -D warnings
+
+      - name: Verify snapshot filesystem controls
+        if: matrix.crate == 'syson-workflow'
+        env:
+          CARGO_HOME: ${{ runner.temp }}/cargo-home
+          CARGO_TARGET_DIR: ${{ runner.temp }}/cargo-target
+        run: |
+          setpriv --no-new-privs cargo +1.99.1 test --locked --manifest-path "$MANIFEST" --example snapshot_roundtrip_probe -- --test-threads=1 --nocapture
+          setpriv --no-new-privs cargo +1.99.1 test --locked --release --manifest-path "$MANIFEST" --example snapshot_roundtrip_probe -- --test-threads=1 --nocapture
+          setpriv --no-new-privs cargo +1.99.1 run --locked --release --manifest-path "$MANIFEST" --example snapshot_roundtrip_probe -- small-package
+          setpriv --no-new-privs cargo +1.99.1 run --locked --release --manifest-path "$MANIFEST" --example snapshot_roundtrip_probe -- recovery-scalar-850000

@@ -1,0 +1,679 @@
+{
+  "schema": "SYSON-RR13B-FAULT-AUTHOR-REVIEW/1",
+  "utc": "2026-10-31T01:02:06.214244+00:00",
+  "status": "AUTHOR_SOURCE_PREPARED_NO_INDEPENDENT_OR_RUNTIME_QUALIFICATION",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031",
+  "root_reported_base": "e53b166c869994963814b56687e202f24f41326b",
+  "authorization": {
+    "lease": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/source-lease.json",
+      "bytes": 3844,
+      "lines": 77,
+      "sha256": "0cfbf96bdf77395a6a69255141ecc981b7834c86dade38cb2c5e1cfcce49dc43"
+    },
+    "readiness": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/readiness.json",
+      "bytes": 34390,
+      "lines": 719,
+      "sha256": "8b0c0e0aeab444efe449f9d3f90c85eb24a3e5b5b137d98fe805ee0e24f545d0"
+    },
+    "root_lease_supersedes_prior_readiness_no_lease_status": true,
+    "author_owned_paths": [
+      "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-evidence/RR13b/README.md"
+    ],
+    "source_or_runtime_authority_extended": false
+  },
+  "donor": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+    "bytes": 12491,
+    "lines": 356,
+    "sha256": "11e769c93d3e7a4648cc1a8b8037c8788f0498c89fd1cad1af3caa70f6885df1"
+  },
+  "authored_files": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "bytes": 12491,
+      "lines": 356,
+      "sha256": "11e769c93d3e7a4648cc1a8b8037c8788f0498c89fd1cad1af3caa70f6885df1"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-evidence/RR13b/README.md",
+      "bytes": 2322,
+      "lines": 12,
+      "sha256": "1f3e88c4e3f154a8b92be6e14a35cd64d9ff33a3235798452c8cd71e91754a7b"
+    }
+  ],
+  "preservation": {
+    "entire_donor_356_lines_byteexact": true,
+    "all_13_case_bodies_byteexact": true,
+    "all_FaultIo_Operation_Fault_document_Fixture_sequence_helpers_byteexact": true,
+    "historical_F31_labels_preserved": true,
+    "no_reduced_case_scope": true
+  },
+  "fault_cases": [
+    {
+      "name": "successful_sequence_loads_from_fresh_store_and_removes_staging",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        193,
+        202
+      ],
+      "test_block_sha256": "ea29bd7b3b67f8601f0e67558d3f25d508e3d6a813ccb228091f44b377eeea7e",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish",
+        "SyncDirectory",
+        "Remove"
+      ],
+      "error_or_return": "Ok",
+      "destination_oracle": "complete canonical candidate, fresh load equals fullDocument",
+      "staging_oracle": "absent",
+      "recovery_implication": "No retry needed",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "ea29bd7b3b67f8601f0e67558d3f25d508e3d6a813ccb228091f44b377eeea7e"
+    },
+    {
+      "name": "create_failure_leaves_no_candidate",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        217,
+        220
+      ],
+      "test_block_sha256": "8bf83df67769c310c064e25aa8799ef9b2ac7527708aff1a7894ba0a3c06f392",
+      "calls": [
+        "Create"
+      ],
+      "error_or_return": "Io injected",
+      "destination_oracle": "absent",
+      "staging_oracle": "absent",
+      "recovery_implication": "Inspect before recovery",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "8bf83df67769c310c064e25aa8799ef9b2ac7527708aff1a7894ba0a3c06f392"
+    },
+    {
+      "name": "write_failure_retains_empty_staging",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        221,
+        224
+      ],
+      "test_block_sha256": "35588f8a37c409e13caad3830c5e0a1b13f1f5f461102314cb4defd1f0e2f0d7",
+      "calls": [
+        "Create",
+        "Write"
+      ],
+      "error_or_return": "Io injected",
+      "destination_oracle": "absent",
+      "staging_oracle": "empty retained file",
+      "recovery_implication": "Stage collision prevents blind retry",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "35588f8a37c409e13caad3830c5e0a1b13f1f5f461102314cb4defd1f0e2f0d7"
+    },
+    {
+      "name": "file_sync_failure_retains_complete_staging_without_publishing",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        225,
+        231
+      ],
+      "test_block_sha256": "1f6836be36afdd014842cea3b80af6c00894eaf41909c365b229f348711d9d5e",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile"
+      ],
+      "error_or_return": "Io injected",
+      "destination_oracle": "absent",
+      "staging_oracle": "complete canonical bytes",
+      "recovery_implication": "Stage collision prevents blind retry",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "1f6836be36afdd014842cea3b80af6c00894eaf41909c365b229f348711d9d5e"
+    },
+    {
+      "name": "publication_failure_retains_complete_staging_without_publishing",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        232,
+        238
+      ],
+      "test_block_sha256": "150f77a8cd505dc4c4cf9568d503cb56e82dd1f47f1448e64cb3326ff5a55728",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish"
+      ],
+      "error_or_return": "Io injected",
+      "destination_oracle": "absent",
+      "staging_oracle": "complete canonical bytes",
+      "recovery_implication": "Stage collision prevents blind retry",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "150f77a8cd505dc4c4cf9568d503cb56e82dd1f47f1448e64cb3326ff5a55728"
+    },
+    {
+      "name": "partial_write_is_retained_and_never_loaded_as_a_snapshot",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        239,
+        249
+      ],
+      "test_block_sha256": "f90652292c3f60706c3c620ebc10d7b2d142713f8a4f7edb6bb47f9be2f485de",
+      "calls": [
+        "Create",
+        "Write"
+      ],
+      "error_or_return": "Io after partial write",
+      "destination_oracle": "absent",
+      "staging_oracle": "exact first11bytes",
+      "recovery_implication": "Never load staging",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "f90652292c3f60706c3c620ebc10d7b2d142713f8a4f7edb6bb47f9be2f485de"
+    },
+    {
+      "name": "publish_side_effect_then_error_makes_failure_ambiguous",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        267,
+        270
+      ],
+      "test_block_sha256": "c07d9df6a51e52393ee281786faadb46fee8f4d673976fa9b29c19d7028f50e3",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish"
+      ],
+      "error_or_return": "Io after hardlink",
+      "destination_oracle": "complete candidate, fresh load succeeds",
+      "staging_oracle": "same complete candidate bytes",
+      "recovery_implication": "Original retry collides at create_staged because stage exists",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "c07d9df6a51e52393ee281786faadb46fee8f4d673976fa9b29c19d7028f50e3"
+    },
+    {
+      "name": "directory_sync_error_is_a_published_but_unconfirmed_outcome",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        272,
+        279
+      ],
+      "test_block_sha256": "5d8465f66d926b2d7cfa641dd2d0162bcbfa7304f0b5c5121a8d44eee270a71c",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish",
+        "SyncDirectory"
+      ],
+      "error_or_return": "Io before directorysync",
+      "destination_oracle": "complete candidate, fresh load succeeds",
+      "staging_oracle": "complete candidate bytes",
+      "recovery_implication": "Durability unconfirmed; original retry collides at stage",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "5d8465f66d926b2d7cfa641dd2d0162bcbfa7304f0b5c5121a8d44eee270a71c"
+    },
+    {
+      "name": "staging_removal_error_retains_published_snapshot_and_staging",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        280,
+        287
+      ],
+      "test_block_sha256": "3f9f6552814584f5c5ab1312a5f0e9d1e4324651f6428aa723e213febb6b2847",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish",
+        "SyncDirectory",
+        "Remove"
+      ],
+      "error_or_return": "Io before removal",
+      "destination_oracle": "complete candidate, fresh load succeeds",
+      "staging_oracle": "complete candidate bytes",
+      "recovery_implication": "Original retry collides at stage, not safe recovery",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "3f9f6552814584f5c5ab1312a5f0e9d1e4324651f6428aa723e213febb6b2847"
+    },
+    {
+      "name": "existing_published_snapshot_is_not_replaced_by_retry",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        288,
+        302
+      ],
+      "test_block_sha256": "aa9b16890c855073ea5b19511cd3c10e3aafe13ed26c7f8108188a98255b9051",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish"
+      ],
+      "error_or_return": "Io AlreadyExists at publication",
+      "destination_oracle": "preexisting emptyDocument exactbytes unchanged",
+      "staging_oracle": "new attempted F31 canonicalbytes",
+      "recovery_implication": "Destination collision after stage write/sync, no overwrite",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "aa9b16890c855073ea5b19511cd3c10e3aafe13ed26c7f8108188a98255b9051"
+    },
+    {
+      "name": "existing_staging_is_preserved_and_not_used_as_a_snapshot",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        303,
+        317
+      ],
+      "test_block_sha256": "b6b297bfa4178380201ecc4bf18966ff752837eb99d45e4719d98dd1e9b04d05",
+      "calls": [
+        "Create"
+      ],
+      "error_or_return": "Io AlreadyExists at create",
+      "destination_oracle": "absent",
+      "staging_oracle": "unrelated sentinel byteexact",
+      "recovery_implication": "No stage consumption",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "b6b297bfa4178380201ecc4bf18966ff752837eb99d45e4719d98dd1e9b04d05"
+    },
+    {
+      "name": "invalid_keys_are_rejected_before_any_injected_io",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        318,
+        332
+      ],
+      "test_block_sha256": "a63ded4581c2961b1d7badd579d3a0a28f1db9abc96328a57f9409eb4edbc2f1",
+      "calls": [],
+      "error_or_return": "InvalidKey",
+      "destination_oracle": "absent",
+      "staging_oracle": "absent",
+      "recovery_implication": "Six invalidkeys refuse before any SnapshotIo callback",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "a63ded4581c2961b1d7badd579d3a0a28f1db9abc96328a57f9409eb4edbc2f1"
+    },
+    {
+      "name": "removal_side_effect_then_error_leaves_no_staging_but_a_published_snapshot",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "one_based_lines": [
+        334,
+        356
+      ],
+      "test_block_sha256": "f230e7fcbc221bd7e8c098953ca0ca7e2e5297c66baa193a267ca71b1f60bc6a",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish",
+        "SyncDirectory",
+        "Remove"
+      ],
+      "error_or_return": "Io after removal",
+      "destination_oracle": "complete candidate, fresh load succeeds",
+      "staging_oracle": "absent initially; retry later leaves new emptyDocument stage",
+      "recovery_implication": "Retry reaches Publish collision; destination and new attempted stage preserved",
+      "original_snapshot_byteexact": true,
+      "donor_block_byteexact": true,
+      "actual_block_sha256": "f230e7fcbc221bd7e8c098953ca0ca7e2e5297c66baa193a267ca71b1f60bc6a"
+    }
+  ],
+  "unchanged_RR13a_case_blocks": [
+    {
+      "name": "regular_to_fifo_between_admission_and_open_refuses",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "one_based_lines": [
+        319,
+        325
+      ],
+      "test_block_sha256": "58020f153eba069b19b21287587e32b4461bfe24ecdd86018b73b6b51e22661b",
+      "actual_block_sha256": "58020f153eba069b19b21287587e32b4461bfe24ecdd86018b73b6b51e22661b",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "regular_to_symlink_between_admission_and_open_refuses",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "one_based_lines": [
+        326,
+        332
+      ],
+      "test_block_sha256": "ff2f0310a09cc517480db2d22d8167cf1923d9ff8a5114bb35715bc753982c8b",
+      "actual_block_sha256": "ff2f0310a09cc517480db2d22d8167cf1923d9ff8a5114bb35715bc753982c8b",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "regular_to_new_inode_between_admission_and_open_refuses",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "one_based_lines": [
+        333,
+        339
+      ],
+      "test_block_sha256": "f408b3e2defe7ca1927a82a9491e3d1507597db7ac29188f9f4ea7d89de29b11",
+      "actual_block_sha256": "f408b3e2defe7ca1927a82a9491e3d1507597db7ac29188f9f4ea7d89de29b11",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "fifo_load_refuses_without_a_blocking_open",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "one_based_lines": [
+        42,
+        59
+      ],
+      "test_block_sha256": "b4616f1d107a31e270827e28a4166f0cb4b1db0895aa34cf016c0d1773a72ac6",
+      "actual_block_sha256": "b4616f1d107a31e270827e28a4166f0cb4b1db0895aa34cf016c0d1773a72ac6",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "regular_reopen_preserves_canonical_bytes_and_never_overwrites_a_destination",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "one_based_lines": [
+        101,
+        120
+      ],
+      "test_block_sha256": "6800fbc6c8bf668762ba1ae372c9cc21c1fea6480c3c99445f30a8dc4a6f39d2",
+      "actual_block_sha256": "6800fbc6c8bf668762ba1ae372c9cc21c1fea6480c3c99445f30a8dc4a6f39d2",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "root_and_ancestor_symlinks_and_parent_components_refuse_before_creation",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "one_based_lines": [
+        121,
+        134
+      ],
+      "test_block_sha256": "fc0d46ac944fe9bf7448f560bfd9e61ce4b1f02374bf90b222e309978798ed53",
+      "actual_block_sha256": "fc0d46ac944fe9bf7448f560bfd9e61ce4b1f02374bf90b222e309978798ed53",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "directory_replacement_invalidates_existing_load_and_save_handles",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "one_based_lines": [
+        135,
+        163
+      ],
+      "test_block_sha256": "b2c14a236d737a590e38888296a38c430a97c2ca349f66c7415301b6a79d60ce",
+      "actual_block_sha256": "b2c14a236d737a590e38888296a38c430a97c2ca349f66c7415301b6a79d60ce",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "directory_socket_symlink_and_invalid_utf8_files_refuse_without_following",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "one_based_lines": [
+        164,
+        191
+      ],
+      "test_block_sha256": "03e7ffdfa3496e17e9350124e545e3bdc86671b7509833aef561e32165028df0",
+      "actual_block_sha256": "03e7ffdfa3496e17e9350124e545e3bdc86671b7509833aef561e32165028df0",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "exact_four_mib_raw_input_loads_and_one_extra_byte_refuses",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "one_based_lines": [
+        192,
+        207
+      ],
+      "test_block_sha256": "33f592916e68754e7bd9f92a5f1d22bc0b5308042bb6f15306ab4a9c46260ecb",
+      "actual_block_sha256": "33f592916e68754e7bd9f92a5f1d22bc0b5308042bb6f15306ab4a9c46260ecb",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "provisional_output_limit_refuses_before_any_injected_io",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "one_based_lines": [
+        232,
+        267
+      ],
+      "test_block_sha256": "24cba8ff9536d27c6ab6a520aec100b084e455137c0aa610bc503fa8a6a15747",
+      "actual_block_sha256": "24cba8ff9536d27c6ab6a520aec100b084e455137c0aa610bc503fa8a6a15747",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "root_to_fifo_at_directory_sync_refuses_after_publication_without_blocking",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "one_based_lines": [
+        298,
+        337
+      ],
+      "test_block_sha256": "5929091b2ce73c964e0c3ba150c6415e839a03ae5345d749b393685596f2feee",
+      "actual_block_sha256": "5929091b2ce73c964e0c3ba150c6415e839a03ae5345d749b393685596f2feee",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "create_type_cancel_undo_save_restart_and_rotate",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/connected.rs",
+      "one_based_lines": [
+        30,
+        89
+      ],
+      "test_block_sha256": "d41e4cc195c41369f964fcab547d4172d7dbb58dc38e8e53a22c41b06d954554",
+      "actual_block_sha256": "d41e4cc195c41369f964fcab547d4172d7dbb58dc38e8e53a22c41b06d954554",
+      "qualified_RR13a_block_unchanged": true
+    },
+    {
+      "name": "corrupt_partial_and_invalid_keys_do_not_replace_snapshot",
+      "file": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/connected.rs",
+      "one_based_lines": [
+        90,
+        103
+      ],
+      "test_block_sha256": "4b9bda5f45f2ebe67f07659132c0bf486b9d2fc26ba7406f48f7cd74a0ca15c0",
+      "actual_block_sha256": "4b9bda5f45f2ebe67f07659132c0bf486b9d2fc26ba7406f48f7cd74a0ca15c0",
+      "qualified_RR13a_block_unchanged": true
+    }
+  ],
+  "unchanged_RR13a_source_pins": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "bytes": 12276,
+      "lines": 340,
+      "sha256": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "bytes": 12160,
+      "lines": 337,
+      "sha256": "a42e3ea7112d4ad636e10915727434ae8d3ec8a6e102ee7dd098df264759b40c"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/connected.rs",
+      "bytes": 3835,
+      "lines": 103,
+      "sha256": "77aa9df2cc81c76a55f876898ed6a7a2032f5df1bfb563d81d14ee469ab2917c"
+    }
+  ],
+  "full_composition": {
+    "admission_races": 3,
+    "regression": 8,
+    "connected": 2,
+    "fault": 13,
+    "distinct_original_cases": 26,
+    "required_once_per_debug_and_release": 52,
+    "additional_probe_controls": "Three real permission controls and two byte-boundary controls are additional to the original26, not replacements.",
+    "unix_case": "directory_sync_error_is_a_published_but_unconfirmed_outcome is cfg(unix); all26 required on admitted Linux x86_64 host."
+  },
+  "current_lease_API_and_normative_pins": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "bytes": 12276,
+      "lines": 340,
+      "sha256": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd",
+      "lease_sha256": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd",
+      "matches_lease": true
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/snapshot_io.rs",
+      "bytes": 3585,
+      "lines": 86,
+      "sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e",
+      "lease_sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e",
+      "matches_lease": true
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+      "bytes": 341,
+      "lines": 14,
+      "sha256": "a4f93436d308f35fe9582f7d121414c932c8d1ef882605a69c60d810884bca74",
+      "lease_sha256": "a4f93436d308f35fe9582f7d121414c932c8d1ef882605a69c60d810884bca74",
+      "matches_lease": true
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.lock",
+      "bytes": 3149,
+      "lines": 141,
+      "sha256": "58e4baa391f1be5c00e27c4867b6de42429790a8b8457541b57f687fd1ce7f80",
+      "lease_sha256": "58e4baa391f1be5c00e27c4867b6de42429790a8b8457541b57f687fd1ce7f80",
+      "matches_lease": true
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-model/src/lib.rs",
+      "bytes": 36789,
+      "lines": 989,
+      "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+      "lease_sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+      "matches_lease": true
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-plan-20261026/prs/RR13b.md",
+      "bytes": 3573,
+      "lines": 66,
+      "sha256": "ec4326b8e5f11e514db4849099901a8e448539f5bacb8cc2369261e55487bf1e",
+      "lease_sha256": "ec4326b8e5f11e514db4849099901a8e448539f5bacb8cc2369261e55487bf1e",
+      "matches_lease": true
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-plan-20261026/lanes/storage-source.json",
+      "bytes": 8499,
+      "lines": 86,
+      "sha256": "98d3ddb0c1acfb7e27fefee5f583d2847750dc817f39116422334140764371bf",
+      "lease_sha256": "98d3ddb0c1acfb7e27fefee5f583d2847750dc817f39116422334140764371bf",
+      "matches_lease": true
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-plan-20261026/completion-contract.lock.json",
+      "bytes": 5346,
+      "lines": 56,
+      "sha256": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558",
+      "lease_sha256": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558",
+      "matches_lease": true
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-plan-20261026/rereview-batch11-coordinator-ownership.json",
+      "bytes": 1039,
+      "lines": 14,
+      "sha256": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a",
+      "lease_sha256": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a",
+      "matches_lease": true
+    }
+  ],
+  "static_API_compatibility": {
+    "status": "MATCHED_SOURCE_SIGNATURES_NO_COMPILER_CLAIM",
+    "SnapshotIo": {
+      "source": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/snapshot_io.rs",
+      "trait_lines": [
+        17,
+        24
+      ],
+      "implementation_lines": [
+        28,
+        54
+      ],
+      "methods": [
+        "create_staged(&mut self,&Path)->io::Result<File>",
+        "write_staged(&mut self,&mut File,&[u8])->io::Result<()>",
+        "sync_staged(&mut self,&File)->io::Result<()>",
+        "publish(&mut self,&Path,&Path)->io::Result<()>",
+        "sync_directory(&mut self,&Path)->io::Result<()>",
+        "remove_staged(&mut self,&Path)->io::Result<()>"
+      ],
+      "finding": "FaultIo implements all six exact current signatures and delegates successful calls to the actual FsSnapshotIo. No adapter, shim, feature, stub or source change is required."
+    },
+    "SnapshotStore": {
+      "source": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "calls": [
+        "open(impl AsRef<Path>)->Result<Self,StoreError>",
+        "save_new(&self,&str,&Document)->Result<PathBuf,StoreError>",
+        "load(&self,&str)->Result<Document,StoreError>"
+      ],
+      "injected_save": "save_new_with_io(&self,&str,&Document,&mut impl SnapshotIo)->Result<PathBuf,StoreError>",
+      "finding": "Public exports and StoreError::Io/InvalidKey match. Filenames candidate.emf.json and candidate.emf.staged match path()/with_extension(staged). Invalid keys refuse before injected callbacks, though store open/root metadata still perform filesystem work."
+    },
+    "model": {
+      "source": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-model/src/lib.rs",
+      "calls": [
+        "Document::empty()/to_json(), Clone/PartialEq/Eq/Debug",
+        "Editor::new(Document)/begin()/commit(Transaction)/document()",
+        "Transaction::create_package(Option<&str>,NodeIds,Option<NodeIds>,&str)",
+        "NodeIds::new(&str,&str)"
+      ],
+      "fixed_unequal_roles": {
+        "resource": "00000000-0000-4000-8000-000000000001",
+        "element": "10000000-0000-4000-8000-000000000001"
+      },
+      "finding": "All constructor, borrow, return and trait requirements match current safe model source. Fixture uses the actual admitted editor transaction and one committed package named F31."
+    },
+    "operation_sequence": "Create -> Write -> SyncFile -> Publish -> SyncDirectory(unix) -> Remove; ordinary save performs root/canonicalization checks around these callbacks. No-replace publication is hard_link, not rename; failures retain observed partial state.",
+    "API_issues": []
+  },
+  "failure_semantics": [
+    "Create/write/file-sync/publish-before faults and partial writes stop at the exact expected callback; candidate absent, load refuses, retained stage bytes/absence checked, prior snapshot bytes and load checked.",
+    "Publish-after, directory-sync-before and removal-before errors can leave complete visible candidate and complete stage; fresh store load matches full Document. Immediate retry collides at existing stage create and cannot replace destination.",
+    "Existing destination collision reaches Publish and retains complete new staged bytes while preserving original destination and full original load.",
+    "Existing unrelated stage collision stops at Create, preserves sentinel bytes, publishes nothing and cannot be loaded as candidate.",
+    "Removal-after error leaves a visible candidate with no original stage; retry creates a new empty-document stage then collides at Publish, preserves candidate bytes/full load and retains exact retry bytes.",
+    "Every fixture record validates original snapshot bytes/full empty Document and retains observed.txt. Error helpers assert typed StoreError::Io; collision checks also require ErrorKind::AlreadyExists."
+  ],
+  "README": {
+    "lines": 12,
+    "scope": "All26 composition, actual fixed probe CLI modes, build outside timing, unprivileged owned directory/process, failure inspection, cache warmth/process memory, separate restart/native/UI/power-loss gates. Commands are qualification instructions, not execution evidence.",
+    "CLI_shape_confirmed_by_example_author": "Exactly one positional mode: verify | small-package | recovery-scalar-850000, via /root/core_frontier_admission message. Independent complete example review remains separate."
+  },
+  "line_budget": {
+    "new_fault_tests_authored": 356,
+    "new_README_production_and_authored": 12,
+    "this_author_total_authored": 368,
+    "this_author_production": 12,
+    "probe_and_root_wiring": "Count separately at actual final formatted bytes; root owns complete400production/900authored gate. No helper/fixture code is relabeled passive."
+  },
+  "execution_expectations": [
+    "Root alone runs exact final offline/locked/fmt/debug/release/Clippy/target matrix and all26 once per debug/release. Match exact named cases and detect zero/partial filters; preserve current regular13 and five stronger assertions.",
+    "Root externally admits canonical stable owned0700 SYSON_TEST_DIR under /workspace and process/toolchain/source/mount environment before any suite or probe. Fixture code canonicalizes /workspace location but does not itself enforce owner/mode or filesystem type.",
+    "Fault cases retain unique PID/time/counter directories; they do not self-delete. Preserve retained raw files and ordered evidence before scoped owner-verified cleanup.",
+    "Existing FIFO child tests require admitted command timeout and descendant scope cleanup; this new fault suite introduces no subprocess or timeout controller.",
+    "Actual permission/probe CLI implementation and per-sample full oracles require independent final source review and separate root execution; no runtime claim is made here."
+  ],
+  "limitations": [
+    "Authorship review is not independent review; /root/registration_review reviews the whole unit. No subject imports/tests/compiler/formatter/runtime/network/Git was performed by this author.",
+    "FaultIo deliberately injects callback-boundary/partial-write errors and delegates actual successful filesystem operations. It does not synthesize real disk exhaustion, process crash, arbitrary syscall interruption, device durability or backend/application restart.",
+    "Fresh SnapshotStore handles are same-process reopen checks. Writer-process exit/new-process recovery and durable connected application journey remain separate open gates.",
+    "Root reported actual228 merge/mainchecks; author did not perform Git or remote verification. Source pins confirm supplied current bytes only.",
+    "Held PR99/130 initializer/raw-factory and human196-201 reservations remain; no source adopted outside the two authorized paths."
+  ],
+  "actions": {
+    "source_writes": [
+      "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-evidence/RR13b/README.md"
+    ],
+    "report_write": "/workspace/build/builderbob/syson-durable-batch38-20261031/fault-author-review.json",
+    "subject_execution": false,
+    "subject_imports": false,
+    "compiler_tests_formatter": false,
+    "network": false,
+    "Git": false,
+    "chmod": false,
+    "shared_or_normative_source_edits": false
+  }
+}

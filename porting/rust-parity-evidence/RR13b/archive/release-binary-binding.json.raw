@@ -1,0 +1,41 @@
+{
+  "status": "BUILT_RELEASE_PROBE_BOUND_BEFORE_MEASUREMENT",
+  "source_sha256": "199feaaddd7a947f770315796f9765ab579f7e2c021c80c9ea763ec897784786",
+  "binary": "/workspace/build/builderbob/syson-durable-batch38-20261031/cargo-target-01/release/examples/snapshot_roundtrip_probe",
+  "binary_sha256": "89480c8ca8157bac89209a02aa2ce9cc6a316b554a22d0c21835cf9dd8eff97a",
+  "binary_bytes": 1542672,
+  "build_receipt_sha256": "8b00226cdae4c1545afeb79a38efc7fd9f4d6adebe463aa1fcb5b702bced7e7c",
+  "build_command": {
+    "name": "release-probe-build",
+    "argv": [
+      "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+      "build",
+      "--offline",
+      "--locked",
+      "--release",
+      "--manifest-path",
+      "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+      "--example",
+      "snapshot_roundtrip_probe"
+    ],
+    "exit": 0,
+    "wall_seconds": 0.5142251120014407,
+    "passed": 0
+  },
+  "test_counts": {
+    "debug": 31,
+    "release": 31
+  },
+  "inputs_unchanged": 726,
+  "cleanup": {
+    "confirmed_empty_or_absent": true,
+    "observations": [
+      {
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "InvocationID": ""
+      }
+    ]
+  },
+  "measurement": "Compile completed before timed workload. Direct binary only; GNU time high-water RSS is whole-process subject command including startup/setup/oracles, not phase heap or allocation traffic."
+}

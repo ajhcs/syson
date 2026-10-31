@@ -1,0 +1,118 @@
+{
+  "schema": "SYSON-RR13B-INDEPENDENT-MEASUREMENT-SPEC/1",
+  "status": "PASS_EXACT_DIRECT_RELEASE_BINARY_TWO_WORKLOAD_SPEC_RESULTS_SEPARATE",
+  "reviewer": "/root/registration_review",
+  "reviewed_at_utc": "2026-10-31T01:19:39.401493+00:00",
+  "findings": [],
+  "bindings": {
+    "source_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-source-inline.json",
+      "bytes": 17426,
+      "sha256": "c913d07e32d2f586643a0a4f64ee64437876a3402b0d4de06a148e1f392c7fd5"
+    },
+    "checks_spec_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-checks-spec.json",
+      "bytes": 9240,
+      "sha256": "48af148127ca06fba5b26970c3859ce6fcab3665e70e124674096ec2e16236f4"
+    },
+    "actual_build_receipt": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/receipt.json",
+      "bytes": 303569,
+      "sha256": "8b00226cdae4c1545afeb79a38efc7fd9f4d6adebe463aa1fcb5b702bced7e7c"
+    },
+    "binary_binding": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/release-binary-binding.json",
+      "bytes": 1506,
+      "sha256": "ecc980bb92cf74a2e9bdcd8133225029eb8fe3a7e08f4cb961926d027745d5a1"
+    },
+    "actual_binary": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/cargo-target-01/release/examples/snapshot_roundtrip_probe",
+      "bytes": 1542672,
+      "sha256": "89480c8ca8157bac89209a02aa2ce9cc6a316b554a22d0c21835cf9dd8eff97a"
+    },
+    "exact_measurement_spec": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01-spec.json",
+      "bytes": 154065,
+      "sha256": "0f05c6a8c4cfd08485f32c0b0865eadd31a0fba1432281c41889556f59649c3f"
+    }
+  },
+  "input_closure": {
+    "count": 735,
+    "all_current_hashes_match": true,
+    "all726_build_inputs_retained": true,
+    "canonical_map_sha256": "901ec9a5142823708b52b3baae2e46fa984f1240c1a7fde52ae717e4b89e2e9b",
+    "actual_build_command_exit0": true
+  },
+  "commands": [
+    {
+      "name": "small-package",
+      "argv": [
+        "/usr/bin/time",
+        "--verbose",
+        "--output",
+        "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/small-package.time.txt",
+        "/usr/bin/setpriv",
+        "--no-new-privs",
+        "/workspace/build/builderbob/syson-durable-batch38-20261031/cargo-target-01/release/examples/snapshot_roundtrip_probe",
+        "small-package"
+      ]
+    },
+    {
+      "name": "recovery-scalar-850000",
+      "argv": [
+        "/usr/bin/time",
+        "--verbose",
+        "--output",
+        "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/recovery-scalar-850000.time.txt",
+        "/usr/bin/setpriv",
+        "--no-new-privs",
+        "/workspace/build/builderbob/syson-durable-batch38-20261031/cargo-target-01/release/examples/snapshot_roundtrip_probe",
+        "recovery-scalar-850000"
+      ]
+    }
+  ],
+  "environment": {
+    "HOME": "/home/builderbob",
+    "PATH": "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin:/usr/bin:/bin",
+    "CARGO_HOME": "/workspace/cache/builderbob/global-tools/cargo",
+    "RUSTUP_HOME": "/workspace/cache/builderbob/global-tools/rustup",
+    "RUSTUP_TOOLCHAIN": "1.99.1-x86_64-unknown-linux-gnu",
+    "CARGO_BUILD_JOBS": "1",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_NET_OFFLINE": "true",
+    "CARGO_TARGET_DIR": "/workspace/build/builderbob/syson-durable-batch38-20261031/cargo-target-01",
+    "TMPDIR": "/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-tmp-01",
+    "SYSON_TEST_DIR": "/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-snapshots-01",
+    "XDG_RUNTIME_DIR": "/run/user/1000",
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8"
+  },
+  "out": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01",
+  "unit": "syson-b38-storage-62d9b88f5ca24920865ae45933a93e43.scope",
+  "cookie": "7b9af1cae6c941dc86765fd66f661b57",
+  "admission": {
+    "freshness_observed_before_concise_admission": "Output absent; measurement fixtures/tmp empty,canonical,uid1000,0700 under B38. No inherited RR13 child markers.",
+    "protocol": "Same unchanged F25 owned provider and launcher,shared nonblocking compiler lock,180second command bound and owned descendant cleanup. Fresh Samsung/platform/headroom/scope/lock gates remain root responsibility.",
+    "compile_excluded": true,
+    "source_and_binary_correspondence": "Successful preceding release build command and all726stable inputs are bound; exact regular1542672-byte binary SHA89480c8ca8157bac89209a02aa2ce9cc6a316b554a22d0c21835cf9dd8eff97a is directly executed under NNP,not Cargo.",
+    "memory": "GNUtime verbose output belongs to the whole one-workload child invocation,including startup,identity/path/fixture setup,all9repetitions,oracles/printing. No phase heap,allocation traffic,per-sample RSS,cold-cache or application capacity claim."
+  },
+  "required_result_readback": [
+    "All735before=after=current,source and binary unchanged; both commands exit0 and separate time outputs exit0.",
+    "Actual subject raw UID1000x4,zero capabilities,NNP1,owned canonical roots and complete rows.",
+    "Each fixed workload has exactly2warmups plus7rawsamples,stable fixed canonical bytes/IDs/name/history setup,4separate clocks and post-clock full value/role/byte/stage oracles.",
+    "Independently recompute each of4phase min/median/max from sevenrawvalues; preserve warmups/outliers and classify saving-induced cache warmth.",
+    "Inspect actual9fresh sample directories eachworkload and full canonicalfiles without special-file opens.",
+    "Bind actual scope proof,available live controls and confirmedempty/absent cleanup; no timing/native/p95/physical durability acceptance inferred."
+  ],
+  "limits": [
+    "Reviewer did not run subject imports/compiler/tests/binary,chmod,Git/network or source changes. This is spec admission only.",
+    "No parentRR13/fullparity/native/SQL/HTTP/UI/process/backend restart,powerloss,capacity or held-scope release."
+  ],
+  "feature_accepted": false,
+  "full_parity_claimed": false,
+  "holds_released": false,
+  "only_written_artifact": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-performance-spec.json"
+}

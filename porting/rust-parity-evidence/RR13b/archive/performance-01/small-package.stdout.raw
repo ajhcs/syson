@@ -1,0 +1,25 @@
+proc field=Uid: value=1000	1000	1000	1000
+proc field=Gid: value=1000	1000	1000	1000
+proc field=Groups: value=4 24 27 30 46 101 1000
+proc field=Umask: value=0002
+proc field=CapInh: value=0000000000000000
+proc field=CapPrm: value=0000000000000000
+proc field=CapEff: value=0000000000000000
+proc field=CapAmb: value=0000000000000000
+proc field=NoNewPrivs: value=1
+identity uid=1000 caps=0 no_new_privs=1 pid=501639
+scope root="/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-snapshots-01/rr13b-501639-1793409546945695524" dev=66308 ino=60164763 mode=0700 workload=small-package
+sample workload=small-package kind=warmup index=0 bytes=364 save_ns=19906574 reopen_ns=16842 load_ns=30709 roundtrip_ns=19954736 verified=1
+sample workload=small-package kind=warmup index=1 bytes=364 save_ns=10385582 reopen_ns=15640 load_ns=19297 roundtrip_ns=10420890 verified=1
+sample workload=small-package kind=raw index=0 bytes=364 save_ns=10212462 reopen_ns=9909 load_ns=11532 roundtrip_ns=10234183 verified=1
+sample workload=small-package kind=raw index=1 bytes=364 save_ns=10384320 reopen_ns=15439 load_ns=17273 roundtrip_ns=10417383 verified=1
+sample workload=small-package kind=raw index=2 bytes=364 save_ns=10268830 reopen_ns=15169 load_ns=17213 roundtrip_ns=10301552 verified=1
+sample workload=small-package kind=raw index=3 bytes=364 save_ns=10275162 reopen_ns=15379 load_ns=17163 roundtrip_ns=10308045 verified=1
+sample workload=small-package kind=raw index=4 bytes=364 save_ns=10332201 reopen_ns=9869 load_ns=10891 roundtrip_ns=10353211 verified=1
+sample workload=small-package kind=raw index=5 bytes=364 save_ns=10210648 reopen_ns=9718 load_ns=10791 roundtrip_ns=10231388 verified=1
+sample workload=small-package kind=raw index=6 bytes=364 save_ns=10176483 reopen_ns=15390 load_ns=18125 roundtrip_ns=10210348 verified=1
+summary workload=small-package phase=save count=7 min_ns=10176483 median_ns=10268830 max_ns=10384320
+summary workload=small-package phase=reopen count=7 min_ns=9718 median_ns=15169 max_ns=15439
+summary workload=small-package phase=load count=7 min_ns=10791 median_ns=17163 max_ns=18125
+summary workload=small-package phase=roundtrip count=7 min_ns=10210348 median_ns=10301552 max_ns=10417383
+complete workload=small-package retained_bytes=3276 verified=1 process_restart=0

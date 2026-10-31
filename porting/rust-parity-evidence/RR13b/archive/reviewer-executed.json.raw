@@ -1,0 +1,680 @@
+{
+  "schema": "SYSON-RR13B-INDEPENDENT-RUNTIME-REVIEW/1",
+  "status": "PASS_EXACT_LOCAL31_DEBUG_RELEASE_AND_TWO_FIXED_RELEASE_WORKLOADS_PUBLIC_PACKET_SEPARATE",
+  "reviewer": "/root/registration_review",
+  "reviewed_at_utc": "2026-10-31T01:28:02.136133+00:00",
+  "findings": [],
+  "bindings": {
+    "reviewer-source-inline.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-source-inline.json",
+      "bytes": 17426,
+      "sha256": "c913d07e32d2f586643a0a4f64ee64437876a3402b0d4de06a148e1f392c7fd5"
+    },
+    "reviewer-checks-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-checks-spec.json",
+      "bytes": 9240,
+      "sha256": "48af148127ca06fba5b26970c3859ce6fcab3665e70e124674096ec2e16236f4"
+    },
+    "reviewer-performance-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-performance-spec.json",
+      "bytes": 6419,
+      "sha256": "233c4b08130419ff1307ffa513944f531ac569b33f0e3c573eae36108e2a996b"
+    },
+    "checks-01-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-spec.json",
+      "bytes": 154428,
+      "sha256": "2fe7c5bbf1e676bb1bbd79685c4973d12520eb73d0a409c568979189f9a93fad"
+    },
+    "checks-01/receipt.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/receipt.json",
+      "bytes": 303569,
+      "sha256": "8b00226cdae4c1545afeb79a38efc7fd9f4d6adebe463aa1fcb5b702bced7e7c"
+    },
+    "performance-01-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01-spec.json",
+      "bytes": 154065,
+      "sha256": "0f05c6a8c4cfd08485f32c0b0865eadd31a0fba1432281c41889556f59649c3f"
+    },
+    "performance-01/receipt.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/receipt.json",
+      "bytes": 304275,
+      "sha256": "164727b0b16bab0cb4fd91a7ec39fdbe860d2dc2b2f3ba565e31a8db1a951ebe"
+    },
+    "release-binary-binding.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/release-binary-binding.json",
+      "bytes": 1506,
+      "sha256": "ecc980bb92cf74a2e9bdcd8133225029eb8fe3a7e08f4cb961926d027745d5a1"
+    },
+    "runtime-artifacts.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/runtime-artifacts.json",
+      "bytes": 97078,
+      "sha256": "b674f7cf2d8eae10d77dfeecf058bfcc927516c2261ed521d6f9a39db4547777"
+    },
+    "performance-analysis.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-analysis.json",
+      "bytes": 9873,
+      "sha256": "896bdf10bb547c1c8b44abb007b20b54708720a5d9f62f09e98bc8f43784f907"
+    },
+    "implementation-inputs.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/implementation-inputs.json",
+      "bytes": 615,
+      "sha256": "3a9842516a417b5a6ad8c6f069b3576ca5d55ac6f9d2b315bb47fe85a74d9781"
+    }
+  },
+  "execution": {
+    "checks_all7_exit0": true,
+    "all726_checks_spec_before_after_current_match": true,
+    "performance_both_exit0": true,
+    "all735_performance_spec_before_after_current_match": true,
+    "raw_case_identities": {
+      "tests": [
+        "rr13_open_races::regular_to_fifo_between_admission_and_open_refuses",
+        "rr13_open_races::regular_to_new_inode_between_admission_and_open_refuses",
+        "rr13_open_races::regular_to_symlink_between_admission_and_open_refuses",
+        "corrupt_partial_and_invalid_keys_do_not_replace_snapshot",
+        "create_type_cancel_undo_save_restart_and_rotate",
+        "directory_replacement_invalidates_existing_load_and_save_handles",
+        "directory_socket_symlink_and_invalid_utf8_files_refuse_without_following",
+        "exact_four_mib_raw_input_loads_and_one_extra_byte_refuses",
+        "fifo_load_refuses_without_a_blocking_open",
+        "provisional_output_limit_refuses_before_any_injected_io",
+        "regular_reopen_preserves_canonical_bytes_and_never_overwrites_a_destination",
+        "root_and_ancestor_symlinks_and_parent_components_refuse_before_creation",
+        "root_to_fifo_at_directory_sync_refuses_after_publication_without_blocking",
+        "create_failure_leaves_no_candidate",
+        "directory_sync_error_is_a_published_but_unconfirmed_outcome",
+        "existing_published_snapshot_is_not_replaced_by_retry",
+        "existing_staging_is_preserved_and_not_used_as_a_snapshot",
+        "file_sync_failure_retains_complete_staging_without_publishing",
+        "invalid_keys_are_rejected_before_any_injected_io",
+        "partial_write_is_retained_and_never_loaded_as_a_snapshot",
+        "publication_failure_retains_complete_staging_without_publishing",
+        "publish_side_effect_then_error_makes_failure_ambiguous",
+        "removal_side_effect_then_error_leaves_no_staging_but_a_published_snapshot",
+        "staging_removal_error_retains_published_snapshot_and_staging",
+        "successful_sequence_loads_from_fresh_store_and_removes_staging",
+        "write_failure_retains_empty_staging",
+        "probe::controls::create_permission_denied_preserves_prior_and_restores_write",
+        "probe::controls::directory_sync_permission_denied_can_leave_published_bytes",
+        "probe::controls::exact_four_mib_input_loads_without_changing_bytes",
+        "probe::controls::one_extra_byte_refuses_without_changing_prior",
+        "probe::controls::read_permission_denied_preserves_prior_and_restores_read"
+      ],
+      "release-tests": [
+        "rr13_open_races::regular_to_fifo_between_admission_and_open_refuses",
+        "rr13_open_races::regular_to_new_inode_between_admission_and_open_refuses",
+        "rr13_open_races::regular_to_symlink_between_admission_and_open_refuses",
+        "corrupt_partial_and_invalid_keys_do_not_replace_snapshot",
+        "create_type_cancel_undo_save_restart_and_rotate",
+        "directory_replacement_invalidates_existing_load_and_save_handles",
+        "directory_socket_symlink_and_invalid_utf8_files_refuse_without_following",
+        "exact_four_mib_raw_input_loads_and_one_extra_byte_refuses",
+        "fifo_load_refuses_without_a_blocking_open",
+        "provisional_output_limit_refuses_before_any_injected_io",
+        "regular_reopen_preserves_canonical_bytes_and_never_overwrites_a_destination",
+        "root_and_ancestor_symlinks_and_parent_components_refuse_before_creation",
+        "root_to_fifo_at_directory_sync_refuses_after_publication_without_blocking",
+        "create_failure_leaves_no_candidate",
+        "directory_sync_error_is_a_published_but_unconfirmed_outcome",
+        "existing_published_snapshot_is_not_replaced_by_retry",
+        "existing_staging_is_preserved_and_not_used_as_a_snapshot",
+        "file_sync_failure_retains_complete_staging_without_publishing",
+        "invalid_keys_are_rejected_before_any_injected_io",
+        "partial_write_is_retained_and_never_loaded_as_a_snapshot",
+        "publication_failure_retains_complete_staging_without_publishing",
+        "publish_side_effect_then_error_makes_failure_ambiguous",
+        "removal_side_effect_then_error_leaves_no_staging_but_a_published_snapshot",
+        "staging_removal_error_retains_published_snapshot_and_staging",
+        "successful_sequence_loads_from_fresh_store_and_removes_staging",
+        "write_failure_retains_empty_staging",
+        "probe::controls::create_permission_denied_preserves_prior_and_restores_write",
+        "probe::controls::directory_sync_permission_denied_can_leave_published_bytes",
+        "probe::controls::exact_four_mib_input_loads_without_changing_bytes",
+        "probe::controls::one_extra_byte_refuses_without_changing_prior",
+        "probe::controls::read_permission_denied_preserves_prior_and_restores_read"
+      ]
+    },
+    "same31_ordered_names_both_modes": true,
+    "successful_harness_blocks_each_mode": [
+      3,
+      2,
+      8,
+      13,
+      5
+    ],
+    "failed_ignored_filtered_measured_cases": 0,
+    "distinct_cases": 31,
+    "original_cases": 26,
+    "additional_real_controls": 5,
+    "warnings": 0,
+    "ten_actual_test_binary_hashes_match_Cargo_stderr": true,
+    "normal_measurement_binary": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/cargo-target-01/release/examples/snapshot_roundtrip_probe",
+      "bytes": 1542672,
+      "sha256": "89480c8ca8157bac89209a02aa2ce9cc6a316b554a22d0c21835cf9dd8eff97a",
+      "five_test_only_markers_absent": true
+    },
+    "five_test_only_markers_absent_from_normal_binary_independently_checked": true,
+    "raw_streams": {
+      "checks-01/rustc-version.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/rustc-version.stdout",
+        "bytes": 196,
+        "sha256": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369"
+      },
+      "checks-01/rustc-version.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/rustc-version.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "checks-01/cargo-version.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/cargo-version.stdout",
+        "bytes": 36,
+        "sha256": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6"
+      },
+      "checks-01/cargo-version.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/cargo-version.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "checks-01/fmt.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/fmt.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "checks-01/fmt.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/fmt.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "checks-01/tests.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/tests.stdout",
+        "bytes": 9366,
+        "sha256": "f0717b7b079a4a4005930cff1f74aee19046d8badbc8e6c0d5d7e9192133cde7"
+      },
+      "checks-01/tests.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/tests.stderr",
+        "bytes": 2006,
+        "sha256": "99a0aa468aa07db98b2ac66005fad954467d98308b1d43921676a789ae19f59f"
+      },
+      "checks-01/clippy.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/clippy.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "checks-01/clippy.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/clippy.stderr",
+        "bytes": 1188,
+        "sha256": "5cbb18981ed998f7b057104afac3f5bd5eda683eb0f917f03d7f7cd580edce5c"
+      },
+      "checks-01/release-tests.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/release-tests.stdout",
+        "bytes": 9366,
+        "sha256": "104adc02e30025b647120bd1f3949d38100fb71ddccc11d201baf79f8e263ead"
+      },
+      "checks-01/release-tests.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/release-tests.stderr",
+        "bytes": 2005,
+        "sha256": "5961f45cbc4a9cdf1647edbc4e90d48aea6eadd2ed349fd895da6a1afb2354a2"
+      },
+      "checks-01/release-probe-build.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/release-probe-build.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "checks-01/release-probe-build.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/release-probe-build.stderr",
+        "bytes": 197,
+        "sha256": "77d6ad3104aab44355e6f913eb73f53ac5a42a157ee18d1644aee1c9521d5aae"
+      },
+      "performance-01/small-package.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/small-package.stdout",
+        "bytes": 2306,
+        "sha256": "76db292f6d1ba46d47913302463b96c5c8167f865392dd34afb2260d22faa780"
+      },
+      "performance-01/small-package.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/small-package.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "performance-01/small-package.time.txt": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/small-package.time.txt",
+        "bytes": 876,
+        "sha256": "60b5def6738c361e5194f9bd9aedc16980f3c7b5a6e3fc517b1031a8c5f8b920"
+      },
+      "performance-01/recovery-scalar-850000.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/recovery-scalar-850000.stdout",
+        "bytes": 2496,
+        "sha256": "f56cd3f3935b1b716444240b2d7f150390f28d8c4a210ca06c267ac47456206c"
+      },
+      "performance-01/recovery-scalar-850000.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/recovery-scalar-850000.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "performance-01/recovery-scalar-850000.time.txt": {
+        "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/recovery-scalar-850000.time.txt",
+        "bytes": 891,
+        "sha256": "1ca6b5abb563f38f27cee8f622f2fb4b6c47a979234faf8070d1d46d556efbdd"
+      }
+    }
+  },
+  "fixture_audit": {
+    "inventories": {
+      "checks": {
+        "root": "/workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01",
+        "entries": 244,
+        "counts": {
+          "regular": 148,
+          "directory": 82,
+          "fifo": 6,
+          "socket": 2,
+          "symlink": 6
+        },
+        "regular_bytes": 33586896,
+        "all_metadata_regular_hashes_and_link_targets_match": true
+      },
+      "measurement": {
+        "root": "/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-snapshots-01",
+        "entries": 38,
+        "counts": {
+          "regular": 18,
+          "directory": 20,
+          "fifo": 0,
+          "socket": 0,
+          "symlink": 0
+        },
+        "regular_bytes": 7656507,
+        "all_metadata_regular_hashes_and_link_targets_match": true
+      }
+    },
+    "safe_method": "lstat types, recurse only real directories; hash/read regular files only and readlink symlinks; no FIFO/socket opened or symlink followed.",
+    "independently_reconstructed_semantic_oracles": [
+      "All26 donor-fault fixtures preserve exact canonical prior/candidate/stage bytes,11byte partialprefix,unchanged stagedsentinel and per-case observed.txt. After-publish/directory-sync/remove faults retain same-inode hardlinks; after-remove retry has distinct new empty-document stage. No Io/nonpublication inference.",
+      "Both original regular groups preserve complete opaque-number canonical JSON,4MiB/+1 padded rawfiles,original versus replaced inode,unchanged referencedbytes and retained after-publication files. Six deterministic admission-race directories retain original23bytes and two each FIFO/symlink/new-inode replacement.",
+      "Four connected fixtures match complete independently reconstructed Vehicle/Wheel/frontWheel relationship objects and separate resource/semantic IDs, with oldwheel staging retained after no-replace failure; corrupt/partial markers and known-good bytes unchanged.",
+      "All10 additional-control roots correspond to raw5test blocks per mode: four UID1000values,zero4capabilityfields,NNP1; raw errno13;0700→0500→0700,0700→0300→0700 and0664→0000→0664; exact dev/inode,successful restored new-key fullbytes/roles,ambiguous published stage and exact4194304/4194305 bytes."
+    ]
+  },
+  "workloads": {
+    "small-package": {
+      "canonical_bytes": 364,
+      "canonical_sha256": "d6648c260aa28c5fc2e59918475b11dd9e2cc76f8e33858937feda502c3a4437",
+      "files": 9,
+      "warmups": [
+        {
+          "workload": "small-package",
+          "kind": "warmup",
+          "index": 0,
+          "bytes": 364,
+          "save_ns": 19906574,
+          "reopen_ns": 16842,
+          "load_ns": 30709,
+          "roundtrip_ns": 19954736,
+          "verified": 1
+        },
+        {
+          "workload": "small-package",
+          "kind": "warmup",
+          "index": 1,
+          "bytes": 364,
+          "save_ns": 10385582,
+          "reopen_ns": 15640,
+          "load_ns": 19297,
+          "roundtrip_ns": 10420890,
+          "verified": 1
+        }
+      ],
+      "raw_samples": [
+        {
+          "workload": "small-package",
+          "kind": "raw",
+          "index": 0,
+          "bytes": 364,
+          "save_ns": 10212462,
+          "reopen_ns": 9909,
+          "load_ns": 11532,
+          "roundtrip_ns": 10234183,
+          "verified": 1
+        },
+        {
+          "workload": "small-package",
+          "kind": "raw",
+          "index": 1,
+          "bytes": 364,
+          "save_ns": 10384320,
+          "reopen_ns": 15439,
+          "load_ns": 17273,
+          "roundtrip_ns": 10417383,
+          "verified": 1
+        },
+        {
+          "workload": "small-package",
+          "kind": "raw",
+          "index": 2,
+          "bytes": 364,
+          "save_ns": 10268830,
+          "reopen_ns": 15169,
+          "load_ns": 17213,
+          "roundtrip_ns": 10301552,
+          "verified": 1
+        },
+        {
+          "workload": "small-package",
+          "kind": "raw",
+          "index": 3,
+          "bytes": 364,
+          "save_ns": 10275162,
+          "reopen_ns": 15379,
+          "load_ns": 17163,
+          "roundtrip_ns": 10308045,
+          "verified": 1
+        },
+        {
+          "workload": "small-package",
+          "kind": "raw",
+          "index": 4,
+          "bytes": 364,
+          "save_ns": 10332201,
+          "reopen_ns": 9869,
+          "load_ns": 10891,
+          "roundtrip_ns": 10353211,
+          "verified": 1
+        },
+        {
+          "workload": "small-package",
+          "kind": "raw",
+          "index": 5,
+          "bytes": 364,
+          "save_ns": 10210648,
+          "reopen_ns": 9718,
+          "load_ns": 10791,
+          "roundtrip_ns": 10231388,
+          "verified": 1
+        },
+        {
+          "workload": "small-package",
+          "kind": "raw",
+          "index": 6,
+          "bytes": 364,
+          "save_ns": 10176483,
+          "reopen_ns": 15390,
+          "load_ns": 18125,
+          "roundtrip_ns": 10210348,
+          "verified": 1
+        }
+      ],
+      "recomputed_summaries": {
+        "save": {
+          "count": 7,
+          "min_ns": 10176483,
+          "median_ns": 10268830,
+          "max_ns": 10384320
+        },
+        "reopen": {
+          "count": 7,
+          "min_ns": 9718,
+          "median_ns": 15169,
+          "max_ns": 15439
+        },
+        "load": {
+          "count": 7,
+          "min_ns": 10791,
+          "median_ns": 17163,
+          "max_ns": 18125
+        },
+        "roundtrip": {
+          "count": 7,
+          "min_ns": 10210348,
+          "median_ns": 10301552,
+          "max_ns": 10417383
+        }
+      },
+      "whole_process_max_rss_kib": 2880,
+      "actual_proc_fields": {
+        "Uid": "1000\t1000\t1000\t1000",
+        "Gid": "1000\t1000\t1000\t1000",
+        "Groups": "4 24 27 30 46 101 1000",
+        "Umask": "0002",
+        "CapInh": "0000000000000000",
+        "CapPrm": "0000000000000000",
+        "CapEff": "0000000000000000",
+        "CapAmb": "0000000000000000",
+        "NoNewPrivs": "1"
+      },
+      "root": "/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-snapshots-01/rr13b-501639-1793409546945695524"
+    },
+    "recovery-scalar-850000": {
+      "canonical_bytes": 850359,
+      "canonical_sha256": "52e0b80a11caf2d4c2699c75ab7afe76273b0f60e236b5ac462fd82407276801",
+      "files": 9,
+      "warmups": [
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "warmup",
+          "index": 0,
+          "bytes": 850359,
+          "save_ns": 11249262,
+          "reopen_ns": 26090,
+          "load_ns": 1133063,
+          "roundtrip_ns": 12409007,
+          "verified": 1
+        },
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "warmup",
+          "index": 1,
+          "bytes": 850359,
+          "save_ns": 11267668,
+          "reopen_ns": 11773,
+          "load_ns": 1001542,
+          "roundtrip_ns": 12281343,
+          "verified": 1
+        }
+      ],
+      "raw_samples": [
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "raw",
+          "index": 0,
+          "bytes": 850359,
+          "save_ns": 10969047,
+          "reopen_ns": 17393,
+          "load_ns": 1548558,
+          "roundtrip_ns": 12535328,
+          "verified": 1
+        },
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "raw",
+          "index": 1,
+          "bytes": 850359,
+          "save_ns": 11050833,
+          "reopen_ns": 16813,
+          "load_ns": 1858158,
+          "roundtrip_ns": 12926395,
+          "verified": 1
+        },
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "raw",
+          "index": 2,
+          "bytes": 850359,
+          "save_ns": 10892040,
+          "reopen_ns": 17664,
+          "load_ns": 1545551,
+          "roundtrip_ns": 12455877,
+          "verified": 1
+        },
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "raw",
+          "index": 3,
+          "bytes": 850359,
+          "save_ns": 10935022,
+          "reopen_ns": 11202,
+          "load_ns": 954593,
+          "roundtrip_ns": 11901117,
+          "verified": 1
+        },
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "raw",
+          "index": 4,
+          "bytes": 850359,
+          "save_ns": 10924722,
+          "reopen_ns": 10801,
+          "load_ns": 956366,
+          "roundtrip_ns": 11892149,
+          "verified": 1
+        },
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "raw",
+          "index": 5,
+          "bytes": 850359,
+          "save_ns": 11054600,
+          "reopen_ns": 13326,
+          "load_ns": 1389493,
+          "roundtrip_ns": 12457719,
+          "verified": 1
+        },
+        {
+          "workload": "recovery-scalar-850000",
+          "kind": "raw",
+          "index": 6,
+          "bytes": 850359,
+          "save_ns": 10899514,
+          "reopen_ns": 16110,
+          "load_ns": 1135208,
+          "roundtrip_ns": 12051183,
+          "verified": 1
+        }
+      ],
+      "recomputed_summaries": {
+        "save": {
+          "count": 7,
+          "min_ns": 10892040,
+          "median_ns": 10935022,
+          "max_ns": 11054600
+        },
+        "reopen": {
+          "count": 7,
+          "min_ns": 10801,
+          "median_ns": 16110,
+          "max_ns": 17664
+        },
+        "load": {
+          "count": 7,
+          "min_ns": 954593,
+          "median_ns": 1389493,
+          "max_ns": 1858158
+        },
+        "roundtrip": {
+          "count": 7,
+          "min_ns": 11892149,
+          "median_ns": 12455877,
+          "max_ns": 12926395
+        }
+      },
+      "whole_process_max_rss_kib": 7680,
+      "actual_proc_fields": {
+        "Uid": "1000\t1000\t1000\t1000",
+        "Gid": "1000\t1000\t1000\t1000",
+        "Groups": "4 24 27 30 46 101 1000",
+        "Umask": "0002",
+        "CapInh": "0000000000000000",
+        "CapPrm": "0000000000000000",
+        "CapEff": "0000000000000000",
+        "CapAmb": "0000000000000000",
+        "NoNewPrivs": "1"
+      },
+      "root": "/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-snapshots-01/rr13b-501641-1793409547059616272"
+    }
+  },
+  "measurement_interpretation": {
+    "method": "Exactly2warmups+7rawsamples per fixed workload; all18full canonical files/roles/names match independent current EMF JSON construction,not fixture-derived fields. Every summary recomputed.",
+    "timing": "Save includes real boundedserialization and filesystem sync/publication; reopen/load separate; total roundtrip includes drop and clock overhead. Setup/model/history/oracle preparation and post-load checks/printing excluded. No file pre-read before timedload. Save warms cache; min/median/max descriptive only.",
+    "memory": "GNUtime verbose peak2880/7680KiB is one whole nine-repetition child process per workload including startup,setup,oracles and setpriv exec;not phaseallocation/liveheap or per-sample memory. Compilation completed before directbinary invocation.",
+    "unsupported": "No p95,timingveto,nativeratio,coldbuild/coldcache,devicecapacity or actualapplication latency claim."
+  },
+  "scope": {
+    "proofs_and_cleanup": {
+      "checks-01": {
+        "proof": {
+          "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/scope-proof.json",
+          "bytes": 368,
+          "sha256": "761b181157e09a254fb0bd8aa0a3b078828230d5f648552024903a5bfd01caee"
+        },
+        "cleanup": {
+          "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-cleanup.json",
+          "bytes": 160,
+          "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+        }
+      },
+      "performance-01": {
+        "proof": {
+          "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/scope-proof.json",
+          "bytes": 368,
+          "sha256": "8b1797b0e68384770d7851ce92d26d2e7940344b14b989262efe1787ae74c411"
+        },
+        "cleanup": {
+          "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01-cleanup.json",
+          "bytes": 160,
+          "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+        }
+      }
+    },
+    "checks_live_controls": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-resource-observation.txt",
+      "bytes": 302,
+      "sha256": "1588f37bd9917dc703c4bf1b3890033f5e69ebd51ce13b4f94aaa5890c6ceb17"
+    },
+    "checks_five_control_values_and_invocation_match": true,
+    "performance_live_numeric_readback": "Not captured separately; exact entryproof and absentcleanup only. Requested same limits do not become a live numeric observation."
+  },
+  "source_budget_and_scope": {
+    "normal_formatted_example": 471,
+    "genuine_cfg_test_span": [
+      273,
+      463
+    ],
+    "genuine_test_lines": 191,
+    "measurement_production": 280,
+    "fault_tests": 356,
+    "README": 12,
+    "CI": 11,
+    "attrs": 2,
+    "inclusive_production": 305,
+    "authored": 852,
+    "caps": [
+      400,
+      900
+    ],
+    "normal_main_only_two_measurement_modes": true,
+    "all_shared_measurement_helpers_count_production": true,
+    "full_case_and_behavior_preservation": true
+  },
+  "retained_root_postprocessing_failures": {
+    "schema_error": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/analysis-schema-failure-01.json",
+      "bytes": 544,
+      "sha256": "8bb867761f5702da7d8780bad1e541ece3397f4f444b0dd75f60247eb51a0201"
+    },
+    "format_error": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/analysis-format-failure-02.json",
+      "bytes": 524,
+      "sha256": "900dad70305292ea222f539b46634c91382530d5a4014dab4053655eb98df01e"
+    },
+    "classification": "Data-analysis assumptions @id versus actual EMF id/data.elementId and compact versus canonical pretty JSON were corrected against current source. Both failures retained; no subject source change or rerun. Independent review reconstructs full correct pretty bytes and agrees with final report."
+  },
+  "publication_boundary": "Standalone runtime review only: no public qualification packet is bound here. Root may capture this report,freeze publicpacket,then request distinct readback without a report/qualification hash cycle. Root-provided implementation commit ac6ae4897e3558aac6651124cbab31cf5ce24f64 and five-path hash record are not independent reviewer Git/remote verification.",
+  "limits": [
+    "Reviewer ran no subjectimports/compiler/tests/binary,chmod,Git/network or source changes. Runtime assertions are independently audited root-produced bytes,artifacts and retained fixtures.",
+    "Sameprocessdrop/reopen only; noactualwriterprocess/backendrestart,native/SQL/HTTP/UI,physicalpowerloss,capacity orfullRust parity acceptance.",
+    "FullparentRR13 and heldinitializer/rawfactory/human scopes remain open;noB25d/M06a2sourcelease."
+  ],
+  "feature_accepted": false,
+  "full_parity_claimed": false,
+  "holds_released": false,
+  "only_written_artifact": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-executed.json"
+}
