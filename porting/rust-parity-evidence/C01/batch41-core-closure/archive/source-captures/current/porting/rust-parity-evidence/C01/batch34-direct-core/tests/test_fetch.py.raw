@@ -1,0 +1,269 @@
+"""New fixed-client controls; the immutable old 28 controls run separately."""
+from pathlib import Path
+import copy, hashlib, importlib.util, io, json, os, tempfile, types, unittest
+from unittest.mock import patch
+
+SOURCE = Path(__file__).resolve().parents[1] / 'fetch.py'
+MANIFEST = SOURCE.parent / 'requests.json'
+PIN = 'f9e8ae517ca7323326ebe63f0a2974febd3c966a51bb0f0c23d80434214516ff'
+SPEC = importlib.util.spec_from_file_location('direct_client_under_test', SOURCE)
+fetch = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(fetch)
+
+
+class Response(io.BytesIO):
+    def __init__(self, body, url, code=200):
+        super().__init__(body)
+        self.url, self.code = url, code
+        self.headers = {'Content-Length': str(len(body))}
+
+    def geturl(self):
+        return self.url
+
+
+class DirectClientTests(unittest.TestCase):
+    def setUp(self):
+        self.assertEqual(fetch.MANIFEST_SHA, PIN)
+        self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
+        self.assertEqual(fetch.base.OUTPUT_ROOT, Path('/workspace/build/builderbob'))
+        root = Path(os.environ['SYSON_BOOTSTRAP_TEST_ROOT'])
+        self.assertTrue(root.is_absolute() and root.resolve() == root and root.is_dir())
+        if os.environ.get('GITHUB_ACTIONS') == 'true':
+            runner = Path(os.environ['RUNNER_TEMP'])
+            self.assertTrue(runner.is_absolute() and runner.resolve() == runner and runner.is_dir())
+            self.assertTrue(root.is_relative_to(runner))
+        else:
+            self.assertTrue(root.is_relative_to('/workspace/build/builderbob'))
+        temporary = tempfile.TemporaryDirectory(prefix='direct-controls-', dir=root)
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        for mock in [patch.object(fetch.base, 'OUTPUT_ROOT', self.root),
+                     patch('socket.create_connection', side_effect=AssertionError('network forbidden'))]:
+            mock.start()
+            self.addCleanup(mock.stop)
+
+    def deny_manifest(self, change):
+        value = json.loads(MANIFEST.read_bytes())
+        change(value)
+        raw = json.dumps(value).encode()
+        with patch.object(fetch, 'MANIFEST_SHA', hashlib.sha256(raw).hexdigest()):
+            with self.assertRaises(ValueError):
+                fetch.requests(raw)
+
+    def test_default_import_reads_only_verified_provider_and_keeps_old_profiles(self):
+        raw, observed = SOURCE.read_bytes(), []
+        original = Path.read_bytes
+        def read(path):
+            observed.append(path)
+            return original(path)
+        module = types.ModuleType('fresh_direct_client')
+        module.__file__ = str(SOURCE)
+        with patch.object(Path, 'read_bytes', read):
+            exec(compile(raw, str(SOURCE), 'exec'), module.__dict__)
+        self.assertEqual(observed, [fetch.PROVIDER])
+        self.assertEqual(module.base.PAYLOAD_LIMIT, 128 * fetch.MIB)
+        self.assertEqual(module.base.METADATA_LIMIT, 96 * fetch.MIB)
+        self.assertEqual(hashlib.sha256(fetch.PROVIDER.read_bytes()).hexdigest(), fetch.PROVIDER_SHA)
+
+    def test_wrong_provider_bytes_are_rejected_before_any_execution(self):
+        candidate = self.root / 'not-the-provider.py'
+        candidate.write_text("raise AssertionError('must never execute')\n")
+        with self.assertRaisesRegex(ValueError, 'pinned provider hash'):
+            fetch.load_verified(candidate, fetch.base.OWNED_SHA, 'syson_verified_scope_owner')
+        with self.assertRaisesRegex(ValueError, 'pinned provider hash'):
+            fetch.load_verified(candidate, hashlib.sha256(candidate.read_bytes()).hexdigest(), 'arbitrary')
+
+    def test_exact_28_payloads_140_urls_and_three_source_classifiers(self):
+        rows = fetch.requests(MANIFEST.read_bytes())
+        self.assertEqual(len(rows), 140)
+        self.assertEqual(len({row['url'] for row in rows}), 140)
+        sources = [row for row in rows if row['url'].endswith('-sources.jar')]
+        self.assertEqual(len(sources), 3)
+        self.assertTrue(any('/commons-text/1.10.0/' in row['url'] for row in rows))
+        self.assertFalse(any('/commons-text/1.12.0/' in row['url'] for row in rows))
+        self.assertFalse(any('/commons-lang3/' in row['url'] for row in rows))
+
+    def test_bad_raw_manifest_and_old395_manifest_never_get_admitted(self):
+        with self.assertRaisesRegex(ValueError, 'fixed direct manifest hash'):
+            fetch.requests(MANIFEST.read_bytes() + b'\n')
+        old = fetch.PROVIDER.parent / 'requests.json'
+        with self.assertRaisesRegex(ValueError, 'fixed direct manifest hash'):
+            fetch.requests(old.read_bytes())
+
+    def test_source_classifier_and_null_classifier_presence_are_required(self):
+        for change in [lambda p: p['new_payloads'][22].update(classifier='tests'),
+                       lambda p: p['new_payloads'][0].pop('classifier'),
+                       lambda p: p['new_payloads'][25].update(classifier='sources')]:
+            with self.subTest(change=change):
+                self.deny_manifest(change)
+
+    def test_coherent_commons_text_version_replacement_is_not_a_profile(self):
+        def change(p):
+            for index in [10, 11]:
+                item = p['new_payloads'][index]
+                item['coordinate']['version'] = '1.12.0'
+                for key in ['relative_artifact', 'url']:
+                    item[key] = item[key].replace('1.10.0', '1.12.0')
+                for row in p['requests'][index * 5:index * 5 + 5]:
+                    for key in ['url', 'relative_path']:
+                        row[key] = row[key].replace('1.10.0', '1.12.0')
+        self.deny_manifest(change)
+
+    def test_count_duplicate_status_and_exact_profiles_cannot_be_changed(self):
+        changes = [lambda p: p['requests'].pop(),
+                   lambda p: p['requests'].__setitem__(1, copy.deepcopy(p['requests'][0])),
+                   lambda p: p['requests'][0].update(allowed_status=[200, 404]),
+                   lambda p: p['limits'].update(payload_and_sidecar_total_bytes=128 * fetch.MIB),
+                   lambda p: p['limits'].update(getter_metadata_proof_receipt_bytes=95 * fetch.MIB),
+                   lambda p: p['limits'].update(all_metadata_and_log_bytes=96 * fetch.MIB)]
+        for index, change in enumerate(changes):
+            with self.subTest(mutation=index):
+                self.deny_manifest(change)
+
+    def test_exact64mib_boundary_uses_new_remaining_with_real_shared_transfer(self):
+        self.assertEqual(fetch.remaining(64 * fetch.MIB), 0)
+        for value in [-1, 64 * fetch.MIB + 1, True, 1.0]:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                fetch.remaining(value)
+        row = fetch.requests(MANIFEST.read_bytes())[1]
+        response = Response(b'xy', row['url'])
+        client = types.SimpleNamespace(open=lambda request, timeout: response)
+        path = self.root / 'last.partial'
+        metadata = fetch.base.Metadata(limit=31 * fetch.MIB, reserve=fetch.MIB)
+        with self.assertRaisesRegex(ValueError, 'stream byte limit'):
+            fetch.base.transfer(client, row, path, fetch.remaining(64 * fetch.MIB - 1), metadata)
+        self.assertEqual(path.read_bytes(), b'x')
+        self.assertTrue(response.closed)
+        self.assertLess(metadata.used, fetch.MIB)
+
+    def test_31mib_ledger_has_a_real_failure_receipt_reserve(self):
+        value = {'fixed': 'prior'}
+        size = fetch.encoded_size(value)
+        metadata = fetch.base.Metadata(used=30 * fetch.MIB - size,
+                                      limit=31 * fetch.MIB, reserve=fetch.MIB)
+        metadata.response(self.root / 'prior.json', value)
+        with self.assertRaisesRegex(ValueError, 'metadata byte limit'):
+            metadata.response(self.root / 'overflow.json', {'bounded': 'failed response'})
+        record = {'status': 'PASS_PASSIVE_ACQUISITION_ONLY', 'large': 'x' * fetch.MIB,
+                  'inputs_before': {'fixed': 'before'}, 'inputs_after': {'fixed': 'after'}}
+        metadata.finish(self.root / 'receipt.json', record)
+        self.assertEqual(record['status'], 'FAIL_METADATA_LIMIT')
+        self.assertEqual(record['inputs_before'], {'fixed': 'before'})
+        self.assertEqual(record['inputs_after'], {'fixed': 'after'})
+        self.assertLessEqual(metadata.used, 31 * fetch.MIB)
+        self.assertEqual(json.loads((self.root / 'prior.json').read_text()), value)
+
+    def run_main(self, mode=None):
+        out = self.root / 'attempt'
+        out.mkdir(mode=0o700)
+        lock = self.root / 'compiler.lock'
+        lock.write_bytes(b'')
+        owner_path = fetch.PROVIDER.parent.parent / 'scope-ownership-repair' / 'scope_ownership.py'
+        paths = [str(p) for p in [SOURCE, fetch.PROVIDER, MANIFEST, owner_path, lock]]
+        hashes = {p: fetch.base.digest(p) for p in paths}
+        spec = {'out': str(out), 'compiler_lock': str(lock), 'ownership_helper': str(owner_path),
+                'proposal': str(MANIFEST), 'proposal_sha256': PIN, 'inputs': paths, 'input_sha256': hashes}
+        spec_path = self.root / 'spec.json'
+        spec_path.write_text(json.dumps(spec))
+        calls, rows, body = [], fetch.requests(MANIFEST.read_bytes()), b'opaque passive payload'
+        def attest(unit, cookie, prefix, destination, env):
+            self.assertEqual(prefix, 'syson-b33-closure-')
+            proof = {'unit': unit, 'cookie': cookie, 'control_group': '/synthetic-owned.scope'}
+            destination.write_text(json.dumps(proof))
+            return proof
+        def loader(path, pin, name):
+            self.assertEqual((Path(path), pin, name),
+                             (owner_path, fetch.base.OWNED_SHA, 'syson_verified_scope_owner'))
+            return types.SimpleNamespace(attest=attest)
+        def open_response(request, timeout):
+            index = len(calls)
+            self.assertEqual(request.full_url, rows[index]['url'])
+            self.assertEqual(timeout, 15)
+            calls.append(request.full_url)
+            content, status = body, 200
+            for suffix, algorithm in [('.sha512', 'sha512'), ('.sha256', 'sha256'), ('.sha1', 'sha1')]:
+                if request.full_url.endswith(suffix):
+                    content = hashlib.new(algorithm, body).hexdigest().encode()
+                    if mode == 'checksum' and index == 1:
+                        content = b'0' * 128
+            if request.full_url.endswith('.asc'):
+                content, status = b'unverified signature absent', 404
+            if mode == 'http' and index == 0:
+                content, status = b'forbidden', 403
+            response = Response(content, request.full_url, status)
+            if mode == 'headers':
+                response.headers = {'X': '\x01' * 16379}
+            return response
+        environment = {'HOME': os.environ['HOME'], 'SYSON_BOOTSTRAP_SOURCE_SHA256': fetch.base.digest(SOURCE)}
+        home = types.SimpleNamespace(pw_name='builderbob', pw_dir=environment['HOME'])
+        error = None
+        with lock.open('rb') as descriptor:
+            argv = [str(SOURCE), str(spec_path), fetch.base.digest(spec_path), str(descriptor.fileno()),
+                    'syson-b33-closure-' + 'a' * 32 + '.scope', 'b' * 32]
+            with patch.object(fetch.sys, 'argv', argv), patch.dict(os.environ, environment), \
+                 patch.object(fetch.pwd, 'getpwuid', return_value=home), \
+                 patch.object(fetch, 'load_verified', side_effect=loader), \
+                 patch.object(fetch, 'controls', return_value=dict(fetch.base.CONTROLS)), \
+                 patch.object(fetch, 'opener', return_value=types.SimpleNamespace(open=open_response)):
+                try:
+                    fetch.main()
+                except ValueError as failure:
+                    error = str(failure)
+        return json.loads((out / 'receipt.json').read_text()), calls, out, error
+
+    def test_actual_newmain_140_transfers_checksums_profile_and_receipt(self):
+        record, calls, out, error = self.run_main()
+        self.assertIsNone(error)
+        self.assertEqual(record['status'], 'PASS_PASSIVE_ACQUISITION_ONLY')
+        self.assertEqual((len(calls), len(record['requests']), len(record['checksums'])), (140, 140, 84))
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertEqual(record['profile']['body_bytes'], 64 * fetch.MIB)
+        self.assertEqual(record['profile']['getter_metadata_bytes'], 31 * fetch.MIB)
+        self.assertEqual(record['profile']['logical_total_bytes'], 96 * fetch.MIB)
+        self.assertFalse(record['signature_verified'])
+        for response in record['requests']:
+            path = out / response['relative_path']
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), response['sha256'])
+            self.assertLessEqual(fetch.encoded_size({k: v for k, v in response.items() if k != 'headers'}), 4096)
+        self.assertLessEqual(fetch.encoded_size({k: v for k, v in record.items() if k != 'requests'}), fetch.MIB)
+        self.assertEqual(fetch.base.PAYLOAD_LIMIT, 128 * fetch.MIB)
+
+    def test_newmain_exact_header_boundary_charges_both_escaped_metadata_copies(self):
+        record, calls, out, error = self.run_main('headers')
+        self.assertIsNone(error)
+        self.assertEqual(record['status'], 'PASS_PASSIVE_ACQUISITION_ONLY')
+        self.assertEqual((len(calls), len(record['checksums'])), (140, 84))
+        for response in record['requests']:
+            self.assertEqual(response['headers'], [['X', '\x01' * 16379]])
+            self.assertEqual(sum(len(k.encode()) + len(v.encode()) + 4
+                                 for k, v in response['headers']), 16384)
+            self.assertLessEqual(fetch.encoded_size({k: v for k, v in response.items()
+                                                   if k != 'headers'}), 4096)
+        metadata_paths = list(out.rglob('*.json'))
+        self.assertEqual(len(metadata_paths), 142)
+        written = sum(path.stat().st_size for path in metadata_paths)
+        self.assertGreater(written, 26 * fetch.MIB)
+        self.assertLessEqual(written, 31 * fetch.MIB)
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertIn(b'\\u0001', (out / 'receipt.json').read_bytes())
+
+    def test_newmain_bad_strong_checksum_retains_all_files_and_fails(self):
+        record, calls, out, error = self.run_main('checksum')
+        self.assertIn('direct passive acquisition failed', error)
+        self.assertEqual(len(calls), 140)
+        self.assertEqual(record['status'], 'FAIL_PRESERVED')
+        self.assertIn('checksum mismatch', record['error'])
+        self.assertTrue((out / record['requests'][0]['relative_path']).is_file())
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+
+    def test_newmain_403_preserves_first_response_and_never_falls_back(self):
+        record, calls, out, error = self.run_main('http')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(record['status'], 'FAIL_PRESERVED')
+        self.assertEqual(record['requests'][0]['status'], 403)
+        self.assertEqual((out / record['requests'][0]['relative_path']).read_bytes(), b'forbidden')
+
+
+if __name__ == '__main__':
+    unittest.main()

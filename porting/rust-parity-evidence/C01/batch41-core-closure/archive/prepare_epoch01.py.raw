@@ -1,0 +1,63 @@
+from pathlib import Path
+import copy
+import hashlib
+import json
+
+BUILD = Path('/workspace/build/builderbob/syson-durable-batch41-20261031')
+WORK = Path('/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031')
+PRIOR = Path('/workspace/build/builderbob/syson-durable-batch39-20261031')
+ROOT = WORK / 'porting/rust-parity-plan-20261026'
+REPORT = PRIOR / 'reviewer-native-core-next-scope.json'
+SEMANTICS = PRIOR / 'native-maven-semantics-readback.json'
+assert hashlib.sha256(SEMANTICS.read_bytes()).hexdigest() == 'e91b4551525f2a2ec527a2e00e9a581a1a5fc1b5a126f0698e081e8e2759dea4'
+assert hashlib.sha256(REPORT.read_bytes()).hexdigest() == 'b283edd4da580d66c4a452cf8546356e6597f7281f1e6baa9a97d294e53f9b58'
+review = json.loads(REPORT.read_bytes())
+frontier_path = WORK / 'porting/rust-parity-evidence/C01/batch36-core-metadata/reference/core-metadata-observed-frontier-01.json'
+frontier = json.loads(frontier_path.read_bytes())
+original = {r['url']: r for r in frontier['proposed_next_passive_primaries']}
+seeds = review['first40_data_decision']['exact_seed_rows']
+omitted = [r for r in seeds if r['disposition'].startswith('OBSERVED_ONLY_PATH_HAS_EXPLICIT_EXCLUSION')]
+chosen = [r for r in seeds if r not in omitted]
+assert len(chosen) == 35 and len(omitted) == 5
+primaries, requests = [], []
+base = 'https://repo.maven.apache.org/maven2/'
+for index, seed in enumerate(chosen):
+    row = copy.deepcopy(original[seed['url']])
+    role = row['kind']
+    parts = row['relative_artifact'].split('/')
+    if role == 'version_metadata':
+        coordinate = {'groupId': '.'.join(parts[:-2]), 'artifactId': parts[-2]}
+    else:
+        coordinate = {'groupId': '.'.join(parts[:-3]), 'artifactId': parts[-3], 'version': parts[-2]}
+    assert 'coordinate' not in row or row['coordinate'] == coordinate
+    row['coordinate'] = coordinate
+    maximum = 2097152 if role == 'pom' else 262144
+    row.update(primary_index=index, maximum_bytes=maximum, allowed_status=[200], disposition=seed['disposition'])
+    if row['coordinate'].get('groupId') == 'org.apache.maven' and row['coordinate'].get('artifactId') == 'maven-parent' and row['coordinate'].get('version') in ['41', '49']:
+        row['disposition'] = 'CONFIRMED_NULL_PHASE_DESCRIPTOR_PLANNING_MODEL_EVIDENCE_NOT_SELECTED_BINARY_CLOSURE'
+    primaries.append(row)
+    for suffix in ['', '.sha512', '.sha256', '.sha1', '.asc']:
+        item = {'url': row['url'] + suffix, 'relative_path': 'downloads/' + row['relative_artifact'] + suffix + '.partial',
+                'maximum_bytes': 65536 if suffix else maximum,
+                'role': role if not suffix else 'signature' if suffix == '.asc' else 'checksum',
+                'allowed_status': [200, 404] if suffix else [200], 'primary_index': index}
+        if suffix in ['.sha512', '.sha256', '.sha1']:
+            item['algorithm'] = suffix[1:]
+        requests.append(item)
+old = json.loads((WORK / 'porting/rust-parity-evidence/C01/batch36-core-metadata/requests.json').read_bytes())
+limits = copy.deepcopy(old['limits'])
+limits.update(exact_primaries=35, exact_requests=175)
+manifest = {'schema': 'C01-NORMAL-CORE-CLOSURE-REQUESTS/1', 'epoch': 'models-01',
+    'status': 'PROPOSED_FINITE_MODEL_EVIDENCE_EPOCH_NO_EXECUTION_AUTHORITY', 'target': old['target'],
+    'new_primaries': primaries, 'requests': requests, 'limits': limits,
+    'observed40_dispositions': {'omitted_this_epoch': omitted, 'omission_is_not_global_dependency_removal': True},
+    'scope': '35 observed model/range metadata primaries, not selected binary closure or Maven range selection; preserve all original nine declarations.',
+    'source_bindings': [{'path': str(p), 'bytes': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in [REPORT, frontier_path, SEMANTICS]],
+    'nominal_metadata_charge': {'requests': 175, 'two_escaped_header_framing_and_structure_copies_each': 175 * 2 * (6 * 16384 + 4096 + 5120), 'header_structure_allowance_per_copy': 64 * 64 + 1024, 'static_and_failure_reserve': 2 * 1048576, 'getter_limit': 63 * 1048576},
+    'remaining': ['Recursive parent/BOM/profile/relocation and plugin/project model closure', 'Actual Apache range/collection/mediation semantics and every required in-range descriptor', 'Selected code-bearing/source trust and separate binary epochs', 'Fresh owned exact offline unmodified 378-source compile and complete output witness', 'Full C01/native application and Rust/UI/storage/restart acceptance']}
+raw = (json.dumps(manifest, indent=2) + '\n').encode()
+assert len(raw) <= 262144 and len(requests) == 175
+out = BUILD / 'epoch-models-01-proposed.json'
+out.write_bytes(raw)
+projection = [(r['relative_artifact'], r['kind']) for r in primaries]
+print(json.dumps({'bytes': len(raw), 'manifest_sha256': hashlib.sha256(raw).hexdigest(), 'ordered_primary_sha256': hashlib.sha256(json.dumps(projection, separators=(',', ':')).encode()).hexdigest(), 'generator_lines': len(Path(__file__).read_bytes().splitlines()), 'primaries': len(primaries), 'requests': len(requests)}))

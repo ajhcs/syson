@@ -1,0 +1,508 @@
+"""Offline controls for the fixed280 client; old28/13 suites remain unchanged."""
+from pathlib import Path
+import copy, hashlib, importlib.util, io, json, os, tempfile, types, unittest
+from unittest.mock import patch
+
+SOURCE = Path(__file__).resolve().parents[1] / 'fetch.py'
+MANIFEST = SOURCE.parent / 'requests.json'
+PIN = 'd4c51a84aa264eaa057d42f4d208744573520085dca116103b874790c8fb445d'
+SPEC = importlib.util.spec_from_file_location('metadata_client_under_test', SOURCE)
+fetch = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(fetch)
+
+
+class Response(io.BytesIO):
+    def __init__(self, body, url, code=200):
+        super().__init__(body)
+        self.url, self.code = url, code
+        self.headers = {'Content-Length': str(len(body))}
+
+    def geturl(self):
+        return self.url
+
+
+class MetadataClientTests(unittest.TestCase):
+    def setUp(self):
+        self.assertEqual(fetch.MANIFEST_SHA, PIN)
+        self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
+        root = Path(os.environ['SYSON_BOOTSTRAP_TEST_ROOT'])
+        self.assertTrue(root.is_absolute() and root.resolve() == root and root.is_dir())
+        if os.environ.get('GITHUB_ACTIONS') == 'true':
+            runner = Path(os.environ['RUNNER_TEMP'])
+            self.assertTrue(runner.is_absolute() and runner.resolve() == runner and runner.is_dir())
+            self.assertTrue(root.is_relative_to(runner))
+        else:
+            self.assertTrue(root.is_relative_to('/workspace/build/builderbob'))
+        temporary = tempfile.TemporaryDirectory(prefix='metadata-controls-', dir=root)
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        for mock in [patch.object(fetch.base, 'OUTPUT_ROOT', self.root),
+                     patch('socket.create_connection', side_effect=AssertionError('network forbidden'))]:
+            mock.start()
+            self.addCleanup(mock.stop)
+
+    def deny_manifest(self, change):
+        value = json.loads(MANIFEST.read_bytes())
+        change(value)
+        raw = json.dumps(value).encode()
+        with patch.object(fetch, 'MANIFEST_SHA', hashlib.sha256(raw).hexdigest()):
+            with self.assertRaises(ValueError):
+                fetch.requests(raw)
+
+    def test_import_whole_provider_pin_and_old_profiles_unchanged(self):
+        observed, original = [], Path.read_bytes
+        def read(path):
+            observed.append(path)
+            return original(path)
+        module = types.ModuleType('fresh_metadata_client')
+        module.__file__ = str(SOURCE)
+        with patch.object(Path, 'read_bytes', read):
+            exec(compile(SOURCE.read_bytes(), str(SOURCE), 'exec'), module.__dict__)
+        self.assertEqual(observed, [SOURCE, fetch.PROVIDER])
+        self.assertEqual(module.base.PAYLOAD_LIMIT, 128 * fetch.MIB)
+        self.assertEqual(module.base.METADATA_LIMIT, 96 * fetch.MIB)
+        self.assertEqual(hashlib.sha256(fetch.PROVIDER.read_bytes()).hexdigest(), fetch.PROVIDER_SHA)
+
+    def test_bad_provider_unknown_provider_and_symlink_refused_before_loading(self):
+        candidate = self.root / 'candidate.py'
+        candidate.write_text("raise AssertionError('must never execute')\n")
+        with self.assertRaisesRegex(ValueError, 'pinned provider hash'):
+            fetch.load_verified(candidate, fetch.base.OWNED_SHA, 'syson_verified_scope_owner')
+        with self.assertRaisesRegex(ValueError, 'pinned provider hash'):
+            fetch.load_verified(candidate, hashlib.sha256(candidate.read_bytes()).hexdigest(), 'unknown')
+        link = self.root / 'provider.py'
+        link.symlink_to(fetch.PROVIDER)
+        with self.assertRaisesRegex(ValueError, 'noncanonical'):
+            fetch.load_verified(link, fetch.PROVIDER_SHA, 'syson_verified_passive_transport')
+
+    def test_exact56_primary280_order_all_metadata_roles_and_sidecars(self):
+        rows = fetch.requests(MANIFEST.read_bytes())
+        self.assertEqual(len(rows), 280)
+        self.assertEqual(len({r['url'] for r in rows}), 280)
+        self.assertEqual([r['role'] for r in rows].count('pom'), 51)
+        self.assertEqual([r['role'] for r in rows].count('version_metadata'), 5)
+        self.assertEqual([r['role'] for r in rows].count('checksum'), 168)
+        self.assertEqual([r['role'] for r in rows].count('signature'), 56)
+        for i in range(56):
+            group = rows[i * 5:i * 5 + 5]
+            self.assertEqual([r['primary_index'] for r in group], [i] * 5)
+            self.assertEqual([r['url'][len(group[0]['url']):] for r in group],
+                             ['', '.sha512', '.sha256', '.sha1', '.asc'])
+        self.assertFalse(any(r['url'].endswith('.jar') for r in rows))
+
+    def test_raw_hash_size_duplicate_keys_and_old_profiles_refused(self):
+        for raw in [MANIFEST.read_bytes() + b'\n', b' ' * (256 * 1024 + 1),
+                    (fetch.PROVIDER.parent / 'requests.json').read_bytes(),
+                    (SOURCE.parent.parent / 'batch34-direct-core' / 'requests.json').read_bytes()]:
+            with self.subTest(size=len(raw)), self.assertRaises(ValueError):
+                fetch.requests(raw)
+        raw = MANIFEST.read_bytes().replace(b'"exact_primaries": 56',
+                                            b'"exact_primaries": 56, "exact_primaries": 56')
+        with patch.object(fetch, 'MANIFEST_SHA', hashlib.sha256(raw).hexdigest()):
+            with self.assertRaisesRegex(ValueError, 'duplicate'):
+                fetch.requests(raw)
+
+    def test_coherent_version_coordinate_replacement_fails_independent_primary_seal(self):
+        def change(value):
+            p = value['new_primaries'][0]
+            old = p['coordinate']['version']
+            p['coordinate']['version'] = '59'
+            for field in ['url', 'relative_artifact']:
+                p[field] = p[field].replace('/' + old + '/', '/59/').replace('-' + old + '.pom', '-59.pom')
+            for row in value['requests'][:5]:
+                for field in ['url', 'relative_path']:
+                    row[field] = row[field].replace('/' + old + '/', '/59/').replace('-' + old + '.pom', '-59.pom')
+        self.deny_manifest(change)
+
+    def test_primary_coordinate_kind_order_and_index_cannot_change(self):
+        changes = [lambda p: p['new_primaries'][0]['coordinate'].update(groupId='other'),
+                   lambda p: p['new_primaries'][28].update(kind='pom'),
+                   lambda p: p['new_primaries'].reverse(),
+                   lambda p: p['new_primaries'][0].update(primary_index=True),
+                   lambda p: p['new_primaries'][0].update(allowed_status=[200, 404]),
+                   lambda p: p['new_primaries'].pop()]
+        for index, change in enumerate(changes):
+            with self.subTest(mutation=index):
+                self.deny_manifest(change)
+
+    def test_coherent_range_metadata_path_replacement_is_not_admitted(self):
+        def change(p):
+            item = p['new_primaries'][28]
+            for field in ['relative_artifact', 'url']:
+                item[field] = item[field].replace('org.eclipse.jdt.core', 'other')
+            item['coordinate']['artifactId'] = 'other'
+            for row in p['requests'][140:145]:
+                for field in ['url', 'relative_path']:
+                    row[field] = row[field].replace('org.eclipse.jdt.core', 'other')
+        self.deny_manifest(change)
+
+    def test_rows_status_role_index_algorithm_path_count_and_profile_are_exact(self):
+        changes = [lambda p: p['requests'].pop(),
+                   lambda p: p['requests'].__setitem__(1, copy.deepcopy(p['requests'][0])),
+                   lambda p: p['requests'][140].update(allowed_status=[200, 404]),
+                   lambda p: p['requests'][140].update(role='pom'),
+                   lambda p: p['requests'][0].update(primary_index=False),
+                   lambda p: p['requests'][1].update(algorithm='sha1'),
+                   lambda p: p['requests'][0].update(relative_path='downloads/../escape'),
+                   lambda p: p['requests'][0].update(maximum_bytes=True),
+                   lambda p: p['limits'].update(payload_and_sidecar_total_bytes=64 * fetch.MIB),
+                   lambda p: p['limits'].update(getter_metadata_proof_receipt_bytes=95 * fetch.MIB),
+                   lambda p: p['limits'].update(extra=1)]
+        for index, change in enumerate(changes):
+            with self.subTest(mutation=index):
+                self.deny_manifest(change)
+
+    def test_coherent_primary_and_request_float_or_boolean_status_lists_refused(self):
+        for index in [0, 28]:
+            for statuses in [[200.0], [True], None, 200]:
+                with self.subTest(primary=index, statuses=statuses):
+                    def change(value):
+                        value['new_primaries'][index]['allowed_status'] = copy.deepcopy(statuses)
+                        value['requests'][index * 5]['allowed_status'] = copy.deepcopy(statuses)
+                    self.deny_manifest(change)
+
+    def test_sidecar_float_boolean_or_reordered_status_lists_refused(self):
+        for index in [1, 4, 141, 144]:
+            for statuses in [[200.0, 404.0], [200, 404.0], [200.0, 404],
+                             [True, 404], [200, False], [404, 200], [200, 404, 404]]:
+                with self.subTest(row=index, statuses=statuses):
+                    self.deny_manifest(lambda value: value['requests'][index].update(
+                        allowed_status=copy.deepcopy(statuses)))
+
+    def test_explicit16mib_boundary_real_transfer_partial_and_remaining_types(self):
+        self.assertEqual(fetch.remaining(16 * fetch.MIB), 0)
+        for total in [-1, True, 1.0, 16 * fetch.MIB + 1]:
+            with self.subTest(total=total), self.assertRaises(ValueError):
+                fetch.remaining(total)
+        row = fetch.requests(MANIFEST.read_bytes())[1]
+        response = Response(b'xy', row['url'])
+        client = types.SimpleNamespace(open=lambda request, timeout: response)
+        metadata, path = fetch.Metadata(), self.root / 'last.partial'
+        with self.assertRaisesRegex(ValueError, 'stream byte limit'):
+            fetch.base.transfer(client, row, path, fetch.remaining(16 * fetch.MIB - 1), metadata)
+        self.assertEqual(path.read_bytes(), b'x')
+        self.assertTrue(response.closed)
+        self.assertEqual(metadata.limit, 63 * fetch.MIB)
+        self.assertEqual(metadata.reserve, fetch.MIB)
+
+    def test_metadata_component_uses_real_escaped_bytes_and_failure_reserve(self):
+        metadata = fetch.Metadata()
+        value = {'url': 'https://example.invalid/data', 'role': 'version_metadata',
+                 'headers': [['X', '\x01' * 16379]], 'status': 200, 'bytes': 0}
+        size = fetch.encoded_size(value)
+        # Stress the ledger primitive with real serialized files; not a claim280needs this many.
+        count = (62 * fetch.MIB) // size
+        for i in range(count):
+            metadata.response(self.root / ('response-' + str(i) + '.json'), value)
+        self.assertEqual(metadata.used, count * size)
+        self.assertGreater(metadata.used, 61 * fetch.MIB)
+        with self.assertRaisesRegex(ValueError, 'metadata byte limit'):
+            for i in range(20):
+                metadata.response(self.root / ('overflow-' + str(i) + '.json'), value)
+        record = {'status': 'PASS_PASSIVE_ACQUISITION_ONLY', 'requests': [value] * 20,
+                  'inputs_before': {'fixed': 'same'}, 'inputs_after': {'fixed': 'same'}}
+        metadata.finish(self.root / 'receipt.json', record)
+        self.assertEqual(record['status'], 'FAIL_METADATA_LIMIT')
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertLessEqual(metadata.used, 63 * fetch.MIB)
+        self.assertEqual(sum(p.stat().st_size for p in self.root.glob('*.json')), metadata.used)
+        self.assertIn(b'\\u0001', (self.root / 'response-0.json').read_bytes())
+
+    def test_response_and_static_proof_frames_refused_without_mocking_ledger(self):
+        metadata = fetch.Metadata()
+        with self.assertRaisesRegex(ValueError, 'response framing'):
+            metadata.response(self.root / 'oversize.json', {'url': 'x' * 4096, 'headers': []})
+        self.assertFalse((self.root / 'oversize.json').exists())
+        for used in [-1, True, fetch.MIB + 1]:
+            with self.subTest(used=used), self.assertRaises(ValueError):
+                fetch.Metadata(used=used)
+
+    def run_main(self, mode=None):
+        out = self.root / 'attempt'
+        out.mkdir(mode=0o700)
+        lock = self.root / 'compiler.lock'
+        lock.write_bytes(b'')
+        owner_path = fetch.PROVIDER.parent.parent / 'scope-ownership-repair' / 'scope_ownership.py'
+        paths = [str(p) for p in [SOURCE, fetch.PROVIDER, MANIFEST, owner_path, lock]]
+        hashes = {p: fetch.base.digest(p) for p in paths}
+        spec = {'out': str(out), 'compiler_lock': str(lock), 'ownership_helper': str(owner_path),
+                'proposal': str(MANIFEST), 'proposal_sha256': PIN, 'inputs': paths, 'input_sha256': hashes}
+        if mode == 'lock':
+            other = self.root / 'other.lock'
+            other.write_bytes(b'')
+            spec['compiler_lock'] = str(other)
+        spec_path = self.root / 'spec.json'
+        spec_path.write_text(json.dumps(spec))
+        calls, rows, body = [], fetch.requests(MANIFEST.read_bytes()), b'opaque passive metadata'
+        def attest(unit, cookie, prefix, destination, env):
+            self.assertEqual(prefix, 'syson-b33-closure-')
+            proof = {'unit': unit, 'cookie': cookie, 'control_group': '/synthetic-owned.scope'}
+            destination.write_text(json.dumps(proof))
+            return proof
+        def loader(path, pin, name):
+            self.assertEqual((Path(path), pin, name),
+                             (owner_path, fetch.base.OWNED_SHA, 'syson_verified_scope_owner'))
+            return types.SimpleNamespace(attest=attest)
+        def open_response(request, timeout):
+            index = len(calls)
+            self.assertEqual(request.full_url, rows[index]['url'])
+            self.assertEqual(timeout, 15)
+            calls.append(request.full_url)
+            content, status = body, 200
+            for suffix, algorithm in [('.sha512', 'sha512'), ('.sha256', 'sha256'), ('.sha1', 'sha1')]:
+                if request.full_url.endswith(suffix):
+                    content = hashlib.new(algorithm, body).hexdigest().encode()
+                    if mode in ('gnu', 'gnu_badname', 'gnu_badstrong'):
+                        filename = request.full_url.rsplit('/', 1)[-1][:-len(suffix)]
+                        declared = '/home/maven/repository-staging/to-ibiblio/maven2/' + filename
+                        if mode == 'gnu_badname' and index == 143:
+                            declared = '/metadata-only/wrong.xml'
+                        if mode == 'gnu_badstrong' and index == 141:
+                            content = b'0' * 128
+                        marker = '*' if algorithm == 'sha256' else ' '
+                        content = content.upper() + (' ' + marker + declared + '\n').encode()
+            if request.full_url.endswith('.asc'):
+                content, status = b'unverified signature absent', 404
+            if mode == 'checksum' and index == 141:
+                content = b'0' * 128
+            if mode == 'missing' and index == 140:
+                content, status = b'missing mandatory metadata', 404
+            if mode == 'sidecar404' and index == 141:
+                content, status = b'optional checksum absent', 404
+            if mode == 'metadata_body' and index == 140:
+                content = b'x' * (256 * 1024 + 1)
+            if mode == 'body' and index % 5 == 0:
+                content = b'x' * (2 * fetch.MIB)
+            if mode == 'drift' and index == 279:
+                lock.write_bytes(b'changed frozen input')
+            response = Response(content, request.full_url, status)
+            if mode in ('headers', 'header_overflow'):
+                response.headers = {'X': '\x01' * (16379 if mode == 'headers' else 16380)}
+            return response
+        environment = {'HOME': os.environ['HOME'], 'SYSON_BOOTSTRAP_SOURCE_SHA256': fetch.base.digest(SOURCE)}
+        home = types.SimpleNamespace(pw_name='builderbob', pw_dir=environment['HOME'])
+        actual_controls = dict(fetch.base.CONTROLS)
+        if mode == 'controls':
+            actual_controls['pids.max'] = '33'
+        error = None
+        with lock.open('rb') as descriptor:
+            argv = [str(SOURCE), str(spec_path), fetch.base.digest(spec_path), str(descriptor.fileno()),
+                    'syson-b33-closure-' + 'a' * 32 + '.scope', 'b' * 32]
+            with patch.object(fetch.sys, 'argv', argv), patch.dict(os.environ, environment), \
+                 patch.object(fetch.pwd, 'getpwuid', return_value=home), \
+                 patch.object(fetch, 'load_verified', side_effect=loader), \
+                 patch.object(fetch, 'controls', return_value=actual_controls), \
+                 patch.object(fetch, 'opener', return_value=types.SimpleNamespace(open=open_response)):
+                clock = patch.object(fetch.time, 'monotonic', side_effect=[0, 901]) if mode == 'deadline' else None
+                if clock:
+                    clock.start()
+                try:
+                    fetch.main()
+                except ValueError as failure:
+                    error = str(failure)
+                finally:
+                    if clock:
+                        clock.stop()
+        return json.loads((out / 'receipt.json').read_text()), calls, out, error
+
+    def test_actual280pipeline_all56_primary_checksums_roles_and_receipt(self):
+        record, calls, out, error = self.run_main()
+        self.assertIsNone(error)
+        self.assertEqual(record['status'], 'PASS_PASSIVE_ACQUISITION_ONLY')
+        self.assertEqual((len(calls), len(record['requests']), len(record['checksums'])), (280, 280, 168))
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertEqual(record['profile'], {'body_bytes': 16 * fetch.MIB,
+                         'getter_metadata_bytes': 63 * fetch.MIB, 'root_log_bytes': fetch.MIB,
+                         'logical_total_bytes': 80 * fetch.MIB})
+        self.assertFalse(record['signature_verified'])
+        self.assertEqual(sum(r['role'] == 'version_metadata' for r in record['requests']), 5)
+        self.assertEqual(sum(c['artifact'].endswith('maven-metadata.xml') for c in record['checksums']), 15)
+        for row in record['requests']:
+            self.assertEqual(hashlib.sha256((out / row['relative_path']).read_bytes()).hexdigest(), row['sha256'])
+            self.assertLessEqual(fetch.encoded_size({k: v for k, v in row.items() if k != 'headers'}), 4096)
+        self.assertLessEqual(fetch.static_frame((out / 'scope-proof.json').stat().st_size, record), fetch.MIB)
+
+    def test_actual280maxescaped_headers_charge_both_copies_below63mib(self):
+        record, calls, out, error = self.run_main('headers')
+        self.assertIsNone(error)
+        self.assertEqual(len(calls), 280)
+        for row in record['requests']:
+            self.assertEqual(sum(len(k.encode()) + len(v.encode()) + 4 for k, v in row['headers']), 16384)
+        files = list(out.rglob('*.json'))
+        self.assertEqual(len(files), 282)
+        written = sum(p.stat().st_size for p in files)
+        self.assertGreater(written, 52 * fetch.MIB)
+        self.assertLessEqual(written, 63 * fetch.MIB)
+        self.assertIn(b'\\u0001', (out / 'receipt.json').read_bytes())
+
+    def test_bad_strong_metadata_checksum_fails_after_all280_and_retains_roles(self):
+        record, calls, out, error = self.run_main('checksum')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 280)
+        self.assertIn('checksum mismatch', record['error'])
+        self.assertEqual(record['requests'][140]['role'], 'version_metadata')
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertTrue((out / record['requests'][140]['relative_path']).is_file())
+
+    def test_optional_metadata_sidecar404_is_recorded_with_remaining_checksums(self):
+        record, calls, out, error = self.run_main('sidecar404')
+        self.assertIsNone(error)
+        self.assertEqual(len(record['checksums']), 167)
+        self.assertEqual(record['requests'][141]['status'], 404)
+        self.assertEqual((out / record['requests'][141]['relative_path']).read_bytes(), b'optional checksum absent')
+
+    def test_mandatory_metadata404_stops_without_fallback_preserving_response(self):
+        record, calls, out, error = self.run_main('missing')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 141)
+        self.assertEqual(record['requests'][-1]['status'], 404)
+        self.assertEqual((out / record['requests'][-1]['relative_path']).read_bytes(), b'missing mandatory metadata')
+
+    def test_metadata_body_limit_retains256kib_partial_and_private_response(self):
+        record, calls, out, error = self.run_main('metadata_body')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 141)
+        row = fetch.requests(MANIFEST.read_bytes())[140]
+        path = out / row['relative_path']
+        self.assertEqual(path.stat().st_size, 256 * 1024)
+        self.assertIn('stream byte limit', record['error'])
+        self.assertEqual(json.loads(path.with_suffix('.partial.response.json').read_text())['bytes'], 256 * 1024)
+
+    def test_aggregate_body_limit_refuses_even_when_old64mib_would_allow(self):
+        record, calls, out, error = self.run_main('body')
+        self.assertIsNotNone(error)
+        self.assertIn('stream byte limit', record['error'])
+        self.assertLess(len(calls), 40)
+        self.assertEqual(sum(p.stat().st_size for p in out.rglob('*.partial')), 16 * fetch.MIB)
+
+    def test_raw_header_overflow_preserves_empty_body_and_failure_receipt(self):
+        record, calls, out, error = self.run_main('header_overflow')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 1)
+        self.assertIn('header metadata limit', record['error'])
+        self.assertEqual(sum(p.stat().st_size for p in out.rglob('*.partial')), 0)
+        self.assertTrue(list(out.rglob('*.response.json')))
+
+    def test_phase_deadline_actual_controls_and_lock_protocol_refuse_before_requests(self):
+        for mode in ['deadline', 'controls', 'lock']:
+            with self.subTest(mode=mode):
+                record, calls, out, error = self.run_main(mode)
+                self.assertIsNotNone(error)
+                self.assertEqual(calls, [])
+                self.assertEqual(record['status'], 'FAIL_PRESERVED')
+                for p in self.root.iterdir():
+                    if p.is_file():
+                        p.unlink()
+                import shutil
+                shutil.rmtree(out)
+
+    def test_specification_whole_byte_limit_is_checked_before_scope_or_output(self):
+        spec_path = self.root / 'oversize-spec.json'
+        spec_path.write_bytes(b' ' * (256 * 1024 + 1))
+        argv = [str(SOURCE), str(spec_path), fetch.base.digest(spec_path), '0', 'unit', 'cookie']
+        with patch.object(fetch.sys, 'argv', argv), patch.dict(os.environ,
+                {'SYSON_BOOTSTRAP_SOURCE_SHA256': fetch.base.digest(SOURCE)}):
+            with self.assertRaisesRegex(ValueError, 'specification framing limit'):
+                fetch.main()
+        self.assertEqual(list(self.root.iterdir()), [spec_path])
+
+    def test_static_frame_counts_proof_and_both_actual_escaped_input_maps(self):
+        inputs = {'control-' + chr(1) * 100: 'a' * 64}
+        record = {'status': 'FAIL_PRESERVED', 'requests': [{'headers': [['X', 'excluded']]}],
+                  'inputs_before': inputs, 'inputs_after': inputs, 'controls': fetch.base.CONTROLS}
+        proof_path = self.root / 'scope-proof.json'
+        proof_path.write_bytes(b'{"scope": "fixed"}\n')
+        static = {k: v for k, v in record.items() if k != 'requests'}
+        expected = proof_path.stat().st_size + len((json.dumps(static, indent=2) + '\n').encode())
+        self.assertEqual(fetch.static_frame(proof_path.stat().st_size, record), expected)
+        self.assertEqual(json.dumps(static).count('\\u0001'), 200)
+        self.assertGreater(expected, proof_path.stat().st_size + 1200)
+
+    def test_frozen_input_drift_fails_after_pipeline_without_changing_admission(self):
+        record, calls, out, error = self.run_main('drift')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 280)
+        self.assertEqual(record['status'], 'FAIL_INPUT_DRIFT')
+        self.assertNotEqual(record['inputs_before'], record['inputs_after'])
+
+    def test_actual_observed138byte_gnu_sha1_is_only_filename_metadata(self):
+        raw = (b'b8e00a8a0deb0ebef447570e37ff8146ccd92cbe  '
+               b'/home/maven/repository-staging/to-ibiblio/maven2/javax/inject/javax.inject/1/'
+               b'javax.inject-1.pom\n')
+        self.assertEqual(len(raw), 138)
+        with patch.object(Path, 'open', side_effect=AssertionError('declared filename was opened')):
+            self.assertEqual(fetch.sidecar_digest(raw, 'sha1', 'javax.inject-1.pom'),
+                             'b8e00a8a0deb0ebef447570e37ff8146ccd92cbe')
+
+    def test_every_algorithm_accepts_bare_gnu_text_binary_case_and_single_ending(self):
+        for algorithm in ['sha512', 'sha256', 'sha1']:
+            digest = hashlib.new(algorithm, b'bounded source fixture').hexdigest().upper()
+            for ending in ['', '\n', '\r\n']:
+                for tail in ['', '  leaf.pom', ' */metadata-only/leaf.pom', '  /tmp/δ/leaf.pom']:
+                    raw = (digest + tail + ending).encode()
+                    with self.subTest(algorithm=algorithm, tail=tail, ending=ending):
+                        self.assertEqual(fetch.sidecar_digest(raw, algorithm, 'leaf.pom'), digest)
+
+    def test_checksum_parser_rejects_controls_multirecord_markers_names_and_lengths(self):
+        digest = hashlib.sha256(b'fixed').hexdigest()
+        bad = [digest[:-1], 'z' + digest[1:], ' ' + digest, digest + ' ',
+               digest + '\n\n', digest + '\n' + digest,
+               digest + ' leaf.pom', digest + ' +leaf.pom', digest + '\t\tleaf.pom',
+               digest + '  wrong.pom', digest + ' *dir/', digest + '  ',
+               digest + '  /tmp/\0/leaf.pom', digest + '  /tmp/\r/leaf.pom',
+               digest + '  /tmp/\x1b/leaf.pom', digest + '  /tmp/\x85/leaf.pom']
+        for text in bad:
+            with self.subTest(text=repr(text)), self.assertRaises(ValueError):
+                fetch.sidecar_digest(text.encode(), 'sha256', 'leaf.pom')
+        for raw, algorithm in [(b'0' * 65537, 'sha256'), (b'\xff', 'sha256'), (b'0' * 64, 'md5')]:
+            with self.subTest(algorithm=algorithm, bytes=len(raw)), self.assertRaises(ValueError):
+                fetch.sidecar_digest(raw, algorithm, 'leaf.pom')
+
+    def test_complete_checksum_verifier_refuses_real_oversized_sidecar_and_primary(self):
+        rows = [dict(r, status=200 if i < 2 else 404)
+                for i, r in enumerate(fetch.requests(MANIFEST.read_bytes())[:5])]
+        primary = fetch.base.destination(self.root, rows[0])
+        primary.write_bytes(b'fixed primary')
+        sidecar = fetch.base.destination(self.root, rows[1])
+        sidecar.write_bytes(b'0' * 65537)
+        with self.assertRaisesRegex(ValueError, 'bounded fixed checksum'):
+            fetch.checksums(self.root, rows)
+        self.assertEqual(sidecar.stat().st_size, 65537)
+        sidecar.write_bytes(hashlib.sha512(b'fixed primary').hexdigest().encode())
+        primary.write_bytes(b'x' * (2 * fetch.MIB + 1))
+        with self.assertRaisesRegex(ValueError, 'checksum primary byte limit'):
+            fetch.checksums(self.root, rows)
+
+    def test_newmain_all280_gnu_text_binary_checksums_cover_metadata_and_preserve_raw(self):
+        record, calls, out, error = self.run_main('gnu')
+        self.assertIsNone(error)
+        self.assertEqual((len(calls), len(record['checksums'])), (280, 168))
+        self.assertEqual(sum(c['artifact'].endswith('maven-metadata.xml') for c in record['checksums']), 15)
+        self.assertFalse(record['signature_verified'])
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertEqual(record['requests'][140]['role'], 'version_metadata')
+        raw = (out / record['requests'][142]['relative_path']).read_bytes()
+        self.assertIn(b' *', raw)
+        self.assertTrue(raw.startswith(hashlib.sha256(b'opaque passive metadata').hexdigest().upper().encode()))
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), record['requests'][142]['sha256'])
+
+    def test_newmain_gnu_wrong_metadata_filename_refuses_without_weak_fallback(self):
+        record, calls, out, error = self.run_main('gnu_badname')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 280)
+        self.assertIn('checksum filename mismatch', record['error'])
+        self.assertEqual(record['status'], 'FAIL_PRESERVED')
+        self.assertIn(b'/metadata-only/wrong.xml', (out / record['requests'][143]['relative_path']).read_bytes())
+
+    def test_newmain_gnu_bad_strong_metadata_digest_refuses_despite_good_weaker(self):
+        record, calls, out, error = self.run_main('gnu_badstrong')
+        self.assertIsNotNone(error)
+        self.assertEqual(len(calls), 280)
+        self.assertIn('checksum mismatch', record['error'])
+        self.assertEqual(record['inputs_before'], record['inputs_after'])
+        self.assertTrue((out / record['requests'][142]['relative_path']).read_bytes().startswith(
+                        hashlib.sha256(b'opaque passive metadata').hexdigest().upper().encode()))
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,0 +1,27 @@
+name: Storage split preservation controls
+on:
+  pull_request: {branches: [main]}
+  push: {branches: [main]}
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  guard-controls:
+    if: github.repository == 'ajhcs/syson'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run: {working-directory: porting/rust-parity-plan-20261026/composition}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - name: Run preservation controls without adopting a plan
+        run: |
+          python3 -I -B -m unittest discover -s . -p 'test_storage_split_guard.py' -v
+          python3 -I -O -B -m unittest discover -s . -p 'test_storage_split_guard.py' -v
+          python3 -I -B -m unittest discover -s registration -p 'test_prepare.py' -v
+          python3 -I -O -B -m unittest discover -s registration -p 'test_prepare.py' -v
+          export SYSON_SOURCE_NEXT_FIXTURES="$(pwd -P)/source_next_prepare/fixtures"
+          python3 -I -B -m unittest discover -s source_next_prepare -p 'test_derive.py' -v
+          python3 -I -O -B -m unittest discover -s source_next_prepare -p 'test_derive.py' -v
+          python3 -I -B -m unittest discover -s source_next_prepare -p 'test_guard.py' -v
+          python3 -I -O -B -m unittest discover -s source_next_prepare -p 'test_guard.py' -v
