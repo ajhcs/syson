@@ -1,0 +1,67 @@
+from pathlib import Path
+import hashlib,json,re,subprocess,sys
+B=Path(__file__).resolve().parent;lane=sys.argv[1];pr=int(sys.argv[2]);f=json.loads((B/lane/'publication-freeze.json').read_text());W=Path(f['worktree'])
+def git(*a):return subprocess.check_output(['git','-c','gc.auto=0','-c','maintenance.auto=false',*a],cwd=W,text=True).strip()
+def api(p):return json.loads(subprocess.check_output(['gh','api',p],text=True))
+def require(ok,message):
+ if not ok:raise RuntimeError(message)
+git('fetch','origin','main');base=git('rev-parse','origin/main');head=f['head'];p=api(f'repos/ajhcs/syson/pulls/{pr}');require(p['state']=='open'and not p['draft']and p['mergeable']is True and p['head']['sha']==head and p['base']['ref']=='main','PR head/state/mergeability changed')
+prerequisite_lane={'semantic':'reference','language':'semantic','closure':'language','annotation':'closure','connector':'annotation','storage-guard':'connector','direct-core':'storage-guard','view-usage':'direct-core','storage-registration-tools':'view-usage','core-metadata':'storage-registration-tools','storage-registration':'core-metadata'}.get(lane)
+if prerequisite_lane:
+ previous=json.loads((B/prerequisite_lane/'publication.json').read_text());require(previous.get('status')=='PASS_REVIEWED_TREE_LANDED','predecessor not verified merged');git('merge-base','--is-ancestor',previous['merge'],base)
+require(set(git('diff','--name-only',base+'...'+head).splitlines())==set(f['changed_sha256']),'actual PR diff differs from frozen ownscope')
+tree=git('merge-tree','--write-tree',base,head).splitlines()[0];workflow=git('show',tree+':.github/workflows/rust-checks.yml');required={'Rust / '+x for x in re.findall(r'^ +[\-] (syson-[a-z-]+)$',workflow,re.M)}
+for name,job in [('offline-model-tool-checks.yml','synthetic-controls'),('plan-source-preparation-checks.yml','plan-controls'),('passive-bootstrap-checks.yml','passive-controls'),('passive-closure-checks.yml','closure-controls'),('storage-guard-checks.yml','guard-controls')]:
+ if git('ls-tree','--name-only',tree,'--','.github/workflows/'+name):required.add(job)
+checks=api(f'repos/ajhcs/syson/commits/{head}/check-runs?per_page=100');require(checks['total_count']<=100,'check pagination');successful={x['name']for x in checks['check_runs']if x['status']=='completed'and x['conclusion']=='success'};require(required<=successful,'actual required checks pending/missing/failed');require(all(x['status']=='completed'and x['conclusion']in('success','neutral','skipped')for x in checks['check_runs']),'negative/pending check')
+reviews=api(f'repos/ajhcs/syson/pulls/{pr}/reviews?per_page=100');require(len(reviews)<100 and not any(x['state']=='CHANGES_REQUESTED'for x in reviews),'review hold/pagination');status=api(f'repos/ajhcs/syson/commits/{head}/status');require(all(x['state']=='success'for x in status['statuses']),'commit status hold')
+query='query { repository(owner:"ajhcs",name:"syson") { pullRequest(number:'+str(pr)+') { reviewThreads(first:100) { nodes { isResolved } pageInfo { hasNextPage } } } } }';threads=json.loads(subprocess.check_output(['gh','api','graphql','-f','query='+query],text=True))['data']['repository']['pullRequest']['reviewThreads'];require(not threads['pageInfo']['hasNextPage']and all(x['isResolved']for x in threads['nodes']),'unresolved review threads')
+for name,sha in f['review_sha256'].items():require(hashlib.sha256((B/name).read_bytes()).hexdigest()==sha,'independent review drift:'+name)
+for key in ['qualified_source_sha256','changed_sha256']:
+ for name,sha in f[key].items():
+  for revision in [head,tree]:require(hashlib.sha256(subprocess.check_output(['git','show',revision+':'+name],cwd=W)).hexdigest()==sha,'frozen committed/predicted bytes changed:'+name)
+allowed={'storage-registration':['porting/rust-parity-plan-20261026/','porting/rust-parity-evidence/C03/batch36-storage-registration/'],'storage-registration-tools':['porting/rust-parity-plan-20261026/composition/registration/','porting/rust-parity-evidence/C03/batch35-storage-registration-tools/','.github/workflows/storage-guard-checks.yml'],'core-metadata':['porting/rust-parity-evidence/C01/batch36-core-metadata/','.github/workflows/passive-closure-checks.yml'],'direct-core':['porting/rust-parity-evidence/C01/batch34-direct-core/','.github/workflows/passive-closure-checks.yml'],'view-usage':['rust/crates/syson-migrations/b25c.rs','rust/crates/syson-migrations/src/lib.rs','rust/crates/syson-migrations/tests/b25c.rs','rust/crates/syson-migrations/tests/b25c_literal.rs','rust/crates/syson-migrations/examples/b25c_probe.rs','porting/rust-parity-evidence/B25c/'],'storage-guard':['porting/rust-parity-plan-20261026/composition/','porting/rust-parity-evidence/C03/batch34-storage-guard/','.github/workflows/storage-guard-checks.yml'],'plan':['porting/rust-parity-plan-20261026/','porting/rust-parity-evidence/C03/batch33-plan-registration/','.github/workflows/plan-source-preparation-checks.yml'],'reference':['porting/rust-parity-evidence/C01/batch33-passive-bootstrap/','.github/workflows/passive-bootstrap-checks.yml'],'semantic':['rust/crates/syson-migrations/','porting/rust-parity-evidence/B25S1/','.github/workflows/rust-checks.yml'],'language':['rust/crates/syson-domain/src/identity_context.rs','rust/crates/syson-domain/tests/identity_context.rs','rust/crates/syson-domain/examples/identity_context_probe.rs','rust/crates/syson-domain/src/lib.rs','rust/crates/syson-domain/Cargo.lock','rust/crates/syson-text-import/tests/identity_context.rs','rust/crates/syson-text-import/Cargo.toml','rust/crates/syson-text-import/Cargo.lock','porting/rust-parity-evidence/F45/','.github/workflows/rust-checks.yml'],'closure':['porting/rust-parity-evidence/C01/batch33-passive-closure/','.github/workflows/passive-closure-checks.yml'],'annotation':['rust/crates/syson-migrations/b25a.rs','rust/crates/syson-migrations/src/lib.rs','rust/crates/syson-migrations/tests/b25a.rs','rust/crates/syson-migrations/tests/b25a_literal.rs','rust/crates/syson-migrations/examples/b25a_probe.rs','porting/rust-parity-evidence/B25a/'],'connector':['rust/crates/syson-migrations/b25b.rs','rust/crates/syson-migrations/src/lib.rs','rust/crates/syson-migrations/tests/b25b.rs','rust/crates/syson-migrations/tests/b25b_literal.rs','rust/crates/syson-migrations/examples/b25b_probe.rs','porting/rust-parity-evidence/B25b/']}[lane]
+for name in f['changed_sha256']:require(any(name.startswith(prefix)if prefix.endswith('/')else name==prefix for prefix in allowed),'write outside admitted PR scope:'+name)
+plan_path='porting/rust-parity-plan-20261026'
+if lane!='plan':
+ parent=json.loads((B/'plan/publication.json').read_text());git('merge-base','--is-ancestor',parent['merge'],base)
+ if lane=='storage-registration':
+  prior=json.loads((B/'core-metadata/publication.json').read_text())
+  require(git('rev-parse',base+':'+plan_path)==prior['plan_subtree'],'storage adoption baseline plan drift')
+  def committed_json(name):
+   return json.loads(git('show',tree+':'+plan_path+'/'+name))
+  contract=committed_json('completion-contract.json')
+  plan=committed_json('plan.json')
+  execution=committed_json('execution.json')
+  register=committed_json('remaining-work/units.json')
+  contract_lock=committed_json('completion-contract.lock.json')
+  snapshot_lock=committed_json('remaining-work/snapshot.lock.json')
+  canonical=lambda value:hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False).encode()).hexdigest()
+  require(contract['contract_id']=='SYSON-RUST-COMPLETION/1.0.10'and contract['version']=='1.0.10','wrong fixed storage contract')
+  require(canonical(contract['storage_source_splits'])==f['policy_sha256'],'reviewed storage policy changed')
+  require(canonical(plan)==f['plan_canonical_sha256']and plan['unit_count']==794 and len(plan['readiness_graph'])==1588,'reviewed complete plan changed')
+  require(len(execution['units'])==55 and execution['full_parity_claimed']is False and plan['full_parity_claimed']is False,'historical/acceptance state changed')
+  require(hashlib.sha256(subprocess.check_output(['git','show',tree+':'+plan_path+'/execution.json'],cwd=W)).hexdigest()=='a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e','whole execution attribution changed')
+  require(register['snapshot_id']=='SYSON-RUST-REMAINING/2026-10-30.19'and register['contract_id']==contract['contract_id']and register['unit_count']==794,'reviewed snapshot identity changed')
+  require(len(contract_lock['sha256'])==48 and len(snapshot_lock['sha256'])==1167,'reviewed exact input closure changed')
+  required_progress={'rereview-batch11-coordinator-ownership.json','rereview-batch36-next-prs.md'}
+  required_progress.update('remaining-work/checkpoint-storage-1.0.10/baseline/'+name for name in ['provenance.json','contract-lock.json','snapshot-lock.json','register.json','normative-inputs.json.gz'])
+  require(required_progress<=set(snapshot_lock['progress_inputs']),'held policy/baseline/new queue progress missing')
+  before=committed_json('remaining-work/checkpoint-storage-1.0.10/baseline/snapshot-lock.json')
+  require(set(before['sha256'])<=set(snapshot_lock['sha256'])and set(before['progress_inputs'])<=set(snapshot_lock['progress_inputs']),'old locked/progress inputs lost')
+  for locked in [contract_lock,snapshot_lock]:
+   for name,pin in locked['sha256'].items():
+    require(f['qualified_source_sha256'].get(plan_path+'/'+name)==pin,'locked source not qualified at exact reviewed bytes:'+name)
+ elif lane=='storage-guard':
+  require(git('rev-parse',base+':'+plan_path)==parent['plan_subtree'],'guard baseline plan drift')
+  for row in git('diff','--name-status',base+'...'+head,'--',plan_path).splitlines():
+   status,name=row.split('\t');require(status=='A'and name.startswith(plan_path+'/composition/'),'existing locked plan path changed:'+name)
+ elif lane=='storage-registration-tools':
+  prior=json.loads((B/'storage-guard/publication.json').read_text());require(git('rev-parse',base+':'+plan_path)==prior['plan_subtree'],'registration helper baseline drift')
+  for row in git('diff','--name-status',base+'...'+head,'--',plan_path).splitlines():
+   status,name=row.split('\t');require(status=='A'and name.startswith(plan_path+'/composition/registration/'),'existing plan path changed:'+name)
+ else:
+  prior_lane='storage-registration-tools' if lane=='core-metadata' else 'storage-guard'
+  expected_plan=json.loads((B/prior_lane/'publication.json').read_text())['plan_subtree'] if lane in ('direct-core','view-usage','core-metadata') else parent['plan_subtree']
+  require(git('rev-parse',tree+':'+plan_path)==expected_plan,'locked adopted plan and preparation packages changed')
+result={'lane':lane,'pr':pr,'head':head,'base_main':base,'predicted_tree':tree,'required_jobs':sorted(required),'checks':checks,'reviews':reviews,'threads':threads,'statuses':status,'independent_review_bindings':'PASS','scope_verified':True};(B/lane/'final-gate.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v for k,v in result.items()if k not in['checks','reviews','threads','statuses']}))

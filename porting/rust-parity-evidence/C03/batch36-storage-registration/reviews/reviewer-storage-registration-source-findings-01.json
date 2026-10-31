@@ -1,0 +1,30 @@
+{
+  "schema": "RR13-P2-INDEPENDENT-SOURCE-FINDINGS/1",
+  "status": "HOLD_SOURCE_PROVENANCE_REPAIR_BEFORE_EXACT_PASS",
+  "reviewer": "/root/registration_review",
+  "reviewed_at_utc": "2026-10-30T22:44:52.617009+00:00",
+  "reviewed_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/source-author-freeze.json",
+    "sha256": "3cc8536b718a05442330754a45a8f2b70de843ad38b5df51146d4d114e1f7b80"
+  },
+  "reviewed_driver_sha256": "c06ca7b5c4db2d4a73d37efb6a1fb837c7ad03f5513c9e904d7d3d796875fd17",
+  "reviewed_shim_sha256": "15e9febcc1991a7c82c308b6b98e83c77ad409c43c0ce46305da1eb1182462b2",
+  "reviewed_unapplied_patch_sha256": "c46601713d4cffe84d4d9e5e953dd5f2cbfdebae931d02ad174afbe7b2b0cafb",
+  "findings": [
+    {
+      "id": "P2-LOGICAL-PHYSICAL-PROVENANCE-NAMESPACE-COLLISION",
+      "priority": "blocking_before_source_admission",
+      "source": "Driver lines117-119 update input_sha256 with physical/<path> and logical-origin/<path>/via/<origin> metadata without reserving those namespaces or refusing intersections with original logical keys. Explicit snapshot progress paths accept arbitrary canonical root-relative names.",
+      "source_grounded_counterexample_not_executed": "If a caller explicitly includes an existing canonical physical/plan.json progress file, helper snapshot initially binds input_sha256[physical/plan.json] to that file. Driver then overwrites the same key with SHA of actual plan.json via physical/+plan.json metadata. The candidate silently loses the original logical binding even though raw physical/physical/plan.json metadata also exists. Canonical-path and input-size guards do not reject this semantic collision.",
+      "expected_repair": "Refuse reserved physical/ and logical-origin/ logical input namespaces or exact metadata-key intersections before any provenance update. Preserve complete logical bindings, physical read SHA and historical-origin attribution. Fit within remaining6driver lines under130, refresh whole driver pin in unapplied fixture patch and final freeze; preserve initial source epoch."
+    }
+  ],
+  "positive_source_observations": [
+    "Fixed353helper raw pin before execution; bounded actual provider reads; alias shim returns exact guard owning function/POLICY globals. No cross-process singleton requirement.",
+    "Baseline provenance110f1725,compressed2b9bcb22 and uncompressedbf617ab8 match; independent data reconstruction confirms37old-lock exact paths,allrowlen/SHA/Gitblob and6,665,179decodedbytes; old3lock/register captures match provenance.",
+    "Fixture proposal retains14methods,normalizes only test-private pending seal after actual guard code identity validation,and scopes/restores source read mocks; final exact patch reconstruction review remains pending.",
+    "Root policy21414303/amendment1627dd1a are explicit unsigned fixed inputs; current contract still1.0.9,real seal/install/shared wrappers remain root gates."
+  ],
+  "actions": "Source/data read,parse,hash and this owned finding report only; no subject import/test/runtime/Git/network/source changes.",
+  "holds_released": false
+}

@@ -1,0 +1,365 @@
+{
+  "schema": "RR13-P2-INDEPENDENT-ACTUAL-UNSIGNED-OUTPUT-REVIEW/1",
+  "status": "HOLD_BEFORE_REAL_SEAL_GENERATOR_SOURCE_SCHEDULING_CONFLICT",
+  "reviewer": "/root/registration_review",
+  "reviewed_at_utc": "2026-10-30T22:59:27.571129+00:00",
+  "candidate_outputs_normal": {
+    "acceptance-packet.schema.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/acceptance-packet.schema.json",
+      "bytes": 20852,
+      "sha256": "6e675e1463b5d4f90e76978323f3561c43a7ee62e894379e39061f917b273363"
+    },
+    "completion-contract.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/completion-contract.json",
+      "bytes": 426182,
+      "sha256": "0327abf42a0c67837d90dc746e6a25dc85cd1b5cba64fda877b70ef967d3a8ff"
+    },
+    "expected-plan.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/expected-plan.json",
+      "bytes": 5917110,
+      "sha256": "7613de8765d4032c3ae4ab3fbf7f477f74933709f99dccbd5cf1d4edc082f55e"
+    },
+    "manifest.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/manifest.json",
+      "bytes": 20649,
+      "sha256": "053e32893770b8787fd937381f11d8c7bea8443325ba6eec90a83c5b5afac9c0"
+    },
+    "policy.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02/policy.json",
+      "bytes": 162847,
+      "sha256": "4436fbdf4c10778be96a421173e5167ea12314b2220183a5619433a3446fca05"
+    }
+  },
+  "candidate_outputs_optimized": {
+    "acceptance-packet.schema.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-optimized-02/acceptance-packet.schema.json",
+      "bytes": 20852,
+      "sha256": "6e675e1463b5d4f90e76978323f3561c43a7ee62e894379e39061f917b273363"
+    },
+    "completion-contract.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-optimized-02/completion-contract.json",
+      "bytes": 426182,
+      "sha256": "0327abf42a0c67837d90dc746e6a25dc85cd1b5cba64fda877b70ef967d3a8ff"
+    },
+    "expected-plan.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-optimized-02/expected-plan.json",
+      "bytes": 5917110,
+      "sha256": "7613de8765d4032c3ae4ab3fbf7f477f74933709f99dccbd5cf1d4edc082f55e"
+    },
+    "manifest.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-optimized-02/manifest.json",
+      "bytes": 20649,
+      "sha256": "053e32893770b8787fd937381f11d8c7bea8443325ba6eec90a83c5b5afac9c0"
+    },
+    "policy.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-optimized-02/policy.json",
+      "bytes": 162847,
+      "sha256": "4436fbdf4c10778be96a421173e5167ea12314b2220183a5619433a3446fca05"
+    }
+  },
+  "all5_outputs_byte_identical_across_modes": true,
+  "canonical_policy_digest": {
+    "sha256": "26415d63a468ef7376637ccb3ff905ca6bba79695f3a6d2f94f547603f458f66",
+    "encoding": "UTF8json sortedkeys,compact comma/colon,ensure_asciiFalse,allow_nanFalse,no newline",
+    "raw_policy_file_sha256": "4436fbdf4c10778be96a421173e5167ea12314b2220183a5619433a3446fca05",
+    "seal_disposition": "INFORMATIONAL_ONLY_NOT_APPROVED_FOR_PRODUCTION_SEAL_WHILE_HOLD_OPEN"
+  },
+  "findings": [
+    {
+      "id": "P2-SOURCE-SCHEDULING-WRITE-CONFLICT",
+      "priority": "BLOCKING_BEFORE_SEAL_OR_ADOPTION",
+      "source": "build_plan.py171-196 computes write ancestry/conflicts and author waves using raw unit.dependencies. Fixed helper updates RR13.implementation_ready_dependencies and source_preparation_children but leaves original raw dependencies[RR04]. verify_plan.py92 requires unordered_write_conflicts empty.",
+      "independent_data_result": "Current generator algorithm applied as independent data arithmetic to unsigned794records yields exactly1 unordered RR13/RR13a overlap overlib.rs,snapshot_io.rs,rr13_regression.rs. RR13 is scheduled wave13 beforeRR13a14/RR13b15. expected-plan retains old [] conflicts and old792unit waves and therefore hides this future generated result.",
+      "conflicts": [
+        {
+          "a": "RR13",
+          "b": "RR13a",
+          "paths": [
+            [
+              "rust/crates/syson-workflow/src/lib.rs",
+              "rust/crates/syson-workflow/src/lib.rs"
+            ],
+            [
+              "rust/crates/syson-workflow/src/snapshot_io.rs",
+              "rust/crates/syson-workflow/src/snapshot_io.rs"
+            ],
+            [
+              "rust/crates/syson-workflow/tests/rr13_regression.rs",
+              "rust/crates/syson-workflow/tests/rr13_regression.rs"
+            ]
+          ],
+          "policy": "Never dispatch together; acquire a fresh owner and order their shared writes."
+        }
+      ],
+      "expected_repair": "Review a narrowly scoped source-scheduling interpretation of explicit source-preparation children/readiness,or separately reviewed candidate/policy adjustment preserving all old obligations. Recompute conflict/schedule/count metadata independently and ensure0conflicts plus child-before-parent source preparation. No deletion of checks/paths/unknownfields,automatic policy seal or broad metadata exemption."
+    }
+  ],
+  "successful_normative_data_checks": {
+    "whole_old_plan_inverse_exact": true,
+    "restored_old_unit_count": 792,
+    "restored_old_typed_nodes": 1584,
+    "normalized_old_records_sha256": "0e635baca84625363aa0ad198b4f4f25c3339a7b5203c6ab3a3af99356f37ed1",
+    "restored_graph_sha256": "860242d1203695c5d3986e51fddc035b37e0a16c49755a5de9e343bf08e966e5",
+    "whole_old_contract_inverse_exact": true,
+    "restored_contract_sha256": "6771410b685f5b9c691705a3821a13202b61535a04e622e8399cfd592fc36e17",
+    "whole_old_schema_inverse_exact": true,
+    "exact_record_delta_owners": {
+      "C04": [
+        "expanded_implementation_inputs"
+      ],
+      "C05": [
+        "expanded_implementation_inputs"
+      ],
+      "C06": [
+        "expanded_implementation_inputs"
+      ],
+      "C07": [
+        "expanded_implementation_inputs"
+      ],
+      "C08": [
+        "expanded_implementation_inputs"
+      ],
+      "C09": [
+        "expanded_implementation_inputs"
+      ],
+      "C99": [
+        "dependencies"
+      ],
+      "RR13": [
+        "implementation_ready_dependencies",
+        "acceptance_children",
+        "source_preparation_children"
+      ]
+    },
+    "complete_new_plan_units": 794,
+    "complete_new_typed_nodes": 1588,
+    "independent_graph_recompile_exact": true,
+    "independent_Kahn_cycle_check_visited": 1588,
+    "old_edges_additive": true,
+    "graph_delta_nodes": 14,
+    "graph_delta_edges": 24,
+    "policy_is_exact_contract_storage_policy": true,
+    "children": {
+      "RR13a": {
+        "full_lane_record_retained": true,
+        "normalized_sha256": "b7056d24c417877f70e63f5b9df5056fd83d58a80a43434e6ddd08aaafed2913",
+        "budget": {
+          "production_lines_max": 400,
+          "authored_lines_max": 900,
+          "planned_production": 337,
+          "planned_authored": 896
+        },
+        "source_freeze": {
+          "donor_head": "575345cdba6b0c1bc2d89f16cfacdd749b1535bb",
+          "implementation": "1e09637714b78e23297e93b43084027491429ac0",
+          "lib348_sha256": "b4e15473b7c825085885c80652fe68c660a3add66d32f40035ae8acfb15ebacb",
+          "lib341_sha256": "6c306d251eb26befc1fef487862bd578d9c5fd247d8424785f2b95ef70eb7f59",
+          "snapshot_io86_sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e",
+          "rr13_tests332_sha256": "d16bdad05af2684d878e94867e75ec7ed73945083c3e9ef054d7a2ec1d8a51d4",
+          "connected103_sha256": "77aa9df2cc81c76a55f876898ed6a7a2032f5df1bfb563d81d14ee469ab2917c",
+          "safe_model_sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f"
+        },
+        "dependencies": [
+          "RR04"
+        ],
+        "team": "services-persistence"
+      },
+      "RR13b": {
+        "full_lane_record_retained": true,
+        "normalized_sha256": "55b5a039882fd0fbe8cc0fbaf46e41a21ae5c2d0ec9db727a825c42117c1ff7b",
+        "budget": {
+          "production_lines_max": 400,
+          "authored_lines_max": 900,
+          "planned_production": 83,
+          "planned_authored": 453
+        },
+        "source_freeze": {
+          "donor_head": "575345cdba6b0c1bc2d89f16cfacdd749b1535bb",
+          "fault_tests356_sha256": "11e769c93d3e7a4648cc1a8b8037c8788f0498c89fd1cad1af3caa70f6885df1"
+        },
+        "dependencies": [
+          "RR13a"
+        ],
+        "team": "verification-release"
+      }
+    },
+    "all6held_raw_hashes_and_exact_policy_dict": true,
+    "whole_execution_sha256": "a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e",
+    "historical_record_count": 55,
+    "historical_units_sha256": "082af527d8dd4140a8d4104f45c62a62b777d24c68837ed03554d14deec25321",
+    "current_integration_and_unknown_execution_attribution_pinned": true
+  },
+  "generated_metadata_boundary": {
+    "helper_behavior": "expected-plan deep-copies old plan and updates only unit_count/units/readiness_graph/currentcontractpointer. There is no helper function/check requiring future actual wholeJSON equal expected-plan. It is a complete normative record/graph reference with historical derived metadata,not a ready-to-install final generated plan.",
+    "exact_derived_top_fields_requiring_independent_recompute": [
+      "lane_counts",
+      "unordered_write_conflicts",
+      "source_author_dispatch_waves"
+    ],
+    "counts_delta": {
+      "lanes/storage-source.json": {
+        "unsigned_reference": null,
+        "current_generator_recomputed": 2
+      }
+    },
+    "unordered_conflicts_recomputed": [
+      {
+        "a": "RR13",
+        "b": "RR13a",
+        "paths": [
+          [
+            "rust/crates/syson-workflow/src/lib.rs",
+            "rust/crates/syson-workflow/src/lib.rs"
+          ],
+          [
+            "rust/crates/syson-workflow/src/snapshot_io.rs",
+            "rust/crates/syson-workflow/src/snapshot_io.rs"
+          ],
+          [
+            "rust/crates/syson-workflow/tests/rr13_regression.rs",
+            "rust/crates/syson-workflow/tests/rr13_regression.rs"
+          ]
+        ],
+        "policy": "Never dispatch together; acquire a fresh owner and order their shared writes."
+      }
+    ],
+    "waves": {
+      "unsigned_historical_count": 268,
+      "current_generator_recomputed_count": 268,
+      "current_generator_unique_units": 794,
+      "current_generator_total_entries": 794,
+      "changed_wave_slots": 34,
+      "RR13_order": {
+        "RR13": 13,
+        "RR13a": 14,
+        "RR13b": 15
+      }
+    },
+    "all_other_top_fields": "Must remain exact against independently reviewed reference; unknown fields/source obligations receive no exception.",
+    "record_attribution_exception": "C99.source_fragment_sha256 will necessarily reflect actual changed build_plan.py bytes; require exact raw actual source SHA for that field and preserve all other record fields/pointers exactly. Other source_fragment hashes likewise must match actual bound source bytes; no arbitrary record exclusion.",
+    "other_generated_files": "dispatch.json,team-dispatch.json,PR-INDEX.md and794briefs must be independently checked against actual final records/edges/effective source scheduling and pinned. Current verify_plan does not fully prove lane_counts or wave completeness,so supplemental independent data checks are required.",
+    "not_approved": "A nonempty unordered_write_conflicts result is a validation failure,not an allowed successful final metadata difference."
+  },
+  "manifest_closure": {
+    "exact_all151bindings_independently_reconstructed": true,
+    "logical_inputs": 51,
+    "physical_reads": 60,
+    "logical_capture_origins": 40,
+    "artifact4hashes_match": true,
+    "helper_source_sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59",
+    "current_driver_bound_via_logical_and_physical_inputSHA": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py",
+      "bytes": 6572,
+      "sha256": "fe19370c9bdae0aef0b43f6a1f9b3d33811386fa9241739a6a7cbd9bb6411f11"
+    },
+    "all5baseline_physicalpins_and3fullJSON_origins_present": true,
+    "captured_old_bytes_not_misrepresented_as_current_reads": true
+  },
+  "runtime": {
+    "receipt": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02/receipt.json",
+      "bytes": 684147,
+      "sha256": "aff339ce2e327e35d5bd4566251f6dc98982fd6700b3ba394c6f527c88e728a8"
+    },
+    "spec": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02-spec.json",
+      "bytes": 343349,
+      "sha256": "5478233a2adcc3372edd24916c3c99f44b710e138a438a0e9d9dacb6f6616f11"
+    },
+    "admission": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/reference/reviewer-storage-registration-derive-spec-02.json",
+      "bytes": 354667,
+      "sha256": "a259788017d9421e403bb59915c3dbee9870c2b87a1e35272c0a17d93f5148e8"
+    },
+    "commands": [
+      {
+        "name": "derive-normal",
+        "argv": [
+          "/usr/bin/python3",
+          "-I",
+          "-B",
+          "remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py",
+          "derive",
+          "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-normal-02"
+        ],
+        "exit": 0,
+        "wall_seconds": 0.31398933800028317,
+        "passed": 0
+      },
+      {
+        "name": "derive-optimized",
+        "argv": [
+          "/usr/bin/python3",
+          "-I",
+          "-O",
+          "-B",
+          "remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py",
+          "derive",
+          "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-optimized-02"
+        ],
+        "exit": 0,
+        "wall_seconds": 0.4142511990003186,
+        "passed": 0
+      }
+    ],
+    "all1530admitted_before_after_current_inputSHA_equal": true,
+    "four_raw_streams": {
+      "derive-normal.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02/derive-normal.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "derive-optimized.stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02/derive-optimized.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "derive-normal.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02/derive-normal.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "derive-optimized.stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02/derive-optimized.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "scope_proof": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02/scope-proof.json",
+      "bytes": 380,
+      "sha256": "082e382ea2b95a55042358aeb0a42194aca312b861b6c632f535c7ecf2f3fd67"
+    },
+    "scope_unit_cookie_match": true,
+    "cleanup": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/derive-02-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    "cleanup_absent": true,
+    "boundary": "Actual constructor execution passed,but candidate generator/adoption compatibility is HOLD. F25 Rust-regex passed0 is not test-count evidence;2constructors,not unittest."
+  },
+  "state_at_review": {
+    "current_contract_version": "1.0.9",
+    "current_guard_still_PENDING": true,
+    "helper353_unchanged": {
+      "path": "/workspace/worktrees/builderbob/syson/batch36-storage-registration-20261030/porting/rust-parity-plan-20261026/composition/registration/prepare.py",
+      "bytes": 22249,
+      "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59"
+    },
+    "unapplied_migration_patch": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/storage-registration/P1-fixture-migration.patch",
+      "bytes": 13038,
+      "sha256": "07b45e7443a8639ab19ddcc65acf2b66f1d396e52d4ddcc6d0428a45daec4e91"
+    }
+  },
+  "remaining_gates": [
+    "Resolve source-scheduling conflict by reviewed exact source/proposal and independent metadata data check before real seal. Retain this unsignedHOLD/artifacts and prior failedderive01.",
+    "Then independently approve exact unsigned canonical policy/expected normative records/graph before root real seal/shared wrapper/required-input/generator/lock/snapshot actions.",
+    "Actual full generated794records/1588edges must match reviewed normative reference with only separately verified source-attribution hashes and exactly3 independently recomputed topmetadata fields; no whole-file byte-equality claim.",
+    "Root ordinary400/900 fullscope,A+D and all14migrated tests/old10guard/original165storage tests/oldtools/actualplan+snapshot normal/-O qualification remain later gates."
+  ],
+  "actions": "Independent data arithmetic/read/parse/hash only; no candidate/helper/guard code execution,subject rerun/import/tests,policy constant assignment,Git,network,source/shared edits or administration. Wrote this owned review report.",
+  "acceptance_boundary": "No real policy seal,1.0.10adoption,lease/hold release or production/native/UI/durablejourney/storage/performance/fullRust acceptance approved.",
+  "holds_released": false
+}
