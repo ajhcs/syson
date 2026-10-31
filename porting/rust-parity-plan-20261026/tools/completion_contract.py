@@ -1,7 +1,7 @@
 """Read-only static contract checks. Behavioral acceptance remains RR16b/RR17 work."""
 import hashlib
 import json
-from storage_splits import validate_preparation_splits, legacy_contract, legacy_plan, storage_policy, validate_storage_splits
+from source_next_splits import validate_preparation_splits, legacy_contract, legacy_plan, validate_source_next_splits, validate_storage_splits
 
 CONTRACT_PATH = 'completion-contract.json'
 LOCK_PATH = 'completion-contract.lock.json'
@@ -25,7 +25,7 @@ def canonical_hash(value):
 
 def forest_children(contract):
     """Admit the sealed forest policy before any old-inventory exclusion."""
-    if contract.get('version') in ('1.0.9', '1.0.10'):
+    if contract.get('version') in ('1.0.9', '1.0.10', '1.0.11'):
         return forest_children(legacy_contract(contract))
     splits = contract.get('forest_kernel_splits', {})
     require(splits or contract['version'] not in ('1.0.7', '1.0.8'), 'U12 split policy missing')
@@ -61,7 +61,7 @@ def restore_forest_record(unit, children, normalized=True):
 
 def validate_forest_splits(contract, plan=None, lane=None, check_original_records=True):
     """Finite forest preparation preserves all package/native acceptance gates."""
-    if contract.get('version') in ('1.0.9', '1.0.10'):
+    if contract.get('version') in ('1.0.9', '1.0.10', '1.0.11'):
         return validate_forest_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane, check_original_records)
     children = forest_children(contract)
     if not children:
@@ -133,7 +133,7 @@ def validate_forest_splits(contract, plan=None, lane=None, check_original_record
 
 def routing_children(contract):
     """Validate the exact new policy before excluding its IDs from older proofs."""
-    if contract.get('version') in ('1.0.9', '1.0.10'):
+    if contract.get('version') in ('1.0.9', '1.0.10', '1.0.11'):
         return routing_children(legacy_contract(contract))
     forest_children(contract)
     splits = contract.get('routing_kernel_splits', {})
@@ -156,7 +156,7 @@ def routing_children(contract):
 
 def validate_routing_splits(contract, plan=None, lane=None, check_original_records=True):
     """Finite routing source preservation, never native/UI feature acceptance."""
-    if contract.get('version') in ('1.0.9', '1.0.10'):
+    if contract.get('version') in ('1.0.9', '1.0.10', '1.0.11'):
         return validate_routing_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane, check_original_records)
     children = routing_children(contract)
     if not children:
@@ -244,7 +244,7 @@ def validate_routing_splits(contract, plan=None, lane=None, check_original_recor
 
 def validate_comparison_repairs(contract, plan=None, lane=None):
     """Validate the finite C09b split before any legacy coverage exclusions."""
-    if contract.get('version') in ('1.0.9', '1.0.10'):
+    if contract.get('version') in ('1.0.9', '1.0.10', '1.0.11'):
         return validate_comparison_repairs(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane)
     splits = contract.get('comparison_repairs', {})
     require(splits or contract['version'] not in ('1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'C09 split repair policy missing')
@@ -325,7 +325,7 @@ def validate_comparison_repairs(contract, plan=None, lane=None):
 
 def validate_repair_splits(contract, plan=None):
     """Static RR08 scope preservation; never a runtime or acceptance decision."""
-    if contract.get('version') in ('1.0.9', '1.0.10'):
+    if contract.get('version') in ('1.0.9', '1.0.10', '1.0.11'):
         return validate_repair_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None)
     splits = contract.get('repair_splits', {})
     require(splits or contract['version'] not in ('1.0.2', '1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'RR08 split policy missing')
@@ -422,7 +422,7 @@ def validate_repair_splits(contract, plan=None):
 
 def validate_layout_splits(contract, plan=None, lane=None):
     """Static U10 prerequisite mapping; no native, UI or feature acceptance."""
-    if contract.get('version') in ('1.0.9', '1.0.10'):
+    if contract.get('version') in ('1.0.9', '1.0.10', '1.0.11'):
         return validate_layout_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane)
     splits = contract.get('layout_kernel_splits', {})
     require(splits or contract['version'] not in ('1.0.3', '1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'U10 split policy missing')
@@ -548,7 +548,7 @@ def validate_layout_splits(contract, plan=None, lane=None):
 
 def validate_comparator_splits(contract, plan=None, lane=None):
     """Static C09 module/case preservation; no capture or runtime acceptance."""
-    if contract.get('version') in ('1.0.9', '1.0.10'):
+    if contract.get('version') in ('1.0.9', '1.0.10', '1.0.11'):
         return validate_comparator_splits(legacy_contract(contract), legacy_plan(contract, plan) if plan is not None else None, lane)
     splits = contract.get('tooling_comparator_splits', {})
     require(splits or contract['version'] not in ('1.0.4', '1.0.5', '1.0.6', '1.0.7', '1.0.8'), 'C09 split policy missing')
@@ -691,7 +691,7 @@ def read_contract(root, read=None):
     require(contract['contract_id'] == lock['contract_id'], 'Contract/lock version mismatch')
     require(contract['contract_id'] == 'SYSON-RUST-COMPLETION/' + contract['version'],
             'Contract ID/version mismatch')
-    require(contract['version'] == '1.0.10' and 'source_preparation_splits' in contract, 'Current storage contract and preparation policy required')
+    require(contract['version'] == '1.0.11' and 'source_next_splits' in contract, 'Current source-next contract and preparation policy required')
     required = {CONTRACT_PATH, contract['document'], contract['packet_schema'],
                 contract['performance_policy'], 'cross-lane-review.json', 'rereview-overlay.json'}
     disposition = contract.get('legacy_prerequisite_budget_dispositions')
@@ -703,12 +703,15 @@ def read_contract(root, read=None):
     amendments += [policy['amendment'] for policy in contract.get('routing_kernel_splits', {}).values()]
     amendments += [policy['amendment'] for policy in contract.get('forest_kernel_splits', {}).values()]
     amendments.append(contract['source_preparation_splits']['amendment'])
-    storage = storage_policy(contract)
-    amendments.append(storage['amendment'])
+    amendments.append(contract['storage_source_splits']['amendment'])
+    amendments.append(contract['source_next_splits']['amendment'])
     required.update(['storage-policy-source.json', 'execution.json',
                      'composition/storage_split_guard.py', 'composition/registration/prepare.py',
                      'composition/registration/test_prepare.py', 'composition/registration/README.md',
                      'remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py'])
+    required.update('composition/source_next_prepare/' + name for name in
+                    ['derive.py', 'guard.py', 'test_derive.py', 'test_guard.py', 'README.md', 'GUARD.md',
+                     'construct.py', 'test_construct.py', 'CONSTRUCT.md'])
     team = contract.get('team_execution')
     require(team is not None or contract['version'] != '1.0.8', 'Team adoption missing')
     if team is not None:
@@ -728,7 +731,7 @@ def read_contract(root, read=None):
                 amendment['sha256'], 'Contract amendment hash mismatch')
     required.update(str(p.relative_to(root)) for p in (root / 'lanes').glob('*.json'))
     required.update(str(p.relative_to(root)) for p in (root / 'tools').glob('*.py'))
-    require(set(lock['sha256']) == required, 'Contract lock input set mismatch')
+    require(len(required) == 60 and set(lock['sha256']) == required, 'Contract lock input set mismatch')
     for path, expected in lock['sha256'].items():
         require(hashlib.sha256(read(path)).hexdigest() == expected,
                 'Contract lock hash mismatch: ' + path)
@@ -745,6 +748,7 @@ def read_contract(root, read=None):
             'Packet schema contract mismatch')
     require(schema['properties']['target_source']['const'] == contract['target_source'],
             'Packet schema target mismatch')
+    validate_source_next_splits(contract, read=read)
     validate_storage_splits(contract, read=read)
     validate_preparation_splits(contract)
     validate_comparison_repairs(contract)

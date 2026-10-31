@@ -1,0 +1,291 @@
+"""Fixed unsigned 1.0.11 derive; importing reads no application or capture files."""
+import base64
+import copy
+import gzip
+import hashlib
+import io
+import types
+from collections import Counter
+from pathlib import Path, PurePosixPath
+
+LIMIT = 64 * 1024**2
+IDS = ['B25d1', 'B25d2', 'M06a2']
+VERSION = 'SYSON-RUST-COMPLETION/1.0.11'
+FRAGMENT = 'lanes/source-next.json'
+OWNER = 'rereview-batch11-coordinator-ownership.json'
+HELPER_SHA = '61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59'
+PROVENANCE_SHA = 'b92a1a1832703b16d872c410ea280285bb92f2ad96beccdb098af0bf87374143'
+CAPSULE_SHA = '2447a23a683396361ecd955af98a8b3923b3e4b3cd621dc23718f4a99b8f6f9b'
+EXPANDED_SHA = 'fd5f54f6d15e9dd8247d24f1246245b5d9bed309bac875e55978fe3b4911f66d'
+LANE_SHA = 'bb1a50bec6983d301b830b45ceeee34e19517a43020b85b2f8fa6ebcdfdd6ace'
+AMENDMENT_SHA = 'f92d091fcb9b6e64bcbf0e255f61d2f80a3d2e5834312f125cec97619daa10ca'
+ROWS = ['0521f4c4188d6e5d85d66051caeada123e2c773cbc1704251ff926f18428f723',
+        'cffcd85ae9e9225b5ff981ec2712ca84dcf371cb4976850f5e90a739488c6c11',
+        'ed2fa19e0ba919b2d79d682134814b6222394f782c9714199be63ac50d132eea']
+BASE_CONTRACT = 'ebeca248ae4ff7739ce95a86a886a85ab561b0a9dca40716aa65213598f83f94'
+BASE_UNITS = '6ad15f0738fd7365725c676bc712aa369050a3b877d7cf92c53046372f636b44'
+BASE_GRAPH = '022b53f30e3f4f2f6cc64f1cd1e652bb77454dfcf652b5d35e261d503257f449'
+BASE_IDS = 'e65698cd406d8965505f8f3776d9cfc5c261aff3eea3f0e31602dbb658ae8c77'
+CAPSULE_BYTES, EXPANDED_BYTES, RAW_BYTES = 3701707, 25404936, 19046024
+EXTRA_ROWS = {'plan.json', 'completion-contract.lock.json',
+              'remaining-work/units.json', 'remaining-work/snapshot.lock.json'}
+
+
+def provider():
+    path = Path(__file__).resolve().parents[2] / 'composition/registration/prepare.py'
+    if path.resolve() != path or path.is_symlink() or path.stat().st_size != 22249:
+        raise ValueError('canonical fixed provider required')
+    with path.open('rb') as stream:
+        raw = stream.read(22250)
+    if hashlib.sha256(raw).hexdigest() != HELPER_SHA:
+        raise ValueError('whole provider source changed')
+    module = types.ModuleType('source_next_actual_registration')
+    module.__file__ = str(path)
+    exec(compile(raw, str(path), 'exec'), module.__dict__)
+    return module, raw
+
+
+def names(P, rows):
+    for name in rows:
+        P.require(type(name) is str, 'string logical name required')
+        path = PurePosixPath(name)
+        P.require(str(path) == name and path.parts and not path.is_absolute()
+                  and all(p not in ('.', '..') for p in path.parts), 'canonical logical name')
+        P.require(not any(name == p or name.startswith(p + '/')
+                          for p in ['prior', 'physical', 'logical-origin']), 'reserved provenance name')
+
+
+def charged(P, files):
+    return sum(map(len, files.values())) + sum(len(P.encode({n: '0' * 64})) for n in files)
+
+
+def decode(P, capsule, provenance, physical):
+    P.require(P.sha(provenance) == PROVENANCE_SHA, 'fixed provenance changed')
+    proof = P.parse(provenance)
+    P.require(len(capsule) == CAPSULE_BYTES and P.sha(capsule) == CAPSULE_SHA,
+              'fixed compressed baseline changed')
+    P.require(CAPSULE_BYTES <= 4 * 1024**2 and EXPANDED_BYTES <= 32 * 1024**2 and
+              RAW_BYTES <= 24 * 1024**2, 'fixed decoder ceilings')
+    frames = sum(len(P.encode({n: '0' * 64})) for n in proof['rows'])
+    P.require(charged(P, physical) + EXPANDED_BYTES + frames <= LIMIT, 'decoder buffer bound')
+    try:
+        with gzip.GzipFile(fileobj=io.BytesIO(capsule)) as stream:
+            expanded = stream.read(EXPANDED_BYTES + 1)
+    except (OSError, EOFError) as error:
+        raise ValueError('invalid compressed baseline') from error
+    P.require(len(expanded) == EXPANDED_BYTES and P.sha(expanded) == EXPANDED_SHA,
+              'fixed expanded baseline changed')
+    data = P.parse(expanded)
+    P.require(set(data) == {'schema', 'base_main', 'files'} and
+              data['schema'] == 'SYSON_PLAN_BASELINE_CAPSULE/1' and
+              data['base_main'] == proof['base_main'], 'fixed capsule header')
+    rows = data['files']
+    P.require(type(rows) is dict and set(rows) == set(proof['rows']) and len(rows) == 52,
+              'exact52 baseline coverage')
+    names(P, rows)
+    P.require(charged(P, physical) + len(expanded) + RAW_BYTES + frames <= LIMIT,
+              'decoded buffer bound')
+    files = {}
+    for name, row in rows.items():
+        P.require(type(row) is dict and set(row) == {'bytes', 'sha256', 'git_blob_sha1', 'base64'},
+                  'exact captured row fields')
+        expected = proof['rows'][name]
+        P.require(type(row['bytes']) is int and 0 <= row['bytes'] <= 8 * 1024**2 and
+                  {k: row[k] for k in expected} == expected, 'captured row metadata')
+        P.require(type(row['base64']) is str and
+                  len(row['base64']) == 4 * ((row['bytes'] + 2) // 3), 'bounded base64 row')
+        value = base64.b64decode(row['base64'], validate=True)
+        blob = hashlib.sha1(b'blob ' + str(len(value)).encode() + b'\0' + value).hexdigest()
+        P.require(len(value) == row['bytes'] and P.sha(value) == row['sha256']
+                  and blob == row['git_blob_sha1'], 'captured row content')
+        files[name] = value
+    P.require(sum(map(len, files.values())) == RAW_BYTES, 'complete decoded raw length')
+    P.inputs(dict(files, **physical))
+    lock = P.parse(files['completion-contract.lock.json'])
+    P.require(len(lock['sha256']) == 48 and set(files) == set(lock['sha256']) | EXTRA_ROWS,
+              'exact old48 plus four')
+    P.require(all(P.sha(files[n]) == h for n, h in lock['sha256'].items()), 'all48 old raw pins')
+    return files
+
+
+def source_metadata(P, units):
+    byid = {u['id']: u for u in units}
+    dependencies = {uid: sorted(set(u['dependencies'] + u.get('source_preparation_children', [])))
+                    for uid, u in byid.items()}
+    memo = {}
+    def ancestors(uid, trail=()):
+        P.require(uid in byid and uid not in trail, 'source dependency cycle or unknown')
+        if uid not in memo:
+            result = set(dependencies[uid])
+            for dep in dependencies[uid]:
+                result.update(ancestors(dep, trail + (uid,)))
+            memo[uid] = result
+        return memo[uid]
+    for uid in byid:
+        ancestors(uid)
+    def overlap(a, b):
+        a, b = a.rstrip('/'), b.rstrip('/')
+        return a == b or a.startswith(b + '/') or b.startswith(a + '/')
+    conflicts = []
+    for i, a in enumerate(units):
+        for b in units[i + 1:]:
+            if b['id'] in memo[a['id']] or a['id'] in memo[b['id']]:
+                continue
+            pairs = [(x, y) for x in a['paths'] for y in b['paths'] if overlap(x, y)]
+            if pairs:
+                conflicts.append({'a': a['id'], 'b': b['id'], 'paths': pairs,
+                    'policy': 'Never dispatch together; acquire a fresh owner and order their shared writes.'})
+    P.require(not conflicts, 'new unordered write conflict')
+    done, waves = set(), []
+    while len(done) < len(byid):
+        ready = sorted((uid for uid in byid if uid not in done and
+                        set(dependencies[uid]) <= done),
+                       key=lambda uid: (uid not in ['P01', 'I01', 'B01'], uid))
+        wave = []
+        for uid in ready:
+            if len(wave) == 3:
+                break
+            if not any(overlap(a, b) for other in wave
+                       for a in byid[uid]['paths'] for b in byid[other]['paths']):
+                wave.append(uid)
+        P.require(wave, 'no acyclic source wave')
+        waves.append(wave)
+        done.update(wave)
+    return {'source_graph': dependencies, 'source_author_dispatch_waves': waves,
+            'unordered_write_conflicts': conflicts,
+            'lane_counts': dict(Counter(u['source_fragment'] for u in units))}
+
+
+def derive(capsule, provenance, lane, amendment, generator, ownership):
+    P, trusted = provider()
+    physical = {'physical/baseline-1.0.10.json.gz': capsule,
+                'physical/baseline-provenance.json': provenance,
+                'physical/lane.json': lane, 'physical/amendment.md': amendment,
+                'physical/tools/build_plan.py': generator, 'physical/' + OWNER: ownership,
+                'physical/trusted-provider.py': trusted}
+    P.inputs(physical)
+    P.require(0 < len(generator) <= 262144, 'bounded actual generator bytes required')
+    P.require(0 < len(ownership) <= 65536 and P.sha(ownership) == P.PRESERVED[OWNER],
+              'fixed actual current ownership bytes required')
+    path = Path(__file__).absolute()
+    P.require(path.resolve() == path and not path.is_symlink() and path.is_file(),
+              'canonical actual constructor source required')
+    used = sum(map(len, physical.values())) + sum(len(P.encode({n: '0' * 64})) for n in physical)
+    left = min(262144, LIMIT - used - len(P.encode({'physical/derive.py': '0' * 64})))
+    P.require(0 <= path.stat().st_size <= left, 'early actual source bound')
+    with path.open('rb') as stream:
+        source = stream.read(left + 1)
+    P.require(len(source) <= left, 'actual source changed past bound')
+    physical['physical/derive.py'] = source
+    P.inputs(physical)
+    captured = decode(P, capsule, provenance, physical)
+    files = dict(captured, **{OWNER: ownership})
+    contract, old = P.parse(files['completion-contract.json']), P.parse(files['plan.json'])
+    state = P.parse(files['execution.json'])
+    P.require(P.digest(contract) == BASE_CONTRACT and P.sha(files['execution.json']) ==
+              P.BASE_EXECUTION and len(state['units']) == 55 and P.digest(state['units']) == P.HISTORY,
+              'complete current contract/history')
+    normalized = [{k: v for k, v in u.items() if k not in P.OMIT}
+                  for u in sorted(old['units'], key=lambda u: u['id'])]
+    P.require(type(old['unit_count']) is int and old['unit_count'] == len(normalized) == 794 and
+              P.digest(normalized) == BASE_UNITS and P.digest(old['readiness_graph']) == BASE_GRAPH and
+              P.digest(sorted(u['id'] for u in old['units'])) == BASE_IDS, 'all794 baseline records/edges')
+    for name, expected in P.PRESERVED.items():
+        P.require(P.sha(files[name]) == expected, 'held policy changed')
+    S = P.storage_guard(files)
+    S.validate_storage_splits(contract, old, files.__getitem__)
+    joint = P.parse(files['cross-lane-review.json'])['joint_acceptance_gates']
+    P.require(P._graph(copy.deepcopy(old['units']), joint) == old['readiness_graph'],
+              'complete baseline graph recompilation')
+    P.require(P.sha(lane) == LANE_SHA and P.sha(amendment) == AMENDMENT_SHA, 'fixed proposed input changed')
+    proposed = P.parse(lane)
+    P.require(set(proposed) == {'lane', 'units'} and proposed['lane'] == 'source-next' and
+              [u['id'] for u in proposed['units']] == IDS, 'fixed three lane rows')
+    units = copy.deepcopy(old['units'])
+    for row, row_sha, deps, family in zip(proposed['units'], ROWS,
+            [['B01', 'B25S1'], ['B25d1'], ['M06a1', 'RR13a']], ['interchange', 'interchange', 'model']):
+        P.require(row['dependencies'] == row['implementation_ready_dependencies'] == deps and
+                  row['primary_family'] == family and row['primary_team'] == 'services-persistence',
+                  'fixed child dependency/family/team')
+        P.require(all(type(row['budget'][k]) is int and row['budget'][k] == v for k, v in
+                      [('production_lines_max', 400), ('authored_lines_max', 900)]), 'strict ordinary caps')
+        P.require(all(row[k] for k in ['tasks', 'verification', 'paths', 'source_refs',
+                                      'source_freeze', 'commit_plan', 'done_when']) and
+                  P.digest(row) == row_sha, 'whole complete fixed child record')
+        child = copy.deepcopy(row)
+        child.update(lane='source-next', source_fragment=FRAGMENT, source_fragment_sha256=P.sha(lane),
+                     external_pr_details=copy.deepcopy(row['external_prs']))
+        units.append(child)
+    byid = {u['id']: u for u in units}
+    for field in ['dependencies', 'implementation_ready_dependencies']:
+        byid['B25d'][field] = sorted(set(byid['B25d'].get(field, byid['B25d']['dependencies']) + IDS[:2]))
+    for parent, children in [('B25d', IDS[:2]), ('M06', IDS[2:])]:
+        for field in ['acceptance_children', 'source_preparation_children']:
+            byid[parent][field] = sorted(set(byid[parent].get(field, []) + children))
+    byid['C99']['source_fragment_sha256'] = P.sha(generator)
+    order = byid['C99']['dependencies']
+    P.require([byid[n]['source_fragment'] for n in order] ==
+              sorted(byid[n]['source_fragment'] for n in order), 'baseline C99 lane order')
+    at = next((i for i, uid in enumerate(order) if byid[uid]['source_fragment'] > FRAGMENT), len(order))
+    order[at:at] = IDS
+    graph = P._graph(units, joint)
+    P.require(len(graph) == 1594 and all(set(edges) <= set(graph[node])
+              for node, edges in old['readiness_graph'].items()), 'all1588 old typed nodes/edges')
+    P.require(byid['M06a1'] == next(u for u in old['units'] if u['id'] == 'M06a1'),
+              'M06a1 body/nodes unchanged')
+    changes = {}
+    for before in old['units']:
+        after = byid[before['id']]
+        P.require(set(before) <= set(after), 'old field removed')
+        fields = {k: {'before': {'present': k in before, 'value': before.get(k)}, 'after': v}
+                  for k, v in after.items() if k not in P.OMIT and (k not in before or v != before[k])}
+        if fields:
+            P.require(before['id'] in {'B25d', 'M06', 'C99'} | set(joint), 'unexpected old record rewrite')
+            changes[before['id']] = fields
+    metadata = source_metadata(P, units)
+    policy = {'schema': 1, 'amendment': {'path': 'amendments/1.0.11-source-next.md',
+              'sha256': P.sha(amendment)}, 'base_contract_id': contract['contract_id'],
+              'base_contract_sha256': BASE_CONTRACT, 'original_unit_count': 794,
+              'original_ids_sha256': BASE_IDS, 'original_normalized_units_sha256': BASE_UNITS,
+              'original_readiness_graph_sha256': BASE_GRAPH, 'historical_unit_count': 55,
+              'historical_units_sha256': P.HISTORY, 'preserved_inputs': copy.deepcopy(P.PRESERVED),
+              'children': {uid: {'family': byid[uid]['primary_family'],
+                  'team': byid[uid]['primary_team'], 'dependencies': byid[uid]['dependencies'],
+                  'normalized_sha256': P.digest({k: v for k, v in byid[uid].items() if k not in P.OMIT})}
+                  for uid in IDS}, 'record_updates': changes,
+              'graph_additions': {n: [e for e in edges if e not in old['readiness_graph'].get(n, [])]
+                  for n, edges in graph.items() if edges != old['readiness_graph'].get(n)}}
+    contract = copy.deepcopy(contract)
+    contract.update(version='1.0.11', contract_id=VERSION, source_next_splits=policy)
+    contract['unit_ids'] += IDS
+    for uid in IDS:
+        contract['families'][byid[uid]['primary_family']].append(uid)
+    for u in units:
+        family = byid[u['id']].get('primary_family', u.get('completion_contract', {}).get('family'))
+        u['completion_contract'] = {'id': VERSION, 'path': 'completion-contract.json',
+            'document': contract['document'], 'packet_schema': contract['packet_schema'], 'family': family}
+    expected = copy.deepcopy(old)
+    expected.update(unit_count=797, units=sorted(units, key=lambda u: u['id']), readiness_graph=graph,
+                    lane_counts=metadata['lane_counts'],
+                    source_author_dispatch_waves=metadata['source_author_dispatch_waves'],
+                    unordered_write_conflicts=metadata['unordered_write_conflicts'])
+    expected['completion_contract']['id'] = VERSION
+    schema = P.parse(files['acceptance-packet.schema.json'])
+    schema['properties']['unit_id']['enum'] = contract['unit_ids'].copy()
+    schema['properties']['contract_id']['const'] = VERSION
+    bindings = dict(files, **physical)
+    for name, value in captured.items():
+        bindings['logical-origin/' + name + '/via/physical/baseline-1.0.10.json.gz'] = value
+    bindings['current/' + OWNER] = ownership
+    bindings['logical-origin/' + OWNER + '/via/physical/' + OWNER] = ownership
+    bindings['current/tools/build_plan.py'] = generator
+    bindings['logical-origin/tools/build_plan.py/via/physical/tools/build_plan.py'] = generator
+    artifacts = {'policy.json': policy, 'completion-contract.json': contract,
+                 'acceptance-packet.schema.json': schema, 'expected-plan.json': expected,
+                 'source-metadata.json': metadata}
+    P.inputs(bindings)
+    P.require(sum(len(P.encode(value)) for value in artifacts.values()) <= LIMIT, 'output body bound')
+    proposal = P.packet(bindings, artifacts)
+    P.require(charged(P, bindings) + len(P.encode(proposal)) <= LIMIT,
+              'combined logical input/output/provenance bound')
+    return proposal

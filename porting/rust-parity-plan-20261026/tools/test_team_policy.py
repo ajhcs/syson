@@ -5,7 +5,7 @@ from pathlib import Path
 import unittest
 from team_policy import validate_dispatch, validate_projection, validate_teams_legacy as validate_teams
 from unittest.mock import patch
-from storage_splits import legacy_plan
+from source_next_splits import legacy_plan
 import team_policy
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -172,11 +172,14 @@ class CurrentPreparationTeamTests(unittest.TestCase):
         policy = json.loads((ROOT / 'teams.json').read_bytes())
         plan = json.loads((ROOT / 'plan.json').read_bytes())
         report = team_policy.validate_teams(policy, plan)
-        self.assertEqual(len(report['assignment']), 794)
+        self.assertEqual(len(report['assignment']), 797)
         self.assertEqual(report['assignment']['B25S1'], 'services-persistence')
         self.assertEqual(report['assignment']['M06a1'], 'language-interchange')
         self.assertEqual(report['assignment']['RR13a'], 'services-persistence')
         self.assertEqual(report['assignment']['RR13b'], 'verification-release')
+        self.assertEqual(report['assignment']['B25d1'], 'services-persistence')
+        self.assertEqual(report['assignment']['B25d2'], 'services-persistence')
+        self.assertEqual(report['assignment']['M06a2'], 'services-persistence')
         plan['units'][0]['completion_contract'] = {'version': 'invalid'}
         with self.assertRaises(ValueError):
             team_policy.validate_teams(policy, plan)

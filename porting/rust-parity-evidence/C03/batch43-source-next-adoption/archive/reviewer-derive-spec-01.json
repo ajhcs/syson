@@ -1,0 +1,114 @@
+{
+  "schema": "SYSON_B43_DERIVE_SPEC_REVIEW/1",
+  "status": "PASS_FIRST_PHASE_SPEC_ONLY_NO_EXECUTION_OR_ADOPTION",
+  "reviewer": "registration_repair",
+  "scope": "Independent review of root scripts/spec. Loader authorship disclosed; its acceptance relies on pinned independent source reviews.",
+  "method": "Read/hash/JSON/AST only; no subject import/execution, tests, formatter, compiler, Git, network, seal or source/normative edits.",
+  "bindings": {
+    "spec": {
+      "path": "derive-01-spec.json",
+      "bytes": 276023,
+      "sha256": "11419e4a4e438788826bae8063a5ca9f0d766286628f58e2929cbce95fdf9973"
+    },
+    "freeze": {
+      "path": "derive-source-freeze-01.json",
+      "bytes": 274309,
+      "sha256": "217405d4d203652b3d17546156c4b3ef22932318dd2905dca97435bd3919659c"
+    },
+    "driver": {
+      "path": "derive_oracle.py",
+      "lines": 44,
+      "sha256": "7fabb512f3a01163391b3efdb5350652725ebce8f87606084543a8fcae830a96"
+    },
+    "probe": {
+      "path": "test_loader_controls.py",
+      "lines": 122,
+      "sha256": "ad2fc2925a8f27793eae448067e8f853d79e96bc92e36ad2bcb0ba3496d578d9"
+    },
+    "independent_source_review": "7502bbf8fa7bc0569465ea504ceb55df40206549f7e261b4d024234e9bb65741",
+    "independent_probe_review": "6b7a101eac3ee4b9602e1a14a4bde8402e6f271417fe5502226a0ecce070e139",
+    "controller_author_freeze": "339fd56ef16957c5ec59806d1304f97e316860a6c48b5d1d01f5fba1ebaa5cdc",
+    "loader_author_freeze": "f15c4ffdfa036ec16fd0ac7750dfef462fc6ccc6542ca703831a26a5ee364256",
+    "main_prerequisite_record": "04d2d5fc957ddc698e11fa679081d095521c18232c6e0bd1591585bc91b527a7",
+    "budget_record": "93f737abcbca8115152256f4501a196e251e3fee4023cc006b7b91c2959f1125"
+  },
+  "closure": {
+    "inputs": 1269,
+    "repository_paths": 1226,
+    "other_paths": 43,
+    "current_hash_mismatches": 0,
+    "freeze_map_equals_spec": true,
+    "actual_generator_sha256": "708982b09860061a0108328877e15f7b3a66c13e2adfd9ef9fe224384ce1be4c",
+    "loader_sha256": "1819a78e4eec01d952b8d211c37fe9cf287e075883a119cac497537da2383c5d",
+    "derive_sha256": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17",
+    "guard_raw_pending_sha256": "eb80f827c8014cee147ed42c6efafa1f3856ff250fd2ea99a275cfd46aef12d8",
+    "registration_provider_sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59",
+    "preparation_provider_sha256": "7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3",
+    "storage_guard_sha256": "db18f5d5c63c27d5e6daf5a78a8b358361b4ac66818e285c10c4a64f9de6ac01",
+    "current_owner_sha256": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a",
+    "retained_contract_lock_sha256": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558",
+    "retained_snapshot_lock_sha256": "474c6d7741e5f794e1bebc5a068c40b6ea0f27925a4fcc431bcdc152c81f7f69",
+    "transitional_source_paths_differing_from_both_old_locks": [
+      "tools/build_plan.py",
+      "tools/completion_contract.py",
+      "tools/team_policy.py",
+      "tools/test_preparation_splits.py",
+      "tools/test_storage_splits.py",
+      "tools/test_team_policy.py",
+      "tools/verify_plan.py"
+    ],
+    "note": "Retained old48/1167 documents and all role paths remain covered. Seven intentional controller changes differ from old lock entries; no sealed active-model validity is claimed."
+  },
+  "commands": {
+    "exact_order": [
+      "loader-controls-normal",
+      "derive-oracle-normal",
+      "loader-controls-optimized",
+      "derive-oracle-optimized"
+    ],
+    "interpreter": "/usr/bin/python3",
+    "flags": "Exact four argv use -I -B and additionally -O for optimized commands; absolute pinned scripts and fixed output arguments. No Rust-only expected_tests field.",
+    "cwd": "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026",
+    "expected_loader_named_executions": 18,
+    "expected_oracle_files_per_mode": 6,
+    "probe_case_names": [
+      "test_actual_guard_alias_and_all_nine_api_identities",
+      "test_existing_package_refuses_before_source_io",
+      "test_existing_child_refuses_before_source_io",
+      "test_changed_derive_body_refuses_before_any_provider_compile",
+      "test_changed_guard_body_refuses_before_compiling_valid_derive",
+      "test_duplicate_policy_seal_refuses_before_compile",
+      "test_symlink_provider_refuses_before_compile",
+      "test_oversize_provider_refuses_before_read_or_compile",
+      "test_symlink_loader_refuses_before_provider_source_io"
+    ]
+  },
+  "findings": [
+    "All1269 inputs match current files; freeze equals spec map. Both author freezes and independent source reviews are pinned.",
+    "Probe compiles only whole-pinned actual loader bytes and executes them in fresh owned copies. Nine actual positive/refusal cases restore mocks and reserved test namespaces. Temporary copy teardown is registered, and tests run in isolated normal/optimized processes.",
+    "Driver imports only the verified qualified loader, calls actual D.provider and fixed six-argument D.derive, and reads current generator and owner bytes from pinned live paths. Captured baseline code is passive data. Actual live P, preparation and storage guard source are whole-pinned and compared to captured bindings before provider execution. No current generator or captured generator is imported or called.",
+    "Exactly five unsigned artifacts plus manifest are retained with actual driver/loader/G support hashes. Encoded outputs plus framed support fit the admitted proposal envelope; D separately enforces combined logical input/output/provenance64MiB. Output is a fresh owned canonical direct B43 child, mode0700, with exclusive fixed-name writes.",
+    "Current contract is1.0.10 and G is literal PENDING_ROOT_FREEZE. This spec has no G policy validation call, manual seal, current-data installation, generator CLI, constructor/snapshot invocation or feature dispatch.",
+    "Fixed UTF-8/no-user-site env, PATH=/usr/bin:/bin and canonical fixtures/test/TMPDIR. test-files-01 and command-tmp-01 are empty nonsymlink canonical uid1000/0700 directories. derive-01 and both oracle outputs are absent.",
+    "Pinned unchanged run_scope/F25 runner attest owned proof, hold nonblocking compiler flock, execute sequentially with180s timeout, snapshot before/after and invoke proof-bound cleanup. CPU200%,high2G,max3G,swap0,tasks128 match. Unit/prefix/nonce shapes valid; values omitted.",
+    "Pinned prerequisite record binds mainc9c55fb741f26adc46719b9e21f01aebf6d9be1b and root-reported16 successful required checks; no independent hosted query."
+  ],
+  "execution_requirements": [
+    "Root must freshly recheck exact spec/source pins, prepared-directory custody, unused outputs, host/resource availability and prerequisite main status before launch.",
+    "Retain raw argv/exits and stderr; require nine exact named tests and Ran9/OK in each mode, not runner passed=0 or exit alone. Require both successful unsigned driver summaries and six closed files per mode; independently compare all corresponding bytes.",
+    "Require1269 before=after=spec=current, actual unit/invocation/cgroup/UID/proof binding, compiler-lock custody and terminal owned cleanup absent. Record any failure truthfully without relabeling or automatic retry."
+  ],
+  "budget": {
+    "inclusive_production_reserve": 371,
+    "inclusive_authored_reserve": 669,
+    "root_helpers_used": 166,
+    "root_helpers_remaining": 84,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "conservative_probe_charge": "All122 lines count as root production support."
+  },
+  "blockers": [],
+  "limits": "Spec admission only. No runtime PASS, seal/adoption, dispatch, publication or merge acceptance. Later actual .11 physical construction/install/generator/snapshot/full104-case qualification and native/UI/backend/human holds remain separate gates. Trusted source custody is not hostile concurrent-filesystem proof."
+}

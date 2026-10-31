@@ -6,6 +6,7 @@ import unittest
 from unittest import mock
 import preparation_splits as P
 import storage_splits as S
+import source_next_splits as N
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -14,6 +15,8 @@ class StorageSplitTests(unittest.TestCase):
     def setUp(self):
         self.contract = json.loads((ROOT / 'completion-contract.json').read_bytes())
         self.plan = json.loads((ROOT / 'plan.json').read_bytes())
+        self.plan = N.previous_plan(self.contract, self.plan)
+        self.contract = N.previous_contract(self.contract)
         self.policy = self.contract['storage_source_splits']
 
     def unit(self, plan, uid):

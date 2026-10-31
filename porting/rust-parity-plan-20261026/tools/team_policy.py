@@ -2,7 +2,7 @@
 import hashlib
 import json
 from pathlib import PurePosixPath, Path
-from storage_splits import legacy_contract, legacy_plan, validate_preparation_splits
+from source_next_splits import legacy_contract, legacy_plan, validate_preparation_splits
 
 TEAMS = [
     'reference', 'semantic-model', 'language-interchange', 'services-persistence',

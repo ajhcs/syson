@@ -18,7 +18,7 @@ PIN = '89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9'
 def modules():
     path = DIRECTORY / 'test_guard.py'
     raw = path.read_bytes()
-    if hashlib.sha256(raw).hexdigest() != 'cb7bc14f4dc74855442676f8f3d40770ca422b010d224fb1011eb6db6c42e01f':
+    if hashlib.sha256(raw).hexdigest() != '65b12e7d1c5475c1cb7b5800f72919c96edcf6ddfca427cab6c16248edfc20bf':
         raise ValueError('whole existing bootstrap source changed')
     spec = importlib.util.spec_from_file_location('fixed_constructor_existing_bootstrap', path)
     bootstrap = importlib.util.module_from_spec(spec)
@@ -49,9 +49,9 @@ class ConstructorTests(unittest.TestCase):
         args += [(cls.root / 'tools/build_plan.py').read_bytes(), (cls.root / cls.D.OWNER).read_bytes()]
         cls.artifacts = cls.D.derive(*args)['artifacts']
         cls.seal = cls.G.digest(cls.artifacts['policy.json'])
-        cls.prior_contract = (cls.root / 'completion-contract.lock.json').read_bytes()
-        cls.prior_snapshot = (cls.root / 'remaining-work/snapshot.lock.json').read_bytes()
-        cls.prior_register = (cls.root / 'remaining-work/units.json').read_bytes()
+        cls.prior_contract = (cls.root / cls.C.PRIOR / 'contract-lock.json').read_bytes()
+        cls.prior_snapshot = (cls.root / cls.C.PRIOR / 'snapshot-lock.json').read_bytes()
+        cls.prior_register = (cls.root / cls.C.PRIOR / 'register.json').read_bytes()
         cls.old_lock = cls.P.parse(cls.prior_snapshot)
         cls.old_normative = cls.P.parse(cls.prior_contract)
         cls.current = {n: (cls.root / n).read_bytes() for n in cls.old_lock['sha256']
@@ -92,7 +92,8 @@ class ConstructorTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(prefix='constructor-', dir=root)
         self.addCleanup(temporary.cleanup)
         self.output_root = Path(temporary.name)
-        for mock in [patch.object(self.G, 'POLICY_SHA256', self.seal),
+        self.policy_patch = patch.object(self.G, 'POLICY_SHA256', self.seal)
+        for mock in [self.policy_patch,
                      patch.object(self.C, 'OUTPUT_ROOT', self.output_root),
                      patch('socket.create_connection', side_effect=AssertionError('network forbidden'))]:
             mock.start()
@@ -212,9 +213,20 @@ class ConstructorTests(unittest.TestCase):
                 self.build(files)
 
     def test_default_physical_root_refuses_missing_unadopted_roles(self):
-        self.assertFalse((self.root / 'tools/source_next_splits.py').exists())
-        with self.assertRaisesRegex(ValueError, 'actual canonical source'):
-            self.C.contract_lock(None, self.prior_contract)
+        self.policy_patch.stop()
+        current_lock = self.P.parse((self.root / 'completion-contract.lock.json').read_bytes())
+        current_snapshot = self.P.parse((self.root / 'remaining-work/snapshot.lock.json').read_bytes())
+        current_register = self.P.parse((self.root / 'remaining-work/units.json').read_bytes())
+        actual = self.C.contract_lock(None, self.prior_contract)['artifacts']['completion-contract.lock.json']
+        self.assertEqual(actual, current_lock)
+        actual = self.C.snapshot(None, self.prior_register, self.prior_snapshot, self.prior_contract,
+                                 current_snapshot['snapshot_id'], current_snapshot['base_main'])['artifacts']
+        self.assertEqual(actual, {'units.json': current_register, 'snapshot.lock.json': current_snapshot})
+        loader = self.root / 'tools/source_next_splits.py'
+        is_file = Path.is_file
+        with patch.object(Path, 'is_file', lambda path: False if path == loader else is_file(path)):
+            with self.assertRaisesRegex(ValueError, 'actual canonical source'):
+                self.C.contract_lock(None, self.prior_contract)
 
     def test_real64mib_exact_and_one_extra_before_parse_or_copy(self):
         reserve = self.C.BOUNDS['manifest.json'] + self.C.BOUNDS['units.json'] + self.C.BOUNDS['snapshot.lock.json']

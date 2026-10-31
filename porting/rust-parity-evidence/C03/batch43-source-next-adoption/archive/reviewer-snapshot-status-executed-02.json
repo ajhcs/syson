@@ -1,0 +1,180 @@
+{
+  "schema": "SYSON_B43_SNAPSHOT_STATUS_EXECUTED_REVIEW/2",
+  "status": "PASS_EXACT_NORMAL_OPTIMIZED_PHYSICAL_STATUS_SNAPSHOT_REFRESH_ONLY",
+  "reviewer": "core_frontier_admission",
+  "method": "Bounded read-only JSON/raw hashes/text/custody reconstruction; no subject import/execution,tests,compiler,Git,network,source edits or application.",
+  "bindings": {
+    "snapshot-status-02-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/snapshot-status-02-spec.json",
+      "bytes": 511048,
+      "sha256": "b11c58b9bacc3c4a2a071b5b64cad9e33886f99a9bec9d09951813dfa0bd0761"
+    },
+    "snapshot-status-freeze-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/snapshot-status-freeze-02.json",
+      "bytes": 509814,
+      "sha256": "b68f458772e915278d0c8a7d49bf1bd931921c56cc790a774bbfe3a0cd4d824d"
+    },
+    "reviewer-snapshot-status-spec-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-snapshot-status-spec-02.json",
+      "bytes": 9576,
+      "sha256": "8b89f8a9c74ddd3a4449e3827c1badd5aa0ea18f15ed8e379948f114cc17a33f"
+    },
+    "reviewer-snapshot-executed-data-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-snapshot-executed-data-01.json",
+      "bytes": 12474,
+      "sha256": "eef6f09f491461d57ee458c351fee7894bf0bb56d9609ba29f54618f3e0d7efc"
+    },
+    "status-doc-correction-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/status-doc-correction-01.json",
+      "bytes": 1044,
+      "sha256": "450a25273c0a678051dae0cd64362950fc83adb989ff5059f8a95bf73e51352b"
+    },
+    "snapshot-status-02/receipt.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/snapshot-status-02/receipt.json",
+      "bytes": 1018986,
+      "sha256": "a5a4dcbe59afa10dff32e197f0ebb9e5e3f3c4722acb1edb3a7749ab8f792ac0"
+    },
+    "snapshot-status-02/scope-proof.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/snapshot-status-02/scope-proof.json",
+      "bytes": 384,
+      "sha256": "dd8c673d4a7b86b0256dc435e28399e4f5e8fcfb7272caa803c53103680f519b"
+    },
+    "snapshot-status-02-cleanup.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/snapshot-status-02-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    }
+  },
+  "execution": {
+    "commands_exact": [
+      {
+        "name": "actual-snapshot-status-normal",
+        "argv": [
+          "/usr/bin/python3",
+          "-I",
+          "-B",
+          "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+          "snapshot",
+          "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-02"
+        ]
+      },
+      {
+        "name": "actual-snapshot-status-optimized",
+        "argv": [
+          "/usr/bin/python3",
+          "-O",
+          "-I",
+          "-B",
+          "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+          "snapshot",
+          "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-02"
+        ]
+      }
+    ],
+    "count": 2,
+    "all_exit_zero": true,
+    "all2471_before_after_spec_current_equal": true,
+    "controller_rows_equal_receipt": true,
+    "all_stderr_empty": true,
+    "passed0_is_not_tests": true,
+    "proof": "Exact unit/local nonce/cgroup suffix/nonzero invocation/positive PID and startticks; binding values omitted.",
+    "cleanup": "confirmed absent/not-found; recorded cgroup absent on readback.",
+    "controls": "Pinned scope/ownership/global lock/resource requests unchanged; no actual numeric runtime caps/peak/performance claim.",
+    "wall_seconds_observed_only": [
+      2.7176401809992967,
+      2.8680637249999563
+    ]
+  },
+  "packets": {
+    "normal": [
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-02/units.json",
+        "bytes": 5843441,
+        "sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-02/snapshot.lock.json",
+        "bytes": 160945,
+        "sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-02/manifest.json",
+        "bytes": 447042,
+        "sha256": "2a5f62eb0e77e1a6a7d82ad1f19656b61a00271d901ffc5a460b9eef65b49a74"
+      }
+    ],
+    "optimized": [
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-02/units.json",
+        "bytes": 5843441,
+        "sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-02/snapshot.lock.json",
+        "bytes": 160945,
+        "sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-02/manifest.json",
+        "bytes": 447042,
+        "sha256": "2a5f62eb0e77e1a6a7d82ad1f19656b61a00271d901ffc5a460b9eef65b49a74"
+      }
+    ],
+    "all3files_raw_identical_between_modes": true,
+    "each_exact3files_regular_canonical_uid1000_owned0700_directory": true,
+    "both_stdout_manifest_accounting_matches_actual_packet": true
+  },
+  "register": {
+    "raw_sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509",
+    "unchanged_from_full_independent_797row_rebuild_and_installed01": true,
+    "all797ordered_fullrows_metadata_fiveoverlays_acceptance_states_preserved": true,
+    "basis": "Byte-identical to previous whole register eef6f09 review and actual installed register; no reduced row comparison or metadata normalization."
+  },
+  "snapshot_lock": {
+    "raw_sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0",
+    "matches_independent_prediction": true,
+    "whole_object_and_raw_expected_serialization_equal": true,
+    "only_delta_from_snapshot01": "sha256[README.md]",
+    "before_README": "34acabeb84c116a7e16b5c6542641230ff462667263953313555f3be267a0c4a",
+    "after_README": "f3ceeba26579db44455220b1b9aae6b6082a679283b5147f8204babb6e5b7602",
+    "required_roles": 1206,
+    "progress_roles": 342,
+    "all1167old_roles_318progress_55history_6holds_17proofs_4fixtures_3priors_retained": true,
+    "all_other_fields_and_hashes_identical_to_reviewed01": true
+  },
+  "manifest": {
+    "raw_sha256": "2a5f62eb0e77e1a6a7d82ad1f19656b61a00271d901ffc5a460b9eef65b49a74",
+    "matches_independent_prediction": true,
+    "whole_expected_object_and_raw_bytes_equal": true,
+    "bindings": 3612,
+    "physical_current_roles": 1202,
+    "fixed_prior_roles": 3,
+    "logical_cache_roles": 1205,
+    "scope": "Rehashed every current/fixed-prior logical input and every physical/origin binding; only actualREADME changed. Actual same constructor/default physical reader/G seal, no supplied-byte or synthetic origin."
+  },
+  "quota": {
+    "actual_input_plus_namehash_framing": 59736715,
+    "actual_output_sizes": {
+      "units.json": 5843441,
+      "snapshot.lock.json": 160945,
+      "manifest.json": 447042
+    },
+    "actual_output_total": 6451428,
+    "combined_actual_input_output": 66188143,
+    "limit": 67108864,
+    "actual_headroom": 920721,
+    "reserved_output": 7077888,
+    "input_plus_reserve": 66814603,
+    "reserved_headroom": 294261,
+    "note": "No duplicated prior register, no decoded expansion/RSS conflation. Actual output sizes equal independently predicted sizes."
+  },
+  "unapplied": {
+    "old01_snapshot_lock_still_installed_unchanged": true,
+    "register_still_installed_unchanged": true,
+    "fixed3priors_unchanged": true,
+    "new02_outputs_not_applied": true,
+    "allowed_next_root_step": "Separately apply only new snapshot.lock.json exact ae852... after this PASS; units.json is unchanged and need not be rewritten. Fresh final regression02 normal/O/selftests remain required."
+  },
+  "blockers": [],
+  "limits": "Exact02 refresh data/execution PASS only. No application,final104+9suite regression,source lease,publication or native/UI/backend/full-feature acceptance follows."
+}

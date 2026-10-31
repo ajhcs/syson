@@ -7,7 +7,7 @@ import math
 from pathlib import Path
 from . import derive as D
 
-POLICY_SHA256 = 'PENDING_ROOT_FREEZE'
+POLICY_SHA256 = 'b4004fd4d774f8715b341d68a56114294232593b791be64efcc0474022418684'
 PLANS = {
     '1.0.10': ('178f531b9680072ad1de1b910bce39682377d3ee7e7be899e0c93ed48e728be3',
                'a18c1256b92c9378c80263285633695e07bfe423d6751d7c6b3036db77ef2ced'),

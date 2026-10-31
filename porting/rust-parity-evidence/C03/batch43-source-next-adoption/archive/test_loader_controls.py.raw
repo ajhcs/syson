@@ -1,0 +1,122 @@
+"""Exercise the actual reviewed loader in isolated owned source copies."""
+from pathlib import Path
+import hashlib
+import os
+import shutil
+import sys
+import tempfile
+import types
+import unittest
+from unittest.mock import patch
+
+ROOT = Path('/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026')
+PACKAGE = '_syson_source_next_1_0_11'
+ALIAS = '_controlled_source_next_loader'
+RAW = (ROOT / 'tools/source_next_splits.py').read_bytes()
+if hashlib.sha256(RAW).hexdigest() != '1819a78e4eec01d952b8d211c37fe9cf287e075883a119cac497537da2383c5d':
+    raise ValueError('fixed actual loader required')
+CODE = compile(RAW, str(ROOT / 'tools/source_next_splits.py'), 'exec')
+
+
+class LoaderControls(unittest.TestCase):
+    def setUp(self):
+        self.assertFalse(any(n == PACKAGE or n.startswith(PACKAGE + '.') or n == ALIAS for n in sys.modules))
+        parent = Path(os.environ['SYSON_BOOTSTRAP_TEST_ROOT'])
+        self.assertTrue(parent.is_absolute() and parent.resolve() == parent)
+        self.assertTrue(parent.is_relative_to('/workspace/build/builderbob'))
+        self.assertEqual(parent.stat().st_uid, os.getuid())
+        temporary = tempfile.TemporaryDirectory(prefix='loader-', dir=parent)
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.providers = self.root / 'composition/source_next_prepare'
+        self.providers.mkdir(parents=True)
+        (self.root / 'tools').mkdir()
+        self.loader = self.root / 'tools/source_next_splits.py'
+        self.loader.write_bytes(RAW)
+        for name in ['derive.py', 'guard.py']:
+            shutil.copyfile(ROOT / 'composition/source_next_prepare' / name, self.providers / name)
+        self.addCleanup(self.remove_owned_modules)
+
+    def remove_owned_modules(self):
+        for name in list(sys.modules):
+            if name == ALIAS or name == PACKAGE or name.startswith(PACKAGE + '.'):
+                del sys.modules[name]
+
+    def load(self):
+        module = types.ModuleType(ALIAS)
+        module.__file__ = str(self.loader)
+        sys.modules[ALIAS] = module
+        exec(CODE, module.__dict__)
+        return sys.modules[ALIAS]
+
+    def refuses_before_compile(self, reason):
+        with patch('builtins.compile', side_effect=AssertionError('provider compilation before admission')):
+            with self.assertRaisesRegex(ValueError, reason):
+                self.load()
+        self.assertFalse(any(n == PACKAGE or n.startswith(PACKAGE + '.') for n in sys.modules))
+
+    def test_actual_guard_alias_and_all_nine_api_identities(self):
+        actual = self.load()
+        package = sys.modules[PACKAGE]
+        self.assertIs(actual, package.guard)
+        self.assertIs(actual.D, package.derive)
+        for name in ['source_next_policy', 'previous_contract', 'previous_plan',
+                     'validate_source_next_splits', 'legacy_contract', 'legacy_plan',
+                     'validate_preparation_splits', 'storage_policy', 'validate_storage_splits']:
+            self.assertTrue(callable(getattr(actual, name)))
+        self.assertEqual(Path(actual.__file__), self.providers / 'guard.py')
+
+    def test_existing_package_refuses_before_source_io(self):
+        sentinel = types.ModuleType(PACKAGE)
+        sys.modules[PACKAGE] = sentinel
+        with patch.object(Path, 'open', side_effect=AssertionError('namespace collision performed source I/O')):
+            with self.assertRaisesRegex(ValueError, 'namespace collision'):
+                self.load()
+        self.assertIs(sys.modules[PACKAGE], sentinel)
+
+    def test_existing_child_refuses_before_source_io(self):
+        name = PACKAGE + '.occupied'
+        sentinel = types.ModuleType(name)
+        sys.modules[name] = sentinel
+        with patch.object(Path, 'open', side_effect=AssertionError('namespace collision performed source I/O')):
+            with self.assertRaisesRegex(ValueError, 'namespace collision'):
+                self.load()
+        self.assertIs(sys.modules[name], sentinel)
+
+    def test_changed_derive_body_refuses_before_any_provider_compile(self):
+        path = self.providers / 'derive.py'
+        path.write_bytes(path.read_bytes() + b'\n# changed actual source\n')
+        self.refuses_before_compile('whole-source pin')
+
+    def test_changed_guard_body_refuses_before_compiling_valid_derive(self):
+        path = self.providers / 'guard.py'
+        path.write_bytes(path.read_bytes() + b'\n# changed actual source\n')
+        self.refuses_before_compile('whole-source pin')
+
+    def test_duplicate_policy_seal_refuses_before_compile(self):
+        path = self.providers / 'guard.py'
+        path.write_bytes(path.read_bytes() + b"\nPOLICY_SHA256 = 'PENDING_ROOT_FREEZE'\n")
+        self.refuses_before_compile('single strict')
+
+    def test_symlink_provider_refuses_before_compile(self):
+        path = self.providers / 'guard.py'
+        target = self.root / 'same-guard.py'
+        path.rename(target)
+        path.symlink_to(target)
+        self.refuses_before_compile('canonical bounded')
+
+    def test_oversize_provider_refuses_before_read_or_compile(self):
+        (self.providers / 'derive.py').write_bytes(b'x' * 65537)
+        with patch.object(Path, 'open', side_effect=AssertionError('oversize provider read')):
+            self.refuses_before_compile('canonical bounded')
+
+    def test_symlink_loader_refuses_before_provider_source_io(self):
+        target = self.root / 'same-loader.py'
+        self.loader.rename(target)
+        self.loader.symlink_to(target)
+        with patch.object(Path, 'open', side_effect=AssertionError('symlink loader read providers')):
+            self.refuses_before_compile('canonical source-next loader')
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
