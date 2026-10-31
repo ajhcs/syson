@@ -1,0 +1,177 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Fresh-process finite import timings; no UI/native or final RSS claim.
+use std::{
+    error::Error,
+    fs::{self, File},
+    io::{Read, Write},
+    os::unix::fs::{DirBuilderExt, MetadataExt, PermissionsExt},
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+    thread,
+    time::{Duration, Instant},
+};
+type Result<T> = std::result::Result<T, Box<dyn Error>>;
+fn require(value: bool, message: &'static str) -> Result<()> {
+    if !value {
+        return Err(message.into());
+    }
+    Ok(())
+}
+fn run(binary: &Path, mode: &str, root: &Path) -> Result<([u128; 8], u128)> {
+    let started = Instant::now();
+    let mut child = Command::new(binary)
+        .arg(mode)
+        .arg(root)
+        .arg("finite")
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()?;
+    let pid = child.id();
+    let status = loop {
+        if let Some(status) = child.try_wait()? {
+            break status;
+        }
+        if started.elapsed() > Duration::from_secs(15) {
+            child.kill()?;
+            child.wait()?;
+            return Err("bounded child deadline".into());
+        }
+        thread::sleep(Duration::from_millis(2));
+    };
+    let elapsed = started.elapsed().as_nanos();
+    let mut stdout = Vec::new();
+    let mut stderr = Vec::new();
+    child
+        .stdout
+        .take()
+        .ok_or("child stdout")?
+        .take(4097)
+        .read_to_end(&mut stdout)?;
+    child
+        .stderr
+        .take()
+        .ok_or("child stderr")?
+        .take(4097)
+        .read_to_end(&mut stderr)?;
+    for (name, bytes) in [("stdout", &stdout), ("stderr", &stderr)] {
+        File::create_new(root.join(format!("{mode}.{name}")))?.write_all(bytes)?;
+    }
+    require(
+        stdout.len() <= 4096 && stderr.len() <= 4096,
+        "bounded child output",
+    )?;
+    require(
+        status.success() && stderr.is_empty(),
+        "child execution failed; raw output retained",
+    )?;
+    let text = String::from_utf8(stdout)?;
+    let fields: Vec<_> = text.trim_end().split('\t').collect();
+    require(
+        fields.len() == 10 && fields[0] == "M06A2/1" && fields[1] == mode,
+        "child protocol",
+    )?;
+    let values = fields[2..]
+        .iter()
+        .map(|v| v.parse::<u128>())
+        .collect::<std::result::Result<Vec<_>, _>>()?;
+    let values: [u128; 8] = values.try_into().map_err(|_| "child numeric fields")?;
+    require(
+        values[0] == u128::from(pid) && values[6..] == [12, 12],
+        "child identity result",
+    )?;
+    Ok((values, elapsed))
+}
+fn main() -> Result<()> {
+    let args: Vec<_> = std::env::args().collect();
+    require(args.len() == 3, "usage: snapshot_identity_probe CLI ROOT")?;
+    let binary = PathBuf::from(&args[1]);
+    let root = PathBuf::from(&args[2]);
+    require(
+        args[1].len() <= 4096
+            && binary.is_absolute()
+            && binary.canonicalize()? == binary
+            && binary.is_file(),
+        "canonical qualified CLI required",
+    )?;
+    require(
+        args[2].len() <= 4096
+            && root.is_absolute()
+            && root.starts_with("/workspace")
+            && root.canonicalize()? == root,
+        "canonical Samsung root required",
+    )?;
+    let metadata = fs::metadata(&root)?;
+    let uid = fs::metadata("/proc/self")?.uid();
+    require(
+        uid != 0
+            && metadata.uid() == uid
+            && metadata.is_dir()
+            && metadata.permissions().mode() & 0o777 == 0o700,
+        "owned0700 unprivileged root required",
+    )?;
+    require(
+        fs::read_dir(&root)?.next().is_none(),
+        "fresh empty probe root required",
+    )?;
+    let mut samples = Vec::new();
+    for sample in 0..9 {
+        let own = root.join(format!("sample-{sample}"));
+        fs::DirBuilder::new().mode(0o700).create(&own)?;
+        let started = Instant::now();
+        let (writer, writer_elapsed) = run(&binary, "write", &own)?;
+        let (reader, reader_elapsed) = run(&binary, "read", &own)?;
+        let whole = started.elapsed().as_nanos();
+        require(
+            writer[0] != reader[0] && writer[5] == reader[5],
+            "fresh reader mismatch",
+        )?;
+        require(
+            writer[4] == 0 && reader[1..4] == [0, 0, 0],
+            "phase protocol mismatch",
+        )?;
+        let row = [
+            writer[1],
+            writer[2],
+            writer[3],
+            reader[4],
+            writer_elapsed,
+            reader_elapsed,
+            whole,
+        ];
+        println!(
+            "{{\"workload\":\"finite-import-edit-save-restart\",\"sample\":{sample},\"warmup\":{},\"writer_pid\":{},\"reader_pid\":{},\"bytes\":{},\"stage_including_parse_ns\":{},\"edit_ns\":{},\"save_ns\":{},\"load_including_parse_ns\":{},\"writer_process_ns\":{writer_elapsed},\"reader_process_ns\":{reader_elapsed},\"whole_pair_ns\":{whole},\"parse_only\":\"UNAVAILABLE_PUBLIC_API\",\"cache\":\"OS-warmth-uncontrolled-fresh-document-directory\",\"RSS\":\"EXTERNAL_SEPARATE\"}}",
+            sample < 2,
+            writer[0],
+            reader[0],
+            writer[5],
+            row[0],
+            row[1],
+            row[2],
+            row[3]
+        );
+        if sample >= 2 {
+            samples.push(row);
+        }
+    }
+    for (index, phase) in [
+        "stage_including_parse",
+        "edit",
+        "save",
+        "load_including_parse",
+        "writer_process",
+        "reader_process",
+        "whole_pair",
+    ]
+    .iter()
+    .enumerate()
+    {
+        let mut values: Vec<_> = samples.iter().map(|row| row[index]).collect();
+        values.sort_unstable();
+        println!(
+            "{{\"phase\":\"{phase}\",\"raw_samples\":7,\"unit\":\"ns\",\"min\":{},\"median\":{},\"max\":{},\"product_performance_claimed\":false}}",
+            values[0], values[3], values[6]
+        );
+    }
+    Ok(())
+}

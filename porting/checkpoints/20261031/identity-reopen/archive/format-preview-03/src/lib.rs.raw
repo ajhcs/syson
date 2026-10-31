@@ -1,0 +1,130 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Independent selected-identity integration tests; no production adapter.
+//! Shared bounded process and filesystem mechanics; no expected model authority.
+use std::{
+    fs::{self, File},
+    io::{Read, Write},
+    os::unix::fs::{MetadataExt, PermissionsExt},
+    path::Path,
+    process::{Command, Stdio},
+    thread,
+    time::{Duration, Instant},
+};
+
+pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
+pub fn require(value: bool, message: &'static str) -> Result<()> {
+    if !value {
+        return Err(message.into());
+    }
+    Ok(())
+}
+pub fn workspace_root(path: &Path) -> Result<()> {
+    require(
+        path.as_os_str().len() <= 4096
+            && path.is_absolute()
+            && path.starts_with("/workspace")
+            && path.canonicalize()? == path,
+        "canonical Samsung workspace required",
+    )?;
+    let metadata = fs::metadata(path)?;
+    let uid = fs::metadata("/proc/self")?.uid();
+    require(
+        uid != 0
+            && metadata.uid() == uid
+            && metadata.is_dir()
+            && metadata.permissions().mode() & 0o777 == 0o700,
+        "owned0700 unprivileged root required",
+    )
+}
+pub fn capped(reader: impl Read, limit: u64) -> std::io::Result<Vec<u8>> {
+    let mut bytes = Vec::new();
+    reader.take(limit + 1).read_to_end(&mut bytes)?;
+    Ok(bytes)
+}
+pub struct Sample {
+    pub pid: u32,
+    pub elapsed_ns: u128,
+    pub numbers: [u128; 8],
+}
+/// Fixed CLI modes/key, exclusive raw logs, bounded lifetime and output.
+pub fn sample(binary: &Path, mode: &str, root: &Path, success: bool) -> Result<Sample> {
+    workspace_root(root)?;
+    require(
+        matches!(mode, "write" | "read"),
+        "fixed child mode required",
+    )?;
+    require(
+        binary.as_os_str().len() <= 4096
+            && binary.is_absolute()
+            && binary.canonicalize()? == binary
+            && binary.is_file(),
+        "canonical qualified CLI required",
+    )?;
+    let started = Instant::now();
+    let mut child = Command::new(binary)
+        .arg(mode)
+        .arg(root)
+        .arg("finite")
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()?;
+    let pid = child.id();
+    let status = loop {
+        let state = child.try_wait();
+        if state.is_err() {
+            let _ = child.kill();
+            let _ = child.wait();
+        }
+        if let Some(status) = state? {
+            break status;
+        }
+        if started.elapsed() > Duration::from_secs(15) {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err("bounded child deadline".into());
+        }
+        thread::sleep(Duration::from_millis(2));
+    };
+    let elapsed_ns = started.elapsed().as_nanos();
+    let stdout = capped(child.stdout.take().ok_or("child stdout")?, 4096)?;
+    let stderr = capped(child.stderr.take().ok_or("child stderr")?, 4096)?;
+    for (name, bytes) in [("stdout", &stdout), ("stderr", &stderr)] {
+        File::create_new(root.join(format!("{mode}-{pid}.{name}")))?.write_all(bytes)?;
+    }
+    require(
+        stdout.len() <= 4096 && stderr.len() <= 4096,
+        "bounded child output",
+    )?;
+    require(
+        status.success() == success,
+        "child status; raw output retained",
+    )?;
+    let numbers = if success {
+        require(stderr.is_empty(), "successful child stderr")?;
+        let text = String::from_utf8(stdout)?;
+        let fields: Vec<_> = text.trim_end().split('\t').collect();
+        require(
+            fields.len() == 10 && fields[0] == "M06A2/1" && fields[1] == mode,
+            "child protocol",
+        )?;
+        require(
+            fields[8] == "12" && fields[9] == "12",
+            "literal identity counts",
+        )?;
+        let values = fields[2..]
+            .iter()
+            .map(|v| v.parse::<u128>())
+            .collect::<std::result::Result<Vec<_>, _>>()?;
+        let values: [u128; 8] = values.try_into().map_err(|_| "child numeric fields")?;
+        require(values[0] == u128::from(pid), "actual child PID")?;
+        values
+    } else {
+        [0; 8]
+    };
+    Ok(Sample {
+        pid,
+        elapsed_ns,
+        numbers,
+    })
+}

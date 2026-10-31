@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "status": "ARCHIVED_STRUCTURE_REVIEW_ONLY_FIT_NOT_PROVEN_KEEP_BUDGET_HOLD",
+  "reviewer": "/root/registration_review",
+  "inspected_only": [
+    "/workspace/build/builderbob/syson-durable-batch45-20261031/candidate-01-unexecuted-budget-hold",
+    "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-01"
+  ],
+  "method": "Read complete frozen formatted CLI217/probe177/newtests433/original166/library2, archived author freeze and candidate source. Hash/line/text analysis only; no live revised files, imports, compiler/formatter/tests, Git/network or source edits.",
+  "formatted_sources": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-01/porting/domain/identity-context/integration/src/lib.rs",
+      "bytes": 112,
+      "lines": 2,
+      "sha256": "3da3dbecc6b793f1c901891a84e2d1664551ebe8d664e8f44f38a4f3b7ec288e"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-01/porting/domain/identity-context/integration/tests/snapshots.rs",
+      "bytes": 5805,
+      "lines": 166,
+      "sha256": "fa3167489a78e30fc972bf9fc552efbeece240f38081709c1f632108263e9a8f"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-01/porting/domain/identity-context/integration/tests/finite_import_restart.rs",
+      "bytes": 14133,
+      "lines": 433,
+      "sha256": "b1a43b9e2bb91db1ee093c81e5462209950a32a0f6ba73bf1e3a40024ec99513"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-01/porting/domain/identity-context/integration/examples/import_save_reopen.rs",
+      "bytes": 7544,
+      "lines": 217,
+      "sha256": "5819c2cf296fc9e03c36cfc48620c4dd0ae8c1ba12e7ba55c1b70ea3cacf31d7"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-01/porting/domain/identity-context/integration/examples/snapshot_identity_probe.rs",
+      "bytes": 5880,
+      "lines": 177,
+      "sha256": "20a798af0c4d63c6a9d4feb85f73ab53239db62b00ae0cb2eb5915c3c6b9c374"
+    }
+  ],
+  "candidate_author_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/candidate-01-unexecuted-budget-hold/author-source-review.json",
+    "bytes": 17733,
+    "lines": 234,
+    "sha256": "e723f01b1ca039749b811ab6084a5eb1cc79799238169bd7d1e1846895377414"
+  },
+  "baseline": {
+    "CLI": 217,
+    "new_functional_tests": 433,
+    "original_tests_unchanged": 166,
+    "probe": 177,
+    "lib": 2,
+    "README": 17,
+    "manifest_counted": 14,
+    "root_support_reserved": 30,
+    "attrs": 2,
+    "active_fixture_counted": 1,
+    "production": 459,
+    "authored": 1059,
+    "required_savings_to_fit": {
+      "production": 60,
+      "authored": 160
+    },
+    "hard_caps": [
+      400,
+      900
+    ]
+  },
+  "findings": [
+    {
+      "id": "S1",
+      "kind": "GENUINE_TRANSPORT_DUPLICATION",
+      "locations": [
+        "formatted examples/snapshot_identity_probe.rs20-84",
+        "formatted tests/finite_import_restart.rs151-215"
+      ],
+      "original_lines": [
+        65,
+        65
+      ],
+      "proposal": "One readable std-only child-run utility in the existing leased integration/src/lib.rs can own null stdin,spawn/actualPID,15s try_wait/2ms poll,kill+wait deadline,4097byte bounded stdout/stderr reads and elapsed process timing. Callers independently check expected success/refusal and domain protocol/doc results. Original two library header lines remain exact; all added utility lines count production/authored.",
+      "preserve": [
+        "Keep failed child support for repeated-writer/no-overwrite case; stderr/exit and size checks cannot be dropped.",
+        "Probe retains raw stdout/stderr per mode in exclusive files. A common helper needs caller-selected distinct log names or optional retained-log path: repeated failed write in functional test must never overwrite earlier logs.",
+        "Keep original protocol count/version/mode,actualPID and exact literal12 counter assertions; parse-to-number must not weaken literal string comparisons by accepting012. Full parent document oracle remains independent.",
+        "Preserve writer/reader process interval boundaries: start before spawn,stop after child exit; raw collection/verification outside process interval but inside whole-pair interval."
+      ],
+      "expected_savings": "Approximately40-55 authored after counted helper/thin callers; little or no production saving because the probe still needs the entire helper. Not a65-line production exemption."
+    },
+    {
+      "id": "S2",
+      "kind": "GENUINE_ROOT_ADMISSION_DUPLICATION",
+      "locations": [
+        "formatted CLI130-144:15lines",
+        "formatted probe97-112:16lines",
+        "formatted test127-136:10lines"
+      ],
+      "proposal": "Share only path admission: bounded absolute /workspace path,canonical equality,current/proc uid!=0,owned directory,exact0700. Keep mode/key grammar,qualified binary and probe-empty-root checks separately. A helper around15formatted lines plus three call sites replaces41 existing lines.",
+      "expected_savings": "Roughly14production/23authored before import/call formatting. Does not support a claimed30-60production reduction by itself.",
+      "boundary": "Neither SnapshotStore root validation alone nor a caller-supplied success bool substitutes for these actual checks; no new dependency or executable path required."
+    },
+    {
+      "id": "S3",
+      "kind": "CLI_TRAVERSAL_REUSE_WITHOUT_ORACLE_SHARING",
+      "locations": [
+        "formatted CLI verify47-115"
+      ],
+      "proposal": "Build actual private registry once, then combine identity-field checks and registry resource/semantic membership checks in one12-pair pass. A local element-lookup closure can avoid repeated long lookup chains in the name and typing passes. Keep exact12cardinality,all resource/semantic roles,all6names,both FeatureTyping class/type/typedFeature checks and restored registry membership.",
+      "expected_savings": "A plausible10-20production/authored lines; actual normal formatting must prove it. Do not replace full checks with only registry.len().",
+      "independence": "Production may share operational registry restoration; test-owned expected IDs/topology/document must never come from this production verifier, CLI output or imported Document."
+    },
+    {
+      "id": "S4",
+      "kind": "TEST_ONLY_DECLARATIVE_ORACLE_AND_STAGE_BOILERPLATE",
+      "locations": [
+        "formatted newtests resource/semantic/ids21-29,node31-37,expected38-95",
+        "formatted cancellation273-358",
+        "formatted foreign/stale361-406"
+      ],
+      "proposal": "A test-owned independent12-row topology table can declare node numbers/classes/names/membership parentage and both typing targets. A small test-only builder emits complete baseline11/final12 EMF documents,including json/version/encoding/ns. Keep whole baseline/final canonical-byte and Document equality; unknown extra fields/elements must still fail. Share a test-only actual staging-call helper for repeated importer.stage(editor.begin(),text,None,IDs,flag), with explicit IDs and cancellation flag. A captured-state assertion helper may group model/history/disk assertions but must be called at every original checkpoint.",
+      "expected_savings": "Oracle roughly10-25 authored; stage/setup15-30; repeated state assertions6-10. These are counted estimates,not executed/formatter-proven savings. Original166 source is never refactored to save lines.",
+      "preserve": [
+        "All independent resource/semantic pairs and their ordering; both part-usage typing links and memberships; baseline and final fullDocument/rawbyte oracles.",
+        "All4 new named cases; Staged.cancel/post-stageAtomicBoolcancel,parse/link failure,ID exhaustion,late semantic/resource collision after earlier allocation,foreign/stale transaction errors and history/disk immutability.",
+        "Independent registry collision atomicity and separate registry scopes; no provider-generated expected state or default IDs from actual subject."
+      ]
+    }
+  ],
+  "fit_assessment": {
+    "verdict": "No defensible source-only promise of >=60production AND>=160authored reduction from low-risk sharing alone. Transport sharing chiefly saves authored lines; root checks are much smaller than broad estimates. Additional complete semantic refactoring may fit, but only an actual normal formatted whole candidate<=400/900 can establish it.",
+    "next": "Author revision02 may legitimately try these seams. This report has not read or approved that live revision. Root must freeze,format/count and independently review it before execution; preserve all old candidates/HOLD.",
+    "not_allowed": [
+      "No cfgtest relabeling of helper code reachable from probe/CLI.",
+      "No production expected-state table shared by independent parent oracle.",
+      "No smaller oracle,removed assertion/phase/metric,oneprocess reopen substitution,less than2warm+7raw,extra dependency,new cap or minification.",
+      "Do not exempt new active fixtures/shared support or amortize an unmerged helper as already qualified."
+    ]
+  },
+  "complete_partition_fallback": {
+    "boundary": "Complete functional finite-import/edit/save/process-exit/fresh-process-load/identity-restoration implementation versus full process/performance qualification. Proposed scopes only; no new unit ID or amendment is created by this report.",
+    "functional": {
+      "retain": [
+        "Entire byte-exact166 original snapshot regression and original2library headers.",
+        "Full CLI217 and all4new functional/refusal cases433,actual writerexit/fresh reader PID protocol,full independent baseline/final12-pair/link/document oracle and no-overwrite stages.",
+        "All source/runtime/provenance/hold obligations for a complete finite functional workflow."
+      ],
+      "existing_reserved_production": 282,
+      "existing_reserved_authored": 882,
+      "derivation": "459-177=282;1059-177=882. Same17README,14manifest,30root,2attrs,1activefixture reserve retained.",
+      "headroom": [
+        118,
+        18
+      ],
+      "risk": "Authored headroom18 is narrow; useful test/transport refactors may provide margin, but every added root helper/wiring/fixture and formatter line must still be counted. No runtime under an overcap source tree."
+    },
+    "measurement": {
+      "retain_full_probe_lines": 177,
+      "retain": [
+        "Actual18 writer/reader childprocesses over9fresh directories with identical source/IDs/workload,2warm+7raw.",
+        "Every raw sample and7min/median/max ranges:stage_including_parse,edit,save,load_including_parse,writer_process,reader_process,whole_pair.",
+        "OS-warmth-uncontrolled/fresh-directory label,parse-onlyUNAVAILABLE_PUBLIC_API,external-separateRSS,source/binary/protocol/log bindings and process limits."
+      ],
+      "base": "Consume functional implementation/helpers only after exact qualified main; source reuse then0newAD,not before. Add normal counted README/wiring/support and meaningful timing/protocol controls within400/900.",
+      "claim": "Functional preparation alone does not fulfill the full original M06a2 measurement obligation."
+    },
+    "root_gate": "Requires reviewed explicit registration/lease/parent mandatory-followup gate before executing either partial scope. Do not silently omit the currently mandatory probe, hide it in archives, split one overcap change into unreviewed commits or mark M06a2/parent feature accepted. Existing source path ownership and all original tasks remain traceable."
+  },
+  "full_case_names_retained": [
+    "finite_writer_exit_then_distinct_reader_checks_full_document_roles_and_no_overwrite",
+    "cancellation_and_late_identity_or_link_refusals_preserve_model_history_and_disk",
+    "foreign_and_stale_staged_commits_preserve_current_documents_history_and_prior_bytes",
+    "private_registry_role_collisions_reserve_neither_other_role_and_scopes_are_independent"
+  ],
+  "limits": [
+    "Budget/structure review only,not functionality/typecheck/runtime PASS. No live B45 revisions inspected and no B46 frozen source touched.",
+    "Parent M06/M06a1/native/library/graph/storage/UI/backendrestart and human196-201/#99/#130/rawfactory/model/initializer/validation holds remain unchanged."
+  ]
+}
