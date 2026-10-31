@@ -172,7 +172,7 @@ class ConstructorTests(PhysicalFixture, unittest.TestCase):
         proposal = C.snapshot('SYSON-RUST-REMAINING/constructor-fixture', '0' * 40)
         register, lock = (proposal['artifacts'][n] for n in ['units.json', 'snapshot.lock.json'])
         self.assertEqual((register['unit_count'], len(register['units'])), (799, 799))
-        self.assertEqual((len(proposal.inputs), len(lock['sha256'])), (1236, 1237))
+        self.assertEqual((len(proposal.inputs), len(lock['sha256'])), (1238, 1239))
         self.assertNotEqual(lock['sha256']['team-dispatch.json'], self.previous_snapshot['sha256']['team-dispatch.json'])
         self.assertEqual(lock['historical_progress']['bindings_sha256'], D.PROGRESS)
         path = self.actual / 'remaining-work/verify_snapshot.py'
@@ -465,3 +465,28 @@ class ConstructorTests(PhysicalFixture, unittest.TestCase):
             C.emit_fresh(output, proposal)
         self.assertEqual({path.name: path.read_bytes() for path in output.iterdir()}, expected)
         self.assertFalse((output.parent / 'escape').exists())
+
+    def test_full_snapshot_physical_input_limit_accepts62_proofs_and_refuses63(self):
+        prefix = C.CATALOGUE.rsplit('prior/', 1)[0] + 'proof/'
+        names = [prefix + 'bounded-' + str(index) + '.json' for index in range(63)]
+        for name in names:
+            self.put(name, b'{}\n')
+        def proofs(count):
+            return lambda value: value.update(proof_inputs=names[:count])
+        with self.altered_catalogue(proofs(62)):
+            normative = self.install_lock()
+            self.assertEqual(len(normative.inputs), 90)
+            proposal = C.snapshot('SYSON-RUST-REMAINING/proof62-fixture', '0' * 40)
+            self.assertEqual((len(proposal.inputs), len(proposal['artifacts']['snapshot.lock.json']['sha256'])),
+                             (1300, 1301))
+            self.assertTrue(set(names[:62]) <= set(proposal.inputs))
+        prime = self.legacy.Reader.prime
+        def admitted_normative_only(reader, roles):
+            if len(roles) > 72:
+                raise AssertionError('bulk read before physical role bound')
+            return prime(reader, roles)
+        with self.altered_catalogue(proofs(63)):
+            self.install_lock()
+            with mock.patch.object(self.legacy.Reader, 'prime', admitted_normative_only):
+                with self.assertRaisesRegex(ValueError, 'finite physical snapshot roles'):
+                    C.snapshot('SYSON-RUST-REMAINING/proof63-refusal', '0' * 40)

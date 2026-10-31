@@ -48,7 +48,7 @@ class CaptureTests(PhysicalFixture, unittest.TestCase):
         self.assertEqual(manifest['status'], 'UNSEALED_PROPOSAL_ONLY')
         catalogue = json.loads((output / C.CATALOGUE).read_bytes())
         self.assertEqual((len(catalogue['files']), catalogue['proof_inputs']), (66, []))
-        self.assertEqual(sum(row['encoding'] == 'raw' for row in catalogue['files'].values()), 52)
+        self.assertEqual(sum(row['encoding'] == 'raw' for row in catalogue['files'].values()), 50)
         self.assertEqual({n for n, row in catalogue['files'].items() if row['encoding'] == 'gzip'}, C.CAPTURED)
         for name, row in catalogue['files'].items():
             raw = (self.oldroot / name).read_bytes()
@@ -256,11 +256,12 @@ class CaptureTests(PhysicalFixture, unittest.TestCase):
                     'tools/build_plan.py', 'tools/completion_contract.py', 'tools/source_next_splits.py',
                     'plan.json', 'team-dispatch.json', 'completion-contract.lock.json',
                     'remaining-work/snapshot.lock.json', 'remaining-work/units.json'}
-        self.assertEqual(C.CAPTURED, previous | added)
+        self.assertEqual(C.CAPTURED, previous | added | {
+            'composition/source_next_prepare/test_guard.py', 'composition/source_next_prepare/test_construct.py'})
         output = self.output / 'fourteen-capture-partition'
         manifest = H.produce(output, [])
         catalogue = json.loads((output / C.CATALOGUE).read_bytes())
-        self.assertEqual((manifest['raw_alias_count'], len(C.CAPTURED)), (52, 14))
+        self.assertEqual((manifest['raw_alias_count'], len(C.CAPTURED)), (50, 16))
         for name in added:
             row = catalogue['files'][name]
             self.assertEqual((row['encoding'], row['source']), ('gzip', H.PRIOR + 'captures/' + name + '.gz'))
@@ -283,12 +284,12 @@ class CaptureTests(PhysicalFixture, unittest.TestCase):
                 raw = self.files[name]
                 catalogue['files'][name].update(source=name, encoding='raw', stored_bytes=len(raw),
                                                 stored_sha256=D.sha(raw))
-            with self.altered_catalogue(demote), self.assertRaisesRegex(ValueError, 'fourteen capture origins'):
+            with self.altered_catalogue(demote), self.assertRaisesRegex(ValueError, 'sixteen capture origins'):
                 C.prior()
         def promote(catalogue):
             catalogue['files']['tools/preparation_splits.py'].update(
                 source=H.PRIOR + 'extra.gz', encoding='gzip', stored_bytes=8, stored_sha256='0' * 64)
-        with self.altered_catalogue(promote), self.assertRaisesRegex(ValueError, 'fourteen capture origins'):
+        with self.altered_catalogue(promote), self.assertRaisesRegex(ValueError, 'sixteen capture origins'):
             C.prior()
 
     def test_growing_source_read_is_capped_before_hashing(self):
@@ -361,3 +362,31 @@ class CaptureTests(PhysicalFixture, unittest.TestCase):
                     CorruptHistory.setUpClass()
         finally:
             CorruptHistory.doClassCleanups()
+
+    def assert_old_test_origin_survives_current_change(self, name, suffix):
+        output = self.output / ('old-test-origin-' + suffix)
+        manifest = H.produce(output, [])
+        catalogue = json.loads((output / C.CATALOGUE).read_bytes())
+        row = catalogue['files'][name]
+        self.assertEqual((row['encoding'], row['source']),
+                         ('gzip', H.PRIOR + 'captures/' + name + '.gz'))
+        original = (self.oldroot / name).read_bytes()
+        self.assertEqual(zlib.decompress((output / row['source']).read_bytes(), 31), original)
+        self.assertEqual((manifest['input_sha256'][name], manifest['raw_alias_count']), (D.sha(original), 50))
+        self.install_lock()
+        with self.changed(name, b"raise AssertionError('passive historical test must not execute')\n"):
+            self.assertEqual(H.historical(self.stage)[name], original)
+            self.assertNotEqual((self.stage / name).read_bytes(), original)
+        def demote(value):
+            value['files'][name].update(source=name, encoding='raw', stored_bytes=len(original),
+                                       stored_sha256=D.sha(original))
+        with self.altered_catalogue(demote), self.assertRaisesRegex(ValueError, 'sixteen capture origins'):
+            C.prior()
+
+    def test_original_guard_test_is_captured_and_survives_future_current_change(self):
+        self.assert_old_test_origin_survives_current_change(
+            'composition/source_next_prepare/test_guard.py', 'guard')
+
+    def test_original_constructor_test_is_captured_and_survives_future_current_change(self):
+        self.assert_old_test_origin_survives_current_change(
+            'composition/source_next_prepare/test_construct.py', 'construct')

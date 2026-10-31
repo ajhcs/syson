@@ -15,8 +15,8 @@ SOURCE_LIMIT = 65536
 PINS = {
     'derive': '4bfa0cf3080e341efc342fbda38ac674ee106e99ff0d123f98f63861442fe1b4',
     'guard': '125b82688181a1e8a89e3b129530761baafeec32d61ea4858e95e7592eed462c',
-    'construct': '45c71ef6ba3d46ad28ede3eec9b89862169019d61d372331776bfe8ed9649a7d',
-    'capture': '9420ce4b9a73599b13c766c02a6f71f7f58199a70ff1c5ef0614f0e48b0c17da'}
+    'construct': 'badd49826cdc8488cf46ff76c3fd906e1a5fff7d4afc3f975931fee2ad6dfcba',
+    'capture': 'f7f68d493de4461af6f940c824f8f9d548de6951f99efc9cfa25230459a2de8c'}
 
 
 def source(path, name):
