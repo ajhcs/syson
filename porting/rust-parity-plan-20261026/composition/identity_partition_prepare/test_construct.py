@@ -16,19 +16,12 @@ import zlib
 from contextlib import ExitStack, contextmanager
 from pathlib import Path
 from unittest import mock
-from test_derive import D, G, Fixture
+from test_derive import D, G, C, H, Fixture
 
-PATH = Path(D.__file__).parent / 'construct.py'
-RAW = PATH.read_bytes()
-if PATH.resolve() != PATH or PATH.is_symlink() or hashlib.sha256(RAW).hexdigest() != '70af050239c33bce9e994684da5d8a055cdcbf0cc31c558170cd2978708bc0ab':
-    raise ValueError('whole actual constructor source changed')
-C = types.ModuleType(D.__package__ + '.construct')
-C.__file__, C.__package__ = str(PATH), D.__package__
-sys.modules[C.__name__] = C
-exec(compile(RAW, str(PATH), 'exec'), C.__dict__)
+PATH = Path(C.__file__)
 
 
-class ConstructorTests(Fixture, unittest.TestCase):
+class PhysicalFixture(Fixture):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -46,13 +39,22 @@ class ConstructorTests(Fixture, unittest.TestCase):
         cls.stage = cls.output / 'physical-fixture'
         cls.stage.mkdir(mode=0o700)
         cls.previous_snapshot = json.loads(cls.files['remaining-work/snapshot.lock.json'])
+        history = set(cls.previous_snapshot['progress_inputs']) - {'team-dispatch.json'}
+        cls.stage_origins = {}
         for name in set(cls.previous_snapshot['sha256']):
             target = cls.stage / name
             target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(cls.actual / name, target)
+            historical = name in history or name in cls.files and name not in C.CAPTURED
+            raw = H.read(cls.actual, name, 8 * C.MIB)
+            if historical and D.sha(raw) != cls.previous_snapshot['sha256'][name]:
+                raise ValueError('historical physical fixture source drift')
+            cls.stage_origins[name] = {
+                'kind': 'VERIFIED_HISTORICAL_BYTES' if historical else 'CURRENT_ROOT_UNIT_FIXTURE_BYTES',
+                'sha256': D.sha(raw)}
+            target.write_bytes(raw)
         cls.catalogue = {'schema': 1, 'files': {}, 'proof_inputs': []}
         for index, name in enumerate(sorted(set(cls.files) | {'remaining-work/units.json', 'team-dispatch.json'})):
-            raw = cls.files[name] if name in cls.files else (cls.actual / name).read_bytes()
+            raw = cls.files[name] if name in cls.files else cls.tails[name]
             source = name
             stored = raw
             encoding = 'raw'
@@ -76,17 +78,17 @@ class ConstructorTests(Fixture, unittest.TestCase):
             elif name == 'tools/identity_partition_splits.py':
                 raw = b'UNEXECUTED_TEST_ONLY_LOADER_ROLE\n'
             else:
-                raw = (cls.actual / name).read_bytes()
+                raw = H.read(cls.actual, name, 8 * C.MIB)
             target.write_bytes(raw)
         cls.put('completion-contract.json', json.dumps(cls.contract, ensure_ascii=False, separators=(',', ':')).encode())
         cls.put('acceptance-packet.schema.json', json.dumps(cls.artifacts['acceptance-packet.schema.json']).encode())
         cls.put('tools/build_plan.py', cls.args[2])
         cls.put('plan.json', json.dumps(cls.plan, ensure_ascii=False, indent=2).encode())
-        cls.put('team-dispatch.json', (cls.actual / 'team-dispatch.json').read_bytes() + b'\n')
+        cls.put('team-dispatch.json', H.read(cls.actual, 'team-dispatch.json', 2 * C.MIB) + b'\n')
         for uid in D.IDS:
             cls.put('prs/' + uid + '.md', ('UNSIGNED UNIT FIXTURE ' + uid + '\n').encode())
         for name in C.FIXTURES:
-            cls.put(name, (cls.actual / name).read_bytes())
+            cls.put(name, H.read(cls.actual, name, 8 * C.MIB))
         cls.catalogue_raw = json.dumps(cls.catalogue, indent=2).encode()
         cls.put(C.CATALOGUE, cls.catalogue_raw)
         cls.legacy = C.cold()
@@ -96,6 +98,7 @@ class ConstructorTests(Fixture, unittest.TestCase):
         path = cls.stage / name
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(raw)
+        cls.stage_origins[name] = {'kind': 'EXPLICIT_CURRENT_UNIT_FIXTURE_BYTES', 'sha256': D.sha(raw)}
 
     def setUp(self):
         stack = ExitStack()
@@ -129,6 +132,7 @@ class ConstructorTests(Fixture, unittest.TestCase):
         self.put('completion-contract.lock.json', proposal.encoded['completion-contract.lock.json'])
         return proposal
 
+class ConstructorTests(PhysicalFixture, unittest.TestCase):
     def test_pending_hooks_refuse_before_any_physical_read(self):
         for owner, name in [(C, 'CATALOGUE_SHA256'), (G, 'POLICY_SHA256')]:
             with mock.patch.object(owner, name, 'PENDING_ROOT_FREEZE'), mock.patch.object(
@@ -168,7 +172,7 @@ class ConstructorTests(Fixture, unittest.TestCase):
         proposal = C.snapshot('SYSON-RUST-REMAINING/constructor-fixture', '0' * 40)
         register, lock = (proposal['artifacts'][n] for n in ['units.json', 'snapshot.lock.json'])
         self.assertEqual((register['unit_count'], len(register['units'])), (799, 799))
-        self.assertEqual((len(proposal.inputs), len(lock['sha256'])), (1233, 1234))
+        self.assertEqual((len(proposal.inputs), len(lock['sha256'])), (1236, 1237))
         self.assertNotEqual(lock['sha256']['team-dispatch.json'], self.previous_snapshot['sha256']['team-dispatch.json'])
         self.assertEqual(lock['historical_progress']['bindings_sha256'], D.PROGRESS)
         path = self.actual / 'remaining-work/verify_snapshot.py'

@@ -1,9 +1,9 @@
 # Inactive physical-root constructors
 
-Default catalogue and policy seals refuse; root must generate and independently bind the real66-role catalogue/eleven gzip captures.
+Default catalogue and policy seals refuse; root must generate and independently bind the real66-role catalogue/fourteen gzip captures and52 exact raw aliases.
 `contract_lock()` validates full old64/current72 sources and contract-only policy before any actual new plan exists.
 `snapshot(id, base)` additionally requires full G validation of an actual physical current plan and every799-row projection.
-Old797/55/342 obligations survive; old dispatch has a separate historical capture. Physical inputs1233+N/lockedroles1234+N avoid double-counting owner.
+Old797/55/342 obligations survive; old dispatch has a separate historical capture. Physical inputs1236+N/lockedroles1237+N avoid double-counting owner.
 Prior views leave scope before bulk reads; generic whole-pinned old Reader enforces64MiB input/output framing plus256KiB scratch.
 Streaming JSON avoids duplicate outputs; a maximum-eight weak registry privately binds immutable inputs, charges, seals and both roots; diagnostics grant no authority.
 `emit_fresh` rejects PENDING first, bounds mutable objects, checks private authority and rereads sources before fresh output; print small summaries.

@@ -26,7 +26,8 @@ class GuardTests(Fixture, unittest.TestCase):
             self.assertTrue(set(D.IDS) <= set(now['expanded_implementation_inputs']))
 
     def test_default_pending_and_unknown_version_refuse(self):
-        with self.assertRaisesRegex(ValueError, 'policy pending'):
+        with mock.patch.object(G, 'POLICY_SHA256', 'PENDING_ROOT_FREEZE'), \
+                self.assertRaisesRegex(ValueError, 'policy pending'):
             G.checked({}, {}, None, *self.args)
         contract = copy.deepcopy(self.contract)
         contract['version'] = '1.0.13'
