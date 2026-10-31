@@ -26,6 +26,7 @@ FIXTURES = {'composition/identity_partition_prepare/fixtures/lane.json',
             'composition/identity_partition_prepare/fixtures/amendment.md'}
 CAPTURED = {'completion-contract.json', 'acceptance-packet.schema.json', 'COMPLETION-CONTRACT.md',
             'tools/build_plan.py', 'tools/completion_contract.py', 'tools/source_next_splits.py',
+            'tools/verify_plan.py', 'tools/team_policy.py', 'tools/test_team_policy.py',
             'plan.json', 'team-dispatch.json', 'completion-contract.lock.json',
             'remaining-work/snapshot.lock.json', 'remaining-work/units.json'}
 _COLD = None
@@ -113,7 +114,7 @@ def prior():
         stored_total += row['stored_bytes'] if row['encoding'] == 'gzip' else 0
     D.require(CAPTURED <= set(catalogue['files']) and all(
         row['encoding'] == ('gzip' if name in CAPTURED else 'raw')
-        for name, row in catalogue['files'].items()), 'exact eleven capture origins')
+        for name, row in catalogue['files'].items()), 'exact fourteen capture origins')
     D.require(sum(row['bytes'] + 128 + 6 * len(name)
         for name, row in catalogue['files'].items() if name not in
         {'remaining-work/units.json', 'team-dispatch.json'}) <= 16 * MIB, 'early old64 ceiling')

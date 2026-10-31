@@ -1,0 +1,546 @@
+{
+  "schema": "C51P-INDEPENDENT-EXECUTED-REVIEW/2",
+  "reviewed_at_utc": "2026-10-31T14:57:42.657860+00:00",
+  "reviewer": "/root/registration_repair",
+  "status": "PASS_EXACT_CHECKS02_126_NAMED_UNIT_EXECUTIONS_AND_TWO_UNSIGNED_CAPTURE_CALLS_ONLY",
+  "scope": "Independent read/hash/AST/JSON/raw-stream audit. No subject imports, tests, producer calls, gzip decompression/data-oracle, compiler, Git, network or source edits by reviewer.",
+  "terminal_evidence": {
+    "parent_authoritative_pty_session": 18639,
+    "parent_reported_terminal_exit": 0,
+    "controller_exit_inferred_from_all8_success_and_pass_receipt": 0,
+    "commands": 8,
+    "all_command_exits_zero": true,
+    "controller_stderr_empty": true,
+    "scope_cleanup_not_found": true,
+    "note": "Parent explicitly confirmed PTY terminal0; retained complete receipt/controller rows and owned cleanup independently inspected. F25 per-row passed0 is a Rust-output regex artifact and is not Python unit proof."
+  },
+  "bindings": {
+    "checks-02-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02-spec.json",
+      "bytes": 1589715,
+      "sha256": "badb25e60852468e13dc3f8659cdd050a201691203dd517bb6078bba48073845"
+    },
+    "source-freeze-03.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/source-freeze-03.json",
+      "bytes": 1577340,
+      "sha256": "1a7dba1a1564eb9374cc386cb9c89c4fa06e2c73b88b7c6e7834e5b3fbeda35b"
+    },
+    "reviewer-spec-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/reviewer-spec-02.json",
+      "bytes": 14229,
+      "sha256": "a93786d0903efe898caad7e2ee2c91434c38b90650bf7c801890e2d31f0bc166"
+    },
+    "reviewer-source-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/reviewer-source-02.json",
+      "bytes": 29309,
+      "sha256": "96937575273912b4c016f81288d869e54dfb6da981326e6739de91d1c9908f58"
+    },
+    "reviewer-root-support-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/reviewer-root-support-01.json",
+      "bytes": 12152,
+      "sha256": "81bf4ea1c69c909b4deeab1a66eba1144342c4688b0ec4d594eb54a37b9e6b48"
+    },
+    "root-runtime-admission-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/root-runtime-admission-02.json",
+      "bytes": 687,
+      "sha256": "fb4fb6665a78fa4ea7a1bfe9ea661d7972c2527209168ce030cc64da967c7f86"
+    },
+    "root-main-support-reconciliation-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/root-main-support-reconciliation-01.json",
+      "bytes": 547,
+      "sha256": "543c191cd9b9523a7b62d33f35ef0a36561e7cb63da058894dd2cae25eb54d53"
+    },
+    "checks-02/receipt.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/receipt.json",
+      "bytes": 3157962,
+      "sha256": "05d078fd990bda4dac4fe1f155fd9f92147e25a261048cbd8553785a83ed66f7"
+    },
+    "checks-02/scope-proof.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/scope-proof.json",
+      "bytes": 368,
+      "sha256": "e79d47b8d1d16fe88c4781de41ae709028dff095e82805d4516d8ec749f8e28b"
+    },
+    "checks-02-controller.stdout": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02-controller.stdout",
+      "bytes": 2774,
+      "sha256": "4ebc0c524be0f8b050489cf9b8acd0601886d8c184e33a8b5b67d108a443d317"
+    },
+    "checks-02-controller.stderr": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02-controller.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "checks-02-cleanup.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    "live-observation-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/live-observation-02.json",
+      "bytes": 977,
+      "sha256": "d2b76208e2caf9ed96f514398e37cc0252c1d149f93b004dfe001f29681890e9"
+    },
+    "capture_current.py": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/capture_current.py",
+      "bytes": 827,
+      "sha256": "4009d476bc20cc4b7814093666039620453c6c71e47fb2abc0415f6797df28f2"
+    }
+  },
+  "input_custody": {
+    "spec_pins": 10179,
+    "spec_equals_before_equals_after_equals_current": true,
+    "whole_current_input_bytes": 209651137,
+    "canonical_sorted_path_sha_map_sha256": "e783fcd67fe2da36b2b0bdde7526326bb6ac36b5dced7c2da88004f52f62cc11",
+    "source_freeze_map_equal": true,
+    "direct_reviewed_CI": {
+      "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/.github/workflows/plan-source-preparation-checks.yml",
+      "bytes": 2677,
+      "sha256": "cd41f52553028620c5df96356e4f5624927691535abbe7b5526fc6fe3904e066"
+    },
+    "no_ignored_current_mismatches": 0,
+    "trusted_host_boundary": "Broad pinned Python source/cache/native-extension/startup closure and actual launcher/systemd/ownership/F25 provider bytes are preserved by the exact input vector; this is not a hermetic OS image or a claim every pinned module was loaded."
+  },
+  "source_and_tests": {
+    "source8": [
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/capture.py",
+        "bytes": 9429,
+        "sha256": "9420ce4b9a73599b13c766c02a6f71f7f58199a70ff1c5ef0614f0e48b0c17da"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_capture.py",
+        "bytes": 19721,
+        "sha256": "503381e6915ad99933a82c66fb30feb3796086f0f185d72216dd8a8211329648"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/CAPTURE.md",
+        "bytes": 1473,
+        "sha256": "9dc4baa31a7edf2f947785d20765d675139ebc734a0da50ae7495e5529da31e0"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_derive.py",
+        "bytes": 11765,
+        "sha256": "a47acda897bb53db3198bdc08efc3b3173456e696cd53e9bac42ca32f9470948"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_guard.py",
+        "bytes": 5135,
+        "sha256": "1d2113495cee8ca435224410a3053e408d329e5cf9665461f2e7dc35ca34d5b5"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_construct.py",
+        "bytes": 26255,
+        "sha256": "830d6e66f9a51903097d96547657d25b581bd1c74e8fe19ae2e70756a353eab5"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/construct.py",
+        "bytes": 20020,
+        "sha256": "45c71ef6ba3d46ad28ede3eec9b89862169019d61d372331776bfe8ed9649a7d"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/CONSTRUCT.md",
+        "bytes": 1487,
+        "sha256": "5ee5cd3ae6a1837ddbed908c270344c60de39a0f6091485581dedca20bf93e35"
+      }
+    ],
+    "all_eight_exact_frozen_source_bodies": true,
+    "source_test_pins": {
+      "test_capture.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_capture.py",
+        "bytes": 19721,
+        "sha256": "503381e6915ad99933a82c66fb30feb3796086f0f185d72216dd8a8211329648"
+      },
+      "test_construct.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_construct.py",
+        "bytes": 26255,
+        "sha256": "830d6e66f9a51903097d96547657d25b581bd1c74e8fe19ae2e70756a353eab5"
+      },
+      "test_derive.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_derive.py",
+        "bytes": 11765,
+        "sha256": "a47acda897bb53db3198bdc08efc3b3173456e696cd53e9bac42ca32f9470948"
+      },
+      "test_guard.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_guard.py",
+        "bytes": 5135,
+        "sha256": "1d2113495cee8ca435224410a3053e408d329e5cf9665461f2e7dc35ca34d5b5"
+      }
+    },
+    "source_identities": {
+      "test_capture.py": [
+        "test_capture.CaptureTests.test_bad_proof_shape_namespace_and_duplicates_refuse_before_old_reads",
+        "test_capture.CaptureTests.test_child_only_namespace_collision_refuses_before_source_io_or_exec",
+        "test_capture.CaptureTests.test_complete_proof_claim_bound_precedes_proof_body_read",
+        "test_capture.CaptureTests.test_exact_original_reader_and_verified_future_historical_view",
+        "test_capture.CaptureTests.test_exact_three_new_tool_origins_and_complete_old_partition",
+        "test_capture.CaptureTests.test_final_source_and_program_drift_refuse_before_directory_creation",
+        "test_capture.CaptureTests.test_fixed_fourteen_partition_rejects_missing_or_extra_gzip_origin",
+        "test_capture.CaptureTests.test_fresh_output_readback_mismatch_is_not_reported_success",
+        "test_capture.CaptureTests.test_future_current_outputs_and_immutable_history_have_separate_origins",
+        "test_capture.CaptureTests.test_growing_source_read_is_capped_before_hashing",
+        "test_capture.CaptureTests.test_member_exact_type_determinism_and_small_output_threshold",
+        "test_capture.CaptureTests.test_original_aggregate_stat_bound_precedes_large_body_read",
+        "test_capture.CaptureTests.test_original_alias_and_tail_corruption_refuse_without_output",
+        "test_capture.CaptureTests.test_output_policy_and_existing_directory_preserve_owned_bytes",
+        "test_capture.CaptureTests.test_proof_authority_is_immutable_after_admission",
+        "test_capture.CaptureTests.test_real_producer66_whole_aliases_members_and_unsigned_readback",
+        "test_capture.CaptureTests.test_source_normalization_returns_actual_bytes_and_rejects_other_changes",
+        "test_capture.CaptureTests.test_symlink_original_and_proof_origins_refuse",
+        "test_capture.CaptureTests.test_three_future_live_tool_changes_do_not_replace_historical_bytes"
+      ],
+      "test_construct.py": [
+        "test_construct.ConstructorTests.test_aggregate_prior_claims_refuse_before_capture_read",
+        "test_construct.ConstructorTests.test_catalogue_whole_pin_and_role_admission_refuse",
+        "test_construct.ConstructorTests.test_cleared_or_replaced_public_inputs_cannot_hide_real_source_drift",
+        "test_construct.ConstructorTests.test_coherent_captured_program_rewrite_is_data_and_cannot_execute",
+        "test_construct.ConstructorTests.test_current_contract_and_current_plan_tampering_refuse",
+        "test_construct.ConstructorTests.test_default_physical_normative_producer_needs_no_current_plan",
+        "test_construct.ConstructorTests.test_encoded_keys_and_exact_body_types_refuse_before_hash",
+        "test_construct.ConstructorTests.test_encoded_per_file_and_private_aggregate_bounds_precede_hash",
+        "test_construct.ConstructorTests.test_hostile_encoded_container_refuses_before_iteration_hash_or_output",
+        "test_construct.ConstructorTests.test_live_proposal_mutations_reload_and_changed_seals_refuse",
+        "test_construct.ConstructorTests.test_mutated_public_body_refuses_before_fingerprint",
+        "test_construct.ConstructorTests.test_output_uses_immutable_snapshot_after_public_encoded_replacement",
+        "test_construct.ConstructorTests.test_pending_emission_refuses_before_serialization_reads_or_output",
+        "test_construct.ConstructorTests.test_pending_hooks_refuse_before_any_physical_read",
+        "test_construct.ConstructorTests.test_physical_source_drift_and_existing_output_preserve_owned_data",
+        "test_construct.ConstructorTests.test_public_contract_bound_precedes_baseline_digest_and_copy",
+        "test_construct.ConstructorTests.test_public_contract_exact_types_cycles_and_nonfinite_refuse",
+        "test_construct.ConstructorTests.test_real_bulk_progress_drift_is_not_hidden_by_old_pins",
+        "test_construct.ConstructorTests.test_registry_is_bounded_and_does_not_retain_strong_proposals",
+        "test_construct.ConstructorTests.test_resealed_trailing_and_truncated_gzip_members_refuse",
+        "test_construct.ConstructorTests.test_root_and_output_policy_cannot_redirect_issued_provenance",
+        "test_construct.ConstructorTests.test_stream_exact_limit_over_limit_and_token_refusal",
+        "test_construct.ConstructorTests.test_used_reserve_and_binding_diagnostics_cannot_change_authority",
+        "test_construct.ConstructorTests.test_whole799_snapshot_real_default_reads_and_independent_generic_verifier"
+      ],
+      "test_derive.py": [
+        "test_derive.DeriveTests.test_changed_amendment_and_empty_or_overlong_generator_refuse",
+        "test_derive.DeriveTests.test_coherently_rehashed_normative_baseline_still_refuses",
+        "test_derive.DeriveTests.test_complete799_model_and_all_original_records_and_gates",
+        "test_derive.DeriveTests.test_complete_input_and_actual_provider_provenance",
+        "test_derive.DeriveTests.test_current_actual_old_provider_pin_and_namespace_are_enforced",
+        "test_derive.DeriveTests.test_exact_generator_byte_boundary_is_a_claim_not_execution",
+        "test_derive.DeriveTests.test_fixed_complete_child_body_survives_envelope_rehash_control",
+        "test_derive.DeriveTests.test_hostile_logical_name_refuses_before_provider_or_serialization",
+        "test_derive.DeriveTests.test_missing_extra_and_changed_baseline_inputs_refuse",
+        "test_derive.DeriveTests.test_name_framing_refuses_in_isolation_before_provider_or_serialization",
+        "test_derive.DeriveTests.test_policy_literal_witness_preserves_pending_and_future_sealed_raw_bytes",
+        "test_derive.DeriveTests.test_wrong_byte_type_and_aggregate_input_bound_refuse_before_parse"
+      ],
+      "test_guard.py": [
+        "test_guard.GuardTests.test_all_old_reader_held_generator_and_schema_bytes_remain_bound",
+        "test_guard.GuardTests.test_coherent_old_body_rewrite_cannot_be_laundered_as_overlay",
+        "test_guard.GuardTests.test_coherently_resealed_parent_weakening_refuses",
+        "test_guard.GuardTests.test_default_pending_and_unknown_version_refuse",
+        "test_guard.GuardTests.test_extra_current_metadata_graph_drop_and_cyclic_object_refuse",
+        "test_guard.GuardTests.test_full_restoration_before_old_guard_and_no_early_parent_completion",
+        "test_guard.GuardTests.test_missing_duplicate_and_foreign_unit_ids_refuse",
+        "test_guard.GuardTests.test_whole_child_budget_case_and_path_tampering_refuse"
+      ]
+    },
+    "source_methods": 63,
+    "normal_plus_optimized_named_executions": 126,
+    "per_process_named_counts": [
+      20,
+      20,
+      24,
+      24,
+      19,
+      19
+    ],
+    "ordered_names_equal_across_modes": true,
+    "all_raw_Ran_and_OK": true,
+    "skipped": 0,
+    "failed": 0,
+    "method_coverage_boundary": "Actual complete raw named outcomes verified, not preflight counts or F25 passed0. Existing and new meaningful refusal/preservation controls are the methods bound in source/spec/raw streams; no cases dropped or skipped."
+  },
+  "commands": [
+    {
+      "name": "deriveguard20-normal",
+      "exit": 0,
+      "wall_seconds": 41.31323487399641,
+      "argv_equals_frozen_spec": true,
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/deriveguard20-normal.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/deriveguard20-normal.stderr",
+        "bytes": 3176,
+        "sha256": "43496a7563d8c046df335229c4744def1efd2b3da64e1e1e8a7edc3ec9f42da7"
+      },
+      "named_tests": 20,
+      "ordered_names_sha256": "db60563b316494352eb7e8625d29fe8d458ded1122232b410d9a50f86ee1bf4e",
+      "names_match_source_and_spec": true,
+      "Ran_and_OK": true,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "name": "deriveguard20-optimized",
+      "exit": 0,
+      "wall_seconds": 42.01665170200431,
+      "argv_equals_frozen_spec": true,
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/deriveguard20-optimized.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/deriveguard20-optimized.stderr",
+        "bytes": 3176,
+        "sha256": "34d753ee205f930ed13fc10e6a7bce817f8ca2ba01de74d53a2f9e98e7591598"
+      },
+      "named_tests": 20,
+      "ordered_names_sha256": "db60563b316494352eb7e8625d29fe8d458ded1122232b410d9a50f86ee1bf4e",
+      "names_match_source_and_spec": true,
+      "Ran_and_OK": true,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "name": "construct24-normal",
+      "exit": 0,
+      "wall_seconds": 122.41612015999999,
+      "argv_equals_frozen_spec": true,
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/construct24-normal.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/construct24-normal.stderr",
+        "bytes": 4031,
+        "sha256": "ae7dd2e4d79293539b646d16081f277e7264bc8a34932f111fd15b5eae3e2d56"
+      },
+      "named_tests": 24,
+      "ordered_names_sha256": "432de284c60cdc2273e50f4da834f758cf87a16f660429d6dfca1d1efbacb6d5",
+      "names_match_source_and_spec": true,
+      "Ran_and_OK": true,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "name": "construct24-optimized",
+      "exit": 0,
+      "wall_seconds": 122.36711604199809,
+      "argv_equals_frozen_spec": true,
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/construct24-optimized.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/construct24-optimized.stderr",
+        "bytes": 4031,
+        "sha256": "add7ede7b95f1660c28648b59a40636a83a188993e4a867232a8cd250c0891aa"
+      },
+      "named_tests": 24,
+      "ordered_names_sha256": "432de284c60cdc2273e50f4da834f758cf87a16f660429d6dfca1d1efbacb6d5",
+      "names_match_source_and_spec": true,
+      "Ran_and_OK": true,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "name": "capture19-normal",
+      "exit": 0,
+      "wall_seconds": 60.18962556099723,
+      "argv_equals_frozen_spec": true,
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/capture19-normal.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/capture19-normal.stderr",
+        "bytes": 3141,
+        "sha256": "ee4dafc4a4dfcc6e86144c0448c83920fa5eb8439da6b69d8b896a6c803c8e0d"
+      },
+      "named_tests": 19,
+      "ordered_names_sha256": "f5f7f42aadf11c97870f28a92402f4b15251ebd5a692d0f399b274edc165caa2",
+      "names_match_source_and_spec": true,
+      "Ran_and_OK": true,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "name": "capture19-optimized",
+      "exit": 0,
+      "wall_seconds": 60.63904169300076,
+      "argv_equals_frozen_spec": true,
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/capture19-optimized.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/capture19-optimized.stderr",
+        "bytes": 3141,
+        "sha256": "1b3e654a768edc0eb7245659908468f0743273a8d7ba1ad3b57894522fb036d0"
+      },
+      "named_tests": 19,
+      "ordered_names_sha256": "f5f7f42aadf11c97870f28a92402f4b15251ebd5a692d0f399b274edc165caa2",
+      "names_match_source_and_spec": true,
+      "Ran_and_OK": true,
+      "skipped": 0,
+      "failed": 0
+    },
+    {
+      "name": "actual-capture-normal",
+      "exit": 0,
+      "wall_seconds": 2.7181618390022777,
+      "argv_equals_frozen_spec": true,
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/actual-capture-normal.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/actual-capture-normal.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "not_unittest_process": true
+    },
+    {
+      "name": "actual-capture-optimized",
+      "exit": 0,
+      "wall_seconds": 2.968127447005827,
+      "argv_equals_frozen_spec": true,
+      "stdout": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/actual-capture-optimized.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/actual-capture-optimized.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "not_unittest_process": true
+    }
+  ],
+  "ownership_and_controls": {
+    "spec_proof_unit_cookie_equal": true,
+    "proof": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-02/scope-proof.json",
+      "bytes": 368,
+      "sha256": "e79d47b8d1d16fe88c4781de41ae709028dff095e82805d4516d8ec749f8e28b"
+    },
+    "local_scope_correlation_is_not_HTTP_credential": true,
+    "entry_pid": 858891,
+    "entry_start_ticks": "6243280",
+    "scope_and_live_invocation_equal": true,
+    "source_attestation": "Pinned owned.attest reads its actual /proc/self/cgroup and systemd InvocationID and writes exclusive proof before work; pinned F25 holds the exact nonblocking global compiler lock and runs actual argv in fixed cwd/env with180s timeout. No replacement process or restart was requested.",
+    "kernel_controls_from_retained_actual_live_sample": {
+      "cpu.max": "200000 100000",
+      "memory.high": "2147483648",
+      "memory.max": "3221225472",
+      "memory.swap.max": "0",
+      "pids.max": "128"
+    },
+    "sample_at": "2026-10-31T14:48:04.113623+00:00",
+    "sample_memory_current_bytes": 119889920,
+    "sample_memory_peak_bytes": 120938496,
+    "sample_is_not_final_peak_RSS_or_capacity": true,
+    "cleanup": "Actual ownership helper record confirms LoadState not-found, empty ControlGroup; no scope remains.",
+    "workspace_device": 66308,
+    "fresh_owned_temp_and_capture_directories_mode": "TMP/test/capture roots observed uid1000,0700 on66308; checks output is uid1000,0775 on66308, not claimed0700.",
+    "root_preflight": "Bound admission records MemAvailable28521924KiB and workspace free1010716749824B before launch; this review does not refresh resource authority or authorize another launch."
+  },
+  "preservation": {
+    "live_contract": "1.0.11",
+    "old_normative_and_snapshot": {
+      "completion-contract.lock.json": {
+        "lock": {
+          "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/completion-contract.lock.json",
+          "bytes": 6729,
+          "sha256": "a36a19cdcbb24441df3afd8f67b9ddd3f8648e0051f09ab387d9f7668d05c70f"
+        },
+        "all_declared_raw_bodies_and_direct_spec_bindings_equal": 60
+      },
+      "remaining-work/snapshot.lock.json": {
+        "lock": {
+          "path": "/workspace/worktrees/builderbob/syson/batch51-identity-adoption-prepare-20261031/porting/rust-parity-plan-20261026/remaining-work/snapshot.lock.json",
+          "bytes": 160945,
+          "sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0"
+        },
+        "all_declared_raw_bodies_and_direct_spec_bindings_equal": 1206
+      }
+    },
+    "historical_spec01": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/checks-01-spec.json",
+      "bytes": 1588965,
+      "sha256": "2f83eb45b168ee698a8b43870ee5547a4e258e5df9443f09bf3ebf90940ee51a"
+    },
+    "historical_HOLD01": {
+      "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/reviewer-spec-01.json",
+      "bytes": 7659,
+      "sha256": "6ebea51685f1195d14608002bf69f59d5aef91aea98739cdbfa9af19060d3649"
+    },
+    "spec01_scope_and_controller_absent": true,
+    "history": "Original source/eleven-partition proposal and CAP14 repair/source reviews remain retained. Spec01 direct-current-CI omission remains HOLD/unexecuted; spec02 adds exact direct CI and fresh execution paths without rewriting the held attempt."
+  },
+  "actual_capture_execution_boundary": {
+    "outputs": {
+      "normal": {
+        "files": 16,
+        "bytes": 968342,
+        "relative_path_rawsha_vector_sha256": "6a9cfcae69c5797863c4549009309b28968a5aab2baf5cda4d8b5be1b5347061",
+        "manifest": {
+          "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/catalogue-normal-02/manifest.json",
+          "bytes": 11534,
+          "sha256": "13f602625180a2b9cb11d7c39b32b1e80aa23792a4ebdfd557f1d248fe6e9afa"
+        },
+        "status": "UNSEALED_PROPOSAL_ONLY",
+        "manifest_live_input_bindings_checked": 66,
+        "manifest_actual_program_bindings_checked": 10,
+        "manifest_output_raw_hashes_checked": 15,
+        "logical_input_ceiling_reported": 21502764,
+        "raw_alias_count_reported_not_rederived_here": 52
+      },
+      "optimized": {
+        "files": 16,
+        "bytes": 968342,
+        "relative_path_rawsha_vector_sha256": "6a9cfcae69c5797863c4549009309b28968a5aab2baf5cda4d8b5be1b5347061",
+        "manifest": {
+          "path": "/workspace/build/builderbob/syson-durable-batch51-20261031/catalogue-optimized-02/manifest.json",
+          "bytes": 11534,
+          "sha256": "13f602625180a2b9cb11d7c39b32b1e80aa23792a4ebdfd557f1d248fe6e9afa"
+        },
+        "status": "UNSEALED_PROPOSAL_ONLY",
+        "manifest_live_input_bindings_checked": 66,
+        "manifest_actual_program_bindings_checked": 10,
+        "manifest_output_raw_hashes_checked": 15,
+        "logical_input_ceiling_reported": 21502764,
+        "raw_alias_count_reported_not_rederived_here": 52
+      }
+    },
+    "all16_files_byteidentical_normal_optimized": true,
+    "complete_66_live_source_input_and_10_program_raw_bindings_equal_current": true,
+    "15_output_raw_hashes_match_manifest_each_mode": true,
+    "wrapper": "Actual bounded whole-pinned canonical bootstrap bytes were executed by the admitted14-line wrapper, which calls H.produce; no Fixture/TestCase/setUpClass/mock capture route in these actual commands.",
+    "separate_data_review_required": "Only closed output file inventory/raw-byte equality/manifests and their live-source/runtime custody checked here. Full66-record catalogue semantics,14gzip members and52alias restoration are assigned separately to core; this report does not replace that oracle."
+  },
+  "inclusive_source_accounting": {
+    "production": 391,
+    "authored": 710,
+    "author_conservative_production": 351,
+    "author_authored": 670,
+    "new_root_wrapper": 14,
+    "CI_added": 14,
+    "public_notes": 10,
+    "attributes": 2,
+    "formula": "351+14+14+10+2=391;670+14+14+10+2=710",
+    "hard_limits": [
+      400,
+      900
+    ],
+    "basis": "Exact current source8, installed CI and wrapper remain frozen under source/spec PASS reports; shared bootstrap/test helper lines conservatively included in production. This execution review adds only passive metadata, no subject source."
+  },
+  "findings": [],
+  "decision": "PASS only for this terminal exact local unit/capture execution epoch. Actual catalogue installation, policy seals, generator/controller adoption, contract1.0.12, current-plan/register/snapshot application, native/UI and full feature acceptance remain OPEN and separately gated."
+}

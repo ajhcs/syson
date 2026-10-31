@@ -3,6 +3,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 import sys
 import types
 import unittest
@@ -10,30 +11,56 @@ from pathlib import Path
 from unittest import mock
 
 
+SOURCE_LIMIT = 65536
+PINS = {
+    'derive': '4bfa0cf3080e341efc342fbda38ac674ee106e99ff0d123f98f63861442fe1b4',
+    'guard': '125b82688181a1e8a89e3b129530761baafeec32d61ea4858e95e7592eed462c',
+    'construct': '45c71ef6ba3d46ad28ede3eec9b89862169019d61d372331776bfe8ed9649a7d',
+    'capture': '9420ce4b9a73599b13c766c02a6f71f7f58199a70ff1c5ef0614f0e48b0c17da'}
+
+
+def source(path, name):
+    if path.resolve() != path or path.is_symlink() or not path.is_file() or path.stat().st_size > SOURCE_LIMIT:
+        raise ValueError('canonical bounded actual test source required')
+    with path.open('rb') as stream:
+        raw = stream.read(SOURCE_LIMIT + 1)
+    if len(raw) > SOURCE_LIMIT:
+        raise ValueError('bounded actual source grew')
+    normalized = raw
+    if name in ('guard', 'construct'):
+        field = 'POLICY_SHA256' if name == 'guard' else 'CATALOGUE_SHA256'
+        pattern = rb"(?m)^" + field.encode() + rb" = '(?:PENDING_ROOT_FREEZE|[0-9a-f]{64})'$"
+        if len(re.findall(pattern, raw)) != 1:
+            raise ValueError('single strict future seal required')
+        normalized = re.sub(pattern, field.encode() + b" = 'PENDING_ROOT_FREEZE'", raw)
+    if hashlib.sha256(normalized).hexdigest() != PINS[name]:
+        raise ValueError('whole actual test subject source changed')
+    return raw
+
+
 def modules():
     directory = Path(__file__).resolve().parent
-    package = types.ModuleType('fixed_identity_partition_tests')
-    package.__path__ = [str(directory)]
-    if package.__name__ in sys.modules:
+    namespace = 'fixed_identity_partition_tests'
+    if any(name == namespace or name.startswith(namespace + '.') for name in sys.modules):
         raise ValueError('test namespace collision')
-    sys.modules[package.__name__] = package
-    for name, expected in [
-            ('derive', '4bfa0cf3080e341efc342fbda38ac674ee106e99ff0d123f98f63861442fe1b4'),
-            ('guard', '125b82688181a1e8a89e3b129530761baafeec32d61ea4858e95e7592eed462c')]:
+    sources = {name: source(directory / (name + '.py'), name) for name in PINS}
+    package = types.ModuleType(namespace)
+    package.__path__ = [str(directory)]
+    if sys.modules.setdefault(namespace, package) is not package:
+        raise ValueError('test package registration collision')
+    for name, raw in sources.items():
         path = directory / (name + '.py')
-        raw = path.read_bytes()
-        if (path.resolve() != path or path.is_symlink() or len(raw) > 65536
-                or hashlib.sha256(raw).hexdigest() != expected):
-            raise ValueError('whole actual test subject source changed')
         module = types.ModuleType(package.__name__ + '.' + name)
         module.__file__, module.__package__ = str(path), package.__name__
-        sys.modules[module.__name__] = module
+        if sys.modules.setdefault(module.__name__, module) is not module:
+            raise ValueError('test child registration collision')
         setattr(package, name, module)
         exec(compile(raw, str(path), 'exec'), module.__dict__)
-    return package.derive, package.guard
+    return package.derive, package.guard, package.construct, package.capture
 
 
-D, G = modules()
+
+D, G, C, H = modules()
 _CACHE = None
 
 
@@ -47,15 +74,16 @@ class Fixture:
             if fixture.resolve() != fixture or fixture != directory / 'fixtures':
                 raise ValueError('declared fixed sibling fixture root required')
             root = directory.parents[1]
-            lock = json.loads((root / 'completion-contract.lock.json').read_bytes())
-            files = {name: (root / name).read_bytes() for name in set(lock['sha256']) | D.EXTRA}
-            args = tuple((fixture / name).read_bytes() for name in ['lane.json', 'amendment.md'])
+            originals = H.historical(root)
+            files = {name: raw for name, raw in originals.items() if name not in H.TAILS}
+            tails = {name: originals[name] for name in H.TAILS}
+            args = tuple(H.read(directory, 'fixtures/' + name, 65536) for name in ['lane.json', 'amendment.md'])
             proposed_generator = files['tools/build_plan.py'] + (
                 b'\n# unsigned .12 generator byte claim; never executed\n')
             args += (proposed_generator,)
             result = D.derive(files, *args)
-            _CACHE = files, args, result
-        cls.files, cls.args, cls.result = _CACHE
+            _CACHE = files, args, result, tails
+        cls.files, cls.args, cls.result, cls.tails = _CACHE
         cls.artifacts = cls.result['artifacts']
         cls.contract = cls.artifacts['completion-contract.json']
         cls.plan = cls.artifacts['expected-plan.json']
@@ -100,7 +128,9 @@ class DeriveTests(Fixture, unittest.TestCase):
         for name in ['derive.py', 'guard.py', 'construct.py']:
             self.assertIn('actual-provider/' + name, pins)
         self.assertIn('actual-entry/derive.py', pins)
-        self.assertEqual(G.POLICY_SHA256, 'PENDING_ROOT_FREEZE')
+        actual = source(Path(G.__file__), 'guard')
+        witness = re.findall(rb"(?m)^POLICY_SHA256 = '([^']*)'$", actual)
+        self.assertEqual(G.POLICY_SHA256, witness[0].decode())
 
     def test_missing_extra_and_changed_baseline_inputs_refuse(self):
         for mutation in ['missing', 'extra', 'changed']:
@@ -177,3 +207,17 @@ class DeriveTests(Fixture, unittest.TestCase):
                 D, 'provider', side_effect=AssertionError('provider entered before admission')):
             with self.assertRaisesRegex(ValueError, 'input name framing limit'):
                 D.baseline(files)
+
+    def test_policy_literal_witness_preserves_pending_and_future_sealed_raw_bytes(self):
+        path = Path(G.__file__)
+        actual = source(path, 'guard')
+        compiled = G.POLICY_SHA256
+        pattern = rb"(?m)^POLICY_SHA256 = '([^']*)'$"
+        for literal in ['PENDING_ROOT_FREEZE', '2' * 64]:
+            raw = re.sub(pattern, ("POLICY_SHA256 = '" + literal + "'").encode(), actual)
+            with mock.patch.object(Path, 'open', mock.mock_open(read_data=raw)):
+                witness = source(path, 'guard')
+            self.assertEqual(witness, raw)
+            self.assertEqual(re.findall(pattern, witness), [literal.encode()])
+        self.assertEqual(G.POLICY_SHA256, compiled)
+        self.assertEqual(re.findall(pattern, actual), [compiled.encode()])
