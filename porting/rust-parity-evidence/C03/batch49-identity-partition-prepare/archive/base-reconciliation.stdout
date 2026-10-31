@@ -1,0 +1,172 @@
+Merge made by the 'ort' strategy.
+ .../rust-parity-evidence/B25d/native-fixtures.json | 140 +++++++++
+ .../B25d/source-predictions.json                   | 324 +++++++++++++++++++++
+ porting/rust-parity-evidence/B25d2/README.md       |  14 +
+ .../B25d2/qualification/.gitattributes             |   2 +
+ .../B25d2/qualification/README.md                  |  18 ++
+ .../archive/author-source-review.json              | Bin 0 -> 13529 bytes
+ .../examples/b25d_corpus_probe.rs.raw              | Bin 0 -> 5221 bytes
+ .../syson-migrations/tests/b25d_composition.rs.raw | Bin 0 -> 5939 bytes
+ .../qualification/archive/checks-01-cleanup.json   | Bin 0 -> 160 bytes
+ .../archive/checks-01-controller.stderr            | Bin
+ .../archive/checks-01-controller.stdout            | Bin 0 -> 3010 bytes
+ .../qualification/archive/checks-01-spec.json      | Bin 0 -> 164434 bytes
+ .../archive/checks-01/cargo-version.stderr         | Bin
+ .../archive/checks-01/cargo-version.stdout         | Bin 0 -> 36 bytes
+ .../qualification/archive/checks-01/clippy.stderr  | Bin 0 -> 1258 bytes
+ .../qualification/archive/checks-01/clippy.stdout  | Bin
+ .../qualification/archive/checks-01/fmt.stderr     | Bin
+ .../qualification/archive/checks-01/fmt.stdout     | Bin
+ .../qualification/archive/checks-01/receipt.json   | Bin 0 -> 323138 bytes
+ .../archive/checks-01/release-probe-build.stderr   | Bin 0 -> 207 bytes
+ .../archive/checks-01/release-probe-build.stdout   | Bin
+ .../archive/checks-01/release-tests.stderr         | Bin 0 -> 4237 bytes
+ .../archive/checks-01/release-tests.stdout         | Bin 0 -> 6426 bytes
+ .../archive/checks-01/rustc-version.stderr         | Bin
+ .../archive/checks-01/rustc-version.stdout         | Bin 0 -> 196 bytes
+ .../archive/checks-01/scope-proof.json             | Bin 0 -> 366 bytes
+ .../qualification/archive/checks-01/tests.stderr   | Bin 0 -> 4209 bytes
+ .../qualification/archive/checks-01/tests.stdout   | Bin 0 -> 6426 bytes
+ .../archive/checks-01/wasm-library.stderr          | Bin 0 -> 678 bytes
+ .../archive/checks-01/wasm-library.stdout          | Bin
+ .../qualification/archive/format-preview-01.json   | Bin 0 -> 2470 bytes
+ .../examples/b25d_corpus_probe.rs.raw              | Bin 0 -> 5599 bytes
+ .../syson-migrations/tests/b25d_composition.rs.raw | Bin 0 -> 6342 bytes
+ .../syson-migrations/tests/b25d_corpus.rs.raw      | Bin 0 -> 2307 bytes
+ .../qualification/archive/live-observation-01.json | Bin 0 -> 984 bytes
+ .../archive/packet-index-before-final-reviews.json | Bin 0 -> 12274 bytes
+ .../archive/performance-01-cleanup.json            | Bin 0 -> 160 bytes
+ .../archive/performance-01-controller.stderr       | Bin
+ .../archive/performance-01-controller.stdout       | Bin 0 -> 908 bytes
+ .../qualification/archive/performance-01-spec.json | Bin 0 -> 164101 bytes
+ .../archive/performance-01/corpus-process-1.stderr | Bin 0 -> 835 bytes
+ .../archive/performance-01/corpus-process-1.stdout | Bin 0 -> 3286 bytes
+ .../archive/performance-01/corpus-process-2.stderr | Bin 0 -> 834 bytes
+ .../archive/performance-01/corpus-process-2.stdout | Bin 0 -> 3284 bytes
+ .../archive/performance-01/corpus-process-3.stderr | Bin 0 -> 834 bytes
+ .../archive/performance-01/corpus-process-3.stdout | Bin 0 -> 3283 bytes
+ .../archive/performance-01/receipt.json            | Bin 0 -> 324355 bytes
+ .../archive/performance-01/scope-proof.json        | Bin 0 -> 376 bytes
+ .../archive/performance-freeze-01.json             | Bin 0 -> 162475 bytes
+ .../B25d1-committed-tree-qualified.json            | Bin 0 -> 43219 bytes
+ .../B25d1-hosted-main-qualification.json           | Bin 0 -> 14372 bytes
+ .../B25d1-merge-main-qualified-readback.json       | Bin 0 -> 588 bytes
+ .../B25d1-merged-main-tree-readback.json           | Bin 0 -> 623 bytes
+ .../B25d1-source-commit-qualified.json             | Bin 0 -> 1180 bytes
+ .../archive/public-packet-copy-map.json            | Bin 0 -> 25464 bytes
+ .../archive/public-packet-initial-readback.json    | Bin 0 -> 596 bytes
+ .../qualification/archive/publication_copy.py.raw  | Bin 0 -> 1503 bytes
+ .../archive/reviewer-checks-spec-01.json           | Bin 0 -> 10660 bytes
+ .../archive/reviewer-executed-01.json              | Bin 0 -> 18441 bytes
+ .../archive/reviewer-performance-executed-01.json  | Bin 0 -> 18520 bytes
+ .../archive/reviewer-performance-spec-01.json      | Bin 0 -> 10382 bytes
+ .../archive/reviewer-public-map-admission-01.json  | Bin 0 -> 7157 bytes
+ .../archive/reviewer-public-packet-final-01.json   | Bin 0 -> 6652 bytes
+ .../qualification/archive/reviewer-source-01.json  | Bin 0 -> 17497 bytes
+ .../qualification/archive/root-budget-01.json      | Bin 0 -> 2481 bytes
+ .../archive/root-format-application-01.json        | Bin 0 -> 980 bytes
+ .../archive/root-performance-admission-01.json     | Bin 0 -> 667 bytes
+ .../archive/root-runtime-admission-01.json         | Bin 0 -> 1098 bytes
+ .../archive/source-commit-qualified.json           | Bin 0 -> 1320 bytes
+ .../source-composition-main-binding-01.json        | Bin 0 -> 1975 bytes
+ .../qualification/archive/source-freeze-01.json    | Bin 0 -> 160419 bytes
+ .../B25d2/qualification/archive/source-lease.json  | Bin 0 -> 2506 bytes
+ .../B25d/native-fixtures.json.raw                  | Bin 0 -> 10712 bytes
+ .../B25d/source-predictions.json.raw               | Bin 0 -> 14250 bytes
+ .../rust-parity-evidence/B25d2/README.md.raw       | Bin 0 -> 1795 bytes
+ .../rust/crates/syson-migrations/b25d.rs.raw       | Bin 0 -> 9289 bytes
+ .../examples/b25d_corpus_probe.rs.raw              | Bin 0 -> 5599 bytes
+ .../rust/crates/syson-migrations/tests/b25d.rs.raw | Bin 0 -> 6337 bytes
+ .../syson-migrations/tests/b25d_composition.rs.raw | Bin 0 -> 6342 bytes
+ .../syson-migrations/tests/b25d_corpus.rs.raw      | Bin 0 -> 2307 bytes
+ .../syson-migrations/tests/b25d_literal.rs.raw     | Bin 0 -> 8053 bytes
+ .../B25d2/qualification/packet-index.json          | 317 ++++++++++++++++++++
+ .../syson-migrations/examples/b25d_corpus_probe.rs | 122 ++++++++
+ .../syson-migrations/tests/b25d_composition.rs     | 168 +++++++++++
+ rust/crates/syson-migrations/tests/b25d_corpus.rs  |  54 ++++
+ 85 files changed, 1159 insertions(+)
+ create mode 100644 porting/rust-parity-evidence/B25d/native-fixtures.json
+ create mode 100644 porting/rust-parity-evidence/B25d/source-predictions.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/README.md
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/.gitattributes
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/README.md
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/author-source-review.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/before-format-apply-01/rust/crates/syson-migrations/examples/b25d_corpus_probe.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/before-format-apply-01/rust/crates/syson-migrations/tests/b25d_composition.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01-cleanup.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01-controller.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01-controller.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01-spec.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/cargo-version.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/cargo-version.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/clippy.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/clippy.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/fmt.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/fmt.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/receipt.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/release-probe-build.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/release-probe-build.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/release-tests.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/release-tests.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/rustc-version.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/rustc-version.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/scope-proof.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/tests.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/tests.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/wasm-library.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/checks-01/wasm-library.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/format-preview-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/format-preview-01/rust/crates/syson-migrations/examples/b25d_corpus_probe.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/format-preview-01/rust/crates/syson-migrations/tests/b25d_composition.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/format-preview-01/rust/crates/syson-migrations/tests/b25d_corpus.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/live-observation-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/packet-index-before-final-reviews.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01-cleanup.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01-controller.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01-controller.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01-spec.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01/corpus-process-1.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01/corpus-process-1.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01/corpus-process-2.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01/corpus-process-2.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01/corpus-process-3.stderr
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01/corpus-process-3.stdout
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01/receipt.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-01/scope-proof.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/performance-freeze-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/prerequisites/B25d1-committed-tree-qualified.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/prerequisites/B25d1-hosted-main-qualification.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/prerequisites/B25d1-merge-main-qualified-readback.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/prerequisites/B25d1-merged-main-tree-readback.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/prerequisites/B25d1-source-commit-qualified.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/public-packet-copy-map.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/public-packet-initial-readback.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/publication_copy.py.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/reviewer-checks-spec-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/reviewer-executed-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/reviewer-performance-executed-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/reviewer-performance-spec-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/reviewer-public-map-admission-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/reviewer-public-packet-final-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/reviewer-source-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/root-budget-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/root-format-application-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/root-performance-admission-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/root-runtime-admission-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source-commit-qualified.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source-composition-main-binding-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source-freeze-01.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source-lease.json
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/porting/rust-parity-evidence/B25d/native-fixtures.json.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/porting/rust-parity-evidence/B25d/source-predictions.json.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/porting/rust-parity-evidence/B25d2/README.md.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/rust/crates/syson-migrations/b25d.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/rust/crates/syson-migrations/examples/b25d_corpus_probe.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/rust/crates/syson-migrations/tests/b25d.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/rust/crates/syson-migrations/tests/b25d_composition.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/rust/crates/syson-migrations/tests/b25d_corpus.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/archive/source/rust/crates/syson-migrations/tests/b25d_literal.rs.raw
+ create mode 100644 porting/rust-parity-evidence/B25d2/qualification/packet-index.json
+ create mode 100644 rust/crates/syson-migrations/examples/b25d_corpus_probe.rs
+ create mode 100644 rust/crates/syson-migrations/tests/b25d_composition.rs
+ create mode 100644 rust/crates/syson-migrations/tests/b25d_corpus.rs

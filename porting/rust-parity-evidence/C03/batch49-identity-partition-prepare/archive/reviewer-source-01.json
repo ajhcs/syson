@@ -1,0 +1,627 @@
+{
+  "schema": "B49_INDEPENDENT_SOURCE_REVIEW/1",
+  "status": "HOLD_NARROW_INPUT_FRAMING_PREFLIGHT_REPAIR_REQUIRED",
+  "independent_reviewer": "/root/core_frontier_admission",
+  "scope": "All8new source/activefixture/docs read completely; all17named test bodies read; read/hash/JSON inspection only. No subject import/compiler/AST/runtime/test/network/Git or source edits.",
+  "authority": {
+    "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/source-lease.json",
+    "bytes": 3224,
+    "ordinary_lines": 48,
+    "sha256": "5eb760971476113dde9e9fc3b86f3e503d81ada15df76d9d8d802d3d1fe8767e"
+  },
+  "author_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/author-source-review.json",
+    "bytes": 15933,
+    "ordinary_lines": 237,
+    "sha256": "bd87744449fa488028cb5d4cf058017485417d09c86d2ff89a043101144e0a09"
+  },
+  "design_bindings": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/partition-proposal-01.json",
+      "bytes": 23723,
+      "ordinary_lines": 357,
+      "sha256": "2fbd8d889902bbc0b494c970b6ecda7715407b1d43e8cf3df4756631fa87d9af"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch45-20261031/amendment-feasibility-01.json",
+      "bytes": 21814,
+      "ordinary_lines": 346,
+      "sha256": "364caf58867aaecda580abeb01e57547189a31a0d25a8bb2874985fd9a4cb6e4"
+    }
+  ],
+  "new_files": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/GUARD.md",
+      "bytes": 766,
+      "ordinary_lines": 9,
+      "sha256": "96d6914bdc3ecd393af6782ba52151ffa92952e456ed3607e40ed112b17e0a0c"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/README.md",
+      "bytes": 894,
+      "ordinary_lines": 10,
+      "sha256": "dff50f6e99c073cea6a3c11020719ad41d1d7449d34385622c88537369926a14"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/derive.py",
+      "bytes": 11323,
+      "ordinary_lines": 206,
+      "sha256": "52926393ee905aeeb6283a2ce0a9109ad92eb21423544f22a08d47d5392f4d7e"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/fixtures/amendment.md",
+      "bytes": 928,
+      "ordinary_lines": 11,
+      "sha256": "85b57839fa9ce620791dcfc98bd9df0c1959c8a3f1a510cbf19ed6d27675fc9d"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/fixtures/lane.json",
+      "bytes": 9376,
+      "ordinary_lines": 136,
+      "sha256": "765ab7a527f3489cb46e97a56a627d151c7a993aff151f0d2c6e3e8c2e7c0464"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/guard.py",
+      "bytes": 4516,
+      "ordinary_lines": 74,
+      "sha256": "125b82688181a1e8a89e3b129530761baafeec32d61ea4858e95e7592eed462c"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_derive.py",
+      "bytes": 8501,
+      "ordinary_lines": 161,
+      "sha256": "21a8d9e957046d276fbc07b3657497da34883304586b82b1a361a89bcf70df6f"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_guard.py",
+      "bytes": 5055,
+      "ordinary_lines": 97,
+      "sha256": "257343d3cb50d825e744c3681ae18ac9e05bea06e4caa7ff5bad4d6d83a8adb0"
+    }
+  ],
+  "findings": [
+    {
+      "id": "B49-SOURCE-01",
+      "severity": "blocking source-admission bounds gap",
+      "location": {
+        "new": "composition/identity_partition_prepare/derive.py:81-84 baseline",
+        "reused": "composition/registration/prepare.py:74-85 inputs"
+      },
+      "fact": "New baseline(files) calls P.inputs(files) before it validates the exact60plusEXTRA key inventory. The unchanged P.inputs checks the aggregate byte-value length first, then computes len(encode({name:64hex})) for each caller-supplied key; its quota check follows serialization. No cheap string-name length/container/framing preflight exists in the new public API.",
+      "source_reasoned_counterexample": "A builtin dict with a very large extra builtin-str key and small bytes value passes the old raw-value check and causes encode to allocate/serialize that key before framing rejection. A key larger than64MiB makes this exceed the advertised logical framing boundary before refusal. No large object or subject counterexample was created or run.",
+      "required_scoped_repair": "Before P.inputs, reject nonexact builtin dict/bytes/string types and cheaply refuse excessive count/name lengths/aggregate name-framing charges without JSON encoding or copying arbitrary keys. Exact fixed role admission may additionally reject unknown names early. Preserve all60normative+4 baseline roles, all existing test bodies and full fixed source pins.",
+      "required_test": "Add a meaningful controlled-threshold/sentinel ordering regression proving overlong/overframed logical keys refuse before P.encode/P.parse/deepcopy or provider work as appropriate. Existing test_wrong_byte_type_and_aggregate_input_bound_refuse_before_parse exercises values only and does not reach this name-framing gap.",
+      "authorization": "No reviewer source edits; root must authorize repair and preserve this epoch before new source freeze/spec. No execution recommended against held bytes."
+    }
+  ],
+  "confirmed_program_properties": {
+    "inactive_boundary": "Importing new D/G performs no application read. Guard defaults PENDING and refuses first, before callback/provider. New layer supplies no current.12loader, constructor, writer, seal, normative mutation or live controller/version dispatch.",
+    "source_provider": "D.provider bounds/canonicalizes D11/G11/C11 before reading<=65537bytes and verifies all3raw hashes before any old exec. It refuses existing reserved package/subnames before registration and preserves exact derive/guard module identity on cached uses. Actual registration source is whole-pinned by unchanged D11.provider. New code never executes C11 or any captured/raw/source-row program.",
+    "transitive_chain": "NewD -> actual D11/G11 -> actual353registration -> actual storage guard/preparation guard. OldG Session reads exact prior role bytes, binds all6held and rawexecution, and actual registration compares actual storage/preparation source to supplied byte bindings before exec. Complete provider closure is listed below; root must freeze it independently.",
+    "baseline": "Whole raw oldlock/plan/snapshot hashes checked, exact60normative+4role set and all60normativeSHA enforced. Whole canonical contract/plan pins checked. Snapshot342progress binding digest and count checked, then actual unchanged G11 fullvalidation runs using explicit supplied prior bytes. Allold342payloads are preserved obligations, not consumed/copied in this inactive phase.",
+    "fixed_children": "Whole lane/amendment SHA and independent complete row digests lock exactly M06a2a/M06a2b. A depends M06a1/RR13a; B depends A. Model family/services-persistence team and400/900hardcaps fixed. Parent dependencies,implementation-ready,acceptancechildren,source-preparationchildren add both IDs while originalbody/eightgates remain.",
+    "scope_preservation": "Functional child retains all130library/183CLI/166donor/327newtest sources and2071byte fixture, all18identity/all16importer/priorcaller obligations,11+generated12identities/two links/independentfullJSON and actual exitedwriter/distinctreader plus every cancellation/collision/stale/foreign/nooverwrite checkpoint. Measurement child retains entire81probe,2warm7raw,9freshdirs/18childlifetimes/54artifacts,all7metrics/rawranges and independent writer/readerRSS. Parse-only and allparentnative/library/SQL/HTTP/UI/backendrestart residuals stayOPEN; no A-onlyacceptance.",
+    "metadata": "Build copies whole797records, adds exactly2fixed rows, applies only M06a2/C99/joint closures under explicit record_updates, uses actual pinned P._graph for1598typednodes and D11.source_metadata for fullwaves/lane_counts/conflicts. C99 insertion is source-fragment order and variable supplied generator SHA. Builder bytes are never executed or represented as actualfuturecode.",
+    "restoration": "Guard bounds builtin objects via unchanged S.bound before digest/deepcopy; checks sorted unique799IDs, undo exact policy before/after fields/remove2children/reset.11pointers and knownoldC99sourcehash, recompute all old graph/source metadata, then compare full canonical .11contract andplan pins. OldG fullvalidation follows; complete .12 reconstruction equality then rejects coherent current policy/parent/child/body/graph rewrites.",
+    "schema": "Raw prior schema44da955d verified before adding2enumIDs and.12contractconst, so explicit schema sourceview drift refuses even though oldG does not read this role.",
+    "quota_disposition": "Actual exact64role baseline measures13565228raw+6866name/hash framing=13572094B, well below64MiB before proposal. P.inputs and S.bound plus final input+serializedproposal64MiB refusal remain present, but findingB49-SOURCE-01 must repair early arbitrary-key framing. This is not snapshot/decoded/physical/RSS capacity proof; later full342progress/1206role constructor has separate budget problem and authority."
+  },
+  "full_required_transitive_providers": [
+    {
+      "logical_role": "composition/source_next_prepare/derive.py",
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/derive.py",
+      "bytes": 17054,
+      "ordinary_lines": 291,
+      "sha256": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17",
+      "execution_disposition": "actual qualified program loaded through pinned provider chain only"
+    },
+    {
+      "logical_role": "composition/source_next_prepare/guard.py",
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/guard.py",
+      "bytes": 17756,
+      "ordinary_lines": 349,
+      "sha256": "c26d1446bddccd6475a6b921f52e2db660b2d0857460434bd9ef45110c4f645b",
+      "execution_disposition": "actual qualified program loaded through pinned provider chain only"
+    },
+    {
+      "logical_role": "composition/source_next_prepare/construct.py",
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/construct.py",
+      "bytes": 15022,
+      "ordinary_lines": 263,
+      "sha256": "89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9",
+      "execution_disposition": "whole-source checked data only; never executed by new layer"
+    },
+    {
+      "logical_role": "composition/registration/prepare.py",
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/registration/prepare.py",
+      "bytes": 22249,
+      "ordinary_lines": 353,
+      "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59",
+      "execution_disposition": "actual qualified program loaded through pinned provider chain only"
+    },
+    {
+      "logical_role": "composition/storage_split_guard.py",
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/composition/storage_split_guard.py",
+      "bytes": 10362,
+      "ordinary_lines": 191,
+      "sha256": "db18f5d5c63c27d5e6daf5a78a8b358361b4ac66818e285c10c4a64f9de6ac01",
+      "execution_disposition": "actual qualified program loaded through pinned provider chain only"
+    },
+    {
+      "logical_role": "tools/preparation_splits.py",
+      "path": "/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026/tools/preparation_splits.py",
+      "bytes": 10926,
+      "ordinary_lines": 211,
+      "sha256": "7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3",
+      "execution_disposition": "actual qualified program loaded through pinned provider chain only"
+    }
+  ],
+  "baseline_binding": {
+    "normative_count": 60,
+    "baseline_role_count": 64,
+    "baseline_raw_bytes": 13565228,
+    "baseline_namehash_framing_bytes": 6866,
+    "charged_baseline_bytes": 13572094,
+    "roles": [
+      {
+        "role": "COMPLETION-CONTRACT.md",
+        "bytes": 29497,
+        "sha256": "084d143b1df1120afb4a5df020c8b03dc06cf46319d9b6bb0739555cfef4ef19",
+        "normative": true
+      },
+      {
+        "role": "TEAM-EXECUTION.md",
+        "bytes": 4782,
+        "sha256": "8af52e32ca87dc5b04883c03845064c8d91c850dfc010012b353b1cd27d7e64c",
+        "normative": true
+      },
+      {
+        "role": "acceptance-packet.schema.json",
+        "bytes": 20903,
+        "sha256": "44da955df9840636ca4b8f0ec540e9397418625f1785a18cb2be4c9da29f9914",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.1-budget-disposition.md",
+        "bytes": 7670,
+        "sha256": "39dca561745da9b763c8ef363bf2eb0df596b734ec08231a1a35d829a3ae60df",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.10-storage-source.md",
+        "bytes": 3488,
+        "sha256": "1627dd1abac27485aa0544854e53ec505bb6446a8d1c8fb442491ceae0632b0f",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.11-source-next.md",
+        "bytes": 850,
+        "sha256": "f92d091fcb9b6e64bcbf0e255f61d2f80a3d2e5834312f125cec97619daa10ca",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.2-rr08-split.md",
+        "bytes": 5706,
+        "sha256": "4d10e2784ae5918dda635509b88be9c61ee24aa31ba44dfeff2a3e2d65359167",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.3-layout-kernel-split.md",
+        "bytes": 8592,
+        "sha256": "2f1980ff2c6a779ab00b103d3023a11e83ac4af505a9d8e4c4b8bbd9e8c93855",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.4-comment-comparison-split.md",
+        "bytes": 9057,
+        "sha256": "91d900989c5faae5c0de3525670cd5374dd582e06527023206ff79c0d4061361",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.5-partial-comparison-split.md",
+        "bytes": 6143,
+        "sha256": "921a60081b2ff0c1e0d75d4f81b258a10f5f3f500d8769ae5c7f9979a8a4e1d7",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.6-routing-kernel-split.md",
+        "bytes": 6925,
+        "sha256": "a8f10840d5207fb6886e4fce56e42ab125f935984fef87913fee3db6179672b7",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.7-forest-kernel-split.md",
+        "bytes": 5679,
+        "sha256": "2ff3c43d470d321d4f5b6e52bc15b5e9ce9fe1cceb7f991740d3f4617f1657b2",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.8-team-execution.md",
+        "bytes": 1916,
+        "sha256": "523aa09e97ec0fd126d004ebb4a184313067bc502f64fb458a97275235364e60",
+        "normative": true
+      },
+      {
+        "role": "amendments/1.0.9-source-preparation.md",
+        "bytes": 3486,
+        "sha256": "10c13a883f7ec966370fc4541723abe1b449612207bcd2ded6b50634785332e5",
+        "normative": true
+      },
+      {
+        "role": "completion-contract.json",
+        "bytes": 609168,
+        "sha256": "37b452269bc81b1c6fb31bbe2c93ab2692c36d272b6682b8d7ae7d36740fd106",
+        "normative": true
+      },
+      {
+        "role": "completion-contract.lock.json",
+        "bytes": 6729,
+        "sha256": "a36a19cdcbb24441df3afd8f67b9ddd3f8648e0051f09ab387d9f7668d05c70f",
+        "normative": false
+      },
+      {
+        "role": "composition/registration/README.md",
+        "bytes": 5227,
+        "sha256": "6a30dbff58992b863d3517b4ab03ff143e4dc73029391a558e863e3670ffa2fc",
+        "normative": true
+      },
+      {
+        "role": "composition/registration/prepare.py",
+        "bytes": 22249,
+        "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59",
+        "normative": true
+      },
+      {
+        "role": "composition/registration/test_prepare.py",
+        "bytes": 24883,
+        "sha256": "f19e3a25c27e8ed5cfb982951db2d923b5f38edf0cae0bcfbcc0225e0f355e75",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/CONSTRUCT.md",
+        "bytes": 1135,
+        "sha256": "f7a6197d36807fb3e29a11feb0d61a7257f25271d1521d497bdea03f6e62ad62",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/GUARD.md",
+        "bytes": 1089,
+        "sha256": "79ed0ffa1e3801292355844339d9710fa8bd7357293ea5c53184c83c0b062b8d",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/README.md",
+        "bytes": 1113,
+        "sha256": "39488113b25602d5616cafb9536a6b2bae911790da0910a095b3f084bff8f780",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/construct.py",
+        "bytes": 15022,
+        "sha256": "89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/derive.py",
+        "bytes": 17054,
+        "sha256": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/guard.py",
+        "bytes": 17756,
+        "sha256": "c26d1446bddccd6475a6b921f52e2db660b2d0857460434bd9ef45110c4f645b",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/test_construct.py",
+        "bytes": 18569,
+        "sha256": "819b052ffc698e09f38d8d76ae2cbf20159e6acb08dbdf5cf896d850880337a6",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/test_derive.py",
+        "bytes": 15839,
+        "sha256": "02a54dfc40eaca4de4855fe75429cede0cc4578fe8a9f77b0855fcfccebe55b8",
+        "normative": true
+      },
+      {
+        "role": "composition/source_next_prepare/test_guard.py",
+        "bytes": 20491,
+        "sha256": "65b12e7d1c5475c1cb7b5800f72919c96edcf6ddfca427cab6c16248edfc20bf",
+        "normative": true
+      },
+      {
+        "role": "composition/storage_split_guard.py",
+        "bytes": 10362,
+        "sha256": "db18f5d5c63c27d5e6daf5a78a8b358361b4ac66818e285c10c4a64f9de6ac01",
+        "normative": true
+      },
+      {
+        "role": "cross-lane-review.json",
+        "bytes": 34119,
+        "sha256": "b044d26288b26c2f7fd7ae30b38cd4092e55ebeb0e23a7c9012bd9e5d1b17b97",
+        "normative": true
+      },
+      {
+        "role": "execution.json",
+        "bytes": 204591,
+        "sha256": "a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e",
+        "normative": true
+      },
+      {
+        "role": "lanes/batch4.json",
+        "bytes": 46798,
+        "sha256": "00bff24d29fdcebdb9bb87b0c504159eea2d9a84dbbe3ef81975b872c8e715a1",
+        "normative": true
+      },
+      {
+        "role": "lanes/batch5.json",
+        "bytes": 10663,
+        "sha256": "7e0d67e6d5323e6e11f5f4191106402aaf6a8276230745adbc273b6b2c80305c",
+        "normative": true
+      },
+      {
+        "role": "lanes/batch6.json",
+        "bytes": 7499,
+        "sha256": "1e0cd373ea7c194e778d45d1ff0b5cd7d87b17d506aaa4589ccb1147c6fc20ed",
+        "normative": true
+      },
+      {
+        "role": "lanes/coordination-support.json",
+        "bytes": 8197,
+        "sha256": "4894bff09259dc65d2d7f498d7921a46c7309fd92b13484e60a28c2f383ab555",
+        "normative": true
+      },
+      {
+        "role": "lanes/migration-support.json",
+        "bytes": 2898,
+        "sha256": "7b5193dadd10879f91771772067df7fc6ba20c34045e1dba0cd896d569f694e2",
+        "normative": true
+      },
+      {
+        "role": "lanes/model.json",
+        "bytes": 3366594,
+        "sha256": "ec00869b1fcd3bba5085bc01e11200b58d5b656e5f7e24e50caa59ad5cf9b0f8",
+        "normative": true
+      },
+      {
+        "role": "lanes/parser.json",
+        "bytes": 1310245,
+        "sha256": "d25f4cfe7fcc4f63bc5781f5d88462f8965a19e0b6ad11143c02100efafe4391",
+        "normative": true
+      },
+      {
+        "role": "lanes/platform.json",
+        "bytes": 751349,
+        "sha256": "6792948d0577e69a9f400e49c54758c7322e0d2c650c031695e5300025e05313",
+        "normative": true
+      },
+      {
+        "role": "lanes/rereview.json",
+        "bytes": 169182,
+        "sha256": "a4bcd5781823cbdbcec2faa6b989ace46ca9b99510cd3899c5736c44e7095b63",
+        "normative": true
+      },
+      {
+        "role": "lanes/source-next.json",
+        "bytes": 16635,
+        "sha256": "bb1a50bec6983d301b830b45ceeee34e19517a43020b85b2f8fa6ebcdfdd6ace",
+        "normative": true
+      },
+      {
+        "role": "lanes/source-preparation.json",
+        "bytes": 14924,
+        "sha256": "89b4e43343b303e02d9833b5ba5da811583cbf39c08ba6ee3fed558543697218",
+        "normative": true
+      },
+      {
+        "role": "lanes/storage-source.json",
+        "bytes": 8499,
+        "sha256": "98d3ddb0c1acfb7e27fefee5f583d2847750dc817f39116422334140764371bf",
+        "normative": true
+      },
+      {
+        "role": "lanes/ui.json",
+        "bytes": 275955,
+        "sha256": "d5e1d65535af89643fcc7226b6c27e03846ed31fff51e0facbe5598c0ba6c1b4",
+        "normative": true
+      },
+      {
+        "role": "performance-policy.json",
+        "bytes": 3956,
+        "sha256": "62990fca393be5443eb80c6dd106692e721704f0cdb6df708dcbf6472f739a18",
+        "normative": true
+      },
+      {
+        "role": "plan.json",
+        "bytes": 5937579,
+        "sha256": "4b10b1df933a555debe3c5d2e473d354fabb7b4acf8cfffd3386a881a0bc5691",
+        "normative": false
+      },
+      {
+        "role": "remaining-work/checkpoint-batch24/rejected-comparator.raw",
+        "bytes": 23564,
+        "sha256": "16daa02867fcbb06cafc12f67d14c9d21f7898646392dcf15ecb12584c1d10a8",
+        "normative": true
+      },
+      {
+        "role": "remaining-work/checkpoint-storage-1.0.10/prepare_storage_registration.py",
+        "bytes": 6572,
+        "sha256": "fe19370c9bdae0aef0b43f6a1f9b3d33811386fa9241739a6a7cbd9bb6411f11",
+        "normative": true
+      },
+      {
+        "role": "remaining-work/snapshot.lock.json",
+        "bytes": 160945,
+        "sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0",
+        "normative": false
+      },
+      {
+        "role": "rereview-batch11-coordinator-ownership.json",
+        "bytes": 1039,
+        "sha256": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a",
+        "normative": false
+      },
+      {
+        "role": "rereview-overlay.json",
+        "bytes": 26204,
+        "sha256": "35fb1c586a94b7f7cac7656e5e06533569dca1c5e2fe09fd7c862d6c31ba163e",
+        "normative": true
+      },
+      {
+        "role": "storage-policy-source.json",
+        "bytes": 1543,
+        "sha256": "21414303f156e1ae63c855b95485f2d3665e8565635c1568e24bf793200f96d5",
+        "normative": true
+      },
+      {
+        "role": "teams.json",
+        "bytes": 61545,
+        "sha256": "8654745923a5fe258fff0387cbfd11a19fd29e203cec54d69e2026193ba35421",
+        "normative": true
+      },
+      {
+        "role": "tools/build_plan.py",
+        "bytes": 18372,
+        "sha256": "708982b09860061a0108328877e15f7b3a66c13e2adfd9ef9fe224384ce1be4c",
+        "normative": true
+      },
+      {
+        "role": "tools/build_ui_plan.py",
+        "bytes": 35488,
+        "sha256": "1791e17a8afa6e43be66c23f891d75502fc615d7c61d270c855b059b19896ae4",
+        "normative": true
+      },
+      {
+        "role": "tools/completion_contract.py",
+        "bytes": 55828,
+        "sha256": "9a79f93ded492c54374de4c4acd803dbd5b571e92a8a60fd3db5fcfa559a7770",
+        "normative": true
+      },
+      {
+        "role": "tools/preparation_splits.py",
+        "bytes": 10926,
+        "sha256": "7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3",
+        "normative": true
+      },
+      {
+        "role": "tools/source_next_splits.py",
+        "bytes": 2362,
+        "sha256": "1819a78e4eec01d952b8d211c37fe9cf287e075883a119cac497537da2383c5d",
+        "normative": true
+      },
+      {
+        "role": "tools/storage_splits.py",
+        "bytes": 1290,
+        "sha256": "15e9febcc1991a7c82c308b6b98e83c77ad409c43c0ce46305da1eb1182462b2",
+        "normative": true
+      },
+      {
+        "role": "tools/team_policy.py",
+        "bytes": 10054,
+        "sha256": "067a6ab2e025adb17ce86539a13ad8e6de665930d9c7636d4749fbe7b759f35c",
+        "normative": true
+      },
+      {
+        "role": "tools/test_preparation_splits.py",
+        "bytes": 10455,
+        "sha256": "cbb3df0c08d6365669813f90faaedc9ae02ead773c64ee5830788a050d5657c2",
+        "normative": true
+      },
+      {
+        "role": "tools/test_storage_splits.py",
+        "bytes": 9795,
+        "sha256": "3057c9d55f2078d29b43049553e247bad38e7e72205561876e7b5b1be4f905cd",
+        "normative": true
+      },
+      {
+        "role": "tools/test_team_policy.py",
+        "bytes": 11383,
+        "sha256": "ca7f8bec971c519cd1ed03f321339c311a9b0c6db19d7da04cd19af181dc804f",
+        "normative": true
+      },
+      {
+        "role": "tools/verify_plan.py",
+        "bytes": 46800,
+        "sha256": "49e08c3471fad27109f7218a3e197e3e23b92fc8cd13d308f01375a76c9867e9",
+        "normative": true
+      }
+    ],
+    "whole_contract_canonical_sha256": "502aa44f21663011d3f8030ed41d398b29b3659677f1f460fe0b6c4ee806d585",
+    "whole_plan_canonical_sha256": "2fc2e9fb8c3ac121cb397a8c075f8ad54238e2a42be8fcd84a843d095f036e11",
+    "oldunits": 797,
+    "typednodes": 1594,
+    "history_count": 55,
+    "history_sha256": "082af527d8dd4140a8d4104f45c62a62b777d24c68837ed03554d14deec25321",
+    "snapshot_required_roles": 1206,
+    "progress_count": 342,
+    "progress_binding_sha256": "9c8fca380a2814ec7c90612b7e31f14ff2a17394ad0dc4b724fa26bbfea120d4",
+    "snapshot_interpretation": "Full pinned snapshot map is read and all342name/hash bindings preserved. No claim every342progress file or1206snapshot role body is read by this preparation. Later constructor must verify/preserve actual old data without quota reduction."
+  },
+  "child_body_sha256": {
+    "M06a2a": "770e01b204ff9237df86682ac4b65730881dd557ea209f8d1c436d8e0f6de852",
+    "M06a2b": "0029b9ce1126596b34893f87cacab5bbc479ec2e817c34886887f499fbbee65a"
+  },
+  "test_review": {
+    "named": {
+      "test_derive.py": [
+        "test_complete799_model_and_all_original_records_and_gates",
+        "test_complete_input_and_actual_provider_provenance",
+        "test_missing_extra_and_changed_baseline_inputs_refuse",
+        "test_coherently_rehashed_normative_baseline_still_refuses",
+        "test_fixed_complete_child_body_survives_envelope_rehash_control",
+        "test_changed_amendment_and_empty_or_overlong_generator_refuse",
+        "test_current_actual_old_provider_pin_and_namespace_are_enforced",
+        "test_exact_generator_byte_boundary_is_a_claim_not_execution",
+        "test_wrong_byte_type_and_aggregate_input_bound_refuse_before_parse"
+      ],
+      "test_guard.py": [
+        "test_full_restoration_before_old_guard_and_no_early_parent_completion",
+        "test_default_pending_and_unknown_version_refuse",
+        "test_missing_duplicate_and_foreign_unit_ids_refuse",
+        "test_coherently_resealed_parent_weakening_refuses",
+        "test_coherent_old_body_rewrite_cannot_be_laundered_as_overlay",
+        "test_whole_child_budget_case_and_path_tampering_refuse",
+        "test_all_old_reader_held_generator_and_schema_bytes_remain_bound",
+        "test_extra_current_metadata_graph_drop_and_cyclic_object_refuse"
+      ]
+    },
+    "count": 17,
+    "execution": "NONE",
+    "meaningful_controls": "Fullbaseline positive/fulloldrows+gates/graphsubset and provenance; missingextrachanged roles; coherent lockednormative rewrite; outerlane SHA repin while independent childrow hash stays fixed; amendment/zero/overlonggenerator; actualoldproviderpin and namespace; exact262144generator claim; wrongbyte/oversizedvalue. Guard positive fullrestoredobjects+jointclosures; pending/unknownversion; IDinventory; syntheticsealed parentweakening/oldbody laundering; childbudget/task/path drift; callback teams/execution/generator/schema drift; metadata/graph/cycle refusals.",
+    "coherent_tests": "Guard helper scopes syntheticseal to each mutated policy, so coherent parentweakening and M06a1before/after laundering reach restoration/reconstruction instead of stopping at outerseal. No production global override or weaker fixed provider SHA. Lane body control patches only LANE_SHA while fixed independent ROWS remains.",
+    "missing_required_negative": "No isolated overlong/overframed logical-name ordering control; repair required above.",
+    "test_bootstrap": "New D/G wholepins match currentauthor bytes; fixedpackage -I discover can import test_guard via test_derive with one shared namespace/cache. Explicit siblingfixtures env required. Bootstrap files read actual .11baseline; after future adoption tests need explicit independently bound priorview, not replayed capturedprogram or stale live.11assumption."
+  },
+  "budget": {
+    "new_source": 280,
+    "production_including_docs_amendment": 310,
+    "new_tests": 258,
+    "active_lane": 136,
+    "authored": 704,
+    "root_reserved": [
+      60,
+      100
+    ],
+    "inclusive_reserved": [
+      370,
+      804
+    ],
+    "hard": [
+      400,
+      900
+    ],
+    "remaining_after_reserve": [
+      30,
+      96
+    ],
+    "classification": "All8new additions count; active lane136counts authored, docs/amendment30count both; unchanged qualified providers0newAD. Necessary repair and anyrootCI/capture/fixtures/docs/publication code count normally, not waived."
+  },
+  "execution_recommendation": {
+    "current": "HOLD source admission until narrow name/framing preflight repair and meaningful ordering regression are independently reviewed against a distinct final freeze. No subject runtime/spec/GET authorized by reviewer.",
+    "after_repair": "Root may separately freeze exact8source/fixture files, all60+4actual baseline roles, all6transitiveprovider sources, runner/tool/spec/clean ownership closure; admit17+newrepair namedcases serially in normal and optimized Python under explicit canonical siblingfixture env. Retain old.11D/G/C/controller/loader suites unchanged. Independently inspect actual unsigned artifacts/restoration/negative logs/beforeafterpins/cleanup before any publication.",
+    "future_adoption": "Actualfuture.12loader/compatibility/currentprogramsource reconciliation and losslessprior-register/quota constructor remain NOT_IMPLEMENTED here. A future atomicadoption must bind actualnewgenerator/schema/controllers and independently reconstructed fixedoldsourceview, preserve all797fullmetadata/55history/342progress/allholds, and run actualdefaultphysical.12 positives; newpure helperPASS cannot authorize adoption or M06a2productsource."
+  },
+  "preservation": "Alllive.11normative/controller/plan/locks/execution/sourceholds and B45candidateepochs remain unchanged. No tests,subjectimports,AST,compiler,network,Git or source edits by reviewer. No native/application/UI/storage acceptance."
+}

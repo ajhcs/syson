@@ -1,0 +1,18 @@
+# Inactive identity integration partition preparation
+
+The live completion contract remains 1.0.11; this packet adopts no new plan or product behavior.
+The fixed proposal adds M06a2a functional integration and mandatory dependent M06a2b measurement.
+Every original 797 unit, all 55 historical records and all 342 prior progress obligations remain.
+The repaired input preflight rejects oversized logical-name framing before provider/serializer work.
+All 19 tests pass in normal and optimized Python: 38 named executions with no skipped cases.
+Two actual unsigned captures are byte-identical, retaining all five complete generated artifacts.
+Independent reconstruction verifies 799 proposed units, 1,598 typed nodes and 270 source waves.
+All 99 execution inputs remain unchanged; source captures and the initial source HOLD are preserved.
+The combined logical input/framing/proposal size is 21,411,766 bytes, not a Python heap measurement.
+CI retains every old command and additionally runs the full new suite in both Python modes.
+From the plan directory, run `export SYSON_IDENTITY_PARTITION_FIXTURES="$PWD/composition/identity_partition_prepare/fixtures"` before testing.
+Run `python3 -I -B -m unittest discover -s composition/identity_partition_prepare -v`; repeat using `python3 -I -O -B`.
+The fixed .11 test view needs a verified historical reader when a later contract is adopted.
+Captured `.raw` programs stay passive; execution uses only whole-pinned actual source files.
+The new guard remains PENDING; actual normative/snapshot construction and coordinator adoption are separate gates.
+M06a2 functional and measurement execution, native/UI/storage/backend-restart and full SysON parity remain open.

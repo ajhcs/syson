@@ -1,0 +1,34 @@
+from pathlib import Path
+import hashlib
+import json
+import sys
+import types
+
+root = Path('/workspace/worktrees/builderbob/syson/batch49-identity-partition-prepare-20261031/porting/rust-parity-plan-20261026')
+source = root / 'composition/identity_partition_prepare/derive.py'
+if source.resolve() != source or source.is_symlink() or source.stat().st_size > 65536:
+    raise ValueError('canonical bounded actual derive source required')
+with source.open('rb') as stream:
+    raw = stream.read(65537)
+if hashlib.sha256(raw).hexdigest() != '4bfa0cf3080e341efc342fbda38ac674ee106e99ff0d123f98f63861442fe1b4':
+    raise ValueError('whole actual derive source changed')
+D = types.ModuleType('_qualified_identity_partition_capture')
+D.__file__ = str(source)
+exec(compile(raw, str(source), 'exec'), D.__dict__)
+D.require(len(sys.argv) == 2, 'one fixed output argument required')
+lock = json.loads((root / 'completion-contract.lock.json').read_bytes())
+files = {name: (root / name).read_bytes() for name in sorted(set(lock['sha256']) | D.EXTRA)}
+fixture = source.parent / 'fixtures'
+proposal = D.derive(files, (fixture / 'lane.json').read_bytes(),
+                    (fixture / 'amendment.md').read_bytes(), files['tools/build_plan.py'])
+encoded = D.provider()[2].encode(proposal)
+out = Path(sys.argv[1])
+D.require(out.parent == Path('/workspace/build/builderbob/syson-durable-batch49-20261031')
+          and out.name in ['candidate-normal-01.json', 'candidate-optimized-01.json']
+          and out.parent.resolve() == out.parent and not out.exists() and not out.is_symlink(),
+          'fresh fixed candidate capture required')
+with out.open('xb') as stream:
+    stream.write(encoded)
+print(json.dumps({'bytes': len(encoded), 'sha256': hashlib.sha256(encoded).hexdigest(),
+                  'units': proposal['artifacts']['expected-plan.json']['unit_count'],
+                  'policy_sha256': D.digest(proposal['artifacts']['policy.json'])}))
