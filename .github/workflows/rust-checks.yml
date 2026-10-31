@@ -35,8 +35,10 @@ jobs:
           - syson-text-import
           - syson-migrations
           - syson-domain
+          - syson-workflow
     env:
       CARGO_TERM_COLOR: always
+      SYSON_TEST_DIR: /workspace/syson-snapshots
       MANIFEST: rust/crates/${{ matrix.crate }}/Cargo.toml
     defaults:
       run:
@@ -55,6 +57,11 @@ jobs:
           rustup toolchain install 1.99.1 --profile minimal --component rustfmt --component clippy --no-self-update
           rustc +1.99.1 -Vv
           cargo +1.99.1 -V
+
+      - name: Prepare the owned snapshot test directory
+        if: matrix.crate == 'syson-workflow'
+        run: |
+          sudo install -d -m 0700 -o "$(id -u)" -g "$(id -g)" /workspace/syson-snapshots
 
       # No shared cache: each job can obtain its locked dependencies publicly.
       - name: Check formatting
