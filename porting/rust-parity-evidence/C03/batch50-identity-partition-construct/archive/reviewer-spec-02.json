@@ -1,0 +1,248 @@
+{
+  "schema": "B50_CONSTRUCTOR_CHECKS_SPEC_INDEPENDENT_REVIEW/2",
+  "status": "PASS_EXACT_SPEC02_TRUSTED_HOST_BASELINE_ONLY_ROOT_ADMISSION_STILL_REQUIRED",
+  "reviewed_at_UTC": "2026-10-31T13:11:57.240392+00:00",
+  "scope": "Independent read-only spec/current whole-file hash, source text/data, inventory, command and custody review. No subject imports, tests, scope/runner launch, compiler/formatter, network, Git, source/config modifications or execution admission.",
+  "spec": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/checks-02-spec.json",
+    "bytes": 1585639,
+    "sha256": "aed34d26552e773732f84e8ff2ca11b40363956db838626bdf01466de35ab5c3"
+  },
+  "source_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/source-freeze-04.json",
+    "bytes": 1577232,
+    "sha256": "b445512764bbae5246f62e315415ececde89e4e92ac21b5532726f2631a80f3c"
+  },
+  "source03_PASS": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/reviewer-source-03.json",
+    "bytes": 22777,
+    "sha256": "610f5bb5f2c0bb579087b49a28d15169de9ffdef8a91410893baebfae1605023"
+  },
+  "author03": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/author-source-review-03.json",
+    "bytes": 14950,
+    "sha256": "fc009e87a68fe26e9d745f00e1b59ae7e378fd7a0c4f2253323985ba7a5e5123"
+  },
+  "prior_spec_HOLD": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/reviewer-spec-01.json",
+    "bytes": 9875,
+    "sha256": "2bb48d01ac862220d1fa83810f57fd0156a1d56d8193fe75c3a77e8d7943bac6"
+  },
+  "input_verification": {
+    "inputs": 10157,
+    "bytes_hashed": 206310779,
+    "all_declared_current_hashes_equal_spec": true,
+    "source_freeze_table_identical": true,
+    "all_old1470_pins_retained": true,
+    "all_old1457_baseline_pins_retained": true,
+    "all1206_old_snapshot_physical_roles_present": true,
+    "inventory_binding": "Exact complete path\u2192wholeSHA256 inventory is inputs in the bound1,585,639-byte spec, identically retained in source-freeze04. Every declared current body was hashed; no source was imported to verify it.",
+    "new_passive_retention": "Old unexecuted spec01/source-freeze03/reviewer-spec01 HOLD are the only three additions outside the expanded host-baseline roots. They remain passive records, not executed modules."
+  },
+  "system_baseline": {
+    "disposition": "SPEC-F1 addressed for actual required package/startup closure. The source inventory is an explicit trusted-host baseline, not a hermetic OS image or an assertion every available package executes.",
+    "roots": [
+      "/usr/lib/python3.12",
+      "/usr/lib/python3/dist-packages",
+      "/usr/local/lib/python3.12/dist-packages"
+    ],
+    "regular_nonsymlink_selected_files": 8912,
+    "extensions_regular_nonsymlink": {
+      ".py": 4421,
+      ".so": 67,
+      ".pyc": 4422,
+      ".pth": 2
+    },
+    "method": "Independently enumerated the three declared roots for existing regular nonsymlink .py/.pyc/.so/.pth files; all8,912 selected current bodies are pinned. This agrees with roots actual rg --files enumeration. -B suppresses writes, does not prevent reading valid caches; .pyc bodies are included. No subject-area .pyc files currently exist in the plan or ownership/F25 helper trees.",
+    "known_required_system_aliases": [
+      {
+        "pin": {
+          "path": "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py",
+          "bytes": 49505,
+          "sha256": "ee5bb5493fa4575f7788e1b0e8a067b9c463f9705dcb36f5eb571d1c0812ea82"
+        },
+        "resolved": "/usr/lib/python3.12/_sysconfigdata__x86_64-linux-gnu.py"
+      },
+      {
+        "pin": {
+          "path": "/usr/lib/python3.12/sitecustomize.py",
+          "bytes": 155,
+          "sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+        },
+        "resolved": "/etc/python3.12/sitecustomize.py"
+      }
+    ],
+    "SDK_alias_boundary": {
+      "path": "/usr/lib/python3.12/config-3.12-x86_64-linux-gnu/libpython3.12.so",
+      "resolved": "/usr/lib/x86_64-linux-gnu/libpython3.12.so.1.0",
+      "pinned": false,
+      "meaning": "The observed config SDK libpython link is not one of the8,912 regular nonsymlink files and is outside ordinary imported module layout. This report does not claim it executes or that every possible SDK/symlink/OS-library name is pinned. Root explicitly accepted this precise trusted-host boundary; no needed json/re/collections/asyncio/startup package source remains missing."
+    },
+    "observed_startup_sys_path": [
+      "/usr/lib/python312.zip",
+      "/usr/lib/python3.12",
+      "/usr/lib/python3.12/lib-dynload",
+      "/usr/local/lib/python3.12/dist-packages",
+      "/usr/lib/python3/dist-packages"
+    ],
+    "sys_path_observation_claim": "Root reported trusted interpreter-only -I -B startup observation, not subject import execution. Reviewer checked the declared roots and startup source/.pth content as data; did not repeat interpreter startup observation or trace loaded modules.",
+    "optional_python312_zip_absent": true,
+    "pth_review": "Both actual .pth files are pinned: zope.interface namespace registration uses the existing pinned system sitedir/zope path; distutils-precedence imports pinned _distutils_hack. No extra external import directory or credential value appears in their source. System sitecustomize and available apport_python_hook plus nested stdlib/json/re/collections/asyncio/importlib packages are now included.",
+    "remaining_platform_boundary": "Other native system libraries/OS components remain the admitted installed host baseline. This is not a new package installation, remote authenticity proof, immutable OS image, zero-network syscall sandbox or full loaded-module trace."
+  },
+  "commands": [
+    {
+      "name": "prior19-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare",
+        "-p",
+        "test_[dg]*.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "prior19-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare",
+        "-p",
+        "test_[dg]*.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "construct24-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare",
+        "-p",
+        "test_construct.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "construct24-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare",
+        "-p",
+        "test_construct.py",
+        "-v"
+      ]
+    }
+  ],
+  "named_test_proof": {
+    "source_method_ids_exactly_equal_spec": true,
+    "counts": {
+      "test_derive.py": 11,
+      "test_guard.py": 8,
+      "test_construct.py": 24
+    },
+    "per_mode": 43,
+    "normal_optimized_total": 86,
+    "all_original_cases_retained": true,
+    "source_ids": "Full module.class.method names independently text-extracted from actual frozen source equal all expectations exactly. Literal test_[dg]*.py matches derive+guard; test_construct.py selects every constructor case. No stale model selection/capture command or skipped-case waiver.",
+    "F25_Rust_regex_limit": "passed:0 from F25 Rust stdout regex is not Python unit proof. Independent executed review must match every expected verbose name/OK/summary with zero skips, all four exact argv and exits; no expected_tests Rust count is used."
+  },
+  "unchanged_runtime_design": {
+    "launcher": {
+      "path": "/workspace/build/builderbob/syson-durable-batch32-20261030/run_scope.py",
+      "bytes": 1164,
+      "sha256": "5931e57dbdf2d9db5ba8df6ba0c81a9f2f7ae4ff8554889fcd4ac19266ee3195"
+    },
+    "F25": {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-evidence/F25/main-batch31/qualify.py",
+      "bytes": 1991,
+      "sha256": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9"
+    },
+    "scope_owner": {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py",
+      "bytes": 4356,
+      "sha256": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d"
+    },
+    "resource_profile": {
+      "actual_runner": "/workspace/build/builderbob/syson-durable-batch32-20261030/run_scope.py",
+      "CPUQuota": "200%",
+      "MemoryHigh": "2G",
+      "MemoryMax": "3G",
+      "MemorySwapMax": 0,
+      "TasksMax": 128,
+      "per_command_seconds": 180,
+      "nonblocking_global_compiler_lock": true,
+      "headroom_min_available_GiB": 10,
+      "headroom_min_free_workspace_GiB": 30,
+      "claimed_heap_or_RSS_peak": false
+    },
+    "source_review": "All three helpers match the exact source read in spec01 review; no new helper/runtime branch. Actual systemd-run source sets200% CPU/2Ghigh/3Gmax/swap0/tasks128; F25 uses180s per command and nonblocking global compiler flock. No numeric property has yet been observed live for this fresh unit.",
+    "unit": "syson-b50-construct-760541cd21b34fe292754fa4bf0a7974.scope",
+    "cookie": "760541cd21b34fe292754fa4bf0a7974",
+    "cleanup": "Invocation/cookie/unit/cgroup/starttick attestation precedes work; cleanup must preserve unknown/reused scopes and only act on proven ownership, then confirm empty/absent. Fresh root numeric-property/headroom/admission gate remains separate.",
+    "snapshot_guard": "F25 emits before/after whole input tables and refuses drift. It does not compare before to spec itself; root must freshly require before=spec, and executed review before=after=spec=current. A PASS runner label alone is insufficient."
+  },
+  "custody": {
+    "cwd": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026",
+    "parent_main": "6fd2ad931673ffd1e47325ae292520a54902f432",
+    "prerequisites": "Pinned actual B49 merged-main hosted qualification/merge-tree readback PASS and root W50 reconciliation remain unchanged from spec01; no new Git or remote observation performed. All8 B49/providers and source03 frozen bytes are still included. Holds and human reservations remain in force.",
+    "output": "/workspace/build/builderbob/syson-durable-batch50-20261031/checks-02",
+    "output_absent": true,
+    "tmp": "/workspace/build/builderbob/syson-durable-batch50-20261031/command-tmp-02",
+    "testroot": "/workspace/build/builderbob/syson-durable-batch50-20261031/test-files-02",
+    "both_directories": "Canonical existing empty uid1000 mode0700 on the same Samsung/workspace device66308. Fresh02 paths/unit/cookie differ from unexecuted01. No root-disk fallback or HOME working-data write is authorized.",
+    "environment": {
+      "HOME": "/home/builderbob",
+      "PATH": "/usr/bin:/bin",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "PYTHONNOUSERSITE": "1",
+      "TMPDIR": "/workspace/build/builderbob/syson-durable-batch50-20261031/command-tmp-02",
+      "XDG_RUNTIME_DIR": "/run/user/1000",
+      "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+      "SYSON_BOOTSTRAP_TEST_ROOT": "/workspace/build/builderbob/syson-durable-batch50-20261031/test-files-02",
+      "SYSON_IDENTITY_PARTITION_FIXTURES": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/fixtures"
+    },
+    "environment_delta": "Only01\u219202 TMPDIR/bootstrap-testroot paths changed. Existing HOME, clean PATH/locale/user-site control/XDG bus and exact fixture root remain. No runtime credential or network URL supplied."
+  },
+  "source_and_goal_boundaries": {
+    "source_AD": [
+      395,
+      858
+    ],
+    "hard_caps": [
+      400,
+      900
+    ],
+    "new_helper": false,
+    "source_count": "Actual353C+463tests+12CONSTRUCT+18CI A+D+10publicREADME+2attrs; only5production42authored headroom. Expanded host pins are baseline data, not newly authored code. No hidden helper/active fixture discount.",
+    "inactive_defaults": "Catalogue and policy remain PENDING. Unit tests scope synthetic seals/staged physical799 fixtures and unexecuted loader role; no actual catalogue, .12 loader/controller/generator/default physical snapshot or adoption command is present.",
+    "goal": "This qualifies a source constructor prerequisite only. Real catalogue/current-source reconciliation/generator/atomic adoption and M06a2 functional+mandatory measurement work remain required; native/library/SQL/HTTP/UI/backend restart/fullSysON acceptance remains OPEN."
+  },
+  "findings": [],
+  "decision": "PASS this exact revised spec02 for root to perform a fresh headroom/effective live-controls/current-pin and owned-scope admission. Reviewer did not authorize or perform execution. If any input, directory state, argv/env, host-baseline assumption or source count changes, preserve epochs and obtain the relevant fresh gate before launch."
+}

@@ -1,0 +1,130 @@
+{
+  "schema": "B50_CONSTRUCTOR_CHECKS_SPEC_INDEPENDENT_REVIEW/1",
+  "status": "HOLD_SYSTEM_PYTHON_TRANSITIVE_SOURCE_BASELINE_INCOMPLETE_NO_RUNTIME",
+  "reviewed_at_UTC": "2026-10-31T13:07:43.983894+00:00",
+  "scope": "Read-only exact specification, source, data, hash and custody review. No subject imports, tests, runner/scope commands, Git, network, source modifications or runtime admission.",
+  "spec": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/checks-01-spec.json",
+    "bytes": 313045,
+    "sha256": "cd22217600efe74a95ddc3fdf772d47ed3b67be80b354a7c8bbb747b9a89bd0d"
+  },
+  "source_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/source-freeze-03.json",
+    "bytes": 305573,
+    "sha256": "4d4468a1f4bc90898414b3686ff1faebf103b23a9d04ff3d06754ac8f2eef1dc"
+  },
+  "source_PASS": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/reviewer-source-03.json",
+    "bytes": 22777,
+    "sha256": "610f5bb5f2c0bb579087b49a28d15169de9ffdef8a91410893baebfae1605023"
+  },
+  "author_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/author-source-review-03.json",
+    "bytes": 14950,
+    "sha256": "fc009e87a68fe26e9d745f00e1b59ae7e378fd7a0c4f2253323985ba7a5e5123"
+  },
+  "inventory_checks": {
+    "declared_inputs": 1470,
+    "all_current_hashes_match": true,
+    "source_freeze_inputs_equal_spec": true,
+    "baseline1457_retained": true,
+    "all1206_previous_snapshot_physical_roles_present": true,
+    "complete_inventory_authority": "The exact path\u2192wholeSHA256 table is inputs in the bound313045-byte spec and is identically retained in source-freeze03. Every current file body was independently hashed. No file was imported for this check.",
+    "controlled_system_symlinks": "Declared system python3/sysconfigdata/sitecustomize/libz symlinks were observed and hashed through their installed targets; subject worktree sources stay canonical nonsymlink files. The next spec must explicitly bind the trusted interpreter/platform source baseline and applicable startup sources."
+  },
+  "findings": [
+    {
+      "id": "SPEC-F1",
+      "severity": "BLOCKING_SPEC_SOURCE_CLOSURE",
+      "title": "Pinned top-level stdlib/native/unittest does not cover definitely used package and startup source",
+      "missing_actual_examples": [
+        {
+          "path": "/usr/lib/python3.12/json/scanner.py",
+          "bytes": 2425,
+          "sha256": "8604d9d03786d0d509abb49e9f069337278ea988c244069ae8ca2c89acc2cb08"
+        },
+        {
+          "path": "/usr/lib/python3.12/re/__init__.py",
+          "bytes": 16315,
+          "sha256": "8ff3c37c63b917fcf8dc8d50993a502292a3dc159e41de4f4018c72a53d1c07b"
+        },
+        {
+          "path": "/usr/lib/python3.12/re/_parser.py",
+          "bytes": 41201,
+          "sha256": "a51a85b37cf3f44ba7ff25754da5f31306e4ccfa6eb3c017f9d37bdf4e770840"
+        },
+        {
+          "path": "/usr/lib/python3.12/collections/__init__.py",
+          "bytes": 52378,
+          "sha256": "0af967cd58036507b3d0fbc33b7a996c61dbb52a94b0b738c8bef12cd4cc7dd4"
+        },
+        {
+          "path": "/usr/lib/python3.12/asyncio/__init__.py",
+          "bytes": 1220,
+          "sha256": "61102f2b5f8fb832f0558cb66391f227970b3dd34ea2a621455587b4295e89a1"
+        },
+        {
+          "path": "/usr/lib/python3/dist-packages/apport_python_hook.py",
+          "bytes": 8695,
+          "sha256": "2aac4de740babcc6038483cccc7fa71f7f06405da9b9d102aafe8ac55f509c4b"
+        }
+      ],
+      "reason": "json.scanner, re package/parser and collections package sources are real files outside the current inputs table while the runner/ownership helper/constructors/tests import json/re/collections. unittest.mock imports asyncio. The pinned /usr/lib/python3.12/sitecustomize.py source imports available apport_python_hook at normal system startup; that source is also absent. Interpreter wholeSHA and top-level package hashes do not bind these separate source bodies.",
+      "proof_method": "Static source and installed-file inspection only; no subject imports or test execution were used to identify omissions. This is a concrete gap in the claimed complete readset, not a claim that all recursively available system packages will execute.",
+      "required_disposition": "Retain exact spec01/freeze03 and this HOLD. Root should issue a distinct spec02/freeze with the actual applicable recursive stdlib/package/native/.pth/sitecustomize/apport trusted-system baseline (or an equally explicit reviewed system trust boundary). Use fresh nonce/output/tmp/test roots, preserve all four commands/86names and source pins. Do not silently call top-level-only pins a complete transitive source closure. No source code or quota increase is required."
+    }
+  ],
+  "other_spec_checks": {
+    "argv": "Exactly four direct /usr/bin/python3 unittest discover commands in the actual W50 plan root: prior19 normal/O with literal test_[dg]*.py; constructor24 normal/O with test_construct.py. All use-I/-B and optimized adds-O. No shell string, helper/test-only oracle capture, catalogue install, GET, acquired archive program or plan adoption command occurs.",
+    "expected_names": {
+      "test_derive.py": 11,
+      "test_guard.py": 8,
+      "test_construct.py": 24
+    },
+    "expected_per_mode": 43,
+    "expected_two_modes": 86,
+    "name_check": "Every declared full module.class.method ID equals independently text-extracted actual source method/class identities, in source order. No dropped or substituted original case. Future execution review must match exact raw names, counts, no skips and OK in each stream.",
+    "F25_passed_field": "Pinned F25 helper uses a Rust stdout regex, so Python passed:0 is expected and is not unit-test proof. This spec omits expected_tests Rust counter checks. Actual86 names and successful unittest stderr summaries remain required.",
+    "source_and_budget": "Current353constructor/463tests/12doc plus reviewedCI18/public10/attrs2 exactly395production858authored. All new source/notes/provider pins bind source03 PASS; no new capturehelper or activefixture exemption. Runtime and actual production-root adoption are separate.",
+    "prerequisites": "Pinned B49 hosted-main-qualification and merge-main-qualified-readback record PASS at actual6fd2ad931673ffd1e47325ae292520a54902f432. Root main-reconciliation record binds W50 FF and unchanged prior8/provider bytes; no independent Git or remote observation occurred in this task. Prior sourceHOLDs and root reservations remain preserved.",
+    "fresh_dirs": "Actual canonical Samsung command-tmp01 and test-files01 exist, empty, owneduid1000 mode0700; outchecks01 absent. Fresh paths are never created on root disk. Existing HOME remains /home/builderbob; no HOME writes authorized.",
+    "environment": "Explicit clean HOME/PATH /usr/bin:/bin/LANG+LC_ALL/PYTHONNOUSERSITE/TMPDIR/XDG bus and exact source fixture/testroot env only. No GITHUB_ACTIONS branch locally; test staging uses the declared canonical Samsung bootstrap root. No credential variables or network endpoint are supplied.",
+    "scope_and_resources": "Read complete unchanged10-line run_scope launcher, F25 qualify and nonce ownership helper as text. Actual pinned systemd-run command sets200% CPU,2G high,3G maximum,swap0,tasks128. F25 uses nonblocking global compiler flock and180seconds per command, actual cwd/env and before/after whole input snapshots. Ownership attests nonce+invocation+cgroup/start ticks and cleanup only acts after ownership proof; absent or empty scope must be confirmed.",
+    "limits": "Live effective cgroup properties, available RAM/workspace headroom, fresh scope state, actual before=spec=after=current and terminal cleanup have not been observed. Root fresh gate/admission remains required. F25 compares before/after but does not itself compare before to supplied spec hashes, so root prelaunch exact-pin gate and independent executed review are mandatory. Source quotas are logical accounting, not Python heap/RSS or product latency claims."
+  },
+  "runtime_helpers": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch32-20261030/run_scope.py",
+      "bytes": 1164,
+      "sha256": "5931e57dbdf2d9db5ba8df6ba0c81a9f2f7ae4ff8554889fcd4ac19266ee3195"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py",
+      "bytes": 4356,
+      "sha256": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-evidence/F25/main-batch31/qualify.py",
+      "bytes": 1991,
+      "sha256": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9"
+    }
+  ],
+  "prerequisite_records": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/hosted-main-qualification.json",
+      "bytes": 14976,
+      "sha256": "f842855c627ccd510da43a80c53b8c2453b2dd2cff95f7207d2211c9d35b7f4a"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch49-20261031/merge-main-qualified-readback.json",
+      "bytes": 736,
+      "sha256": "299b8951957f3c90f498b9c2f241053b5f0e7fe09e7431d2433a4ca555b14c16"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/main-reconciliation-01.json",
+      "bytes": 507,
+      "sha256": "e9d085342979f9f9a7b69192e685670ae5724b69307ec1abb132084f9daa3417"
+    }
+  ],
+  "decision": "HOLD exactspec01 before any runtime. Source03 PASS is unchanged. Once root freezes revised complete trusted-system input baseline/spec02, conduct a new independent spec review and fresh root admission. No actual .12 catalogue/generator/adoption/native/UI acceptance is granted."
+}

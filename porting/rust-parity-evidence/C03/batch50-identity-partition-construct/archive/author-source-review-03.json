@@ -1,0 +1,115 @@
+{
+  "schema": "B50_INACTIVE_CONSTRUCTOR_AUTHOR_SOURCE_REVIEW/3",
+  "status": "SOURCE_ONLY_F3_REPAIR_FROZEN_PENDING_INDEPENDENT_REVIEW_NO_RUNTIME",
+  "scope": "Only construct.py and test_construct.py changed under explicit fix lease02. No subject imports, execution, Python invocation, tests, compiler, formatter, Git, network, catalogue, actual adoption or acceptance. CONSTRUCT.md, all eight landed B49 source/fixture files and current CI are unchanged by author. Root independently condensed public notes from18 to10 ordinary prose lines without changing their boundaries; author read/hash only.",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031",
+  "prefix": "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/",
+  "lease": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/fix-lease-02.json",
+    "sha256": "8b675419794e33d31135592c8ace09608aa579131575bbc763f83c022e26b690"
+  },
+  "frozen_predecessors": {
+    "review02": {"path": "reviewer-source-02.json", "sha256": "704a70c5f8b64b1b6ba4278f3a003a799bbb71cfb52159a7607b67ff8e55cf4f"},
+    "author02": {"path": "author-source-review-02.json", "sha256": "33326a03efeb807f35a89dc786e81dc304789e237aa2f1ebe9374a6c5cc04bbb"},
+    "author02_reconciliation": {"path": "author-source-review-02-reconciliation.json", "sha256": "8ba8a070876c54a3fab518218bcb699025d431052f7810f5f123ee5ce0f20c3a"},
+    "complete_candidate02": "/workspace/build/builderbob/syson-durable-batch50-20261031/candidate-02-unexecuted-source-hold",
+    "original_candidate01": "/workspace/build/builderbob/syson-durable-batch50-20261031/candidate-01-unexecuted-source-hold",
+    "preservation": "Both original source epochs, findings and reports remain immutable; this repair does not turn their unexecuted HOLD status into PASS. Original349/390/doc12 and CI/public18+2 were retained by root before lease02."
+  },
+  "source": [
+    {"name": "construct.py", "bytes": 19929, "ordinary_lines": 353, "sha256": "70af050239c33bce9e994684da5d8a055cdcbf0cc31c558170cd2978708bc0ab", "prior_lines": 349, "delta": 4},
+    {"name": "test_construct.py", "bytes": 25972, "ordinary_lines": 463, "sha256": "5d9a1fbb809853f192ce18e819b620320398ce2e1ebb51c65ad3e0b4bc3db39f", "prior_lines": 390, "delta": 73},
+    {"name": "CONSTRUCT.md", "bytes": 1461, "ordinary_lines": 12, "sha256": "fbd1f964506d7243abb10141f82f9e95555b04ed2022faff2d29917b5a20388e", "unchanged": true}
+  ],
+  "F3_disposition": {
+    "finding": "The replaceable public encoded container previously supplied unchecked hash inputs and later an independent items() output iterator; a hostile subclass could supply escaped write paths and oversized bodies were hashed before admission.",
+    "private_names": "Issuance now adds tuple(encoded) to the existing closure-private identity registration. Its at-most-three immutable string names originate only in the internal fixed contract_lock/snapshot packet path. Emit unpacks that captured tuple; public artifact or encoded keys never choose the output authority.",
+    "container_preflight": "Before iterating encoded, require exact builtin dict and len(encoded)==len(private_names). Then iterate only that exact dict to require exact builtin str keys and membership in the private fixed names. Exact dict uniqueness plus equal count plus membership establishes exact keys without copying an untrusted mapping or serializing keys. No subclass __iter__, __getitem__, items or values can be invoked.",
+    "body_preflight": "Before fingerprint, SHA, copying or output, index only private names and require exact bytes or bytearray values with len<=BOUNDS[name]. Then require private used+reserve<=D.LIMIT and sum of those exact bodies<=private reserve-256KiB. Dict count is at most three, all key comparisons are against fixed strings, and per-body length checks precede the aggregate sum. Arbitrary body subclasses, objects, giant raw bodies and wrong keys cannot reach hashing.",
+    "immutable_snapshot": "After all bounds pass, outputs=tuple((name,bytes(encoded[name])) for name in private_names). Exact str and bytes entries are immutable, bounded and detached from mutable bytearray bodies. Both digest verification and final writes iterate this same private local tuple. There is no public encoded iteration or items() authority during writing. A public container replacement or mutable-body mutation after validation cannot add paths or change emitted bytes.",
+    "ordering": "Existing qualified S.bound still precedes all body canonicalization. The proposal body fingerprint comparison now follows encoded preflight and bounded immutable snapshot creation, so isolated output-bound tests can make every fingerprint/SHA call a sentinel. Live byte equality still checks each immutable snapshot entry against the corresponding sealed artifact or manifest fingerprint before private physical source rereads or mkdir.",
+    "unchanged_F1_F2": "Pending-first refusal, exact registered weak identity, max8 registry, captured pins/used/reserve/catalogue/policy/ROOT/outputRoot/bodyseal, strict diagnostic comparison, real current-object S.bound before public contract digest/baseline, source freshness rereads and fresh owned Samsung output checks remain intact. This is API/data mutation enforcement, not a Python sandbox against arbitrary same-process private closure introspection or monkeypatches.",
+    "no_new_helpers": "The repair adds no helper, dependency, policy, fixture file, capture producer or exception. The four production lines are ordinary readable source growth; no original executable line, case or requirement was removed to fit the cap."
+  },
+  "new_controls": [
+    {
+      "name": "test_hostile_encoded_container_refuses_before_iteration_hash_or_output",
+      "control": "A dict subclass raises if iterated and raises on its escaped-path items view. Exact-type refusal must occur first. Original actual provider tuple is acquired before patching provider to return that real tuple, isolating the tested emission ordering from unrelated whole-provider source hashing. D.sha, C.fingerprint, C.physical and Path.mkdir are failure sentinels; expected refusal is fixed encoded container."
+    },
+    {
+      "name": "test_encoded_keys_and_exact_body_types_refuse_before_hash",
+      "control": "Preserve a genuine issued proposal and replace only public encoded with an extra-key exact dict, same-count ../escape replacement, exact-value dict with str-subclass keys, or exact keys with bytearray-subclass bodies. Expect the respective count/key/body refusal before SHA, fingerprint or mkdir. These controls exercise per-key exactness and body exactness separately from top-level subclass refusal."
+    },
+    {
+      "name": "test_encoded_per_file_and_private_aggregate_bounds_precede_hash",
+      "control": "An explicitly labelled tiny ordering fixture patches only BOUNDS to4+4 and compact to one-byte output during issuance, thereby capturing a genuine private eight-byte output allowance without giant allocation. It is not actual producer/adoption evidence. Afterwards exact encoded bodies are five and four bytes. With per-file ceilings4 it must fail per-file admission; with ceilings8 the same nine total bytes pass per-file admission and must fail the original private eight-byte allowance. Real S.bound and private registry run; real provider tuple is obtained before its isolated mock. SHA, fingerprint, physical read and mkdir all remain sentinels. The initial one-byte encoder fixture cannot explain the expected aggregate refusal, which occurs strictly before content equality."
+    },
+    {
+      "name": "test_output_uses_immutable_snapshot_after_public_encoded_replacement",
+      "control": "Use a genuine physical-root contract proposal and preserve exact expected encoded bytes. On the first real physical freshness read after output snapshot/hash validation, mutate the original bytearray bodies and replace public encoded with a subclass whose items() supplies a changed manifest and ../escape path. Continue the original physical reader. Emission must succeed with exactly the original fixed names and bytes, and no sibling escape file. This positive control proves the write phase uses the already-validated immutable local snapshot."
+    }
+  ],
+  "preservation": {
+    "constructor_test_count": 24,
+    "prior_constructor_count": 20,
+    "old_B49_count": 19,
+    "total_named_cases": 43,
+    "original20_exact_prefix": "A text-only Perl comparison of current test source against candidate02's full390-line source normalized only the old constructor bootstrap SHA to the new whole-source SHA, then verified the complete old source is an exact prefix. All existing helpers, imports, setup and20 method bodies remain byte-identical after that one pin replacement.",
+    "B49_source_pins_freshly_verified": {
+      "derive.py": "4bfa0cf3080e341efc342fbda38ac674ee106e99ff0d123f98f63861442fe1b4",
+      "guard.py": "125b82688181a1e8a89e3b129530761baafeec32d61ea4858e95e7592eed462c",
+      "test_derive.py": "c691b03ac9d0588c91df3317309692e88b1c2c371379fe3d960bdc43d4dabc74",
+      "test_guard.py": "257343d3cb50d825e744c3681ae18ac9e05bea06e4caa7ff5bad4d6d83a8adb0",
+      "README.md": "dff50f6e99c073cea6a3c11020719ad41d1d7449d34385622c88537369926a14",
+      "GUARD.md": "96d6914bdc3ecd393af6782ba52151ffa92952e456ed3607e40ed112b17e0a0c",
+      "fixtures/lane.json": "765ab7a527f3489cb46e97a56a627d151c7a993aff151f0d2c6e3e8c2e7c0464",
+      "fixtures/amendment.md": "85b57839fa9ce620791dcfc98bd9df0c1959c8a3f1a510cbf19ed6d27675fc9d"
+    },
+    "old19_methods": "Text count remains11 derive and8 guard. No source in either file was written. Future actual .12 adoption still needs the coordinator's separately reviewed fixed historical Fixture.setup/loader wiring; no such edit occurs here."
+  },
+  "whole_reused_source": {
+    "claim": "Same complete pinned provider programs as source02. All nine source hashes were freshly read from the reconciled worktree, not executed; source02 retains the complete independent source review. No archived captured program is compiled. Actual canonical old C contributes only qualified generic Reader/charge/canonical/provenance helpers; its version-specific constructors are not delegated.",
+    "pins": {
+      "composition/identity_partition_prepare/derive.py": "4bfa0cf3080e341efc342fbda38ac674ee106e99ff0d123f98f63861442fe1b4",
+      "composition/identity_partition_prepare/guard.py": "125b82688181a1e8a89e3b129530761baafeec32d61ea4858e95e7592eed462c",
+      "composition/registration/prepare.py": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59",
+      "composition/source_next_prepare/construct.py": "89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9",
+      "composition/source_next_prepare/derive.py": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17",
+      "composition/source_next_prepare/guard.py": "c26d1446bddccd6475a6b921f52e2db660b2d0857460434bd9ef45110c4f645b",
+      "composition/storage_split_guard.py": "db18f5d5c63c27d5e6daf5a78a8b358361b4ac66818e285c10c4a64f9de6ac01",
+      "remaining-work/verify_snapshot.py": "65c949f70c040952969d5d525aec1636b6b0e176b0324957309bac8dde537072",
+      "tools/preparation_splits.py": "7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3"
+    }
+  },
+  "root_support_observed_not_authored": {
+    "CI": {"path": ".github/workflows/plan-source-preparation-checks.yml", "sha256": "246c30d8e8b284402c4fa9f132f93f874a94b213846c35fae041d0ace1545b77", "A_plus_D": 18},
+    "public_README": {"path": "/workspace/build/builderbob/syson-durable-batch50-20261031/public-README.md", "ordinary_lines": 10, "sha256": "bb6045ed0a0ea63697c77a5d3e2baefa2d3a8687224647a47b79ed30611a8f94"},
+    "public_attributes": {"path": "/workspace/build/builderbob/syson-durable-batch50-20261031/public-gitattributes", "ordinary_lines": 2, "sha256": "8aae298053aeb84a7442294dabc42e90d46c7f16a6542442a4e34919fc299109"},
+    "notes": "Author did not edit root publication or CI. All boundaries remain in unchanged12-line CONSTRUCT.md and full retained reports; no test or production case was shortened. Prior18-line public draft remains in candidate02. No new capture helper exists."
+  },
+  "budget": {
+    "constructor_production": 353,
+    "constructor_tests_authored": 463,
+    "CONSTRUCT_production_and_authored": 12,
+    "author_production": 365,
+    "author_authored": 828,
+    "root_CI_A_plus_D": 18,
+    "root_publication_including_attributes": 12,
+    "whole_production": 395,
+    "whole_authored": 858,
+    "hard_caps": [400, 900],
+    "remaining": [5, 42],
+    "basis": "Count every normal physical line including blanks in the three new files, all actual root CI additions plus deletions, ten publication prose lines and two attribute lines. Existing unchanged landed whole-provider reuse has zero new A+D. Retained private HOLD/report bytes are evidence, not hidden executable/active fixture exemptions. No active fixture additions, quota increase, source minification or case cuts. Any later helper, executable CI/source edit or active fixture must be newly counted before execution."
+  },
+  "invariants_and_unimplemented_gates": {
+    "same_APIs": ["contract_only(contract,old,lane,amendment,generator)", "contract_lock()", "snapshot(snapshot_id,base_main)", "emit_fresh(output,proposal)"],
+    "same_readsets": "Actual fixed66 historical roles, eleven gzip byte captures, full old64 view, old797/all55history/all342progress, actual72-role normative composition and current799 plan obligations remain unchanged. Contract facade still breaks normlock/generator/full-plan circularity; real current snapshot still needs actual plan and full G.checked. Physical1233+N/final1234+N, N<=64 compact proof roles, same phase bounds and64MiB logical input/output accounting remain unchanged. Immutable byte snapshot is bounded output data and does not claim64MiB Python heap/RSS.",
+    "PENDING": "CATALOGUE_SHA256 and policy remain PENDING by default. No actual eleven gzip catalogue is installed and no unchecked hash/capture is accepted. Large B49 raw captures remain separately Git-bound, not silently loaded into the compact proof-role bulk cache.",
+    "remaining": [
+      "Independent complete source03 review and actual whole-scope ordinary-line admission before execution",
+      "Root-owned scoped normal and optimized runtime of all24 constructor and19 old cases, with retained logs and actual timing/memory observations",
+      "Later separate C51 reviewed actual catalogue/fixed captures, default physical root construction, real generator output, current loader/version/schema/contract/snapshot adoption and historical-test fixture wiring; no staged oracle output may substitute for actual generator/adoption",
+      "Native, model/library, SQL/HTTP/UI, backend restart, capacity, durable feature behavior and full SysON parity remain open"
+    ]
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "schema": "B50_INACTIVE_CONSTRUCTOR_INDEPENDENT_SOURCE_REVIEW/2",
+  "status": "HOLD_MUTABLE_ENCODED_OUTPUT_PREFLIGHT_AND_WRITE_AUTHORITY",
+  "reviewed_at_UTC": "2026-10-31T12:54:17.747113+00:00",
+  "authority": "Root assigned full repaired source review. This is read/hash/text/data inspection only; no subject imports, execution, tests, compiler/formatter, Git, network or source changes. Original candidate01/sourceHOLD remains immutable. No application or .12 adoption acceptance.",
+  "author_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/author-source-review-02.json",
+    "bytes": 26628,
+    "ordinary_lines": 321,
+    "sha256": "33326a03efeb807f35a89dc786e81dc304789e237aa2f1ebe9374a6c5cc04bbb"
+  },
+  "author_reconciliation": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/author-source-review-02-reconciliation.json",
+    "bytes": 1576,
+    "ordinary_lines": 23,
+    "sha256": "8ba8a070876c54a3fab518218bcb699025d431052f7810f5f123ee5ce0f20c3a"
+  },
+  "new_three_files": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/construct.py",
+      "bytes": 19574,
+      "ordinary_lines": 349,
+      "sha256": "b4c857be9b0db241c850df7eaf7e6d4edbd047e75cdb3dc53ef057e55237f749"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_construct.py",
+      "bytes": 21263,
+      "ordinary_lines": 390,
+      "sha256": "42f10c00c49804f7b66b932419cb1dac2e2d20e68bfa6348526199eaf0f73131"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/CONSTRUCT.md",
+      "bytes": 1461,
+      "ordinary_lines": 12,
+      "sha256": "fbd1f964506d7243abb10141f82f9e95555b04ed2022faff2d29917b5a20388e"
+    }
+  ],
+  "installed_CI": {
+    "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/.github/workflows/plan-source-preparation-checks.yml",
+    "bytes": 1966,
+    "ordinary_lines": 41,
+    "sha256": "246c30d8e8b284402c4fa9f132f93f874a94b213846c35fae041d0ace1545b77"
+  },
+  "unpublished_public_notes": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/public-README.md",
+    "bytes": 1272,
+    "ordinary_lines": 18,
+    "sha256": "c3696a2f5ceb2c81aa333ca4eb13ee44298ea33eb9cb8bf874b36ade6c147863"
+  },
+  "unpublished_public_attributes": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/public-gitattributes",
+    "bytes": 34,
+    "ordinary_lines": 2,
+    "sha256": "8aae298053aeb84a7442294dabc42e90d46c7f16a6542442a4e34919fc299109"
+  },
+  "prior_HOLD": {
+    "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/reviewer-source-01.json",
+    "bytes": 15879,
+    "ordinary_lines": 189,
+    "sha256": "c9f4cfbccc5628740d33f1eacdbb4a51201fe8c1de1b1ed7ca20e05846b5dd81"
+  },
+  "original_two_findings": {
+    "F1": "Addressed for the original mutable inputs/reader.used/reserve/bindings vulnerability: closure-private max8 registry records weak exact Proposal identity, immutable source pins/used/reserve/catalogue-policy-roots/bodyseal. Actual reread loop and quotas use those private values; public diagnostics are compared to private authority. Default emission PENDING checks precede registry/body/physical/output work. This does not settle the separate encoded output finding below.",
+    "F2": "Addressed: public contract_only requires exact dict and real whole-qualified S.bound before D.baseline/build/digest/copy. Isolated339/340 tiny-object threshold test reaches that ordering; hostile subclass/cycle/object/NaN controls precede baseline/digest."
+  },
+  "findings": [
+    {
+      "id": "F3",
+      "severity": "BLOCKING_SOURCE_ADMISSION",
+      "title": "Public encoded container is hashed before size/type admission and is later used as an unchecked write iterator",
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/construct.py",
+      "lines": [
+        327,
+        328,
+        329,
+        330,
+        331,
+        340,
+        341,
+        342
+      ],
+      "source_facts": [
+        "The real packet constructs a bounded exact dict of encoded bytearrays, but result.encoded is a public replaceable attribute. Neither private registry nor S.bound covers its container or raw byte values.",
+        "emit_fresh obtains proposal.encoded, evaluates set(encoded), then hashes each supplied encoded body at329-330. The length/reservation check follows at331. There is no exact-dict/key/value-type/per-file byte preflight before iteration/hashing.",
+        "Final writes iterate encoded.items() at340 independently of the __iter__/__getitem__/values views checked earlier. This unchecked iterator is not a private immutable output authority."
+      ],
+      "counterfactual_reasoning_only": [
+        "Replacing one encoded value with over-limit bytes forces hashing of that complete body before the size/reservation refusal. A hostile encoded mapping can run its custom iterator before any cheap exact-type/count refusal. No large allocation or subject call was performed by reviewer.",
+        "A dict subclass can preserve legitimate keys/values for __iter__, __getitem__ and values so current set/hash/quota checks pass, then return an extra ../... filename from items() used for actual writes. Path output ownership is checked only for the parent directory; each emitted name is taken from that unchecked items iterator. This is ordinary public data-container mutation, not alteration of module functions/private closure state. It can escape the fixed output-name set and fresh directory despite the private bodyseal/input authority."
+      ],
+      "required_repair": [
+        "Before any untrusted encoded iteration/copy/hash, cheaply require exact builtin dict and the fixed small output count. Validate exact builtin string keys against the fixed sealed artifact+manifest names. Admit exact supported byte-body types, per-file BOUNDS and aggregate bytes against the private original reservation before hashing or copying.",
+        "Create a bounded defensive immutable local output snapshot, or equivalent private immutable output authority, after that admission. Hash and write only that same fixed local set of names/immutable bodies; no later public items() call can govern output. Keep private original pins/used/reserve/roots/seals and pending-first checks.",
+        "Add meaningful isolated controls: encoded dict subclass with hostile iteration/items cannot be invoked; extra/wrong output names cannot reach mkdir; oversized encoded body/per-file and aggregate refusal occurs before body hashing/read/write (use small controlled thresholds/sentinels, not giant allocation); a replacement view cannot add a path-escape write. Preserve existing byte-corruption/live reload/physical drift/existing-output controls and all20 named cases."
+      ],
+      "execution_recommendation": "Do not execute/import this candidate. Retain all349/390/12 bytes, author02 and this HOLD before any narrow repair lease. Root already agrees this finding blocks execution."
+    }
+  ],
+  "full_program_review_results": {
+    "providers": "Full current349-line constructor/390-line tests/12-line doc were read. Re-read current D221/G74, whole old constructor263, old S.bound/provider/Session and old derive provider/decoder paths relevant to this repair; all9 reused provider source pins were freshly checked against full prior independent source readset. All8 B49 source/fixture pins remain exact.",
+    "code_trust": "Only canonical complete-pinned actual .11 D/G/C and actual fixed registration/storage/preparation programs enter loaders; catalogue captured programs stay passive byte data. D.provider verifies D/G/C bytes before old D/G execution, and cold loads actual oldC from those verified bytes into its qualified sibling namespace. Cached module identities and ROOT agreement are checked. No capsule row executes.",
+    "prior_and_bounds": "Default catalogue/G hooks remain PENDING. Prior enforces fixed66 descriptor shape/eleven gzip origins, strict integer byte claims, canonical paths, per-role8/6/2MiB ceilings, predecode old64<=16MiB plus oldtails and total24MiB framing, compressed+catalogue<=2MiB. It verifies stored/raw/Gitblob hashes, single complete gzip member, full old root pins and exact64 baseline before composition. These are logical/data work limits, not processRSS acceptance.",
+    "semantic_views": "Current normative72 roles and raw/framing8MiB admission precede prime; exact current contract/schema/history are validated. Prior797 register is compared row-for-row to the full old plan projection, including all metadata and55history state; tail hashes bind original ordering. Snapshot requires actual current plan+full G.checked; preserves all799 full records and computes only declared overlay fields/brief/currentcanonical hashes. Current dispatch and historical dispatch pins remain distinct.",
+    "bulk_and_freshness": "Old/tail/norm raw caches clear before full bulk Reader. Reader primes fixed physical sources under one64MiB input/output-framing reservation; same-phase seen pins are rebound. All342 historical progress bindings survive (341current immutable bodies plus original raw dispatch capture). Complete output manifest records actual physical/current origins. Live emission rereads private pins before owned fresh directory creation. No claim of an atomic filesystem snapshot against arbitrary concurrent writers is made; outer root-owned source freeze remains necessary.",
+    "default_vs_fixture": "Tests create a physically staged799 oracle model, explicit UNEXECUTED_TEST_ONLY_LOADER_ROLE, copied1206-role prior material and scoped catalogue/policy/ROOT/outputRoot patches. This exercises default reader code against explicit unit fixtures, not current productionROOT adoption or actual generator output. No real catalogue/eleven captures/manual seals/actual .12 source reconciliation have been installed. C51 remains mandatory.",
+    "namespace_and_output": "Actual source-only providers/root namespace checks remain unchanged. The new encoded issue is the only new blocking source finding identified in this full repair review. Runtime behavior remains unverified."
+  },
+  "test_review": {
+    "constructor_names": [
+      "test_pending_hooks_refuse_before_any_physical_read",
+      "test_default_physical_normative_producer_needs_no_current_plan",
+      "test_whole799_snapshot_real_default_reads_and_independent_generic_verifier",
+      "test_catalogue_whole_pin_and_role_admission_refuse",
+      "test_aggregate_prior_claims_refuse_before_capture_read",
+      "test_resealed_trailing_and_truncated_gzip_members_refuse",
+      "test_coherent_captured_program_rewrite_is_data_and_cannot_execute",
+      "test_current_contract_and_current_plan_tampering_refuse",
+      "test_real_bulk_progress_drift_is_not_hidden_by_old_pins",
+      "test_stream_exact_limit_over_limit_and_token_refusal",
+      "test_live_proposal_mutations_reload_and_changed_seals_refuse",
+      "test_physical_source_drift_and_existing_output_preserve_owned_data",
+      "test_cleared_or_replaced_public_inputs_cannot_hide_real_source_drift",
+      "test_used_reserve_and_binding_diagnostics_cannot_change_authority",
+      "test_pending_emission_refuses_before_serialization_reads_or_output",
+      "test_root_and_output_policy_cannot_redirect_issued_provenance",
+      "test_public_contract_bound_precedes_baseline_digest_and_copy",
+      "test_public_contract_exact_types_cycles_and_nonfinite_refuse",
+      "test_mutated_public_body_refuses_before_fingerprint",
+      "test_registry_is_bounded_and_does_not_retain_strong_proposals"
+    ],
+    "constructor_count": 20,
+    "old12_preservation": "Complete current file prefix through the original12 cases equals archived test297 after removing only added gc/weakref imports, normalizing the constructor whole-source bootstrap SHA and removing one new exact1233/1234 role-count assertion. All old helper/setup/functional assertions remain.",
+    "old_prefix_pin": {
+      "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/candidate-01-unexecuted-source-hold/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_construct.py.raw",
+      "bytes": 15864,
+      "ordinary_lines": 297,
+      "sha256": "1108a2a66639d8f2199ee31a7498ea2912f5b67f699096c8c780bb6725994d6f"
+    },
+    "new8_controls": [
+      "Cleared/replaced public inputs plus actual drift",
+      "Mutated used/reserve/bindings against private authority",
+      "Both default emission hooks before fingerprint/physical/mkdir",
+      "Physical/output root rebinding before reads",
+      "Actual qualified tiny-object bound ordering before baseline/digest/deepcopy",
+      "Hostile contract subclass/cycle/object/NaN before baseline/digest",
+      "Unsupported mutable body before fingerprint",
+      "Max8 weak registry, garbage collection/reuse and forged exact Proposal identity refusal"
+    ],
+    "B49_prior19": "All11derive+8guard case bodies remain in freshly pin-verified immutable old8 sources. Installed reviewed CI selects those19 normal/O and all constructor cases normal/O in a separate10minute job. No case has been run by this reviewer.",
+    "missing_controls": "No current test covers replaced/hostile encoded container, encoded per-file/aggregate bound before hash or altered items write iteration. Existing one-byte encoded corruption test only covers digest mismatch on an otherwise genuine dict/bytearray."
+  },
+  "full_reused_provider_readset": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/derive.py",
+      "bytes": 11968,
+      "ordinary_lines": 221,
+      "sha256": "4bfa0cf3080e341efc342fbda38ac674ee106e99ff0d123f98f63861442fe1b4"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/guard.py",
+      "bytes": 4516,
+      "ordinary_lines": 74,
+      "sha256": "125b82688181a1e8a89e3b129530761baafeec32d61ea4858e95e7592eed462c"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/registration/prepare.py",
+      "bytes": 22249,
+      "ordinary_lines": 353,
+      "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/construct.py",
+      "bytes": 15022,
+      "ordinary_lines": 263,
+      "sha256": "89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/derive.py",
+      "bytes": 17054,
+      "ordinary_lines": 291,
+      "sha256": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/guard.py",
+      "bytes": 17756,
+      "ordinary_lines": 349,
+      "sha256": "c26d1446bddccd6475a6b921f52e2db660b2d0857460434bd9ef45110c4f645b"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/storage_split_guard.py",
+      "bytes": 10362,
+      "ordinary_lines": 191,
+      "sha256": "db18f5d5c63c27d5e6daf5a78a8b358361b4ac66818e285c10c4a64f9de6ac01"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/remaining-work/verify_snapshot.py",
+      "bytes": 5801,
+      "ordinary_lines": 128,
+      "sha256": "65c949f70c040952969d5d525aec1636b6b0e176b0324957309bac8dde537072"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/tools/preparation_splits.py",
+      "bytes": 10926,
+      "ordinary_lines": 211,
+      "sha256": "7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3"
+    }
+  ],
+  "B49_eight_immutable_sources": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/GUARD.md",
+      "bytes": 766,
+      "ordinary_lines": 9,
+      "sha256": "96d6914bdc3ecd393af6782ba52151ffa92952e456ed3607e40ed112b17e0a0c"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/README.md",
+      "bytes": 894,
+      "ordinary_lines": 10,
+      "sha256": "dff50f6e99c073cea6a3c11020719ad41d1d7449d34385622c88537369926a14"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/derive.py",
+      "bytes": 11968,
+      "ordinary_lines": 221,
+      "sha256": "4bfa0cf3080e341efc342fbda38ac674ee106e99ff0d123f98f63861442fe1b4"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/fixtures/amendment.md",
+      "bytes": 928,
+      "ordinary_lines": 11,
+      "sha256": "85b57839fa9ce620791dcfc98bd9df0c1959c8a3f1a510cbf19ed6d27675fc9d"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/fixtures/lane.json",
+      "bytes": 9376,
+      "ordinary_lines": 136,
+      "sha256": "765ab7a527f3489cb46e97a56a627d151c7a993aff151f0d2c6e3e8c2e7c0464"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/guard.py",
+      "bytes": 4516,
+      "ordinary_lines": 74,
+      "sha256": "125b82688181a1e8a89e3b129530761baafeec32d61ea4858e95e7592eed462c"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_derive.py",
+      "bytes": 9530,
+      "ordinary_lines": 179,
+      "sha256": "c691b03ac9d0588c91df3317309692e88b1c2c371379fe3d960bdc43d4dabc74"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_guard.py",
+      "bytes": 5055,
+      "ordinary_lines": 97,
+      "sha256": "257343d3cb50d825e744c3681ae18ac9e05bea06e4caa7ff5bad4d6d83a8adb0"
+    }
+  ],
+  "budget": {
+    "current_actual_components": {
+      "constructor": 349,
+      "tests": 390,
+      "CONSTRUCT": 12,
+      "CI_AD": 18,
+      "public_README": 18,
+      "public_attributes": 2
+    },
+    "production": 399,
+    "authored": 789,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "remaining": [
+      1,
+      111
+    ],
+    "basis": "All3 constructor files are new whole additions; count ordinary lines including blanks. Existing landed D/G/oldproviders/fixtures are unchanged reuse with zero newA+D, not hidden new helpers. CI18 counts16additions+2deletions. No new capturehelper exists in this PR. Existing qualified publisher source is unchanged reuse; any actual new helper/delta must be counted. No runtime/feature completion inferred.",
+    "next_repair_budget": "Root proposes concise10-line unpublished publicREADME plus2attrs, preserving meaning in existing CONSTRUCT12/fullreports, retaining old18-line draft as passive candidate evidence. If actually revised this frees8 ordinary lines, giving a provisional391production/781authored before necessary code/test growth. This is documentation deduplication, not minification or accepted source change yet. Actual complete repaired scope must remain400/900; otherwise retain HOLD and propose a genuine partition.",
+    "no_capraise_or_casecuts": true
+  },
+  "required_next_gate": [
+    "Preserve candidate02/author02/thisHOLD and currentCI/publicnotes before any repair",
+    "Fresh narrow source lease and source03 freeze; exact-builtin bounded immutable encoded authority plus isolated tests",
+    "Independent complete new source/support ordinary400/900 count and fresh source PASS",
+    "Only then root-owned explicit scoped runtime spec/admission; all20 current constructor and19 prior cases retained normal/O plus new cases",
+    "Later separate actual catalogue/default physical source/generator/adoption gate; no unit-fixture substitution"
+  ],
+  "limits": "Static review only, no proof of execution, quotas under actual full current composition, process containment, hostedCI, real .12 adoption, or native/UI/backend-restart/whole-feature acceptance. Additional distinct findings may be retained later without changing this frozen HOLD."
+}
