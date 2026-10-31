@@ -1,0 +1,48 @@
+{
+  "schema": "C01-MODELS02-GIT-FILTER-PUBLICATION-HOLD/1",
+  "status": "HOLD_BEFORE_GIT_STAGE_COMMIT_PUSH",
+  "observed_at": "2026-10-31T12:36:20.523832+00:00",
+  "scope": "Actual git hash-object --path read-only filter simulation on all271 packet files; no object write/indexstage/commit/push",
+  "packet_index_sha256": "dcdce2c75db74135525971d0ad971970ecee4866367d40c81d939230a14bb37e",
+  "cause": "Only archive/** had -text; root text=auto/eol=lf applies to payloads/projected. Five served CRLFpayloads wouldnormalize. Existingreview provedworkingtreebytes, not futureGitblobbytes.",
+  "affected": [
+    {
+      "path": "payloads/downloads/org/apache/maven/maven-parent/16/maven-parent-16.pom.asc.partial",
+      "raw_sha256": "5810c4b44f240a8c237c59027adb6abaa414a6f54a5037bb8dea9fa2f83846a9",
+      "raw_git_blob": "795f7dff5302d79807d7922a3b795dbe1dfd8d93",
+      "filtered_git_blob": "efb937c4853d94b6b2b9bbd0650b714a05fdc981",
+      "bytes": 194
+    },
+    {
+      "path": "payloads/downloads/org/apache/maven/maven-parent/16/maven-parent-16.pom.partial",
+      "raw_sha256": "70cef83d246309a2aa355c38f2004edda3621ae0bc5c55a7a139eaeef4d1231a",
+      "raw_git_blob": "1d33f569491e61096765d5384985c8b6b6bf80dc",
+      "filtered_git_blob": "b8a31c7632d2b6592346c0c8f4f7446005b1d589",
+      "bytes": 23272
+    },
+    {
+      "path": "payloads/downloads/org/slf4j/slf4j-bom/2.0.18/slf4j-bom-2.0.18.pom.partial",
+      "raw_sha256": "9219aab601575126c4e66e1331eb2b0c6c17a330ac4d5a07e3cd11d580a0c12d",
+      "raw_git_blob": "d3a48bce8f9cf3316bd6df1de0d033e2d96b1f5f",
+      "filtered_git_blob": "c11d61621aeede139ea133eb6c2d175fcde6d45d",
+      "bytes": 7874
+    },
+    {
+      "path": "payloads/downloads/org/sonatype/forge/forge-parent/5/forge-parent-5.pom.asc.partial",
+      "raw_sha256": "4fc43230b7c73f2e6f57b4ee56f5d8742054e53ee58bef17c129b561a2b865c0",
+      "raw_git_blob": "2a469cb9ccbfb285b0a7f295ec7602304395a94a",
+      "filtered_git_blob": "e019ec344108f1c3dbb7c6172ea16046dfc080f7",
+      "bytes": 194
+    },
+    {
+      "path": "payloads/downloads/org/sonatype/forge/forge-parent/5/forge-parent-5.pom.partial",
+      "raw_sha256": "e56188aa8ce51278006aa90bc7e0f304a81e2f1219f462e7d21f262535cd2795",
+      "raw_git_blob": "82813619680fd046cbf0c08db06ebb45f6c56ab7",
+      "filtered_git_blob": "7df466b790bf260c81f464a142b2efcdefcfae48",
+      "bytes": 8363
+    }
+  ],
+  "required_repair": "Preservewholecurrentcandidateandoldreviews/maps; use explicit -text for all passive packet bytes, keepREADMEtext/diff, freshmapreview/copy/finalreadback including actualGitfilteridentity beforestage and committedblobreadback.",
+  "budget": "Replaceonecurrent2lineattributescomponent; final391/897 unchanged. No helper/test/source case cut.",
+  "old405_unchanged": true
+}
