@@ -1,0 +1,325 @@
+{
+  "schema": 1,
+  "status": "PASS_ACTUAL_30_NAMED_TEST_EXECUTIONS_AND_FULL_UNSIGNED_PROPOSAL_DATA",
+  "reviewer": "/root/registration_review",
+  "method": "Read actual spec/receipt/raw streams and owned proof/cleanup; AST names and29 before/after/current hashes; independently reconstruct whole proposal from original public frontier/template and independent18GAV oracle and compare complete JSON and exact serialized bytes. Actual client source read as text only. No subject rerun/import, compiler/network/Git/source edits.",
+  "spec": {
+    "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01-spec.json",
+    "bytes": 7005,
+    "sha256": "1f9d3a66f114bc55e484e85241f23c4e71a7ce53921d8b26cc7eb26397a3a577"
+  },
+  "freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/source-freeze-01.json",
+    "bytes": 5201,
+    "sha256": "d6ce8b4a512d59bea7863212120a12fd25ee84ab15b4c9779b15e233def85036"
+  },
+  "receipt": {
+    "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/receipt.json",
+    "bytes": 10772,
+    "sha256": "386b5572fbcc17bb25a5c5ed861590378e05ce269e479c953cf2092f5f3fee59"
+  },
+  "source_and_spec_reviews": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/reviewer-source.json",
+      "bytes": 9869,
+      "sha256": "e144212f66cdc9948ce5fa7ae23e98af3ef3c32c55443915ca1b864fcca8d0cd"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/reviewer-root-source.json",
+      "bytes": 3903,
+      "sha256": "9fa3498490f773f1186b99c6f309543f3e23e48e92f2ffd04e6ff71d856bdfb4"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/reviewer-spec-01.json",
+      "bytes": 11794,
+      "sha256": "b11db152fe56763fbb03b3604395316ceced9629690b000f2792ba3fafaeafc8"
+    }
+  ],
+  "commands": [
+    {
+      "name": "proposal15-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/worktrees/builderbob/syson/batch44-finite-model-proposals-20261031/porting/rust-parity-plan-20261026/closure/core-compile",
+        "-p",
+        "test_request_proposal.py",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.11364084199885838,
+      "passed": 0
+    },
+    {
+      "name": "capture-proposal-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch44-20261031/capture_proposal.py",
+        "/workspace/build/builderbob/syson-durable-batch44-20261031/proposal-normal-01.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.031483150996791665,
+      "passed": 0
+    },
+    {
+      "name": "proposal15-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/worktrees/builderbob/syson/batch44-finite-model-proposals-20261031/porting/rust-parity-plan-20261026/closure/core-compile",
+        "-p",
+        "test_request_proposal.py",
+        "-v"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.26383781999902567,
+      "passed": 0
+    },
+    {
+      "name": "capture-proposal-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch44-20261031/capture_proposal.py",
+        "/workspace/build/builderbob/syson-durable-batch44-20261031/proposal-optimized-01.json"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.06372141300380463,
+      "passed": 0
+    }
+  ],
+  "tests": {
+    "named_execution_total": 30,
+    "modes": [
+      {
+        "mode": "proposal15-normal",
+        "names": [
+          "test_actual_public_fixture_and_existing_main_template_are_pinned",
+          "test_all90_ordered_sidecars_roles_statuses_bounds_and_uniqueness",
+          "test_canonical_url_role_conditionality_and_count_guards_are_independent",
+          "test_coherent_coordinate_replacement_duplicate_and_order_fail_independent_seal",
+          "test_deterministic_json_bounded_exact_input_provenance_and_private_mutation",
+          "test_duplicate_json_and_registry_count_types_refuse",
+          "test_full_frontier_reuses_roots_all214_ranges_and_remaining_gates_survive",
+          "test_independent18_gav_order_and_canonical_urls",
+          "test_nominal_two_escaped_metadata_copies_and_body_refusal_not_completion",
+          "test_output_overflow_refuses_without_input_bound_or_version_shortcut",
+          "test_pure_api_performs_no_filesystem_reads_and_never_imports_acquired_code",
+          "test_six_bom_rows_stay_conditional_and_exact_source_contexts_survive",
+          "test_target_and_every_profile_field_unchanged_except_explicit_counts",
+          "test_template_strict_profile_cannot_be_coherently_relaxed",
+          "test_unknown_stale_nonbytes_and_oversize_refuse_before_parse_or_copy"
+        ],
+        "count": 15
+      },
+      {
+        "mode": "proposal15-optimized",
+        "names": [
+          "test_actual_public_fixture_and_existing_main_template_are_pinned",
+          "test_all90_ordered_sidecars_roles_statuses_bounds_and_uniqueness",
+          "test_canonical_url_role_conditionality_and_count_guards_are_independent",
+          "test_coherent_coordinate_replacement_duplicate_and_order_fail_independent_seal",
+          "test_deterministic_json_bounded_exact_input_provenance_and_private_mutation",
+          "test_duplicate_json_and_registry_count_types_refuse",
+          "test_full_frontier_reuses_roots_all214_ranges_and_remaining_gates_survive",
+          "test_independent18_gav_order_and_canonical_urls",
+          "test_nominal_two_escaped_metadata_copies_and_body_refusal_not_completion",
+          "test_output_overflow_refuses_without_input_bound_or_version_shortcut",
+          "test_pure_api_performs_no_filesystem_reads_and_never_imports_acquired_code",
+          "test_six_bom_rows_stay_conditional_and_exact_source_contexts_survive",
+          "test_target_and_every_profile_field_unchanged_except_explicit_counts",
+          "test_template_strict_profile_cannot_be_coherently_relaxed",
+          "test_unknown_stale_nonbytes_and_oversize_refuse_before_parse_or_copy"
+        ],
+        "count": 15
+      }
+    ],
+    "interpretation": "F25 passed=0 is Rust-output parsing only; exact Python identities and Ran15/OK were independently checked from each stderr."
+  },
+  "custody": {
+    "input_count": 29,
+    "all_spec_before_after_current_equal": true,
+    "proof": {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/scope-proof.json",
+      "bytes": 372,
+      "sha256": "3dccf523dea92ef4c6b920754cf6ec0f6c6ce88e70eff6816a13d1f5fcaa73a5",
+      "actual": {
+        "unit": "syson-b44-proposals-10c244cbecee4b368f8b3a1b886ecfb7.scope",
+        "cookie": "70a83b0cda0742bc81550d6afcb001da",
+        "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-b44-proposals-10c244cbecee4b368f8b3a1b886ecfb7.scope",
+        "invocation_id": "1584071abc714dbaa98ee2a27b137814",
+        "entry_pid": 657184,
+        "entry_start_ticks": "3435513"
+      }
+    },
+    "cleanup": {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+      "confirmed_empty_or_absent": true
+    },
+    "streams": [
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/proposal15-normal.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/proposal15-normal.stderr",
+        "bytes": 2800,
+        "sha256": "76860617547a53189c2bf2841d2be9543b62b1c1368ed37565fadf57529fdbe1"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/capture-proposal-normal.stdout",
+        "bytes": 168,
+        "sha256": "950c5ff33cd56d0d29f833de95744d05dd42302ff75837cd78f16a4c92df42ff"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/capture-proposal-normal.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/proposal15-optimized.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/proposal15-optimized.stderr",
+        "bytes": 2800,
+        "sha256": "c14cf67a84693feaefb4ada8948a320c18d5a17ac24476d8a58adf64271048d6"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/capture-proposal-optimized.stdout",
+        "bytes": 168,
+        "sha256": "950c5ff33cd56d0d29f833de95744d05dd42302ff75837cd78f16a4c92df42ff"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01/capture-proposal-optimized.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "controller_stdout": {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01-controller.stdout",
+      "bytes": 1326,
+      "sha256": "eb0bc0c538d9e2728294a63c6b6ed34fdd663b248f32ed0b915e0aded30d7c5b"
+    },
+    "controller_stderr": {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/checks-01-controller.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "limits": "Unchanged configured runner5CGcaps/per-command180s and owned entry proof bound. No live numeric caps observation, full-run peak, RSS or performance claim."
+  },
+  "outputs": {
+    "normal": {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/proposal-normal-01.json",
+      "bytes": 106477,
+      "sha256": "7434575a1030365ba75b4f0650d36183a1e930efd714c367cf4e810db4445ef4"
+    },
+    "optimized": {
+      "path": "/workspace/build/builderbob/syson-durable-batch44-20261031/proposal-optimized-01.json",
+      "bytes": 106477,
+      "sha256": "7434575a1030365ba75b4f0650d36183a1e930efd714c367cf4e810db4445ef4"
+    },
+    "byte_identical": true,
+    "complete_independent_object_and_exact_encoding_equal": true
+  },
+  "data": {
+    "schema": "C01-NORMAL-CORE-CLOSURE-REQUESTS/1",
+    "epoch": "models-02",
+    "primary_count": 18,
+    "literal_parent_observations": 12,
+    "conditional_local_BOM_observations": 6,
+    "requests": 90,
+    "request_roles": {
+      "pom": 18,
+      "checksum": 54,
+      "signature": 18
+    },
+    "four_cached_reuses_preserved_and_not_requested": true,
+    "all90_canonical_URLs_paths_order_indices_algorithms_statuses_and_caps_exact": true,
+    "entire_observed_frontier_preserved": true,
+    "all9_root_declarations_and5_plugin_contexts_retained": true,
+    "all_evidence_source_binding_XMLselector_rawversion_properties_contexts_retained": true,
+    "range_sets": 6,
+    "raw_version_strings": 214,
+    "range_winner_selected": false,
+    "remaining_gates_exact_template_plus_frontier": true,
+    "target_exact_template": true,
+    "resource_profile_unchanged_except18_90counts": true,
+    "strict_integer_profile": true,
+    "current_client_source": {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-plan-20261026/closure/core-compile/acquire.py",
+      "bytes": 11728,
+      "sha256": "d31eda19790e8d52d75444b98888fbe5ef87798519b97d62c83017c50cc3570a"
+    },
+    "client_boundary": "Exact reviewed row/schema compatibility confirmed from source. Current client models-01 registry does not admit models-02; future fixed registry/hash/roles entry and network spec require separate review."
+  },
+  "bounds": {
+    "output_each": 106477,
+    "output_limit": 262144,
+    "two_escaped_response_copies_bytes": 19353600,
+    "nominal_getter_metadata_bytes": 21450752,
+    "getter_metadata_limit": 66060288,
+    "individual_body_caps_sum": 42467328,
+    "aggregate_body_refusal_cap": 16777216,
+    "completion_within_body_refusal_cap_promised": false,
+    "no_physical_quota_or_RR16_claim": true
+  },
+  "privacy": {
+    "public_data_only": true,
+    "HTTP_response_or_cookie_fields_absent": true,
+    "all175_known_private_server_cookie_values_scanned_without_printing_values": true,
+    "known_cookie_matches": 0,
+    "scope_proof_cookie": "Root-owned scope nonce only, distinct from HTTP server cookies.",
+    "raw_private_acquisition_JSON_included": false,
+    "note": "Frontier contains provenance paths/hash/size references only; private receipt was inspected only to obtain comparison values and is not copied into this report or proposed output."
+  },
+  "authorization": {
+    "network": false,
+    "acquired_code_execution": false,
+    "range_selection": false,
+    "effective_import_selection": false,
+    "complete_closure": false,
+    "offline_compile": false
+  },
+  "budget": {
+    "production_with_planned_public14": 190,
+    "authored_with_planned_public14": 438,
+    "full_root_reserve": [
+      200,
+      448
+    ],
+    "hard_caps": [
+      400,
+      900
+    ],
+    "final_publication_recount_required": true
+  },
+  "blockers": [],
+  "remaining_gates": [
+    "Root assembles exact reviewed public packet then independent full-byte/index/privacy/source/committed-input readback before publication.",
+    "Any models-02 client registry/GET/code trust is separately owned and admitted; no acquisition or network occurred here.",
+    "Full C01 parent/BOM/context/profile/property/private-realm/range/binary/processor/agent closure and exact offline unmodified378-source compile remain OPEN; PR232 remains DRAFT."
+  ],
+  "limits": [
+    "Actual qualification is only pure producer tests and unsigned request metadata capture. No effective import/profile or range selection, native compile, closure completion, active-model/source adoption, broad runtime/native/UI/SQL/storage/restart acceptance, Git merge or publication claim."
+  ]
+}
