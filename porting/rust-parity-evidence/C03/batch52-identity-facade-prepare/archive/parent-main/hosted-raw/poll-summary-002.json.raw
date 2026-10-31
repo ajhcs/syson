@@ -1,0 +1,48 @@
+{
+  "poll": 2,
+  "started_at": "2026-10-31T17:38:38.258378+00:00",
+  "finished_at": "2026-10-31T17:38:38.571315+00:00",
+  "observed_same_handles": 5,
+  "remaining": [
+    {
+      "id": 124607744353,
+      "name": "plan-controls",
+      "status": "in_progress",
+      "started_at": "2026-10-31T17:34:29Z",
+      "active_steps": [
+        "Run python3 -s -B tools/verify_plan.py --self-test"
+      ]
+    },
+    {
+      "id": 124607744145,
+      "name": "constructor-controls",
+      "status": "in_progress",
+      "started_at": "2026-10-31T17:34:29Z",
+      "active_steps": [
+        "Run python3 -I -B -m unittest discover -s composition/identity_partition_prepare -p test_construct.py -v"
+      ]
+    },
+    {
+      "id": 124607744122,
+      "name": "guard-controls",
+      "status": "in_progress",
+      "started_at": "2026-10-31T17:34:36Z",
+      "active_steps": [
+        "Run preservation controls without adopting a plan"
+      ]
+    }
+  ],
+  "completed": [
+    {
+      "id": 124607744734,
+      "name": "Rust / syson-workflow",
+      "conclusion": "success"
+    },
+    {
+      "id": 124607744386,
+      "name": "capture-controls",
+      "conclusion": "success"
+    }
+  ],
+  "failed": []
+}

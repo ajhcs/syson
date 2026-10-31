@@ -1,0 +1,319 @@
+"""Staged full-model facade controls; no fixture is actual .12 adoption evidence."""
+import copy
+import inspect
+import json
+import sys
+import types
+import unittest
+from pathlib import Path
+from unittest import mock
+from test_derive import D, G, C, H
+from test_construct import PhysicalFixture
+
+PATH = Path(D.__file__).parent / 'facade.py'
+PIN = '99517929ee90023f748fe609713a7fd715afa96df9fd8260a0e0aa85ff5987ee'
+
+
+def load():
+    name = D.__package__ + '.facade'
+    if any(key == name or key.startswith(name + '.') for key in sys.modules):
+        raise ValueError('facade test namespace collision')
+    if PATH.resolve() != PATH or PATH.is_symlink() or not PATH.is_file() or PATH.stat().st_size > 65536:
+        raise ValueError('canonical bounded actual facade required')
+    with PATH.open('rb') as stream:
+        raw = stream.read(65537)
+    if len(raw) > 65536 or D.sha(raw) != PIN:
+        raise ValueError('whole actual facade source changed')
+    module = types.ModuleType(name)
+    module.__file__, module.__package__ = str(PATH), D.__package__
+    if sys.modules.setdefault(name, module) is not module:
+        raise ValueError('facade registration collision')
+    exec(compile(raw, str(PATH), 'exec'), module.__dict__)
+    return module
+
+
+F = load()
+
+
+class FacadeTests(PhysicalFixture, unittest.TestCase):
+    def setUp(self):
+        super().setUp()
+        patcher = mock.patch.object(F, 'ROOT', self.stage)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        self.install_lock()
+
+    def test_contract_only_has_no_actual_current_plan_prerequisite(self):
+        path = self.stage / 'plan.json'
+        before = path.read_bytes()
+        path.unlink()
+        try:
+            with mock.patch.object(G, 'checked', side_effect=AssertionError('contract-only required plan')):
+                self.assertEqual(F.read_contract(), self.contract)
+                self.assertEqual(F.identity_previous_contract(self.contract), json.loads(self.files['completion-contract.json']))
+                policy, old, plan = F.checked(self.contract)
+                self.assertEqual(policy, self.contract['identity_partition_splits'])
+                self.assertEqual(old, json.loads(self.files['completion-contract.json']))
+                self.assertIsNone(plan)
+        finally:
+            path.write_bytes(before)
+
+    def test_actual_plan_is_fully_restored_before_legacy_views(self):
+        with mock.patch.object(G, 'checked', wraps=G.checked) as checked:
+            policy, contract, plan = F.checked(self.contract, self.plan)
+        checked.assert_called_once()
+        self.assertEqual((contract, plan), (json.loads(self.files['completion-contract.json']), self.old))
+        self.assertEqual(policy['prior_progress_count'], 342)
+        self.assertEqual(policy['historical_unit_count'], 55)
+        self.assertEqual(F.identity_previous_plan(self.contract, self.plan), self.old)
+        changed = copy.deepcopy(self.plan)
+        next(row for row in changed['units'] if row['id'] == 'M06a2b')['tasks'].pop()
+        with self.assertRaisesRegex(ValueError, 'exact complete current partition'):
+            F.identity_previous_plan(self.contract, changed)
+
+    def test_nine_compatibility_signatures_and_all_policy_views(self):
+        _, old, _, _ = D.provider()
+        c11 = json.loads(self.files['completion-contract.json'])
+        methods = ['source_next_policy', 'previous_contract', 'previous_plan', 'validate_source_next_splits',
+                   'legacy_contract', 'legacy_plan', 'validate_preparation_splits', 'storage_policy', 'validate_storage_splits']
+        identities = {name: getattr(old, name) for name in methods}
+        for name in methods:
+            self.assertEqual(str(inspect.signature(getattr(F, name))), str(inspect.signature(getattr(old, name))))
+            if name == 'validate_preparation_splits':
+                continue
+            if name == 'source_next_policy':
+                actual, expected = F.source_next_policy(self.contract), old.source_next_policy(c11)
+            elif name.endswith('_plan') or name.startswith('validate_'):
+                actual = getattr(F, name)(self.contract, self.plan)
+                expected = getattr(old, name)(c11, self.old, self.files.__getitem__)
+            else:
+                actual = getattr(F, name)(self.contract)
+                expected = getattr(old, name)(c11, self.files.__getitem__)
+            self.assertEqual(actual, expected, name)
+        self.assertTrue(all(getattr(old, name) is method for name, method in identities.items()))
+
+    def test_previous10_and_legacy8_are_distinct_private_views(self):
+        previous = F.previous_plan(self.contract, self.plan)
+        legacy = F.legacy_plan(self.contract, self.plan)
+        self.assertEqual((previous['unit_count'], len(previous['units'])), (794, 794))
+        self.assertEqual((legacy['unit_count'], len(legacy['readiness_graph'])), (790, 1580))
+        self.assertEqual(F.previous_contract(self.contract)['contract_id'], 'SYSON-RUST-COMPLETION/1.0.10')
+        self.assertEqual(F.legacy_contract(self.contract)['contract_id'], 'SYSON-RUST-COMPLETION/1.0.8')
+        previous['units'][0]['tasks'] = []
+        self.assertNotEqual(F.previous_plan(self.contract, self.plan), previous)
+        self.assertEqual(self.plan['unit_count'], 799)
+
+    def test_all_nine_descriptors_use_complete_current_records(self):
+        _, old, P, _ = D.provider()
+        old_descriptors = old.validate_preparation_splits(json.loads(self.files['completion-contract.json']),
+                                                       self.old, self.files.__getitem__)['children']
+        actual = F.validate_preparation_splits(self.contract, self.plan)
+        self.assertEqual(set(actual['children']), set(old_descriptors) | set(D.IDS))
+        self.assertEqual(len(actual['children']), 9)
+        rows = {row['id']: row for row in self.plan['units']}
+        families = {uid: family for family, ids in self.contract['families'].items() for uid in ids}
+        for uid, descriptor in actual['children'].items():
+            row = rows[uid]
+            self.assertEqual(descriptor, {'family': families[uid], 'team': row['primary_team'],
+                'dependencies': row['dependencies'],
+                'normalized_sha256': D.digest({key: value for key, value in row.items() if key not in P.OMIT})})
+        current = actual['children']['M06a2']
+        self.assertTrue(set(D.IDS) <= set(current['dependencies']))
+        self.assertNotEqual(current['normalized_sha256'], old_descriptors['M06a2']['normalized_sha256'])
+        self.assertEqual(F.validate_preparation_splits(self.contract)['children'], actual['children'])
+        actual['children']['M06a2']['dependencies'].clear()
+        self.assertTrue(set(D.IDS) <= set(F.validate_preparation_splits(self.contract, self.plan)['children']['M06a2']['dependencies']))
+
+    def test_explicit_current_callback_has_exact73_authority_and_no_plan_read(self):
+        calls = []
+        def read(name):
+            calls.append(name)
+            if name == 'plan.json':
+                raise AssertionError('current callback fetched an actual plan')
+            return (self.stage / name).read_bytes()
+        with F._view(read=read) as view:
+            self.assertEqual(view['contract'], self.contract)
+            self.assertEqual(view['mode'], 'EXPLICIT_CALLBACK_BYTE_CLAIM')
+        names = set(json.loads((self.stage / 'completion-contract.lock.json').read_bytes())['sha256'])
+        self.assertEqual(set(calls), names | {'completion-contract.lock.json'})
+        self.assertEqual(len(calls), 73)
+
+    def test_amendment_and_hash_callback_errors_precede_composition(self):
+        for target, message in [(D.AMENDMENT, 'amendment hash mismatch'), ('tools/build_plan.py', 'lock hash mismatch')]:
+            def read(name):
+                raw = (self.stage / name).read_bytes()
+                return raw + b'\n' if name == target else raw
+            with mock.patch.object(C, 'contract_only', side_effect=AssertionError('generic validation bypassed')):
+                with self.assertRaisesRegex(ValueError, message):
+                    F.read_contract(read=read)
+
+    def test_coherent_family_mutation_reaches_family_coverage_first(self):
+        contract = copy.deepcopy(self.contract)
+        contract['families']['model'].remove('M06a2a')
+        encoded = json.dumps(contract).encode()
+        lock = json.loads((self.stage / 'completion-contract.lock.json').read_bytes())
+        lock['sha256']['completion-contract.json'] = D.sha(encoded)
+        def read(name):
+            if name == 'completion-contract.json':
+                return encoded
+            if name == 'completion-contract.lock.json':
+                return json.dumps(lock).encode()
+            return (self.stage / name).read_bytes()
+        with mock.patch.object(C, 'contract_only', side_effect=AssertionError('family check bypassed')):
+            with self.assertRaisesRegex(ValueError, 'family coverage mismatch'):
+                F.read_contract(read=read)
+
+    def test_schema_coverage_and_complete_schema_are_both_required(self):
+        schema = copy.deepcopy(self.artifacts['acceptance-packet.schema.json'])
+        for full_change in [False, True]:
+            changed = copy.deepcopy(schema)
+            if full_change:
+                changed['unreviewed_extra'] = True
+            else:
+                changed['properties']['unit_id']['enum'].pop()
+            encoded = json.dumps(changed).encode()
+            lock = json.loads((self.stage / 'completion-contract.lock.json').read_bytes())
+            lock['sha256']['acceptance-packet.schema.json'] = D.sha(encoded)
+            def read(name):
+                return encoded if name == 'acceptance-packet.schema.json' else json.dumps(lock).encode() \
+                    if name == 'completion-contract.lock.json' else (self.stage / name).read_bytes()
+            message = 'whole current facade schema' if full_change else 'facade schema coverage'
+            with self.assertRaisesRegex(ValueError, message):
+                F.read_contract(read=read)
+
+    def test_pending_unknown_and_exact_object_types_refuse_before_old_reads(self):
+        for owner, name in [(G, 'POLICY_SHA256'), (C, 'CATALOGUE_SHA256')]:
+            with mock.patch.object(owner, name, 'PENDING_ROOT_FREEZE'), mock.patch.object(
+                    C, 'prior', side_effect=AssertionError('pending source read')):
+                with self.assertRaisesRegex(ValueError, 'facade policy or catalogue pending'):
+                    F.read_contract()
+        class Foreign(dict):
+            pass
+        cycle = {}
+        cycle['cycle'] = cycle
+        for value in [Foreign(), cycle, {'bad': object()}, {'version': '1.0.13'}]:
+            with mock.patch.object(C, 'prior', side_effect=AssertionError('unadmitted caller copied old bytes')):
+                with self.assertRaises(ValueError):
+                    F.checked(value)
+
+    def test_caller_charge_refuses_before_historical_decode(self):
+        _, S, _, _ = D.provider()
+        charge = S.bound(self.contract, self.plan)
+        limit = charge + 27 * C.MIB + 128 * 1024 - 1
+        with mock.patch.object(F, 'LIMIT', limit), mock.patch.object(
+                C, 'prior', side_effect=AssertionError('old decode before caller phase admission')):
+            with self.assertRaisesRegex(ValueError, 'caller before historical phase budget'):
+                F.checked(self.contract, self.plan)
+
+    def test_remaining_phase_read_is_capped_before_large_allocation(self):
+        path = self.output / 'tiny.raw'
+        path.write_bytes(b'x' * 32)
+        original = Path.stat
+        def stat(target, *args, **kwargs):
+            value = original(target, *args, **kwargs)
+            if target == path:
+                fields = list(value)
+                fields[6] = 8
+                return type(value)(fields)
+            return value
+        stream = mock.mock_open(read_data=b'x' * 32)
+        with mock.patch.object(Path, 'stat', stat):
+            reader = F._Reader(self.output, {'tiny.raw'}, None, 128 + 6 * len('tiny.raw') + 8)
+        with mock.patch.object(Path, 'open', stream):
+            with self.assertRaisesRegex(ValueError, 'exact bounded facade bytes'):
+                reader('tiny.raw')
+        stream().read.assert_called_once_with(9)
+        self.assertEqual((reader.used, reader.cache), (0, {}))
+        reader.close()
+
+    def test_foreign_paths_surrogates_types_and_json_bound_fail_before_parse(self):
+        for name in ['../escape', '/absolute', 'a//b', '\ud800']:
+            with mock.patch.object(Path, 'open', side_effect=AssertionError('foreign path read')):
+                with self.assertRaises(ValueError):
+                    F._Reader(self.output, {name}, None, 1024)
+        for raw in [bytearray(b'{}'), memoryview(b'{}'), 'not bytes', b'{}']:
+            reader = F._Reader(self.output, {'value'}, lambda name: raw, 1024)
+            with mock.patch.object(C, 'parse', side_effect=AssertionError('unadmitted JSON parsed')):
+                with self.assertRaises(ValueError):
+                    F._parse(reader, 'value', 1)
+            reader.close()
+
+    def test_context_closes_all_old_readers_and_private_results_survive(self):
+        with F._view(self.contract, self.plan) as view:
+            old_read = view['old_read']
+            readers = list(view['readers'])
+            value = F._result(view, (view['policy'], view['c11'], view['p11']))
+        self.assertEqual(view, {})
+        self.assertTrue(all(reader.closed and reader.cache == {} and reader.callback is None for reader in readers))
+        with self.assertRaisesRegex(ValueError, 'closed or foreign'):
+            old_read('tools/build_plan.py')
+        self.assertEqual(value[2], self.old)
+
+    def test_returned_model_bound_precedes_copy(self):
+        _, S, _, _ = D.provider()
+        view = {'S': S, 'charged': 0, 'charged_readers': []}
+        with mock.patch.object(F, 'OUTPUT_RESERVE', 8), mock.patch.object(
+                F.copy, 'deepcopy', side_effect=AssertionError('oversized output copied')):
+            with self.assertRaisesRegex(ValueError, 'facade model output bound'):
+                F._result(view, {'value': 'larger than eight bytes'})
+
+    def test_foreign_module_identity_is_preserved_before_any_old_source_read(self):
+        foreign = types.ModuleType(D.__name__)
+        with mock.patch.dict(sys.modules, {D.__name__: foreign}), mock.patch.object(
+                C, 'prior', side_effect=AssertionError('foreign module used old sources')):
+            with self.assertRaisesRegex(ValueError, 'foreign facade provider identity'):
+                F.read_contract()
+            self.assertIs(sys.modules[D.__name__], foreign)
+        name = D.__package__ + '.facade.foreign'
+        with mock.patch.dict(sys.modules, {name: foreign}), mock.patch.object(
+                Path, 'open', side_effect=AssertionError('foreign facade prefix source read')):
+            sys.modules.pop(F.__name__)
+            with self.assertRaisesRegex(ValueError, 'facade test namespace collision'):
+                load()
+            self.assertIs(sys.modules[name], foreign)
+            self.assertNotIn(F.__name__, sys.modules)
+
+    def test_all_three_historical_versions_keep_callback_delegation_and_copy_semantics(self):
+        _, old, _, _ = D.provider()
+        c11 = json.loads(self.files['completion-contract.json'])
+        _, c10, p10, session = old.checked(c11, self.old, self.files.__getitem__)
+        c9 = session.S.previous_contract(c10)
+        p9 = session.S.previous_plan(c10, p10, session.read)
+        session.cache.clear()
+        for contract, plan in [(c11, self.old), (c10, p10), (c9, p9)]:
+            with self.subTest(version=contract['version']):
+                before = copy.deepcopy((contract, plan))
+                calls = []
+                def read(name):
+                    calls.append(name)
+                    return self.files[name]
+                expected = old.legacy_plan(contract, plan, self.files.__getitem__)
+                actual = F.legacy_plan(contract, plan, read)
+                self.assertEqual(actual, expected)
+                self.assertTrue(calls)
+                self.assertTrue(set(calls) <= set(self.files))
+                self.assertEqual(F.legacy_contract(contract, read), old.legacy_contract(contract, self.files.__getitem__))
+                self.assertEqual(F.validate_preparation_splits(contract, plan, read),
+                                 old.validate_preparation_splits(contract, plan, self.files.__getitem__))
+                actual['units'][0]['tasks'] = []
+                self.assertEqual(F.legacy_plan(contract, plan, read), expected)
+                self.assertEqual((contract, plan), before)
+                def changed(name):
+                    raw = self.files[name]
+                    return raw + b'\n' if name == 'execution.json' else raw
+                with self.assertRaisesRegex(ValueError, 'historical callback bytes changed'):
+                    F.legacy_plan(contract, plan, changed)
+
+    def test_missing_callback_is_valueerror_without_fallback_or_negative_cache(self):
+        for error in [KeyError('missing'), OSError('unavailable')]:
+            callback = mock.Mock(side_effect=[error, b'{}'])
+            reader = F._Reader(self.output, {'value'}, callback, 1024)
+            with mock.patch.object(Path, 'open', side_effect=AssertionError('callback fell back to physical source')):
+                with self.assertRaisesRegex(ValueError, 'missing current input'):
+                    reader('value')
+                self.assertEqual((reader.used, reader.cache), (0, {}))
+                self.assertEqual(reader('value'), b'{}')
+                self.assertEqual(reader('value'), b'{}')
+            self.assertEqual(callback.call_count, 2)
+            self.assertEqual(reader.cache, {'value': b'{}'})
+            reader.close()

@@ -1,0 +1,30 @@
+{
+  "schema": "C51F-ROOT-FAILED-EXECUTION-READBACK/1",
+  "status": "AUTHORITATIVE_TERMINAL1_SCHEMA_DESCRIPTOR_TEAM_LOOKUP_DEFECT",
+  "at": "2026-10-31T16:51:51.888854+00:00",
+  "PTY_session": 54491,
+  "terminal_exit": 1,
+  "commands_attempted": 4,
+  "commands_unexecuted": 8,
+  "named_tests_attempted": 12,
+  "passed": 11,
+  "errors": 1,
+  "failure": "Actual validated older plan rows need not contain primary_team; current descriptor rebuild wrongly indexes that field. Prior validated descriptor owns older team; two new rows provide their primary_team.",
+  "all10392_spec_before_after_current_match": true,
+  "cleanup": {
+    "confirmed_empty_or_absent": true,
+    "observations": [
+      {
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "InvocationID": ""
+      }
+    ]
+  },
+  "source_AD_during_run": [
+    400,
+    674
+  ],
+  "full36_qualification": false,
+  "next": "Preserve fullsource/controls/streams/receipt/spec then meaningful source fix+independentreview+newscope/spec; no automatic rerun."
+}

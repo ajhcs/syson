@@ -1,0 +1,23 @@
+test_all_nine_descriptors_use_complete_current_records (test_facade.FacadeTests.test_all_nine_descriptors_use_complete_current_records) ... ERROR
+test_coherent_family_mutation_reaches_family_coverage_first (test_facade.FacadeTests.test_coherent_family_mutation_reaches_family_coverage_first) ... ok
+test_schema_coverage_and_complete_schema_are_both_required (test_facade.FacadeTests.test_schema_coverage_and_complete_schema_are_both_required) ... ok
+
+======================================================================
+ERROR: test_all_nine_descriptors_use_complete_current_records (test_facade.FacadeTests.test_all_nine_descriptors_use_complete_current_records)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch52-identity-facade-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_facade.py", line 110, in test_all_nine_descriptors_use_complete_current_records
+    actual = F.validate_preparation_splits(self.contract, self.plan)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch52-identity-facade-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/facade.py", line 313, in validate_preparation_splits
+    return _legacy('validate_preparation_splits', contract, plan, read)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch52-identity-facade-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/facade.py", line 282, in _legacy
+    value['children'][uid] = {'family': families[uid], 'team': row['primary_team'],
+                                                               ~~~^^^^^^^^^^^^^^^^
+KeyError: 'primary_team'
+
+----------------------------------------------------------------------
+Ran 3 tests in 39.376s
+
+FAILED (errors=1)
