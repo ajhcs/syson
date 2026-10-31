@@ -1,0 +1,77 @@
+{
+  "schema": "SOURCE-NEXT-GUARD-INDEPENDENT-SOURCE-FINDINGS/1",
+  "status": "HOLD_FROZEN_SOURCE_TWO_CONCRETE_REPAIR_ITEMS",
+  "author_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch40-20261031/author-review.json",
+    "bytes": 13434,
+    "lines": 232,
+    "sha256": "e9403512aacacd3863901c07232574f902bc55332bc110346ccc1c3323ff8663"
+  },
+  "sources": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/guard.py",
+      "bytes": 17166,
+      "lines": 342,
+      "sha256": "926461658cc10df22ad55f9134a26de9bc448d936a9d185e73618ab10f4a8c4d"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/test_guard.py",
+      "bytes": 18415,
+      "lines": 329,
+      "sha256": "0f1cf0c2a845bc58db50aadd6e216524926bf753808029ba0b986bdc27527630"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/GUARD.md",
+      "bytes": 1086,
+      "lines": 14,
+      "sha256": "0c524d8c799d3d67a34c35e2d73255f7798c8c05d872e5fd3c8d2abb7dd90ff7"
+    }
+  ],
+  "review_method": "Read complete342-lineguard,329-linetests/all11methods,14-linedoc and retained immutable providers. AST parse only, no imports or subject execution.",
+  "findings": [
+    {
+      "id": "G40-01",
+      "priority": "P2",
+      "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/guard.py",
+      "line": 123,
+      "related_lines": [
+        138,
+        159,
+        213,
+        279
+      ],
+      "title": "Policy-only API omits promised fixed child-descriptor validation",
+      "evidence": "source_next_policy returns deepcopy(admit(contract)[0]); admit checks policy header and exact3 childIDs but not each child descriptor shape/family/team/dependencies/hash syntax. Family/team/four-field checks are deferred to restore_contract and dependencies to restore_plan. A coherent test-only reseal of a malformed child descriptor therefore reaches policy-only success. This is source reasoning, not an executed reproducer.",
+      "required_repair": "Share exact fixed descriptor shape, family/team and3 dependency-list checks in admit, with suitable hash syntax/type checks. Add an isolated policy-only synthetic-seal corruption control. A contract-only API cannot prove actual plan body/caps; keep that boundary explicit rather than claiming plan validation."
+    },
+    {
+      "id": "G40-02",
+      "priority": "P2",
+      "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/guard.py",
+      "line": 46,
+      "related_lines": [
+        47
+      ],
+      "title": "Unbounded dict-key scan precedes cheap container budget refusal",
+      "evidence": "bound performs all(type(k) is str for k in value) across the entire supplied dict before charging len(value) framing and before a node-count/container-size refusal. An already supplied arbitrarily large dict can force work far beyond the stated1M-node bound even when its framing is immediately over64MiB. Serialization/deepcopy bounds otherwise occur early.",
+      "required_repair": "Reject obvious len/framing/node overages before any full key scan, or incrementally charge/check key traversal. Preserve exact builtin string-key validation and add a meaningful ordering regression without constructing a real enormous fixture."
+    }
+  ],
+  "reviewed_coherent_mechanisms": [
+    "One Session cache/aggregate covers model bound, actual old programs, source fragments, held policies and full execution; cache avoids duplicate role charges/reads.",
+    "All9 .11 public entrypoints defaultPENDING before provider, deepcopy or serialization; required plan APIs rejectNone. Tests use sentinels for all3 early-work categories.",
+    "Whole.10/.9/.8 restoration recomputes scheduling/count fields, fixes only known historicalC99 hash/pointers and compares exact whole canonical fingerprints.",
+    "Actual variable generator is read/bounded and checked against currentC99; matching synthetic byte-claim positive is labeled explicitly. Proposed lane is a logical fixture role, never claimed physically adopted.",
+    "Tests isolate bool/floatcap guards with scoped synthetic seals, preserve six held pins/wholeexecution/rawunknown attribution, and exercise actual oldguard body/normalizedseal versus supplied-binding mismatch.",
+    "Fixed namespace test bootstrap binds whole derive/current guard source; no uncounted productionloader exists. Its future integration remains a separate root lease/adoption.",
+    "Raw dictionary/byte/reader bounds are logical accounting, not RSS. Supplied callbacks prove byte consistency only; current origin remains root/default-reader responsibility."
+  ],
+  "case_coverage_limit": "All11 methods inspected; controls are authored source only until root executes exact frozen source. Policy-only structural and preflight ordering regressions are presently missing.",
+  "budget": "Root exact new source current358production/687authored with CI2; final publicdocs/attrs forecast372/701. Existing251activefixtures remain bound/disclosed but zero newA+D. Repairs have hard400/900 headroom; no case reduction or minification needed.",
+  "admission": "Do not execute this frozen source until the two findings are repaired or explicitly narrowed by a reviewed design change. Final exact replacement freeze/source review required; retain this historicalHOLD. No seal/adoption/feature lease granted.",
+  "actions": {
+    "subject_imports_execution_tests": false,
+    "network_Git_source_changes": false,
+    "only_new_output": "/workspace/build/builderbob/syson-durable-batch40-20261031/reviewer-guard-source-findings-01.json"
+  }
+}
