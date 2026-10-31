@@ -142,7 +142,7 @@ def produce(output, proof_inputs):
     pins.update({name: D.sha(raw) for name, raw in proofs.items()})
     manifest = {'status': 'UNSEALED_PROPOSAL_ONLY', 'input_sha256': pins, 'actual_program_sha256': program_pins,
                 'logical_input_ceiling': used + C.MIB, 'output_sha256': {n: D.sha(v) for n, v in encoded.items()},
-                'runtime': {'python': sys.version, 'zlib': zlib.ZLIB_RUNTIME_VERSION}, 'raw_alias_count': 52}
+                'runtime': {'python': sys.version, 'zlib': zlib.ZLIB_RUNTIME_VERSION}, 'raw_alias_count': len(files) - len(C.CAPTURED)}
     encoded['manifest.json'] = bytes(C.compact(manifest, 512 * 1024))
     outputs = tuple(sorted(encoded.items(), key=lambda item: (item[0] == 'manifest.json', item[0])))
     D.require(used + C.MIB + sum(len(raw) + 128 + 6 * len(name) for name, raw in outputs) <= D.LIMIT,
