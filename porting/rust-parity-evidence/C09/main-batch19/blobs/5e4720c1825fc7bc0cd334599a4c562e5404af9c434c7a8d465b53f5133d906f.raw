@@ -1,0 +1,70 @@
+"""Inspect raw captures without declaring parity or hiding unsupported fields."""
+from pathlib import Path
+import json
+b=Path(__file__).parent;o=b/'construction-differential-01';native=json.loads((o/'native.json').read_text());rust=json.loads((o/'rust.json').read_text());rust={c['id']:c for c in rust['cases']};report=[]
+for case in native['cases']:
+ result=rust[case['id']]['outcome'];row={'id':case['id'],'category':case['category'],'native_lexer_errors':len(case['lexer_errors']),'native_parser_errors':len(case['parser_errors']),'rust_outcome':result['kind']}
+ if result['kind']!='arena':row['rust_error']=result['error'];report.append(row);continue
+ graph=case['tree'];objects={x['id']:x for x in graph['objects']};csts={x['id']:x for x in graph['cst']};npaths={};rpaths={};nby={};rby={};differences=[]
+ props=lambda obj:{p['key']:p.get('value',{'kind':'accessor'}) for p in obj['properties']}
+ def native_walk(ref,path):
+  obj=objects[ref['$object']]
+  if obj['kind']!='ast' or obj['id'] in npaths:return
+  npaths[obj['id']]=path;nby[path]=obj
+  for key,value in props(obj).items():
+   if key.startswith('$'):continue
+   walk_native_value(value,path+'/'+key)
+ def walk_native_value(value,path):
+  if not isinstance(value,dict) or '$object' not in value:return
+  obj=objects[value['$object']]
+  if obj['kind']=='ast':native_walk(value,path)
+  elif obj['kind']=='array':
+   for key,v in props(obj).items():
+    if key.isdigit():walk_native_value(v,path+'/'+key)
+ rnodes={n['id']:n for n in result['nodes']}
+ def rust_walk(id,path):
+  if id in rpaths:return
+  rpaths[id]=path;rby[path]=rnodes[id]
+  for key,value in rnodes[id]['fields'].items():
+   if not key.startswith('$'):walk_rust_value(value['value'],path+'/'+key)
+ def walk_rust_value(value,path):
+  if value['kind']=='node':rust_walk(value['id'],path)
+  elif value['kind']=='array':
+   for i,v in enumerate(value['items']):walk_rust_value(v['value'],path+'/'+str(i))
+ native_walk(graph['root'],'root');rust_walk(result['root'],'root')
+ def native_value(value):
+  if isinstance(value,dict) and '$object' in value:
+   obj=objects[value['$object']];p=props(obj)
+   if obj['kind']=='ast':return {'node':npaths.get(obj['id'],'UNMAPPED:'+obj['id'])}
+   if obj['kind']=='array':return [native_value(p[str(i)]) for i in range(p['length'])]
+   if '$refText' in p:return {'reference_text':p['$refText']}
+   return {'unhandled_native_object':obj}
+  if isinstance(value,str):return {'string_utf16':list(value.encode('utf-16-le',errors='surrogatepass')[i]+(value.encode('utf-16-le',errors='surrogatepass')[i+1]<<8) for i in range(0,len(value.encode('utf-16-le',errors='surrogatepass')),2))}
+  return value
+ def rust_value(value):
+  kind=value['kind']
+  if kind=='node':return {'node':rpaths.get(value['id'],'UNMAPPED:'+str(value['id']))}
+  if kind=='array':return [rust_value(x['value']) for x in value['items']]
+  if kind=='string':return {'string_utf16':value['units']}
+  if kind=='boolean':return value['value']
+  if kind=='null':return None
+  if kind=='unresolved_reference':return {'reference_text':value['text']}
+  return value
+ for path in sorted(set(nby)|set(rby)):
+  n=nby.get(path);r=rby.get(path)
+  if n is None or r is None:differences.append({'path':path,'kind':'missing_node','native':n,'rust':r});continue
+  np=props(n)
+  if n['node_type']!=r['node_type']:differences.append({'path':path,'kind':'node_type','native':n['node_type'],'rust':r['node_type']})
+  fields={k:v for k,v in np.items() if k=='$children' or not k.startswith('$')}
+  for key in sorted(set(fields)|set(r['fields'])):
+   nv=native_value(fields[key]) if key in fields else {'ABSENT':True};rv=rust_value(r['fields'][key]['value']) if key in r['fields'] else {'ABSENT':True}
+   if nv!=rv:differences.append({'path':path+'/'+key,'kind':'field','native':nv,'rust':rv})
+  ncst=csts.get(np.get('$cstNode',{}).get('$cst'));ns=ncst.get('span') if ncst else None;rs=r.get('origin')
+  if ns and rs and (ns['offset']!=rs['utf16'][0] or ns['end']!=rs['utf16'][1] or ns['text']!=rs['text']):differences.append({'path':path,'kind':'origin','native':{k:ns[k] for k in ['offset','end','text']},'rust':rs})
+ row.update(native_nodes=len(npaths),rust_nodes=len(rpaths),differences=differences,policy='Inspection only: identity bindings use structural paths; all fields including $children compared. Reference text is inspected separately from Rust target-type metadata. Native nonexposed $childIndex/CST graphs remain in raw capture. No feature acceptance claimed.')
+ report.append(row)
+(o/'structural-inspection.json').write_text(json.dumps({'status':'INSPECTION_NOT_PARITY_ACCEPTANCE','cases':report},indent=2)+'\n')
+for row in report:
+ if row['category']=='finite':
+  diffs=row.get('differences',[]);print(row['id'],'differences',len(diffs),'origin',sum(d['kind']=='origin' for d in diffs),'cache',sum(d['path'].endswith('/$children') for d in diffs))
+print('Noncache first-case differences:',json.dumps([d for d in report[0]['differences'] if not d['path'].endswith('/$children')],ensure_ascii=False)[:3000])

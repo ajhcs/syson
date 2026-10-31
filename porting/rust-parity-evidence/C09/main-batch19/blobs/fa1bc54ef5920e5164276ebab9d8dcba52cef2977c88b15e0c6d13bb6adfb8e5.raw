@@ -1,0 +1,12 @@
+Diff in /workspace/worktrees/builderbob/syson/batch18-construction-landing/rust/crates/syson-ast-adapter/tests/construction.rs:381:
+     )
+     .unwrap();
+     let failure = bounded.allocate(None, None).unwrap_err();
+-    assert_eq!(Error::from(failure), Error::Kernel(syson_ast::Error::Budget));
++    assert_eq!(
++        Error::from(failure),
++        Error::Kernel(syson_ast::Error::Budget)
++    );
+     let failure = syson_ast::Lexeme::from_source("🚗", 1, 2).unwrap_err();
+     assert_eq!(
+         Error::from(failure),
