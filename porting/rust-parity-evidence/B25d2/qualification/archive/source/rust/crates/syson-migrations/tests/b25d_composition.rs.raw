@@ -1,0 +1,168 @@
+// SPDX-License-Identifier: EPL-2.0
+use serde_json::{Value, json};
+use std::collections::{HashMap, HashSet};
+use syson_migration_pipeline::{self as caller, Project, Representation, Resolver};
+use syson_migrations::b25d::{self, Error, KIND, VERSION};
+use syson_persistence::{DIAGRAM_VERSION, ResolvedElement};
+
+const INPUTS: &str =
+    include_str!("../../../../porting/rust-parity-evidence/B25d/native-fixtures.json");
+const EXPECTED: &str =
+    include_str!("../../../../porting/rust-parity-evidence/B25d/source-predictions.json");
+const IDS: [&str; 19] = [
+    "callback-start",
+    "callback-done",
+    "callback-decision",
+    "callback-fork",
+    "callback-join",
+    "callback-merge",
+    "callback-explicit-value-differs-from-root",
+    "callback-missing-root-property",
+    "callback-case-sensitive-attribute",
+    "callback-nonstring-null",
+    "callback-nonstring-number",
+    "callback-nonstring-boolean",
+    "callback-nonstring-object",
+    "callback-nonstring-array",
+    "traversal-all-six-nested-and-readonly",
+    "traversal-object-valued-description",
+    "traversal-replay-and-opaque-values",
+    "traversal-nested-array-refusal",
+    "traversal-late-refusal-native-partial-tree",
+];
+
+#[test]
+fn complete_inventory_is_source_prediction_only_with_two_distinct_refusals() {
+    let inputs: Value = serde_json::from_str(INPUTS).unwrap();
+    let expected: Value = serde_json::from_str(EXPECTED).unwrap();
+    assert_eq!(inputs["status"], "INPUT_ONLY_NATIVE_ORACLE_PACKET");
+    assert_eq!(
+        expected["status"],
+        "SOURCE_PREDICTIONS_NOT_OBSERVED_NATIVE_RESULTS"
+    );
+    let cases = inputs["cases"].as_array().unwrap();
+    let predictions = expected["predictions"].as_array().unwrap();
+    assert_eq!(cases.len(), IDS.len());
+    assert_eq!(predictions.len(), IDS.len());
+    let mut unique = HashSet::new();
+    for (index, id) in IDS.iter().enumerate() {
+        assert!(unique.insert(cases[index]["id"].as_str().unwrap()));
+        assert_eq!(cases[index]["id"], *id);
+        assert_eq!(predictions[index]["id"], *id);
+        let prediction = &predictions[index]["source_prediction"];
+        assert_eq!(
+            prediction["status"],
+            if index < 17 { "PREPARED" } else { "REFUSED" }
+        );
+        assert_eq!(
+            cases[index]["mode"],
+            if index < 14 { "callback" } else { "traversal" }
+        );
+    }
+    assert_eq!(b25d::MAPPINGS.len(), 6);
+    let prior = b25d::prepare(KIND, "{}", None).unwrap();
+    let published = prior.to_json().unwrap();
+    for index in [17, 18] {
+        let input = cases[index]["input"].as_str().unwrap();
+        let before = input.to_owned();
+        assert_eq!(b25d::prepare(KIND, input, None), Err(Error::NestedArray));
+        assert_eq!(input, before);
+        assert_eq!(prior.to_json().unwrap(), published);
+        assert!(predictions[index]["source_prediction"]["native_partial_json"].is_object());
+    }
+    assert_ne!(
+        predictions[17]["source_prediction"]["native_partial_json"],
+        predictions[18]["source_prediction"]["native_partial_json"]
+    );
+}
+
+struct SnapshotResolver {
+    calls: Vec<String>,
+    fail: bool,
+}
+impl Resolver for SnapshotResolver {
+    fn resolve(&mut self, id: &str) -> Result<Option<ResolvedElement>, String> {
+        self.calls.push(id.to_owned());
+        if self.fail {
+            Err("snapshot unavailable".into())
+        } else {
+            Ok(None)
+        }
+    }
+}
+
+#[test]
+fn full_six_mapping_corpus_handoff_preserves_independent_fields_and_failure_isolation() {
+    let inputs: Value = serde_json::from_str(INPUTS).unwrap();
+    let expected: Value = serde_json::from_str(EXPECTED).unwrap();
+    let input = inputs["cases"][14]["input"].as_str().unwrap();
+    let mut selected = b25d::prepare(KIND, input, None).unwrap();
+    assert_eq!(
+        selected.json,
+        expected["predictions"][14]["source_prediction"]["json"]
+    );
+    selected.json["nodes"][0]["targetObjectId"] = json!("old-target");
+    // Manual marker objects are data, not serde carriers or embedded JSON.
+    selected.json["marker"] = json!({"$serde_json::private::RawValue": "[[]]"});
+    let foreign = json!({"descriptionId": "foreign", "nodes": [[]]});
+    let project = Project {
+        documents: vec![],
+        representations: vec![
+            Representation {
+                kind: KIND.into(),
+                content: selected.json.clone(),
+                diagram_version: None,
+            },
+            Representation {
+                kind: "foreign".into(),
+                content: foreign.clone(),
+                diagram_version: Some("foreign-history".into()),
+            },
+        ],
+    };
+    let before = project.clone();
+    let mut oracle = before.clone();
+    oracle.representations[0].content["nodes"][0]["targetObjectId"] = json!("new-target");
+    oracle.representations[0].diagram_version = Some(DIAGRAM_VERSION.into());
+    let ids = HashMap::from([("old-target".into(), "new-target".into())]);
+    let mut resolver = SnapshotResolver {
+        calls: vec![],
+        fail: false,
+    };
+    let output = caller::prepare(&project, &ids, &mut resolver).unwrap();
+    assert_eq!(output, oracle);
+    assert_eq!(
+        resolver.calls,
+        ["old-target", "keep", "keep", "keep", "keep", "keep", "keep"]
+    );
+    assert_eq!(project, before);
+    assert_eq!(selected.participant_version.as_deref(), Some(VERSION));
+    assert_ne!(VERSION, DIAGRAM_VERSION);
+    assert_eq!(output.representations[1].content, foreign);
+    let published = output.clone();
+    let mut denied = SnapshotResolver {
+        calls: vec![],
+        fail: true,
+    };
+    assert!(matches!(
+        caller::prepare(&project, &ids, &mut denied),
+        Err(caller::Error::Resolver(_))
+    ));
+    assert_eq!(denied.calls, ["old-target"]);
+    assert_eq!(project, before);
+    assert_eq!(output, published);
+    let mut stale = before.clone();
+    stale.representations[0].diagram_version = Some(VERSION.into());
+    let unchanged = stale.clone();
+    let mut unused = SnapshotResolver {
+        calls: vec![],
+        fail: false,
+    };
+    assert!(matches!(
+        caller::prepare(&stale, &ids, &mut unused),
+        Err(caller::Error::UnsupportedVersion(_))
+    ));
+    assert!(unused.calls.is_empty());
+    assert_eq!(stale, unchanged);
+    assert_eq!(output, published);
+}

@@ -1,0 +1,208 @@
+{
+  "status": "PASS_SPEC_SOURCE_WITH_RUNTIME_GATE_PENDING",
+  "observed_at_utc": "2026-10-31T10:09:49.667566+00:00",
+  "scope": "Independent exact source/spec/closure/data review only while parent merged-main checks remain live. No imports, Cargo/compiler/formatter/tests/probe, network artifact acquisition, Git, source/spec mutation or execution. Separate read-only public GitHub main monitoring does not grant runtime authority.",
+  "bindings": {
+    "spec_path": "/workspace/build/builderbob/syson-durable-batch48-20261031/checks-01-spec.json",
+    "spec_sha256": "94ba6e62188239ad76aee82a848e11830c2adcc1e4fb79e3415df285264fd0ed",
+    "spec_bytes": 164434,
+    "freeze_sha256": "6167962168c6abd106222829194afdd4137879d5dcb33e849af1c8f91f126b3e",
+    "source_review_sha256": "677c2ab4c6c0ab86fa35650cb2046ddaf8545228c7e9360d92541e33a7721ba4",
+    "author_review_sha256": "63f02e8a81720102a6f4b15239d8e4df612f787336818a379c0788ee812b657e",
+    "source_lease_sha256": "190c081714544682dbc49a51ab859664801ef48243debcf86b26ba6941681023",
+    "parent_source_commit": "9bf6bd3ba035f672c33807eb837584ffd55a4faa",
+    "parent_PR237_head": "8300efc9aa3d681c795d3fec7b1de5f546cec7f0",
+    "required_merged_parent_main": "d7527d5ad7998366ade4319a3c70f7eb00800bbc"
+  },
+  "current_closure": {
+    "input_count": 772,
+    "all_current_raw_hashes_equal_spec": true,
+    "freeze_input_map_and_spec_digest_match": true,
+    "worktree_inputs": 110,
+    "cache_inputs": 640,
+    "cache_map_exactly_equal_qualified_B46": true,
+    "pinned_crates": [
+      "syson-domain",
+      "syson-editor",
+      "syson-json-value",
+      "syson-metamodel",
+      "syson-migration-pipeline",
+      "syson-migrations",
+      "syson-model",
+      "syson-persistence",
+      "syson-workflow"
+    ],
+    "actual_path_dependency_closure": [
+      "syson-domain",
+      "syson-json-value",
+      "syson-metamodel",
+      "syson-migration-pipeline",
+      "syson-migrations",
+      "syson-model",
+      "syson-persistence"
+    ],
+    "all79_regular_files_in_actual_seven_crate_closure_frozen": true,
+    "extra_two_crates": "Existing editor/workflow source pins are passive closure extras; they are not new code imported by the migrations crate commands.",
+    "active_fixture_files": "Exact140+324lines are included as active canonical source inputs and compiled include_str! corpus, fully counted. All six current candidate source/doc paths match source review.",
+    "current_Cargo_configuration": "No crate/ancestor .cargo config or explicit CARGO_HOME config/config.toml files present; no injected Rust wrapper/preload/PYTHONPATH env. Existing manifest/lock unchanged, no new dependency acquisition.",
+    "direct_bootstrap_pins": {
+      "/usr/bin/systemd-run": "de28cc5757d3789efa5f6fed5659893410469f68b42175d4531f5b34d3a09e16",
+      "/usr/bin/python3": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+      "/usr/bin/systemctl": "37ec607113f55f1b385b4fa75588a43402aec0de57927500763b267713f10f63",
+      "/usr/bin/setpriv": "62ec0120791f3afcfb689fed52384ec2b0accc6e118a6b9a1d6fcfa7450aaf37",
+      "/usr/bin/time": "3b11dec50514a8473e9f6efa7a34d584d0657538c09988f61b72d38ad4991a10"
+    },
+    "runner": "Actual unchanged B32 run_scope5931e57\u2026/F25 qualifier624abb\u2026/ownershipff18c5\u2026 whole-byte pins present. Pinned Rust1.99.1/toolchain/native+WASM std and registry sources exactly reused, no new executable helper."
+  },
+  "commands": [
+    {
+      "name": "rustc-version",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc",
+        "-Vv"
+      ]
+    },
+    {
+      "name": "cargo-version",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "-V"
+      ]
+    },
+    {
+      "name": "fmt",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch48-action-control-corpus-20261031/rust/crates/syson-migrations/Cargo.toml",
+        "--",
+        "--check"
+      ]
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/usr/bin/setpriv",
+        "--no-new-privs",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch48-action-control-corpus-20261031/rust/crates/syson-migrations/Cargo.toml",
+        "--all-targets",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_tests": 51
+    },
+    {
+      "name": "clippy",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch48-action-control-corpus-20261031/rust/crates/syson-migrations/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ]
+    },
+    {
+      "name": "release-tests",
+      "argv": [
+        "/usr/bin/setpriv",
+        "--no-new-privs",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch48-action-control-corpus-20261031/rust/crates/syson-migrations/Cargo.toml",
+        "--all-targets",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_tests": 51
+    },
+    {
+      "name": "release-probe-build",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch48-action-control-corpus-20261031/rust/crates/syson-migrations/Cargo.toml",
+        "--example",
+        "b25d_corpus_probe"
+      ]
+    },
+    {
+      "name": "wasm-library",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "check",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch48-action-control-corpus-20261031/rust/crates/syson-migrations/Cargo.toml",
+        "--target",
+        "wasm32-unknown-unknown",
+        "--lib"
+      ]
+    }
+  ],
+  "case_plan": {
+    "expected_each_debug_release": 51,
+    "total_expected_named_executions": 102,
+    "source_identity_count": 51,
+    "identity_map_sha256": "dae1adc24d585df47fd8cab3f2c5a7ca9b7e0b177303c0897ba1082b8d2dd225",
+    "B25d_originals": "All6 frozen direct plus complete original seventh corpus case required, with all4 B25d1 literal cases and two new composition methods. Existing unaffected migrations cases retained.",
+    "counts_boundary": "Later actual execution review must match all51 named methods per actual test-file/harness in each mode, raw OK/noignored/no filtered, argv/exits and receipt counts. Source enumeration is not a test result.",
+    "probe_boundary": "Release-build command compiles b25d_corpus_probe only; no full-corpus main execution in these eight commands. Cargo all-target example test harness is distinct from main execution. Actual binary/source-bound corpus performance gate follows separately."
+  },
+  "environment_and_paths": {
+    "env_preserved_except_three_fresh_B48_directories": true,
+    "settings": "Explicit owned Samsung CARGO_HOME/RUSTUP_HOME and pinned toolchain PATH, offline Cargo, one compiler job, RUST_TEST_THREADS1 and --test-threads1, incremental0. Tests use setpriv --no-new-privs. All build/test/check/Clippy commands --offline --locked; fmt --check only.",
+    "freshness": "Exact target/TMP/test directories exist canonical nonsymlink uid1000/0700 and empty; checks01 output/controller streams/cleanup absent. New scope/nonce/prefix bindings checked without reproducing nonce.",
+    "cwd_and_lock": "Actual current W48 migrations crate; canonical shared compiler lock reused nonblocking.",
+    "resource_protocol": "Unchanged scope CPU200%/MemoryHigh2G/MemoryMax3G/swap0/tasks128, sequential commands with180-second timeouts, actual owned scope/cgroup/invocation/proc attestation before commands, input before/after snapshots and proof-bound terminal cleanup. Root still must fresh-check host/device/headroom/ownership/lock."
+  },
+  "budget": {
+    "current_source_production": 136,
+    "current_source_authored": 822,
+    "all_active_fixture_lines": 464,
+    "root_support_reserve": 20,
+    "forecast_production": 156,
+    "forecast_authored": 842,
+    "hard_limits": [
+      400,
+      900
+    ],
+    "new_runner_source_AD": 0,
+    "qualification_boundary": "B25d1 unchanged API/tests are prerequisite source, not newly authored B48 scope; exact qualified parent landing must be established before runtime/merge. Every later root CI/docs/helper/fixture line still counts."
+  },
+  "mandatory_runtime_gate": {
+    "current_status": "HELD; parent actual main plan/guard and some Rust checks are still live at review time. No early launch authorized.",
+    "required_before_launch": [
+      "Complete qualified B25d1 merged-main gate at exact d7527d5a\u2026 with all16 required names successful and every reported job terminal; retain separate immutable main report/raw and merged-tree source identity proof.",
+      "Root fresh explicit execution admission must bind that parent qualification and prove current composed source/prerequisite bytes still equal the exact772-input spec. Any intentional input/source delta requires preserved revised spec/readmission.",
+      "Fresh Samsung/device/headroom/global compiler lock/owned scope and canonical directory preflight immediately before launch."
+    ],
+    "not_satisfied_by": "Successful PR237 checks, merged source identity, conditional spec PASS or draft source lease alone do not satisfy this runtime gate."
+  },
+  "remaining_limits": [
+    "No actual tool version/format/compiler/Clippy/WASM/debug/release result is claimed here.",
+    "WASM is compile-checking only. No live numeric-caps/peak/RSS or corpus timing observation.",
+    "Parent B25d/RR24, C01/C02 native trust/equivalent-work comparisons, SQL/HTTP/UI/storage/backend restart and held/human scopes remain OPEN; no hold released."
+  ]
+}
