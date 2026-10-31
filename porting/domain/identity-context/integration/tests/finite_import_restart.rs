@@ -1,0 +1,289 @@
+// SPDX-License-Identifier: EPL-2.0
+use std::{
+    fs,
+    os::unix::fs::DirBuilderExt,
+    path::{Path, PathBuf},
+    sync::{Arc, atomic::{AtomicBool, Ordering}},
+    time::{SystemTime, UNIX_EPOCH},
+};
+use syson_identity_context_integration::{sample, workspace_root};
+use syson_domain::identity_context::*;
+use syson_model::{Document, Editor, ModelError, NodeIds};
+use syson_text_import::{Error, Importer, Staged};
+use syson_workflow::SnapshotStore;
+
+const TEXT: &str = "package Imported { part def A; part def B; part a : A; part b : B; }";
+fn resource(n: u8) -> String {
+    format!("10000000-0000-4000-8000-{n:012x}")
+}
+fn semantic(n: u8) -> String {
+    format!("20000000-0000-4000-8000-{n:012x}")
+}
+fn ids(n: u8) -> NodeIds {
+    NodeIds::new(&resource(n), &semantic(n)).unwrap()
+}
+// Independent complete EMF JSON oracle: no importer, Editor or CLI output used.
+fn node(n: u8, class: &str, extra: &str) -> String {
+    format!(
+        r#"{{"id":"{}","eClass":"sysml:{class}","data":{{"elementId":"{}"{extra}}}}}"#,
+        resource(n),
+        semantic(n)
+    )
+}
+fn expected(edited: bool) -> Document {
+    // Membership, child, class, declaredName, optional(typing,target): manual authority.
+    let topology = [
+        (3, 2, "PartDefinition", "A", None),
+        (5, 4, "PartDefinition", "B", None),
+        (7, 6, "PartUsage", if edited { "EditedA" } else { "a" }, Some((10, 2))),
+        (9, 8, "PartUsage", "b", Some((11, 4))),
+    ];
+    let mut relationships = Vec::new();
+    for (membership, child, class, name, typing) in topology {
+        let mut fields = format!(",\"declaredName\":\"{name}\"");
+        if let Some((link, target)) = typing {
+            let relation = node(link, "FeatureTyping", &format!(",\"type\":\"{}\",\"typedFeature\":\"{}\"", semantic(target), semantic(child)));
+            fields.push_str(&format!(",\"isComposite\":true,\"ownedRelationship\":[{relation}]"));
+        }
+        let child = node(child, class, &fields);
+        relationships.push(node(membership, "OwningMembership", &format!(",\"ownedRelatedElement\":[{child}]")));
+    }
+    let relationships = relationships.join(",");
+    let root = node(1, "Package", &format!(",\"declaredName\":\"Imported\",\"ownedRelationship\":[{relationships}]"));
+    let generated = if edited {
+        format!(",{}", node(12, "Package", ",\"declaredName\":\"Generated\""))
+    } else {
+        String::new()
+    };
+    Document::from_json(&format!(r#"{{"json":{{"version":"1.0","encoding":"utf-8"}},"ns":{{"sysml":"http://www.eclipse.org/syson/sysml"}},"content":[{root}{generated}]}}"#)).unwrap()
+}
+fn registry(document: &Document) -> SelectedIdentityRegistry {
+    let fields = document.elements();
+    SelectedIdentityRegistry::restore(
+        fields.iter().map(|e| {
+            SelectedIdentity::from_fields(Some(&e.resource_id), Some(&e.element_id)).unwrap()
+        }),
+    )
+    .unwrap()
+}
+fn stage(
+    editor: &Editor, text: &str, identities: impl IntoIterator<Item = NodeIds>, flag: Arc<AtomicBool>,
+) -> std::result::Result<Staged, Error> {
+    Importer::pinned()?.stage(editor.begin(), text, None, identities, flag)
+}
+fn imported() -> Editor {
+    let mut editor = Editor::new(Document::empty());
+    let staged = stage(&editor, TEXT, (1..=11).map(ids), Arc::new(AtomicBool::new(false))).unwrap();
+    assert_eq!(staged.allocations(), 11);
+    staged.commit(&mut editor).unwrap();
+    assert!(editor.document() == &expected(false), "full import oracle");
+    editor
+}
+struct Directory(PathBuf);
+impl Directory {
+    fn new() -> Self {
+        let parent =
+            PathBuf::from(std::env::var_os("SYSON_TEST_DIR").expect("owned Samsung test root"));
+        workspace_root(&parent).unwrap();
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let path = parent.join(format!("m06a2-{}-{nonce}", std::process::id()));
+        fs::DirBuilder::new().mode(0o700).create(&path).unwrap();
+        Self(path)
+    }
+}
+impl Drop for Directory {
+    fn drop(&mut self) {
+        fs::remove_dir_all(&self.0).expect("remove only this test's directory");
+    }
+}
+fn child(mode: &str, root: &Path, success: bool) -> (u32, [u128; 8]) {
+    let binary = PathBuf::from(std::env::var_os("SYSON_IDENTITY_CLI").expect("root-built qualified CLI"));
+    let result = sample(&binary, mode, root, success).unwrap();
+    if success {
+        assert_eq!(result.numbers[6..], [12, 12]);
+    }
+    (result.pid, result.numbers)
+}
+#[test]
+fn finite_writer_exit_then_distinct_reader_checks_full_document_roles_and_no_overwrite() {
+    let own = Directory::new();
+    let (writer, write) = child("write", &own.0, true);
+    let expected = expected(true);
+    let committed_path = own.0.join("finite.emf.json");
+    let baseline_path = own.0.join("finite-baseline.emf.json");
+    let committed = fs::read(&committed_path).unwrap();
+    let baseline = fs::read(&baseline_path).unwrap();
+    assert!(
+        committed == expected.to_json().unwrap().as_bytes(),
+        "full persisted oracle"
+    );
+    assert!(
+        baseline == self::expected(false).to_json().unwrap().as_bytes(),
+        "full baseline oracle"
+    );
+    assert_eq!(write[5] as usize, committed.len());
+    let (reader, read) = child("read", &own.0, true);
+    assert_ne!(writer, reader);
+    assert_ne!(writer, std::process::id());
+    assert_ne!(reader, std::process::id());
+    assert_eq!(write[5], read[5]);
+    let reloaded = SnapshotStore::open(&own.0).unwrap().load("finite").unwrap();
+    assert!(reloaded == expected, "full fresh parent readback");
+    let registry = registry(&reloaded);
+    assert_eq!(registry.len(), 12);
+    for n in 1..=12 {
+        let pair = ids(n);
+        let selected =
+            SelectedIdentity::from_fields(Some(&pair.resource), Some(&pair.element)).unwrap();
+        assert!(
+            registry.contains_resource(selected.resource())
+                && registry.contains_semantic(selected.semantic())
+        );
+    }
+    assert!(
+        SnapshotStore::open(&own.0)
+            .unwrap()
+            .save_new("finite", &expected)
+            .is_err()
+    );
+    child("write", &own.0, false);
+    assert!(
+        fs::read(committed_path).unwrap() == committed,
+        "no overwrite committed"
+    );
+    assert!(
+        fs::read(baseline_path).unwrap() == baseline,
+        "no overwrite baseline"
+    );
+    assert!(
+        own.0.join("finite-baseline.emf.staged").exists(),
+        "failed staging retained"
+    );
+}
+#[test]
+fn cancellation_and_late_identity_or_link_refusals_preserve_model_history_and_disk() {
+    let own = Directory::new();
+    let mut editor = imported();
+    let baseline = editor.document().clone();
+    let history = editor.history_state();
+    let store = SnapshotStore::open(&own.0).unwrap();
+    let saved = store.save_new("prior", &baseline).unwrap();
+    let before = fs::read(&saved).unwrap();
+    let flag = Arc::new(AtomicBool::new(false));
+    let staged = stage(&editor, "package Extra;", [ids(20)], flag.clone())
+        .unwrap();
+    staged.cancel();
+    let staged = stage(&editor, "package Extra;", [ids(20)], flag.clone())
+        .unwrap();
+    flag.store(true, Ordering::Relaxed);
+    assert_eq!(staged.commit(&mut editor), Err(Error::Cancelled));
+    flag.store(false, Ordering::Relaxed);
+    for source in ["package Broken {", "package New { part x : Missing; }"] {
+        assert!(
+            stage(&editor, source, (20..=30).map(ids), flag.clone())
+                .is_err()
+        );
+    }
+    assert!(matches!(
+        stage(&editor, "package Extra;", [], flag.clone()),
+        Err(Error::IdentitiesExhausted)
+    ));
+    for semantic_collision in [true, false] {
+        let mut supply: Vec<_> = (20..=24).map(ids).collect();
+        supply.push(if semantic_collision {
+            NodeIds::new(&resource(25), &semantic(2)).unwrap()
+        } else {
+            NodeIds::new(&resource(2), &semantic(25)).unwrap()
+        });
+        assert!(
+            stage(&editor, "package New { part def A; part a : A; }", supply, flag.clone())
+                .is_err()
+        );
+        assert!(
+            editor.document() == &baseline,
+            "late collision model isolation"
+        );
+        assert_eq!(editor.history_state(), history);
+        assert!(
+            fs::read(&saved).unwrap() == before,
+            "late collision bytes isolation"
+        );
+    }
+    assert!(
+        editor.document() == &baseline,
+        "cancel/refusal model isolation"
+    );
+    assert_eq!(editor.history_state(), history);
+    assert!(
+        fs::read(saved).unwrap() == before,
+        "cancel/refusal bytes isolation"
+    );
+}
+#[test]
+fn foreign_and_stale_staged_commits_preserve_current_documents_history_and_prior_bytes() {
+    let own = Directory::new();
+    let mut editor = imported();
+    let flag = Arc::new(AtomicBool::new(false));
+    let store = SnapshotStore::open(&own.0).unwrap();
+    let saved = store.save_new("prior", editor.document()).unwrap();
+    let bytes = fs::read(&saved).unwrap();
+    let staged = stage(&editor, "package Extra;", [ids(20)], flag.clone())
+        .unwrap();
+    let mut foreign = Editor::new(editor.document().clone());
+    let prior_history = foreign.history_state();
+    assert_eq!(
+        staged.commit(&mut foreign),
+        Err(Error::Model(ModelError::ForeignTransaction))
+    );
+    assert!(
+        foreign.document() == editor.document(),
+        "foreign model isolation"
+    );
+    assert_eq!(foreign.history_state(), prior_history);
+    let staged = stage(&editor, "package Extra;", [ids(20)], flag)
+        .unwrap();
+    let mut concurrent = editor.begin();
+    concurrent.rename(&semantic(6), "Concurrent").unwrap();
+    editor.commit(concurrent).unwrap();
+    let current = editor.document().clone();
+    let history = editor.history_state();
+    assert_eq!(
+        staged.commit(&mut editor),
+        Err(Error::Model(ModelError::StaleTransaction))
+    );
+    assert!(editor.document() == &current, "stale model isolation");
+    assert_eq!(editor.history_state(), history);
+    assert!(
+        fs::read(saved).unwrap() == bytes,
+        "foreign/stale bytes isolation"
+    );
+}
+#[test]
+fn private_registry_role_collisions_reserve_neither_other_role_and_scopes_are_independent() {
+    let document = imported().document().clone();
+    let mut registry = registry(&document);
+    let r = resource(30);
+    let s = semantic(2);
+    let selected = SelectedIdentity::from_fields(Some(&r), Some(&s)).unwrap();
+    assert_eq!(
+        registry.admit(selected),
+        Err(Collision::Semantic(selected.semantic()))
+    );
+    assert!(!registry.contains_resource(selected.resource()));
+    let r = resource(2);
+    let s = semantic(30);
+    let selected = SelectedIdentity::from_fields(Some(&r), Some(&s)).unwrap();
+    assert_eq!(
+        registry.admit(selected),
+        Err(Collision::Resource(selected.resource()))
+    );
+    assert!(!registry.contains_semantic(selected.semantic()));
+    assert_eq!(registry.len(), 11);
+    let mut separate = SelectedIdentityRegistry::default();
+    assert!(separate.admit(selected).is_ok());
+    assert_eq!(separate.len(), 1);
+    assert_eq!(registry.len(), 11);
+}
