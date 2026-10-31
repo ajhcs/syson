@@ -1,0 +1,217 @@
+{
+  "schema": "SYSON_SOURCE_NEXT_GUARD_AUTHOR_REPAIR_FREEZE/2",
+  "status": "FROZEN_SOURCE_ONLY_NO_SUBJECT_EXECUTION",
+  "base_main": "2bac855a3353e7a8f3b8738fc557c1421495535a",
+  "author": "/root/core_frontier_admission",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031",
+  "original_author_freeze_unchanged": {
+    "path": "/workspace/build/builderbob/syson-durable-batch40-20261031/author-review.json",
+    "bytes": 13434,
+    "ordinary_lines": 232,
+    "sha256": "e9403512aacacd3863901c07232574f902bc55332bc110346ccc1c3323ff8663"
+  },
+  "new_budget_authority": {
+    "path": "/workspace/build/builderbob/syson-durable-batch40-20261031/budget-reallocation-04.json",
+    "bytes": 626,
+    "ordinary_lines": 16,
+    "sha256": "da0a8b9f24a532c5af1cef5536d780bb0c05c5fac5d224daa1ae77d372e7fc4c"
+  },
+  "original_source_custody": "/workspace/build/builderbob/syson-durable-batch40-20261031/held-source-01",
+  "leased_source": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/guard.py",
+      "bytes": 17711,
+      "ordinary_lines": 349,
+      "sha256": "eb80f827c8014cee147ed42c6efafa1f3856ff250fd2ea99a275cfd46aef12d8"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/test_guard.py",
+      "bytes": 20147,
+      "ordinary_lines": 356,
+      "sha256": "cb7bc14f4dc74855442676f8f3d40770ca422b010d224fb1011eb6db6c42e01f"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/GUARD.md",
+      "bytes": 1089,
+      "ordinary_lines": 14,
+      "sha256": "79ed0ffa1e3801292355844339d9710fa8bd7357293ea5c53184c83c0b062b8d"
+    }
+  ],
+  "fixes": [
+    {
+      "finding": "source_next_policy/admit header and IDs did not independently enforce fixed child descriptor structure.",
+      "change": "admit now shares exact four-field child shape, fixed family/team/dependency list and lowercase64hex normalized hash syntax checks across all nine current APIs before policy copy. restore_contract preserves actual contract family membership and full canonical restoration while dropping duplicate shape checks.",
+      "regression": "New policy-only negative creates independently copied full positive contract, coherently reseals mutated child descriptor and invokes actual source_next_policy with Session sentinel. Unknown/missing fields, wrong family/team/dependencies/type and invalid hash syntax/length/type must reach fixed child descriptor refusal.",
+      "limit": "Policy-only API validates sealed policy structure and fixed descriptors; it does not prove absent plan body, normalized child record content, plan caps or current runtime source closure."
+    },
+    {
+      "finding": "bound scanned all dict key types before cheap obvious framing/node overflow refusal.",
+      "change": "Container framing is charged and aggregate bytes/minimum immediate-node count refused before all-key type scanning, iterator construction or copies. Exact JSON key types, nested cycle/depth/node/byte/alias checks remain present.",
+      "regression": "New bounded-work test allocates only64ordinary keys, mocks len solely in the new guard module for that exact dict and installs an all-key-scan sentinel. Declared sizes500001 and64MiB separately hit minimum immediate-node and framing rejection before any complete key scan. Scoped mocks restore module namespace; no old provider globals or huge real allocation."
+    }
+  ],
+  "retained_coverage": {
+    "old_named_methods": [
+      "test_pending_all_new_apis_refuse_before_context_or_copy",
+      "test_full_positive_private_views_and_complete_old_metadata",
+      "test_default_reader_is_not_a_proposed_lane_adoption",
+      "test_variable_generator_requires_matching_supplied_read_claim",
+      "test_unknown_versions_and_types_never_open_context",
+      "test_seal_policy_inventory_pointer_and_child_coherent_mutations",
+      "test_all_old_records_and_current_root_metadata_are_authoritative",
+      "test_current_owner_history_holds_and_actual_sources_cannot_drift",
+      "test_namespace_collision_and_stale_actual_source_identity_refuse",
+      "test_model_preflight_rejects_cycles_subclasses_surrogates_before_serialization",
+      "test_single_reader_exact_boundary_and_one_extra_byte"
+    ],
+    "old_named_count": 11,
+    "new_named_methods": [
+      "test_pending_all_new_apis_refuse_before_context_or_copy",
+      "test_full_positive_private_views_and_complete_old_metadata",
+      "test_default_reader_is_not_a_proposed_lane_adoption",
+      "test_variable_generator_requires_matching_supplied_read_claim",
+      "test_unknown_versions_and_types_never_open_context",
+      "test_seal_policy_inventory_pointer_and_child_coherent_mutations",
+      "test_all_old_records_and_current_root_metadata_are_authoritative",
+      "test_current_owner_history_holds_and_actual_sources_cannot_drift",
+      "test_namespace_collision_and_stale_actual_source_identity_refuse",
+      "test_model_preflight_rejects_cycles_subclasses_surrogates_before_serialization",
+      "test_single_reader_exact_boundary_and_one_extra_byte",
+      "test_policy_only_resealed_malformed_child_descriptors_refuse",
+      "test_cheap_container_refusal_precedes_any_complete_key_scan"
+    ],
+    "new_named_count": 13,
+    "old_current_history_hold_model_source_inverse_guards": "Retained; all three complete canonical old plan pins and actual current generator-variable source checks unchanged.",
+    "bootstrap": "Normalized whole current guard pin updated to exact repaired bytes; same fixed -I package namespace/bootstrap/provider checks."
+  },
+  "unchanged_inputs_and_authority": {
+    "base_lease": {
+      "path": "/workspace/build/builderbob/syson-durable-batch40-20261031/source-lease.json",
+      "sha256": "c2daa8263e03df7e5d2dcf35e1d4ddcba0e30b9481d92896db64bfb704dabb3a",
+      "bytes": 5259,
+      "ordinary_lines": 74
+    },
+    "accepted_design": {
+      "path": "/workspace/build/builderbob/syson-durable-batch39-20261031/next-guard-design.json",
+      "sha256": "eb3e242d558b342201c8631cd13c9ccd8d7fe6c72402e99d9c5ddb6e32646141",
+      "bytes": 20148,
+      "ordinary_lines": 267
+    },
+    "source_pins": {
+      "composition/source_next_prepare/derive.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/derive.py",
+        "sha256": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17",
+        "bytes": 17054,
+        "ordinary_lines": 291
+      },
+      "composition/registration/prepare.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/registration/prepare.py",
+        "sha256": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59",
+        "bytes": 22249,
+        "ordinary_lines": 353
+      },
+      "tools/preparation_splits.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/tools/preparation_splits.py",
+        "sha256": "7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3",
+        "bytes": 10926,
+        "ordinary_lines": 211
+      },
+      "composition/storage_split_guard.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/storage_split_guard.py",
+        "sha256": "db18f5d5c63c27d5e6daf5a78a8b358361b4ac66818e285c10c4a64f9de6ac01",
+        "bytes": 10362,
+        "ordinary_lines": 191
+      },
+      "completion-contract.json": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/completion-contract.json",
+        "sha256": "0327abf42a0c67837d90dc746e6a25dc85cd1b5cba64fda877b70ef967d3a8ff",
+        "bytes": 426182,
+        "ordinary_lines": 20086
+      },
+      "plan.json": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/plan.json",
+        "sha256": "af3da365011c1c84600f21877859e09d217d3a8886beccbe4551956e1ddadeec",
+        "bytes": 5917266,
+        "ordinary_lines": 120360
+      },
+      "execution.json": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/execution.json",
+        "sha256": "a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e",
+        "bytes": 204591,
+        "ordinary_lines": 4330
+      },
+      "rereview-batch11-coordinator-ownership.json": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/rereview-batch11-coordinator-ownership.json",
+        "sha256": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a",
+        "bytes": 1039,
+        "ordinary_lines": 14
+      },
+      "tools/build_plan.py": {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/tools/build_plan.py",
+        "sha256": "a18c1256b92c9378c80263285633695e07bfe423d6751d7c6b3036db77ef2ced",
+        "bytes": 18152,
+        "ordinary_lines": 260
+      }
+    },
+    "fixtures": [
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/fixtures/baseline-1.0.10.json.gz",
+        "sha256": "2447a23a683396361ecd955af98a8b3923b3e4b3cd621dc23718f4a99b8f6f9b",
+        "bytes": 3701707,
+        "ordinary_lines": 22073
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/fixtures/baseline-provenance.json",
+        "sha256": "b92a1a1832703b16d872c410ea280285bb92f2ad96beccdb098af0bf87374143",
+        "bytes": 12693,
+        "ordinary_lines": 285
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/fixtures/lane.json",
+        "sha256": "bb1a50bec6983d301b830b45ceeee34e19517a43020b85b2f8fa6ebcdfdd6ace",
+        "bytes": 16635,
+        "ordinary_lines": 241
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch40-source-next-guard-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/fixtures/amendment.md",
+        "sha256": "f92d091fcb9b6e64bcbf0e255f61d2f80a3d2e5834312f125cec97619daa10ca",
+        "bytes": 850,
+        "ordinary_lines": 10
+      }
+    ],
+    "fixture_accounting": {
+      "unchanged_lane_and_amendment_active_lines": 251,
+      "new_fixture_lines": 0,
+      "new_A_plus_D_charge_for_reused_inputs": 0,
+      "basis": "Explicit budget-accounting-clarification.json; all 251 active input lines remain bound and disclosed, neither copied nor edited."
+    },
+    "current_default": "PENDING_ROOT_FREEZE",
+    "root_CI_specs_original_reports": "Author did not modify."
+  },
+  "budget": {
+    "guard_production": 349,
+    "test_authored": 356,
+    "GUARD_documentation": 14,
+    "author_new_production": 363,
+    "author_new_authored": 719,
+    "root_all_support_remaining_maximum": 36,
+    "inclusive_production_with_entire_root_reserve": 399,
+    "inclusive_authored_with_entire_root_reserve": 755,
+    "hard_production": 400,
+    "hard_authored": 900,
+    "unchanged_existing_active_fixture_lines_bound_separately": 251,
+    "new_charge_for_unchanged_fixtures": 0,
+    "count_basis": "Ordinary physical source lines including blanks; no minification/formatter/source execution. Actual complete root publication A+D remains root-owned."
+  },
+  "actions": {
+    "only_three_leased_source_paths_plus_distinct_report_written": true,
+    "subject_imports_runtime_tests_AST_compile_formatter": false,
+    "network_Git_compiler": false,
+    "B41_source_request_or_worklist_edits": false,
+    "prior_report_spec_seal_current_plan_derive_fixtures_or_held_file_edits": false
+  },
+  "limitations": [
+    "Independent exact source/spec review and actual root-owned normal/-O tests remain required; no runtime permission follows from this freeze.",
+    "Default pending guard is inactive; no normative adoption, feature lease or broad native/library/UI/SQL/storage/process-backend acceptance is asserted."
+  ]
+}
