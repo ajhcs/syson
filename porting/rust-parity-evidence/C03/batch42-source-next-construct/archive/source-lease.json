@@ -1,0 +1,49 @@
+{
+  "schema": "SOURCE-NEXT-CONSTRUCTOR-LEASE/1",
+  "status": "SOURCE_ONLY_NO_RUNTIME_OR_ADOPTION",
+  "base_main": "88bf8ab6987619e8d989299474c250f5f1625d97",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch42-source-next-constructor-20261031",
+  "author": "/root/core_frontier_admission",
+  "leased_paths": [
+    "porting/rust-parity-plan-20261026/composition/source_next_prepare/construct.py",
+    "porting/rust-parity-plan-20261026/composition/source_next_prepare/test_construct.py",
+    "porting/rust-parity-plan-20261026/composition/source_next_prepare/CONSTRUCT.md"
+  ],
+  "design": {
+    "path": "/workspace/build/builderbob/syson-durable-batch40-20261031/next-adoption-implementation-design.json",
+    "sha256": "6ee09d0422d310dd5761bde5ef5a908d2388fd2c3a438c7ba83912b8ff13abf0"
+  },
+  "selected_design": "A_complete_constructor_then_immediate_atomic_adoption",
+  "hard_caps": {
+    "production_AD": 400,
+    "authored_AD": 900
+  },
+  "author_caps": {
+    "construct_production": 290,
+    "test_authored": 340,
+    "doc_production": 14
+  },
+  "root_reserve_production": 56,
+  "root_reserve_authored": 256,
+  "fixed_required_set": "60 per actual conservative60 inventory in prior byte-budget report; old48 plus explicit12 roles; caller cannot omit any",
+  "fixed_progress": "All318 old progress plus fixed prior register/snapshot/contract roles and17 reviewed compact proof inputs from source-next byte budget; no caller controlled progress profile",
+  "trust": "Actual current-source checks, complete 797 units/full metadata/five register overlays, all55 history/holds and old1167 closure retained. Pinned P/D/G providers; PENDING fails before read/copy. Scoped synthetic seal only in tests. Fixed .11 constructors do not relabel old .10 functions. Single cached canonical reader. Prior register once. Combined64MiB preallocation admission covers physical input/namehash framing and emitted artifacts/provenance without double-charging serialized framing. No cap relaxation, hidden helper, minification or cut cases. Default physical reader must preserve actual G/owner/generator binding.",
+  "APIs": [
+    "contract_lock(current_files,prior_lock)",
+    "snapshot(current_files,prior_register,prior_snapshot_lock,prior_contract_lock,snapshot_id,base_main)",
+    "emit_fresh(output,unsigned_proposal)"
+  ],
+  "verification_required": [
+    "complete old+797 plan/register/locks/full metadata",
+    "current source/generator/owner and all55history",
+    "all required/progress/held path omission and drift",
+    "prior namespace collisions",
+    "exact quota and one extra before parse/copy/encoding/write",
+    "existing/symlink/escaping output refusal",
+    "fixed fresh-output provenance and unchanged caller input",
+    "normal and optimized Python with named cases",
+    "actual real-generator physical integration in immediate separate adoption PR"
+  ],
+  "forbidden": "No imports of subject code, tests, compile, formatter, runtime, network, Git mutation, rootsharedCI/controller/plan/lock/seal edits. No executing captured source. Report source freeze with hashes and honest A+D. Unchanged actual providers/fixtures cost0new but disclose; copied new helper/test fixture source counts.",
+  "report": "/workspace/build/builderbob/syson-durable-batch42-20261031/author-review.json"
+}
