@@ -1,0 +1,13 @@
+{
+  "status": "RESOURCE_OBSERVATION_NOT_APPLICATION_PERFORMANCE",
+  "argv": [
+    "/usr/bin/systemctl",
+    "--user",
+    "show",
+    "syson-b43-regression-27b5a760552c4d35a3cd8193ffcd948e.scope",
+    "--property=LoadState,ActiveState,ControlGroup,CPUQuotaPerSecUSec,MemoryHigh,MemoryMax,MemorySwapMax,TasksMax,MemoryCurrent,MemoryPeak,CPUUsageNSec"
+  ],
+  "exit": 0,
+  "stdout": "ControlGroup=/user.slice/user-1000.slice/user@1000.service/app.slice/syson-b43-regression-27b5a760552c4d35a3cd8193ffcd948e.scope\nMemoryCurrent=72421376\nMemoryPeak=84770816\nCPUUsageNSec=9462046000\nCPUQuotaPerSecUSec=2s\nMemoryHigh=2147483648\nMemoryMax=3221225472\nMemorySwapMax=0\nTasksMax=128\nLoadState=loaded\nActiveState=active\n",
+  "stderr": ""
+}

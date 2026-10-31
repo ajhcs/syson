@@ -1,0 +1,60 @@
+{
+  "status": "ACTUAL_TWO_DEFAULT_PHYSICAL_LOCK_CAPTURES_PASS",
+  "commands": [
+    {
+      "name": "actual-lock-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+        "lock",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-lock-normal-01"
+      ],
+      "exit": 0,
+      "wall_seconds": 1.7662563630001387,
+      "passed": 0
+    },
+    {
+      "name": "actual-lock-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+        "lock",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-lock-optimized-01"
+      ],
+      "exit": 0,
+      "wall_seconds": 1.715714846002811,
+      "passed": 0
+    }
+  ],
+  "all1287_before_after_current": true,
+  "outputs_per_mode": {
+    "completion-contract.lock.json": {
+      "bytes": 6729,
+      "sha256": "a36a19cdcbb24441df3afd8f67b9ddd3f8648e0051f09ab387d9f7668d05c70f"
+    },
+    "manifest.json": {
+      "bytes": 23303,
+      "sha256": "21ed94bb120304822a469375454824aec232f966ed111b91ea59e5ee464763c8"
+    }
+  },
+  "normative_roles": 60,
+  "both_modes_equal": true,
+  "receipt_sha256": "8816faffc2da3b824ec58437dd3d4f919130b6eb82955706b81d6a2da1fcc2c0",
+  "cleanup": {
+    "confirmed_empty_or_absent": true,
+    "observations": [
+      {
+        "ControlGroup": "",
+        "LoadState": "not-found",
+        "InvocationID": ""
+      }
+    ]
+  },
+  "current_live_lock_not_applied": true,
+  "generatorCLI_snapshot_and_application_acceptance": "OPEN"
+}

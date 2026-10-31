@@ -1,0 +1,242 @@
+{
+  "schema": "SYSON_B43_SNAPSHOT_EXECUTED_DATA_REVIEW/1",
+  "status": "PASS_EXACT_OPTIMIZED_GENERATOR_AND_BOTH_ACTUAL_PHYSICAL_SNAPSHOTS_ONLY",
+  "reviewer": "core_frontier_admission",
+  "method": "Independent bounded raw/JSON/hash/text reconstruction. No subject imports, execution, tests, compiler, network, Git, source changes or snapshot application.",
+  "bindings": {
+    "generator-and-snapshot-01-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-and-snapshot-01-spec.json",
+      "bytes": 507688,
+      "sha256": "0292a9ffcb65056277a93137c3a16046f7735c89dfb06a8c7a60b8b23475369f"
+    },
+    "generator-and-snapshot-freeze-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-and-snapshot-freeze-01.json",
+      "bytes": 505804,
+      "sha256": "f4ab02264847d46cc2c63b8d2dcfada646291f3bcce72fdd25d310d4f9bb5c9a"
+    },
+    "reviewer-generator-snapshot-spec-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-generator-snapshot-spec-01.json",
+      "bytes": 12708,
+      "sha256": "0bf1ccb2c0c8cae40d3e92daee568cfccffd90ed0e6c82fd624ef3e8851068ba"
+    },
+    "reviewer-generator-executed-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-generator-executed-02.json",
+      "bytes": 4558,
+      "sha256": "8fac24a3c69595c533d6cdde6374f006aa7e3058812db57d12fa5855943f3b3f"
+    },
+    "reviewer-generated-data-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-generated-data-01.json",
+      "bytes": 5478,
+      "sha256": "013531c5f588b8f061a972ee483133c0997f6ae8eb7f65cba536689bd6fec0b8"
+    },
+    "generator-and-snapshot-01/receipt.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-and-snapshot-01/receipt.json",
+      "bytes": 1011934,
+      "sha256": "498dc7588d8bf8ff9841635dc294f589a3356f0edb5deacfd06e7b5314efd6dc"
+    },
+    "generator-and-snapshot-01/scope-proof.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-and-snapshot-01/scope-proof.json",
+      "bytes": 370,
+      "sha256": "89c39ca7ff514cf30f7a8d51db85730bb67b94bf49483c7c943a21b8b3a625e7"
+    },
+    "generator-and-snapshot-01-cleanup.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-and-snapshot-01-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    "generator-snapshot-live-observation-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-snapshot-live-observation-01.json",
+      "bytes": 641,
+      "sha256": "e9ed84bcd9fdfb61c8977923722fb4621c5f098d68339f5263b93fa879505ff5"
+    }
+  },
+  "execution": {
+    "commands_exact": 3,
+    "all_exit_zero": true,
+    "all2450before_after_spec_current_equal": true,
+    "controller_rows_equal_receipt": true,
+    "all_stderr_empty": true,
+    "runner_passed0_is_not_tests": true,
+    "raw_argv": [
+      {
+        "name": "actual-generator-optimized",
+        "argv": [
+          "/usr/bin/python3",
+          "-O",
+          "-s",
+          "-B",
+          "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026/tools/build_plan.py",
+          "--plan-dir",
+          "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026"
+        ]
+      },
+      {
+        "name": "actual-snapshot-normal",
+        "argv": [
+          "/usr/bin/python3",
+          "-I",
+          "-B",
+          "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+          "snapshot",
+          "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-01"
+        ]
+      },
+      {
+        "name": "actual-snapshot-optimized",
+        "argv": [
+          "/usr/bin/python3",
+          "-O",
+          "-I",
+          "-B",
+          "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+          "snapshot",
+          "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-01"
+        ]
+      }
+    ],
+    "proof": "Exact admitted unit/local nonce,cgroup suffix,nonzero invocation and positive PID/startticks; sensitive binding values omitted.",
+    "cleanup": "confirmed_empty_or_absent=true/not-found; recorded cgroup absent on readback.",
+    "controls": "Pinned launcher requests CPU200%,high2G,max3G,swap0,tasks128,180s and nonblocking compiler flock. Root poll occurred after terminal not-found; observed infinity/unset values do not measure execution caps,peak or product performance.",
+    "wall_seconds_are_observed_only": [
+      6.1719571729991,
+      2.767812733996834,
+      2.8181440249973093
+    ]
+  },
+  "whole_register": {
+    "rows": 797,
+    "ids_exact_order_equal_full_current_plan": true,
+    "all_fields_unknown_metadata_and_nested_values_retained": true,
+    "row_reconstruction": "Deep-copy every complete actual plan row, replace exactly primary_family/brief/brief_sha256/complete_plan_unit_sha256/feature_acceptance from actual family, full raw current brief, canonical complete unit and exact execution state. Compare whole object and complete canonical-pretty output bytes, not zipped prefixes/selected fields.",
+    "all797raw_brief_hashes_recomputed": true,
+    "all797full_unit_hashes_recomputed": true,
+    "whole_expected_serialization_equals_actual_raw": true,
+    "unchanged_prior_top_metadata_preserved": true,
+    "copied_plan_fields_is_complete_union": true,
+    "integrated_scope_exact_full_current_value": true,
+    "whole_current_plan_canonical_sha256": "2fc2e9fb8c3ac121cb397a8c075f8ad54238e2a42be8fcd84a843d095f036e11",
+    "feature_acceptance_counts": {
+      "NOT_ACCEPTED": 55,
+      "OPEN_NO_ACCEPTANCE_RECORD": 742
+    }
+  },
+  "snapshot_lock": {
+    "full_raw_expected_rebuild_equal": true,
+    "required_roles": 1206,
+    "progress_roles": 342,
+    "old1167_role_names_all_retained": true,
+    "old318_progress_names_all_retained": true,
+    "new_progress_breakdown": {
+      "fixed_proofs": 17,
+      "fixed_fixtures": 4,
+      "fixed_priors": 3
+    },
+    "old_immutable_role_hashes_match": true,
+    "all_declared_changed_hashes_rebuilt_from_actual_current_bytes": true,
+    "register_hash_uses_new_output_not_old_alias": true,
+    "all60normative_names_raw_hashes_and_prior_metadata_verified": true,
+    "current_normative_lock_equals_independent_old48_plus12_rebuild": true
+  },
+  "history_and_holds": {
+    "execution_raw_sha256": "a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e",
+    "history_count": 55,
+    "history_canonical_sha256": "082af527d8dd4140a8d4104f45c62a62b777d24c68837ed03554d14deec25321",
+    "all6held_input_hashes_verified": {
+      "teams.json": "8654745923a5fe258fff0387cbfd11a19fd29e203cec54d69e2026193ba35421",
+      "cross-lane-review.json": "b044d26288b26c2f7fd7ae30b38cd4092e55ebeb0e23a7c9012bd9e5d1b17b97",
+      "rereview-overlay.json": "35fb1c586a94b7f7cac7656e5e06533569dca1c5e2fe09fd7c862d6c31ba163e",
+      "rereview-batch11-coordinator-ownership.json": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a",
+      "performance-policy.json": "62990fca393be5443eb80c6dd106692e721704f0cdb6df708dcbf6472f739a18",
+      "TEAM-EXECUTION.md": "8af52e32ca87dc5b04883c03845064c8d91c850dfc010012b353b1cd27d7e64c"
+    },
+    "fixed17proof_map_sha256": "dfd5b21e02a885c90b1afa89f4036a72148881eb6c38c9a5e5141f83c11e5bb1",
+    "fixed4fixtures_verified": {
+      "composition/source_next_prepare/fixtures/baseline-1.0.10.json.gz": "2447a23a683396361ecd955af98a8b3923b3e4b3cd621dc23718f4a99b8f6f9b",
+      "composition/source_next_prepare/fixtures/baseline-provenance.json": "b92a1a1832703b16d872c410ea280285bb92f2ad96beccdb098af0bf87374143",
+      "composition/source_next_prepare/fixtures/lane.json": "bb1a50bec6983d301b830b45ceeee34e19517a43020b85b2f8fa6ebcdfdd6ace",
+      "composition/source_next_prepare/fixtures/amendment.md": "f92d091fcb9b6e64bcbf0e255f61d2f80a3d2e5834312f125cec97619daa10ca"
+    }
+  },
+  "provenance": {
+    "current_physical_roles": 1202,
+    "fixed_prior_roles": 3,
+    "unique_cache_roles": 1205,
+    "manifest_hash_bindings": 3612,
+    "full_expected_map_and_raw_manifest_equal": true,
+    "origins": "1202current logical+physical+ACTUAL_CURRENT_ROOT origins;3prior logical+FIXED_HASHED_PRIOR_ARGUMENT origins, no false physical aliases. No EXPLICIT_SUPPLIED_BYTE_CLAIM/synthetic reader.",
+    "source": "Whole actual C263/D/loader pins unchanged; actual raw G sealed exactly once to full current policy b400. All bindings cross-checked to actual spec/current bytes."
+  },
+  "output_packets": {
+    "normal": [
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-01/units.json",
+        "bytes": 5843441,
+        "sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-01/snapshot.lock.json",
+        "bytes": 160945,
+        "sha256": "af1ddd4f510bcdca05a86cfd9b28585558e6e6885690fb4d501efa28e0ac4c08"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-01/manifest.json",
+        "bytes": 447042,
+        "sha256": "7e85d6f1e57b569469582d00a9ef6f99f3147e3c98ef5bb03b6b779c33329102"
+      }
+    ],
+    "optimized": [
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-01/units.json",
+        "bytes": 5843441,
+        "sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-01/snapshot.lock.json",
+        "bytes": 160945,
+        "sha256": "af1ddd4f510bcdca05a86cfd9b28585558e6e6885690fb4d501efa28e0ac4c08"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-01/manifest.json",
+        "bytes": 447042,
+        "sha256": "7e85d6f1e57b569469582d00a9ef6f99f3147e3c98ef5bb03b6b779c33329102"
+      }
+    ],
+    "all3_corresponding_raw_files_identical": true,
+    "exact3_files_each_canonical_regular_uid1000_dirs0700": true,
+    "both_raw_stdout_manifests_accounting_equal_actual_files": true
+  },
+  "quota": {
+    "current_input_bytes_plus_exact_name_hash_framing": 59736450,
+    "actual_output_sizes": {
+      "units.json": 5843441,
+      "snapshot.lock.json": 160945,
+      "manifest.json": 447042
+    },
+    "actual_output_total": 6451428,
+    "combined": 66187878,
+    "limit": 67108864,
+    "headroom": 920986,
+    "reserved_output_ceiling": 7077888,
+    "input_plus_reserve": 66814338,
+    "reserved_headroom": 294526,
+    "note": "Combined actual physical constructor cache+framing+3serialized outputs, prior register once. Decoder bounded expansion is separate, no RSS claim."
+  },
+  "optimized_generator": {
+    "all801raw_files_equal_frozen_spec": true,
+    "path_raw_hash_map_sha256": "c1be697469da610185f1a713c492be5811944707dbdac24e97ea8b73a5c8a53e",
+    "whole_current_plan_sha256": "2fc2e9fb8c3ac121cb397a8c075f8ad54238e2a42be8fcd84a843d095f036e11",
+    "total_raw_bytes": 11466987
+  },
+  "unapplied_state": {
+    "old_live_register_matches_fixed_prior": true,
+    "old_live_snapshot_matches_fixed_prior": true,
+    "all3prior_hashes_fixed": {
+      "remaining-work/checkpoint-source-next-1.0.11/prior/register.json": "1f46899f71c12c4a1e2397119ece727e70864430dcae64c88c074e7f397efb76",
+      "remaining-work/checkpoint-source-next-1.0.11/prior/snapshot-lock.json": "474c6d7741e5f794e1bebc5a068c40b6ea0f27925a4fcc431bcdc152c81f7f69",
+      "remaining-work/checkpoint-source-next-1.0.11/prior/contract-lock.json": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558"
+    },
+    "immutable798before_copies_in2450closure": true
+  },
+  "blockers": [],
+  "limits": "PASS only for exact optimized CLI and emitted unsigned actual normal/O snapshots. No application performed; root may separately apply exactly units.json and snapshot.lock.json after this review. Final104+9suite/selftest qualification,source-owner dispatch,publication/native/UI/backend/full feature acceptance remain separate."
+}

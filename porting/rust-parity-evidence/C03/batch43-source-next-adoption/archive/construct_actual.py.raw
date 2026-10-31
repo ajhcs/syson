@@ -1,0 +1,45 @@
+from pathlib import Path
+import hashlib
+import json
+import sys
+import types
+
+ROOT = Path('/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026')
+BUILD = Path('/workspace/build/builderbob/syson-durable-batch43-20261031')
+loader = ROOT / 'tools/source_next_splits.py'
+if hashlib.sha256(loader.read_bytes()).hexdigest() != '1819a78e4eec01d952b8d211c37fe9cf287e075883a119cac497537da2383c5d':
+    raise ValueError('fixed qualified loader required')
+sys.path.insert(0, str(ROOT / 'tools'))
+import source_next_splits as G
+
+path = ROOT / 'composition/source_next_prepare/construct.py'
+raw = path.read_bytes()
+if path.resolve() != path or path.is_symlink() or hashlib.sha256(raw).hexdigest() != '89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9':
+    raise ValueError('fixed actual constructor required')
+name = G.__package__ + '.construct'
+if name in sys.modules:
+    raise ValueError('constructor namespace collision')
+C = types.ModuleType(name)
+C.__file__, C.__package__ = str(path), G.__package__
+sys.modules[name] = C
+exec(compile(raw, str(path), 'exec'), C.__dict__)
+prior = ROOT / C.PRIOR
+contract_prior = (prior / 'contract-lock.json').read_bytes()
+mode, destination = sys.argv[1:]
+out = Path(destination)
+if out.parent != BUILD or out.parent.resolve() != out.parent:
+    raise ValueError('fixed actual-output parent required')
+if mode == 'lock':
+    proposal = C.contract_lock(None, contract_prior)
+elif mode == 'snapshot':
+    proposal = C.snapshot(None, (prior / 'register.json').read_bytes(),
+                          (prior / 'snapshot-lock.json').read_bytes(), contract_prior,
+                          'SYSON-RUST-REMAINING/2026-10-31.20',
+                          'c9c55fb741f26adc46719b9e21f01aebf6d9be1b')
+else:
+    raise ValueError('fixed lock or snapshot phase required')
+manifest = C.emit_fresh(out, proposal)
+print(json.dumps({'status': 'ACTUAL_DEFAULT_READER_UNSIGNED_OUTPUT_NOT_APPLIED',
+                  'mode': mode, 'logical_input_bytes': proposal.reader.used,
+                  'output_bytes': sum(p.stat().st_size for p in out.iterdir()),
+                  'manifest': manifest}))

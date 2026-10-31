@@ -1,0 +1,116 @@
+{
+  "schema": "SYSON_B43_GENERATOR_CLI_SPEC_REVIEW/2",
+  "status": "PASS_EXACT_SINGLE_ACTUAL_CLI_SPEC_ONLY_UNEXECUTED",
+  "reviewer": "registration_repair",
+  "scope": "Actual direct generator CLI with declared generated writes only. No snapshot/installer/lease operations, application acceptance or import/clone/echo substitution.",
+  "method": "Read/hash/JSON/source-custody inspection; no subject imports/execution, network, Git or source edits.",
+  "bindings": {
+    "spec": {
+      "path": "generator-cli-02-spec.json",
+      "bytes": 348204,
+      "sha256": "9661e5b2f9bb37bfe165cbcac134866134a035bbaf32d755ba963a3bed07449f"
+    },
+    "freeze": {
+      "path": "generator-cli-freeze-02.json",
+      "bytes": 347248,
+      "sha256": "bf121849527f6f4e5c312a12cf65a289facbd395640a8c0f418e890154d3f80e"
+    },
+    "output_contract": {
+      "path": "generator-output-contract-01.json",
+      "bytes": 235631,
+      "sha256": "de18788d6fda1ab5b678d6b2aa4c353cd2343a4f5cef8ce664b3923a9c486afd"
+    },
+    "source_io_review_sha256": "63ec4a11a5193c0d06b6d7094b2c5a62a77de6a6557ce14c7198fd4079ea24a1",
+    "generator_sha256": "708982b09860061a0108328877e15f7b3a66c13e2adfd9ef9fe224384ce1be4c",
+    "live60_lock_sha256": "a36a19cdcbb24441df3afd8f67b9ddd3f8648e0051f09ab387d9f7668d05c70f",
+    "whole_plan_canonical_oracle_sha256": "2fc2e9fb8c3ac121cb397a8c075f8ad54238e2a42be8fcd84a843d095f036e11",
+    "old_unexecuted_spec01_sha256": "6f36c6d48e339afade0c717f7ef4815724406b9fe84e18df9b2f06cf68415145",
+    "old_unexecuted_freeze01_sha256": "187918ba588a6cc9c6fa5045918b6ce16f9aca435e4b35af5b8d87b6518f8edd"
+  },
+  "command": {
+    "count": 1,
+    "name": "actual-generator-normal",
+    "argv": [
+      "/usr/bin/python3",
+      "-s",
+      "-B",
+      "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026/tools/build_plan.py",
+      "--plan-dir",
+      "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026"
+    ],
+    "cwd": "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026",
+    "meaning": "Actual frozen script, normal mode only. -s suppresses user site while keeping sibling imports; -B prevents bytecode writes. No -I sibling-path failure or new wrapper.",
+    "expected_unit_tests": 0,
+    "note": "F25's passed=0 Rust-output counter is not test evidence; require actual CLI exit/raw summary and independent generated-byte oracle review."
+  },
+  "closure": {
+    "immutable_input_pins": 1642,
+    "current_hash_mismatches": 0,
+    "freeze_map_equals_spec": true,
+    "application_reads": 64,
+    "all64_pinned": true,
+    "read_path_to_raw_sha256_map_canonical_digest": "1f4db170a92007031674619797ec1fb2f979e0185709c65eea71c53b11aa9831",
+    "plan_subtree_existing_files": 1553,
+    "immutable_existing_nonoutput_plan_files": 755,
+    "uncovered_nonoutput_files": 0,
+    "exact_lane_glob_names": 13,
+    "exact_tool_glob_names": 11,
+    "both_glob_basename_lists_equal_current_sorted_names": true,
+    "all12_external_oracle_files_pinned": true,
+    "declared_outputs": 801,
+    "declared_outputs_unique_and_exactly_current_contract797_briefs_plus4": true,
+    "declared_output_current_root_paths_in_immutable_map": 0,
+    "retained_before_copies": 798,
+    "before_copy_bytes": 11447258,
+    "all798_copies_pinned_and_equal_current_original_raw_bytes_and_contract_hash": true,
+    "retained_copy_directory_exact_file_count": 798,
+    "absent_outputs": [
+      "prs/B25d1.md",
+      "prs/B25d2.md",
+      "prs/M06a2.md"
+    ],
+    "output_and_copy_paths_canonical_regular_nonsymlink_uid1000": true,
+    "exclusion_boundary": "Only current-root generated destinations are excluded. Retained before copies remain immutable pins; generation inputs/source/lock are never excluded. No generated output is read by the frozen source chain."
+  },
+  "custody": {
+    "build_and_before_copy_directory": "Canonical nonsymlink uid1000 mode0700.",
+    "tmp03_and_reused_test02": "Canonical nonsymlink uid1000 mode0700, empty.",
+    "plan_and_prs": "Canonical nonsymlink owned uid1000; existing mode0775 recorded, no mode0700 claim.",
+    "scope_output": "generator-cli-02 absent.",
+    "old_and_new_controller_artifacts": "Both generator-cli-01 and generator-cli-02 output/controller/cleanup paths absent at review; old spec01 retained as unexecuted preparation, not relabeled runtime.",
+    "env": "Fixed HOME,PATH=/usr/bin:/bin,UTF-8 locale,PYTHONNOUSERSITE=1,TMPDIR03,canonical fixtures/test root and existing user D-Bus/runtime; no PYTHONPATH override.",
+    "unit_binding": "Fixed syson-b43-generator- prefix with32lowerhex.scope and32lowerhex local nonce; values omitted."
+  },
+  "protocol": {
+    "ownership_sha256": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "F25_runner_sha256": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9",
+    "scope_launcher_sha256": "5931e57dbdf2d9db5ba8df6ba0c81a9f2f7ae4ff8554889fcd4ac19266ee3195",
+    "all_three_actual_pins_in_spec": true,
+    "controls": "Unchanged owned proof attestation/cleanup, CPU200%,MemoryHigh2G,MemoryMax3G,swap0,TasksMax128,180s timeout and nonblocking global compiler flock.",
+    "note": "These are admitted requested controls; this unexecuted review makes no live cap/peak/runtime claim."
+  },
+  "findings": [
+    "Spec includes every source/data read established by pinned I/O review and all755 existing nonoutput files in actual plan subtree. Exact dynamic glob inventories are preserved. Current a36lock and all its60 source hashes match.",
+    "Output contract before table exactly equals801 declared destinations. All798 retained copies match byte count/SHA/current originals and are immutable spec inputs; three absent briefs remain absent. No symlink/nonregular current destination or copied file was found.",
+    "Actual generator invokes read_contract with plan=None; later team checks consume newly computed in-memory result. Existing plan/brief/dispatch outputs are not filesystem inputs, so their exclusion from immutable current-root hashing is justified. Read-only brief validator is not called.",
+    "Current staged oracle and exactG seal are admitted prior phase state, while old register/snapshot remain1.0.10. This run writes the declared actual generator outputs only; it does not update snapshot, acceptance or ownership leases.",
+    "Generator truncates files with write_text and is not atomic. Before copies and raw failure/partial output custody are necessary. No automatic retry, rollback or clean/reset follows from this admission."
+  ],
+  "required_after_execution": [
+    "Freshly recheck exact1642 pins/globs, output prestate/custody and host/main/resource/active-scope conditions before root launches this one command.",
+    "Retain exact argv, raw stdout/stderr/exit and owned proof; require1642 before=after=spec=current, actual scope binding and terminal cleanup absent.",
+    "Independently verify actual whole generated plan against frozen2fc oracle, including all797 rows/unknown metadata/typed graphs/waves/C99source hash. Capture exactly801 generated results and every raw hash, including all three newly created briefs; ensure no undeclared plan-subtree changes.",
+    "Keep normal CLI evidence distinct from future optimized CLI/final104-case qualification. Snapshot construction/application, native/UI/backend/human acceptance and Git/publication gates remain separate."
+  ],
+  "budget": {
+    "production_reserve": 375,
+    "authored_reserve": 673,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "new_execution_wrapper_lines": 0
+  },
+  "blockers": [],
+  "limits": "Spec admission only. No actual generator output equality or runtime PASS has been established by this report; no snapshot or broad application acceptance."
+}

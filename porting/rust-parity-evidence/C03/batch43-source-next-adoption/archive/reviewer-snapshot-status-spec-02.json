@@ -1,0 +1,168 @@
+{
+  "schema": "SYSON_B43_SNAPSHOT_STATUS_SPEC_REVIEW/2",
+  "status": "PASS_EXACT_TWO_COMMAND_STATUS_REFRESH_SPEC_ONLY_UNEXECUTED",
+  "reviewer": "core_frontier_admission",
+  "method": "Read/hash/JSON/text/custody only; no subject imports, execution, tests, formatter, compiler, network, Git or source edits.",
+  "bindings": {
+    "snapshot-status-02-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/snapshot-status-02-spec.json",
+      "bytes": 511048,
+      "sha256": "b11c58b9bacc3c4a2a071b5b64cad9e33886f99a9bec9d09951813dfa0bd0761"
+    },
+    "snapshot-status-freeze-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/snapshot-status-freeze-02.json",
+      "bytes": 509814,
+      "sha256": "b68f458772e915278d0c8a7d49bf1bd931921c56cc790a774bbfe3a0cd4d824d"
+    },
+    "status-doc-correction-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/status-doc-correction-01.json",
+      "bytes": 1044,
+      "sha256": "450a25273c0a678051dae0cd64362950fc83adb989ff5059f8a95bf73e51352b"
+    },
+    "regression-01-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-01-spec.json",
+      "bytes": 518841,
+      "sha256": "f4c750a230cae0dbbc7f8ecea01c9947ec9e74a081999b69847041cf02b614e5"
+    },
+    "regression-freeze-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-freeze-01.json",
+      "bytes": 509420,
+      "sha256": "a215b5de7db0be69c40c76d1fc30629a502db48eb3838c50fed2adf6ee7cb25a"
+    },
+    "reviewer-snapshot-executed-data-01.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-snapshot-executed-data-01.json",
+      "bytes": 12474,
+      "sha256": "eef6f09f491461d57ee458c351fee7894bf0bb56d9609ba29f54618f3e0d7efc"
+    },
+    "construct_actual.py": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+      "bytes": 2177,
+      "sha256": "3d02150981232035819bae2ae7c7469d07d2f108a968189f5e0e9a7eaf6a2684"
+    },
+    "before-status-doc-correction-01/README.md.raw": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/before-status-doc-correction-01/README.md.raw",
+      "bytes": 114314,
+      "sha256": "34acabeb84c116a7e16b5c6542641230ff462667263953313555f3be267a0c4a"
+    }
+  },
+  "commands": [
+    {
+      "name": "actual-snapshot-status-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+        "snapshot",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-02"
+      ]
+    },
+    {
+      "name": "actual-snapshot-status-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+        "snapshot",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-02"
+      ]
+    }
+  ],
+  "closure": {
+    "pins": 2471,
+    "all_current_hashes_match": true,
+    "freeze_inputs_equal_spec": true,
+    "old_regression_pins_retained": 2467,
+    "common_pin_changes": [
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026/README.md",
+        "before": "34acabeb84c116a7e16b5c6542641230ff462667263953313555f3be267a0c4a",
+        "after": "f3ceeba26579db44455220b1b9aae6b6082a679283b5147f8204babb6e5b7602"
+      }
+    ],
+    "added_evidence_pins": [
+      "/workspace/build/builderbob/syson-durable-batch43-20261031/before-status-doc-correction-01/README.md.raw",
+      "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-01-spec.json",
+      "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-freeze-01.json",
+      "/workspace/build/builderbob/syson-durable-batch43-20261031/status-doc-correction-01.json"
+    ],
+    "other_common_changes": 0,
+    "all1202physical_roles_plus3priors_pinned": true,
+    "all60normative_source_pins_unchanged": true,
+    "all801generated_outputs_unchanged": true,
+    "REMAINING_WORK_unchanged": true
+  },
+  "documentation": {
+    "reviewed_delta": "Exactly1removed+1added physical README paragraph,265bytes growth. Replaces stale future SnapshotStore status with main#228adoption/#229fault-filesystem qualification; labels old queue historical and names M06a2 importer/edit/save/fresh-process integration; full UI/backend restart,holds/#130/human starters remain open.",
+    "correctness_basis": "Current unchanged public SnapshotStore/identity/importer sources and root main merge bindings already reviewed in prior phases; no new broad parity claim. M06a2 actual generated brief exists in frozen801 output set. No Git/network lookup performed.",
+    "before_preserved": true,
+    "partial_preparation_failure": "Receipt explicitly records README changed before obsolete REMAINING assertion failed. Retained before README matches old pin; current README matches only common delta; REMAINING hash unchanged. No hidden second document write or executed regression epoch.",
+    "regression01": "Withdrawn/unexecuted; scope/controller/stdout/stderr/cleanup paths absent. It must not be reused with stale README hash."
+  },
+  "unchanged_source": {
+    "driver45_sha256": "3d02150981232035819bae2ae7c7469d07d2f108a968189f5e0e9a7eaf6a2684",
+    "constructor263_sha256": "89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9",
+    "loader_sha256": "1819a78e4eec01d952b8d211c37fe9cf287e075883a119cac497537da2383c5d",
+    "derive_sha256": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17",
+    "guard_raw_sha256": "c26d1446bddccd6475a6b921f52e2db660b2d0857460434bd9ef45110c4f645b",
+    "policy_seal": "b4004fd4d774f8715b341d68a56114294232593b791be64efcc0474022418684",
+    "semantics": "Same C.snapshot(None,fixed3priors,.20,c9base) and live unsigned emit_fresh; actual physical reader and actual sameG namespace. No synthetic reader/seal, replay or source/provider override; no apply or generator command."
+  },
+  "expected_refresh_data_only": {
+    "installed01_register_and_snapshot_equal_reviewed_capture": true,
+    "old01_snapshot_stale_only_for_README_hash": true,
+    "register_sha256_unchanged": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509",
+    "snapshot02_predicted_sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0",
+    "snapshot02_predicted_changed_role": "README.md only;1206required roles/342progress and all797rows remain unchanged",
+    "manifest02_predicted_sha256": "2a5f62eb0e77e1a6a7d82ad1f19656b61a00271d901ffc5a460b9eef65b49a74",
+    "manifest_change": "README logical/physical/origin hashes plus logical_input_bytes265increase and new snapshot artifact hash;3fixedpriors remain fixed origins.",
+    "limits": "These are independent data-only predictions, not emitted02/runtime PASS; root must compare actual packet raw bytes after execution."
+  },
+  "quota": {
+    "current_physical_input_plus_namehash_framing": 59736715,
+    "input_delta": 265,
+    "fixed_output_reserve": 7077888,
+    "input_plus_reserve": 66814603,
+    "limit": 67108864,
+    "reserved_headroom": 294261,
+    "predicted_output_sizes": {
+      "units.json": 5843441,
+      "snapshot.lock.json": 160945,
+      "manifest.json": 447042
+    },
+    "no_RSS_or_completion_promise": true
+  },
+  "custody": {
+    "workspace_pins": "Canonical regular nonsymlink uid1000,all2471hashes current; host interpreter existing symlink still content-pinned.",
+    "fresh_outputs": [
+      "snapshot-status-02",
+      "actual-snapshot-normal-02",
+      "actual-snapshot-optimized-02"
+    ],
+    "controller_and_cleanup_paths_absent": true,
+    "tmp06_and_test03": "Canonical uid1000mode0700/empty. Existing plan/prs mode0775 retained.",
+    "oldpriors": "All3fixed .10 priors remain pinned/unchanged; installed01 outputs are preserved and stale only at README role.",
+    "scope": "New fixed scope/local nonce; same pinned owned proof/F25/launcher/nonblocking global compiler lock and requested CPU200%,high2G,max3G,swap0,tasks128,180s. No live caps/peak observation claimed."
+  },
+  "budget": {
+    "new_helper_lines": 0,
+    "documentation_AD": 2,
+    "root_declared_current_inclusive_production": 338,
+    "root_declared_current_inclusive_authored": 636,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "note": "Exactly2ordinary README A+D corroborated; root full-budget forecast retained. No code or fixtures added by refresh."
+  },
+  "required_after_execution": [
+    "Root fresh2471spec/current/custody/host/ownership/resource preflight; run exactly2normal/O argv after this review.",
+    "Require exit0/exactargv/2471before=after=spec=current/proof and terminal cleanup absent; passed0 is not test evidence.",
+    "Both actual3file packets must be raw-byte-identical; independently compare unchanged2b68full797register, snapshot only READMEhash delta, entire3612provenance and actualcombined64MiB accounting.",
+    "No application until emitted02 data review PASS. Then separately apply exact2artifacts and qualify all104+9suites normal/O/selftests using fresh spec; prior unexecutedregression01 remains retained."
+  ],
+  "blockers": [],
+  "limits": "Spec and narrow documentation review only. No snapshot02 execution/application,finalregression/publication/sourcelease or feature/native/UI/backend acceptance is established."
+}

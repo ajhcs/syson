@@ -1,0 +1,687 @@
+{
+  "schema": "SYSON_B43_FINAL_REGRESSION_EXECUTED_REVIEW/2",
+  "status": "PASS_EXACT_FINAL_NORMAL_OPTIMIZED_226_CASES_AND_SELFTEST_OPEN_PROTOCOLS_ONLY",
+  "reviewer": "core_frontier_admission",
+  "method": "Independent bounded raw log/JSON/hash/source inspection only; no subject imports/execution,tests,compiler,network,Git,source edits or restart. Report written only after actual terminal receipt and confirmed absent cleanup.",
+  "bindings": {
+    "regression-02-spec.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02-spec.json",
+      "bytes": 523046,
+      "sha256": "4c5b71572adab1be904f19b266ebc9ccf6dcd79309bab6aceda0de191d12c7ff"
+    },
+    "regression-freeze-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-freeze-02.json",
+      "bytes": 513058,
+      "sha256": "90b5d876f14a888031d561abe850c51155319fbc9df4be9c4a10199fa53e38c5"
+    },
+    "reviewer-regression-spec-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-regression-spec-02.json",
+      "bytes": 13509,
+      "sha256": "dbcb0fd0451802d2dc71001f959ebf39a10dd18e9eaa6b8e3a2d763d5a497df6"
+    },
+    "regression-source-handoff.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-source-handoff.json",
+      "bytes": 55284,
+      "sha256": "f8425145aff29f31a6d4228c01d1b84ca36899c18227987c53d4378f8a25522f"
+    },
+    "root-status-snapshot-application-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/root-status-snapshot-application-02.json",
+      "bytes": 557,
+      "sha256": "bdf7698759032f59875011927cc6a7ed69034c1f9ec0aae47346afe2ffd33f29"
+    },
+    "reviewer-snapshot-status-executed-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-snapshot-status-executed-02.json",
+      "bytes": 8502,
+      "sha256": "6d7c55317f35c633b01ab9c906afbbf4c3c5963612a5105626c12ef5c79c183d"
+    },
+    "regression-02/receipt.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/receipt.json",
+      "bytes": 1036249,
+      "sha256": "5d864d5e5518a4b9683eb6fd7efb37a0ab910a1f9f37d19b9dc46729ed769aef"
+    },
+    "regression-02/scope-proof.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/scope-proof.json",
+      "bytes": 374,
+      "sha256": "82832d6f0d84553f08251a4078c476254379f23dd4d016e3177447610c497c9b"
+    },
+    "regression-02-cleanup.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02-cleanup.json",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    "regression-live-observation-02.json": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-live-observation-02.json",
+      "bytes": 738,
+      "sha256": "689d1c14ba472089a8f0511d7cd018becc4e837f6bb787d85db0cc8de52cf6b4"
+    },
+    "regression-02-controller.stdout": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02-controller.stdout",
+      "bytes": 8043,
+      "sha256": "abf3e171100e7e998efa0dbe280ab4a0a7c7d792cc50f57208b912400480cbdf"
+    },
+    "regression-02-controller.stderr": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02-controller.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "execution": {
+    "commands": 24,
+    "all_name_argv_order_exact_spec_and_handoff": true,
+    "all_exit_zero": true,
+    "all2491before_after_spec_current_equal": true,
+    "controller_rows_equal_receipt": true,
+    "receipt_status": "PASS_NAMED_LOCAL_CHECKS_ONLY",
+    "F25_passed0_is_not_unit_evidence": true,
+    "observed_wall_seconds_only": [
+      {
+        "name": "test_storage_split_guard-normal",
+        "seconds": 14.334367911003937
+      },
+      {
+        "name": "test_prepare-normal",
+        "seconds": 7.8240793160002795
+      },
+      {
+        "name": "test_derive-normal",
+        "seconds": 11.98028878900368
+      },
+      {
+        "name": "test_guard-normal",
+        "seconds": 31.052001705000293
+      },
+      {
+        "name": "test_construct-normal",
+        "seconds": 23.49301176500012
+      },
+      {
+        "name": "test_storage_splits-normal",
+        "seconds": 29.903535363999254
+      },
+      {
+        "name": "test_preparation_splits-normal",
+        "seconds": 36.15555557100015
+      },
+      {
+        "name": "test_team_policy-normal",
+        "seconds": 45.36895060599636
+      },
+      {
+        "name": "test_loader_controls-normal",
+        "seconds": 0.06380264100152999
+      },
+      {
+        "name": "plan-selftest-normal",
+        "seconds": 56.23422158000176
+      },
+      {
+        "name": "snapshot-selftest-normal",
+        "seconds": 0.6148120490033762
+      },
+      {
+        "name": "completion-open-normal",
+        "seconds": 21.591505258002144
+      },
+      {
+        "name": "test_storage_split_guard-optimized",
+        "seconds": 13.530420331000641
+      },
+      {
+        "name": "test_prepare-optimized",
+        "seconds": 8.573465285000566
+      },
+      {
+        "name": "test_derive-optimized",
+        "seconds": 11.876470848997997
+      },
+      {
+        "name": "test_guard-optimized",
+        "seconds": 32.50148336100392
+      },
+      {
+        "name": "test_construct-optimized",
+        "seconds": 23.694471189002797
+      },
+      {
+        "name": "test_storage_splits-optimized",
+        "seconds": 29.701339264996932
+      },
+      {
+        "name": "test_preparation_splits-optimized",
+        "seconds": 37.9602759920017
+      },
+      {
+        "name": "test_team_policy-optimized",
+        "seconds": 45.67200281700207
+      },
+      {
+        "name": "test_loader_controls-optimized",
+        "seconds": 0.21416380399750778
+      },
+      {
+        "name": "plan-selftest-optimized",
+        "seconds": 55.425419518003764
+      },
+      {
+        "name": "snapshot-selftest-optimized",
+        "seconds": 0.6145881269985694
+      },
+      {
+        "name": "completion-open-optimized",
+        "seconds": 21.83675770300033
+      }
+    ],
+    "no_performance_claim": true
+  },
+  "named_tests": {
+    "suite_processes": 18,
+    "original_names_each_mode": 104,
+    "loader_names_each_mode": 9,
+    "normal": 113,
+    "optimized": 113,
+    "total": 226,
+    "zero_skipped_expected_failures_or_renamed_methods": true,
+    "every_raw_name_Ran_count_and_OK_checked": true,
+    "suite_results": [
+      {
+        "command": "test_storage_split_guard-normal",
+        "named": 10,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_storage_split_guard-normal.stderr",
+          "bytes": 2007,
+          "sha256": "0087af8be2eb88be0e2b0baac8625fcf8df1c454f04841b85b3a098beeffd66a"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_storage_split_guard-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_prepare-normal",
+        "named": 14,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_prepare-normal.stderr",
+          "bytes": 2429,
+          "sha256": "59ba17c14e63661b0ecafba655df543ab87dd677ab4ff4efe7085ea30f73b7f6"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_prepare-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_derive-normal",
+        "named": 10,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_derive-normal.stderr",
+          "bytes": 1662,
+          "sha256": "b02400360e7daeea75e518d72491f146a4f465088651b112e6486b0afd3aaffa"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_derive-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_guard-normal",
+        "named": 13,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_guard-normal.stderr",
+          "bytes": 2087,
+          "sha256": "935bba5c8d067774bcb5ba8cf39e917436a903f487426e549e75f461a8adb912"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_guard-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_construct-normal",
+        "named": 16,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_construct-normal.stderr",
+          "bytes": 2854,
+          "sha256": "2becd73a51873b3ae2b0d7a4882d0436ec9bcd64841112f4fd8dc0d1978864a0"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_construct-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_storage_splits-normal",
+        "named": 9,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_storage_splits-normal.stderr",
+          "bytes": 1770,
+          "sha256": "737ee816a4371863b3b75b3fdd82052cccd67ebe7b748ca4ff81ad4e01b8f176"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_storage_splits-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_preparation_splits-normal",
+        "named": 14,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_preparation_splits-normal.stderr",
+          "bytes": 2718,
+          "sha256": "9e624f747210a4edff4c6635701d4a563893175a476e84edd723a2d615d22caa"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_preparation_splits-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_team_policy-normal",
+        "named": 18,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_team_policy-normal.stderr",
+          "bytes": 2904,
+          "sha256": "e7bb91b4658df447cd1c3ded01d312724c16bdda0ca5a382127968259b907e4c"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_team_policy-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_loader_controls-normal",
+        "named": 9,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_loader_controls-normal.stderr",
+          "bytes": 1335,
+          "sha256": "c0293decb43c3a2c97069da9ae761034b62db5f70ec36f37f97164a6dc2ea250"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_loader_controls-normal.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_storage_split_guard-optimized",
+        "named": 10,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_storage_split_guard-optimized.stderr",
+          "bytes": 2007,
+          "sha256": "dc3195d44729c8e6756bb025d95cf9b9d6fe09c008dd5b2a37145817c8cdf6c2"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_storage_split_guard-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_prepare-optimized",
+        "named": 14,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_prepare-optimized.stderr",
+          "bytes": 2429,
+          "sha256": "e819a1b7531bbac1dec58b8977f454863866506b1e616d1ca9ab8b2eadb78aad"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_prepare-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_derive-optimized",
+        "named": 10,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_derive-optimized.stderr",
+          "bytes": 1662,
+          "sha256": "cdfc4ed5002378df66ff9034784e74a9d11a73a2782d0de2e8056289ea2c9cd8"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_derive-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_guard-optimized",
+        "named": 13,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_guard-optimized.stderr",
+          "bytes": 2087,
+          "sha256": "4b9c6b1b4b5652f7e8fa259834546a7c7bfd306dfe55e9ed2aa7344588876be2"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_guard-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_construct-optimized",
+        "named": 16,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_construct-optimized.stderr",
+          "bytes": 2854,
+          "sha256": "6b9a7079bbdfc93df82d545a08e7baa059ab4c6d613e7917099985900ce4bb2e"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_construct-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_storage_splits-optimized",
+        "named": 9,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_storage_splits-optimized.stderr",
+          "bytes": 1770,
+          "sha256": "89f1c55442d78632e0853e81420e426ffe4bb32cb55598d474a1e82acb5be93e"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_storage_splits-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_preparation_splits-optimized",
+        "named": 14,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_preparation_splits-optimized.stderr",
+          "bytes": 2718,
+          "sha256": "7c3b8e23032a94b3e86c4e7734a03a2b720bbb2a7b9d93a740fbc0375c663c88"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_preparation_splits-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_team_policy-optimized",
+        "named": 18,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_team_policy-optimized.stderr",
+          "bytes": 2904,
+          "sha256": "f038335134d1a4e298659eeccec67372bc8606685a226edd6173d99db37918a8"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_team_policy-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "command": "test_loader_controls-optimized",
+        "named": 9,
+        "zero_skipped": true,
+        "stderr": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_loader_controls-optimized.stderr",
+          "bytes": 1335,
+          "sha256": "c0293decb43c3a2c97069da9ae761034b62db5f70ec36f37f97164a6dc2ea250"
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/test_loader_controls-optimized.stdout",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    ],
+    "raw_identity_map_canonical_sha256": "4e9ed6667d952b53dab56ed9cbf67087ef6bff5a23846517365db959df1c8ba9",
+    "handoff_mapped_identity_map_canonical_sha256": "202cfe33bfc98036497d56a0e68b1a805cc356d5b499e237ed479188f69ddeaa",
+    "only_module_mapping": "Direct pinned test_loader_controls.py intentionally logs __main__.LoaderControls.*. For exactly those9identities per mode, map only __main__. prefix to handoff test_loader_controls.; preserve raw identity digest/logs. All method/class names unchanged. Discovery suites use exact raw fully qualified handoff names.",
+    "physical_11_positive": {
+      "named_cases_both_modes": [
+        "test_guard.GuardTests.test_default_reader_is_not_a_proposed_lane_adoption",
+        "test_construct.ConstructorTests.test_default_physical_root_refuses_missing_unadopted_roles"
+      ],
+      "source_semantics": "Actual lane exists. G case takes physical branch, stops test seal and invokes default previous_plan on actual current contract/plan. C case stops test policy patch and calls actual contract_lock(None) plus snapshot(None) against installed60lock/797register/1206snapshot, then exact missing-loader negative. Whole source hashes unchanged; no mocked positive reader or synthetic seal.",
+      "both_positive_and_missing_negative_passed": true
+    }
+  },
+  "selftests": {
+    "command_processes": 4,
+    "normal_optimized_values_equal": true,
+    "results": {
+      "normal": {
+        "plan": {
+          "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+          "units": 797,
+          "source_graph_acyclic": true,
+          "readiness_graph_nodes": 1594,
+          "readiness_graph_acyclic": true,
+          "unordered_write_conflicts": 0,
+          "all_14_original_remaining_briefs_mapped": true,
+          "source_assignment_counts_verified": true,
+          "rr08_split_refusal_controls": 19,
+          "layout_split_refusal_controls": 31,
+          "comparator_split_refusal_controls": 39,
+          "comparison_repair_refusal_controls": 26,
+          "routing_split_refusal_controls": 33,
+          "forest_split_refusal_controls": 40,
+          "negative_gate_checks": "PASS"
+        },
+        "snapshot": {
+          "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+          "snapshot_id": "SYSON-RUST-REMAINING/2026-10-31.20",
+          "unit_count": 797,
+          "locked_inputs": 1206,
+          "primary_family_counts": {
+            "interchange": 26,
+            "services": 12,
+            "projects": 9,
+            "views": 82,
+            "rust_delivery": 5,
+            "verification": 5,
+            "reference": 16,
+            "landing": 4,
+            "final_acceptance": 1,
+            "model": 401,
+            "language": 184,
+            "repairs": 49,
+            "usability_capacity": 3
+          },
+          "feature_acceptance_counts": {
+            "NOT_ACCEPTED": 55,
+            "OPEN_NO_ACCEPTANCE_RECORD": 742
+          },
+          "full_parity_claimed": false,
+          "negative_controls": "PASS_7_REFUSAL_CASES"
+        }
+      },
+      "optimized": {
+        "plan": {
+          "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+          "units": 797,
+          "source_graph_acyclic": true,
+          "readiness_graph_nodes": 1594,
+          "readiness_graph_acyclic": true,
+          "unordered_write_conflicts": 0,
+          "all_14_original_remaining_briefs_mapped": true,
+          "source_assignment_counts_verified": true,
+          "rr08_split_refusal_controls": 19,
+          "layout_split_refusal_controls": 31,
+          "comparator_split_refusal_controls": 39,
+          "comparison_repair_refusal_controls": 26,
+          "routing_split_refusal_controls": 33,
+          "forest_split_refusal_controls": 40,
+          "negative_gate_checks": "PASS"
+        },
+        "snapshot": {
+          "result": "PASS_DOCUMENTATION_SNAPSHOT_INTEGRITY_ONLY",
+          "snapshot_id": "SYSON-RUST-REMAINING/2026-10-31.20",
+          "unit_count": 797,
+          "locked_inputs": 1206,
+          "primary_family_counts": {
+            "interchange": 26,
+            "services": 12,
+            "projects": 9,
+            "views": 82,
+            "rust_delivery": 5,
+            "verification": 5,
+            "reference": 16,
+            "landing": 4,
+            "final_acceptance": 1,
+            "model": 401,
+            "language": 184,
+            "repairs": 49,
+            "usability_capacity": 3
+          },
+          "feature_acceptance_counts": {
+            "NOT_ACCEPTED": 55,
+            "OPEN_NO_ACCEPTANCE_RECORD": 742
+          },
+          "full_parity_claimed": false,
+          "negative_controls": "PASS_7_REFUSAL_CASES"
+        }
+      }
+    },
+    "plan_refusal_counts": {
+      "rr08_split_refusal_controls": 19,
+      "layout_split_refusal_controls": 31,
+      "comparator_split_refusal_controls": 39,
+      "comparison_repair_refusal_controls": 26,
+      "routing_split_refusal_controls": 33,
+      "forest_split_refusal_controls": 40
+    },
+    "snapshot_refusal_cases_each_mode": 7,
+    "scope": "Documentation/contract integrity, not extra named unittest cases or feature acceptance."
+  },
+  "completion_OPEN": {
+    "command_processes": 2,
+    "both_entire_streams_decoded_exactly_two_JSON_documents": true,
+    "both_child_expected_exit2_and_outer_exit0": true,
+    "wrapper_source_sha256": "bd82f71715bbe558ad6cfec3545584b93e7b19e0ae7248f56a0ccf959b10b021",
+    "actual_invocation_semantics": "Pinned wrapper executes actual completion checker with120s timeout and forwards optimization; only exit2/parityOPEN/strictpositiveint count permits wrapper exit0. Both raw streams contain checker+summary, no echoed substitute.",
+    "results": {
+      "normal": {
+        "document_count": 2,
+        "checker": {
+          "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+          "units": 797,
+          "source_graph_acyclic": true,
+          "readiness_graph_nodes": 1594,
+          "readiness_graph_acyclic": true,
+          "unordered_write_conflicts": 0,
+          "all_14_original_remaining_briefs_mapped": true,
+          "source_assignment_counts_verified": true,
+          "parity": "OPEN",
+          "open_gate_count": 798,
+          "first_open_gates": [
+            "Pinned runtime/source obligation closure remains open",
+            "Not feature-accepted: B01",
+            "Not feature-accepted: B02",
+            "Not feature-accepted: B03",
+            "Not feature-accepted: B04",
+            "Not feature-accepted: B05",
+            "Not feature-accepted: B06",
+            "Not feature-accepted: B07"
+          ]
+        },
+        "wrapper": {
+          "expected_completion_exit": 2,
+          "feature_accepted": false
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/completion-open-normal.stdout",
+          "bytes": 748,
+          "sha256": "ca86b2c9da3bcc07e96d94772f9aed2542b1e038b85213243fb41cafe69a80d0"
+        }
+      },
+      "optimized": {
+        "document_count": 2,
+        "checker": {
+          "static_contract_integrity": "PASS;behavioral_acceptance_remains_open",
+          "units": 797,
+          "source_graph_acyclic": true,
+          "readiness_graph_nodes": 1594,
+          "readiness_graph_acyclic": true,
+          "unordered_write_conflicts": 0,
+          "all_14_original_remaining_briefs_mapped": true,
+          "source_assignment_counts_verified": true,
+          "parity": "OPEN",
+          "open_gate_count": 798,
+          "first_open_gates": [
+            "Pinned runtime/source obligation closure remains open",
+            "Not feature-accepted: B01",
+            "Not feature-accepted: B02",
+            "Not feature-accepted: B03",
+            "Not feature-accepted: B04",
+            "Not feature-accepted: B05",
+            "Not feature-accepted: B06",
+            "Not feature-accepted: B07"
+          ]
+        },
+        "wrapper": {
+          "expected_completion_exit": 2,
+          "feature_accepted": false
+        },
+        "stdout": {
+          "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-02/completion-open-optimized.stdout",
+          "bytes": 748,
+          "sha256": "ca86b2c9da3bcc07e96d94772f9aed2542b1e038b85213243fb41cafe69a80d0"
+        }
+      }
+    },
+    "all798open_gates_retained": true
+  },
+  "custody_and_resources": {
+    "proof": "Exact unit/local nonce/cgroup suffix/nonzero invocation/positive entryPID/startticks match spec; local binding values omitted.",
+    "terminal_cleanup": "confirmed_empty_or_absent true/not-found; recorded cgroup currently absent.",
+    "tmp07_test04": "Empty canonical uid1000mode0700 on readback.",
+    "actual_early_live_observation": {
+      "binding": {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/regression-live-observation-02.json",
+        "bytes": 738,
+        "sha256": "689d1c14ba472089a8f0511d7cd018becc4e837f6bb787d85db0cc8de52cf6b4"
+      },
+      "matched_owned_control_group": true,
+      "LoadState": "loaded",
+      "ActiveState": "active",
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryHigh": "2147483648",
+      "MemoryMax": "3221225472",
+      "MemorySwapMax": "0",
+      "TasksMax": "128",
+      "MemoryCurrent": "72421376",
+      "MemoryPeak": "84770816",
+      "CPUUsageNSec": "9462046000",
+      "interpretation": "Actual contemporaneous root-captured point observation of5caps. MemoryPeak84770816 is cumulative only through this early sample, NOT final whole-run peak or product capacity/performance. No new live query performed by reviewer."
+    }
+  },
+  "final_state": {
+    "installed_snapshot_sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0",
+    "installed_register_sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509",
+    "all_sources_docs801outputs_priors_heldroles_unchanged_under2491pins": true,
+    "regression01": "Historical withdrawn/unexecuted HOLD retained; no relabeling."
+  },
+  "blockers": [],
+  "limits": "PASS for exact24-command final local composition only. No source ownership lease release,publication/merge,full feature/native/UI/storage/backend/human acceptance or product performance inferred. Parent parity remains OPEN with798gates; root controls subsequent publication/adoption/dispatch."
+}

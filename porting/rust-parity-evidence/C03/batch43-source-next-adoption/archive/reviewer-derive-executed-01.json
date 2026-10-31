@@ -1,0 +1,250 @@
+{
+  "schema": 1,
+  "status": "PASS_ACTUAL_UNSIGNED_DERIVE_AND_18_NAMED_LOADER_CASES_ONLY",
+  "reviewer": "/root/registration_review",
+  "method": "Read actual receipt/spec/raw streams, AST method names, before/after/current file hashes, owned entry proof and cleanup; compare actual complete captures. No subject imports/execution or Git/network/source changes.",
+  "spec": {
+    "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01-spec.json",
+    "bytes": 276023,
+    "sha256": "11419e4a4e438788826bae8063a5ca9f0d766286628f58e2929cbce95fdf9973"
+  },
+  "receipt": {
+    "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/receipt.json",
+    "bytes": 548760,
+    "sha256": "473c71b70427504e1a84815e0f66f551ce1d0a215b2fb8543c292177b1732b05"
+  },
+  "source_reviews": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-source-01.json",
+      "bytes": 16010,
+      "sha256": "7502bbf8fa7bc0569465ea504ceb55df40206549f7e261b4d024234e9bb65741"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-loader-controls-source.json",
+      "bytes": 5639,
+      "sha256": "6b7a101eac3ee4b9602e1a14a4bde8402e6f271417fe5502226a0ecce070e139"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-derive-spec-01.json",
+      "bytes": 7952,
+      "sha256": "5efd7bc3126affc8203416930accbc62606eadd4f04ecf1a872379eab2fee2d1"
+    }
+  ],
+  "commands": [
+    {
+      "name": "loader-controls-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/test_loader_controls.py"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.0640152220003074,
+      "passed": 0
+    },
+    {
+      "name": "derive-oracle-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/derive_oracle.py",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/oracle-normal-01"
+      ],
+      "exit": 0,
+      "wall_seconds": 1.1658149249997223,
+      "passed": 0
+    },
+    {
+      "name": "loader-controls-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/test_loader_controls.py"
+      ],
+      "exit": 0,
+      "wall_seconds": 0.26425939799810294,
+      "passed": 0
+    },
+    {
+      "name": "derive-oracle-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/derive_oracle.py",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/oracle-optimized-01"
+      ],
+      "exit": 0,
+      "wall_seconds": 1.1656926390023727,
+      "passed": 0
+    }
+  ],
+  "actual_named_cases": [
+    {
+      "mode": "loader-controls-normal",
+      "count": 9,
+      "names": [
+        "test_actual_guard_alias_and_all_nine_api_identities",
+        "test_changed_derive_body_refuses_before_any_provider_compile",
+        "test_changed_guard_body_refuses_before_compiling_valid_derive",
+        "test_duplicate_policy_seal_refuses_before_compile",
+        "test_existing_child_refuses_before_source_io",
+        "test_existing_package_refuses_before_source_io",
+        "test_oversize_provider_refuses_before_read_or_compile",
+        "test_symlink_loader_refuses_before_provider_source_io",
+        "test_symlink_provider_refuses_before_compile"
+      ]
+    },
+    {
+      "mode": "loader-controls-optimized",
+      "count": 9,
+      "names": [
+        "test_actual_guard_alias_and_all_nine_api_identities",
+        "test_changed_derive_body_refuses_before_any_provider_compile",
+        "test_changed_guard_body_refuses_before_compiling_valid_derive",
+        "test_duplicate_policy_seal_refuses_before_compile",
+        "test_existing_child_refuses_before_source_io",
+        "test_existing_package_refuses_before_source_io",
+        "test_oversize_provider_refuses_before_read_or_compile",
+        "test_symlink_loader_refuses_before_provider_source_io",
+        "test_symlink_provider_refuses_before_compile"
+      ]
+    }
+  ],
+  "exact_total_named_executions": 18,
+  "custody": {
+    "count": 1269,
+    "spec_before_after_current_equal": true,
+    "map_location": "derive-01/receipt.json inputs_before/inputs_after and derive-01-spec.json inputs",
+    "raw_streams": [
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/loader-controls-normal.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/loader-controls-normal.stderr",
+        "bytes": 1335,
+        "sha256": "32f02113aacc43d20a2727e1ce7abc00d12c48a2bdf00249331f0ea1eb9f842e"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/derive-oracle-normal.stdout",
+        "bytes": 251,
+        "sha256": "4a5dabd7ffabfdc9bab9979ebb7247c33035027243a04dc21c535ab459d55108"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/derive-oracle-normal.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/loader-controls-optimized.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/loader-controls-optimized.stderr",
+        "bytes": 1335,
+        "sha256": "ec97f7f41f2a39796057940317d159c67f1abf1e427e2954d6c5188b2bbc8c34"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/derive-oracle-optimized.stdout",
+        "bytes": 251,
+        "sha256": "4a5dabd7ffabfdc9bab9979ebb7247c33035027243a04dc21c535ab459d55108"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/derive-oracle-optimized.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "controller_stdout": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01-controller.stdout",
+      "bytes": 1054,
+      "sha256": "f369c1aaa33c6f708f53a6d51c6327ff4f61535cd1d8a77ef142ccb57b25465a"
+    },
+    "controller_stderr": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01-controller.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "owned_scope_proof": {
+    "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01/scope-proof.json",
+    "bytes": 366,
+    "sha256": "4bd0230e51a4bab994db3e07d028554d6919d98f3f4bfabed13311cb4afe0c8b",
+    "observed": {
+      "unit": "syson-b43-derive-5b438b3e01db4bf1a99731e23517ffb7.scope",
+      "cookie": "f33d476d8a31461cb6856e6f35e162e6",
+      "control_group": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-b43-derive-5b438b3e01db4bf1a99731e23517ffb7.scope",
+      "invocation_id": "7f661ffee6b349cc8d28021cf2967c57",
+      "entry_pid": 639888,
+      "entry_start_ticks": "3136536"
+    }
+  },
+  "cleanup": {
+    "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/derive-01-cleanup.json",
+    "bytes": 160,
+    "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+    "confirmed_empty_or_absent": true
+  },
+  "captures": {
+    "modes_byte_identical": true,
+    "files_each": 6,
+    "total_bytes_each": 6835403,
+    "normal_files": [
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/oracle-normal-01/acceptance-packet.schema.json",
+        "bytes": 20903,
+        "sha256": "44da955df9840636ca4b8f0ec540e9397418625f1785a18cb2be4c9da29f9914"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/oracle-normal-01/completion-contract.json",
+        "bytes": 609168,
+        "sha256": "37b452269bc81b1c6fb31bbe2c93ab2692c36d272b6682b8d7ae7d36740fd106"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/oracle-normal-01/expected-plan.json",
+        "bytes": 5937474,
+        "sha256": "ee097a698da3d34314ee0d28adf335afba7efcdb081ea6884e0b99bfb098d9ce"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/oracle-normal-01/manifest.json",
+        "bytes": 16211,
+        "sha256": "2f7afb75d991a3a39b054bda792f15b578d374d02f85bfe47b5633e0ae1833a2"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/oracle-normal-01/policy.json",
+        "bytes": 165359,
+        "sha256": "b204315b3d2730e6a4cfabb6b73cf4627e987c8caf1e79f8d2ff503b0938cf1d"
+      },
+      {
+        "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/oracle-normal-01/source-metadata.json",
+        "bytes": 86288,
+        "sha256": "0a424e3e459368351a3440288361e5d5aa6f5f1ca3749f5f0dd726121abfb4de"
+      }
+    ]
+  },
+  "controls_limits": [
+    "Runner/configuration and owned entry proof are bound. No live resource control readback was captured; do not claim observed five caps, full-run peak, RSS or performance.",
+    "Receipt passed=0 is not a unittest count; exact names and Ran9/OK are independently parsed from each stderr.",
+    "Only actual verified loader imports and unsigned D execution occurred. This is not generator CLI evidence, active .11 installation or parent/native/UI acceptance.",
+    "Full candidate semantic review is a separate report and required before real seal. Current actual guard POLICY is PENDING; no reviewer runtime was performed."
+  ],
+  "budget": {
+    "root_probe": 122,
+    "root_driver": 44,
+    "inclusive_production_reserve": 371,
+    "inclusive_authored_reserve": 669,
+    "hard_caps": [
+      400,
+      900
+    ]
+  },
+  "blockers": []
+}

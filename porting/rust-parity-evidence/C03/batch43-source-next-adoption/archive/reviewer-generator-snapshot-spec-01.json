@@ -1,0 +1,206 @@
+{
+  "schema": "SYSON_B43_GENERATOR_SNAPSHOT_SPEC_REVIEW/1",
+  "status": "PASS_EXACT_SPEC_ONLY_ROOT_PREFLIGHT_AND_BOUND_PRIOR_DATA_PASS_REQUIRED",
+  "reviewer": "core_frontier_admission",
+  "method": "Read/hash/JSON/source/custody inspection only. No subject imports, execution, tests, formatter, compiler, network, Git or source changes.",
+  "bindings": {
+    "spec": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-and-snapshot-01-spec.json",
+      "bytes": 507688,
+      "sha256": "0292a9ffcb65056277a93137c3a16046f7735c89dfb06a8c7a60b8b23475369f"
+    },
+    "freeze": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-and-snapshot-freeze-01.json",
+      "bytes": 505804,
+      "sha256": "f4ab02264847d46cc2c63b8d2dcfada646291f3bcce72fdd25d310d4f9bb5c9a"
+    },
+    "driver": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+      "bytes": 2177,
+      "sha256": "3d02150981232035819bae2ae7c7469d07d2f108a968189f5e0e9a7eaf6a2684"
+    },
+    "constructor": {
+      "path": "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/construct.py",
+      "bytes": 15022,
+      "sha256": "89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9"
+    },
+    "loader": {
+      "path": "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026/tools/source_next_splits.py",
+      "bytes": 2362,
+      "sha256": "1819a78e4eec01d952b8d211c37fe9cf287e075883a119cac497537da2383c5d"
+    },
+    "derive": {
+      "path": "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/derive.py",
+      "bytes": 17054,
+      "sha256": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17"
+    },
+    "guard": {
+      "path": "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/guard.py",
+      "bytes": 17756,
+      "sha256": "c26d1446bddccd6475a6b921f52e2db660b2d0857460434bd9ef45110c4f645b"
+    },
+    "prior_driver_source_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-actual-constructor-source.json",
+      "bytes": 7197,
+      "sha256": "0eead7d41bda1d2971f151ba1140c8404a7ca293b5467b86d26f05556d55f9c3"
+    },
+    "generator_output_contract": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/generator-output-contract-01.json",
+      "bytes": 235631,
+      "sha256": "de18788d6fda1ab5b678d6b2aa4c353cd2343a4f5cef8ce664b3923a9c486afd"
+    },
+    "prior_io_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-generator-io-contract.json",
+      "bytes": 6973,
+      "sha256": "63ec4a11a5193c0d06b6d7094b2c5a62a77de6a6557ce14c7198fd4079ea24a1"
+    },
+    "preparation_note": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/snapshot-spec-preparation-failure-01.json",
+      "bytes": 302,
+      "sha256": "d995829f5af0a956652b0edb8c6b8543d460147e3b6b7a6a9bf013821d68c5eb"
+    }
+  },
+  "prerequisite_PASS_reports": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-generator-executed-02.json",
+      "bytes": 4558,
+      "sha256": "8fac24a3c69595c533d6cdde6374f006aa7e3058812db57d12fa5855943f3b3f",
+      "status": "PASS_SINGLE_ACTUAL_NORMAL_GENERATOR_EXECUTION_ONLY"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/reviewer-generated-data-01.json",
+      "bytes": 5478,
+      "sha256": "013531c5f588b8f061a972ee483133c0997f6ae8eb7f65cba536689bd6fec0b8",
+      "status": "PASS_COMPLETE_REAL_GENERATOR_MODEL_AND_ALL801_RAW_OUTPUTS"
+    }
+  ],
+  "commands": [
+    {
+      "name": "actual-generator-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-s",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026/tools/build_plan.py",
+        "--plan-dir",
+        "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026"
+      ]
+    },
+    {
+      "name": "actual-snapshot-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+        "snapshot",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-normal-01"
+      ]
+    },
+    {
+      "name": "actual-snapshot-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/construct_actual.py",
+        "snapshot",
+        "/workspace/build/builderbob/syson-durable-batch43-20261031/actual-snapshot-optimized-01"
+      ]
+    }
+  ],
+  "closure": {
+    "spec_inputs": 2450,
+    "all_current_raw_hashes_equal_spec": true,
+    "freeze_map_equals_spec": true,
+    "prior_normal_spec_inputs_retained_unchanged": 1642,
+    "additional_pins": 808,
+    "all_review_pin_body_bytes": 116185977,
+    "accounting_note": "Review closure includes runtime binaries, receipts, retained copies and evidence; it is not the constructor logical64MiB profile.",
+    "all_plan_subtree_files": 1556,
+    "uncovered_plan_files": 0,
+    "lane_glob_count": 13,
+    "tool_glob_count": 11,
+    "both_sorted_globs_equal_fixed_output_contract": true,
+    "generated_files_pinned_immutable": 801,
+    "generated_total_bytes": 11466987,
+    "generated_path_raw_sha256_map_canonical_digest": "c1be697469da610185f1a713c492be5811944707dbdac24e97ea8b73a5c8a53e",
+    "generated_check": "Every797brief plus plan/index/dispatch/team-dispatch is already pinned in exact2450 map. Optimized CLI may rewrite only byte-identical outputs; any differing byte fails immutable-after review.",
+    "retained_before_copies": 798,
+    "retained_before_copies_still_immutable": true
+  },
+  "constructor_read_accounting": {
+    "reconstructed_current_roles": 1202,
+    "fixed_prior_roles": 3,
+    "all_roles_in_spec": true,
+    "prior_alias_register_once": true,
+    "old_current_remaining_work_units_not_read_again": true,
+    "old_normative_roles": 48,
+    "new_normative_roles": 60,
+    "old_snapshot_roles": 1167,
+    "old_progress_roles": 318,
+    "new_fixed_proof_roles": 17,
+    "fixed_fixture_roles": 4,
+    "current_byte_plus_per_name_hash_framing_charge": 59736450,
+    "fixed_output_reserve": 7077888,
+    "charge_plus_reserve": 66814338,
+    "limit": 67108864,
+    "remaining": 294526,
+    "measurement_scope": "Data-only stat/JSON-framing reconstruction from actual fixed role sets, not executing constructor; actual qualified results must report exact charge and emitted sizes.",
+    "semantic_checks": "C retains all prior register/lock metadata; copies every complete797 plan row and overlays only primary_family/brief/brief_sha256/complete_plan_unit_sha256/feature_acceptance; exact execution55history and held roles remain validated. All original1167/318 retained; prior register is charged once, replacement register output hash installed only inside unsigned result."
+  },
+  "phase_and_custody": {
+    "workspace_inputs": "All workspace2450-map members are canonical regular nonsymlink uid1000; no hash mismatch. Only host /usr/bin/python3 is a pre-existing symlink with unchanged target-content pin.",
+    "directories": "B43/tmp04/test02 uid1000mode0700; tmp/test empty. Actual plan/prs uid1000mode0775 recorded, no0700 claim.",
+    "absent_outputs": [
+      "generator-and-snapshot-01",
+      "actual-snapshot-normal-01",
+      "actual-snapshot-optimized-01",
+      "generator-and-snapshot-01-controller.stdout",
+      "generator-and-snapshot-01-controller.stderr",
+      "generator-and-snapshot-01-cleanup.json"
+    ],
+    "old_live_register_sha256": "1f46899f71c12c4a1e2397119ece727e70864430dcae64c88c074e7f397efb76",
+    "old_live_snapshot_sha256": "474c6d7741e5f794e1bebc5a068c40b6ea0f27925a4fcc431bcdc152c81f7f69",
+    "fixed_prior_contract_sha256": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558",
+    "fixed_prior_register_and_snapshot_match_old_live": true,
+    "current_normative60_lock_sha256": "a36a19cdcbb24441df3afd8f67b9ddd3f8648e0051f09ab387d9f7668d05c70f",
+    "actual_policy_seal": "b4004fd4d774f8715b341d68a56114294232593b791be64efcc0474022418684",
+    "seal_equals_entire_current_source_next_policy_canonical_hash": true,
+    "preparation_failure": "Retained note correctly records pre-write preparation refusal caused by applying workspace symlink rule to existing host interpreter. Corrected workspace-only custody does not alter runtime content pins; no failed subject epoch is claimed."
+  },
+  "source_review": [
+    "Driver45 whole-pins actual loader before import and C263 before loading under actual G qualified package. Constructor relative guard resolves to that actual G. No synthetic provider/reader/seal, captured-code execution, global override, clone or echoed output.",
+    "Only snapshot(None, fixed physical prior register/snapshot/contract, explicit .20 identity, actual c9 base) is selected by two snapshot argv. None selects canonical physical current-root reader. Actual current generator is bound; new797 model is the actual CLI output, not frozen expected-plan substituted as current.",
+    "Actual default constructor validates complete G policy/plan, current60 normative lock, old immutable inputs/proofs/fixtures/execution. emit_fresh requires live Proposal, unchanged artifacts/provenance, fixed output sets, exclusive fresh0700 destinations and combined64MiB bounds.",
+    "No call applies emitted snapshots/locks or edits ownership/source. Actual normal/O snapshot runs emit only units.json/snapshot.lock.json/manifest.json in their separately fresh directories. Compare both three-file packets byte-for-byte and independently rebuild all797 metadata/overlays/provenance before later application.",
+    "Optimized direct generator uses -O -s -B, retaining real sibling imports; snapshot drivers use -I -B and -O -I -B. No PYTHONPATH injection. Existing pinned F25 and scope launcher execute commands sequentially and stop on failure."
+  ],
+  "protocol": {
+    "launcher_sha256": "5931e57dbdf2d9db5ba8df6ba0c81a9f2f7ae4ff8554889fcd4ac19266ee3195",
+    "runner_sha256": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9",
+    "ownership_sha256": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "requested_controls": "Existing owned proof/local nonce, nonblocking global compiler flock, CPU200%,high2G,max3G,swap0,tasks128,180s per command and terminal cleanup. No current live-cap/peak claim.",
+    "preflight": "Root must verify exact spec/current2450 map and both separately created PASS report hashes immediately before launch, fresh paths/custody/globs/host/main/resource gates. F25 compares before versus after; root comparison against spec is separately required. These post-spec review reports are external gates, not silently added immutable inputs."
+  },
+  "required_after_execution": [
+    "Require exactly3commands/exit0/rawoutputs; runner passed=0 is not unit-test evidence. Require2450before=after=spec=current and terminal scope absent.",
+    "Require optimized generator preserves all801 pinned outputs exactly and complete whole-plan canonical2fc2e9fb8c3ac121cb397a8c075f8ad54238e2a42be8fcd84a843d095f036e11; no undeclared file mutation.",
+    "Independently review both actual physical snapshot packets: all797 ordered rows/full unknown metadata/five overlays, allold1167roles/318progress/55history/held inputs,60normative bindings, actual origins, raw output sizes/combined64MiB; normal/O identical.",
+    "Preserve oldlive .10 register/snapshot, all3fixedpriors and798beforecopies. Any partial output/failure is retained; no automatic apply/retry/rollback. Snapshot application, final104case qualification/source dispatch/publication and feature/native/UI/storage/backend acceptance remain separate."
+  ],
+  "budget": {
+    "new_helper_source_lines": 0,
+    "driver45_already_counted": true,
+    "inclusive_reserved_production": 375,
+    "inclusive_reserved_authored": 673,
+    "hard_caps": [
+      400,
+      900
+    ]
+  },
+  "blockers": [],
+  "limits": "Exact unexecuted spec/source/custody review only. Prior normalCLI+all801 data PASS is separately bound; no optimized generator/snapshot runtime result or snapshot application, lease, merge, native/UI/backend acceptance is inferred."
+}

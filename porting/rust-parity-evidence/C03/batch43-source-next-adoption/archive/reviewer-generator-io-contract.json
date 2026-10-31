@@ -1,0 +1,79 @@
+{
+  "schema": "SYSON_B43_GENERATOR_IO_CONTRACT_REVIEW/1",
+  "status": "PASS_SOURCE_IO_SEPARATION_FOR_EXACT_GENERATOR_SPEC_PREPARATION",
+  "reviewer": "registration_repair",
+  "method": "Read/hash/AST/call-chain inspection only; no subject imports/execution, network, Git or source edits. Exact execution spec remains required.",
+  "root": "/workspace/worktrees/builderbob/syson/batch43-source-next-adoption-20261031/porting/rust-parity-plan-20261026",
+  "sources": {
+    "tools/build_plan.py": "708982b09860061a0108328877e15f7b3a66c13e2adfd9ef9fe224384ce1be4c",
+    "tools/completion_contract.py": "9a79f93ded492c54374de4c4acd803dbd5b571e92a8a60fd3db5fcfa559a7770",
+    "tools/team_policy.py": "067a6ab2e025adb17ce86539a13ad8e6de665930d9c7636d4749fbe7b759f35c",
+    "tools/source_next_splits.py": "1819a78e4eec01d952b8d211c37fe9cf287e075883a119cac497537da2383c5d",
+    "composition/source_next_prepare/derive.py": "fbb0352325dc948fdb1625348db69a4810dbfa61cc276a9c235716cecc8c9f17",
+    "composition/source_next_prepare/guard.py": "c26d1446bddccd6475a6b921f52e2db660b2d0857460434bd9ef45110c4f645b",
+    "composition/registration/prepare.py": "61f8deab0d64a62a092b93bdf7c5d82cd3d10f9dfc2358eccff62d0a19e6bf59",
+    "tools/preparation_splits.py": "7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3",
+    "composition/storage_split_guard.py": "db18f5d5c63c27d5e6daf5a78a8b358361b4ac66818e285c10c4a64f9de6ac01"
+  },
+  "phase": {
+    "live60_lock_sha256": "a36a19cdcbb24441df3afd8f67b9ddd3f8648e0051f09ab387d9f7668d05c70f",
+    "all60_raw_current_hashes_match_lock": true,
+    "root_lock_application_record_sha256": "a386a6cd726fe0c2271087fb72115670d0cac7362c7be587f9a3d1f9536b7077",
+    "preserved_before_lock_sha256": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558",
+    "reviewed_whole_expected_plan_canonical_sha256": "2fc2e9fb8c3ac121cb397a8c075f8ad54238e2a42be8fcd84a843d095f036e11",
+    "generator_CLI_has_not_run": true
+  },
+  "input_contract": {
+    "finite_application_read_paths": 64,
+    "definition": "All60 live normative lock roles, live completion-contract.lock.json, current rereview-batch11-coordinator-ownership.json, plus the two repository-level legacy mapping files below. Trusted Python/stdlib/provider/launcher sources and orchestration evidence also require ordinary execution-spec pins.",
+    "canonical_absolute_read_path_to_raw_sha256_map_digest": "1f4db170a92007031674619797ec1fb2f979e0185709c65eea71c53b11aa9831",
+    "map_digest_encoding": "json.dumps(mapping,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode(); no newline",
+    "repository_external_reads": {
+      "porting/pr-split-20261024/future-prs.json": "36bcf6f31b8b9b34b267e8a8aa74b1b5eebbb8aba14ad93eb40b1d657a992ca0",
+      "porting/audits/20261026/audit-matrix.json": "ba93139597ccd774857ee0eaa4893a09e087a23f44564ac8fe4ada0c1dc2a973"
+    },
+    "glob_inventory": "Exact current lanes/*.json=13 and tools/*.py=11 names are normative60 members. Freeze both glob-name sets and raw input hashes; additions cannot be silently ignored.",
+    "captured_capsules_checkpoint_priors_or_existing_generated_outputs_read": false
+  },
+  "output_contract": {
+    "paths": 801,
+    "definition": "plan.json, team-dispatch.json, dispatch.json, PR-INDEX.md, and exactly prs/<contract unit ID>.md for797 unique current IDs.",
+    "output_bytes_are_not_generation_inputs": true,
+    "may_exclude_only_these_declared_paths_from_immutable_input_hash_freeze": true,
+    "existing_paths": 798,
+    "absent_paths": [
+      "prs/B25d1.md",
+      "prs/B25d2.md",
+      "prs/M06a2.md"
+    ],
+    "existing_outputs_regular_canonical_nonsymlink": true,
+    "prs_directory_canonical_uid1000": true,
+    "extra_existing_md_briefs": 0,
+    "write_source_lines": {
+      "team-dispatch.json": 234,
+      "plan.json": 235,
+      "prs_directory": 236,
+      "797briefs": 259,
+      "PR-INDEX.md": 263,
+      "dispatch.json": 264
+    }
+  },
+  "call_trace": [
+    "build_plan14-27 reads contract and lane JSON;43 hashes generator;86/98-100 reads cross-lane/rereview/execution;209-210 reads legacy mapping/audit;233 reads teams.",
+    "read_contract686-760 reads contract/lock and exact60 normative sources/schema, then source-next/storage/preparation and older checks with plan=None. No generated output enters this path.",
+    "G.checked266-274 verifies providers/held/execution and restores in-memory contract; restore_plan runs only with a supplied plan argument. Contract-only legacy helpers never fetch plan.json.",
+    "team.validate_teams94-108 re-reads contract and accepts newly computed result. Its G validation/restoration receives that object; G.restore_plan191-263 reads only lane/generator fragments. Old storage/preparation restorers use passed data.",
+    "validate_bindings763-786 reads briefs but is not called by build_plan. Team projection/dispatch validators are also uncalled."
+  ],
+  "spec_requirements": [
+    "Use actual frozen generator as CLI with exact --plan-dir equal to reviewed W43/P; no clone/echo/runpy/substitute import. Direct python3 -I script invocation would omit sibling-module import path; ordinary python3 [-O] -B actual script with the fixed clean environment preserves its real import semantics.",
+    "Freeze all64 application read paths, exact glob inventories and trusted runtime/source closure. Excluding outputs does not permit excluding their source inputs, generator/controllers, current lock or held policy/owner bytes.",
+    "Preserve exact before bytes and existence records for all801 output roles; retain three absent new briefs as absent evidence. Check canonical owned output destinations/parents, refuse symlinks, keep all other files immutable and declare actual writes explicitly.",
+    "Generator writes in place with write_text, truncates existing files, creates prs if needed and does not delete stale briefs. There is no atomic commit/rollback guarantee. On failure retain raw status, partial outputs and before evidence; do not imply no mutation or silently rerun.",
+    "Use owned serialized scope/global lock, exact argv, fresh source/input checks, immutable before/after hashes, raw status and cleanup; make only observed resource claims.",
+    "Compare whole actual generated plan, including unknown metadata/records/graphs/waves and generator C99 pin, to reviewed2fc2e9fb oracle. Retain and independently compare every declared output for normal/O as applicable. Generator contains assert checks elided under -O; optimized exit alone cannot establish equality.",
+    "Actual generator equality, later snapshot construction/application and final104-case qualification remain distinct gates; generated dispatch grants no ownership or feature acceptance."
+  ],
+  "blockers": [],
+  "limits": "Source I/O separation confirmed only for this frozen generator/chain and exact current W43/P. This is neither execution admission nor actual generated-output equality or application/native/UI/backend acceptance."
+}

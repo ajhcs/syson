@@ -1,0 +1,349 @@
+"""Inactive fixed restoration guard; default import performs no application I/O."""
+import copy
+import hashlib
+import itertools
+import json
+import math
+from pathlib import Path
+from . import derive as D
+
+POLICY_SHA256 = 'b4004fd4d774f8715b341d68a56114294232593b791be64efcc0474022418684'
+PLANS = {
+    '1.0.10': ('178f531b9680072ad1de1b910bce39682377d3ee7e7be899e0c93ed48e728be3',
+               'a18c1256b92c9378c80263285633695e07bfe423d6751d7c6b3036db77ef2ced'),
+    '1.0.9': ('1a48d35272c9ed9ee08c647afa566fb19d2725a56b11983014c31f894ddd7f60',
+              '906b6fd1652a0b4d5b53a599112336443a1092975f2976148eacdd07d258ab6d'),
+    '1.0.8': ('c4b85ea86ec47a6210a17e3144c409a5e566f58f8c2392e3ef884516483c8459',
+              '00b76a2bb13c64eb383913a93d728f59b2ec4d692c730dd00ce60402951ad02c')}
+OLD_SOURCES = {'composition/registration/prepare.py': D.HELPER_SHA,
+    'tools/preparation_splits.py': '7ea701446b674ab0c4277c02e1c6e265630de3588b9675261216046d86149aa3',
+    'composition/storage_split_guard.py': 'db18f5d5c63c27d5e6daf5a78a8b358361b4ac66818e285c10c4a64f9de6ac01'}
+_PROVIDER = None
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def bound(*values):
+    used, nodes, active = 128 * len(values), 0, set()
+    stack = [(iter(values), 0, None)]
+    while stack:
+        iterator, depth, owner = stack[-1]
+        try:
+            value = next(iterator)
+        except StopIteration:
+            stack.pop()
+            if owner is not None:
+                active.remove(owner)
+            continue
+        nodes += 1
+        require(depth <= 128 and nodes <= 1000000, 'object depth/node bound')
+        kind = type(value)
+        if kind in (dict, list):
+            require(id(value) not in active, 'cyclic JSON container')
+            used += 2 + len(value) * (4 * depth + 8)
+            require(used <= D.LIMIT and nodes + len(value) * (2 if kind is dict else 1) <= 1000000,
+                    'container framing/node bound')
+            require(kind is list or all(type(k) is str for k in value), 'JSON string keys')
+            active.add(id(value))
+            items = itertools.chain.from_iterable(value.items()) if kind is dict else iter(value)
+            stack.append((iter(items), depth + 1, id(value)))
+        elif kind is str:
+            used += 2 + 6 * len(value)
+            require(used <= D.LIMIT, 'object string/framing bound')
+            require(not any(0xD800 <= ord(c) <= 0xDFFF for c in value), 'lone surrogate')
+        elif kind is int:
+            require(value.bit_length() <= 4096, 'integer bit bound')
+            used += max(2, value.bit_length() + 1)
+        elif kind is float:
+            require(math.isfinite(value), 'nonfinite JSON value')
+            used += 32
+        else:
+            require(kind is bool or value is None, 'exact JSON builtin types required')
+            used += 5
+        require(used <= D.LIMIT, 'aggregate object/framing bound')
+    return used
+
+
+def digest(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'),
+                                    ensure_ascii=False, allow_nan=False).encode()).hexdigest()
+
+
+def version(contract):
+    require(type(contract) is dict and type(contract.get('version')) is str and
+            contract['version'] in ['1.0.11', '1.0.10', '1.0.9'], 'unknown contract version')
+    return contract['version']
+
+
+class Session:
+    """One fixed current-read cache and aggregate object/byte/framing allowance."""
+    def __init__(self, used, read):
+        global _PROVIDER
+        self.used, self.callback, self.cache = used, read, {}
+        if _PROVIDER is None:
+            _PROVIDER, _ = D.provider()
+        self.P = _PROVIDER
+        actual = {name: self.read(name) for name in OLD_SOURCES}
+        require(all(self.P.sha(actual[n]) == h for n, h in OLD_SOURCES.items()),
+                'actual old provider source changed')
+        self.S = self.P.storage_guard(actual)
+
+    def read(self, name):
+        require(type(name) is str and len(name) <= 4096, 'bounded canonical input name')
+        D.names(self.P, [name])
+        if name not in self.cache:
+            frame = len(self.P.encode({name: '0' * 64}))
+            role_limit = {D.OWNER: 65536, 'tools/build_plan.py': 262144}.get(name, 8 * 1024**2)
+            available = min(role_limit, D.LIMIT - self.used - frame)
+            require(available >= 0, 'input metadata bound')
+            if self.callback is None:
+                path = Path(__file__).resolve().parents[2] / name
+                require(path.resolve() == path and path.is_file() and not path.is_symlink(),
+                        'canonical actual input required')
+                require(path.stat().st_size <= available, 'early actual input bound')
+                with path.open('rb') as stream:
+                    raw = stream.read(available + 1)
+            else:
+                try:
+                    raw = self.callback(name)
+                except (KeyError, OSError) as error:
+                    raise ValueError('missing current input') from error
+            require(type(raw) is bytes and len(raw) <= available, 'bounded byte input required')
+            self.used += frame + len(raw)
+            self.cache[name] = raw
+        return self.cache[name]
+
+    def held(self):
+        require(all(self.P.sha(self.read(n)) == h for n, h in self.P.PRESERVED.items()),
+                'actual current held inputs')
+        require(self.P.sha(self.read('execution.json')) == self.P.BASE_EXECUTION, 'whole current execution bytes')
+
+
+def admit(contract, plan=None):
+    require(version(contract) == '1.0.11', 'source-next current version')
+    require(POLICY_SHA256 != 'PENDING_ROOT_FREEZE', 'source-next policy pending')
+    used = bound(contract, plan)
+    require(contract.get('contract_id') == D.VERSION, 'source-next current pointer')
+    policy = contract.get('source_next_splits')
+    require(type(policy) is dict and digest(policy) == POLICY_SHA256, 'source-next sealed policy')
+    header = {'schema': 1, 'base_contract_id': 'SYSON-RUST-COMPLETION/1.0.10',
+        'base_contract_sha256': D.BASE_CONTRACT, 'original_unit_count': 794,
+        'original_ids_sha256': D.BASE_IDS, 'original_normalized_units_sha256': D.BASE_UNITS,
+        'original_readiness_graph_sha256': D.BASE_GRAPH, 'historical_unit_count': 55,
+        'historical_units_sha256': '082af527d8dd4140a8d4104f45c62a62b777d24c68837ed03554d14deec25321'}
+    require(set(policy) == set(header) | {'amendment', 'preserved_inputs', 'children',
+            'record_updates', 'graph_additions'} and all(type(policy[k]) is type(v) and
+            policy[k] == v for k, v in header.items()), 'fixed policy header/fields')
+    require(type(policy['children']) is dict and set(policy['children']) == set(D.IDS), 'fixed three policy children')
+    for uid, family, deps in zip(D.IDS, ['interchange', 'interchange', 'model'],
+                                [['B01', 'B25S1'], ['B25d1'], ['M06a1', 'RR13a']]):
+        child = policy['children'][uid]
+        require(type(child) is dict and set(child) == {'family', 'team', 'dependencies', 'normalized_sha256'} and
+                child['family'] == family and child['team'] == 'services-persistence' and
+                type(child['dependencies']) is list and child['dependencies'] == deps and
+                type(child['normalized_sha256']) is str and len(child['normalized_sha256']) == 64 and
+                all(c in '0123456789abcdef' for c in child['normalized_sha256']), 'fixed child descriptor')
+    return policy, used
+
+
+def restore_contract(session, contract, policy):
+    require(policy['preserved_inputs'] == session.P.PRESERVED, 'all six held input pins')
+    ids = contract['unit_ids']
+    require(type(ids) is list and all(type(x) is str for x in ids) and
+            len(ids) == len(set(ids)) == 797 and set(D.IDS) <= set(ids),
+            'current contract inventory')
+    require(type(contract.get('families')) is dict and all(type(v) is list and
+            all(type(x) is str for x in v) for v in contract['families'].values()), 'family lists')
+    owners = [uid for rows in contract['families'].values() for uid in rows]
+    require(len(owners) == len(set(owners)) == 797 and set(owners) == set(ids), 'unique families')
+    require(not set(D.IDS).intersection(contract['legacy_prerequisite_budget_dispositions']),
+            'no new budget exception')
+    old = copy.deepcopy(contract)
+    for uid in D.IDS:
+        require(uid in old['families'][policy['children'][uid]['family']], 'child family membership')
+    old['unit_ids'] = [uid for uid in ids if uid not in D.IDS]
+    for family in old['families']:
+        old['families'][family] = [uid for uid in old['families'][family] if uid not in D.IDS]
+    del old['source_next_splits']
+    old.update(version='1.0.10', contract_id=policy['base_contract_id'])
+    require(digest(old) == D.BASE_CONTRACT, 'whole previous contract changed')
+    return old
+
+
+def finish(P, plan, version):
+    require(version in PLANS, 'fixed restoration version')
+    metadata = D.source_metadata(P, plan['units'])
+    for key in ['lane_counts', 'source_author_dispatch_waves', 'unordered_write_conflicts']:
+        plan[key] = metadata[key]
+    plan['unit_count'] = len(plan['units'])
+    plan['completion_contract']['id'] = 'SYSON-RUST-COMPLETION/' + version
+    for unit in plan['units']:
+        unit['completion_contract']['id'] = plan['completion_contract']['id']
+        if unit['id'] == 'C99':
+            unit['source_fragment_sha256'] = PLANS[version][1]
+    require(digest(plan) == PLANS[version][0], 'whole restored plan metadata/records changed')
+    return plan
+
+
+def restore_plan(session, contract, plan, policy):
+    P = session.P
+    require(type(plan) is dict and type(plan.get('units')) is list and
+            type(plan.get('unit_count')) is int and plan['unit_count'] == len(plan['units']) == 797,
+            'current plan count')
+    require(all(type(u) is dict and type(u.get('id')) is str for u in plan['units']), 'unit ID type')
+    require({'readiness_graph', 'completion_contract', 'lane_counts', 'source_author_dispatch_waves',
+             'unordered_write_conflicts'} <= set(plan), 'complete current plan fields')
+    byid = {u['id']: u for u in plan['units']}
+    require(len(byid) == 797 and list(byid) == sorted(byid) and
+            set(byid) == set(contract['unit_ids']), 'current sorted unit coverage')
+    require(plan['completion_contract'] == {'id': D.VERSION, 'path': 'completion-contract.json',
+            'lock': 'completion-contract.lock.json'}, 'current plan pointer')
+    families = {uid: f for f, ids in contract['families'].items() for uid in ids}
+    for uid, unit in byid.items():
+        require({'paths', 'dependencies'} <= set(unit) and type(unit.get('source_fragment')) is str, 'unit source fields')
+        require(unit.get('completion_contract') == {'id': D.VERSION, 'path': 'completion-contract.json',
+            'document': contract['document'], 'packet_schema': contract['packet_schema'],
+            'family': families[uid]}, 'current unit pointer')
+        for key in ['dependencies', 'paths', 'implementation_ready_dependencies',
+                    'acceptance_children', 'acceptance_gates', 'acceptance_implementation_inputs']:
+            values = unit.get(key, [])
+            require(type(values) is list and all(type(x) is str for x in values), 'unit list type')
+            if key != 'paths':
+                require(len(values) == len(set(values)) and set(values) <= set(byid), 'unit edge targets')
+    for uid, deps in zip(D.IDS, [['B01', 'B25S1'], ['B25d1'], ['M06a1', 'RR13a']]):
+        u, child = byid[uid], policy['children'][uid]
+        require(u['dependencies'] == u.get('implementation_ready_dependencies') == child['dependencies'] == deps
+                and digest({k: v for k, v in u.items() if k not in P.OMIT}) ==
+                child['normalized_sha256'], 'whole child/dependency contract')
+        require(type(u.get('budget')) is dict and all(type(u['budget'].get(k)) is int and
+                u['budget'][k] == v for k, v in [('production_lines_max', 400),
+                ('authored_lines_max', 900)]), 'strict ordinary child caps')
+    old = copy.deepcopy(plan)
+    computed = old['units']
+    joint = [u['id'] for u in computed if 'acceptance_implementation_inputs' in u]
+    require(P._graph(computed, joint) == plan['readiness_graph'], 'current typed graph/closures')
+    require(all(u.get('expanded_implementation_inputs') == byid[u['id']].get(
+            'expanded_implementation_inputs') for u in computed), 'joint expanded inputs')
+    metadata = D.source_metadata(P, computed)
+    require(all(plan[k] == metadata[k] for k in ['lane_counts', 'source_author_dispatch_waves',
+            'unordered_write_conflicts']), 'current whole source metadata')
+    old['units'] = [u for u in old['units'] if u['id'] not in D.IDS]
+    restored = {u['id']: u for u in old['units']}
+    for uid, fields in policy['record_updates'].items():
+        require(uid in restored and type(fields) is dict, 'changed record owner')
+        for key, change in fields.items():
+            require(key not in P.OMIT | {'id'} and set(change) == {'before', 'after'} and
+                    key in restored[uid] and digest(restored[uid][key]) == digest(change['after']),
+                    'exact current changed field')
+            before = change['before']
+            require(set(before) == {'present', 'value'} and type(before['present']) is bool,
+                    'exact previous field presence')
+            if before['present']:
+                restored[uid][key] = copy.deepcopy(before['value'])
+            else:
+                require(before['value'] is None, 'absent previous field')
+                del restored[uid][key]
+    graph = old['readiness_graph']
+    for node, edges in policy['graph_additions'].items():
+        require(node in graph and type(edges) is list and len(edges) == len(set(edges)) and
+                set(edges) <= set(graph[node]), 'exact added graph edges')
+        if node.split(':', 1)[1] in D.IDS:
+            require(graph[node] == edges, 'whole new typed node')
+            del graph[node]
+        else:
+            graph[node] = [edge for edge in graph[node] if edge not in edges]
+    old = finish(P, old, '1.0.10')
+    sources = {n: session.read(n) for n in {u['source_fragment'] for u in plan['units']}}
+    require(all(P.sha(sources[u['source_fragment']]) == u['source_fragment_sha256']
+                for u in plan['units']), 'actual current source fragment changed')
+    require(0 < len(sources['tools/build_plan.py']) <= 262144, 'actual generator bound')
+    return old
+
+
+def checked(contract, plan=None, read=None):
+    policy, used = admit(contract, plan)
+    session = Session(used, read)
+    session.held()
+    old = restore_contract(session, contract, policy)
+    prior = restore_plan(session, contract, plan, policy) if plan is not None else None
+    session.S.validate_storage_splits(old, prior, session.read)
+    return policy, old, prior, session
+
+
+def historical(contract, plan, read):
+    v = version(contract)
+    require(v != '1.0.11', 'historical version required')
+    used = bound(contract, plan)
+    require(plan is None or digest(plan) == PLANS[v][0], 'whole historical plan required')
+    session = Session(used, read)
+    session.held()
+    return session
+
+
+def source_next_policy(contract):
+    return copy.deepcopy(admit(contract)[0])
+
+
+def previous_contract(contract, read=None):
+    return checked(contract, read=read)[1]
+
+
+def previous_plan(contract, plan, read=None):
+    require(type(plan) is dict, 'current plan dictionary required')
+    return checked(contract, plan, read)[2]
+
+
+def validate_source_next_splits(contract, plan=None, read=None):
+    return copy.deepcopy(checked(contract, plan, read)[0])
+
+
+def legacy_contract(contract, read=None):
+    if version(contract) == '1.0.11':
+        _, old, _, session = checked(contract, read=read)
+    else:
+        session, old = historical(contract, None, read), contract
+    return session.S.legacy_contract(old)
+
+
+def legacy_plan(contract, plan, read=None):
+    require(type(plan) is dict, 'legacy plan dictionary required')
+    if version(contract) == '1.0.11':
+        _, contract, plan, session = checked(contract, plan, read)
+    else:
+        session = historical(contract, plan, read)
+    P, S = session.P, session.S
+    if contract['version'] == '1.0.10':
+        plan = finish(P, S.previous_plan(contract, plan), '1.0.9')
+        contract = S.previous_contract(contract)
+    return finish(P, S.P.legacy_plan(contract, plan), '1.0.8')
+
+
+def validate_preparation_splits(contract, plan=None, read=None):
+    if version(contract) != '1.0.11':
+        return historical(contract, plan, read).S.validate_preparation_splits(contract, plan)
+    policy, old, prior, session = checked(contract, plan, read)
+    result = session.S.validate_preparation_splits(old, prior)
+    result['children'].update(copy.deepcopy(policy['children']))
+    return result
+
+
+def storage_policy(contract, read=None):
+    v = version(contract)
+    if v == '1.0.11':
+        _, old, _, session = checked(contract, read=read)
+    else:
+        require(v == '1.0.10', 'storage policy version')
+        session, old = historical(contract, None, read), contract
+    return session.S.storage_policy(old)
+
+
+def validate_storage_splits(contract, plan=None, read=None):
+    v = version(contract)
+    if v != '1.0.11':
+        require(v == '1.0.10', 'storage validation version')
+        return historical(contract, plan, read).S.validate_storage_splits(contract, plan)
+    _, old, prior, session = checked(contract, plan, read)
+    return session.S.validate_storage_splits(old, prior, session.read)
