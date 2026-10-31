@@ -45,18 +45,18 @@ class AcquisitionTests(unittest.TestCase):
         block.start()
         self.addCleanup(block.stop)
 
-    def mutated(self, change):
-        manifest = json.loads(MANIFEST.read_bytes())
+    def mutated(self, change, identifier='models-01'):
+        manifest = json.loads((SOURCE.parent / fetch.epoch(identifier)['manifest']).read_bytes())
         change(manifest)
         raw = json.dumps(manifest).encode()
         registry = copy.deepcopy(fetch.EPOCHS)
-        registry['models-01']['sha256'] = hashlib.sha256(raw).hexdigest()
+        registry[identifier]['sha256'] = hashlib.sha256(raw).hexdigest()
         with patch.object(fetch, 'EPOCHS', registry), self.assertRaises(ValueError):
-            fetch.requests('models-01', raw)
+            fetch.requests(identifier, raw)
 
     def test_exact_registry_primary_order_roles_all_four_sidecars(self):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
-        self.assertEqual(set(fetch.EPOCHS), {'models-01'})
+        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
@@ -69,7 +69,7 @@ class AcquisitionTests(unittest.TestCase):
             self.assertEqual([r['url'][len(group[0]['url']):] for r in group], fetch.base.SUFFIXES)
 
     def test_epoch_raw_hash_size_and_duplicate_keys_are_closed(self):
-        for name in ['', 'models-02', '../models-01', None, True]:
+        for name in ['', 'models-03', '../models-01', None, True]:
             with self.subTest(epoch=name), self.assertRaises(ValueError):
                 fetch.requests(name, MANIFEST.read_bytes())
         for raw in [MANIFEST.read_bytes() + b'\n', b'x' * (262144 + 1)]:
@@ -135,14 +135,16 @@ class AcquisitionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'canonical'):
             fetch.read_small(link, 262144)
 
-    def run_main(self, mode=None):
+    def run_main(self, mode=None, identifier='models-01'):
+        manifest = SOURCE.parent / fetch.epoch(identifier)['manifest']
+        pin = fetch.epoch(identifier)['sha256']
         out = self.root / 'attempt'
         out.mkdir(mode=0o700)
         lock = self.root / 'compiler.lock'
         lock.write_bytes(b'')
-        paths = [str(p) for p in [SOURCE, MANIFEST, fetch.HELPER, fetch.TRANSPORT, fetch.OWNER, lock]]
-        spec = {'epoch': 'models-01', 'out': str(out), 'compiler_lock': str(lock),
-            'ownership_helper': str(fetch.OWNER), 'proposal': str(MANIFEST), 'proposal_sha256': PIN,
+        paths = [str(p) for p in [SOURCE, manifest, fetch.HELPER, fetch.TRANSPORT, fetch.OWNER, lock]]
+        spec = {'epoch': identifier, 'out': str(out), 'compiler_lock': str(lock),
+            'ownership_helper': str(fetch.OWNER), 'proposal': str(manifest), 'proposal_sha256': pin,
             'inputs': paths, 'input_sha256': {p: fetch.base.digest(p) for p in paths}}
         if mode == 'lock':
             other = self.root / 'other.lock'
@@ -159,8 +161,8 @@ class AcquisitionTests(unittest.TestCase):
         spec_path = self.root / 'spec.json'
         spec_path.write_text(json.dumps(spec))
         calls = []
-        rows = fetch.requests('models-01', MANIFEST.read_bytes())
-        metadata_index = next(i for i, r in enumerate(rows) if r['role'] == 'version_metadata')
+        rows = fetch.requests(identifier, manifest.read_bytes())
+        metadata_index = next((i for i, r in enumerate(rows) if r['role'] == 'version_metadata'), 0)
         body = b'opaque served XML/POM bytes: \xff\x00; no parser or normalization'
         def attest(unit, cookie, prefix, destination, environment):
             self.assertEqual(prefix, 'syson-b33-closure-')
@@ -197,10 +199,10 @@ class AcquisitionTests(unittest.TestCase):
             if mode == 'missing' and index == metadata_index:
                 content, status = b'missing mandatory metadata', 404
             if mode == 'metadata_body' and index == metadata_index:
-                content = b'x' * (256 * 1024 + 1)
+                content = b'x' * (rows[metadata_index]['maximum_bytes'] + 1)
             if mode == 'body' and row['role'] == 'pom':
                 content = b'x' * (2 * fetch.MIB)
-            if mode == 'drift' and index == 174:
+            if mode == 'drift' and index == len(rows) - 1:
                 lock.write_bytes(b'changed frozen bytes')
             result = Response(content, request.full_url, status)
             if mode in ['headers', 'header_overflow']:
@@ -394,6 +396,110 @@ class AcquisitionTests(unittest.TestCase):
         static = {k: v for k, v in record.items() if k != 'requests'}
         self.assertEqual(fetch.helper.static_frame(17, record), 17 + fetch.helper.encoded_size(static))
         self.assertEqual(json.dumps(static).count('\\u0001'), 200)
+
+
+    def test_models02_independent18_gavs_and_complete90_row_oracle(self):
+        raw = (SOURCE.parent / 'requests/models-02.json').read_bytes()
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), '7434575a1030365ba75b4f0650d36183a1e930efd714c367cf4e810db4445ef4')
+        gavs = [
+            'org.apache:apache:23',
+            'org.apache:apache:31',
+            'org.apache:apache:39',
+            'org.apache.maven:maven-parent:10',
+            'org.apache.maven:maven-parent:16',
+            'org.apache.maven:maven-parent:23',
+            'org.apache.maven:maven-parent:44',
+            'org.codehaus.plexus:plexus:25',
+            'org.eclipse.sisu:sisu-plexus:0.9.0.M2',
+            'org.junit:junit-bom:5.11.1',
+            'org.junit:junit-bom:5.11.4',
+            'org.junit:junit-bom:5.12.2',
+            'org.junit:junit-bom:5.13.1',
+            'org.junit:junit-bom:5.14.4',
+            'org.junit:junit-bom:5.9.3',
+            'org.slf4j:slf4j-bom:2.0.18',
+            'org.sonatype.forge:forge-parent:10',
+            'org.sonatype.forge:forge-parent:5']
+        manifest, rows = json.loads(raw), fetch.requests('models-02', raw)
+        self.assertEqual(len(rows), 90)
+        self.assertEqual([':'.join(p['coordinate'][k] for k in ['groupId', 'artifactId', 'version'])
+                          for p in manifest['new_primaries']], gavs)
+        for index, gav in enumerate(gavs):
+            group, artifact, version = gav.split(':')
+            relative = group.replace('.', '/') + '/' + artifact + '/' + version + '/' + artifact + '-' + version + '.pom'
+            for offset, suffix in enumerate(fetch.base.SUFFIXES):
+                wanted = {'url': fetch.base.BASE + relative + suffix,
+                    'relative_path': 'downloads/' + relative + suffix + '.partial',
+                    'maximum_bytes': 65536 if suffix else 2 * fetch.MIB,
+                    'role': 'pom' if not suffix else 'signature' if suffix == '.asc' else 'checksum',
+                    'allowed_status': [200, 404] if suffix else [200], 'primary_index': index}
+                if suffix in ['.sha512', '.sha256', '.sha1']:
+                    wanted['algorithm'] = suffix[1:]
+                self.assertEqual(rows[index * 5 + offset], wanted)
+
+    def test_models02_coherent_primary_and_cross_epoch_corruptions_refuse(self):
+        def coherent(m):
+            m['new_primaries'][0]['coordinate']['version'] = '99'
+            for item in [m['new_primaries'][0]] + m['requests'][:5]:
+                for key in ['url', 'relative_artifact', 'relative_path']:
+                    if key in item:
+                        item[key] = item[key].replace('/23/', '/99/').replace('-23.pom', '-99.pom')
+        for change in [coherent, lambda m: m.update(epoch='models-01'),
+                lambda m: m['new_primaries'].reverse(), lambda m: m['requests'][0].update(role='jar'),
+                lambda m: m['limits'].update(exact_primaries=True),
+                lambda m: m['requests'][1].update(allowed_status=[200.0, 404.0])]:
+            self.mutated(change, 'models-02')
+
+    def test_models02_full90_pipeline_gnu_headers_and_optional404(self):
+        for mode in [None, 'gnu', 'headers', 'sidecar404']:
+            record, calls, out, error, _ = self.run_main(mode, 'models-02')
+            self.assertIsNone(error)
+            self.assertEqual((len(calls), len(record['requests']), len(record['checksums'])),
+                             (90, 90, 53 if mode == 'sidecar404' else 54))
+            self.assertEqual(record['status'], 'PASS_PASSIVE_ACQUISITION_ONLY')
+            self.assertEqual(record['inputs_before'], record['inputs_after'])
+            for row in record['requests']:
+                self.assertEqual(hashlib.sha256((out / row['relative_path']).read_bytes()).hexdigest(), row['sha256'])
+            self.assertLessEqual(sum(p.stat().st_size for p in out.rglob('*.json')), 63 * fetch.MIB)
+            self.assertFalse(any(r['role'] == 'version_metadata' for r in record['requests']))
+            self.clear_attempt()
+
+    def test_models02_all_failure_modes_preserve_real_files_and_refuse(self):
+        for mode in ['badstrong', 'wrongname', 'missing', 'metadata_body', 'body', 'header_overflow',
+                     'redirect', 'controls', 'lock', 'deadline', 'provider_missing', 'duplicate_input',
+                     'epoch', 'proposal', 'drift']:
+            record, calls, out, error, _ = self.run_main(mode, 'models-02')
+            self.assertIsNotNone(error, mode)
+            if mode in ['badstrong', 'wrongname']:
+                self.assertEqual(len(calls), 90)
+                self.assertIn('checksum', record['error'])
+            if mode == 'missing':
+                self.assertEqual((len(calls), len(record['requests'])), (1, 1))
+                self.assertEqual(calls, [fetch.base.BASE + 'org/apache/apache/23/apache-23.pom'])
+                self.assertEqual(record['status'], 'FAIL_PRESERVED')
+                self.assertEqual(record['error'], "ValueError('HTTP failure retained; no fallback')")
+                self.assertNotIn('checksums', record)
+                retained = record['requests'][0]
+                self.assertEqual((retained['role'], retained['status']), ('pom', 404))
+                self.assertEqual(retained['url'], calls[0])
+                self.assertEqual(retained['relative_path'],
+                                 'downloads/org/apache/apache/23/apache-23.pom.partial')
+                payload = out / retained['relative_path']
+                self.assertEqual(payload.read_bytes(), b'missing mandatory metadata')
+                self.assertEqual((retained['bytes'], retained['sha256']),
+                                 (len(b'missing mandatory metadata'),
+                                  hashlib.sha256(payload.read_bytes()).hexdigest()))
+                response_path = payload.with_suffix(payload.suffix + '.response.json')
+                response = json.loads(response_path.read_bytes())
+                self.assertEqual((response['status'], response['relative_path']),
+                                 (404, retained['relative_path']))
+                self.assertEqual(response, retained)
+            if mode in ['metadata_body', 'body']:
+                self.assertIn('stream byte limit', record['error'])
+                self.assertTrue(list(out.rglob('*.response.json')))
+            if mode == 'drift':
+                self.assertEqual(record['status'], 'FAIL_INPUT_DRIFT')
+            self.clear_attempt()
 
 
 if __name__ == '__main__':

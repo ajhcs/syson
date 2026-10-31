@@ -1,9 +1,9 @@
 # Fixed normal-core acquisition epochs
 
-Only models-01 is admitted: 35 primaries and all four sidecars, 175 ordered requests.
+Admitted epochs are models-01 (35 primaries/175 requests) and models-02 (18 POMs/90 requests).
 The registry binds raw manifest bytes, independent ordered-primary seal, roles and limits.
 Invocation retains the existing fixed launcher's five arguments: spec, SHA, lock FD, unit, cookie.
-The frozen spec must name epoch models-01 and the exact sibling requests/models-01.json.
+The frozen spec must name an admitted epoch and its exact registry-bound sibling manifest.
 Its input map includes this client, manifest, immutable metadata/transport helpers and owner.
 Whole pinned helpers supply transport, owned proof, checksum grammar and receipt accounting.
 Bodies remain opaque raw bytes; every served SHA512/SHA256/SHA1 is checked, including metadata.

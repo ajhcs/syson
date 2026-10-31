@@ -20,7 +20,11 @@ MIB = 1024**2
 EPOCHS = {'models-01': {'manifest': 'requests/models-01.json',
     'sha256': '682c4b8569beeb95defb30b315496b5f474d133d99170b4eb79827466c117f49',
     'primary_sha256': 'c622f3e843134dfa48966435087085b4af5c328e1f0289ec25cf13732a66c698',
-    'primaries': 35, 'requests': 175, 'roles': ('pom', 'version_metadata')}}
+    'primaries': 35, 'requests': 175, 'roles': ('pom', 'version_metadata')},
+    'models-02': {'manifest': 'requests/models-02.json',
+        'sha256': '7434575a1030365ba75b4f0650d36183a1e930efd714c367cf4e810db4445ef4',
+        'primary_sha256': '61db2cd50e4a9cfcac49801208c2060093bfe68fab141fcca4fc0caa690aaa42',
+        'primaries': 18, 'requests': 90, 'roles': ('pom',)}}
 
 
 def require(condition, message):
