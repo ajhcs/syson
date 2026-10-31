@@ -1,0 +1,24 @@
+from pathlib import Path
+import hashlib
+import importlib.util
+import json
+import sys
+
+ROOT = Path('/workspace/worktrees/builderbob/syson/batch44-finite-model-proposals-20261031')
+source = ROOT / 'porting/rust-parity-plan-20261026/closure/core-compile/request_proposal.py'
+if hashlib.sha256(source.read_bytes()).hexdigest() != '8712ba75cacc3517c614fdd545f978eadb7eec47185081ee04cc1ac26ac5ef77':
+    raise ValueError('fixed producer source required')
+spec = importlib.util.spec_from_file_location('qualified_request_producer', source)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+evidence = ROOT / 'porting/rust-parity-evidence/C01'
+result = module.propose('models-02', (evidence / 'batch44-request-proposal/reference/models-02-frontier.json').read_bytes(),
+                        (evidence / 'batch36-core-metadata/requests.json').read_bytes())
+raw = (json.dumps(result, indent=2) + '\n').encode()
+out = Path(sys.argv[1])
+if out.parent != Path('/workspace/build/builderbob/syson-durable-batch44-20261031') or out.parent.resolve() != out.parent:
+    raise ValueError('fixed canonical output parent required')
+with out.open('xb') as stream:
+    stream.write(raw)
+print(json.dumps({'status': 'PROPOSED_MODELS02_ONLY_NO_GET_OR_CLIENT_REGISTRY_AUTHORITY',
+                  'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}))
