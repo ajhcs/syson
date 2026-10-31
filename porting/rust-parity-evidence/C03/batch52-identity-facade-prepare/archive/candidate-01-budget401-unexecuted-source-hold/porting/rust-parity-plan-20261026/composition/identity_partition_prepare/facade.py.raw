@@ -1,0 +1,322 @@
+"""Inactive .12 views; callers must whole-pin actual D/G/C/capture/facade sources."""
+import copy
+import sys
+from contextlib import contextmanager
+from pathlib import Path, PurePosixPath
+from . import derive as D
+from . import guard as G
+from . import construct as C
+from . import capture as H
+
+ROOT = Path(__file__).resolve().parents[2]
+LIMIT = 64 * C.MIB
+HISTORICAL_CAPTURE_SOURCE_SHA256 = '9420ce4b9a73599b13c766c02a6f71f7f58199a70ff1c5ef0614f0e48b0c17da'
+OUTPUT_RESERVE = 8 * C.MIB
+
+
+def _name(name):
+    D.require(type(name) is str and 0 < len(name) <= 4096 and
+              not any(0xD800 <= ord(c) <= 0xDFFF for c in name), 'bounded facade path')
+    path = PurePosixPath(name)
+    D.require(str(path) == name and not path.is_absolute() and all(p not in ('.', '..') for p in path.parts),
+              'canonical facade path')
+
+
+class _Reader:
+    def __init__(self, root, names, callback, maximum, lock_extra=False):
+        D.require(type(names) is set and len(names) <= 73 and (callback is None or callable(callback)),
+                  'finite facade reader')
+        self.names, self.root, self.callback = frozenset(names), root, callback
+        self.maximum, self.used, self.cache, self.closed = maximum, 0, {}, False
+        self.norm_used, self.lock_extra = 0, lock_extra
+        for name in names:
+            _name(name)
+        if callback is None:
+            sizes = {}
+            for name in names:
+                path = root / name
+                D.require(root.resolve() == root and path.resolve() == path and path.is_file()
+                          and not path.is_symlink(), 'actual facade source origin')
+                sizes[name] = path.stat().st_size
+            D.require(all(size <= self.file_limit(name) for name, size in sizes.items()) and
+                      sum(size + 128 + 6 * len(name) for name, size in sizes.items()) <= maximum and
+                      (not lock_extra or sum(size + 128 + 6 * len(name) for name, size in sizes.items()
+                       if name != 'completion-contract.lock.json') <= 8 * C.MIB),
+                      'early facade phase bound')
+
+    def file_limit(self, name):
+        return min(8 * C.MIB, {'completion-contract.json': C.MIB, 'acceptance-packet.schema.json':
+                   256 * 1024, 'completion-contract.lock.json': 256 * 1024}.get(name, 8 * C.MIB))
+
+    def __call__(self, name):
+        D.require(not self.closed and type(name) is str and name in self.names, 'closed or foreign facade read')
+        if name not in self.cache:
+            framing = 128 + 6 * len(name)
+            available = min(self.file_limit(name), self.maximum - self.used - framing)
+            if self.lock_extra and name != 'completion-contract.lock.json':
+                available = min(available, 8 * C.MIB - self.norm_used - framing)
+            D.require(available >= 0, 'facade phase byte framing bound')
+            if self.callback is None:
+                path = self.root / name
+                D.require(path.resolve() == path and not path.is_symlink(), 'facade source origin changed')
+                with path.open('rb') as stream:
+                    raw = stream.read(available + 1)
+            else:
+                try:
+                    raw = self.callback(name)
+                except (KeyError, OSError) as error:
+                    raise ValueError('missing current input') from error
+            D.require(type(raw) is bytes and len(raw) <= available, 'exact bounded facade bytes')
+            charge = len(raw) + 128 + 6 * len(name)
+            D.require(self.used + charge <= self.maximum, 'facade phase byte framing bound')
+            self.used += charge
+            if self.lock_extra and name != 'completion-contract.lock.json':
+                self.norm_used += charge
+            self.cache[name] = raw
+        return self.cache[name]
+
+    def close(self):
+        self.closed, self.callback, self.root = True, None, None
+        self.cache.clear()
+
+
+def _parse(reader, name, maximum):
+    raw = reader(name)
+    D.require(len(raw) <= maximum, 'early facade JSON byte bound')
+    try:
+        return C.parse(raw, maximum)
+    except RecursionError as error:
+        raise ValueError('facade JSON depth') from error
+
+
+def _size(value, maximum):
+    used = 0
+    for raw in C.pieces(value, True):
+        used += len(raw)
+        D.require(used <= maximum, 'facade model output bound')
+    return used
+
+
+def _generic(contract, lock, reader, names, previous_lock):
+    D.require(type(contract) is dict and contract.get('version') == '1.0.12' and
+              contract.get('contract_id') == D.VERSION, 'fixed facade current version')
+    D.require(type(lock) is dict and set(lock) == set(previous_lock) and lock.get('contract_id') == D.VERSION
+              and type(lock.get('sha256')) is dict and set(lock['sha256']) == names,
+              'current72 contract lock input set')
+    D.require(all(lock[k] == previous_lock[k] for k in previous_lock if k not in {'sha256', 'contract_id'}),
+              'current lock metadata changed')
+    amendments = []
+    disposition = contract.get('legacy_prerequisite_budget_dispositions')
+    D.require(type(disposition) is dict, 'budget disposition dictionary')
+    amendments.append(disposition.get('amendment'))
+    for key in ['repair_splits', 'layout_kernel_splits', 'tooling_comparator_splits', 'comparison_repairs',
+                'routing_kernel_splits', 'forest_kernel_splits']:
+        D.require(type(contract.get(key)) is dict, 'amendment policy dictionary')
+        for policy in contract[key].values():
+            D.require(type(policy) is dict, 'amendment policy object')
+            amendments.append(policy.get('amendment'))
+    for key in ['team_execution', 'source_preparation_splits', 'storage_source_splits',
+                'source_next_splits', 'identity_partition_splits']:
+        D.require(type(contract.get(key)) is dict, 'current policy dictionary')
+        amendments.append(contract[key].get('amendment'))
+    for item in amendments:
+        D.require(type(item) is dict and set(item) == {'path', 'sha256'} and
+                  type(item['path']) is str and item['path'].startswith('amendments/') and
+                  type(item['sha256']) is str and len(item['sha256']) == 64, 'amendment descriptor')
+        D.require(D.sha(reader(item['path'])) == item['sha256'], 'Contract amendment hash mismatch')
+    for name, pin in lock['sha256'].items():
+        D.require(type(pin) is str and len(pin) == 64 and all(c in '0123456789abcdef' for c in pin),
+                  'strict facade source hash')
+        D.require(D.sha(reader(name)) == pin, 'Contract lock hash mismatch: ' + name)
+    ids, families = contract.get('unit_ids'), contract.get('families')
+    D.require(type(ids) is list and all(type(uid) is str for uid in ids) and len(ids) == len(set(ids)),
+              'unique facade contract IDs')
+    D.require(type(families) is dict and all(type(v) is list and all(type(u) is str for u in v)
+              for v in families.values()), 'contract family coverage types')
+    owners = [uid for group in families.values() for uid in group]
+    D.require(len(owners) == len(set(owners)) and set(owners) == set(ids), 'Contract family coverage mismatch')
+    D.require(contract.get('document') == 'COMPLETION-CONTRACT.md' and
+              contract.get('packet_schema') == 'acceptance-packet.schema.json' and
+              contract.get('performance_policy') == 'performance-policy.json', 'fixed facade document paths')
+    schema = _parse(reader, contract['packet_schema'], 256 * 1024)
+    properties = schema.get('properties') if type(schema) is dict else None
+    D.require(type(properties) is dict and all(type(properties.get(k)) is dict
+              for k in ['unit_id', 'contract_id', 'target_source']), 'facade schema properties')
+    enum = properties['unit_id'].get('enum')
+    D.require(type(enum) is list and all(type(uid) is str for uid in enum) and len(enum) == len(set(enum))
+              and set(enum) == set(ids) and properties['contract_id'].get('const') == D.VERSION and
+              properties['target_source'].get('const') == contract.get('target_source'), 'facade schema coverage')
+    return schema
+
+
+@contextmanager
+def _view(contract=None, plan=None, read=None, root=None):
+    old, supplied, tails, combined, readers, state = {}, {}, {}, {}, [], {}
+    try:
+        D.require(all(sys.modules.get(m.__name__) is m for m in [D, G, C, H]), 'foreign facade provider identity')
+        root = ROOT if root is None else root
+        D.require(type(root) is type(ROOT) and root == ROOT == C.ROOT, 'facade root binding')
+        D.require(G.POLICY_SHA256 != 'PENDING_ROOT_FREEZE' and C.CATALOGUE_SHA256 != 'PENDING_ROOT_FREEZE',
+                  'facade policy or catalogue pending')
+        D.require(read is None or callable(read), 'explicit facade read callback')
+        _, S, P, _ = D.provider()
+        caller_charge = S.bound(contract, plan)
+        D.require(contract is None or type(contract) is dict and type(contract.get('version')) is str
+                  and contract['version'] in ['1.0.12', '1.0.11', '1.0.10', '1.0.9'], 'known facade contract')
+        D.require(plan is None or type(plan) is dict, 'exact facade plan dictionary')
+        D.require(caller_charge + 27 * C.MIB + 128 * 1024 <= LIMIT, 'caller before historical phase budget')
+        plan_size = 0 if plan is None else _size(plan, 8 * C.MIB)
+        if contract is not None:
+            _size(contract, C.MIB)
+        _, supplied, tails, _ = C.prior()
+        old.update(supplied)
+        combined.update(old)
+        combined.update(tails)
+        D.require(caller_charge + 3 * C.MIB + sum(len(raw) + 128 + 6 * len(name)
+                  for name, raw in combined.items()) <= LIMIT, 'historical caller overlap budget')
+        H.validate(combined)
+        tails.clear()
+        supplied.clear()
+        combined.clear()
+        charged = caller_charge + 3 * C.MIB + sum(len(raw) + 128 + 6 * len(name)
+                  for name, raw in old.items())
+        remaining = LIMIT - charged - OUTPUT_RESERVE
+        D.require(remaining >= 0, 'caller before facade model work budget')
+        current = contract is None or contract['version'] == '1.0.12'
+        old_limit = min(16 * C.MIB, remaining) if read is not None and not current else 16 * C.MIB
+        old_callback = read if not current and read is not None else old.__getitem__
+        old_reader = _Reader(root, set(old), old_callback, old_limit)
+        readers.append(old_reader)
+        def old_read(name):
+            raw = old_reader(name)
+            D.require(D.sha(raw) == D.sha(old[name]), 'historical callback bytes changed')
+            return raw
+        state.update(S=S, P=P, old=old, old_read=old_read,
+                     charged=charged, caller_charge=caller_charge, plan_size=plan_size, current=current, plan=plan,
+                     mode=('ACTUAL_PHYSICAL_ROOT' if current else 'VERIFIED_HISTORICAL_CATALOGUE')
+                          if read is None else 'EXPLICIT_CALLBACK_BYTE_CLAIM')
+        if current:
+            previous_lock = P.parse(old['completion-contract.lock.json'])
+            names = set(previous_lock['sha256']) | C.ADDITIONS
+            D.require(len(names) == 72, 'fixed72 facade normative roles')
+            reader = _Reader(root, names | {'completion-contract.lock.json'}, read,
+                             min(8 * C.MIB + 256 * 1024, remaining), True)
+            readers.append(reader)
+            value = _parse(reader, 'completion-contract.json', C.MIB)
+            lock = _parse(reader, 'completion-contract.lock.json', 256 * 1024)
+            S.bound(value, lock)
+            schema = _generic(value, lock, reader, names, previous_lock)
+            D.require(all(reader(name) == old[name] for name in names.intersection(old)
+                      if name not in C.CAPTURED), 'historical raw alias changed')
+            D.require(contract is None or D.digest(contract) == D.digest(value), 'supplied current contract differs')
+            args = tuple(reader(name) for name in [D.FRAGMENT, D.AMENDMENT, 'tools/build_plan.py'])
+            c11, p11, expected_schema = C.contract_only(value, old, *args)
+            D.require(D.digest(schema) == D.digest(expected_schema), 'whole current facade schema changed')
+            policy = copy.deepcopy(value['identity_partition_splits'])
+            if plan is not None:
+                policy, c11, p11 = G.checked(value, plan, old_read, *args)
+            state.update(contract=value, base=c11, previous=p11, c11=c11, p11=p11 if plan is not None else None,
+                         policy=policy, args=args, reader=reader)
+        else:
+            state.update(contract=contract, c11=contract, p11=plan, reader=old_reader)
+        state['readers'] = readers
+        state['charged_readers'] = [reader] if current else ([old_reader] if read is not None else [])
+        D.require(charged + sum(r.used for r in state['charged_readers']) + OUTPUT_RESERVE <= LIMIT,
+                  'complete facade input output phase budget')
+        yield state
+    finally:
+        for reader in readers:
+            reader.close()
+        for mapping in [old, supplied, tails, combined]:
+            mapping.clear()
+        state.clear()
+
+
+def _result(view, value):
+    view['S'].bound(list(value) if type(value) is tuple else value)
+    size = _size(value, OUTPUT_RESERVE)
+    D.require(view['charged'] + sum(r.used for r in view['charged_readers']) + size <= LIMIT,
+              'complete facade returned model budget')
+    return copy.deepcopy(value)
+
+
+def read_contract(root=None, read=None):
+    with _view(read=read, root=root) as view:
+        return _result(view, view['contract'])
+
+
+def checked(contract, plan=None, read=None):
+    D.require(type(contract) is dict, 'identity contract dictionary required')
+    with _view(contract, plan, read) as view:
+        D.require(view['current'], 'identity current12 view required')
+        return _result(view, (view['policy'], view['c11'], view['p11']))
+
+
+def identity_previous_contract(contract, read=None):
+    return checked(contract, read=read)[1]
+
+
+def identity_previous_plan(contract, plan, read=None):
+    D.require(type(plan) is dict, 'identity current plan required')
+    return checked(contract, plan, read)[2]
+
+
+def _legacy(name, contract, plan=None, read=None):
+    D.require(type(contract) is dict and (not name.endswith('_plan') or type(plan) is dict),
+              'legacy contract or plan type')
+    with _view(contract, plan, read) as view:
+        method, old_read = getattr(view['S'], name), view['old_read']
+        c, p = view['c11'], view['p11']
+        if name == 'source_next_policy':
+            value = method(c)
+        elif name.endswith('_plan') or name.startswith('validate_'):
+            value = method(c, p, old_read)
+        else:
+            value = method(c, old_read)
+        if name == 'validate_preparation_splits' and view['current']:
+            model = plan if plan is not None else D.build(view['base'], view['previous'],
+                    *view['args'], view['old'].__getitem__)['expected-plan.json']
+            rows = {unit['id']: unit for unit in model['units']}
+            families = {uid: family for family, ids in view['contract']['families'].items() for uid in ids}
+            for uid in set(value['children']) | set(D.IDS):
+                row = rows[uid]
+                value['children'][uid] = {'family': families[uid], 'team': row['primary_team'],
+                    'dependencies': copy.deepcopy(row['dependencies']),
+                    'normalized_sha256': D.digest({k: v for k, v in row.items() if k not in view['P'].OMIT})}
+        return _result(view, value)
+
+
+def source_next_policy(contract):
+    return _legacy('source_next_policy', contract)
+
+
+def previous_contract(contract, read=None):
+    return _legacy('previous_contract', contract, read=read)
+
+
+def previous_plan(contract, plan, read=None):
+    return _legacy('previous_plan', contract, plan, read)
+
+
+def validate_source_next_splits(contract, plan=None, read=None):
+    return _legacy('validate_source_next_splits', contract, plan, read)
+
+
+def legacy_contract(contract, read=None):
+    return _legacy('legacy_contract', contract, read=read)
+
+
+def legacy_plan(contract, plan, read=None):
+    return _legacy('legacy_plan', contract, plan, read)
+
+
+def validate_preparation_splits(contract, plan=None, read=None):
+    return _legacy('validate_preparation_splits', contract, plan, read)
+
+
+def storage_policy(contract, read=None):
+    return _legacy('storage_policy', contract, read=read)
+
+
+def validate_storage_splits(contract, plan=None, read=None):
+    return _legacy('validate_storage_splits', contract, plan, read)

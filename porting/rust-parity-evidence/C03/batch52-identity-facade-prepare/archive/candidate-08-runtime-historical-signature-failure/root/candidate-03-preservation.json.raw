@@ -1,0 +1,24 @@
+{
+  "schema": "C51F-DOUBLE-POP-HOLD-PRESERVATION/1",
+  "status": "FOUR_COMPLETE_UNEXECUTED_SOURCE_RECORD_FILES_PRESERVED",
+  "files": {
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/facade.py.raw": {
+      "bytes": 16697,
+      "sha256": "cf6c5ab8e138ba5668c1f902fbc234cc5b4f507ca1791bc152f5f4548516825f"
+    },
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_facade.py.raw": {
+      "bytes": 18005,
+      "sha256": "3d3734b4ddc58e51a69f0cdfa593a49966c54b9af5226c40e20235a05964ccc9"
+    },
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/FACADE.md.raw": {
+      "bytes": 1457,
+      "sha256": "10676d4e0a395036dd3364b6ae4f04fdeddc33352df16c6fd3450ecdc05534f3"
+    },
+    "root-repair-source-03.json.raw": {
+      "bytes": 1869,
+      "sha256": "7effbe142f025ca010fdc6154c574db0e71ace3c21cc45db8123f6a4be4cf68f"
+    }
+  },
+  "finding": "Root reviewed an earlier draft, missed the already-present bare pop in accepted02 and inserted a second pop. Independent spec author caught the resulting KeyError before execution. The old02 child-only control was already correct; root03 original rationale was mistaken.",
+  "unchanged_support_reference": "candidate-02-preservation.json retains full unchanged CI/support/docs."
+}

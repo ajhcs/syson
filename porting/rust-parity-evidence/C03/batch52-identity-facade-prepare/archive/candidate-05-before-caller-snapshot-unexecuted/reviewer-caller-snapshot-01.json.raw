@@ -1,0 +1,39 @@
+{
+  "schema": "C51F-CALLER-SNAPSHOT-STATIC-REVIEW/1",
+  "status": "CONCRETE_CALLBACK_INTEGRITY_GAP_MINIMAL_SOURCE_REPAIR_RECOMMENDED",
+  "scope": "Read-only text/hash reasoning plus this data report. No source changes, subject imports/tests/restart/runtime/Git/network. Ordinary callback side effects only; no hostile interpreter or arbitrary-code security claim.",
+  "source": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch52-identity-facade-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/facade.py",
+      "bytes": 16620,
+      "sha256": "25ff928b743daf96073b156a21824ead6035447c59da7a45760b3ee9c9383620"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch52-identity-facade-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_facade.py",
+      "bytes": 18305,
+      "sha256": "f48840334b518ed437fe7e8ecd49a7c9b4ebfa09fd5eb257fd3c2787fbec36c3"
+    }
+  ],
+  "finding": {
+    "path": "/workspace/worktrees/builderbob/syson/batch52-identity-facade-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/facade.py",
+    "admission": "_view lines160-168 computes S.bound, caller+27MiB budget and per-value _size on caller contract/plan, then retains their original mutable references.",
+    "use_after_callback": "Current reader invokes caller callback before D.digest(contract) around208 and G.checked(...plan...) later. Callback may close over and mutate those original objects after admission. Historical branches also retain originals until delegated old methods run. Current checks do not create a private snapshot.",
+    "consequence": "A normal callback can invalidate admitted object identity/size/cycle assumptions before hash/copy/model use, yielding unexpected serialization/work or changed data. Prior source05 PASS did not establish this caller authority under side effects."
+  },
+  "minimal_fix": {
+    "first": "Immediately AFTER existing plan/contract _size checks and BEFORE C.prior, assign contract, plan = copy.deepcopy((contract, plan)). Existing S.bound exact-builtin/cycle/node/depth/aggregate plus caller27MiB/individual1/8MiB admission remain before copying. Pair copy preserves aliases consistently and seals a private logical input snapshot for both current/historical views.",
+    "second_required": "In _legacy current preparation descriptor branch, replace original outer plan reference with view[plan] for choosing supplied model. _view snapshot is local; _legacy still otherwise uses its original caller plan at model = plan if plan is not None else D.build(...). Without this substitution, descriptor row hashes/dependencies can still use post-callback external mutations even after _view is fixed. This is a same-line-count replacement, not a new helper.",
+    "other_consumers": "checked and delegated legacy methods already use view policy/c11/p11. Families and args are already read from view. Only preparation model selection escapes the per-call view.",
+    "budget": "One added ordinary production snapshot line: F319->320, total398->399. Model-selection substitution need not grow physical line count. Tests/wholePIN update counted normally;18 names remain. No source minification, guard removal or capraise. Final normal counts govern.",
+    "semantics": "Callback mutation remains visible in caller-owned objects; public return describes the bounded initial private snapshot. Scope is logical64MiB input/output/framing, not a heap/RSS claim. Exact input aliases and output private copies stay enforced."
+  },
+  "meaningful_controls": {
+    "placement": "Extend existing explicit-current-callback test and, where needed, existing historical-delegation test; retain all18 method IDs and old assertions.",
+    "current": "For growth and cycle subcases create external contract+plan copies of admitted full fixture. On first current lock read mutate external contract and an actual descriptor child ROW (e.g. tasks/extra field), then return unchanged physical current bytes. Growth can use a bounded1MiB+1 dynamic string; cycle can reference the external row/plan. No massive allocation is needed.",
+    "required_APIs": "Exercise F.checked or identity_previous_plan and F.validate_preparation_splits, not checked alone. The latter specifically detects escaped outer-plan use. Mutation only at plan top-level might miss the descriptor escape; mutate a row actually traversed for a descriptor hash.",
+    "oracles": "Assert mutation occurred externally, callback returned original current source bytes, operation succeeds, restored .11 equals fixed initial historical data, and all9 descriptors match independently retained initial row/policy/family authority. Assert view snapshot is distinct from external objects if using scoped _view witness. Do not call a hash/serialization on cyclic external objects in the test oracle.",
+    "historical": "At least one historical .11/.10/.9 legacy callback should mutate external contract/plan on its first relevant read (not necessarily a lock read) and still restore independently known initial legacy model. Existing historical unchanged/changed-file refusal controls remain.",
+    "negative_sentinels": "Existing pending-before-prior, bound-before-copy/hash/type/cycle controls must remain. New mutation controls must not mock production bound/hash/copy or patch providers to pretend the original object was admitted again."
+  },
+  "decision": "Recommended source repair requires both private pair snapshot and preparation view-plan substitution. One snapshot line alone is insufficient across all APIs. Preserve source05 and any proposed spec as unexecuted history; root-authorized source repair, fresh independent exact source review and new spec admission precede runtime."
+}

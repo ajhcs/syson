@@ -1,0 +1,17 @@
+test_all_three_historical_versions_keep_callback_delegation_and_copy_semantics (test_facade.FacadeTests.test_all_three_historical_versions_keep_callback_delegation_and_copy_semantics) ... ERROR
+test_caller_charge_refuses_before_historical_decode (test_facade.FacadeTests.test_caller_charge_refuses_before_historical_decode) ... ok
+test_returned_model_bound_precedes_copy (test_facade.FacadeTests.test_returned_model_bound_precedes_copy) ... ok
+
+======================================================================
+ERROR: test_all_three_historical_versions_keep_callback_delegation_and_copy_semantics (test_facade.FacadeTests.test_all_three_historical_versions_keep_callback_delegation_and_copy_semantics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch52-identity-facade-prepare-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_facade.py", line 286, in test_all_three_historical_versions_keep_callback_delegation_and_copy_semantics
+    p9 = session.S.previous_plan(c10, p10, session.read)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: previous_plan() takes 2 positional arguments but 3 were given
+
+----------------------------------------------------------------------
+Ran 3 tests in 19.745s
+
+FAILED (errors=1)
