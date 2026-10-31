@@ -150,6 +150,12 @@ class GuardTests(unittest.TestCase):
         if not (self.root / self.D.FRAGMENT).exists():
             with self.assertRaisesRegex(ValueError, 'canonical actual input'):
                 self.G.previous_plan(self.contract, self.plan)
+        else:
+            self.seal.stop()
+            contract = self.P.parse((self.root / 'completion-contract.json').read_bytes())
+            plan = self.P.parse((self.root / 'plan.json').read_bytes())
+            self.assertEqual(self.G.digest(self.G.previous_plan(contract, plan)),
+                             self.G.PLANS['1.0.10'][0])
         def missing(name):
             if name == self.D.FRAGMENT:
                 raise KeyError(name)

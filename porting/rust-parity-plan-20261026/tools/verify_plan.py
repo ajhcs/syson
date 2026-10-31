@@ -5,7 +5,7 @@ import copy
 import hashlib
 import json
 from pathlib import Path
-from storage_splits import legacy_contract, legacy_plan
+from source_next_splits import legacy_contract, legacy_plan
 from completion_contract import read_contract, validate_bindings, validate_repair_splits, validate_layout_splits, validate_comparator_splits, validate_comparison_repairs, validate_routing_splits, validate_forest_splits
 
 def require(ok,message):
@@ -154,7 +154,11 @@ def self_test(plan,root):
         amendment_paths.append(contract['team_execution']['amendment']['path'])
     amendment_paths.append(contract['source_preparation_splits']['amendment']['path'])
     amendment_paths.append(contract['storage_source_splits']['amendment']['path'])
+    amendment_paths.append(contract['source_next_splits']['amendment']['path'])
     integrity_paths += ['storage-policy-source.json', 'tools/storage_splits.py']
+    integrity_paths += ['lanes/source-next.json', 'tools/source_next_splits.py',
+                        'composition/source_next_prepare/guard.py',
+                        'composition/source_next_prepare/construct.py']
     for amendment_path in amendment_paths:
         rejects(lambda:read_contract(root, lambda name:(root/name).read_bytes() +
                 (b'\n' if name==amendment_path else b'')), 'amendment hash mismatch')
