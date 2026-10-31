@@ -1,0 +1,719 @@
+{
+  "schema": "SYSON-RR13B-NEXT-READINESS/1",
+  "status": "DATA_ONLY_NO_LEASE_NO_RUNTIME_PASS",
+  "registered_brief": {
+    "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/porting/rust-parity-plan-20261026/prs/RR13b.md",
+    "bytes": 3573,
+    "lines": 66,
+    "sha256": "ec4326b8e5f11e514db4849099901a8e448539f5bacb8cc2369261e55487bf1e"
+  },
+  "registered_lane": {
+    "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/porting/rust-parity-plan-20261026/lanes/storage-source.json",
+    "bytes": 8499,
+    "lines": 86,
+    "sha256": "98d3ddb0c1acfb7e27fefee5f583d2847750dc817f39116422334140764371bf"
+  },
+  "registered_dependency": [
+    "RR13a"
+  ],
+  "registered_paths": [
+    "rust/crates/syson-workflow/tests/snapshot_failures.rs",
+    "rust/crates/syson-workflow/examples/snapshot_roundtrip_probe.rs",
+    "porting/rust-parity-evidence/RR13b/"
+  ],
+  "prerequisite_gate": {
+    "parent_reported_PR": 228,
+    "parent_reported_state": "PUSHED_HOSTED_RUNNING_NOT_YET_MERGED",
+    "remote_or_Git_checked_by_author": false,
+    "packet": {
+      "path": "/workspace/build/builderbob/syson-durable-batch37-20261031/publication-freeze.json",
+      "bytes": 31829,
+      "lines": 234,
+      "sha256": "bc1094867c29d163a31735ab884791fe056860fe90920abef66801383bdd1cb7"
+    },
+    "packet_head": "cf7a7ef981e1e4001a8c2cf203408e377f10ed93",
+    "packet_base": "258735c59385d0aa1bc2be1371134d6b7c37c897",
+    "gate": "No source grant until root verifies actual228merge/mainreadback, exact merged prerequisite bytes and fresh ownership/holds. Local publishedpacket is not merge proof."
+  },
+  "donor": {
+    "source": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "bytes": 12491,
+      "lines": 356,
+      "sha256": "11e769c93d3e7a4648cc1a8b8037c8788f0498c89fd1cad1af3caa70f6885df1"
+    },
+    "provenance": {
+      "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/donor-provenance.json",
+      "bytes": 2346,
+      "lines": 45,
+      "sha256": "912ce8cd6dcdc7489d2b88d3d25242d79ca6f671f788773163da56110571fc85"
+    },
+    "adopt_whole356_byteexact": true,
+    "license": "EPL-2.0",
+    "active_source_helpers": "All FaultIo/Operation/Fault/actualDocument constructor/Fixture/sequence code is inside356 and counted. No helper/case removal, no fixture relabeling as passive. HistoricalF31 messages retained."
+  },
+  "all13_fault_cases": [
+    {
+      "name": "successful_sequence_loads_from_fresh_store_and_removes_staging",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        193,
+        202
+      ],
+      "test_block_sha256": "ea29bd7b3b67f8601f0e67558d3f25d508e3d6a813ccb228091f44b377eeea7e",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish",
+        "SyncDirectory",
+        "Remove"
+      ],
+      "error_or_return": "Ok",
+      "destination_oracle": "complete canonical candidate, fresh load equals fullDocument",
+      "staging_oracle": "absent",
+      "recovery_implication": "No retry needed",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "create_failure_leaves_no_candidate",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        217,
+        220
+      ],
+      "test_block_sha256": "8bf83df67769c310c064e25aa8799ef9b2ac7527708aff1a7894ba0a3c06f392",
+      "calls": [
+        "Create"
+      ],
+      "error_or_return": "Io injected",
+      "destination_oracle": "absent",
+      "staging_oracle": "absent",
+      "recovery_implication": "Inspect before recovery",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "write_failure_retains_empty_staging",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        221,
+        224
+      ],
+      "test_block_sha256": "35588f8a37c409e13caad3830c5e0a1b13f1f5f461102314cb4defd1f0e2f0d7",
+      "calls": [
+        "Create",
+        "Write"
+      ],
+      "error_or_return": "Io injected",
+      "destination_oracle": "absent",
+      "staging_oracle": "empty retained file",
+      "recovery_implication": "Stage collision prevents blind retry",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "file_sync_failure_retains_complete_staging_without_publishing",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        225,
+        231
+      ],
+      "test_block_sha256": "1f6836be36afdd014842cea3b80af6c00894eaf41909c365b229f348711d9d5e",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile"
+      ],
+      "error_or_return": "Io injected",
+      "destination_oracle": "absent",
+      "staging_oracle": "complete canonical bytes",
+      "recovery_implication": "Stage collision prevents blind retry",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "publication_failure_retains_complete_staging_without_publishing",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        232,
+        238
+      ],
+      "test_block_sha256": "150f77a8cd505dc4c4cf9568d503cb56e82dd1f47f1448e64cb3326ff5a55728",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish"
+      ],
+      "error_or_return": "Io injected",
+      "destination_oracle": "absent",
+      "staging_oracle": "complete canonical bytes",
+      "recovery_implication": "Stage collision prevents blind retry",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "partial_write_is_retained_and_never_loaded_as_a_snapshot",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        239,
+        249
+      ],
+      "test_block_sha256": "f90652292c3f60706c3c620ebc10d7b2d142713f8a4f7edb6bb47f9be2f485de",
+      "calls": [
+        "Create",
+        "Write"
+      ],
+      "error_or_return": "Io after partial write",
+      "destination_oracle": "absent",
+      "staging_oracle": "exact first11bytes",
+      "recovery_implication": "Never load staging",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "publish_side_effect_then_error_makes_failure_ambiguous",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        267,
+        270
+      ],
+      "test_block_sha256": "c07d9df6a51e52393ee281786faadb46fee8f4d673976fa9b29c19d7028f50e3",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish"
+      ],
+      "error_or_return": "Io after hardlink",
+      "destination_oracle": "complete candidate, fresh load succeeds",
+      "staging_oracle": "same complete candidate bytes",
+      "recovery_implication": "Original retry collides at create_staged because stage exists",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "directory_sync_error_is_a_published_but_unconfirmed_outcome",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        272,
+        279
+      ],
+      "test_block_sha256": "5d8465f66d926b2d7cfa641dd2d0162bcbfa7304f0b5c5121a8d44eee270a71c",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish",
+        "SyncDirectory"
+      ],
+      "error_or_return": "Io before directorysync",
+      "destination_oracle": "complete candidate, fresh load succeeds",
+      "staging_oracle": "complete candidate bytes",
+      "recovery_implication": "Durability unconfirmed; original retry collides at stage",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "staging_removal_error_retains_published_snapshot_and_staging",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        280,
+        287
+      ],
+      "test_block_sha256": "3f9f6552814584f5c5ab1312a5f0e9d1e4324651f6428aa723e213febb6b2847",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish",
+        "SyncDirectory",
+        "Remove"
+      ],
+      "error_or_return": "Io before removal",
+      "destination_oracle": "complete candidate, fresh load succeeds",
+      "staging_oracle": "complete candidate bytes",
+      "recovery_implication": "Original retry collides at stage, not safe recovery",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "existing_published_snapshot_is_not_replaced_by_retry",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        288,
+        302
+      ],
+      "test_block_sha256": "aa9b16890c855073ea5b19511cd3c10e3aafe13ed26c7f8108188a98255b9051",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish"
+      ],
+      "error_or_return": "Io AlreadyExists at publication",
+      "destination_oracle": "preexisting emptyDocument exactbytes unchanged",
+      "staging_oracle": "new attempted F31 canonicalbytes",
+      "recovery_implication": "Destination collision after stage write/sync, no overwrite",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "existing_staging_is_preserved_and_not_used_as_a_snapshot",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        303,
+        317
+      ],
+      "test_block_sha256": "b6b297bfa4178380201ecc4bf18966ff752837eb99d45e4719d98dd1e9b04d05",
+      "calls": [
+        "Create"
+      ],
+      "error_or_return": "Io AlreadyExists at create",
+      "destination_oracle": "absent",
+      "staging_oracle": "unrelated sentinel byteexact",
+      "recovery_implication": "No stage consumption",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "invalid_keys_are_rejected_before_any_injected_io",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        318,
+        332
+      ],
+      "test_block_sha256": "a63ded4581c2961b1d7badd579d3a0a28f1db9abc96328a57f9409eb4edbc2f1",
+      "calls": [],
+      "error_or_return": "InvalidKey",
+      "destination_oracle": "absent",
+      "staging_oracle": "absent",
+      "recovery_implication": "Six invalidkeys refuse before any SnapshotIo callback",
+      "original_snapshot_byteexact": true
+    },
+    {
+      "name": "removal_side_effect_then_error_leaves_no_staging_but_a_published_snapshot",
+      "file": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__snapshot_failures.rs.raw",
+      "one_based_lines": [
+        334,
+        356
+      ],
+      "test_block_sha256": "f230e7fcbc221bd7e8c098953ca0ca7e2e5297c66baa193a267ca71b1f60bc6a",
+      "calls": [
+        "Create",
+        "Write",
+        "SyncFile",
+        "Publish",
+        "SyncDirectory",
+        "Remove"
+      ],
+      "error_or_return": "Io after removal",
+      "destination_oracle": "complete candidate, fresh load succeeds",
+      "staging_oracle": "absent initially; retry later leaves new emptyDocument stage",
+      "recovery_implication": "Retry reaches Publish collision; destination and new attempted stage preserved",
+      "original_snapshot_byteexact": true
+    }
+  ],
+  "full26_composition": {
+    "regular_current_methods": [
+      {
+        "name": "regular_to_fifo_between_admission_and_open_refuses",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/src/lib.rs",
+        "one_based_lines": [
+          319,
+          325
+        ],
+        "test_block_sha256": "58020f153eba069b19b21287587e32b4461bfe24ecdd86018b73b6b51e22661b"
+      },
+      {
+        "name": "regular_to_symlink_between_admission_and_open_refuses",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/src/lib.rs",
+        "one_based_lines": [
+          326,
+          332
+        ],
+        "test_block_sha256": "ff2f0310a09cc517480db2d22d8167cf1923d9ff8a5114bb35715bc753982c8b"
+      },
+      {
+        "name": "regular_to_new_inode_between_admission_and_open_refuses",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/src/lib.rs",
+        "one_based_lines": [
+          333,
+          339
+        ],
+        "test_block_sha256": "f408b3e2defe7ca1927a82a9491e3d1507597db7ac29188f9f4ea7d89de29b11"
+      },
+      {
+        "name": "fifo_load_refuses_without_a_blocking_open",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "one_based_lines": [
+          42,
+          59
+        ],
+        "test_block_sha256": "b4616f1d107a31e270827e28a4166f0cb4b1db0895aa34cf016c0d1773a72ac6"
+      },
+      {
+        "name": "regular_reopen_preserves_canonical_bytes_and_never_overwrites_a_destination",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "one_based_lines": [
+          101,
+          120
+        ],
+        "test_block_sha256": "6800fbc6c8bf668762ba1ae372c9cc21c1fea6480c3c99445f30a8dc4a6f39d2"
+      },
+      {
+        "name": "root_and_ancestor_symlinks_and_parent_components_refuse_before_creation",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "one_based_lines": [
+          121,
+          134
+        ],
+        "test_block_sha256": "fc0d46ac944fe9bf7448f560bfd9e61ce4b1f02374bf90b222e309978798ed53"
+      },
+      {
+        "name": "directory_replacement_invalidates_existing_load_and_save_handles",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "one_based_lines": [
+          135,
+          163
+        ],
+        "test_block_sha256": "b2c14a236d737a590e38888296a38c430a97c2ca349f66c7415301b6a79d60ce"
+      },
+      {
+        "name": "directory_socket_symlink_and_invalid_utf8_files_refuse_without_following",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "one_based_lines": [
+          164,
+          191
+        ],
+        "test_block_sha256": "03e7ffdfa3496e17e9350124e545e3bdc86671b7509833aef561e32165028df0"
+      },
+      {
+        "name": "exact_four_mib_raw_input_loads_and_one_extra_byte_refuses",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "one_based_lines": [
+          192,
+          207
+        ],
+        "test_block_sha256": "33f592916e68754e7bd9f92a5f1d22bc0b5308042bb6f15306ab4a9c46260ecb"
+      },
+      {
+        "name": "provisional_output_limit_refuses_before_any_injected_io",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "one_based_lines": [
+          232,
+          267
+        ],
+        "test_block_sha256": "24cba8ff9536d27c6ab6a520aec100b084e455137c0aa610bc503fa8a6a15747"
+      },
+      {
+        "name": "root_to_fifo_at_directory_sync_refuses_after_publication_without_blocking",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "one_based_lines": [
+          298,
+          337
+        ],
+        "test_block_sha256": "5929091b2ce73c964e0c3ba150c6415e839a03ae5345d749b393685596f2feee"
+      },
+      {
+        "name": "create_type_cancel_undo_save_restart_and_rotate",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/connected.rs",
+        "one_based_lines": [
+          30,
+          89
+        ],
+        "test_block_sha256": "d41e4cc195c41369f964fcab547d4172d7dbb58dc38e8e53a22c41b06d954554"
+      },
+      {
+        "name": "corrupt_partial_and_invalid_keys_do_not_replace_snapshot",
+        "file": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/connected.rs",
+        "one_based_lines": [
+          90,
+          103
+        ],
+        "test_block_sha256": "4b9bda5f45f2ebe67f07659132c0bf486b9d2fc26ba7406f48f7cd74a0ca15c0"
+      }
+    ],
+    "regular_distinct_cases": 13,
+    "fault_distinct_cases": 13,
+    "required_distinct_original_cases": 26,
+    "root_modes": "ALL26 on exact composedRR13a+RR13b in debug ANDrelease:52caseexecutions if once permode. Three newpermission controls and probe boundarychecks remain separatelynamed.",
+    "prior_count_boundary": "RR13a13debug+13release is26executions of13regularcases, NOT13regular+13fault composition.",
+    "preserve_current_regular_strengthening": {
+      "path": "/workspace/build/builderbob/syson-durable-batch37-20261031/test-strengthening.json",
+      "bytes": 826,
+      "lines": 18,
+      "sha256": "754ace398b666eb73d19fab87f5d23c68434c897e2145cd0080111274a0613df"
+    },
+    "source_note": "Current regression337 includes five savedcanonical/stagebyte assertions beyond donor332; retain them and currentLinux Read-import placement.",
+    "reopen_boundary": "All existing freshhandle tests stay within oneprocess, not independentprocess/backendrestart."
+  },
+  "API_compatibility": {
+    "status": "SOURCE_COMPATIBLE_NO_COMPILER_PASS",
+    "published_qualified_source_map_match": true,
+    "actual_pins": [
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/src/lib.rs",
+        "bytes": 12276,
+        "lines": 340,
+        "sha256": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/src/snapshot_io.rs",
+        "bytes": 3585,
+        "lines": 86,
+        "sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+        "bytes": 12160,
+        "lines": 337,
+        "sha256": "a42e3ea7112d4ad636e10915727434ae8d3ec8a6e102ee7dd098df264759b40c"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/connected.rs",
+        "bytes": 3835,
+        "lines": 103,
+        "sha256": "77aa9df2cc81c76a55f876898ed6a7a2032f5df1bfb563d81d14ee469ab2917c"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/Cargo.toml",
+        "bytes": 341,
+        "lines": 14,
+        "sha256": "a4f93436d308f35fe9582f7d121414c932c8d1ef882605a69c60d810884bca74"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/Cargo.lock",
+        "bytes": 3149,
+        "lines": 141,
+        "sha256": "58e4baa391f1be5c00e27c4867b6de42429790a8b8457541b57f687fd1ce7f80"
+      },
+      {
+        "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+        "bytes": 36789,
+        "lines": 989,
+        "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f"
+      }
+    ],
+    "whole86_SnapshotIo_byteequal_donor": true,
+    "mapping": [
+      {
+        "donor": "FaultIo allsix methods and real:FsSnapshotIo",
+        "current": "create_staged(&Path)->io::Result<File>; write_staged(&mutFile,&[u8]); sync_staged(&File); publish(&Path,&Path); sync_directory(&Path); remove_staged(&Path)",
+        "finding": "Exact public types/semantics match, no trait reduction/new adapter required."
+      },
+      {
+        "donor": "Fixture::store/save/bytes/load, io_error",
+        "current": "SnapshotStore::open/save_new/save_new_with_io/load; StoreError::Io/InvalidKey",
+        "finding": "BorrowedDocument/mutableimplSnapshotIo ownership and PathBuf/Document returns compatible; .emf.json/.emf.staged filenames exact."
+      },
+      {
+        "donor": "Fixed Document/Editor/NodeIds fixture",
+        "current": "Document::empty/to_json/Clone/Eq; Editor::new/begin/commit/document; Transaction::create_package; NodeIds::new",
+        "finding": "Current safe model SHAebf59... matches qualifiedRR13a. Preserve fixed unequal resource00000000-0000-4000-8000-000000000001 /semantic10000000-0000-4000-8000-000000000001."
+      }
+    ],
+    "excluded": "No heldrawfactory/initializer imports/features/stubs/nativeSQL replacement."
+  },
+  "three_real_permission_controls": [
+    {
+      "id": "PERM-CREATE-0500",
+      "change": "Open ownprivate root0700, record exactmode, chmod only thatroot0500.",
+      "actual_backend": "SnapshotStore::save_new/FsSnapshotIo create_new requires directorywrite; expect Io(PermissionDenied) before stage/publish.",
+      "oracles": [
+        "Priororiginal remains readable through actual load while0500.",
+        "Candidate andstage absent; prior completebytes unchanged.",
+        "Restore exactmode; freshstore loads prior and same admitted document saves successfully under a newunique key."
+      ],
+      "injected": false,
+      "separate_from_original26": true
+    },
+    {
+      "id": "PERM-READ-0000",
+      "change": "Save an owned snapshot inside ownroot0700; record filemode then chmod onlysnapshot0000.",
+      "actual_backend": "Actualload metadata may admit but O_RDONLY|O_NOFOLLOW open must fail Io(PermissionDenied).",
+      "oracles": [
+        "No rename/delete/replacement; expectedcanonicalbytes captured beforechmod.",
+        "Restore exactfilemode; completebytes unchanged, freshstoreload equals document and fixed distinctroleIDs."
+      ],
+      "injected": false,
+      "separate_from_original26": true
+    },
+    {
+      "id": "PERM-DIRSYNC-0300",
+      "change": "Open ownprivate root0700 to establish heldstorehandle; record mode then chmod onlyroot0300 (ownerwrite+execute, noread).",
+      "actual_backend": "Actual FsSnapshotIo create/write/file-sync/hardlink can succeed using directoryw+x; sync_directory reopens root readonly and must fail PermissionDenied without directoryread.",
+      "oracles": [
+        "Io(PermissionDenied) may follow publication; inspect-required outcome.",
+        "Restore mode before listing/freshopen/cleanup; destination ANDstage canonicalbytes complete, original byteexact, freshload succeeds.",
+        "No blindretry/delete/overwrite; visiblefile is not confirmed directory durability.",
+        "If actual Linuxbehavior differs preserve modes/operations/errors/files and FAIL expectedcontrol, never turn skip into permissionPASS."
+      ],
+      "injected": false,
+      "separate_from_original26": true
+    }
+  ],
+  "uid_capability_mode_evidence": {
+    "required_subject": "builderbob real/effective/saved/fsUID all1000 on admittedLinuxx86_64/Samsungext4 with stable owned nonsymlinkparents.",
+    "required_raw_status": [
+      "Uid fourvalues1000",
+      "CapEff=0",
+      "CapPrm=0",
+      "CapAmb=0",
+      "NoNewPrivs=1",
+      "Gid/groups/umask",
+      "fixture uid/mode/dev/ino plus canonicalancestry/mount"
+    ],
+    "root_runtime_rules": [
+      "Capture actualsubject/launcher evidence separately; no root/sudo/setuid/namespacefakeuid or DAC_OVERRIDE/DAC_READ_SEARCH bypass.",
+      "Newowncanonical root0700 below approvedSYSON_TEST_DIR. Chmod only its ownnewroot/savedfile, never workspacebase/sharedtestroot/otherwriters/referents.",
+      "Record exactinitial modes; smalllocal RAII guard insideprobeallocation handles earlyerror/panic best-effort. Explicitrestore result, aftermode and priorbytes must be checked; restorationfailure is FAIL retained for rootownedcleanup.",
+      "Require actualFsSnapshotIo Io(PermissionDenied), record rawOSerror; do not accept arbitraryis_err or silentlyskip dueprivileges/ACL/device.",
+      "Afterrestoration same actualoperation mustsucceed with freshload/newuniquekey and allpreviousbytes/roles remain intact."
+    ],
+    "author_read_only_observation": {
+      "uid": 1000,
+      "euid": 1000,
+      "proc_status": [
+        "Uid:\t1000\t1000\t1000\t1000",
+        "CapPrm:\t0000000000000000",
+        "CapEff:\t0000000000000000",
+        "CapAmb:\t0000000000000000",
+        "NoNewPrivs:\t0"
+      ],
+      "meaning": "Actualauthorprocessmetadata only; no chmod/test, not future subjectadmission."
+    }
+  },
+  "bounded_release_probe": {
+    "path": "rust/crates/syson-workflow/examples/snapshot_roundtrip_probe.rs",
+    "backend": "ActualSnapshotStore/FsSnapshotIo/currentmodel, no mocks/Pythonstore/genericframework/newsubprocesscontroller.",
+    "workloads": [
+      {
+        "id": "small-package",
+        "fixture": "Fresh actualEditor transaction commits1package RR13b with fixed unequalvalidroleIDs; <=65536 actualcanonicalbytes.",
+        "policy_context": "ordinary_authoring50\u2013150ms is an initial event-to-visible contextualband, not helpertimingPASS threshold."
+      },
+      {
+        "id": "recovery-scalar-850000",
+        "fixture": "Same actual1package model/roleIDs, name exactly850000 ASCII x scalars; assert actualcanonicalbytes<=851000 beforeI/O.",
+        "policy_context": "large_import_export_recovery250\u20131000ms contextualband; not matchednative import/export/end-to-visible or capacityevidence."
+      }
+    ],
+    "sampling": {
+      "workloads": 2,
+      "warmups_each": 2,
+      "raw_measured_each": 7,
+      "total_repetitions": 18,
+      "state": "Freshowned directory/samefixedkey and document/IDs/history eachrepetition; freshEditor construction/commit outsideclocks. No accumulatededits/keyreuse. Savingwarmscache; freshdirectory doesnotreset cache."
+    },
+    "timing_phases": [
+      "Outsideclocks validateprocess/path, createfreshowneddir, preparecommittedDocument/fixedroleoracle/canonicalexpectedbytes, checkbytebounds, openinitialstore; compilation/setup/restore excluded.",
+      "save_ns: actual save_new including boundedserialization, create/write/filesync/noreplacepublish/dirsync/stageremoval/checkroot.",
+      "Drop initialstorehandle. reopen_ns: freshSnapshotStore::open. load_ns: actualload read/admission/parse. roundtrip_ns: separatelynamed save\u2192drop\u2192open\u2192load total excluding lateroraclework.",
+      "Afterloadclockstop compare wholeDocumentvalue, actualsavedcanonicalbytes against preparedexpectedbytes, independentlyfixedroles/name and absentstage. No beforetimedload fileread hidingcachewarming.",
+      "Printing/cleanup outsideindividualclocks; failed/outlierrows preserved with exactoperation/status and source/binary/input/output/host/mount/tool bindings."
+    ],
+    "reporting": "For eachworkload retain2warmuprows separately and7raw save/reopen/load/roundtrip samples; exactinput/model/actualfilebytes, min/median/max, no p95with7 (<30), hardtimingveto/unmatchednative ratio/universalcapacity.",
+    "memory": "Root independently records processRSS/highwater with existing admittedscope/rusage method and units/lifetime. Processhighwater includesstartup/fixtures/oracles, not phaseheap/allocation; no hiddennewmemorycontroller.",
+    "boundary_controls": [
+      {
+        "id": "LIMIT-EXACT-4194304",
+        "input": "CanonicalemptyDocument JSON paddedwithASCIIspaces to exactly4194304rawbytes, writtenoutsideclocks.",
+        "oracle": "Actualload emptyDocument, fullrawbytes/length unchanged."
+      },
+      {
+        "id": "LIMIT-OVER-4194305",
+        "input": "Samevalidrawinput plusoneASCIIspace under distinctkey.",
+        "oracle": "ActualStoreError::TooLarge, allrawbytes/length and previoussuccessfulsnapshot unchanged."
+      }
+    ],
+    "boundary_composition": "Retain originalregular exact/overread AND provisionaloversize-before-injectedI/O tests. Probe repeatslimits separately, never replaces originals.",
+    "candidate_refusal_bounds": {
+      "large_canonical_bytes": 851000,
+      "largest_raw_boundary_file": 4194305,
+      "stdout_bytes": 32768,
+      "stderr_bytes": 32768,
+      "own_probe_logical_file_bytes": 33554432,
+      "meaning": "Proposedadmission/selfrefusal ceilings requiring exactsource/row/retainedfailure accounting before runtime; not filesystemquota/fitpromise. Compilertarget/rawsource/dependency/captureclosure separatelyrootbounded."
+    },
+    "sameprocess_only": true
+  },
+  "ordinary_line_allocation": {
+    "hard_production": 400,
+    "hard_authored": 900,
+    "registered_forecasts": {
+      "production": 83,
+      "authored": 453
+    },
+    "registered_forecasts_not_hard_limits": true,
+    "whole_donor": 356,
+    "probe_max": 320,
+    "probe_internal": {
+      "environment_UID_capability_path_admission": 45,
+      "fixed_fixture_role_ID_oracles_identical_state": 45,
+      "three_permission_controls_and_mode_guard": 100,
+      "exact_and_one_extra_4MiB_controls": 40,
+      "two_warm_seven_raw_loop_timing_output": 65,
+      "SPDX_comments_blank_overhead": 25
+    },
+    "README_max": 14,
+    "root_manifest_CI_wiring_max": 8,
+    "attributes_max": 2,
+    "conservative_production": 344,
+    "inclusive_authored": 700,
+    "production_headroom": 56,
+    "authored_headroom": 200,
+    "arithmetic": "356+320+14+8+2=700;production320+14+8+2=344.",
+    "active_fixtures_helpers": "No newexternalfixture planned; fixedconstructors/padding and allhelpers countedinside356/320. AnycopiedJSON staysactive/addsordinarylines. ExistingRR13a regularsources reused unchanged, no free newcopies.",
+    "fit_rule": "Honestgrowth withinexactregisteredpaths/tasks and400/900 doesnot require manufacturedsplit.320 is preauthorallocation, not proof unwrittenformattedprobe fits. Root counts completeordinarybase-to-headA+D includingdocs/CI/attrs/necessaryrepairs; meaningfulsplit only if hardcaps cannotfit, never dropcases/guards."
+  },
+  "path_ownership": {
+    "future_author_candidates": [
+      "rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "rust/crates/syson-workflow/examples/snapshot_roundtrip_probe.rs",
+      "porting/rust-parity-evidence/RR13b/README.md"
+    ],
+    "root_only": [
+      "Cargo.toml",
+      "Cargo.lock",
+      ".github/workflows/rust-checks.yml",
+      "RR13b/.gitattributes",
+      "runtime/chmod/identity/performance/sourcecustody/cleanup",
+      "Git/publication/actualmainreadback"
+    ],
+    "current_regular_sources_unchanged": [
+      "src/lib.rs",
+      "src/snapshot_io.rs",
+      "tests/rr13_regression.rs",
+      "tests/connected.rs"
+    ],
+    "new_dependencies": "Existingstd/model/workflow suffice for fixedrawrecords/Instant/Unixpermissions. Root determines anyactualmanifest/lock/CIchange; no dependency guessed.",
+    "holds": "No #99/#130 heldinitializer/rawfactory/nativegraph scope or human196\u2013201 reservation release."
+  },
+  "failure_recovery_rules": [
+    "Io can follow successfulpublish orremove. Inspect exactdestination/stagebytes and actualload before choosingrecovery; visibility is not crashdurability.",
+    "Existingstage versus destination AlreadyExists happens at differentoperations: tests7\u20139retryatCreate; test10and13reachPublish. Neithererrorclass proves nonpublication or safereplay.",
+    "Retain orderedcallbacks, fullprior/candidate/stagebytes, typederror and observed.txt; PID/time only uniquefixture names, not semanticinputvariance.",
+    "No deletingstages/overwritingdestinations/autoretry fromambiguousIo; applicationrecoverypolicy needs separatelyreviewed ownership/identity semantics.",
+    "Preserve originalFIFOtimeout/allrootepochs/newfailedpermission/samplerows; cleanup only admittedownedscope aftercapture."
+  ],
+  "qualification_and_parent_gates": {
+    "before_source": [
+      "Actual228merge/mainreadback and freshowner/sourcegates; nolease fromthisreport.",
+      "Independentwhole356/probe/lifecycle/permissionguard/count review."
+    ],
+    "root_execution": [
+      "Offline lockedserial fmt/debugall26/releaseall26/all-targetClippy/applicabletargetchecks onexactcomposition.",
+      "Actualreleaseprobe with3separaterealpermissions,2boundarycontrols,2warm+7rawperworkload, independentRSS/modes/fullbytes/cleanup.",
+      "Reuse existingqualifiedrootlauncher/scope tools, boundedprocessgroups/deadlines/fullinput-outputpins; anynewactivehelpercode counts normally.",
+      "Independentexecuted/source review, hostedchecks/exactheadpublication/merge/readback separately."
+    ],
+    "separate_required_parent_gates": [
+      "RR13regular+fault26 composition withhonestfailurevisibility/filesystemranges.",
+      "Actualwriterprocess exit\u2192independentnewprocess load/recovery remainsrequired separately; sameprocessdrop/reopen insufficient.",
+      "Actualbackend/applicationrestart anddurableconnecteduserjourney remain separate; SnapshotIo doesnotmodel servercrash/powerloss.",
+      "M06a2 completeoriginalidentitySnapshotStore caller plus realfiniteimport/edit/save/drop/freshprocessload/identityrestore requires separate adoptedregistration/lease.",
+      "Matchednative/SQL/HTTP/UI, typedgraph/libraryidentity, releasecleanbuild/devicecapacity/usability andphysicalpowerloss acceptance remainOPEN."
+    ]
+  },
+  "actions": {
+    "only_written_artifact": "/workspace/build/builderbob/syson-durable-batch37-20261031/RR13b-next-readiness.json",
+    "subject_imports_execution": false,
+    "tests_compiler_formatter": false,
+    "network_Git": false,
+    "source_normative_plan_edits": false,
+    "permission_changes": false,
+    "source_lease_granted": false
+  }
+}

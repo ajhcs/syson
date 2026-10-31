@@ -1,0 +1,397 @@
+// SPDX-License-Identifier: EPL-2.0
+//! Fixed local filesystem checks and warm-cache save/reopen/load observations.
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
+mod probe {
+    use std::{
+        fs::{self, DirBuilder, File},
+        io::Read,
+        os::unix::fs::{DirBuilderExt, MetadataExt},
+        path::{Path, PathBuf},
+        time::{Instant, SystemTime, UNIX_EPOCH},
+    };
+    use syson_model::{Document, Editor, NodeIds};
+    use syson_workflow::SnapshotStore;
+
+    const RESOURCE: &str = "00000000-0000-4000-8000-000000000001";
+    const SEMANTIC: &str = "10000000-0000-4000-8000-000000000001";
+    const LIMIT: usize = 4 * 1024 * 1024;
+
+    fn identity() -> u32 {
+        let mut status = String::new();
+        File::open("/proc/self/status")
+            .unwrap()
+            .take(32769)
+            .read_to_string(&mut status)
+            .unwrap();
+        assert!(status.len() <= 32768, "status bound");
+        let field = |key: &str| {
+            status.lines().find_map(|line| line.strip_prefix(key)).unwrap()
+        };
+        let ids: Vec<u32> = field("Uid:")
+            .split_whitespace()
+            .map(|value| value.parse().unwrap())
+            .collect();
+        assert!(
+            ids.len() == 4 && ids[0] != 0 && ids.iter().all(|id| *id == ids[0]),
+            "UID scope"
+        );
+        for key in ["CapInh:", "CapPrm:", "CapEff:", "CapAmb:"] {
+            assert!(
+                u64::from_str_radix(field(key).trim(), 16).unwrap() == 0,
+                "capability bypass"
+            );
+        }
+        assert!(field("NoNewPrivs:").trim() == "1", "no-new-privs required");
+        let mut evidence_bytes = 0;
+        for key in [
+            "Uid:", "Gid:", "Groups:", "Umask:", "CapInh:",
+            "CapPrm:", "CapEff:", "CapAmb:", "NoNewPrivs:",
+        ] {
+            let value = field(key).trim();
+            evidence_bytes += key.len() + value.len() + 24;
+            assert!(evidence_bytes <= 4096, "identity evidence bound");
+            println!("proc field={key} value={value}");
+        }
+        println!(
+            "identity uid={} caps=0 no_new_privs=1 pid={}",
+            ids[0], std::process::id()
+        );
+        ids[0]
+    }
+
+    fn directory(base: &Path, name: &str, uid: u32) -> PathBuf {
+        let path = base.join(name);
+        DirBuilder::new().mode(0o700).create(&path).unwrap();
+        let meta = fs::symlink_metadata(&path).unwrap();
+        assert!(
+            meta.is_dir() && meta.uid() == uid && meta.mode() & 0o7777 == 0o700,
+            "private directory"
+        );
+        assert!(path.canonicalize().unwrap() == path, "canonical directory");
+        path
+    }
+
+    fn document(name: &str) -> Document {
+        let mut editor = Editor::new(Document::empty());
+        let mut transaction = editor.begin();
+        assert!(
+            transaction
+                .create_package(None, NodeIds::new(RESOURCE, SEMANTIC).unwrap(), None, name)
+                .is_ok(),
+            "fixture creation"
+        );
+        assert!(editor.commit(transaction).is_ok(), "fixture commit");
+        editor.document().clone()
+    }
+
+    fn roles(value: &Document, name: &str) {
+        let elements = value.elements();
+        assert!(elements.len() == 1, "element count");
+        let element = &elements[0];
+        assert!(element.resource_id == RESOURCE && element.element_id == SEMANTIC, "identity roles");
+        assert!(element.resource_id != element.element_id, "separate identity roles");
+        assert!(element.class == "Package" && element.owner.is_none(), "package shape");
+        assert!(element.name.as_deref() == Some(name), "package name");
+    }
+
+    fn measurements(root: &Path, uid: u32, mode: &str) {
+        let name = if mode == "small-package" {
+            "RR13b".to_owned()
+        } else {
+            "x".repeat(850000)
+        };
+        let bound = if mode == "small-package" { 65536 } else { 851000 };
+        let mut samples: Vec<[u128; 4]> = Vec::with_capacity(7);
+        for iteration in 0..9 {
+            let own = directory(root, &format!("sample-{iteration}"), uid);
+            let value = document(&name);
+            roles(&value, &name);
+            let expected = value.to_json().unwrap().into_bytes();
+            assert!(expected.len() <= bound, "workload byte bound");
+            let store = SnapshotStore::open(&own).unwrap();
+            // Save warms the page cache. Setup and all value/byte oracles are outside clocks.
+            let roundtrip_start = Instant::now();
+            let save_start = Instant::now();
+            let path = store.save_new("candidate", &value).expect("save failed");
+            let save_ns = save_start.elapsed().as_nanos();
+            drop(store);
+            let reopen_start = Instant::now();
+            let fresh = SnapshotStore::open(&own).expect("reopen failed");
+            let reopen_ns = reopen_start.elapsed().as_nanos();
+            let load_start = Instant::now();
+            let loaded = fresh.load("candidate").expect("load failed");
+            let load_ns = load_start.elapsed().as_nanos();
+            let roundtrip_ns = roundtrip_start.elapsed().as_nanos();
+            assert!(loaded == value, "full loaded document");
+            roles(&loaded, &name);
+            assert!(fs::read(&path).unwrap() == expected, "canonical saved bytes");
+            assert!(
+                !own.join("candidate.emf.staged").try_exists().unwrap(),
+                "staging removed"
+            );
+            let times = [save_ns, reopen_ns, load_ns, roundtrip_ns];
+            let kind = if iteration < 2 { "warmup" } else { "raw" };
+            let index = if iteration < 2 { iteration } else { iteration - 2 };
+            println!(
+                "sample workload={} kind={} index={} bytes={} save_ns={} reopen_ns={} load_ns={} roundtrip_ns={} verified=1",
+                mode, kind, index, expected.len(), save_ns, reopen_ns, load_ns, roundtrip_ns
+            );
+            if iteration >= 2 {
+                samples.push(times);
+            }
+        }
+        for (column, phase) in ["save", "reopen", "load", "roundtrip"].iter().enumerate() {
+            let mut values: Vec<u128> = samples.iter().map(|row| row[column]).collect();
+            values.sort_unstable();
+            println!(
+                "summary workload={} phase={} count=7 min_ns={} median_ns={} max_ns={}",
+                mode, phase, values[0], values[3], values[6]
+            );
+        }
+    }
+
+    fn retained_bytes(root: &Path, uid: u32) -> u64 {
+        let mut total = 0u64;
+        let mut files = 0;
+        for directory in fs::read_dir(root).unwrap() {
+            let path = directory.unwrap().path();
+            let meta = fs::symlink_metadata(&path).unwrap();
+            assert!(
+                meta.is_dir() && meta.uid() == uid && meta.mode() & 0o7777 == 0o700,
+                "restored directory"
+            );
+            for entry in fs::read_dir(path).unwrap() {
+                let meta = fs::symlink_metadata(entry.unwrap().path()).unwrap();
+                assert!(
+                    meta.is_file() && meta.uid() == uid && meta.len() <= (LIMIT + 1) as u64,
+                    "retained file"
+                );
+                total = total.checked_add(meta.len()).unwrap();
+                files += 1;
+                assert!(files <= 64 && total <= 32 * 1024 * 1024, "retained data bound");
+            }
+        }
+        total
+    }
+
+    fn scope(label: &str) -> (u32, PathBuf) {
+        let uid = identity();
+        let base = PathBuf::from(
+            std::env::var_os("SYSON_TEST_DIR").expect("SYSON_TEST_DIR required"),
+        );
+        assert!(base.as_os_str().len() <= 4096 && base.is_absolute(), "bounded absolute base");
+        assert!(
+            base.canonicalize().unwrap() == base && base.starts_with("/workspace"),
+            "workspace base"
+        );
+        let meta = fs::symlink_metadata(&base).unwrap();
+        assert!(
+            meta.is_dir() && meta.uid() == uid && meta.mode() & 0o7777 == 0o700,
+            "owned 0700 base"
+        );
+        assert!(
+            meta.dev() == fs::metadata("/workspace").unwrap().dev(),
+            "workspace device"
+        );
+        // Root separately pins the local Samsung mount; hosted CI uses its reviewed owned workspace.
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let root = directory(
+            &base, &format!("rr13b-{}-{nonce}", std::process::id()), uid,
+        );
+        println!(
+            "scope root={:?} dev={} ino={} mode=0700 workload={}",
+            root, meta.dev(), fs::metadata(&root).unwrap().ino(), label
+        );
+        (uid, root)
+    }
+
+    pub fn run() {
+        let mut args = std::env::args();
+        args.next();
+        let mode = args.next().expect("mode required");
+        assert!(args.next().is_none(), "one mode only");
+        assert!(
+            matches!(mode.as_str(), "small-package" | "recovery-scalar-850000"),
+            "fixed measurement mode"
+        );
+        let (uid, root) = scope(&mode);
+        measurements(&root, uid, &mode);
+        let retained = retained_bytes(&root, uid);
+        println!("complete workload={} retained_bytes={} verified=1 process_restart=0", mode, retained);
+    }
+
+    #[cfg(test)]
+    mod controls {
+        use super::*;
+        use std::{fs::Permissions, io, os::unix::fs::PermissionsExt};
+        use syson_workflow::StoreError;
+
+        struct Mode {
+            path: PathBuf,
+            bits: u32,
+            identity: (u64, u64),
+        }
+        impl Mode {
+            fn change(path: &Path, bits: u32, uid: u32) -> Self {
+                let meta = fs::symlink_metadata(path).unwrap();
+                assert!(!meta.file_type().is_symlink() && meta.uid() == uid, "mode ownership");
+                let guard = Self {
+                    path: path.to_path_buf(),
+                    bits: meta.mode() & 0o7777,
+                    identity: (meta.dev(), meta.ino()),
+                };
+                fs::set_permissions(path, Permissions::from_mode(bits)).unwrap();
+                assert!(
+                    fs::symlink_metadata(path).unwrap().mode() & 0o7777 == bits,
+                    "mode change"
+                );
+                guard
+            }
+            fn restore(&self) -> io::Result<()> {
+                let meta = fs::symlink_metadata(&self.path)?;
+                if (meta.dev(), meta.ino()) != self.identity || meta.file_type().is_symlink() {
+                    return Err(io::Error::other("mode target changed"));
+                }
+                fs::set_permissions(&self.path, Permissions::from_mode(self.bits))?;
+                if fs::symlink_metadata(&self.path)?.mode() & 0o7777 != self.bits {
+                    return Err(io::Error::other("mode restoration mismatch"));
+                }
+                Ok(())
+            }
+        }
+        impl Drop for Mode {
+            fn drop(&mut self) {
+                if self.restore().is_err() {
+                    eprintln!("mode restoration failed");
+                }
+            }
+        }
+
+        fn denied<T>(result: Result<T, StoreError>) -> i32 {
+            match result {
+                Err(StoreError::Io(error)) if error.kind() == io::ErrorKind::PermissionDenied => {
+                    error.raw_os_error().unwrap_or(-1)
+                }
+                _ => panic!("expected actual permission denial"),
+            }
+        }
+
+        fn permission(label: &str, bits: u32) {
+            let (uid, root) = scope(label);
+            let own = directory(&root, label, uid);
+            let store = SnapshotStore::open(&own).unwrap();
+            let prior = document("Prior");
+            let original = store.save_new("original", &prior).unwrap();
+            let prior_bytes = prior.to_json().unwrap().into_bytes();
+            assert!(fs::read(&original).unwrap() == prior_bytes, "original bytes");
+            let candidate = document("RR13b");
+            let expected = candidate.to_json().unwrap().into_bytes();
+            let target = if bits == 0 { &original } else { &own };
+            let guard = Mode::change(target, bits, uid);
+            let applied = fs::symlink_metadata(target).unwrap().mode() & 0o7777;
+            let errno = if bits == 0 {
+                denied(store.load("original"))
+            } else {
+                if bits == 0o500 {
+                    assert!(store.load("original").unwrap() == prior, "readable prior");
+                }
+                denied(store.save_new("candidate", &candidate))
+            };
+            guard.restore().unwrap();
+            assert!(fs::read(&original).unwrap() == prior_bytes, "prior bytes retained");
+            let fresh = SnapshotStore::open(&own).unwrap();
+            let recovered = fresh.load("original").unwrap();
+            assert!(recovered == prior, "prior value retained");
+            roles(&recovered, "Prior");
+            let destination = own.join("candidate.emf.json");
+            let staged = own.join("candidate.emf.staged");
+            if bits == 0o300 {
+                assert!(fs::read(&destination).unwrap() == expected, "published despite Io");
+                assert!(fs::read(&staged).unwrap() == expected, "published staging retained");
+                let saved = fresh.load("candidate").unwrap();
+                assert!(saved == candidate, "published value");
+                roles(&saved, "RR13b");
+            } else {
+                assert!(
+                    !destination.try_exists().unwrap() && !staged.try_exists().unwrap(),
+                    "no candidate"
+                );
+            }
+            let after = fresh.save_new("afterrestore", &candidate).unwrap();
+            let restored = fresh.load("afterrestore").unwrap();
+            assert!(restored == candidate, "restored operation");
+            assert!(fs::read(after).unwrap() == expected, "restored saved bytes");
+            roles(&restored, "RR13b");
+            let before = guard.bits;
+            let after = fs::symlink_metadata(target).unwrap().mode() & 0o7777;
+            let (dev, ino) = guard.identity;
+            println!("control={label} errno={errno} mode_before={before:04o} mode_applied={applied:04o} mode_after={after:04o} dev={dev} ino={ino} restored=1 prior_bytes=1 verified=1");
+            println!("retained_bytes={} verified=1", retained_bytes(&root, uid));
+        }
+
+        fn boundary(extra: bool) {
+            let label = if extra { "LIMIT-OVER-4194305" } else { "LIMIT-EXACT-4194304" };
+            let (uid, root) = scope(label);
+            let own = directory(&root, "boundary", uid);
+            let store = SnapshotStore::open(&own).unwrap();
+            let empty = Document::empty();
+            let canonical = empty.to_json().unwrap().into_bytes();
+            let original = store.save_new("original", &empty).unwrap();
+            let mut bytes = canonical.clone();
+            bytes.resize(LIMIT, b' ');
+            if extra {
+                bytes.push(b' ');
+            }
+            let path = own.join("sample.emf.json");
+            fs::write(&path, &bytes).unwrap();
+            if extra {
+                assert!(
+                    matches!(store.load("sample"), Err(StoreError::TooLarge)),
+                    "one-extra refusal"
+                );
+            } else {
+                assert!(store.load("sample").unwrap() == empty, "exact limit value");
+            }
+            assert!(fs::read(&path).unwrap() == bytes, "boundary bytes retained");
+            assert!(fs::read(original).unwrap() == canonical, "boundary prior bytes");
+            assert!(store.load("original").unwrap() == empty, "boundary prior value");
+            println!("control={label} bytes={} verified=1", bytes.len());
+            println!("retained_bytes={} verified=1", retained_bytes(&root, uid));
+        }
+
+        #[test]
+        fn create_permission_denied_preserves_prior_and_restores_write() {
+            permission("PERM-CREATE-0500", 0o500);
+        }
+
+        #[test]
+        fn read_permission_denied_preserves_prior_and_restores_read() {
+            permission("PERM-READ-0000", 0);
+        }
+
+        #[test]
+        fn directory_sync_permission_denied_can_leave_published_bytes() {
+            permission("PERM-DIRSYNC-0300", 0o300);
+        }
+
+        #[test]
+        fn exact_four_mib_input_loads_without_changing_bytes() {
+            boundary(false);
+        }
+
+        #[test]
+        fn one_extra_byte_refuses_without_changing_prior() {
+            boundary(true);
+        }
+    }
+}
+
+fn main() {
+    #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
+    probe::run();
+    #[cfg(not(all(target_os = "linux", target_arch = "x86_64")))]
+    panic!("Linux x86_64 probe required");
+}

@@ -1,0 +1,77 @@
+{
+  "status": "RR13b_SOURCE_LEASE_GRANTED_AFTER_ACTUAL228_MAIN_AND_HOSTED_READBACK",
+  "utc": "2026-10-31T00:58:46.977113+00:00",
+  "base": "e53b166c869994963814b56687e202f24f41326b",
+  "worktree": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031",
+  "branch": "codex/syson-batch38-snapshot-faults-20261031",
+  "authors": {
+    "/root/core_frontier_admission": [
+      "rust/crates/syson-workflow/examples/snapshot_roundtrip_probe.rs"
+    ],
+    "/root/registration_repair": [
+      "rust/crates/syson-workflow/tests/snapshot_failures.rs",
+      "porting/rust-parity-evidence/RR13b/README.md"
+    ]
+  },
+  "root_ownership": [
+    "shared Cargo manifests/locks",
+    ".github/workflows/rust-checks.yml",
+    "porting/rust-parity-evidence/RR13b/.gitattributes",
+    "runtime/performance/memory qualification",
+    "Git/push/merge"
+  ],
+  "probe_forecast_lines": 320,
+  "probe_max_without_budget_reallocation": 376,
+  "donor_fault_file_exact_lines": 356,
+  "donor_fault_sha256": "11e769c93d3e7a4648cc1a8b8037c8788f0498c89fd1cad1af3caa70f6885df1",
+  "README_max_lines": 14,
+  "root_wiring_forecast_lines": 10,
+  "budget_forecast": {
+    "production_inclusive": 344,
+    "authored": 700
+  },
+  "hard_caps": {
+    "production": 400,
+    "authored": 900
+  },
+  "full_original_case_composition": 26,
+  "source_pins": {
+    "rust/crates/syson-workflow/src/lib.rs": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd",
+    "rust/crates/syson-workflow/src/snapshot_io.rs": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e",
+    "rust/crates/syson-workflow/Cargo.toml": "a4f93436d308f35fe9582f7d121414c932c8d1ef882605a69c60d810884bca74",
+    "rust/crates/syson-workflow/Cargo.lock": "58e4baa391f1be5c00e27c4867b6de42429790a8b8457541b57f687fd1ce7f80",
+    "rust/crates/syson-model/src/lib.rs": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+    "porting/rust-parity-plan-20261026/prs/RR13b.md": "ec4326b8e5f11e514db4849099901a8e448539f5bacb8cc2369261e55487bf1e",
+    "porting/rust-parity-plan-20261026/lanes/storage-source.json": "98d3ddb0c1acfb7e27fefee5f583d2847750dc817f39116422334140764371bf",
+    "porting/rust-parity-plan-20261026/completion-contract.lock.json": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558",
+    "porting/rust-parity-plan-20261026/rereview-batch11-coordinator-ownership.json": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a"
+  },
+  "held": [
+    {
+      "pr": 99,
+      "head": "575345cdba6b0c1bc2d89f16cfacdd749b1535bb",
+      "draft": true
+    },
+    {
+      "pr": 130,
+      "head": "87c69ce02a826f84d3c9530d215e20e268b2cfc6",
+      "draft": true
+    }
+  ],
+  "holds_released": false,
+  "human_issues_196_201_reserved": true,
+  "subject_execution_or_import_by_authors": false,
+  "probe_modes": [
+    "verify",
+    "small-package",
+    "recovery-scalar-850000"
+  ],
+  "probe_checks": [
+    "Full26originalcases remain via Rust tests; three real permission controls and two raw byte-boundary controls are additional.",
+    "Root executes direct release binary under setpriv --no-new-privs; independently captured process UID/capabilities and memory. Require all four UIDs equal and nonzero, capabilities0, NoNewPrivs1; local reviewed host is1000, hosted CI uses its own unprivileged runner UID.",
+    "Fresh identical model/IDs/history and owned0700directory each repetition;2warmups+7raw samples per fixed workload; save,reopen,load,roundtrip separately labelled.",
+    "Oracle setup, compile, printing and post-load validation outside action clocks; no pre-timed-load file read hiding cache warmth.",
+    "Bound panic diagnostics; compare large documents/bytes with boolean checks and short messages.",
+    "No hard timing veto,p95,native ratio,physical durability,process/backend restart or UI acceptance."
+  ]
+}

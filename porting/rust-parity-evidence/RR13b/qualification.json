@@ -1,0 +1,1090 @@
+{
+  "status": "LOCALLY_VERIFIED_COMPLETE26_FAULT_COMPOSITION_AND5_REAL_CONTROLS_NOT_FULL_PARITY",
+  "unit": "RR13b",
+  "contract": "SYSON-RUST-COMPLETION/1.0.10",
+  "base": "e53b166c869994963814b56687e202f24f41326b",
+  "implementation_commit": "ac6ae4897e3558aac6651124cbab31cf5ce24f64",
+  "qualified_source_sha256": {
+    ".github/workflows/rust-checks.yml": "e43250c233a3143b42cbe228a128240b0b9054f04f44db0bae7144e1abca617d",
+    "porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "porting/rust-parity-evidence/F25/main-batch31/qualify.py": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9",
+    "porting/rust-parity-evidence/RR13b/.gitattributes": "17409d1043645337b2693733ac0a34c16a9804414d2d1bd80af52c7956686805",
+    "porting/rust-parity-evidence/RR13b/README.md": "9525656523187f51d88f57a5304f0848cc524ee2030d2f16065836bdbad6aa5e",
+    "porting/rust-parity-plan-20261026/completion-contract.lock.json": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558",
+    "porting/rust-parity-plan-20261026/lanes/storage-source.json": "98d3ddb0c1acfb7e27fefee5f583d2847750dc817f39116422334140764371bf",
+    "porting/rust-parity-plan-20261026/prs/RR13b.md": "ec4326b8e5f11e514db4849099901a8e448539f5bacb8cc2369261e55487bf1e",
+    "porting/rust-parity-plan-20261026/rereview-batch11-coordinator-ownership.json": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a",
+    "rust/crates/syson-domain/Cargo.lock": "9af05380551c03381265ca5e0e917c7371a784a521fef57fcfa2fd0bc14b0251",
+    "rust/crates/syson-domain/Cargo.toml": "3a7c8cd8f3de857273114262ec3e9056736952d837f09c5c8032ab8d5cfb786c",
+    "rust/crates/syson-domain/examples/identity_context_probe.rs": "5f45beb756c09662efd722b93695213fc2ba1b1dd2b1cac65c78f49c5ebbcae3",
+    "rust/crates/syson-domain/src/identity_context.rs": "512b6bd710783370dbfa9e6068b98a6c4f36bc489ae19052a64b03ebd1d77388",
+    "rust/crates/syson-domain/src/lib.rs": "17e42444fab2b2968a5dbe48695eee5d3e7b3ae0ddd303885b373abf809a3c11",
+    "rust/crates/syson-domain/src/model.rs": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+    "rust/crates/syson-domain/src/names.rs": "cbbb47296e9cbe10210db5779732f8191abee41873e7b685c2cedcc5a8c9f77f",
+    "rust/crates/syson-domain/src/query.rs": "ef3515e88721df2fe35c5dc67e37675bc8cfe0b469b5303b8195c464e71f1e0c",
+    "rust/crates/syson-domain/src/uuid.rs": "63f34e679acc05cbec751d93abb62103d211a70a9481ee3bd704a9c481248d5a",
+    "rust/crates/syson-domain/tests/compatibility.rs": "d6190421e348a8125b63d9fd19b3f9cfd52764d592a2f1b80f50c5c2ff687851",
+    "rust/crates/syson-domain/tests/identity_context.rs": "e6102721c76371099fc8414d9ac1a5576ba84c20fadefa5cc35c45c50d9d2755",
+    "rust/crates/syson-domain/tests/query_graph.rs": "5a3f838943e44f2535fe32e9e4e92da47327e3946d4795aae01e80b8ddb3057a",
+    "rust/crates/syson-editor/Cargo.lock": "fcddd71633b4d880ac081d484005a91573dde9809d46014687da1ca715e3b486",
+    "rust/crates/syson-editor/Cargo.toml": "6a3846679e0296b4589bd996ccfee1bb3fa83d716f994ff5b78e014ebddef33b",
+    "rust/crates/syson-editor/src/lib.rs": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+    "rust/crates/syson-editor/tests/editor_contracts.rs": "d99e94f2087357ae1c7e415e2d2d0d39970a6399ff91f02499658b2c33b1289b",
+    "rust/crates/syson-json-value/Cargo.lock": "4cc597ea72bc621a4dc64a6fa37806903f4db38a2cbf2bff105a1c46b781ac5e",
+    "rust/crates/syson-json-value/Cargo.toml": "d7c1a5abb6d951e93e8c4b6368353efb46d46da9f95a6064de25e6d24fa720d5",
+    "rust/crates/syson-json-value/README.md": "ad4c3477bacea08f6d77936bc82060290f805f70324c3dfab247f142974bab2f",
+    "rust/crates/syson-json-value/examples/compat_parse_probe.rs": "57d396fdbce6a7ab5c2c7957e8b9e00fd728c998a04d203aa9f8062f53a17a08",
+    "rust/crates/syson-json-value/examples/strict_parse_probe.rs": "79b2f73c08b40160bfed8c69e0ceb42484a78d51820bcc4ac6ce7f754cc5f543",
+    "rust/crates/syson-json-value/src/lib.rs": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+    "rust/crates/syson-json-value/tests/literal.rs": "fbbdae3a0215bc5077f7784f6f8d6dbcaea66c13007947a0f40c1f4b5fce598c",
+    "rust/crates/syson-json-value/tests/rr24a_duplicates.rs": "ec5f5e7e790bc5fcc01d5a3ca85926fefd3a8e306a90db5eab69534d8ad4fb0a",
+    "rust/crates/syson-metamodel/Cargo.lock": "5a41a1dd1d2de207ea0c222cde9d7e02ce3265c8b1ff09ad819684b45c15a9c2",
+    "rust/crates/syson-metamodel/Cargo.toml": "a01b76bc383bfbcd998e1f5cb12ef0ada41034308ab75fb9b539cc88f529cedd",
+    "rust/crates/syson-metamodel/src/generated.rs": "02d68b123460a89590d4c3d62a6421e94d0b8d933ad9a80cc67fbcd816158aab",
+    "rust/crates/syson-metamodel/src/lib.rs": "f5755e0e1b7910389cce955280f1424cdc75b9e33e0dde99a7cb6386613cf61c",
+    "rust/crates/syson-metamodel/tests/registry.rs": "bcda1c594260f03f32d577d6a33e48381ed0865aa4b904bbfb820b0a3d38de48",
+    "rust/crates/syson-metamodel/tools/generate.py": "e39239f219da9b726d435d984945cd42d437a85b5ae7ea6ca7f56d44e7dd4d6c",
+    "rust/crates/syson-model/Cargo.lock": "4242272f5f97f1e96b3f0f2607c3a4bce56488785674092ae7398c9d9d4bd842",
+    "rust/crates/syson-model/Cargo.toml": "2fb33c209ab50cd691834e7ff8da68d827e8af5ff75bc4b76189d53c29d93ce8",
+    "rust/crates/syson-model/src/containment.rs": "353a750d15425dbfc161e98eaf5f69e6fd17a2bc55be5e5ebd52c7985223382b",
+    "rust/crates/syson-model/src/element_summary.rs": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c",
+    "rust/crates/syson-model/src/lib.rs": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+    "rust/crates/syson-model/src/scalar.rs": "cab38bc0eff8d1087ac45905a0020bc7762a7de75419578331d25a2a0e1404ec",
+    "rust/crates/syson-model/tests/batch14_history_summary.rs": "3db519d768ecb7e406d745b048789d6958b799e219581452f7be623d1a5a6f39",
+    "rust/crates/syson-model/tests/batch15_containment_regression.rs": "6eae2469c589344776a349407cec0436abd6ec9b28cd5e1bd44d68445d200aa5",
+    "rust/crates/syson-model/tests/containment.rs": "c6498b45977f2607754a2f869dd93762a71f49d033ea5de531bdebb1170e4ab6",
+    "rust/crates/syson-model/tests/creation_capabilities.rs": "a3ac03968bc578aa71576a5839a096b18eedc99fcb7e7acfc7d4cacd856047d2",
+    "rust/crates/syson-model/tests/fixtures/simple-project.emf.json": "42cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d",
+    "rust/crates/syson-model/tests/model.rs": "28926c71aa1a0ab86ceec9197a64aa203b2b13ad59997b472b70642597a9a27b",
+    "rust/crates/syson-model/tests/rr02_regression.rs": "ca70e6c35a7eb2e8bce062b464051cc7e383268283925b90232cd80f2184d515",
+    "rust/crates/syson-model/tests/rr04_regression.rs": "e974bc3ab219c1a25ab12840384379fe2b583fd9f91f76503ce82c4fa988a0ee",
+    "rust/crates/syson-model/tests/rr18b3a_regression.rs": "743da5c96df2e3a0f3b2ed819dbbdeca165a9669111b7240cfebefffc60deea0",
+    "rust/crates/syson-model/tests/rr20_regression.rs": "829dcef07fe0c5d4e08d253c612d749f3e57c08ba957584f35818b04b1615bd7",
+    "rust/crates/syson-model/tests/scalars.rs": "b33b252b99e65e14e6e55c22059cd530521e81d73f567119794f2348012b626d",
+    "rust/crates/syson-persistence/Cargo.lock": "c4d5176a081c3511c5b624c9543d948875e7a911b1b139ad550ae9dae6f98409",
+    "rust/crates/syson-persistence/Cargo.toml": "e6a4e978476a663e88d62510692da9132fe4b2ce7fb62db68ccc7683f946aff9",
+    "rust/crates/syson-persistence/src/lib.rs": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476",
+    "rust/crates/syson-persistence/tests/migration_contracts.rs": "aa5e8c6cac168e04594a6aa78344202e2dbaca6a66a0ba5d97c67f226402f8c0",
+    "rust/crates/syson-workflow/Cargo.lock": "58e4baa391f1be5c00e27c4867b6de42429790a8b8457541b57f687fd1ce7f80",
+    "rust/crates/syson-workflow/Cargo.toml": "a4f93436d308f35fe9582f7d121414c932c8d1ef882605a69c60d810884bca74",
+    "rust/crates/syson-workflow/examples/snapshot_roundtrip_probe.rs": "199feaaddd7a947f770315796f9765ab579f7e2c021c80c9ea763ec897784786",
+    "rust/crates/syson-workflow/src/lib.rs": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd",
+    "rust/crates/syson-workflow/src/snapshot_io.rs": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e",
+    "rust/crates/syson-workflow/tests/connected.rs": "77aa9df2cc81c76a55f876898ed6a7a2032f5df1bfb563d81d14ee469ab2917c",
+    "rust/crates/syson-workflow/tests/rr13_regression.rs": "a42e3ea7112d4ad636e10915727434ae8d3ec8a6e102ee7dd098df264759b40c",
+    "rust/crates/syson-workflow/tests/snapshot_failures.rs": "11e769c93d3e7a4648cc1a8b8037c8788f0498c89fd1cad1af3caa70f6885df1"
+  },
+  "source_budget": {
+    "inclusive_production": 305,
+    "authored": 852,
+    "production_cap": 400,
+    "authored_cap": 900,
+    "normal_measurement_example": 280,
+    "genuine_cfg_test_example": 191,
+    "unchanged_donor_fault_tests": 356,
+    "CI": 11,
+    "README": 12,
+    "attributes": 2,
+    "new_executable_helper_lines_outside_count": 0,
+    "captured_reports_data_separately_disclosed": true
+  },
+  "source_organization": {
+    "registered_paths_unchanged": true,
+    "whole_formatted_example_lines": 471,
+    "genuine_cfg_test_line_span": [
+      273,
+      463
+    ],
+    "normal_main_modes": [
+      "small-package",
+      "recovery-scalar-850000"
+    ],
+    "test_controls_callable_by_main": false,
+    "normal_binary_five_test_markers_absent": true,
+    "layout_HOLD_retained": "First ordinary-format427-line all-in-main layout exceeded400production. No application execution. Genuine test-only separation resolved with all shared measurementhelpers stillcountedproduction."
+  },
+  "execution": {
+    "spec_sha256": "2fe7c5bbf1e676bb1bbd79685c4973d12520eb73d0a409c568979189f9a93fad",
+    "receipt_sha256": "8b00226cdae4c1545afeb79a38efc7fd9f4d6adebe463aa1fcb5b702bced7e7c",
+    "commands": [
+      {
+        "name": "rustc-version",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc",
+          "-Vv"
+        ],
+        "exit": 0,
+        "passed": 0
+      },
+      {
+        "name": "cargo-version",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "-V"
+        ],
+        "exit": 0,
+        "passed": 0
+      },
+      {
+        "name": "fmt",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "fmt",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+          "--",
+          "--check"
+        ],
+        "exit": 0,
+        "passed": 0
+      },
+      {
+        "name": "tests",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "test",
+          "--offline",
+          "--locked",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+          "--all-targets",
+          "--",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "exit": 0,
+        "passed": 31
+      },
+      {
+        "name": "clippy",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "clippy",
+          "--offline",
+          "--locked",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit": 0,
+        "passed": 0
+      },
+      {
+        "name": "release-tests",
+        "argv": [
+          "/usr/bin/setpriv",
+          "--no-new-privs",
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "test",
+          "--offline",
+          "--locked",
+          "--release",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+          "--all-targets",
+          "--",
+          "--test-threads=1",
+          "--nocapture"
+        ],
+        "exit": 0,
+        "passed": 31
+      },
+      {
+        "name": "release-probe-build",
+        "argv": [
+          "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--release",
+          "--manifest-path",
+          "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+          "--example",
+          "snapshot_roundtrip_probe"
+        ],
+        "exit": 0,
+        "passed": 0
+      }
+    ],
+    "inputs_before_after_current": 726,
+    "original_case_count": 26,
+    "additional_example_controls": 5,
+    "debug_executed": 31,
+    "release_executed": 31,
+    "all_before_after_current": true,
+    "cleanup": {
+      "confirmed_empty_or_absent": true,
+      "observations": [
+        {
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "InvocationID": ""
+        }
+      ]
+    },
+    "resource_readback": "Actual phase1 CPUQuota2s,MemoryHigh2GiB,MemoryMax3GiB,swap0,tasks128 captured in same attested invocation."
+  },
+  "real_permission_controls": {
+    "errno": 13,
+    "subject_UIDs": [
+      1000,
+      1000,
+      1000,
+      1000
+    ],
+    "subject_capabilities_zero": [
+      "CapInh",
+      "CapPrm",
+      "CapEff",
+      "CapAmb"
+    ],
+    "NoNewPrivs": 1,
+    "directory_modes": [
+      "0700->0500->0700",
+      "0700->0300->0700"
+    ],
+    "file_mode": "0664->0000->0664",
+    "prior_and_afterrestore_bytes_verified": true,
+    "directory_sync_denial_can_leave_both_published_and_staged_bytes": true
+  },
+  "performance": {
+    "status": "PASS_TWO_FIXED_RELEASE_WORKLOADS_RAW_AND_CANONICAL_BYTES",
+    "workloads": {
+      "small-package": {
+        "warmups": [
+          {
+            "workload": "small-package",
+            "kind": "warmup",
+            "index": 0,
+            "bytes": 364,
+            "save_ns": 19906574,
+            "reopen_ns": 16842,
+            "load_ns": 30709,
+            "roundtrip_ns": 19954736,
+            "verified": 1
+          },
+          {
+            "workload": "small-package",
+            "kind": "warmup",
+            "index": 1,
+            "bytes": 364,
+            "save_ns": 10385582,
+            "reopen_ns": 15640,
+            "load_ns": 19297,
+            "roundtrip_ns": 10420890,
+            "verified": 1
+          }
+        ],
+        "raw_samples": [
+          {
+            "workload": "small-package",
+            "kind": "raw",
+            "index": 0,
+            "bytes": 364,
+            "save_ns": 10212462,
+            "reopen_ns": 9909,
+            "load_ns": 11532,
+            "roundtrip_ns": 10234183,
+            "verified": 1
+          },
+          {
+            "workload": "small-package",
+            "kind": "raw",
+            "index": 1,
+            "bytes": 364,
+            "save_ns": 10384320,
+            "reopen_ns": 15439,
+            "load_ns": 17273,
+            "roundtrip_ns": 10417383,
+            "verified": 1
+          },
+          {
+            "workload": "small-package",
+            "kind": "raw",
+            "index": 2,
+            "bytes": 364,
+            "save_ns": 10268830,
+            "reopen_ns": 15169,
+            "load_ns": 17213,
+            "roundtrip_ns": 10301552,
+            "verified": 1
+          },
+          {
+            "workload": "small-package",
+            "kind": "raw",
+            "index": 3,
+            "bytes": 364,
+            "save_ns": 10275162,
+            "reopen_ns": 15379,
+            "load_ns": 17163,
+            "roundtrip_ns": 10308045,
+            "verified": 1
+          },
+          {
+            "workload": "small-package",
+            "kind": "raw",
+            "index": 4,
+            "bytes": 364,
+            "save_ns": 10332201,
+            "reopen_ns": 9869,
+            "load_ns": 10891,
+            "roundtrip_ns": 10353211,
+            "verified": 1
+          },
+          {
+            "workload": "small-package",
+            "kind": "raw",
+            "index": 5,
+            "bytes": 364,
+            "save_ns": 10210648,
+            "reopen_ns": 9718,
+            "load_ns": 10791,
+            "roundtrip_ns": 10231388,
+            "verified": 1
+          },
+          {
+            "workload": "small-package",
+            "kind": "raw",
+            "index": 6,
+            "bytes": 364,
+            "save_ns": 10176483,
+            "reopen_ns": 15390,
+            "load_ns": 18125,
+            "roundtrip_ns": 10210348,
+            "verified": 1
+          }
+        ],
+        "summaries": {
+          "save": {
+            "count": 7,
+            "min_ns": 10176483,
+            "median_ns": 10268830,
+            "max_ns": 10384320
+          },
+          "reopen": {
+            "count": 7,
+            "min_ns": 9718,
+            "median_ns": 15169,
+            "max_ns": 15439
+          },
+          "load": {
+            "count": 7,
+            "min_ns": 10791,
+            "median_ns": 17163,
+            "max_ns": 18125
+          },
+          "roundtrip": {
+            "count": 7,
+            "min_ns": 10210348,
+            "median_ns": 10301552,
+            "max_ns": 10417383
+          }
+        },
+        "bytes_per_file": 364,
+        "expected_canonical_file_sha256": "d6648c260aa28c5fc2e59918475b11dd9e2cc76f8e33858937feda502c3a4437",
+        "canonical_file_count": 9,
+        "root": "/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-snapshots-01/rr13b-501639-1793409546945695524",
+        "process_status_fields": {
+          "Uid:": "1000\t1000\t1000\t1000",
+          "Gid:": "1000\t1000\t1000\t1000",
+          "Groups:": "4 24 27 30 46 101 1000",
+          "Umask:": "0002",
+          "CapInh:": "0000000000000000",
+          "CapPrm:": "0000000000000000",
+          "CapEff:": "0000000000000000",
+          "CapAmb:": "0000000000000000",
+          "NoNewPrivs:": "1"
+        },
+        "max_rss_kib": 2880,
+        "memory_process_samples": 1,
+        "memory_meaning": "Whole nine-repetition subject command including startup,fixtures,oracles and setpriv exec wrapper; not phase allocation/live heap.",
+        "raw_sha256": {
+          "stdout": "76db292f6d1ba46d47913302463b96c5c8167f865392dd34afb2260d22faa780",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "time": "60b5def6738c361e5194f9bd9aedc16980f3c7b5a6e3fc517b1031a8c5f8b920"
+        }
+      },
+      "recovery-scalar-850000": {
+        "warmups": [
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "warmup",
+            "index": 0,
+            "bytes": 850359,
+            "save_ns": 11249262,
+            "reopen_ns": 26090,
+            "load_ns": 1133063,
+            "roundtrip_ns": 12409007,
+            "verified": 1
+          },
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "warmup",
+            "index": 1,
+            "bytes": 850359,
+            "save_ns": 11267668,
+            "reopen_ns": 11773,
+            "load_ns": 1001542,
+            "roundtrip_ns": 12281343,
+            "verified": 1
+          }
+        ],
+        "raw_samples": [
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "raw",
+            "index": 0,
+            "bytes": 850359,
+            "save_ns": 10969047,
+            "reopen_ns": 17393,
+            "load_ns": 1548558,
+            "roundtrip_ns": 12535328,
+            "verified": 1
+          },
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "raw",
+            "index": 1,
+            "bytes": 850359,
+            "save_ns": 11050833,
+            "reopen_ns": 16813,
+            "load_ns": 1858158,
+            "roundtrip_ns": 12926395,
+            "verified": 1
+          },
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "raw",
+            "index": 2,
+            "bytes": 850359,
+            "save_ns": 10892040,
+            "reopen_ns": 17664,
+            "load_ns": 1545551,
+            "roundtrip_ns": 12455877,
+            "verified": 1
+          },
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "raw",
+            "index": 3,
+            "bytes": 850359,
+            "save_ns": 10935022,
+            "reopen_ns": 11202,
+            "load_ns": 954593,
+            "roundtrip_ns": 11901117,
+            "verified": 1
+          },
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "raw",
+            "index": 4,
+            "bytes": 850359,
+            "save_ns": 10924722,
+            "reopen_ns": 10801,
+            "load_ns": 956366,
+            "roundtrip_ns": 11892149,
+            "verified": 1
+          },
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "raw",
+            "index": 5,
+            "bytes": 850359,
+            "save_ns": 11054600,
+            "reopen_ns": 13326,
+            "load_ns": 1389493,
+            "roundtrip_ns": 12457719,
+            "verified": 1
+          },
+          {
+            "workload": "recovery-scalar-850000",
+            "kind": "raw",
+            "index": 6,
+            "bytes": 850359,
+            "save_ns": 10899514,
+            "reopen_ns": 16110,
+            "load_ns": 1135208,
+            "roundtrip_ns": 12051183,
+            "verified": 1
+          }
+        ],
+        "summaries": {
+          "save": {
+            "count": 7,
+            "min_ns": 10892040,
+            "median_ns": 10935022,
+            "max_ns": 11054600
+          },
+          "reopen": {
+            "count": 7,
+            "min_ns": 10801,
+            "median_ns": 16110,
+            "max_ns": 17664
+          },
+          "load": {
+            "count": 7,
+            "min_ns": 954593,
+            "median_ns": 1389493,
+            "max_ns": 1858158
+          },
+          "roundtrip": {
+            "count": 7,
+            "min_ns": 11892149,
+            "median_ns": 12455877,
+            "max_ns": 12926395
+          }
+        },
+        "bytes_per_file": 850359,
+        "expected_canonical_file_sha256": "52e0b80a11caf2d4c2699c75ab7afe76273b0f60e236b5ac462fd82407276801",
+        "canonical_file_count": 9,
+        "root": "/workspace/build/builderbob/syson-durable-batch38-20261031/measurement-snapshots-01/rr13b-501641-1793409547059616272",
+        "process_status_fields": {
+          "Uid:": "1000\t1000\t1000\t1000",
+          "Gid:": "1000\t1000\t1000\t1000",
+          "Groups:": "4 24 27 30 46 101 1000",
+          "Umask:": "0002",
+          "CapInh:": "0000000000000000",
+          "CapPrm:": "0000000000000000",
+          "CapEff:": "0000000000000000",
+          "CapAmb:": "0000000000000000",
+          "NoNewPrivs:": "1"
+        },
+        "max_rss_kib": 7680,
+        "memory_process_samples": 1,
+        "memory_meaning": "Whole nine-repetition subject command including startup,fixtures,oracles and setpriv exec wrapper; not phase allocation/live heap.",
+        "raw_sha256": {
+          "stdout": "f56cd3f3935b1b716444240b2d7f150390f28d8c4a210ca06c267ac47456206c",
+          "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "time": "1ca6b5abb563f38f27cee8f622f2fb4b6c47a979234faf8070d1d46d556efbdd"
+        }
+      }
+    },
+    "binary_binding_sha256": "ecc980bb92cf74a2e9bdcd8133225029eb8fe3a7e08f4cb961926d027745d5a1",
+    "all735_inputs_before_after_current": true,
+    "scope_cleanup": {
+      "confirmed_empty_or_absent": true,
+      "observations": [
+        {
+          "ControlGroup": "",
+          "LoadState": "not-found",
+          "InvocationID": ""
+        }
+      ]
+    },
+    "cache_state": "Save warms page cache; fresh directories/handles do not reset OS cache.",
+    "timing_policy": "Descriptive helper ranges, not event-to-visible UI budgets or hard timing veto.",
+    "unsupported_claims": [
+      "p95",
+      "native speedup",
+      "capacity",
+      "UI responsiveness",
+      "process or backend restart",
+      "physical power loss",
+      "phase heap/allocation"
+    ],
+    "root_postprocessing_failures_retained": [
+      "analysis-schema-failure-01.json",
+      "analysis-format-failure-02.json"
+    ]
+  },
+  "phase2_resource_boundary": "Same unchanged bounded launcher and exact scope entry/cleanup bound; no separate live numeric control readback captured for short phase2. RSS measured by GNUtime per subject process. No fullRR16 resource enforcement acceptance.",
+  "artifact_inventory_sha256": "b674f7cf2d8eae10d77dfeecf058bfcc927516c2261ed521d6f9a39db4547777",
+  "captured_files": [
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/source-lease.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/source-lease.json.raw",
+      "bytes": 3844,
+      "sha256": "0cfbf96bdf77395a6a69255141ecc981b7834c86dade38cb2c5e1cfcce49dc43"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/source-lease-initial.json.raw",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/source-lease-initial.json.raw.raw",
+      "bytes": 3844,
+      "sha256": "0cfbf96bdf77395a6a69255141ecc981b7834c86dade38cb2c5e1cfcce49dc43"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/source-lease-inline-controls.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/source-lease-inline-controls.json.raw",
+      "bytes": 5473,
+      "sha256": "4bc09bfcf95a36cb2df278e0d058fff32436ae2258a5f8872248e10a8bc18252"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/readiness.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/readiness.json.raw",
+      "bytes": 34390,
+      "sha256": "8b0c0e0aeab444efe449f9d3f90c85eb24a3e5b5b137d98fe805ee0e24f545d0"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/root-wiring.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/root-wiring.json.raw",
+      "bytes": 954,
+      "sha256": "c0d469c14f1b7f49c7867a65cdb7c1f1d03ad48b999debc18971ff1ff24b5105"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/root-wiring-inline.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/root-wiring-inline.json.raw",
+      "bytes": 770,
+      "sha256": "bcfd67c2813d7c8d446ac7b9a184cf1581699fe4865e978e5590654d32a7d149"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/fault-author-review.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/fault-author-review.json.raw",
+      "bytes": 33062,
+      "sha256": "812f870bee4aa3ebafe9db5d84a0ce455dd861015988d64ca7621dce0ded8a77"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-author-review.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/probe-author-review.json.raw",
+      "bytes": 12107,
+      "sha256": "f36a826d12df799345ae8549a0872c9e99527e9368240519250b1075bdf8b8a8"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-author-review-before-inline.json.raw",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/probe-author-review-before-inline.json.raw.raw",
+      "bytes": 12107,
+      "sha256": "f36a826d12df799345ae8549a0872c9e99527e9368240519250b1075bdf8b8a8"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-author-review-inline.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/probe-author-review-inline.json.raw",
+      "bytes": 19128,
+      "sha256": "3df09397527e0de676e917e7915ca55b1f10b135e4f0c454e970abf6e0d3ecab"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-before-inline-controls.rs.raw",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/probe-before-inline-controls.rs.raw.raw",
+      "bytes": 15726,
+      "sha256": "429a8ad4d2ec61aab3b8e525e9084a3d479693385abcf5ad2809cf4df027092d"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-format-input-01.rs.raw",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/probe-format-input-01.rs.raw.raw",
+      "bytes": 14963,
+      "sha256": "c5397a1535b979740397a7578ac6081a63260f41a91da26d3363992974456080"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-format-input-02.rs.raw",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/probe-format-input-02.rs.raw.raw",
+      "bytes": 16824,
+      "sha256": "89c8887bd762d47ba0f4a6fbfef70289b8575825b51606efe08fab7b8da9b3c8"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/CI-before-inline-controls.yml.raw",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/CI-before-inline-controls.yml.raw.raw",
+      "bytes": 3099,
+      "sha256": "8b8c595265d52eea314384de5b80fb0ce226b3dc280a2b5543d534ea5c36cb36"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-source.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/reviewer-source.json.raw",
+      "bytes": 15622,
+      "sha256": "ffac467207d8d57065bc9d2fb58d983b5e234ee2bf103251e685e47291f4df10"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-source-layout-hold.json.raw",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/reviewer-source-layout-hold.json.raw.raw",
+      "bytes": 15622,
+      "sha256": "ffac467207d8d57065bc9d2fb58d983b5e234ee2bf103251e685e47291f4df10"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-source-inline.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/reviewer-source-inline.json.raw",
+      "bytes": 17426,
+      "sha256": "c913d07e32d2f586643a0a4f64ee64437876a3402b0d4de06a148e1f392c7fd5"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-checks-spec.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/reviewer-checks-spec.json.raw",
+      "bytes": 9240,
+      "sha256": "48af148127ca06fba5b26970c3859ce6fcab3665e70e124674096ec2e16236f4"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-performance-spec.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/reviewer-performance-spec.json.raw",
+      "bytes": 6419,
+      "sha256": "233c4b08130419ff1307ffa513944f531ac569b33f0e3c573eae36108e2a996b"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-installation.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-installation.json.raw",
+      "bytes": 963,
+      "sha256": "6def420a82cbe04de767deb2a5890b4e8835f576ac4ccb2b3b2085ea60482c66"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/source-freeze-01.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/source-freeze-01.json.raw",
+      "bytes": 9397,
+      "sha256": "77bb37054d02633b36d0a8ebd7600a33abb66e9dc4289f0eae3de5f396ff3b83"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-spec.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01-spec.json.raw",
+      "bytes": 154428,
+      "sha256": "2fe7c5bbf1e676bb1bbd79685c4973d12520eb73d0a409c568979189f9a93fad"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-resource-observation.txt",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01-resource-observation.txt.raw",
+      "bytes": 302,
+      "sha256": "1588f37bd9917dc703c4bf1b3890033f5e69ebd51ce13b4f94aaa5890c6ceb17"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01-spec.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01-spec.json.raw",
+      "bytes": 154065,
+      "sha256": "0f05c6a8c4cfd08485f32c0b0865eadd31a0fba1432281c41889556f59649c3f"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/release-binary-binding.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/release-binary-binding.json.raw",
+      "bytes": 1506,
+      "sha256": "ecc980bb92cf74a2e9bdcd8133225029eb8fe3a7e08f4cb961926d027745d5a1"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-analysis.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-analysis.json.raw",
+      "bytes": 9873,
+      "sha256": "896bdf10bb547c1c8b44abb007b20b54708720a5d9f62f09e98bc8f43784f907"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/runtime-artifacts.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/runtime-artifacts.json.raw",
+      "bytes": 97078,
+      "sha256": "b674f7cf2d8eae10d77dfeecf058bfcc927516c2261ed521d6f9a39db4547777"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/implementation-inputs.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/implementation-inputs.json.raw",
+      "bytes": 615,
+      "sha256": "3a9842516a417b5a6ad8c6f069b3576ca5d55ac6f9d2b315bb47fe85a74d9781"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/analysis-schema-failure-01.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/analysis-schema-failure-01.json.raw",
+      "bytes": 544,
+      "sha256": "8bb867761f5702da7d8780bad1e541ece3397f4f444b0dd75f60247eb51a0201"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/analysis-format-failure-02.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/analysis-format-failure-02.json.raw",
+      "bytes": 524,
+      "sha256": "900dad70305292ea222f539b46634c91382530d5a4014dab4053655eb98df01e"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-01-spec.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-01-spec.json.raw",
+      "bytes": 2533,
+      "sha256": "d52601eda1149017096218893a962bb933f40a050ef8ede06949f3b381fdfa16"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-01-controller.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-01-controller.stdout.raw",
+      "bytes": 390,
+      "sha256": "889e83fb8a6fa6ac7d6c5742825f247779c0083e183c8d1b915922c99b00aedd"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-01-controller.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-01-controller.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-01-cleanup.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-01-cleanup.json.raw",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-01/format-preview.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-01/format-preview.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-01/format-preview.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-01/format-preview.stdout.raw",
+      "bytes": 16026,
+      "sha256": "a690e541d5c3a0052d058aeb40f75a96815c58b5ad061f6ce7a70ae4e3cbca15"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-01/receipt.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-01/receipt.json.raw",
+      "bytes": 2789,
+      "sha256": "c64772a07d524ae3e89171b786f6c8851f1e90e0ce1075254346f3cf895d1579"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-01/scope-proof.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-01/scope-proof.json.raw",
+      "bytes": 366,
+      "sha256": "f24ea59688f84d8e0c32926e089dba02de68957c76aa4735c2cd420c712c5721"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-02-spec.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-02-spec.json.raw",
+      "bytes": 2701,
+      "sha256": "4e193a7daea99825a2f3d2f75b5159cafb1681bf3c1aca6c4bd7e75fc6d2f2ff"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-02-controller.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-02-controller.stdout.raw",
+      "bytes": 390,
+      "sha256": "6210de8e71d0d2f69962c0072604cf5b9aa9e259b85412bfc7bf806dcf1c2b28"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-02-controller.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-02-controller.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-02-cleanup.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-02-cleanup.json.raw",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-02/format-preview.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-02/format-preview.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-02/format-preview.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-02/format-preview.stdout.raw",
+      "bytes": 17899,
+      "sha256": "199feaaddd7a947f770315796f9765ab579f7e2c021c80c9ea763ec897784786"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-02/receipt.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-02/receipt.json.raw",
+      "bytes": 3125,
+      "sha256": "8e306c8e1283d5628a824c622763c95905b79f45fd5d947ddded2a5cddf593a1"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/format-02/scope-proof.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/format-02/scope-proof.json.raw",
+      "bytes": 366,
+      "sha256": "485114639f4e9e97e50fc4985c367038456d1307ed226384a168e1ec08900906"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-controller.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01-controller.stdout.raw",
+      "bytes": 2558,
+      "sha256": "1e16ce3c6f933adf4fe9b4926f23b6438e33b1755a1f670ac455e7653fa23ce1"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-controller.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01-controller.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-cleanup.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01-cleanup.json.raw",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/cargo-version.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/cargo-version.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/cargo-version.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/cargo-version.stdout.raw",
+      "bytes": 36,
+      "sha256": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/clippy.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/clippy.stderr.raw",
+      "bytes": 1188,
+      "sha256": "5cbb18981ed998f7b057104afac3f5bd5eda683eb0f917f03d7f7cd580edce5c"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/clippy.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/clippy.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/fmt.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/fmt.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/fmt.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/fmt.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/receipt.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/receipt.json.raw",
+      "bytes": 303569,
+      "sha256": "8b00226cdae4c1545afeb79a38efc7fd9f4d6adebe463aa1fcb5b702bced7e7c"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/release-probe-build.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/release-probe-build.stderr.raw",
+      "bytes": 197,
+      "sha256": "77d6ad3104aab44355e6f913eb73f53ac5a42a157ee18d1644aee1c9521d5aae"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/release-probe-build.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/release-probe-build.stdout.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/release-tests.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/release-tests.stderr.raw",
+      "bytes": 2005,
+      "sha256": "5961f45cbc4a9cdf1647edbc4e90d48aea6eadd2ed349fd895da6a1afb2354a2"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/release-tests.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/release-tests.stdout.raw",
+      "bytes": 9366,
+      "sha256": "104adc02e30025b647120bd1f3949d38100fb71ddccc11d201baf79f8e263ead"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/rustc-version.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/rustc-version.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/rustc-version.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/rustc-version.stdout.raw",
+      "bytes": 196,
+      "sha256": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/scope-proof.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/scope-proof.json.raw",
+      "bytes": 368,
+      "sha256": "761b181157e09a254fb0bd8aa0a3b078828230d5f648552024903a5bfd01caee"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/tests.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/tests.stderr.raw",
+      "bytes": 2006,
+      "sha256": "99a0aa468aa07db98b2ac66005fad954467d98308b1d43921676a789ae19f59f"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01/tests.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/checks-01/tests.stdout.raw",
+      "bytes": 9366,
+      "sha256": "f0717b7b079a4a4005930cff1f74aee19046d8badbc8e6c0d5d7e9192133cde7"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01-controller.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01-controller.stdout.raw",
+      "bytes": 853,
+      "sha256": "be53b87f3a395bb459dbe0f0a997732e2838cb80d11df162c11b75e98eaf46de"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01-controller.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01-controller.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01-cleanup.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01-cleanup.json.raw",
+      "bytes": 160,
+      "sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/receipt.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01/receipt.json.raw",
+      "bytes": 304275,
+      "sha256": "164727b0b16bab0cb4fd91a7ec39fdbe860d2dc2b2f3ba565e31a8db1a951ebe"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/recovery-scalar-850000.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01/recovery-scalar-850000.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/recovery-scalar-850000.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01/recovery-scalar-850000.stdout.raw",
+      "bytes": 2496,
+      "sha256": "f56cd3f3935b1b716444240b2d7f150390f28d8c4a210ca06c267ac47456206c"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/recovery-scalar-850000.time.txt",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01/recovery-scalar-850000.time.txt.raw",
+      "bytes": 891,
+      "sha256": "1ca6b5abb563f38f27cee8f622f2fb4b6c47a979234faf8070d1d46d556efbdd"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/scope-proof.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01/scope-proof.json.raw",
+      "bytes": 368,
+      "sha256": "8b1797b0e68384770d7851ce92d26d2e7940344b14b989262efe1787ae74c411"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/small-package.stderr",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01/small-package.stderr.raw",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/small-package.stdout",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01/small-package.stdout.raw",
+      "bytes": 2306,
+      "sha256": "76db292f6d1ba46d47913302463b96c5c8167f865392dd34afb2260d22faa780"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/performance-01/small-package.time.txt",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/performance-01/small-package.time.txt.raw",
+      "bytes": 876,
+      "sha256": "60b5def6738c361e5194f9bd9aedc16980f3c7b5a6e3fc517b1031a8c5f8b920"
+    },
+    {
+      "source": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-executed.json",
+      "archived": "porting/rust-parity-evidence/RR13b/archive/reviewer-executed.json.raw",
+      "bytes": 29271,
+      "sha256": "358c31792aaddf6557ec71fa49d7cd21020823054c4cd313a3ef0a67545e60a2"
+    }
+  ],
+  "preserved_failures_and_findings": [
+    "Initial all-in-main layout source/format/HOLD and author forecasts retained.",
+    "Incorrect summary class oracle and restored-write coverage fixed during source review before application execution.",
+    "Two root postprocessing schema/format assumptions retained as metadata-only failures; corrected from actual model source without rerunning subject."
+  ],
+  "boundaries": {
+    "full_parity_accepted": false,
+    "RR13_parent_accepted": false,
+    "durable_application_journey_accepted": false,
+    "identity_registry_integration_accepted": false,
+    "writer_or_backend_restart_tested": false,
+    "UI_HTTP_SQL_tested": false,
+    "native_equivalence_tested": false,
+    "physical_power_loss_tested": false,
+    "capacity_or_p95_or_native_speedup_claimed": false,
+    "held_feature_released": false,
+    "clean_release_rebuild_claimed": false
+  },
+  "remaining": [
+    "Complete separately registered identity/import/SnapshotStore integration.",
+    "Fresh writer-process then independent reader recovery and actual application/backend restart.",
+    "Native/application/service/UI,interop,capacity,release and independent fullparity acceptance."
+  ],
+  "filesystem_scope": "Linux x86_64 under stable owned parents. Io errors may have published. Retained stages are evidence; neither error nor visible file alone proves safe retry or physical durability.",
+  "independent_runtime_review": {
+    "status": "PASS_EXACT_LOCAL31_DEBUG_RELEASE_AND_TWO_FIXED_RELEASE_WORKLOADS_PUBLIC_PACKET_SEPARATE",
+    "sha256": "358c31792aaddf6557ec71fa49d7cd21020823054c4cd313a3ef0a67545e60a2",
+    "packet_binding": "Separate final publicpacket review follows; runtime report has no packet dependency."
+  }
+}

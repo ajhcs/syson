@@ -1,0 +1,7 @@
+{
+  "status": "RETAINED_ROOT_REPORT_FORMAT_ASSUMPTION_FAILURE_NOT_SUBJECT_FAILURE",
+  "diagnostic": "AssertionError comparing compact JSON to canonical pretty JSON",
+  "source": "syson-model Document::emit_json explicitly calls serde_json::to_writer_pretty; json_size documentation names canonical pretty JSON.",
+  "repair": "Construct complete fixed expected EMF object and serialize with2space indentation, sorted keys and no final newline; no fixture-derived expected fields.",
+  "subject_changed_or_reexecuted": false
+}

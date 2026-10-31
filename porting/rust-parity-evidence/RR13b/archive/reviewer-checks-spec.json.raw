@@ -1,0 +1,200 @@
+{
+  "schema": "SYSON-RR13B-INDEPENDENT-CHECKS-SPEC/1",
+  "status": "PASS_EXACT_726_INPUT_SEVEN_COMMAND_CHECKS_SPEC_RUNTIME_VERDICT_SEPARATE",
+  "reviewer": "/root/registration_review",
+  "reviewed_at_utc": "2026-10-31T01:16:48.447833+00:00",
+  "findings": [],
+  "bindings": {
+    "source_review": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-source-inline.json",
+      "bytes": 17426,
+      "sha256": "c913d07e32d2f586643a0a4f64ee64437876a3402b0d4de06a148e1f392c7fd5"
+    },
+    "source_freeze": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/source-freeze-01.json",
+      "bytes": 9397,
+      "sha256": "77bb37054d02633b36d0a8ebd7600a33abb66e9dc4289f0eae3de5f396ff3b83"
+    },
+    "exact_spec": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01-spec.json",
+      "bytes": 154428,
+      "sha256": "2fe7c5bbf1e676bb1bbd79685c4973d12520eb73d0a409c568979189f9a93fad"
+    },
+    "probe_author_inline": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/probe-author-review-inline.json",
+      "bytes": 19128,
+      "sha256": "3df09397527e0de676e917e7915ca55b1f10b135e4f0c454e970abf6e0d3ecab"
+    },
+    "revised_lease": {
+      "path": "/workspace/build/builderbob/syson-durable-batch38-20261031/source-lease-inline-controls.json",
+      "bytes": 5473,
+      "sha256": "4bc09bfcf95a36cb2df278e0d058fff32436ae2258a5f8872248e10a8bc18252"
+    }
+  },
+  "input_readback": {
+    "count": 726,
+    "all_current_hashes_match": true,
+    "all66frozen_repository_paths_bound": true,
+    "map_canonical_sha256": "441cf9200564ce802276a422f54a63b4f0df778a92edd391b956d5e8bde01aef",
+    "boundary": "Exact declared source, local dependency/cache, manifests/lock, principal tools/sysroots, NNP binary, existing runner and custody inputs. No exhaustive OS/remote provenance or fullRR16 claim."
+  },
+  "commands": [
+    {
+      "name": "rustc-version",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/rustc",
+        "-Vv"
+      ]
+    },
+    {
+      "name": "cargo-version",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "-V"
+      ]
+    },
+    {
+      "name": "fmt",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "fmt",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+        "--",
+        "--check"
+      ]
+    },
+    {
+      "name": "tests",
+      "argv": [
+        "/usr/bin/setpriv",
+        "--no-new-privs",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+        "--all-targets",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_tests": 31
+    },
+    {
+      "name": "clippy",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "clippy",
+        "--offline",
+        "--locked",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ]
+    },
+    {
+      "name": "release-tests",
+      "argv": [
+        "/usr/bin/setpriv",
+        "--no-new-privs",
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+        "--all-targets",
+        "--",
+        "--test-threads=1",
+        "--nocapture"
+      ],
+      "expected_tests": 31
+    },
+    {
+      "name": "release-probe-build",
+      "argv": [
+        "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--manifest-path",
+        "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow/Cargo.toml",
+        "--example",
+        "snapshot_roundtrip_probe"
+      ]
+    }
+  ],
+  "environment": {
+    "HOME": "/home/builderbob",
+    "PATH": "/workspace/cache/builderbob/global-tools/rustup/toolchains/1.99.1-x86_64-unknown-linux-gnu/bin:/usr/bin:/bin",
+    "CARGO_HOME": "/workspace/cache/builderbob/global-tools/cargo",
+    "RUSTUP_HOME": "/workspace/cache/builderbob/global-tools/rustup",
+    "RUSTUP_TOOLCHAIN": "1.99.1-x86_64-unknown-linux-gnu",
+    "CARGO_BUILD_JOBS": "1",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_NET_OFFLINE": "true",
+    "CARGO_TARGET_DIR": "/workspace/build/builderbob/syson-durable-batch38-20261031/cargo-target-01",
+    "TMPDIR": "/workspace/build/builderbob/syson-durable-batch38-20261031/command-tmp-01",
+    "SYSON_TEST_DIR": "/workspace/build/builderbob/syson-durable-batch38-20261031/snapshots-01",
+    "XDG_RUNTIME_DIR": "/run/user/1000",
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8"
+  },
+  "crate": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/rust/crates/syson-workflow",
+  "out": "/workspace/build/builderbob/syson-durable-batch38-20261031/checks-01",
+  "unit": "syson-b38-storage-ea21ef8e43e94f93a633f9ed26642255.scope",
+  "cookie": "4ffaba4b8256487887e1845ef21c7459",
+  "protocol": {
+    "runner": {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-evidence/F25/main-batch31/qualify.py",
+      "bytes": 1991,
+      "sha256": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9"
+    },
+    "launcher": {
+      "path": "/workspace/build/builderbob/syson-durable-batch32-20261030/run_scope.py",
+      "bytes": 1164,
+      "sha256": "5931e57dbdf2d9db5ba8df6ba0c81a9f2f7ae4ff8554889fcd4ac19266ee3195"
+    },
+    "ownership_helper": {
+      "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py",
+      "bytes": 4356,
+      "sha256": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d"
+    },
+    "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+    "bounds": "Unchanged nonblocking shared compilerlock; serial jobs/tests,180second per-command timeout; requested CPU200%,MemoryHigh2G/Max3G,swap0,Tasks128; actual invocation ownership proof and confirmed descendant cleanup mandatory.",
+    "freshness_at_concise_admission": "Output/controller files absent; target01/tmp01/snapshots01 empty, canonical, uid1000,0700 below Samsung B38. No RR13 child markers in explicit environment. Fresh platform/device/headroom/scope/lock gates remain root responsibility.",
+    "source_budget": {
+      "inclusive_production": 305,
+      "authored": 852,
+      "caps": [
+        400,
+        900
+      ]
+    },
+    "WASM_boundary": "No new WASM claim: unchanged library/manifests/lock inherit separately qualified RR13a inputs; new example explicitly Linuxx86_64. No WASM test/runtime acceptance inferred."
+  },
+  "after_execution_requirements": [
+    "All726before=after=current and unchanged source pins.",
+    "All seven exits0; exact31 distinct cases in both debug/release:26 original plus five real example controls. Nocapture can interleave test headers/stdout; parse names and successful harness blocks rather than demanding single-line test...ok.",
+    "Check actual four UID values/nonzero local1000, zero capability fields,NNP1,GID/groups/umask, three PermissionDenied/rawerrno outcomes, exact before/applied/restored modes, post-restore successful save/load/fullbytes/roles, exact/over limits and retained fixtures.",
+    "Actual scope/unit/cookie/invocation/PID start proof and confirmed empty/absent cleanup; preserve any failure and special-file fixtures without opening FIFOs/sockets."
+  ],
+  "next_phase": "Separate root spec must bind actual release binary produced here, direct setpriv execution under external time/memory capture, two fixed workload modes and fresh owned roots. Build/format/test clocks never become filesystem samples.",
+  "limits": [
+    "Source/spec admission only; reviewer ran no subject compiler/tests/probe/imports,network,Git mutation,chmod or source edits.",
+    "No parentRR13/fullparity/native/SQL/HTTP/UI/restart/powerloss/capacity/p95 acceptance or held scope release."
+  ],
+  "feature_accepted": false,
+  "full_parity_claimed": false,
+  "holds_released": false,
+  "only_written_artifact": "/workspace/build/builderbob/syson-durable-batch38-20261031/reviewer-checks-spec.json"
+}
