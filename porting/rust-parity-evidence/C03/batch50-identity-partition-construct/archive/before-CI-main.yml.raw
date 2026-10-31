@@ -1,0 +1,27 @@
+name: Plan source preparation controls
+on:
+  pull_request: {branches: [main]}
+  push: {branches: [main]}
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  plan-controls:
+    if: github.repository == 'ajhcs/syson'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      SYSON_IDENTITY_PARTITION_FIXTURES: ${{ github.workspace }}/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/fixtures
+    defaults:
+      run: {working-directory: porting/rust-parity-plan-20261026}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - run: |
+          python3 -s -B tools/verify_plan.py --self-test
+          python3 -s -O -B tools/verify_plan.py --self-test
+          python3 -I -B -m unittest discover -s tools -v
+          python3 -I -O -B -m unittest discover -s tools -v
+          python3 -I -B remaining-work/verify_snapshot.py --self-test
+          python3 -I -O -B remaining-work/verify_snapshot.py --self-test
+          python3 -I -B -m unittest discover -s composition/identity_partition_prepare -v
+          python3 -I -O -B -m unittest discover -s composition/identity_partition_prepare -v

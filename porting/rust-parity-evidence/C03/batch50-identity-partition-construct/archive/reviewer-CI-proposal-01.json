@@ -1,0 +1,164 @@
+{
+  "schema": "IDENTITY_PARTITION_CONSTRUCTOR_CI_PROPOSAL_REVIEW/1",
+  "status": "PASS_SOURCE_PROPOSAL_CORRECTNESS_ONLY_FINAL_REPAIRED_SOURCE_BUDGET_PENDING",
+  "reviewed_at_UTC": "2026-10-31T12:35:23.093274+00:00",
+  "scope": "Read-only text/hash review of inactive proposed workflow and current test discovery/bootstrap. No workflow installation, subject imports, compilation, tests, Git, network, source or fixture changes.",
+  "bindings": {
+    "current_workflow": {
+      "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/.github/workflows/plan-source-preparation-checks.yml",
+      "bytes": 1209,
+      "lines": 27,
+      "sha256": "00cdb9944a3c3f9f7347a69ea4de5f76530066fd955ae0541448f9cc644771d3"
+    },
+    "proposed_workflow": {
+      "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/proposed-plan-source-preparation-checks.yml.raw",
+      "bytes": 1966,
+      "lines": 41,
+      "sha256": "246c30d8e8b284402c4fa9f132f93f874a94b213846c35fae041d0ace1545b77"
+    },
+    "proposal_record": {
+      "path": "/workspace/build/builderbob/syson-durable-batch50-20261031/CI-proposal-01.json",
+      "bytes": 695,
+      "lines": 10,
+      "sha256": "08fff47a35aeecdbd80115fd11b19061e0949a880a7e5d7df00ed847fd829b88"
+    }
+  },
+  "exact_delta": {
+    "additions": 16,
+    "deletions": 2,
+    "production_authored_AD": 18,
+    "net_lines_added": 14,
+    "existing_prefix_check": "The entire old workflow prefix through the six original commands is byte-identical. Only the final two discovery command lines change to an explicit derive/guard pattern; one independent constructor job is appended.",
+    "installed": false
+  },
+  "existing_controls_preserved": {
+    "workflow_name_triggers_permissions": "Same pull_request(main), push(main), workflow_dispatch; same contents:read permission.",
+    "existing_job": "plan-controls keeps repository guard ajhcs/syson, ubuntu24.04, timeout20minutes, fixture env, working directory, whole pinned checkout and persist-credentials:false.",
+    "unchanged_commands": [
+      "python3 -s -B tools/verify_plan.py --self-test",
+      "python3 -s -O -B tools/verify_plan.py --self-test",
+      "python3 -I -B -m unittest discover -s tools -v",
+      "python3 -I -O -B -m unittest discover -s tools -v",
+      "python3 -I -B remaining-work/verify_snapshot.py --self-test",
+      "python3 -I -O -B remaining-work/verify_snapshot.py --self-test"
+    ],
+    "derive_guard_commands": "The quoted shell pattern test_[dg]*.py is passed literally to unittest discovery and matches exactly the current test_derive.py and test_guard.py. All11derive and8guard cases remain selected in normal and optimized modes, without class/case filters.",
+    "old_named_executions_retained": 38
+  },
+  "constructor_job": {
+    "job": "constructor-controls",
+    "timeout_minutes": 10,
+    "repository_guard": "same as old job",
+    "runner": "ubuntu-24.04",
+    "checkout_pin": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "persist_credentials": false,
+    "working_directory": "porting/rust-parity-plan-20261026",
+    "fixture_env": "SYSON_IDENTITY_PARTITION_FIXTURES uses the same exact github.workspace/composition/identity_partition_prepare/fixtures path as the old job.",
+    "commands": [
+      "python3 -I -B -m unittest discover -s composition/identity_partition_prepare -p test_construct.py -v",
+      "python3 -I -O -B -m unittest discover -s composition/identity_partition_prepare -p test_construct.py -v"
+    ],
+    "coverage": "Exact file discovery selects every constructor TestCase method, currently12 and automatically any separately reviewed repaired additions. No constructor cases run in the derive/guard job; no derive/guard methods are lost.",
+    "staging_environment": "Current test_construct.py34-41 uses RUNNER_TEMP when GITHUB_ACTIONS is true; verifies canonical existing directory and creates a unique owned TemporaryDirectory. GitHub runner-provided GITHUB_ACTIONS/RUNNER_TEMP satisfy that explicit hosted branch; the separate job needs no new SYSON_BOOTSTRAP_TEST_ROOT env. Local root-owned execution must continue providing the separately admitted canonical SYSON_BOOTSTRAP_TEST_ROOT. No mutable global/provider overrides are added by this workflow.",
+    "independent_job": "No needs dependency or shared generated output is introduced. Each job checks out its own actual tree and uses its own temporary staging. This does not claim the staged fixture is a currently adopted .12 physical plan."
+  },
+  "test_ownership_at_read": [
+    {
+      "file": "test_derive.py",
+      "pin": {
+        "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_derive.py",
+        "bytes": 9530,
+        "lines": 179,
+        "sha256": "c691b03ac9d0588c91df3317309692e88b1c2c371379fe3d960bdc43d4dabc74"
+      },
+      "case_names": [
+        "test_complete799_model_and_all_original_records_and_gates",
+        "test_complete_input_and_actual_provider_provenance",
+        "test_missing_extra_and_changed_baseline_inputs_refuse",
+        "test_coherently_rehashed_normative_baseline_still_refuses",
+        "test_fixed_complete_child_body_survives_envelope_rehash_control",
+        "test_changed_amendment_and_empty_or_overlong_generator_refuse",
+        "test_current_actual_old_provider_pin_and_namespace_are_enforced",
+        "test_exact_generator_byte_boundary_is_a_claim_not_execution",
+        "test_wrong_byte_type_and_aggregate_input_bound_refuse_before_parse",
+        "test_hostile_logical_name_refuses_before_provider_or_serialization",
+        "test_name_framing_refuses_in_isolation_before_provider_or_serialization"
+      ],
+      "count_at_review": 11,
+      "CI_owner_job": "plan-controls"
+    },
+    {
+      "file": "test_guard.py",
+      "pin": {
+        "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_guard.py",
+        "bytes": 5055,
+        "lines": 97,
+        "sha256": "257343d3cb50d825e744c3681ae18ac9e05bea06e4caa7ff5bad4d6d83a8adb0"
+      },
+      "case_names": [
+        "test_full_restoration_before_old_guard_and_no_early_parent_completion",
+        "test_default_pending_and_unknown_version_refuse",
+        "test_missing_duplicate_and_foreign_unit_ids_refuse",
+        "test_coherently_resealed_parent_weakening_refuses",
+        "test_coherent_old_body_rewrite_cannot_be_laundered_as_overlay",
+        "test_whole_child_budget_case_and_path_tampering_refuse",
+        "test_all_old_reader_held_generator_and_schema_bytes_remain_bound",
+        "test_extra_current_metadata_graph_drop_and_cyclic_object_refuse"
+      ],
+      "count_at_review": 8,
+      "CI_owner_job": "plan-controls"
+    },
+    {
+      "file": "test_construct.py",
+      "pin": {
+        "path": "/workspace/worktrees/builderbob/syson/batch50-identity-partition-construct-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_construct.py",
+        "bytes": 15864,
+        "lines": 297,
+        "sha256": "1108a2a66639d8f2199ee31a7498ea2912f5b67f699096c8c780bb6725994d6f"
+      },
+      "case_names": [
+        "test_pending_hooks_refuse_before_any_physical_read",
+        "test_default_physical_normative_producer_needs_no_current_plan",
+        "test_whole799_snapshot_real_default_reads_and_independent_generic_verifier",
+        "test_catalogue_whole_pin_and_role_admission_refuse",
+        "test_aggregate_prior_claims_refuse_before_capture_read",
+        "test_resealed_trailing_and_truncated_gzip_members_refuse",
+        "test_coherent_captured_program_rewrite_is_data_and_cannot_execute",
+        "test_current_contract_and_current_plan_tampering_refuse",
+        "test_real_bulk_progress_drift_is_not_hidden_by_old_pins",
+        "test_stream_exact_limit_over_limit_and_token_refusal",
+        "test_live_proposal_mutations_reload_and_changed_seals_refuse",
+        "test_physical_source_drift_and_existing_output_preserve_owned_data"
+      ],
+      "count_at_review": 12,
+      "CI_owner_job": "constructor-controls"
+    }
+  ],
+  "timing_claim_boundary": "Parent/root reported the existing job took983seconds under its1200second limit. This source review does not independently re-observe that hosted duration or predict the new job runtime. Existing20minute bound is retained; the new10minute job is bounded. Both complete hosted jobs must actually pass. No product latency/RSS or functional waiver is inferred.",
+  "budget": {
+    "new_workflow_AD": 18,
+    "original_unrepaired_constructor_stage": {
+      "production": 325,
+      "authored": 622
+    },
+    "original_stage_plus_proposed_CI": {
+      "production": 343,
+      "authored": 640
+    },
+    "remaining_after_CI_before_repair_growth_and_public_notes": {
+      "production": 57,
+      "authored": 260
+    },
+    "with_illustrative20line_public_notes_attributes_and_no_new_helper": {
+      "production": 363,
+      "authored": 660,
+      "remaining_production": 37,
+      "remaining_authored": 240
+    },
+    "root_clarification": "No new capture helper is being authored or executed in this current inactive-constructor PR. Actual catalogue capture/generator/adoption is a separate mandatory future step, not proved by staged unit fixtures. The already-qualified existing publisher33 is reused unchanged with zero new A+D only because no source delta/new helper is introduced; no active code is being discounted by evidence placement.",
+    "superseded_support_forecast": "Adding the older hypothetical new capture50 plus publication20 on top of325+CI18 would be413production and fail400. That combination is explicitly NOT the current authorized scope. Any later actual new helper/source must be charged and separately admitted; it cannot inherit this CI-only PASS.",
+    "final_gate": "Current author is repairing the constructor. This report does not pre-admit its unknown final ordinary counts or combined source support budget. Count all repaired C/test/docs, this18CI, actual new public notes/attrs and every real new helper at400production/900authored before execution/publication. Preserve all original12 constructor and19derive/guard cases."
+  },
+  "findings": [],
+  "decision": "PASS for exact inactive CI proposal semantics and18A+D accounting. Root may include this source change only with independently reviewed repaired constructor and a true complete final400/900 budget. No installation, runtime, adoption or hosted success is claimed."
+}
