@@ -1,0 +1,29 @@
+from pathlib import Path
+import hashlib
+import importlib.util
+import json
+import sys
+from unittest.mock import patch
+
+source = Path(sys.argv[1])
+raw = source.read_bytes()
+if hashlib.sha256(raw).hexdigest() != 'a234692b653f6eceae320a7269eb4ab46c1692587323a66d75994db0ed4b9eea':
+    raise ValueError('fixed qualified constructor fixture source changed')
+spec = importlib.util.spec_from_file_location('fixed_constructor_capture_cases', source)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+fixture = module.ConstructorTests
+fixture.setUpClass()
+with patch.object(fixture.G, 'POLICY_SHA256', fixture.seal):
+    lock_proposal = fixture.C.contract_lock(fixture.lock_files(), fixture.prior_contract)
+    lock_manifest = fixture.C.emit_fresh(Path(sys.argv[3]), lock_proposal)
+    lock_bytes = sum(p.stat().st_size for p in Path(sys.argv[3]).iterdir())
+    if fixture.proposal.reader.used + fixture.proposal.reader.reserve + lock_bytes > fixture.C.LIMIT:
+        raise ValueError('joint capture output reservation exceeded')
+    manifest = fixture.C.emit_fresh(Path(sys.argv[2]), fixture.proposal)
+print(json.dumps({'status': 'STAGED_BYTE_CLAIMS_ONLY_NOT_PHYSICAL_ADOPTION',
+                  'logical_input_bytes': fixture.proposal.reader.used,
+                  'output_bytes': sum(p.stat().st_size for p in Path(sys.argv[2]).iterdir()),
+                  'normative_lock_output_bytes': lock_bytes,
+                  'normative_lock_manifest': lock_manifest,
+                  'manifest': manifest}))
