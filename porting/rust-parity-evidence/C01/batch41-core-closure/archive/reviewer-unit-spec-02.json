@@ -1,0 +1,732 @@
+{
+  "schema": "C01-FINITE-CORE-UNIT-SPEC-INDEPENDENT-REVIEW/1",
+  "scope": "Read/parse/hash and authored test fixture/environment inspection only; no subject imports/tests,network,Maven,JVM,JAR/native code,Git or source edits.",
+  "source_review": {
+    "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/reviewer-source.json",
+    "bytes": 14450,
+    "sha256": "0390d2b97838aaa341059ca5b5050e85552b3a3c8472b1e0bf3ec5b10c555b66"
+  },
+  "author_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/author-review.json",
+    "bytes": 12813,
+    "sha256": "3198bf1c6933a16ce4a9c03c9f502236f6fd4530897550c106a7123e4567482f"
+  },
+  "source_lease": {
+    "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/source-lease.json",
+    "bytes": 5646,
+    "sha256": "9333187609d276540b954dd74120b474dea1e6fbeb31540bbd7d68d26d1edc93"
+  },
+  "fixture_source_files": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-plan-20261026/closure/core-compile/test_acquire.py",
+      "bytes": 21992,
+      "sha256": "4d7bd24b661deecf491d019fe9d1a039c252adf78336eff5e20e758dc60fcff9"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/batch33-passive-closure/tests/test_fetch.py",
+      "bytes": 23717,
+      "sha256": "64ee1a7df62ce1e8908e5ea58f06616ec599b921d56c48f4281b2c9c10e1aa11"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/batch33-passive-closure/tests/test_launch.py",
+      "bytes": 1942,
+      "sha256": "08a5788035b347b448ad541764c73f9f9a96bbb7bedcb2bc4a88d46597641c5e"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/batch34-direct-core/tests/test_fetch.py",
+      "bytes": 15300,
+      "sha256": "00b26b204814af646dc8b92ae0e4d008ede12bce8793fbd318c141a0d5fe3f70"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/batch36-core-metadata/tests/test_fetch.py",
+      "bytes": 29786,
+      "sha256": "0cdbbb98c76e9751a97ef106b22a3c9112853e87c5d1466409d1766ff5620d30"
+    }
+  ],
+  "source_and_fixed_manifest": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-plan-20261026/closure/core-compile/acquire.py",
+      "bytes": 11728,
+      "sha256": "d31eda19790e8d52d75444b98888fbe5ef87798519b97d62c83017c50cc3570a"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-plan-20261026/closure/core-compile/test_acquire.py",
+      "bytes": 21992,
+      "sha256": "4d7bd24b661deecf491d019fe9d1a039c252adf78336eff5e20e758dc60fcff9"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-plan-20261026/closure/core-compile/README.md",
+      "bytes": 1637,
+      "sha256": "52f62b41de9249f61ea4fe48fca44b616c05343b374d45951fa51c9cb09f041a"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-plan-20261026/closure/core-compile/requests/models-01.json",
+      "bytes": 137199,
+      "sha256": "682c4b8569beeb95defb30b315496b5f474d133d99170b4eb79827466c117f49"
+    }
+  ],
+  "commands": [
+    {
+      "name": "new18-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "porting/rust-parity-plan-20261026/closure/core-compile",
+        "-p",
+        "test_acquire.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "old28-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "porting/rust-parity-evidence/C01/batch33-passive-closure/tests",
+        "-p",
+        "test*.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "old13-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "porting/rust-parity-evidence/C01/batch34-direct-core/tests",
+        "-p",
+        "test*.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "metadata32-normal",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "porting/rust-parity-evidence/C01/batch36-core-metadata/tests",
+        "-p",
+        "test*.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "new18-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-O",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "porting/rust-parity-plan-20261026/closure/core-compile",
+        "-p",
+        "test_acquire.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "old28-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-O",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "porting/rust-parity-evidence/C01/batch33-passive-closure/tests",
+        "-p",
+        "test*.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "old13-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-O",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "porting/rust-parity-evidence/C01/batch34-direct-core/tests",
+        "-p",
+        "test*.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "metadata32-optimized",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-O",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "porting/rust-parity-evidence/C01/batch36-core-metadata/tests",
+        "-p",
+        "test*.py",
+        "-v"
+      ]
+    }
+  ],
+  "method_inventory": {
+    "new18": [
+      [
+        "AcquisitionTests",
+        "test_exact_registry_primary_order_roles_all_four_sidecars"
+      ],
+      [
+        "AcquisitionTests",
+        "test_epoch_raw_hash_size_and_duplicate_keys_are_closed"
+      ],
+      [
+        "AcquisitionTests",
+        "test_independent_primary_seal_rejects_coherent_coordinates_and_order"
+      ],
+      [
+        "AcquisitionTests",
+        "test_strict_types_limits_statuses_rows_and_destination_cannot_drift"
+      ],
+      [
+        "AcquisitionTests",
+        "test_provider_whole_source_binding_refuses_unknown_changed_and_symlink"
+      ],
+      [
+        "AcquisitionTests",
+        "test_complete175_pipeline_preserves_raw_roles_all_algorithms_and_bounds"
+      ],
+      [
+        "AcquisitionTests",
+        "test_complete_gnu_text_binary_uppercase_and_raw_sidecars"
+      ],
+      [
+        "AcquisitionTests",
+        "test_strong_metadata_checksum_and_wrong_filename_do_not_fallback"
+      ],
+      [
+        "AcquisitionTests",
+        "test_optional404_keeps_other_algorithms_mandatory404_stops"
+      ],
+      [
+        "AcquisitionTests",
+        "test_body_partial_and_aggregate16mib_are_real_file_refusals"
+      ],
+      [
+        "AcquisitionTests",
+        "test_real_escaped_header_metadata_charges_both_copies"
+      ],
+      [
+        "AcquisitionTests",
+        "test_header_overflow_and_redirect_preserve_failure_without_fallback"
+      ],
+      [
+        "AcquisitionTests",
+        "test_controls_lock_deadline_and_frozen_inputs_refuse_before_get"
+      ],
+      [
+        "AcquisitionTests",
+        "test_unknown_epoch_or_proposal_fails_before_output_or_owner"
+      ],
+      [
+        "AcquisitionTests",
+        "test_post_pipeline_input_drift_keeps_all175_and_failed_receipt"
+      ],
+      [
+        "AcquisitionTests",
+        "test_checksum_grammar_rejects_all_malformed_records_without_filename_reads"
+      ],
+      [
+        "AcquisitionTests",
+        "test_actual_metadata_ledger_preserves_failure_reserve_and_real_files"
+      ],
+      [
+        "AcquisitionTests",
+        "test_spec_whole_bound_precedes_output_and_static_frame_counts_both_maps"
+      ]
+    ],
+    "old28": [
+      [
+        "PassiveFetchControls",
+        "test_frozen_request_set_has_exact_395_urls_and_destinations"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_request_mutations_refuse_url_order_count_path_and_caps"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_fresh_output_rejects_occupied_symlink_and_noncanonical_path"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_success_preserves_exact_body_hash_and_status"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_header_count_exact_boundary_and_overflow_keep_only_bounded_prefix"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_header_byte_exact_boundary_and_one_byte_overflow"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_header_unicode_budget_counts_utf8_keys_values_and_crlf"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_redirect_handler_and_changed_final_url_never_follow"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_non200_body_and_headers_are_retained_without_becoming_200"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_open_failure_still_retains_failure_metadata_without_an_artifact"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_file_and_remaining_aggregate_limits_keep_exact_partial_prefix"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_interrupted_stream_keeps_partial_body_and_response_record"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_deadline_interrupts_a_blocked_read_and_preserves_partial_metadata"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_foreign_timer_is_refused_without_replacing_timer_or_handler"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_deadline_restores_handler_and_clears_timer_when_body_raises"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_raw_manifest_hash_and_duplicate_json_keys_refuse"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_manifest_payload_duplicates_coordinates_and_metadata_profile_refuse"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_nested_destination_preserves_existing_files_and_refuses_symlinks"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_exact_128mib_aggregate_boundary_refuses_without_large_allocation"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_metadata_charges_existing_proof_and_actual_serialized_bytes"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_96mib_metadata_profile_counts_proof_and_reserves_failure_receipt"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_actual_transfer_records_feed_checksum_validation_without_losing_paths"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_strong_checksum_matches_uppercase_and_legacy_is_labelled_sha1"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_bad_strong_checksum_cannot_fall_back_to_valid_legacy"
+      ],
+      [
+        "PassiveFetchControls",
+        "test_malformed_checksum_refuses_and_absent_checksums_grant_no_match"
+      ],
+      [
+        "CaptureTests",
+        "test_both_streams_are_retained_and_reaped"
+      ],
+      [
+        "CaptureTests",
+        "test_overflow_preserves_bounded_prefix_and_refuses"
+      ],
+      [
+        "CaptureTests",
+        "test_silent_child_cannot_escape_controller_deadline"
+      ]
+    ],
+    "old13": [
+      [
+        "DirectClientTests",
+        "test_default_import_reads_only_verified_provider_and_keeps_old_profiles"
+      ],
+      [
+        "DirectClientTests",
+        "test_wrong_provider_bytes_are_rejected_before_any_execution"
+      ],
+      [
+        "DirectClientTests",
+        "test_exact_28_payloads_140_urls_and_three_source_classifiers"
+      ],
+      [
+        "DirectClientTests",
+        "test_bad_raw_manifest_and_old395_manifest_never_get_admitted"
+      ],
+      [
+        "DirectClientTests",
+        "test_source_classifier_and_null_classifier_presence_are_required"
+      ],
+      [
+        "DirectClientTests",
+        "test_coherent_commons_text_version_replacement_is_not_a_profile"
+      ],
+      [
+        "DirectClientTests",
+        "test_count_duplicate_status_and_exact_profiles_cannot_be_changed"
+      ],
+      [
+        "DirectClientTests",
+        "test_exact64mib_boundary_uses_new_remaining_with_real_shared_transfer"
+      ],
+      [
+        "DirectClientTests",
+        "test_31mib_ledger_has_a_real_failure_receipt_reserve"
+      ],
+      [
+        "DirectClientTests",
+        "test_actual_newmain_140_transfers_checksums_profile_and_receipt"
+      ],
+      [
+        "DirectClientTests",
+        "test_newmain_exact_header_boundary_charges_both_escaped_metadata_copies"
+      ],
+      [
+        "DirectClientTests",
+        "test_newmain_bad_strong_checksum_retains_all_files_and_fails"
+      ],
+      [
+        "DirectClientTests",
+        "test_newmain_403_preserves_first_response_and_never_falls_back"
+      ]
+    ],
+    "metadata32": [
+      [
+        "MetadataClientTests",
+        "test_import_whole_provider_pin_and_old_profiles_unchanged"
+      ],
+      [
+        "MetadataClientTests",
+        "test_bad_provider_unknown_provider_and_symlink_refused_before_loading"
+      ],
+      [
+        "MetadataClientTests",
+        "test_exact56_primary280_order_all_metadata_roles_and_sidecars"
+      ],
+      [
+        "MetadataClientTests",
+        "test_raw_hash_size_duplicate_keys_and_old_profiles_refused"
+      ],
+      [
+        "MetadataClientTests",
+        "test_coherent_version_coordinate_replacement_fails_independent_primary_seal"
+      ],
+      [
+        "MetadataClientTests",
+        "test_primary_coordinate_kind_order_and_index_cannot_change"
+      ],
+      [
+        "MetadataClientTests",
+        "test_coherent_range_metadata_path_replacement_is_not_admitted"
+      ],
+      [
+        "MetadataClientTests",
+        "test_rows_status_role_index_algorithm_path_count_and_profile_are_exact"
+      ],
+      [
+        "MetadataClientTests",
+        "test_coherent_primary_and_request_float_or_boolean_status_lists_refused"
+      ],
+      [
+        "MetadataClientTests",
+        "test_sidecar_float_boolean_or_reordered_status_lists_refused"
+      ],
+      [
+        "MetadataClientTests",
+        "test_explicit16mib_boundary_real_transfer_partial_and_remaining_types"
+      ],
+      [
+        "MetadataClientTests",
+        "test_metadata_component_uses_real_escaped_bytes_and_failure_reserve"
+      ],
+      [
+        "MetadataClientTests",
+        "test_response_and_static_proof_frames_refused_without_mocking_ledger"
+      ],
+      [
+        "MetadataClientTests",
+        "test_actual280pipeline_all56_primary_checksums_roles_and_receipt"
+      ],
+      [
+        "MetadataClientTests",
+        "test_actual280maxescaped_headers_charge_both_copies_below63mib"
+      ],
+      [
+        "MetadataClientTests",
+        "test_bad_strong_metadata_checksum_fails_after_all280_and_retains_roles"
+      ],
+      [
+        "MetadataClientTests",
+        "test_optional_metadata_sidecar404_is_recorded_with_remaining_checksums"
+      ],
+      [
+        "MetadataClientTests",
+        "test_mandatory_metadata404_stops_without_fallback_preserving_response"
+      ],
+      [
+        "MetadataClientTests",
+        "test_metadata_body_limit_retains256kib_partial_and_private_response"
+      ],
+      [
+        "MetadataClientTests",
+        "test_aggregate_body_limit_refuses_even_when_old64mib_would_allow"
+      ],
+      [
+        "MetadataClientTests",
+        "test_raw_header_overflow_preserves_empty_body_and_failure_receipt"
+      ],
+      [
+        "MetadataClientTests",
+        "test_phase_deadline_actual_controls_and_lock_protocol_refuse_before_requests"
+      ],
+      [
+        "MetadataClientTests",
+        "test_specification_whole_byte_limit_is_checked_before_scope_or_output"
+      ],
+      [
+        "MetadataClientTests",
+        "test_static_frame_counts_proof_and_both_actual_escaped_input_maps"
+      ],
+      [
+        "MetadataClientTests",
+        "test_frozen_input_drift_fails_after_pipeline_without_changing_admission"
+      ],
+      [
+        "MetadataClientTests",
+        "test_actual_observed138byte_gnu_sha1_is_only_filename_metadata"
+      ],
+      [
+        "MetadataClientTests",
+        "test_every_algorithm_accepts_bare_gnu_text_binary_case_and_single_ending"
+      ],
+      [
+        "MetadataClientTests",
+        "test_checksum_parser_rejects_controls_multirecord_markers_names_and_lengths"
+      ],
+      [
+        "MetadataClientTests",
+        "test_complete_checksum_verifier_refuses_real_oversized_sidecar_and_primary"
+      ],
+      [
+        "MetadataClientTests",
+        "test_newmain_all280_gnu_text_binary_checksums_cover_metadata_and_preserve_raw"
+      ],
+      [
+        "MetadataClientTests",
+        "test_newmain_gnu_wrong_metadata_filename_refuses_without_weak_fallback"
+      ],
+      [
+        "MetadataClientTests",
+        "test_newmain_gnu_bad_strong_metadata_digest_refuses_despite_good_weaker"
+      ]
+    ]
+  },
+  "expected_unique_methods": 91,
+  "expected_normal_optimized_named_executions": 182,
+  "unit_vs_getter_spec": "552091-byte corrected outer F25 spec has no256KiB limit in the unchanged harness. Actual getter/fake getter spec and manifest remain independently strict256KiB; fake pipelines retain16MiBbody+63MiBgettermetadata+1MiBroot80MiB logical profile. Outer unit resource controls are distinct from mocked native getter controls.",
+  "immutable_provider_and_runner_pins": {
+    "/workspace/build/builderbob/syson-durable-batch32-20261030/run_scope.py": "5931e57dbdf2d9db5ba8df6ba0c81a9f2f7ae4ff8554889fcd4ac19266ee3195",
+    "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/batch33-passive-closure/fetch.py": "faaa2a57387bf4f6880ea3189d95ec75ffcc02a1df53703fae335d57f09aef25",
+    "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/batch36-core-metadata/fetch.py": "eabb3fe426d2894b1106b86c527cb495033720005b61671c7b89331a1b0153d6",
+    "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/scope-ownership-repair/scope_ownership.py": "ff18c5d2e6af6a8b21a4d59129401d9c9274f4d4727e2e448eae331c72f6b92d",
+    "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/F25/main-batch31/qualify.py": "624abb33a2e9f9ff2118c6162359dccee0a023301e2fe8a4fcb1e0ba42e882f9"
+  },
+  "input_map": {
+    "paths": 2103,
+    "repository_paths": 2082,
+    "actual_bytes": 75673429,
+    "all_current_sha256_match": true,
+    "map_canonical_sha256": "a7f3f80bae6a02576293dd21cde097eeb0d2013db1b6ebd491d0585e32583eb6",
+    "actual900_native_map": {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/batch36-core-metadata/qualification.json",
+      "bytes": 536563,
+      "sha256": "e7315dca6625f7439aed8548796c71b93478e715333bcf762c5146ed4a7e462b"
+    },
+    "all900_paths_present_and_byte_unchanged": true,
+    "normative_and_snapshot": {
+      "completion-contract.lock.json": {
+        "pin": {
+          "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-plan-20261026/completion-contract.lock.json",
+          "bytes": 5346,
+          "sha256": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558"
+        },
+        "locked_paths": 48,
+        "all_paths_present_in_spec": true,
+        "all_actual_bytes_match": true
+      },
+      "remaining-work/snapshot.lock.json": {
+        "pin": {
+          "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-plan-20261026/remaining-work/snapshot.lock.json",
+          "bytes": 153342,
+          "sha256": "474c6d7741e5f794e1bebc5a068c40b6ea0f27925a4fcc431bcdc152c81f7f69"
+        },
+        "locked_paths": 1167,
+        "all_paths_present_in_spec": true,
+        "all_actual_bytes_match": true
+      }
+    },
+    "live_snapshot_lock_itself_included": true
+  },
+  "scope_and_serialization": {
+    "launcher": "Unchanged run_scope uses systemd-run user-owned scope CPUQuota200%,MemoryHigh2G,MemoryMax3G,MemorySwapMax0,TasksMax128; F25 runs each explicit argv in exact crate/env with180-second timeout. Actual readbacks/cleanup belong to root runtime qualification.",
+    "compiler_lock": "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+    "same_global_lock_as_B40": true,
+    "must_wait": "Root must wait until actual B40 terminal cleanup and global compiler lock release before starting B41. Fresh Samsung/headroom/ownership/FD/empty-output/owned-unit gates remain required; no parallel heavy qualification.",
+    "owned_scope": "syson-b41-units-2cf032d1941542729686798e1a00e768.scope",
+    "prefix": "syson-b41-units-",
+    "cookie_sha256": "fe6b8ff39634ec528c1337c60aa75153b67c76a27887940a7aa0577334af563a",
+    "cleanup": "Pinned ownership helper attests and root launcher performs proof-bound owned scope cleanup. Scope setup/after-exit cleanup is not claimed executed here."
+  },
+  "fixture_environment_review": {
+    "required_in_native_branch": [
+      "HOME",
+      "SYSON_BOOTSTRAP_TEST_ROOT"
+    ],
+    "supplied": {
+      "HOME": "/home/builderbob",
+      "SYSON_BOOTSTRAP_TEST_ROOT": "/workspace/build/builderbob/syson-durable-batch41-20261031/unit-tests-02"
+    },
+    "conditional_CI_only": "RUNNER_TEMP is required only inside GITHUB_ACTIONS=true branches; GITHUB_ACTIONS is absent from explicit native environment. No CI root assumption used.",
+    "temporary_directory": {
+      "TMPDIR": {
+        "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/unit-tmp-02",
+        "uid": 1000,
+        "mode": "0700",
+        "empty": true,
+        "canonical": true
+      },
+      "SYSON_BOOTSTRAP_TEST_ROOT": {
+        "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/unit-tests-02",
+        "uid": 1000,
+        "mode": "0700",
+        "empty": true,
+        "canonical": true
+      }
+    },
+    "cwd": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031",
+    "path": "/usr/bin:/bin",
+    "isolated_python": "All8 commands use /usr/bin/python3 -I and-B; optimized counterparts add-O. Test discovery resolves actualfixed source/old helper fixtures from __file__; no PYTHONPATH or HOME source fallback.",
+    "network": "New setUp blocks socket.create_connection and full pipeline calls patch opener to fixed fake responses. Existing historical tests/helpers byte-identical to900-qualified map; no real acquisition main/network command is in this spec.",
+    "F25_contract": "F25 forwards spec env unchanged and does not synthesize fixture root. Rust passed regex field remains0 for Python cases; root must parse actual unittest stderr identities/Ran counts and match the91-method inventory per mode."
+  },
+  "budget": {
+    "client": 204,
+    "tests": 400,
+    "README": 19,
+    "author_production": 223,
+    "author_authored": 623,
+    "counted_root_generator": {
+      "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/prepare_epoch01.py.raw",
+      "bytes": 5034,
+      "sha256": "d969ff2101a4ff0ef0f15536d88a1f90f531d2f68836fdb5f9582b0608b3435f"
+    },
+    "root_generator_lines": 63,
+    "root_reserved_total": 100,
+    "inclusive_forecast_production": 323,
+    "inclusive_forecast_authored": 723,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "meaning": "Forecast includes all100root support reserve, of which actualgenerator63 is already consumed. New runtime/capture/docs/CI/attrs must remain inside reserve or exacthard400/900. No active fixtures hidden as evidence."
+  },
+  "limits": [
+    "Unit-only admission. No real175request acquisition,JAR/source execution,range choice,cache installation,Maven/JVM/native compile or feature acceptance.",
+    "First35model metadata primaries are not complete closure or this existingC01 PR endpoint; retained whole context/exclusion/range/plugin trust closure and exact378-source offline compile remain future separately reviewed root gates.",
+    "PASS source/spec consistency is not actual test PASS. Root must retain all8 raw streams,actual182 names,before-after-current2103 stability and ownedcleanup,including failures.",
+    "Current plan/contracts/48normative/1167snapshot authorities and all holds remain unchanged."
+  ],
+  "status": "PASS_EXACT_REPAIRED_UNIT_SPEC_ONLY_ROOT_RUNTIME_SEPARATE",
+  "spec": {
+    "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/units-02-spec.json",
+    "bytes": 552091,
+    "sha256": "dd3ed2e3987de3f478a556b3a83c3f8260f988ef61e7906f6fb48c2a4ecddfb1"
+  },
+  "unit_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/unit-freeze-02.json",
+    "bytes": 12495,
+    "sha256": "33adaee23bcdedc202f1bc7b0a2b49dffa0f64f27cd88d162b2d942e9169f6c0"
+  },
+  "prior_HOLD": {
+    "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/reviewer-unit-spec-01.json",
+    "bytes": 24231,
+    "sha256": "c961adbc7d17196dcba5a45a9e26d2de5b1c7119d3919d992f1f8c5ade8795bb"
+  },
+  "repair": {
+    "finding": "B41-UNIT-ENV-01",
+    "status": "CLOSED_READ_ONLY",
+    "delta": "Only out,env,unit,cookie differ;8commands and2103input bindings unchanged. Explicit required fixture root is present/private/empty/canonical; TMPDIR also fresh/private. Old spec/freezes preserved; no initial execution."
+  },
+  "output_freshness": {
+    "out": "/workspace/build/builderbob/syson-durable-batch41-20261031/units-02",
+    "absent": true,
+    "TMPDIR_and_fixture_root": {
+      "TMPDIR": {
+        "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/unit-tmp-02",
+        "uid": 1000,
+        "mode": "0700",
+        "empty": true,
+        "canonical": true
+      },
+      "SYSON_BOOTSTRAP_TEST_ROOT": {
+        "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/unit-tests-02",
+        "uid": 1000,
+        "mode": "0700",
+        "empty": true,
+        "canonical": true
+      }
+    }
+  }
+}

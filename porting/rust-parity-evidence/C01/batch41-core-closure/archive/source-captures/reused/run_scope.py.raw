@@ -1,0 +1,8 @@
+from pathlib import Path
+import importlib.util,json,subprocess,sys
+spec_path=Path(sys.argv[1]);s=json.loads(spec_path.read_text());loader=importlib.util.spec_from_file_location('owned',s['ownership_helper']);owned=importlib.util.module_from_spec(loader);loader.loader.exec_module(owned)
+root=spec_path.parent;stem=spec_path.name.removesuffix('-spec.json');runner=Path(s['ownership_helper']).parents[2]/'F25/main-batch31/qualify.py'
+with (root/(stem+'-controller.stdout')).open('xb') as out,(root/(stem+'-controller.stderr')).open('xb') as err:
+ result=subprocess.run(['/usr/bin/systemd-run','--user','--scope','--quiet','--unit='+s['unit'],'-p','CPUQuota=200%','-p','MemoryHigh=2G','-p','MemoryMax=3G','-p','MemorySwapMax=0','-p','TasksMax=128','/usr/bin/python3','-B',str(runner),str(spec_path)],env=s['env'],stdout=out,stderr=err)
+cleanup=owned.cleanup(s['unit'],s['cookie'],Path(s['out'])/'scope-proof.json',s['env']);(root/(stem+'-cleanup.json')).write_text(json.dumps(cleanup,indent=2)+'\n')
+print(json.dumps({'controller_exit':result.returncode,'cleanup':cleanup,'stderr':(root/(stem+'-controller.stderr')).read_text()[-2500:]}));sys.exit(result.returncode)

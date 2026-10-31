@@ -1,0 +1,27 @@
+name: Passive closure controls
+on:
+  pull_request: {branches: [main]}
+  push: {branches: [main]}
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  closure-controls:
+    if: github.repository == 'ajhcs/syson'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - name: Run fixture-only controls
+        env:
+          SYSON_BOOTSTRAP_TEST_ROOT: ${{ runner.temp }}/passive-closure-tests
+        run: |
+          mkdir -p "$SYSON_BOOTSTRAP_TEST_ROOT"
+          python3 -I -B -m unittest discover -s porting/rust-parity-evidence/C01/batch33-passive-closure/tests -v
+          python3 -I -O -B -m unittest discover -s porting/rust-parity-evidence/C01/batch33-passive-closure/tests -v
+          python3 -I -B -m unittest discover -s porting/rust-parity-evidence/C01/batch34-direct-core/tests -v
+          python3 -I -O -B -m unittest discover -s porting/rust-parity-evidence/C01/batch34-direct-core/tests -v
+          python3 -I -B -m unittest discover -s porting/rust-parity-evidence/C01/batch36-core-metadata/tests -v
+          python3 -I -O -B -m unittest discover -s porting/rust-parity-evidence/C01/batch36-core-metadata/tests -v
+          python3 -I -B -m unittest discover -s porting/rust-parity-plan-20261026/closure/core-compile -p 'test_acquire.py' -v
+          python3 -I -O -B -m unittest discover -s porting/rust-parity-plan-20261026/closure/core-compile -p 'test_acquire.py' -v

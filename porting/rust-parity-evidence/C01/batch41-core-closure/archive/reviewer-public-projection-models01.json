@@ -1,0 +1,134 @@
+{
+  "schema": "C01-MODELS01-INDEPENDENT-PUBLIC-PROJECTION-REVIEW/1",
+  "utc": "2026-10-31",
+  "status": "PASS_EXACT176_PUBLIC_METADATA_PROJECTIONS_ONLY",
+  "scope": "Independent data read/hash/JSON reconstruction and source/AST readback only. No projector or subject import/execution, network, Git, source edits, payload copying or external publication by reviewer.",
+  "findings": [],
+  "evidence": [
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/public-projection-models01-map.json",
+      "bytes": 114026,
+      "sha256": "fcadafaaad365672fc4f127cadd1096c78aad1e97cc811f6ab1998038613b8e3"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch41-native-core-closure-20261031/porting/rust-parity-evidence/C01/batch34-direct-core/project_metadata.py",
+      "bytes": 1005,
+      "sha256": "26819c7fc1235a9f811b3d47df974d5e9615e75a0e632a653b114904b2cbfdd9"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/project-models01-driver-normal-form.py.raw",
+      "bytes": 1620,
+      "sha256": "7ffa2271983a96be0689c7259e15d787b727300172ecf65235d426c57d8e4209"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/budget-reallocation-root-02.json",
+      "bytes": 827,
+      "sha256": "6182d32048bd0550eda5bf1feb317c54bf954c2265083a49fea1c23f77c6a6e3"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/reviewer-models01-executed.json",
+      "bytes": 14212,
+      "sha256": "46a9e869313f8d05292caf115c1e9d2a994c5478b66b60c50be411d5f17fcb2c"
+    },
+    {
+      "path": "/workspace/build/builderbob/syson-durable-batch41-20261031/network-models01-spec.json",
+      "bytes": 32935,
+      "sha256": "0ce9c0f8805f3cf528e9a2703de686394ef2b990a2bc9d6efc6bdbdc19562e42"
+    }
+  ],
+  "projection_set": {
+    "private_root": "/workspace/build/builderbob/syson-durable-batch41-20261031/models01-passive-f805af865fe2424daa3355e1eb1704dc",
+    "public_staging_root": "/workspace/build/builderbob/syson-durable-batch41-20261031/models01-public-projected",
+    "files": 176,
+    "public_bytes": 620132,
+    "private_source_JSON_bytes": 693872,
+    "scope_exactly": [
+      "one actual receipt.json",
+      "175 actual *.partial.response.json files"
+    ],
+    "all_source_paths_equal_exact_expected_order": true,
+    "all_destination_paths_equal_source_relative_suffix": true,
+    "all_source_destination_paths_canonical_regular_no_symlink": true,
+    "all176_sources_and_destinations_unique": true,
+    "actual_public_files_exact_map_no_extra_or_missing": true,
+    "all176_private_source_SHA_and_public_SHA_lengths_equal_map": true
+  },
+  "independent_projection": {
+    "source_imported": false,
+    "reconstruction": "Independent recursive JSON-data traversal preserving dictionary insertion order, every list element, nested value and header pair/name/order. Only a header name casefold-equal to set-cookie has its full value replaced.",
+    "marker": "[SERVER_COOKIE_REDACTED sha256=<64lowerhex full original value UTF8 SHA256> bytes=<full original value UTF8 byte length>]",
+    "all176_public_bytes_equal_expected_json_dumps_indent2_plus_LF": true,
+    "all_non_cookie_nested_values_and_header_names_orders_unchanged": true,
+    "changed_documents": 176,
+    "private_SetCookie_value_occurrences": 350,
+    "distinct_private_cookie_values": 175,
+    "all350_markers_match_exact_full_value_SHA_and_UTF8_length": true,
+    "all_public_decoded_string_keys_and_values_scanned_for_every_private_cookie_substring": true,
+    "private_raw_cookie_substring_matches": 0,
+    "raw_cookie_values_printed_or_copied_to_review": false,
+    "meaning": "This confirms the exact value projection, not header omission, cookie truncation or body transformation. Hash markers retain correlation/length information, as the authorized unchanged projector specifies."
+  },
+  "private_custody": {
+    "actual176_private_JSON_unchanged": true,
+    "actual175_payload_sidecar_bodies_unchanged_lengths_SHA": true,
+    "each_private_response_JSON_still_equal_receipt_record": true,
+    "entire_private_response_capture_anchor": "Ordered public-safe record projection SHA0fa3622753f4832e2d67b152a02927a60e12b28f41973a1bfa64a101876c6a47 still matches the prior independently frozen executed review; includes each rawresponseJSON SHA without revealing values.",
+    "private_receipt_SHA": "019a255307b8975c26ba7da6854883310f91753324cbfcb0befbb5e42b271db8",
+    "private_proof_and_controller_artifacts_still_match_executed_review": true,
+    "all80_current_input_pins_unchanged": true,
+    "raw_private_payload_copies_in_public_staging": 0,
+    "no_private_capture_replaced_or_relabelled": true
+  },
+  "normal_form_and_budget": {
+    "old_projector_lines": 29,
+    "old_projector_SHA": "26819c7fc1235a9f811b3d47df974d5e9615e75a0e632a653b114904b2cbfdd9",
+    "unchanged_projector_reuse": true,
+    "normal_form_lines": 40,
+    "normal_form_SHA": "7ffa2271983a96be0689c7259e15d787b727300172ecf65235d426c57d8e4209",
+    "normal_form_reviewed_read_AST_only": true,
+    "normal_form_not_reexecuted": true,
+    "historical_print_estimate": "The literal10line estimate remains in retained normal-form summary code as historical metadata; budget-reallocation-root-02 explicitly supersedes it with full40 ordinary lines. This review uses40, not10, and independently validates actual outputs rather than asserting a rerun.",
+    "root_generator_lines": 63,
+    "root_current_support_lines": 103,
+    "root_reallocated_support_cap": 120,
+    "remaining_root_support_lines": 17,
+    "client_reallocated_cap": 260,
+    "README_cap": 20,
+    "production_allocation_sum": 400,
+    "current_client_lines": 204,
+    "current_tests_all_active_fixture_code_lines": 400,
+    "current_README_lines": 19,
+    "current_total_production": 326,
+    "current_total_authored": 726,
+    "with_remaining_root_reserve_used_production": 343,
+    "with_remaining_root_reserve_used_authored": 743,
+    "hard_caps": [
+      400,
+      900
+    ],
+    "future_CI_public_docs_attrs_executable_support": "Must remain ordinarily counted; current totals exclude not-yet-created future work. No minification, hidden executable evidence or reuse exemption for the new40line driver."
+  },
+  "qualification_boundary": {
+    "prior_actual_GET": "175requests/35mandatoryprimaries/740842bodybytes/61servedchecksum matches; same-origin consistency only, all5actualcontrols/inputcustody/ownedcleanup already independently reviewed.",
+    "projection_adds_no_new_remote_claims": true,
+    "signature_verified": false,
+    "closure_complete": false,
+    "offline_compile_verified": false,
+    "no_new_automatic_epoch_or_range_selection": true,
+    "original9_declarations_context_exclusions_and_nullphase_models_retained": true
+  },
+  "limitations": [
+    "PASS covers only these exact176 projected metadata files as a cookie-value-safe staging set. Final publicpacket/index/source binding, publication and any additional files require their own root review; no external upload or publication performed here.",
+    "Original private JSON/rawpayloads remain retained; no acquiredcode/JAR/member extraction, cache installation, Maven/JVM/native/UI execution or code trust follows from metadata projection.",
+    "Complete recursive context-sensitive parent/BOM/profile/relocation/all-inrange descriptor/binary/processor/plugin realm and source/code trust closure plus exact offline unmodified378-source compile remain OPEN.",
+    "Full C01/native47125tests, Rust/library/SQL/HTTP/UI/storage/restart/release/RR16/performance/product acceptance and held/human scopes remain OPEN."
+  ],
+  "reviewer_actions": {
+    "data_only_read_parse_hash_and_AST": true,
+    "report_only_write": true,
+    "projector_or_subject_execution": false,
+    "network": false,
+    "Git": false,
+    "source_or_private_or_public_capture_mutation": false
+  }
+}
