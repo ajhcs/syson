@@ -1,0 +1,661 @@
+{
+  "schema": "SYSON-RR13A-AUTHOR-SOURCE-REVIEW/1",
+  "status": "SOURCE_AUTHORED_EXACT_REGULAR_DONOR_PROJECTION_NO_EXECUTION_PASS",
+  "lease": {
+    "path": "/workspace/build/builderbob/syson-durable-batch37-20261031/source-lease.json",
+    "bytes": 4099,
+    "lines": 125,
+    "sha256": "75855776d308e3af555442b47213c81d3a06dfd2c993324206f7ffb7407b6a30"
+  },
+  "base_commit_parent_recorded": "258735c59385d0aa1bc2be1371134d6b7c37c897",
+  "base_commit_independently_git_checked": false,
+  "worktree": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031",
+  "source_inputs_verified": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/porting/rust-parity-plan-20261026/completion-contract.json",
+      "bytes": 426182,
+      "lines": 20086,
+      "sha256": "0327abf42a0c67837d90dc746e6a25dc85cd1b5cba64fda877b70ef967d3a8ff"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/porting/rust-parity-plan-20261026/completion-contract.lock.json",
+      "bytes": 5346,
+      "lines": 56,
+      "sha256": "5a214abc075f58cf582304781db6ed5d1e0dfcd96ea4f87504b6f16147e98558"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/porting/rust-parity-plan-20261026/prs/RR13a.md",
+      "bytes": 4417,
+      "lines": 69,
+      "sha256": "b8ad3db925fab3b524c6b37de78bf77de6c62697b185bb16781a7f8063791d9e"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/porting/rust-parity-plan-20261026/lanes/storage-source.json",
+      "bytes": 8499,
+      "lines": 86,
+      "sha256": "98d3ddb0c1acfb7e27fefee5f583d2847750dc817f39116422334140764371bf"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/porting/rust-parity-plan-20261026/rereview-batch11-coordinator-ownership.json",
+      "bytes": 1039,
+      "lines": 14,
+      "sha256": "7cc5303b2d5c85e45f571b12e39404f6684a22607a8323a40e6eb8970599875a"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+      "bytes": 36789,
+      "lines": 989,
+      "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f"
+    }
+  ],
+  "donor_provenance": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/donor-provenance.json",
+    "bytes": 2346,
+    "lines": 45,
+    "sha256": "912ce8cd6dcdc7489d2b88d3d25242d79ca6f671f788773163da56110571fc85"
+  },
+  "prior_source_API_review": {
+    "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/reviewer-api-compatibility.json",
+    "bytes": 48373,
+    "lines": 912,
+    "sha256": "e850f55c22289fbd6bb0077685920dac3293a985e39e5b7cce8296eefdf9e5af"
+  },
+  "exact_donor_projection": [
+    {
+      "source": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/src__lib.rs.raw",
+        "bytes": 12537,
+        "lines": 348,
+        "sha256": "b4e15473b7c825085885c80652fe68c660a3add66d32f40035ae8acfb15ebacb"
+      },
+      "target": "rust/crates/syson-workflow/src/lib.rs",
+      "only_removed_one_based_lines": [
+        17,
+        23
+      ],
+      "removed_lines": 7,
+      "removed_sha256": "c8f5da5da3ca0cc8a063f3eb3d5556cfbcd996bd98c247b0836e6d3058603435",
+      "removed_text": "#[cfg(feature = \"raw-factory-candidate\")]\nmod initialized_creation;\n#[cfg(feature = \"raw-factory-candidate\")]\npub use initialized_creation::{\n    CreationInitialization, InitializedCreationError, InitializedCreationReport,\n    stage_initialized_creation,\n};\n",
+      "retained_other_lines_in_original_order": true,
+      "held_scope_released": false,
+      "normalization": "None: exact341-line projection includes adjacent blank lines; root formatter may remove one under a distinct source pin."
+    },
+    {
+      "source": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/src__snapshot_io.rs.raw",
+        "bytes": 3585,
+        "lines": 86,
+        "sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e"
+      },
+      "target": "rust/crates/syson-workflow/src/snapshot_io.rs",
+      "whole_file_byte_identity": true
+    },
+    {
+      "source": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__rr13_regression.rs.raw",
+        "bytes": 11960,
+        "lines": 332,
+        "sha256": "d16bdad05af2684d878e94867e75ec7ed73945083c3e9ef054d7a2ec1d8a51d4"
+      },
+      "target": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "whole_file_byte_identity": true
+    },
+    {
+      "source": {
+        "path": "/workspace/build/builderbob/syson-durable-batch33-20261030/RR13a-source-audit/tests__connected.rs.raw",
+        "bytes": 3835,
+        "lines": 103,
+        "sha256": "77aa9df2cc81c76a55f876898ed6a7a2032f5df1bfb563d81d14ee469ab2917c"
+      },
+      "target": "rust/crates/syson-workflow/tests/connected.rs",
+      "whole_file_byte_identity": true
+    }
+  ],
+  "written_source_pins": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/src/lib.rs",
+      "bytes": 12279,
+      "lines": 341,
+      "sha256": "6c306d251eb26befc1fef487862bd578d9c5fd247d8424785f2b95ef70eb7f59"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/src/snapshot_io.rs",
+      "bytes": 3585,
+      "lines": 86,
+      "sha256": "001950433fcfc8fa12c7e86329ff9f5b891ad803148a2e92eda3374903a9751e"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "bytes": 11960,
+      "lines": 332,
+      "sha256": "d16bdad05af2684d878e94867e75ec7ed73945083c3e9ef054d7a2ec1d8a51d4"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-workflow/tests/connected.rs",
+      "bytes": 3835,
+      "lines": 103,
+      "sha256": "77aa9df2cc81c76a55f876898ed6a7a2032f5df1bfb563d81d14ee469ab2917c"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/porting/rust-parity-evidence/RR13a/README.md",
+      "bytes": 745,
+      "lines": 11,
+      "sha256": "6563ea2028c6d5a8c8e16e5b68d7eba1ed3a9d2aeba20400557e3f6614055684"
+    }
+  ],
+  "all13_retained_cases": [
+    {
+      "file": "rust/crates/syson-workflow/src/lib.rs",
+      "name": "regular_to_fifo_between_admission_and_open_refuses"
+    },
+    {
+      "file": "rust/crates/syson-workflow/src/lib.rs",
+      "name": "regular_to_symlink_between_admission_and_open_refuses"
+    },
+    {
+      "file": "rust/crates/syson-workflow/src/lib.rs",
+      "name": "regular_to_new_inode_between_admission_and_open_refuses"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "name": "fifo_load_refuses_without_a_blocking_open"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "name": "regular_reopen_preserves_canonical_bytes_and_never_overwrites_a_destination"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "name": "root_and_ancestor_symlinks_and_parent_components_refuse_before_creation"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "name": "directory_replacement_invalidates_existing_load_and_save_handles"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "name": "directory_socket_symlink_and_invalid_utf8_files_refuse_without_following"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "name": "exact_four_mib_raw_input_loads_and_one_extra_byte_refuses"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "name": "provisional_output_limit_refuses_before_any_injected_io"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/rr13_regression.rs",
+      "name": "root_to_fifo_at_directory_sync_refuses_after_publication_without_blocking"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/connected.rs",
+      "name": "create_type_cancel_undo_save_restart_and_rotate"
+    },
+    {
+      "file": "rust/crates/syson-workflow/tests/connected.rs",
+      "name": "corrupt_partial_and_invalid_keys_do_not_replace_snapshot"
+    }
+  ],
+  "line_audit": {
+    "lib_with_inline_tests": 341,
+    "inline_tests_retained": 111,
+    "lib_non_test": 230,
+    "snapshot_io_complete": 86,
+    "regression_eight_cases": 332,
+    "connected_two_cases": 103,
+    "Rust_source_total": 862,
+    "test_lines_including_inline": 546,
+    "production_Rust_lines": 316,
+    "README": 11,
+    "author_total_including_README": 873,
+    "author_conservative_production_including_README": 327,
+    "root_pending_planned_lines": {
+      "regular_manifest": 14,
+      "CI": 7,
+      "attributes": 2
+    },
+    "fullscope_forecast_if_root_exact": 896,
+    "conservative_fullscope_production_including_README_and_attributes_if_root_exact": 350,
+    "registered_production_forecast": 337,
+    "production_forecast_note": "Registered337 is316 Rust non-test+14manifest+7CI; conservative350 additionally counts11README+2attributes. Both are below400. Actual final base-to-head ordinary A+D including every root change must be independently counted.",
+    "production_hard_cap": 400,
+    "authored_hard_cap": 900,
+    "fullscope_forecast_authored_headroom": 4,
+    "counts_are_physical_ordinary_lines": true,
+    "current_whole_PR_A_plus_D_verified": false,
+    "scope_limit": "Only the four new Rust files and11-line README were authored. Root owns all manifests/locks/CI/attributes; forecast is not actual whole-PR count or runtime admission."
+  },
+  "current_API_call_mapping": [
+    {
+      "api": "Document identity/value",
+      "actual_public_signature_or_contract": [
+        "Document owns private serde_json::Value and derives Clone/PartialEq/Eq",
+        "NodeIds has separate public resource/element Strings; new(&str,&str)->Result<NodeIds>"
+      ],
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 124,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 151,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 374,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "lib.rs:10,103-112",
+        "snapshot_io.rs:8,66-72",
+        "connected.rs:8,10-18,34-39,60-67"
+      ],
+      "assessment": "Compatible: store borrows Document and preserves the complete value; no resourceId/elementId collapse or process-local query-handle serialization. Constructor validates UUID spelling; import admission retains its existing separate-role identity rules.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Document::from_json",
+      "actual_public_signature_or_contract": "pub fn from_json(input:&str)->Result<Document>",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 180,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-json-value/src/lib.rs",
+          "line": 339,
+          "sha256": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-json-value/src/lib.rs",
+          "line": 350,
+          "sha256": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-json-value/src/lib.rs",
+          "line": 397,
+          "sha256": "7cc205804857ce7ed315dcf55a28ed1cc6b2cf6804f07491080f1db12c10cb6e",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "lib.rs:109-112",
+        "rr13_regression.rs:102-104,188-197",
+        "connected.rs:95-99"
+      ],
+      "assessment": "Compatible: literal JSON parser rejects duplicates before model admission; arbitrary numeric tokens and opaque objects remain values. UTF8 failure occurs earlier in read_regular. Model 4MiB/depth128 contract aligns with store 4MiB input ceiling.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Document::to_json_bounded",
+      "actual_public_signature_or_contract": "pub fn to_json_bounded(&self,max_bytes:usize,cancelled:impl FnMut()->bool)->Result<String>",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 206,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 283,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 297,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "snapshot_io.rs:69-75",
+        "rr13_regression.rs:228-261"
+      ],
+      "assessment": "Compatible: counting/depth precedes allocation/emission. Two provisional3MiB names can be staged without editor commit, then fail publication-size admission before any injected SnapshotIo operation. Root/path metadata admission may already have read filesystem metadata.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Document::empty/to_json/Clone/Eq",
+      "actual_public_signature_or_contract": "empty()->Self; to_json(&self)->Result<String>; Clone/PartialEq/Eq",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 151,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 169,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 297,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "rr13_regression.rs:109,136-156,178-185,191-194,306-315",
+        "connected.rs:32,41-60,94-99"
+      ],
+      "assessment": "Compatible signatures and complete-value comparisons; canonical serialization is value preserving, not original wire whitespace/member-order preservation.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Editor owned transaction and publication",
+      "actual_public_signature_or_contract": "new(Document)->Editor; document(&self)->&Document; begin(&self)->Transaction; commit(&mut self,Transaction)->Result<bool>",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 612,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 625,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 643,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 721,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 731,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "connected.rs:32-48",
+        "rr13_regression.rs:231-233,260-261"
+      ],
+      "assessment": "Compatible: begin owns cloned base/staged Document and Arc editor identity, so commit can mutably borrow the editor after begin. Same-editor Arc identity, revision/base and poison checks remain intact; donor does not forge or transfer transactions.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Transaction constructor/edit/cancel",
+      "actual_public_signature_or_contract": "document(&self)->&Document; cancel(self); create_package(Option<&str>,NodeIds,Option<NodeIds>,&str); create_part_definition(&str,NodeIds,NodeIds,&str); create_part_usage same; rename(&str,&str); type_part_usage(&str,&str,NodeIds)",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 797,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 805,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 809,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 818,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 827,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 877,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 891,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "connected.rs:33-48",
+        "rr13_regression.rs:233-261"
+      ],
+      "assessment": "All used argument/return/ownership shapes match. Staged creation validates separately supplied resource/semantic IDs and memberships. Cancel consumes only the transaction; no editor mutation occurs.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Editor::undo/redo",
+      "actual_public_signature_or_contract": "pub fn undo(&mut self)->bool; pub fn redo(&mut self)->bool",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 763,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 779,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "connected.rs:49-51"
+      ],
+      "assessment": "Compatible; the small connected fixture stays within default64-entry/128MiB history policy. This tests in-memory undo/redo before saving the resulting Document, not persistence of editor history.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Document::elements and borrowed summaries",
+      "actual_public_signature_or_contract": "elements(&self)->Vec<ElementSummary>; element_summaries(&self)->Vec<ElementSummaryRef>",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 308,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/element_summary.rs",
+          "line": 10,
+          "sha256": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/element_summary.rs",
+          "line": 46,
+          "sha256": "c3ac870c27a4b4c4c58b4df406d35871d270e1d41741f06c1cc952cd7c5fb24c",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "No direct elements() call in these13; complete recovered Document/projection is consumed by connected.rs:60-67"
+      ],
+      "assessment": "API available and compatible if future callers consume it. Resource ID/element ID/semantic owner remain separate fields; relationship rows have no semantic owner. The13 cases do not separately qualify every summary/owner getter.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Document::projection / Projection::stable_id",
+      "actual_public_signature_or_contract": "projection(&self)->Result<Projection>; Projection.model is pub Model; stable_id(&self,ElementId)->Option<&str>",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 330,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 362,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 368,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-model/src/lib.rs",
+          "line": 462,
+          "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "connected.rs:61-67"
+      ],
+      "assessment": "Compatible: current projection flattens related elements into semantic ownership, retains insertion-handle mapping to elementId, and exposes the same public model. No stale handle is reused across projections.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Model::find_by_name_and_type",
+      "actual_public_signature_or_contract": "pub fn find_by_name_and_type(&self,name:&str,accepts:impl Fn(&Element)->bool)->Result<Option<ElementId>,ModelError>",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-domain/src/model.rs",
+          "line": 31,
+          "sha256": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-domain/src/model.rs",
+          "line": 142,
+          "sha256": "2ba1c03403612432ef7d7ccfd7a235302ad57806d84b81f7c0740bc2a9fbe4e6",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "connected.rs:62-67"
+      ],
+      "assessment": "Compatible: Element.class remains public String and predicate e.class==PartUsage matches expected type. Vehicle::frontWheel uses actual projected ownership/name lookup; ElementId remains process-local.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Editor diagram and rotation",
+      "actual_public_signature_or_contract": "Diagram<N,E>{pub nodes:Vec<Node<N>>,pub edges:Vec<Edge<E>>}; Node fields and Point{x:f64,y:f64}; prepare_rotation<N:Clone,E:Clone>(&Diagram<N,E>,&[String])->Diagram<N,E>",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-editor/src/lib.rs",
+          "line": 9,
+          "sha256": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-editor/src/lib.rs",
+          "line": 21,
+          "sha256": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-editor/src/lib.rs",
+          "line": 45,
+          "sha256": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-editor/src/lib.rs",
+          "line": 53,
+          "sha256": "3f0d445d153b32a5aa3a2828c3e430534583566b43d588c4ead8d4cb4215c69b",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "connected.rs:7,68-82"
+      ],
+      "assessment": "Compatible all fields/generics: Diagram<String,()> and inferred Node<String> satisfy Clone bounds. Current formula produces(30,0),width60 from(10,20),100x60. Renderer/native layout is not claimed.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    },
+    {
+      "api": "Persistence download filter",
+      "actual_public_signature_or_contract": "pub fn should_persist_in_project_download(uri:Option<&str>)->bool",
+      "current_source": [
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-persistence/src/lib.rs",
+          "line": 38,
+          "sha256": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476",
+          "byte_identical_to_prior_reviewed_source": true
+        },
+        {
+          "path": "/workspace/worktrees/builderbob/syson/batch37-snapshot-store-20261031/rust/crates/syson-persistence/src/lib.rs",
+          "line": 42,
+          "sha256": "698046e4eeefd9a4125f3f902c0eb618136757218e54fc045e317cd24c759476",
+          "byte_identical_to_prior_reviewed_source": true
+        }
+      ],
+      "donor_consumers": [
+        "connected.rs:83-88"
+      ],
+      "assessment": "Compatible unchanged pure URI-prefix filter: sysmllibrary URI excluded, memory URI included. Not a persistence database or resource loader.",
+      "qualification": "SOURCE_REASONING_ONLY_NOT_COMPILED"
+    }
+  ],
+  "meaningful_findings": [
+    {
+      "id": "FORMAT",
+      "finding": "Exact held-line deletion preserves a double blank line between exports and StoreError. Root formatter may remove one blank; no format tool executed by author. Preserve projection provenance under any new hash."
+    },
+    {
+      "id": "CONFIG",
+      "finding": "Literal18-line donor Cargo.toml retains unavailable held initializer closure and must remain archived. Root owns planned regular14-line manifest and complete generated lock; no stubs or optional feature adoption."
+    },
+    {
+      "id": "ENV",
+      "finding": "Connected output helper retains donor SYSON_TEST_DIR contract. Root runtime/CI must supply an owned verified Samsung canonical nonsymlink workspace root. No HOME/tmp fallback or local administration is authorized."
+    },
+    {
+      "id": "CLAIMS",
+      "finding": "Trusted SnapshotIo errors may follow publication; connected reopen is sameprocess freshhandle. Preserve13fault cases/RR13b/final26 composition and native/SQL/HTTP/UI acceptance as separate gates."
+    }
+  ],
+  "authorization_boundaries": {
+    "no_manifest_lock_CI_attributes_changes": true,
+    "held_scope_released": false,
+    "subject_imports": false,
+    "compiler_or_formatter": false,
+    "tests": false,
+    "network": false,
+    "Git_commands_or_mutation": false,
+    "source_execution": false,
+    "root_admin_Plumbob_HOME_writes": false
+  },
+  "remaining_root_gates": [
+    "Review exact source bytes, final formatted projection and all13 cases before any runtime.",
+    "Complete correct regular manifest/lock/CI/attributes under root ownership and count actual whole400/900 scope; split before overrun, never drop guards/cases.",
+    "Root alone admits offline locked serial fmt/tests/all-targetClippy and owned bounded filesystem subprocesses, source custody and cleanup proof.",
+    "Independent final source/executed-input review, exact-head publication/merge/readback; RR13b/full26 and broad parent acceptance remain open."
+  ]
+}

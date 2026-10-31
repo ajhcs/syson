@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: EPL-2.0
+#![cfg(all(target_os = "linux", target_arch = "x86_64"))]
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+    sync::atomic::{AtomicU64, Ordering},
+    thread,
+    time::{Duration, Instant},
+};
+use syson_workflow::SnapshotStore;
+static NEXT: AtomicU64 = AtomicU64::new(0);
+const FIFO_TEST: &str = "fifo_load_refuses_without_a_blocking_open";
+fn directory() -> PathBuf {
+    let base = PathBuf::from(std::env::var_os("SYSON_TEST_DIR").expect("owned workspace root required"));
+    let base = base.canonicalize().unwrap();
+    assert!(base.is_absolute() && base.starts_with("/workspace"));
+    let dir = base.join(format!("rr13-{}-{}", std::process::id(), NEXT.fetch_add(1, Ordering::Relaxed)));
+    fs::create_dir(&dir).unwrap();
+    dir
+}
+fn fifo(path: &Path) {
+    assert!(path.is_absolute() && path.starts_with("/workspace"));
+    assert!(!path.exists());
+    assert!(Command::new("/usr/bin/mkfifo").arg("--").arg(path).env_clear().status().unwrap().success());
+}
+#[test]
+fn fifo_load_refuses_without_a_blocking_open() {
+    if let Some(file) = std::env::var_os("RR13_CHILD_FIFO") {
+        let file = PathBuf::from(file);
+        assert!(file.is_absolute() && file.starts_with("/workspace"));
+        let store = SnapshotStore::open(file.parent().unwrap()).unwrap();
+        assert!(store.load("input").is_err(), "FIFO was admitted as a snapshot");
+        return;
+    }
+    let dir = directory();
+    let file = dir.join("input.emf.json");
+    fifo(&file);
+    let mut child = Command::new(std::env::current_exe().unwrap())
+        .args(["--exact", FIFO_TEST, "--nocapture"])
+        .env_clear().env("RR13_CHILD_FIFO", &file)
+        .stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::piped()).spawn().unwrap();
+    let start = Instant::now();
+    loop {
+        if child.try_wait().unwrap().is_some() {
+            let output = child.wait_with_output().unwrap();
+            assert!(output.status.success(), "child failed: {}", String::from_utf8_lossy(&output.stderr));
+            break;
+        }
+        if start.elapsed() >= Duration::from_secs(3) {
+            let _ = child.kill();
+            let output = child.wait_with_output().unwrap();
+            panic!("FIFO open exceeded the owned child deadline; child killed and waited: {}", output.status);
+        }
+        thread::sleep(Duration::from_millis(10));
+    }
+    assert!(fs::symlink_metadata(file).unwrap().file_type().is_fifo());
+}
+use std::os::unix::fs::FileTypeExt;
