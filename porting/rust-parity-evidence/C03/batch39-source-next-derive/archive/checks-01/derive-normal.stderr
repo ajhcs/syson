@@ -1,0 +1,18 @@
+setUpClass (test_derive.DeriveTests) ... ERROR
+
+======================================================================
+ERROR: setUpClass (test_derive.DeriveTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/test_derive.py", line 27, in setUpClass
+    cls.result = N.derive(*cls.args)
+                 ^^^^^^^^^^^^^^^^^^^
+  File "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/derive.py", line 189, in derive
+    P.require(P.sha(files[name]) == expected, 'held policy changed')
+                    ~~~~~^^^^^^
+KeyError: 'rereview-batch11-coordinator-ownership.json'
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.471s
+
+FAILED (errors=1)

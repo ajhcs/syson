@@ -1,0 +1,148 @@
+{
+  "schema": "SYSON-SOURCE-NEXT-DERIVE-SOURCE-INTEGRATION-REVIEW/1",
+  "utc": "2026-10-31T01:55:22.208110+00:00",
+  "status": "PASS_EXACT_SOURCE_TEST_FIXTURE_CI_ROOT_RUNTIME_PENDING",
+  "prior_independent_source_review": {
+    "path": "/workspace/build/builderbob/syson-durable-batch39-20261031/reviewer-source.json",
+    "bytes": 19784,
+    "lines": 320,
+    "sha256": "f914312bbe28443073433de9e986466fa6f93798ab77363068a549ceb1a95d87"
+  },
+  "author_freeze": {
+    "path": "/workspace/build/builderbob/syson-durable-batch39-20261031/author-review.json",
+    "bytes": 16163,
+    "lines": 264,
+    "sha256": "a7c66970e076f7cee1533500f5760caf324168b0709428b7456717fa4c1c7514"
+  },
+  "root_FF_record": {
+    "path": "/workspace/build/builderbob/syson-durable-batch39-20261031/base-ff-readback.json",
+    "bytes": 1958,
+    "lines": 20,
+    "sha256": "d522937dd516fbe218e923698ab07e25b0542c2a04676f07953f119f36b54691"
+  },
+  "root_recorded_head": "0c87231c8c2124da114d4c966bd220e545518548",
+  "Git_or_network_checked_by_reviewer": false,
+  "source_pins": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/derive.py",
+      "bytes": 16613,
+      "lines": 284,
+      "sha256": "655196864b7aff335d76ae7071d7c97818aba01dd79728f52123d25f05a8a4e2"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/test_derive.py",
+      "bytes": 14968,
+      "lines": 259,
+      "sha256": "361b11446811175878f14eafc382b457fe6fedcbf3174a6a5a1ec634043f48e5"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/README.md",
+      "bytes": 1099,
+      "lines": 14,
+      "sha256": "1e7bc63731c3a04473f93651039032cd71b49e124d5ca285447d6ff4092ff10d"
+    }
+  ],
+  "public_canonical_fixture_pins": [
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/fixtures/baseline-1.0.10.json.gz",
+      "bytes": 3701707,
+      "lines": 22073,
+      "sha256": "2447a23a683396361ecd955af98a8b3923b3e4b3cd621dc23718f4a99b8f6f9b"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/fixtures/baseline-provenance.json",
+      "bytes": 12693,
+      "lines": 285,
+      "sha256": "b92a1a1832703b16d872c410ea280285bb92f2ad96beccdb098af0bf87374143"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/fixtures/lane.json",
+      "bytes": 16635,
+      "lines": 241,
+      "sha256": "bb1a50bec6983d301b830b45ceeee34e19517a43020b85b2f8fa6ebcdfdd6ace"
+    },
+    {
+      "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/fixtures/amendment.md",
+      "bytes": 850,
+      "lines": 10,
+      "sha256": "f92d091fcb9b6e64bcbf0e255f61d2f80a3d2e5834312f125cec97619daa10ca"
+    }
+  ],
+  "exact_fixture_bytes_equal_frozen_capture_and_active_drafts": true,
+  "CI": {
+    "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/.github/workflows/storage-guard-checks.yml",
+    "bytes": 1191,
+    "lines": 25,
+    "sha256": "1db63142aa1b353ccdb95066b02920c2d90855002ddb9c18213722e772daf1c6"
+  },
+  "CI_three_new_lines": [
+    "          export SYSON_SOURCE_NEXT_FIXTURES=\"$(pwd -P)/source_next_prepare/fixtures\"",
+    "          python3 -I -B -m unittest discover -s source_next_prepare -p 'test_derive.py' -v",
+    "          python3 -I -O -B -m unittest discover -s source_next_prepare -p 'test_derive.py' -v"
+  ],
+  "old_CI_raw_before_three_appended_lines": {
+    "path": "/workspace/worktrees/builderbob/syson/batch38-snapshot-faults-20261031/.github/workflows/storage-guard-checks.yml",
+    "bytes": 921,
+    "lines": 22,
+    "sha256": "16e51693a43c575ea8761e0943b0fb7d0b13c47578f86277b250bf141786be19"
+  },
+  "all_old_CI_bytes_retained": true,
+  "attributes": {
+    "path": "/workspace/worktrees/builderbob/syson/batch39-source-next-derive-20261031/porting/rust-parity-plan-20261026/composition/source_next_prepare/.gitattributes",
+    "bytes": 139,
+    "lines": 2,
+    "sha256": "4c27c2e28a0bbfff2f8d3b813d313eb74cda0377f3e21a4187139201880530d4"
+  },
+  "attributes_meaning": "Only gzip capturedbytes -text -diff; active lane/amendment remain readable and normally counted.",
+  "all9_FF_owned_files_match_current_bytes": true,
+  "all8_source_lease_pins_match_current_bytes": true,
+  "old48_normative_and1167_snapshot_hashes_current_stable": true,
+  "source_discovery_unextended": "New source/helper/fixtures are outside globbed tools/lanes; no active controller imports, lock or snapshot refresh.",
+  "expected_new_methods": [
+    "test_full_positive_graph_schedule_families_and_bindings",
+    "test_all_old_records_and_edges_restore_including_m06a1",
+    "test_required_current_generator_bytes_refresh_oracle_without_execution",
+    "test_fixed_capture_outer_pins_and_strict_formats",
+    "test_coherent_old_record_graph_history_and_hold_corruptions",
+    "test_coherent_lane_mutations_do_not_replace_independent_row_authority",
+    "test_coherent_capsule_coverage_names_row_fields_and_base64_refuse",
+    "test_source_and_typed_cycles_are_distinct_and_no_unordered_overlap",
+    "test_early_bounds_names_passive_import_and_no_provider_global_overrides"
+  ],
+  "new_normal_and_optimized_named_executions": 18,
+  "CI_expected_full_named_executions": "oldguard10+oldregistration14+newderive9 =33 eachmode,66total. No tests executed by thisreviewer.",
+  "budget_actual": {
+    "production": 303,
+    "authored": 813,
+    "module": 284,
+    "test_source": 259,
+    "README": 14,
+    "lane_active": 241,
+    "amendment_active": 10,
+    "CI_appended": 3,
+    "attributes": 2,
+    "captured_historical_data": "Frozen52opaque historical custody bytes/provenance separatelydisclosed; not newbehavior, never executed. New251fixturesemanticlines counted.",
+    "hard_caps": [
+      400,
+      900
+    ],
+    "remaining": [
+      97,
+      87
+    ]
+  },
+  "root_execution_admission_boundary": [
+    "Source/test/fixture/CI bytes are admitted by thissource review; no actualunit protocol/environment/cleanup or rootruntime is admitted before exactspec review.",
+    "Root must run exact9methods normal/O with canonicalpublic fixtureenv, plus retainedoldguard/P1 and independent oldplan/snapshot checks on source-bound inputs.",
+    "Resource/actualserializedoutput/peakRSS/cleanup must be observed by root. No .11registration/feature-sourcelease/native/UI/storage acceptance from thisunsignedhelper."
+  ],
+  "new_blocking_findings": [],
+  "actions": {
+    "written_only": "/workspace/build/builderbob/syson-durable-batch39-20261031/reviewer-source-integration.json",
+    "subject_imports_tests_or_execution": false,
+    "compiler_formatter": false,
+    "source_edits": false,
+    "network": false,
+    "Git": false
+  }
+}
