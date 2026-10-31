@@ -1,0 +1,85 @@
+{
+  "schema": "C51R-ROOT-INDEPENDENT-SOURCE-REVIEW/1",
+  "status": "PASS_SOURCE_ONLY_NO_RUNTIME_ADMISSION",
+  "author_report_sha256": "ebf193a4b4ea213cf348dd956e0d4c9df1878635f364f7565708b739259d5b6b",
+  "owned_source_AD": 87,
+  "conservatively_charged_production": 87,
+  "normal_actual_paths": {
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/CAPTURE.md": 6,
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/CONSTRUCT.md": 6,
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/capture.py": 2,
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/construct.py": 3,
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_capture.py": 39,
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_construct.py": 27,
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_derive.py": 4
+  },
+  "pins": {
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/CAPTURE.md": {
+      "bytes": 1949,
+      "sha256": "c6166ebf0513b17bbf21ccd7117d7ae131fbf0831e5390baa273829cba6b41ed"
+    },
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/CONSTRUCT.md": {
+      "bytes": 1582,
+      "sha256": "6f2dfc3b4403722218581d6d9db6fd504b92333d66b5208865160a3581e50e23"
+    },
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/capture.py": {
+      "bytes": 9455,
+      "sha256": "f7f68d493de4461af6f940c824f8f9d548de6951f99efc9cfa25230459a2de8c"
+    },
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/construct.py": {
+      "bytes": 20133,
+      "sha256": "badd49826cdc8488cf46ff76c3fd906e1a5fff7d4afc3f975931fee2ad6dfcba"
+    },
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_capture.py": {
+      "bytes": 21570,
+      "sha256": "3314577cc9e4e54fc57057131007da2560ae7db2804129e5e7addc76b824b70d"
+    },
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_construct.py": {
+      "bytes": 27696,
+      "sha256": "3991a387171b4153852bba3e6bc50a3d8b5dc933a811fcc83541fc72f26af722"
+    },
+    "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_derive.py": {
+      "bytes": 11765,
+      "sha256": "9974b003e363f729016dd4da74c2ece21cf7a3ac79c49811b6541567d0261d41"
+    }
+  },
+  "all60_live_normative_SHA_unchanged": true,
+  "old_testfiles_not_modified": true,
+  "production_change_boundary": "C only two-name set extension and strict origin message; H only manifest alias count. Entire other runtime algorithms, including immutable emission authority and phase bounds, byte-identical.",
+  "all_original_cases_retained": {
+    "test_derive.py": {
+      "retained": 12,
+      "new": []
+    },
+    "test_guard.py": {
+      "retained": 8,
+      "new": []
+    },
+    "test_construct.py": {
+      "retained": 24,
+      "new": [
+        "test_full_snapshot_physical_input_limit_accepts62_proofs_and_refuses63"
+      ]
+    },
+    "test_capture.py": {
+      "retained": 19,
+      "new": [
+        "test_original_constructor_test_is_captured_and_survives_future_current_change",
+        "test_original_guard_test_is_captured_and_survives_future_current_change"
+      ]
+    }
+  },
+  "expected_cases_per_mode": 66,
+  "expected_normal_optimized_total": 132,
+  "new_controls_review": "Two distinct newlycaptured source origins exercise real producer/readback and recovery after currentbodymutation plus demotion refusal. Snapshot test exercises full staged1300input/1301locked N62 and exactN63 refusal before bulk Reader.prime; no changed1300/64MiB/max64 list ceilings.",
+  "phase_claims": "Staged tests and inactive source only; actual18file outputs/storageCRC/alias50/source lineage and full799/defaultgenerator/adoption fit remain unverified.",
+  "source_support": "Root actual capture entry and publication source not yet added; all additional actual AD must be counted before spec.",
+  "next_gates": [
+    "Fresh PR241 main qualification",
+    "Root support source and full inclusive accounting",
+    "Independent execution-spec review and fresh resource/ownership admission",
+    "Actual all132tests and both canonical producers",
+    "Independent execution/data review and publication/hosted/merge/main gates"
+  ],
+  "findings": []
+}

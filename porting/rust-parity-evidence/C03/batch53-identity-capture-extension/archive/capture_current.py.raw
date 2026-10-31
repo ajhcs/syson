@@ -1,0 +1,14 @@
+from pathlib import Path
+import hashlib
+import sys
+
+BOOTSTRAP = Path('/workspace/worktrees/builderbob/syson/batch53-identity-capture-extension-20261031/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_derive.py')
+if BOOTSTRAP.resolve() != BOOTSTRAP or not BOOTSTRAP.is_file() or BOOTSTRAP.is_symlink():
+    raise ValueError("canonical actual bootstrap required")
+with BOOTSTRAP.open("rb") as stream:
+    raw = stream.read(65537)
+if len(raw) > 65536 or hashlib.sha256(raw).hexdigest() != '9974b003e363f729016dd4da74c2ece21cf7a3ac79c49811b6541567d0261d41':
+    raise ValueError("actual bootstrap source changed")
+namespace = {"__file__": str(BOOTSTRAP), "__name__": "_actual_capture_entry"}
+exec(compile(raw, str(BOOTSTRAP), "exec"), namespace)
+namespace["H"].produce(Path(sys.argv[1]), sys.argv[2:])
