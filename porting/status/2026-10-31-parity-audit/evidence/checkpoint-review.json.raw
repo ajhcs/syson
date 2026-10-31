@@ -1,0 +1,1817 @@
+{
+  "schema": "SYSON-INDEPENDENT-RECOVERY-CHECKPOINT-REVIEW/1",
+  "status": "PASS_PRESERVATION_ONLY_NOT_IMPLEMENTATION_OR_MERGE_ACCEPTANCE",
+  "at_utc": "2026-10-31T20:35:37.905331+00:00",
+  "auditor": "/root/audit_restart_tests",
+  "freeze": {
+    "path": "/workspace/build/builderbob/syson-cleanup-20261031/checkpoint-source-freeze.json",
+    "sha256": "94b8a7e750ff39ead0dcfbea1a00d18437aa4ad2a546067bc73132b410bec362"
+  },
+  "method": "Read-only Git plumbing and raw-byte/hash/metadata comparison using standard Python libraries only. No subject imports, tests, Rust/Python subject execution, Git mutation, push or network. Only this report written.",
+  "candidates": [
+    {
+      "candidate": "identity-adoption",
+      "branch": "codex/checkpoint-identity-adoption-20261031",
+      "source_parent": "a70f737c5c829556beb7f21711e3b6597acf22d7",
+      "source_commit": "5f0fbb269932223996328c5e791e6bad0872389f",
+      "evidence_commit": "519e6686d93b743e2ac615931a07c3e87bce18bd",
+      "final_commit": "30aefb539ef49cdfcc28963fa2073a486d70bfad",
+      "final_tree": "3bba06c9b1448018dcc9093d8e87bbc5984c5c9f",
+      "checks": {
+        "source_parent_matches": true,
+        "evidence_parent_is_source": true,
+        "clarification_parent_is_evidence": true,
+        "source_delta_exact14or7": true,
+        "all_frozen_and_passive_blobs_exact": true,
+        "checkpoint_source_metadata_equals_freeze": true,
+        "complete_build_directory_archived": true,
+        "no_archive_symlinks": true,
+        "final_delta_exact": true,
+        "clarification_only_checkpoint_json": true,
+        "all_changed_modes100644": true,
+        "temporary_index_equals_final_tree": true,
+        "original_worktree_head_unchanged": true,
+        "original_index_unstaged": true,
+        "original_status_paths_equal_freeze": true,
+        "checkpoint_branch_resolves_exact": true
+      },
+      "source_and_proof_count": 22,
+      "passive_count": 156,
+      "passive_bytes": 3109831,
+      "metadata_count": 3,
+      "changed_path_count": 181,
+      "checkpoint_metadata_sha256": "b07133a4d3fe85fea321672099b384c2c641f4a101904a600ccd705c3ffba351",
+      "README": "Recovery checkpoint for identity-adoption\n\nThis branch preserves unfinished work and review records. It is not ready to merge.\nNo candidate tests or application workflow were executed for this checkpoint.\nRaw archives are passive evidence; do not execute archived source.\nSee checkpoint.json for exact inputs, preserved worktree and remaining gates.\n",
+      "attributes": "* -text -diff\nREADME.md text diff\n",
+      "qualification": {
+        "subject_execution": false,
+        "tests_run_for_this_candidate": false,
+        "runtime_qualified": false,
+        "full_parity": false,
+        "machine_contract": "Actual main remains1.0.11/797; candidate guides/source target1.0.12/799 but adoption has not run.",
+        "remaining": "Capture specification/review/admission, real capture/derive/seals/norm/generator/snapshot qualification; Rust source repairs and functional/performance qualification; application/UI/backend and full SysON parity remain open."
+      },
+      "candidate_limitations": {
+        "machine_state": "Actual1.0.11/797 machine documents coexist with staged1.0.12/799 source/guides. This is an intentionally incomplete, non-runnable adoption candidate.",
+        "seals": "Both actual G/C seals remain PENDING_ROOT_FREEZE.",
+        "executed_phases": [],
+        "not_installed": "No actual .12 catalogue, derived contract/schema, normative lock, generator outputs or final snapshot.",
+        "proof_inputs": "Eight independently reviewed proof files were installed; this is preparation only.",
+        "next_gate": "Review exact capture spec, fresh root admission, then actual capture and downstream qualification. No source implementation lease granted by this checkpoint."
+      },
+      "verified_artifacts": [
+        {
+          "path": ".github/workflows/plan-source-preparation-checks.yml",
+          "bytes": 3622,
+          "sha256": "4923646b11d2eba9e2468c85e222a827a5a09002f409f2842e4334b320ca78b4",
+          "git_blob": "e5e2ad7d488c489ea9c6ba053034ead50832ca21",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/.gitattributes",
+          "bytes": 34,
+          "sha256": "8aae298053aeb84a7442294dabc42e90d46c7f16a6542442a4e34919fc299109",
+          "git_blob": "c1c238358a079777f1ce3bbf31265c0a070dec25",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/README.md",
+          "bytes": 350,
+          "sha256": "3d1bce2e3a41f0c523ca5eb9305b68b4985faa8e1bfca2edefb326c4f5d46f01",
+          "git_blob": "a5aba4e34993c67de32defa646bc1cb73425a460",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/adoption_current.py.raw",
+          "bytes": 2522,
+          "sha256": "40bdd389ac346dda5fa32e056bd6994302960742f99f9bcc6ee076c5b6c74396",
+          "git_blob": "df088d2ea0dcb6b0938724ab94b2aed158c24f2c",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/author-source-review-01.json.raw",
+          "bytes": 24000,
+          "sha256": "8e5e359d091562087155314b2d79990b112fe49b5464ec8af9f5b841fc3e78a3",
+          "git_blob": "0dd9722c430f3eeaf6a6901919482d86437983fc",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/before-root-loader-CI-02.yml.raw.raw",
+          "bytes": 3385,
+          "sha256": "12de77c62664e52811ea2d57ce12e9c652d93366cd532aaeec682d0f7e38d43c",
+          "git_blob": "9cde16d758ac5ee738c1f2a7e873c5595f6ea424",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/guides/README.md.raw.raw",
+          "bytes": 114579,
+          "sha256": "f3ceeba26579db44455220b1b9aae6b6082a679283b5147f8204babb6e5b7602",
+          "git_blob": "f15118a6ddc2c1b7d2982889bfef068f0238d121",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/guides/REMAINING-WORK.md.raw.raw",
+          "bytes": 34376,
+          "sha256": "6a9b9799db24f8641f3b930622396b168f3fff124adaf0bd820d725548c0242f",
+          "git_blob": "008d934cde44f93ebf0dc9028ff52fb29265c204",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/preservation-manifest.json.raw",
+          "bytes": 9661,
+          "sha256": "3cdd6f565d2fc807f42aec53520ca2e3a27b0758b7c67977bbd38fe162979ee8",
+          "git_blob": "550f8651f2c85896a0f9069474109021b65a25a6",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/records/adoption_current.py.raw.raw",
+          "bytes": 2511,
+          "sha256": "22e400f11aa22ae272c22f4228a5e65afb664f446c957a23ccf3696ff74c12a3",
+          "git_blob": "0836813da5329ce02f5931452c1f55779e5cb7bb",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/records/author-source-review-01.json.raw.raw",
+          "bytes": 24000,
+          "sha256": "8e5e359d091562087155314b2d79990b112fe49b5464ec8af9f5b841fc3e78a3",
+          "git_blob": "0dd9722c430f3eeaf6a6901919482d86437983fc",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/records/documentation-alignment-audit-01.json.raw.raw",
+          "bytes": 21090,
+          "sha256": "e6eed414b13b227cac9bf43f268b604f053246a178acddd68789e47c624d0a32",
+          "git_blob": "c58ed93dde48a64980532748532eca956bb86704",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/records/documentation-reuse-landing-readback-01.json.raw.raw",
+          "bytes": 17280,
+          "sha256": "3731918de987ba8480e5a869bf2aaff2305a0db7f4a248d4a6ba66ec6f34b399",
+          "git_blob": "879be17b7762fd3356cc454699353056ba3ccdac",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/records/independent-root-entry-review-01.json.raw.raw",
+          "bytes": 12981,
+          "sha256": "4a7ec999874cc5a28a7af0bde443c2f38582cbb4d73df9d284a994501f91e96b",
+          "git_blob": "3ad36694d09078179d629eeccfe94bff9f81c12d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/records/independent-root-entry-review-02.json.raw.raw",
+          "bytes": 9988,
+          "sha256": "6395c460941ece385257d959b04ac6112d0f66fb6a1d811d7ef05e0f55ea9aff",
+          "git_blob": "4a40baabf4f432245274effae68fcb3c578bbc0d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/records/preliminary-adoption-source-review-01.json.raw.raw",
+          "bytes": 14712,
+          "sha256": "58583025f99d8221807d5927e00d1656544e16cd63109c363cce4e778051d2c5",
+          "git_blob": "a9cb2215fe2a66148ca4557bad8d3d9c11961e08",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/records/source-lease.json.raw.raw",
+          "bytes": 4938,
+          "sha256": "783abc70fb0180f6709141e76a2fb6eebfebc996b3808c3384efddd5b80a6660",
+          "git_blob": "8ee36d3e9ae98c8ae2e77a6468054e1d699e7129",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/reference/CONSTRUCT.md.raw.raw",
+          "bytes": 1582,
+          "sha256": "6f2dfc3b4403722218581d6d9db6fd504b92333d66b5208865160a3581e50e23",
+          "git_blob": "4dcae8f49e64884da9f9053d5fdf5f1475e755aa",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/reference/FACADE.md.raw.raw",
+          "bytes": 1514,
+          "sha256": "26260bc2b8006fa4bdbd34788dde9c6b68adac4c63343f683d6cefd700704107",
+          "git_blob": "f2896421b4c7e120b9da4a96ab627fb5dcf4ee45",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/reference/GUARD.md.raw.raw",
+          "bytes": 766,
+          "sha256": "96d6914bdc3ecd393af6782ba52151ffa92952e456ed3607e40ed112b17e0a0c",
+          "git_blob": "60769c122822513eacd5074f11ad81999dd0afd4",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/skill/SKILL.md.raw.raw",
+          "bytes": 6859,
+          "sha256": "99779aadcc1e66f41bd30448b84c6598cfd8e66d1aa71f4dc1d32f0e4d12abef",
+          "git_blob": "4d8a76d4b5f8ff85a762ba484fdcb018943ef5ef",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/skill/references/cole-lyons-style.md.raw.raw",
+          "bytes": 4486,
+          "sha256": "764ee9da1a7b34fce5e1ea2695ef49e2365e2c672b0927be4322a4a2e679b815",
+          "git_blob": "c4ee297cdd3c30f75532026b37bb0fea25f90274",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/skill/references/local-edits.md.raw.raw",
+          "bytes": 2653,
+          "sha256": "713b9a09d5b298b07d6a4cfef2501afdd83480fe8918f0be266abf8f6e3e2797",
+          "git_blob": "be99cb7f0011c24a8b43145975c830814621fcf1",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/skill/references/technical-meaning.md.raw.raw",
+          "bytes": 2013,
+          "sha256": "4a630e9a298ab03989ca2431f038b9c68a18b2ad11e8df8a4f396fe208f2fa60",
+          "git_blob": "f3456f29af297b43dcfda43bd0fc58738a486f2c",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/skill/scripts/edit_locally.py.raw.raw",
+          "bytes": 9441,
+          "sha256": "195e6c24d4cdb239fab536a0d4a7806ce8e8a86ea042f8f2e3b944ce43328410",
+          "git_blob": "13a07e312bce617710da55edb2c79d77f247c872",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/COMPLETION-CONTRACT.md.raw.raw",
+          "bytes": 30549,
+          "sha256": "6fd9ec20356090e1f32c8ebf3f76db931521ee83e67073e0a9ba2e804347c382",
+          "git_blob": "23d8ca599217aa905ece75ccf03f0c1ef5fb603b",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/ADOPTION.md.raw.raw",
+          "bytes": 1119,
+          "sha256": "84ea14fb73cefdc0009dbb7ab4ae573a07221060b12acce56e4e244b9046114f",
+          "git_blob": "54d572796571a9f33c5e587557a11258cb3c6d41",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_loader_controls.py.raw.raw",
+          "bytes": 12676,
+          "sha256": "94a5114b679910671dbece3e87dfdd82b9c6e0a88863ff918937dd0bfab43622",
+          "git_blob": "20a7e6788dc1147f91cf75235ad5610efcb9e572",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/composition/source_next_prepare/test_construct.py.raw.raw",
+          "bytes": 19555,
+          "sha256": "faaa842dc51bf7549fffe87008ad8209eb6cb9372faa4fc663a85142f95c3a65",
+          "git_blob": "99f871fa8b1c56e89a61e4d29245257ec64bbe10",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/composition/source_next_prepare/test_guard.py.raw.raw",
+          "bytes": 22151,
+          "sha256": "c579624a55bd3993f0160c87d67f7f095638ba4b7b831a17da66c28131683876",
+          "git_blob": "fb6cfbb894c85c0af9243994ab7c8903276f7c48",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/tools/build_plan.py.raw.raw",
+          "bytes": 18541,
+          "sha256": "51a177cb46eb2cff2ca51c1c102aa85627b208b3410ab7900010192e7e63c3ae",
+          "git_blob": "ab288a6d4b100866ffa2b031c46497bdd4190ccc",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/tools/completion_contract.py.raw.raw",
+          "bytes": 51239,
+          "sha256": "7ee90ba150c3caa6bb23d11d610dd6f4a009ba5d8d4facb893b290ecaf61bf8d",
+          "git_blob": "0238097761016d38f1b111d6bb532144955f8606",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/tools/identity_partition_splits.py.raw.raw",
+          "bytes": 4040,
+          "sha256": "f87435c178c5146a443b76199276f4ba7c1560d8f047be6729ba80a62e428e79",
+          "git_blob": "f278ce6bb338390a3fc89743e2583b6152f10c28",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/tools/source_next_splits.py.raw.raw",
+          "bytes": 165,
+          "sha256": "100b158594af8449c88e22a0521f3b73d334543fc65eba76d20b18bd8549ab82",
+          "git_blob": "01c505c5462bca980f0b1513ce81f169f6d7fc1e",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-01-before-guide-alignment/source/porting/rust-parity-plan-20261026/tools/test_team_policy.py.raw.raw",
+          "bytes": 11545,
+          "sha256": "5d3c8a3e7e25a0a65dbe9939d60ccf0a278ddd5db92f2ff713b4f018c1aae4ee",
+          "git_blob": "6fe29ceeaef5f99cc6987781a58924fb2fc4d0fd",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/README.md.raw.raw",
+          "bytes": 115325,
+          "sha256": "8f6e963fb94d6eda8a30535613e2916ea06026121441d3df52d7cbf04d683514",
+          "git_blob": "ab84ce6616e45f15366ad896ef5ac62e82363f44",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/REMAINING-WORK.md.raw.raw",
+          "bytes": 35438,
+          "sha256": "a9ae875567831231ec4ddb157c97fa231f1242cffdaffce26601e341a8364248",
+          "git_blob": "26a883b83e5f63eb65b07c270e7c64207e99b963",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/before/README.md.raw.raw",
+          "bytes": 114579,
+          "sha256": "f3ceeba26579db44455220b1b9aae6b6082a679283b5147f8204babb6e5b7602",
+          "git_blob": "f15118a6ddc2c1b7d2982889bfef068f0238d121",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/before/REMAINING-WORK.md.raw.raw",
+          "bytes": 34376,
+          "sha256": "6a9b9799db24f8641f3b930622396b168f3fff124adaf0bd820d725548c0242f",
+          "git_blob": "008d934cde44f93ebf0dc9028ff52fb29265c204",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/edit-scope.json.raw.raw",
+          "bytes": 3173,
+          "sha256": "a82979d139ac75b4582878db035d452d1ae493e249c7ae85fee4e9e86e6e8c07",
+          "git_blob": "32dddd98746535bc9f98b14cdf49c06f385c94ea",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/edits/README.md.edits.json.raw.raw",
+          "bytes": 6289,
+          "sha256": "9c8e887537e9e3ccae2c11e56852f4266ae6a4e96151bbde1733e96b8bc204f8",
+          "git_blob": "c557ce1b115cc5563c1b364604d8a8643126f16d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/edits/REMAINING-WORK.md.edits.json.raw.raw",
+          "bytes": 8170,
+          "sha256": "4ee7f9e638fa915c71c6f1d7cb10a5f49a5c2afba7b921c26ee2421fbd25c3e2",
+          "git_blob": "6f479ab29c5771116c7666ea08d64f6bc3fa2f3a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/mechanical/README.md.invocation.json.raw.raw",
+          "bytes": 638,
+          "sha256": "6d3b9fa272fb2a128f7fe6870f5f347f11681460e27262f978afa3201b596ae8",
+          "git_blob": "8b41ceae303c6624110cb053d011404a892ad86c",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/mechanical/README.md.report.json.raw.raw",
+          "bytes": 68202,
+          "sha256": "8f6e1708635568b84ed64ee8e78bc7c8b5125ee2f10bad51e5c8e39f21d5e542",
+          "git_blob": "62f50aed46bb23bf35d94f14c54b41b97d62551d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/mechanical/README.md.stderr.raw.raw.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/mechanical/REMAINING-WORK.md.invocation.json.raw.raw",
+          "bytes": 662,
+          "sha256": "d76957debf78c469147fa48f9feba64796e2db0538fab5710fb2b5e5cd2cc514",
+          "git_blob": "49b8d7824593a52b134df92acbbb4d7bcd9a8ef2",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/mechanical/REMAINING-WORK.md.report.json.raw.raw",
+          "bytes": 24048,
+          "sha256": "861d2655a2ea5ac5e40726b780d29b5be08b0182d06a2807224907268d597427",
+          "git_blob": "d1a843a94ea7956ad9555dd1c31722301777466b",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/mechanical/REMAINING-WORK.md.stderr.raw.raw.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-02-editorial-family-count-meaning-hold/preservation-manifest.json.raw",
+          "bytes": 4180,
+          "sha256": "5ce9facb18ccde4e57ccd7b6b915a5d29f85ba8022b3dd6e432091d88ddc6455",
+          "git_blob": "95f58b05171f60fcabd2bbe9c56761d98a90e89f",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/preservation-manifest.json.raw",
+          "bytes": 9891,
+          "sha256": "92490c26224d27ca3370c56440eaacaea05255abdd0d598706608938d26c5443",
+          "git_blob": "dc6142fb75f2bceca4a7aaa071192d3b4cbc050a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/private-guide03/README.md.raw.raw",
+          "bytes": 115325,
+          "sha256": "8f6e963fb94d6eda8a30535613e2916ea06026121441d3df52d7cbf04d683514",
+          "git_blob": "ab84ce6616e45f15366ad896ef5ac62e82363f44",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/private-guide03/REMAINING-WORK.md.raw.raw",
+          "bytes": 35438,
+          "sha256": "62f2bae85cfc4335e1bfc7e4f76f2d845e866b1f4a6c836f8a28dd6cbb185890",
+          "git_blob": "6be993c48273d284665a2f0b8a5481791353f025",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/adoption_current.py.raw.raw",
+          "bytes": 2511,
+          "sha256": "22e400f11aa22ae272c22f4228a5e65afb664f446c957a23ccf3696ff74c12a3",
+          "git_blob": "0836813da5329ce02f5931452c1f55779e5cb7bb",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/author-source-review-01.json.raw.raw",
+          "bytes": 24000,
+          "sha256": "8e5e359d091562087155314b2d79990b112fe49b5464ec8af9f5b841fc3e78a3",
+          "git_blob": "0dd9722c430f3eeaf6a6901919482d86437983fc",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/independent-editorial-review-03.json.raw.raw",
+          "bytes": 13653,
+          "sha256": "9f1c442af2e6070e2ec2fbcdf69d68f7834705d09da3a4b13fbe52d2d24163cd",
+          "git_blob": "d854412edfe1f1b48e0c017e55234529c33a6f8a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/parent-merge-reconciliation-02.json.raw.raw",
+          "bytes": 2297,
+          "sha256": "3e6be0328a151332a9417e2beb0bdaab945353f9e5091e25f83576663175f312",
+          "git_blob": "c7a5f6d6d045d25bfdadaff0cd83e51b14e5643d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/public-README.md.raw.raw",
+          "bytes": 552,
+          "sha256": "214cade22ed45b32d81da75c63935d717aaff053be0c1f18346ffda542a8c723",
+          "git_blob": "948b8fa5f493e3b2ab61e841e80068257e8c8a03",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/public-gitattributes.raw.raw",
+          "bytes": 34,
+          "sha256": "8aae298053aeb84a7442294dabc42e90d46c7f16a6542442a4e34919fc299109",
+          "git_blob": "c1c238358a079777f1ce3bbf31265c0a070dec25",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/public-notes-reuse-review-01.json.raw.raw",
+          "bytes": 8739,
+          "sha256": "7a05f4f1ca62a7f60313f7d4d6d5da6ff89d205ca8ee8d059df74686462184fa",
+          "git_blob": "de88eaab7a766c55d8fe00f1f03a04ee32372a94",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/root-documentation-reconciliation-03.json.raw.raw",
+          "bytes": 1030,
+          "sha256": "1a5000833c5de20f9f59c2b341e68a72fd7b3588065c4cff80fd42ca05d49254",
+          "git_blob": "5ac7f4c930ef47e2fb31b958fc0cd5041a4cf576",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/root-loader-CI-source-02.json.raw.raw",
+          "bytes": 1133,
+          "sha256": "35647b743707261b40f83693ddcc80ee3e29a96bce2a8549b047581ef09e58d7",
+          "git_blob": "78f47b551ecbc98173557348d63490ea312553f1",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/source-lease.json.raw.raw",
+          "bytes": 4938,
+          "sha256": "783abc70fb0180f6709141e76a2fb6eebfebc996b3808c3384efddd5b80a6660",
+          "git_blob": "8ee36d3e9ae98c8ae2e77a6468054e1d699e7129",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/root/static-input-materialization-01.json.raw.raw",
+          "bytes": 1480,
+          "sha256": "0a301541d23136fdb7da844a0f71399d59df4dfa66ea6986d9f0c5b01933fc2f",
+          "git_blob": "f533185026e05c6303bf2bc64d5e14c0d1a84fa4",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/.github/workflows/plan-source-preparation-checks.yml.raw.raw",
+          "bytes": 3622,
+          "sha256": "4923646b11d2eba9e2468c85e222a827a5a09002f409f2842e4334b320ca78b4",
+          "git_blob": "e5e2ad7d488c489ea9c6ba053034ead50832ca21",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/COMPLETION-CONTRACT.md.raw.raw",
+          "bytes": 30549,
+          "sha256": "6fd9ec20356090e1f32c8ebf3f76db931521ee83e67073e0a9ba2e804347c382",
+          "git_blob": "23d8ca599217aa905ece75ccf03f0c1ef5fb603b",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/README.md.raw.raw",
+          "bytes": 114579,
+          "sha256": "f3ceeba26579db44455220b1b9aae6b6082a679283b5147f8204babb6e5b7602",
+          "git_blob": "f15118a6ddc2c1b7d2982889bfef068f0238d121",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/REMAINING-WORK.md.raw.raw",
+          "bytes": 34376,
+          "sha256": "6a9b9799db24f8641f3b930622396b168f3fff124adaf0bd820d725548c0242f",
+          "git_blob": "008d934cde44f93ebf0dc9028ff52fb29265c204",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/amendments/1.0.12-identity-integration.md.raw.raw",
+          "bytes": 928,
+          "sha256": "85b57839fa9ce620791dcfc98bd9df0c1959c8a3f1a510cbf19ed6d27675fc9d",
+          "git_blob": "22dea2cd5295e939f96ca5ff1e3793c2f774df46",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/ADOPTION.md.raw.raw",
+          "bytes": 1119,
+          "sha256": "84ea14fb73cefdc0009dbb7ab4ae573a07221060b12acce56e4e244b9046114f",
+          "git_blob": "54d572796571a9f33c5e587557a11258cb3c6d41",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_loader_controls.py.raw.raw",
+          "bytes": 12676,
+          "sha256": "94a5114b679910671dbece3e87dfdd82b9c6e0a88863ff918937dd0bfab43622",
+          "git_blob": "20a7e6788dc1147f91cf75235ad5610efcb9e572",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/composition/source_next_prepare/test_construct.py.raw.raw",
+          "bytes": 19555,
+          "sha256": "faaa842dc51bf7549fffe87008ad8209eb6cb9372faa4fc663a85142f95c3a65",
+          "git_blob": "99f871fa8b1c56e89a61e4d29245257ec64bbe10",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/composition/source_next_prepare/test_guard.py.raw.raw",
+          "bytes": 22151,
+          "sha256": "c579624a55bd3993f0160c87d67f7f095638ba4b7b831a17da66c28131683876",
+          "git_blob": "fb6cfbb894c85c0af9243994ab7c8903276f7c48",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/lanes/identity-partition.json.raw.raw",
+          "bytes": 9376,
+          "sha256": "765ab7a527f3489cb46e97a56a627d151c7a993aff151f0d2c6e3e8c2e7c0464",
+          "git_blob": "b0aeb92462879c794dfa4d94086ab04b4ac2168f",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/tools/build_plan.py.raw.raw",
+          "bytes": 18541,
+          "sha256": "51a177cb46eb2cff2ca51c1c102aa85627b208b3410ab7900010192e7e63c3ae",
+          "git_blob": "ab288a6d4b100866ffa2b031c46497bdd4190ccc",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/tools/completion_contract.py.raw.raw",
+          "bytes": 51239,
+          "sha256": "7ee90ba150c3caa6bb23d11d610dd6f4a009ba5d8d4facb893b290ecaf61bf8d",
+          "git_blob": "0238097761016d38f1b111d6bb532144955f8606",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/tools/identity_partition_splits.py.raw.raw",
+          "bytes": 4040,
+          "sha256": "f87435c178c5146a443b76199276f4ba7c1560d8f047be6729ba80a62e428e79",
+          "git_blob": "f278ce6bb338390a3fc89743e2583b6152f10c28",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/tools/source_next_splits.py.raw.raw",
+          "bytes": 165,
+          "sha256": "100b158594af8449c88e22a0521f3b73d334543fc65eba76d20b18bd8549ab82",
+          "git_blob": "01c505c5462bca980f0b1513ce81f169f6d7fc1e",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/candidate-03-before-qualified-parent-handoff/worktree/porting/rust-parity-plan-20261026/tools/test_team_policy.py.raw.raw",
+          "bytes": 11545,
+          "sha256": "5d3c8a3e7e25a0a65dbe9939d60ccf0a278ddd5db92f2ff713b4f018c1aae4ee",
+          "git_blob": "6fe29ceeaef5f99cc6987781a58924fb2fc4d0fd",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/documentation-alignment-audit-01.json.raw",
+          "bytes": 21090,
+          "sha256": "e6eed414b13b227cac9bf43f268b604f053246a178acddd68789e47c624d0a32",
+          "git_blob": "c58ed93dde48a64980532748532eca956bb86704",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/documentation-family-count-correction-01.json.raw",
+          "bytes": 9349,
+          "sha256": "d6923526a81560a37ce0bcdcfb75b579da58e2e764e2324c4bd4307c36529de0",
+          "git_blob": "6eb62286fe4582878a648e98d2a27e979bc8f50c",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/documentation-reuse-landing-readback-01.json.raw",
+          "bytes": 17280,
+          "sha256": "3731918de987ba8480e5a869bf2aaff2305a0db7f4a248d4a6ba66ec6f34b399",
+          "git_blob": "879be17b7762fd3356cc454699353056ba3ccdac",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/README.md.raw",
+          "bytes": 115325,
+          "sha256": "8f6e963fb94d6eda8a30535613e2916ea06026121441d3df52d7cbf04d683514",
+          "git_blob": "ab84ce6616e45f15366ad896ef5ac62e82363f44",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/REMAINING-WORK.md.raw",
+          "bytes": 35438,
+          "sha256": "a9ae875567831231ec4ddb157c97fa231f1242cffdaffce26601e341a8364248",
+          "git_blob": "26a883b83e5f63eb65b07c270e7c64207e99b963",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/before/README.md.raw",
+          "bytes": 114579,
+          "sha256": "f3ceeba26579db44455220b1b9aae6b6082a679283b5147f8204babb6e5b7602",
+          "git_blob": "f15118a6ddc2c1b7d2982889bfef068f0238d121",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/before/REMAINING-WORK.md.raw",
+          "bytes": 34376,
+          "sha256": "6a9b9799db24f8641f3b930622396b168f3fff124adaf0bd820d725548c0242f",
+          "git_blob": "008d934cde44f93ebf0dc9028ff52fb29265c204",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/edit-scope.json.raw",
+          "bytes": 3173,
+          "sha256": "a82979d139ac75b4582878db035d452d1ae493e249c7ae85fee4e9e86e6e8c07",
+          "git_blob": "32dddd98746535bc9f98b14cdf49c06f385c94ea",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/edits/README.md.edits.json.raw",
+          "bytes": 6289,
+          "sha256": "9c8e887537e9e3ccae2c11e56852f4266ae6a4e96151bbde1733e96b8bc204f8",
+          "git_blob": "c557ce1b115cc5563c1b364604d8a8643126f16d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/edits/REMAINING-WORK.md.edits.json.raw",
+          "bytes": 8170,
+          "sha256": "4ee7f9e638fa915c71c6f1d7cb10a5f49a5c2afba7b921c26ee2421fbd25c3e2",
+          "git_blob": "6f479ab29c5771116c7666ea08d64f6bc3fa2f3a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/mechanical/README.md.invocation.json.raw",
+          "bytes": 638,
+          "sha256": "6d3b9fa272fb2a128f7fe6870f5f347f11681460e27262f978afa3201b596ae8",
+          "git_blob": "8b41ceae303c6624110cb053d011404a892ad86c",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/mechanical/README.md.report.json.raw",
+          "bytes": 68202,
+          "sha256": "8f6e1708635568b84ed64ee8e78bc7c8b5125ee2f10bad51e5c8e39f21d5e542",
+          "git_blob": "62f50aed46bb23bf35d94f14c54b41b97d62551d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/mechanical/README.md.stderr.raw.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/mechanical/REMAINING-WORK.md.invocation.json.raw",
+          "bytes": 662,
+          "sha256": "d76957debf78c469147fa48f9feba64796e2db0538fab5710fb2b5e5cd2cc514",
+          "git_blob": "49b8d7824593a52b134df92acbbb4d7bcd9a8ef2",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/mechanical/REMAINING-WORK.md.report.json.raw",
+          "bytes": 24048,
+          "sha256": "861d2655a2ea5ac5e40726b780d29b5be08b0182d06a2807224907268d597427",
+          "git_blob": "d1a843a94ea7956ad9555dd1c31722301777466b",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-02/mechanical/REMAINING-WORK.md.stderr.raw.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/README.md.raw",
+          "bytes": 115325,
+          "sha256": "8f6e963fb94d6eda8a30535613e2916ea06026121441d3df52d7cbf04d683514",
+          "git_blob": "ab84ce6616e45f15366ad896ef5ac62e82363f44",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/REMAINING-WORK.md.raw",
+          "bytes": 35438,
+          "sha256": "62f2bae85cfc4335e1bfc7e4f76f2d845e866b1f4a6c836f8a28dd6cbb185890",
+          "git_blob": "6be993c48273d284665a2f0b8a5481791353f025",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/before/README.md.raw",
+          "bytes": 114579,
+          "sha256": "f3ceeba26579db44455220b1b9aae6b6082a679283b5147f8204babb6e5b7602",
+          "git_blob": "f15118a6ddc2c1b7d2982889bfef068f0238d121",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/before/REMAINING-WORK.md.raw",
+          "bytes": 34376,
+          "sha256": "6a9b9799db24f8641f3b930622396b168f3fff124adaf0bd820d725548c0242f",
+          "git_blob": "008d934cde44f93ebf0dc9028ff52fb29265c204",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/edit-scope.json.raw",
+          "bytes": 2380,
+          "sha256": "d8e60c48b24b48f5ec79f32b8906b4193bb2ad1aeac24ecca3a0de4b26063af7",
+          "git_blob": "ccb933c5e7e187e191504851e87fc1602e630381",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/edits/README.md.edits.json.raw",
+          "bytes": 6289,
+          "sha256": "9c8e887537e9e3ccae2c11e56852f4266ae6a4e96151bbde1733e96b8bc204f8",
+          "git_blob": "c557ce1b115cc5563c1b364604d8a8643126f16d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/edits/REMAINING-WORK.md.edits.json.raw",
+          "bytes": 9829,
+          "sha256": "08488d2ce85b40ee21e895f235946ec42bcc9ab6bf322d8d50d4618f0b0bbb40",
+          "git_blob": "5b02218565967c04acacf7337f3f180db4a868e3",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/mechanical/README.md.invocation.json.raw",
+          "bytes": 684,
+          "sha256": "2f5eb0b03a0e35be1dbe102bbc62b9af426541054cc70614855e753ae065669e",
+          "git_blob": "f5a48d3763da23a17d91701212f1c5e5c0c8e09d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/mechanical/README.md.report.json.raw",
+          "bytes": 68202,
+          "sha256": "1bf1115713176fd83679877932ffe205b076513e9f22543b3f7ed0711d21b862",
+          "git_blob": "7888f1e4eea3530ce1939cf243a92898507a94c2",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/mechanical/README.md.stderr.raw.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/mechanical/REMAINING-WORK.md.invocation.json.raw",
+          "bytes": 708,
+          "sha256": "c653c84ce133154310e75f5d96b673de2b88c169f0fcd07c91c7926072a94012",
+          "git_blob": "e72c57acd5d409057c572a0e93fa09693021b110",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/mechanical/REMAINING-WORK.md.report.json.raw",
+          "bytes": 25914,
+          "sha256": "a06614c8d8efeefe5459f542921923d9303b0f1c2d88ebf96d8975a405961170",
+          "git_blob": "c5b06dd3bcb0aa5893d93ec460031b7cca698d28",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-03/mechanical/REMAINING-WORK.md.stderr.raw.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-review-02.json.raw",
+          "bytes": 25378,
+          "sha256": "d983137f3c82c2ee96cc66c0d6de22ff16f2fd06361668bfe21a5390f8f659d8",
+          "git_blob": "b085a54fea34cd2b4f159c14ab7320207c94212a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/editorial-candidate-review-03.json.raw",
+          "bytes": 23930,
+          "sha256": "d8f006a660e2f7e257cc8b1d810c967f40d30c9c932c52486d9bcc6440c0c34f",
+          "git_blob": "39abb962625db31ddc41c31ba840a8cbb651bd52",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/final-source-allocation-audit-02.json.raw",
+          "bytes": 32399,
+          "sha256": "8807b1ec895bb6f13d96f22a71ed506c3e96f393f161dc3d7cbaf14941ec1bd9",
+          "git_blob": "a6c8ff52281293626079931a4f73e746c415e1d0",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/held-redundant-ADOPTION-source-04.md.raw.raw",
+          "bytes": 1119,
+          "sha256": "84ea14fb73cefdc0009dbb7ab4ae573a07221060b12acce56e4e244b9046114f",
+          "git_blob": "54d572796571a9f33c5e587557a11258cb3c6d41",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/independent-editorial-review-02.json.raw",
+          "bytes": 21381,
+          "sha256": "3b84e796e510ee8db842e094f1957671c279328d0f51a88474dd59d39559ba8b",
+          "git_blob": "48dd69272b166722df8cec8ae741c38bb29b720a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/independent-editorial-review-03.json.raw",
+          "bytes": 13653,
+          "sha256": "9f1c442af2e6070e2ec2fbcdf69d68f7834705d09da3a4b13fbe52d2d24163cd",
+          "git_blob": "d854412edfe1f1b48e0c017e55234529c33a6f8a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/independent-root-entry-review-01.json.raw",
+          "bytes": 12981,
+          "sha256": "4a7ec999874cc5a28a7af0bde443c2f38582cbb4d73df9d284a994501f91e96b",
+          "git_blob": "3ad36694d09078179d629eeccfe94bff9f81c12d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/independent-root-entry-review-02.json.raw",
+          "bytes": 9988,
+          "sha256": "6395c460941ece385257d959b04ac6112d0f66fb6a1d811d7ef05e0f55ea9aff",
+          "git_blob": "4a40baabf4f432245274effae68fcb3c578bbc0d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/parent-merge-reconciliation-02.json.raw",
+          "bytes": 2297,
+          "sha256": "3e6be0328a151332a9417e2beb0bdaab945353f9e5091e25f83576663175f312",
+          "git_blob": "c7a5f6d6d045d25bfdadaff0cd83e51b14e5643d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/preliminary-adoption-source-review-01.json.raw",
+          "bytes": 14712,
+          "sha256": "58583025f99d8221807d5927e00d1656544e16cd63109c363cce4e778051d2c5",
+          "git_blob": "a9cb2215fe2a66148ca4557bad8d3d9c11961e08",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-coverage-proposal-01.json.raw",
+          "bytes": 18211,
+          "sha256": "799ccac7275da6e1fb05836b5d198b30b8d445d29d0b948a1b03737cf5ca7a46",
+          "git_blob": "ce6bf8a38486f5a9996a2d22fe77cfe98511d955",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-finalization-readback-01.json.raw",
+          "bytes": 3159,
+          "sha256": "ea022f353f348991ae1b23bc0482d30d4ab3c235745669a7fcc073b85141ba57",
+          "git_blob": "beb98d01af562c57f584d6fae547d9535eec4da8",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-final-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/cap16-data-qualification.json.raw",
+          "bytes": 37753,
+          "sha256": "9457a3c413bb3f3c0161aae1d93972574a6ecec35bf403527402dfb918260c9d",
+          "git_blob": "cb0742d7a300da9c25f3141a73117ee9fb156c06",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-final-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/facade-main-qualification.json.raw",
+          "bytes": 27534,
+          "sha256": "f371c93c3c03b8532338525e5cd60b8295d22cbb521ae4004644a70f4773df68",
+          "git_blob": "b5ddcf17cb3158837ebd70dcf8394718cd385568",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-final-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-identity-code-audit.json.raw",
+          "bytes": 9360,
+          "sha256": "c622981eec8ce3e876f9e77bb665359498335f7977dca5dc09ba7571e09c6c09",
+          "git_blob": "d9644ffa8a516bb1027527614be65013b28a781e",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-final-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-required-repair-handoff.json.raw",
+          "bytes": 4078,
+          "sha256": "d7840525baabb1372ef1198877d03cb8e958a67dd4bc2b71313b4978ba689741",
+          "git_blob": "83d7daf20d8b5e1133b581d2b7edc96f0a3f917d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-final-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-restart-test-audit.json.raw",
+          "bytes": 13294,
+          "sha256": "91e438f410ded420d989e45446ea259182a660444681b6d5f2073bb5ea7bbb3a",
+          "git_blob": "3ab203ad69e113d322dc078a859bce371c43f061",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-final-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/proof-roster.json.raw",
+          "bytes": 2629,
+          "sha256": "8fa29b550d3b93dddd620528ca8ebdeeb131754d5887713b58cfa6023d0377c5",
+          "git_blob": "7a3157fd853402a000b2192094e6bfb9027ac4ef",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-final-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/root-adoption-disposition.json.raw",
+          "bytes": 14672,
+          "sha256": "94d608a057aecce89597dcf8e9f76721fd128bf27d8788e9c468ee2763624594",
+          "git_blob": "de995cdce412f767c4c60ecf14ed951f64428a49",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-final-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/source-support-review.json.raw",
+          "bytes": 26819,
+          "sha256": "4740ea0036bfe6a3533653df761d0dfc2125b2f84f3bc32531fb8be3adff4cff",
+          "git_blob": "ee94c1a70a903b61b1602da862b20bfdbbfb4115",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-proposal-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/cap16-data-qualification.json.raw",
+          "bytes": 37753,
+          "sha256": "9457a3c413bb3f3c0161aae1d93972574a6ecec35bf403527402dfb918260c9d",
+          "git_blob": "cb0742d7a300da9c25f3141a73117ee9fb156c06",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-proposal-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/facade-main-qualification.json.raw",
+          "bytes": 27534,
+          "sha256": "f371c93c3c03b8532338525e5cd60b8295d22cbb521ae4004644a70f4773df68",
+          "git_blob": "b5ddcf17cb3158837ebd70dcf8394718cd385568",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-proposal-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-identity-code-audit.json.raw",
+          "bytes": 9360,
+          "sha256": "c622981eec8ce3e876f9e77bb665359498335f7977dca5dc09ba7571e09c6c09",
+          "git_blob": "d9644ffa8a516bb1027527614be65013b28a781e",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-proposal-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-required-repair-handoff.json.raw",
+          "bytes": 4078,
+          "sha256": "d7840525baabb1372ef1198877d03cb8e958a67dd4bc2b71313b4978ba689741",
+          "git_blob": "83d7daf20d8b5e1133b581d2b7edc96f0a3f917d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-proposal-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-restart-test-audit.json.raw",
+          "bytes": 13294,
+          "sha256": "91e438f410ded420d989e45446ea259182a660444681b6d5f2073bb5ea7bbb3a",
+          "git_blob": "3ab203ad69e113d322dc078a859bce371c43f061",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-proposal-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/proof-roster.json.raw",
+          "bytes": 2558,
+          "sha256": "4f1edc4001eab58653d54405bb4ff7e5cbcd20bf178826e4836ff3da1e0fb283",
+          "git_blob": "ff9fe308927747258817858a2c2d5cd2218ed076",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-proposal-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/root-adoption-disposition.json.raw",
+          "bytes": 14039,
+          "sha256": "9f5f3739323502df8493411a59597604abcf50f12b844a013fc6aca567bad1d4",
+          "git_blob": "1ef81d12bf059a0c65f3040dd09710c8358a8ff0",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-input-proposal-01/remaining-work/checkpoint-identity-partition-1.0.12/proof/source-support-review.json.raw",
+          "bytes": 26819,
+          "sha256": "4740ea0036bfe6a3533653df761d0dfc2125b2f84f3bc32531fb8be3adff4cff",
+          "git_blob": "ee94c1a70a903b61b1602da862b20bfdbbfb4115",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proof-installation-readback-01.json.raw",
+          "bytes": 6680,
+          "sha256": "63e9562ff1771d5ee008fc27000317de7a6a0f4fe54eb9cd985ad7b71a2d4a9f",
+          "git_blob": "cb9ea4f58672c95a24c87c23b8c23c0e89dba880",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/proposal-preparation-note-01.json.raw",
+          "bytes": 428,
+          "sha256": "094e062fcc82e48c47b5e13c3976b0d5f5fefc982652adbb00b734b08fd8c4c1",
+          "git_blob": "39fbc9e52952080cc1837b01dc5e9ff6333fb2ef",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/public-README.md.raw",
+          "bytes": 552,
+          "sha256": "214cade22ed45b32d81da75c63935d717aaff053be0c1f18346ffda542a8c723",
+          "git_blob": "948b8fa5f493e3b2ab61e841e80068257e8c8a03",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/public-gitattributes.raw",
+          "bytes": 34,
+          "sha256": "8aae298053aeb84a7442294dabc42e90d46c7f16a6542442a4e34919fc299109",
+          "git_blob": "c1c238358a079777f1ce3bbf31265c0a070dec25",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/public-notes-before-03.md.raw.raw",
+          "bytes": 669,
+          "sha256": "07a5ec6c8ed8feb48b60a02e92dc7658592df6c60f9f905cc5a39dfc172ba36a",
+          "git_blob": "d8b1fa462c757965d0d80cdd624fca807d944fe4",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/public-notes-candidate-03.md.raw",
+          "bytes": 552,
+          "sha256": "214cade22ed45b32d81da75c63935d717aaff053be0c1f18346ffda542a8c723",
+          "git_blob": "948b8fa5f493e3b2ab61e841e80068257e8c8a03",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/public-notes-edits-03.json.raw",
+          "bytes": 1543,
+          "sha256": "647b6e87d68f79a87c3368a435cb74da1c5229c128188ddd38b98faccf4ea1b1",
+          "git_blob": "0749057ee7f3f24733681aeb437a010b2c4b1e94",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/public-notes-mechanical-03.json.raw",
+          "bytes": 4840,
+          "sha256": "ee1bee1b4710e8d150d7cb4239afb5ede607334808e784e48192957a72e52707",
+          "git_blob": "77a72600d2d3cec1450e4261fae2b118e7f8a8b1",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/public-notes-reuse-review-01.json.raw",
+          "bytes": 8739,
+          "sha256": "7a05f4f1ca62a7f60313f7d4d6d5da6ff89d205ca8ee8d059df74686462184fa",
+          "git_blob": "de88eaab7a766c55d8fe00f1f03a04ee32372a94",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/qualified-guide-candidate-04/README.md.edits.json.raw",
+          "bytes": 431,
+          "sha256": "77f539187a7c0ee4503aec62e9599c3050ed8dc6cfadf963a947cd5d72b4e79a",
+          "git_blob": "5317ab39eb66790edf287a8945322312a119b14a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/qualified-guide-candidate-04/README.md.mechanical.json.raw",
+          "bytes": 62153,
+          "sha256": "8acc5a44f88dbe7f8a906b47bc2366e8ec9d8650412f3f21484b124910f8d8fc",
+          "git_blob": "4256fa81b312906fbb30c611fe438aeb9c595de3",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/qualified-guide-candidate-04/README.md.raw",
+          "bytes": 115341,
+          "sha256": "09a38212e1c02da0280b7ce0876799b9dd7a61530081dc4dbd8fecd4b312cc46",
+          "git_blob": "557eb2c9d9573a71ba46cd975c2ec36636665b43",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/qualified-guide-candidate-04/REMAINING-WORK.md.edits.json.raw",
+          "bytes": 433,
+          "sha256": "b959e90e6d8802b36064836ee61b3f91ba3bf38b43f54f533825ebe5a9b33d11",
+          "git_blob": "2046e3764633c8a652437e7f5d0a8c3b6dea4948",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/qualified-guide-candidate-04/REMAINING-WORK.md.mechanical.json.raw",
+          "bytes": 15922,
+          "sha256": "b140dc414a140a18da8dd792196d4d2f519c263870d39e0715036edc62636d4d",
+          "git_blob": "e5353b405fdbdf8871043f410b1e3a61f955c829",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/qualified-guide-candidate-04/REMAINING-WORK.md.raw",
+          "bytes": 35454,
+          "sha256": "6adae8790323d41348ca4d13fa9bf6b18ceaaea4f03f04889479396059c057e0",
+          "git_blob": "88a7bfe6d2183f4688a6038f0446d0645b8f435a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/qualified-parent-source-handoff-04.json.raw",
+          "bytes": 4891,
+          "sha256": "df18110601076e773e3d63b60daac6e0c20e9300a9f565f4ac7a9ad243bfbb6e",
+          "git_blob": "696a02bdc93675911dc219dd6c9e7db88d087d88",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/reviewer-proof-coverage-01.json.raw",
+          "bytes": 20405,
+          "sha256": "77ed888ff903fd0f86b1fdb03de31274d157e6b9e223a55e34d20460655b7d16",
+          "git_blob": "3bc2f0825c23feddc8c7d915ec24aa1501e0374d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/reviewer-source-support-04.json.raw",
+          "bytes": 26819,
+          "sha256": "4740ea0036bfe6a3533653df761d0dfc2125b2f84f3bc32531fb8be3adff4cff",
+          "git_blob": "ee94c1a70a903b61b1602da862b20bfdbbfb4115",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/root-documentation-reconciliation-03.json.raw",
+          "bytes": 1030,
+          "sha256": "1a5000833c5de20f9f59c2b341e68a72fd7b3588065c4cff80fd42ca05d49254",
+          "git_blob": "5ac7f4c930ef47e2fb31b958fc0cd5041a4cf576",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/root-entry-draft01-before-parent-binding.py.raw.raw",
+          "bytes": 2308,
+          "sha256": "532ed1c2fd2398f74cb425b31a6497dac26bd340afc151fff6da07838eaa112b",
+          "git_blob": "a7b36528d82488a4be17ab33bd2dec5fb7271103",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/root-entry-draft02-before-early-admission.py.raw.raw",
+          "bytes": 2452,
+          "sha256": "5ae229a70eea98811a475b4f2628be657eac552ce6c75735c097f949b927162f",
+          "git_blob": "c99c92dfed41789a99e795346d3559b7449b1cc2",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/root-loader-CI-source-02.json.raw",
+          "bytes": 1133,
+          "sha256": "35647b743707261b40f83693ddcc80ee3e29a96bce2a8549b047581ef09e58d7",
+          "git_blob": "78f47b551ecbc98173557348d63490ea312553f1",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/source-lease.json.raw",
+          "bytes": 4938,
+          "sha256": "783abc70fb0180f6709141e76a2fb6eebfebc996b3808c3384efddd5b80a6660",
+          "git_blob": "8ee36d3e9ae98c8ae2e77a6468054e1d699e7129",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/archive/static-input-materialization-01.json.raw",
+          "bytes": 1480,
+          "sha256": "0a301541d23136fdb7da844a0f71399d59df4dfa66ea6986d9f0c5b01933fc2f",
+          "git_blob": "f533185026e05c6303bf2bc64d5e14c0d1a84fa4",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-adoption/checkpoint.json",
+          "bytes": 72899,
+          "sha256": "b07133a4d3fe85fea321672099b384c2c641f4a101904a600ccd705c3ffba351",
+          "git_blob": "ac07e2e67de9d5bda58c7afa22f8b8514223c46e",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/COMPLETION-CONTRACT.md",
+          "bytes": 30549,
+          "sha256": "6fd9ec20356090e1f32c8ebf3f76db931521ee83e67073e0a9ba2e804347c382",
+          "git_blob": "23d8ca599217aa905ece75ccf03f0c1ef5fb603b",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/README.md",
+          "bytes": 115341,
+          "sha256": "09a38212e1c02da0280b7ce0876799b9dd7a61530081dc4dbd8fecd4b312cc46",
+          "git_blob": "557eb2c9d9573a71ba46cd975c2ec36636665b43",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/REMAINING-WORK.md",
+          "bytes": 35454,
+          "sha256": "6adae8790323d41348ca4d13fa9bf6b18ceaaea4f03f04889479396059c057e0",
+          "git_blob": "88a7bfe6d2183f4688a6038f0446d0645b8f435a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/amendments/1.0.12-identity-integration.md",
+          "bytes": 928,
+          "sha256": "85b57839fa9ce620791dcfc98bd9df0c1959c8a3f1a510cbf19ed6d27675fc9d",
+          "git_blob": "22dea2cd5295e939f96ca5ff1e3793c2f774df46",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/composition/identity_partition_prepare/test_loader_controls.py",
+          "bytes": 12676,
+          "sha256": "9fe45cf3d8a2379b951f6617a19789b2e27ee317f059c3b118da1e0bac1b2309",
+          "git_blob": "b6e6df387c2b030d101c7f6024167790662863e8",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/composition/source_next_prepare/test_construct.py",
+          "bytes": 19555,
+          "sha256": "08bfbd933ae09992d5093a106baae25c0ab1b3715f9379c15f77b96234ae0697",
+          "git_blob": "67eb9395a7f683f9dae3b5785c9b2ce7f21789b3",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/composition/source_next_prepare/test_guard.py",
+          "bytes": 22151,
+          "sha256": "b87b238d57661a8013016bf84150b492bfc560d298a2fc63ae1d3cfce85d2a91",
+          "git_blob": "d90072ab12ae75cbff2cc392fbf32a4150436716",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/lanes/identity-partition.json",
+          "bytes": 9376,
+          "sha256": "765ab7a527f3489cb46e97a56a627d151c7a993aff151f0d2c6e3e8c2e7c0464",
+          "git_blob": "b0aeb92462879c794dfa4d94086ab04b4ac2168f",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/remaining-work/checkpoint-identity-partition-1.0.12/proof/cap16-data-qualification.json",
+          "bytes": 37753,
+          "sha256": "9457a3c413bb3f3c0161aae1d93972574a6ecec35bf403527402dfb918260c9d",
+          "git_blob": "cb0742d7a300da9c25f3141a73117ee9fb156c06",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/remaining-work/checkpoint-identity-partition-1.0.12/proof/facade-main-qualification.json",
+          "bytes": 27534,
+          "sha256": "f371c93c3c03b8532338525e5cd60b8295d22cbb521ae4004644a70f4773df68",
+          "git_blob": "b5ddcf17cb3158837ebd70dcf8394718cd385568",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-identity-code-audit.json",
+          "bytes": 9360,
+          "sha256": "c622981eec8ce3e876f9e77bb665359498335f7977dca5dc09ba7571e09c6c09",
+          "git_blob": "d9644ffa8a516bb1027527614be65013b28a781e",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-required-repair-handoff.json",
+          "bytes": 4078,
+          "sha256": "d7840525baabb1372ef1198877d03cb8e958a67dd4bc2b71313b4978ba689741",
+          "git_blob": "83d7daf20d8b5e1133b581d2b7edc96f0a3f917d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/remaining-work/checkpoint-identity-partition-1.0.12/proof/m06a2-restart-test-audit.json",
+          "bytes": 13294,
+          "sha256": "91e438f410ded420d989e45446ea259182a660444681b6d5f2073bb5ea7bbb3a",
+          "git_blob": "3ab203ad69e113d322dc078a859bce371c43f061",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/remaining-work/checkpoint-identity-partition-1.0.12/proof/proof-roster.json",
+          "bytes": 2629,
+          "sha256": "8fa29b550d3b93dddd620528ca8ebdeeb131754d5887713b58cfa6023d0377c5",
+          "git_blob": "7a3157fd853402a000b2192094e6bfb9027ac4ef",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/remaining-work/checkpoint-identity-partition-1.0.12/proof/root-adoption-disposition.json",
+          "bytes": 14672,
+          "sha256": "94d608a057aecce89597dcf8e9f76721fd128bf27d8788e9c468ee2763624594",
+          "git_blob": "de995cdce412f767c4c60ecf14ed951f64428a49",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/remaining-work/checkpoint-identity-partition-1.0.12/proof/source-support-review.json",
+          "bytes": 26819,
+          "sha256": "4740ea0036bfe6a3533653df761d0dfc2125b2f84f3bc32531fb8be3adff4cff",
+          "git_blob": "ee94c1a70a903b61b1602da862b20bfdbbfb4115",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/tools/build_plan.py",
+          "bytes": 18541,
+          "sha256": "51a177cb46eb2cff2ca51c1c102aa85627b208b3410ab7900010192e7e63c3ae",
+          "git_blob": "ab288a6d4b100866ffa2b031c46497bdd4190ccc",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/tools/completion_contract.py",
+          "bytes": 51239,
+          "sha256": "7ee90ba150c3caa6bb23d11d610dd6f4a009ba5d8d4facb893b290ecaf61bf8d",
+          "git_blob": "0238097761016d38f1b111d6bb532144955f8606",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/tools/identity_partition_splits.py",
+          "bytes": 4080,
+          "sha256": "10cffe7888a4ddae06f30e01a4dd87840cff3cc5b02bbe5b762910db008633b6",
+          "git_blob": "1b9654e10cc5bb2502fe15008bfcd9d0492f2633",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/tools/source_next_splits.py",
+          "bytes": 165,
+          "sha256": "100b158594af8449c88e22a0521f3b73d334543fc65eba76d20b18bd8549ab82",
+          "git_blob": "01c505c5462bca980f0b1513ce81f169f6d7fc1e",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-plan-20261026/tools/test_team_policy.py",
+          "bytes": 11545,
+          "sha256": "5d3c8a3e7e25a0a65dbe9939d60ccf0a278ddd5db92f2ff713b4f018c1aae4ee",
+          "git_blob": "6fe29ceeaef5f99cc6987781a58924fb2fc4d0fd",
+          "git_mode": "100644"
+        }
+      ]
+    },
+    {
+      "candidate": "identity-reopen",
+      "branch": "codex/checkpoint-identity-reopen-20261031",
+      "source_parent": "46f069218c3ff545a8eaec36ba14f35a6a014147",
+      "source_commit": "b08657e375c22563f7707ed4352ba5b5d41b0cd5",
+      "evidence_commit": "fc59fac78053081d4d453981c57631fe037dc911",
+      "final_commit": "e59606e7ed9ca0c2f05df419de3bcd8d7818a50e",
+      "final_tree": "7e9816a5253df36369fbb29e10cd0c7ef48d4d9a",
+      "checks": {
+        "source_parent_matches": true,
+        "evidence_parent_is_source": true,
+        "clarification_parent_is_evidence": true,
+        "source_delta_exact14or7": true,
+        "all_frozen_and_passive_blobs_exact": true,
+        "checkpoint_source_metadata_equals_freeze": true,
+        "complete_build_directory_archived": true,
+        "no_archive_symlinks": true,
+        "final_delta_exact": true,
+        "clarification_only_checkpoint_json": true,
+        "all_changed_modes100644": true,
+        "temporary_index_equals_final_tree": true,
+        "original_worktree_head_unchanged": true,
+        "original_index_unstaged": true,
+        "original_status_paths_equal_freeze": true,
+        "checkpoint_branch_resolves_exact": true
+      },
+      "source_and_proof_count": 7,
+      "passive_count": 40,
+      "passive_bytes": 255938,
+      "metadata_count": 3,
+      "changed_path_count": 50,
+      "checkpoint_metadata_sha256": "5e63be07123b646b56e2a364530f82ad44b9c3ec0781f9b00fabd770413e91eb",
+      "README": "Recovery checkpoint for identity-reopen\n\nThis branch preserves unfinished work and review records. It is not ready to merge.\nNo candidate tests or application workflow were executed for this checkpoint.\nRaw archives are passive evidence; do not execute archived source.\nSee checkpoint.json for exact inputs, preserved worktree and remaining gates.\n",
+      "attributes": "* -text -diff\nREADME.md text diff\n",
+      "qualification": {
+        "subject_execution": false,
+        "tests_run_for_this_candidate": false,
+        "runtime_qualified": false,
+        "full_parity": false,
+        "machine_contract": "Actual main remains1.0.11/797; candidate guides/source target1.0.12/799 but adoption has not run.",
+        "remaining": "Capture specification/review/admission, real capture/derive/seals/norm/generator/snapshot qualification; Rust source repairs and functional/performance qualification; application/UI/backend and full SysON parity remain open."
+      },
+      "candidate_limitations": {
+        "source_state": "Unformatted raw Rust candidate preserved verbatim; no Cargo/rustc/test/probe execution.",
+        "budget_hold": "Full ordinarily formatted proposal was457production/951authored changed lines, exceeding400/900 caps. Functional/performance split is not adopted.",
+        "required_repairs": [
+          "WIRE-STRICT: reject malformed trailing protocol fields/count spellings.",
+          "FAILED-ARTIFACT-CUSTODY: retain owned raw evidence when assertions fail.",
+          "FINAL-KEY-CLI-REFUSAL: reach actual final-key save refusal with absent baseline and preserve prior final bytes."
+        ],
+        "next_gate": "Adopt reviewed identity split before source dispatch; implement required repairs, recount full ordinary diff, then qualify actual functional and performance behavior."
+      },
+      "verified_artifacts": [
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/.gitattributes",
+          "bytes": 34,
+          "sha256": "8aae298053aeb84a7442294dabc42e90d46c7f16a6542442a4e34919fc299109",
+          "git_blob": "c1c238358a079777f1ce3bbf31265c0a070dec25",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/README.md",
+          "bytes": 348,
+          "sha256": "3d4e1503e82c03198c9bc4832638a5d94935ed1778e7052becce378ee5557c4a",
+          "git_blob": "af85ea5d406c587f0615d9bf49ff0b4a9654a7f1",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/amendment-feasibility-01.json.raw",
+          "bytes": 21814,
+          "sha256": "364caf58867aaecda580abeb01e57547189a31a0d25a8bb2874985fd9a4cb6e4",
+          "git_blob": "4259468f039c61aa1577991234499b200e446a8b",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/author-source-review-02.json.raw",
+          "bytes": 13498,
+          "sha256": "0154dbdd54a19d2e6dc792348ba77df36b24d9c362cd33a8642ad1406b00194e",
+          "git_blob": "3447bdc5d66fca8e6a65f873b454cfb197c26a8d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/author-source-review-03.json.raw",
+          "bytes": 18420,
+          "sha256": "20621c8c34f9916e82843f6c4686ee30f123d7c49437d3df193dce7a823cdc00",
+          "git_blob": "efe97d4bbe827935772b0c091f4b376fd36b7baf",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/author-source-review.json.raw",
+          "bytes": 17733,
+          "sha256": "e723f01b1ca039749b811ab6084a5eb1cc79799238169bd7d1e1846895377414",
+          "git_blob": "e467bd710a3cdaedfef584ebb8c624297789cc5c",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/candidate-01-budget-hold.json.raw",
+          "bytes": 964,
+          "sha256": "98bc93358bf3eb5b8e64396e517b566027748d6b2a9a51d0731aedba89426629",
+          "git_blob": "855a2b4b4348f07b8b56780fd518a0a763f68614",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/candidate-01-unexecuted-budget-hold/README.md.raw.raw",
+          "bytes": 2002,
+          "sha256": "3494c384bafda060888346e599168cd32f5e71542472052edf24c111a4abd56b",
+          "git_blob": "6c26f9830f405b459a8bec90b5e857497b5f9191",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/candidate-01-unexecuted-budget-hold/author-source-review.json.raw",
+          "bytes": 17733,
+          "sha256": "e723f01b1ca039749b811ab6084a5eb1cc79799238169bd7d1e1846895377414",
+          "git_blob": "e467bd710a3cdaedfef584ebb8c624297789cc5c",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/candidate-01-unexecuted-budget-hold/porting/domain/identity-context/integration/examples/import_save_reopen.rs.raw",
+          "bytes": 6761,
+          "sha256": "ccfc1a6309e3c9b59667015e047c1e89141315914d7078600bc238799b6dab89",
+          "git_blob": "ef8063b3d8c83c3a0458ff6ead594abbe27f1ebd",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/candidate-01-unexecuted-budget-hold/porting/domain/identity-context/integration/examples/snapshot_identity_probe.rs.raw",
+          "bytes": 5023,
+          "sha256": "29ca2d850a1ceece5e4734ba04c8dab17bee87f344593995e38bcb0579bb3f29",
+          "git_blob": "cb4eed029cce7927b328e8fa58734affea10c990",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/candidate-01-unexecuted-budget-hold/porting/domain/identity-context/integration/src/lib.rs.raw",
+          "bytes": 112,
+          "sha256": "3da3dbecc6b793f1c901891a84e2d1664551ebe8d664e8f44f38a4f3b7ec288e",
+          "git_blob": "8fae171fbb81be7d6aed382b751cef753900ef44",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/candidate-01-unexecuted-budget-hold/porting/domain/identity-context/integration/tests/finite_import_restart.rs.raw",
+          "bytes": 12057,
+          "sha256": "4b3ee3e4b8cc3980ea80619d3d93b5b7902c146fa1798636e0fe0e181da53ad5",
+          "git_blob": "b96a62d45e0712bd0e12536701ede72bbc6de4d8",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/candidate-01-unexecuted-budget-hold/porting/domain/identity-context/integration/tests/snapshots.rs.raw",
+          "bytes": 5805,
+          "sha256": "fa3167489a78e30fc972bf9fc552efbeece240f38081709c1f632108263e9a8f",
+          "git_blob": "c58506a7ba1ecd6dad2f4a48c3cf5c0b31d25adf",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01.json.raw",
+          "bytes": 2400,
+          "sha256": "806446d93c83396220de980ed13c8675fe3c6c437e59419bff364b278b9d1f7f",
+          "git_blob": "f27bf250f42d9d69865cebb7a048e2986ea30666",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/examples/import_save_reopen.rs.raw",
+          "bytes": 7544,
+          "sha256": "5819c2cf296fc9e03c36cfc48620c4dd0ae8c1ba12e7ba55c1b70ea3cacf31d7",
+          "git_blob": "646376b493d3cf8971fd8fe403cea0ec39f110e5",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/examples/import_save_reopen.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/examples/snapshot_identity_probe.rs.raw",
+          "bytes": 5880,
+          "sha256": "20a798af0c4d63c6a9d4feb85f73ab53239db62b00ae0cb2eb5915c3c6b9c374",
+          "git_blob": "6805dd788caec2dac742cc30bc1ea5af8a62d203",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/examples/snapshot_identity_probe.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/src/lib.rs.raw",
+          "bytes": 112,
+          "sha256": "3da3dbecc6b793f1c901891a84e2d1664551ebe8d664e8f44f38a4f3b7ec288e",
+          "git_blob": "8fae171fbb81be7d6aed382b751cef753900ef44",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/src/lib.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/tests/finite_import_restart.rs.raw",
+          "bytes": 14133,
+          "sha256": "b1a43b9e2bb91db1ee093c81e5462209950a32a0f6ba73bf1e3a40024ec99513",
+          "git_blob": "adf150f9eee201095e94d127befd1b882738b6c3",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/tests/finite_import_restart.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/tests/snapshots.rs.raw",
+          "bytes": 5805,
+          "sha256": "fa3167489a78e30fc972bf9fc552efbeece240f38081709c1f632108263e9a8f",
+          "git_blob": "c58506a7ba1ecd6dad2f4a48c3cf5c0b31d25adf",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-01/porting/domain/identity-context/integration/tests/snapshots.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03.json.raw",
+          "bytes": 2203,
+          "sha256": "929e401d38cb25089bfbfad4fdc5d25e19c2bfc47b417c0eb92365120509ddcf",
+          "git_blob": "31df77c95d82e31998403b7cf4df63f0b8ffba07",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/examples/import_save_reopen.rs.raw",
+          "bytes": 6516,
+          "sha256": "e5a974fc4cf435f080eb3aed108fbc86e229aa552308d1e54732962ac15256ad",
+          "git_blob": "7c890a13cbd60b41d2e8b6c84e670db17cd67e73",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/examples/import_save_reopen.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/examples/snapshot_identity_probe.rs.raw",
+          "bytes": 3111,
+          "sha256": "19ef0c9b25b4640fbe612aa207af6894d6ffc2b8ca6c07648055a5c2516edb52",
+          "git_blob": "68d7fdd4615777db8e7f0a7b0b9e1c63aede426a",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/examples/snapshot_identity_probe.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/src/lib.rs.raw",
+          "bytes": 4223,
+          "sha256": "b66886b6357b4edc54048dfe1d5b3e1c958e73764fed75d603fbc49383c4a910",
+          "git_blob": "3ddcfaa950052a9e0c3b6e1bdc35d2406abaa281",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/src/lib.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/tests/finite_import_restart.rs.raw",
+          "bytes": 11638,
+          "sha256": "41513cc439d92fd31e6b813607396d10709271ad3d3e72db48feedcb2642c2a8",
+          "git_blob": "0b484cd62a22a106489cfbdec5de2254186a7c36",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/tests/finite_import_restart.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/tests/snapshots.rs.raw",
+          "bytes": 5805,
+          "sha256": "fa3167489a78e30fc972bf9fc552efbeece240f38081709c1f632108263e9a8f",
+          "git_blob": "c58506a7ba1ecd6dad2f4a48c3cf5c0b31d25adf",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/format-preview-03/tests/snapshots.rs.stderr.raw",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/independent-identity-code-audit-04.json.raw",
+          "bytes": 9360,
+          "sha256": "c622981eec8ce3e876f9e77bb665359498335f7977dca5dc09ba7571e09c6c09",
+          "git_blob": "d9644ffa8a516bb1027527614be65013b28a781e",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/independent-restart-test-audit-04.json.raw",
+          "bytes": 13294,
+          "sha256": "91e438f410ded420d989e45446ea259182a660444681b6d5f2073bb5ea7bbb3a",
+          "git_blob": "3ab203ad69e113d322dc078a859bce371c43f061",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/independent-structure-review-01.json.raw",
+          "bytes": 12399,
+          "sha256": "ca6119ca6324221d661139f03732f949d80e4d94d862f66b17778bef97e71b8c",
+          "git_blob": "4f6f415a4145bf8bc4923f6aad42256c7eba47e8",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/partition-proposal-01.json.raw",
+          "bytes": 23723,
+          "sha256": "2fbd8d889902bbc0b494c970b6ecda7715407b1d43e8cf3df4756631fa87d9af",
+          "git_blob": "0af16cee805d3bebf67069e8049e8dab1179a405",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/required-repair-handoff-04.json.raw",
+          "bytes": 4078,
+          "sha256": "d7840525baabb1372ef1198877d03cb8e958a67dd4bc2b71313b4978ba689741",
+          "git_blob": "83d7daf20d8b5e1133b581d2b7edc96f0a3f917d",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/archive/source-lease.json.raw",
+          "bytes": 1792,
+          "sha256": "92450504b6e723b687cba47bfdb3eee6ed06f536f41c331f45b7616b251effff",
+          "git_blob": "c11fbdeadab670ae3d11e82c8e895a02456426f0",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/checkpoints/20261031/identity-reopen/checkpoint.json",
+          "bytes": 19224,
+          "sha256": "5e63be07123b646b56e2a364530f82ad44b9c3ec0781f9b00fabd770413e91eb",
+          "git_blob": "812710bf833be6a00c8e7810de119dad97472688",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/domain/identity-context/integration/Cargo.toml",
+          "bytes": 426,
+          "sha256": "8c6f3b66b35bcbd0eb9a21009941ea1341bed3ebf9303d6d8fd314af82bcf7d1",
+          "git_blob": "43b7ae7175c6e31112bcbc816a786d07533fabf5",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/domain/identity-context/integration/examples/import_save_reopen.rs",
+          "bytes": 6147,
+          "sha256": "57dbbcb8055d2020c3ed280ea374ddf6d2f7255e782b6b5c837741ed59e81f9b",
+          "git_blob": "ab04e74b21cabed022519bd05571c5eef7b4d9cc",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/domain/identity-context/integration/examples/snapshot_identity_probe.rs",
+          "bytes": 3076,
+          "sha256": "394399c2f7317eceef503ef8383d3c35d2c85c5f3113b0ae5896795ef780a844",
+          "git_blob": "b0fc280dd07406cb2397d35d54ddb72819dec901",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/domain/identity-context/integration/src/lib.rs",
+          "bytes": 3903,
+          "sha256": "c266463e5fdd62fb02a05d881552f9fb419ee8557f80adafa2a97f0d1dc8d46a",
+          "git_blob": "323775aba12fd8b00a936665c6a56a732dcf8142",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/domain/identity-context/integration/tests/finite_import_restart.rs",
+          "bytes": 11198,
+          "sha256": "2448673f6c01aa7a6d8c8aaafeb4545faa873f90cb3f551da0d74e4a6b853b4b",
+          "git_blob": "a02264c8952e57a8e338e4cdb9ba13d2688579aa",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/domain/identity-context/integration/tests/snapshots.rs",
+          "bytes": 5805,
+          "sha256": "fa3167489a78e30fc972bf9fc552efbeece240f38081709c1f632108263e9a8f",
+          "git_blob": "c58506a7ba1ecd6dad2f4a48c3cf5c0b31d25adf",
+          "git_mode": "100644"
+        },
+        {
+          "path": "porting/rust-parity-evidence/F45/storage-caller/README.md",
+          "bytes": 2002,
+          "sha256": "3494c384bafda060888346e599168cd32f5e71542472052edf24c111a4abd56b",
+          "git_blob": "6c26f9830f405b459a8bec90b5e857497b5f9191",
+          "git_mode": "100644"
+        }
+      ]
+    }
+  ],
+  "findings": [],
+  "credential_scan": {
+    "scope": "All231 changed committed paths, not unrelated inherited repository history. Also inspected complete196-file source build directories for symlinks and sensitive filenames.",
+    "patterns": [
+      "private_key",
+      "github_pat",
+      "openai_key",
+      "aws_id",
+      "url_user_pass"
+    ],
+    "matches": [],
+    "limit": "No high-confidence pattern or sensitive-filename matches found. This is a bounded publication check, not a claim that every possible secret encoding was detected."
+  },
+  "limits": [
+    "Checkpoint source and passive evidence preservation only; no PR, merge, .12 adoption, feature or runtime acceptance.",
+    "No prior holds, reservations, dirty worktrees, incident data or failed epochs were released or deleted.",
+    "The verification matrix task was stopped at user steering; no matrix file was created and no subject tests were run.",
+    "Root owns any subsequent authorized publication and remote readback; this report does not claim remote availability."
+  ],
+  "current_machine_documents": {
+    "completion-contract.json": {
+      "sha256": "37b452269bc81b1c6fb31bbe2c93ab2692c36d272b6682b8d7ae7d36740fd106",
+      "contract_id": "SYSON-RUST-COMPLETION/1.0.11",
+      "version": "1.0.11",
+      "unit_count": null,
+      "units_count": 0,
+      "progress_count": 0,
+      "locked_roles": 0
+    },
+    "plan.json": {
+      "sha256": "4b10b1df933a555debe3c5d2e473d354fabb7b4acf8cfffd3386a881a0bc5691",
+      "contract_id": null,
+      "version": null,
+      "unit_count": 797,
+      "units_count": 797,
+      "progress_count": 0,
+      "locked_roles": 0
+    },
+    "completion-contract.lock.json": {
+      "sha256": "a36a19cdcbb24441df3afd8f67b9ddd3f8648e0051f09ab387d9f7668d05c70f",
+      "contract_id": "SYSON-RUST-COMPLETION/1.0.11",
+      "version": null,
+      "unit_count": null,
+      "units_count": 0,
+      "progress_count": 0,
+      "locked_roles": 60
+    },
+    "remaining-work/snapshot.lock.json": {
+      "sha256": "ae852f9d77ec55ccc0e0178b73858c9da0abee43991bcf3e46d9cf970499bbc0",
+      "contract_id": "SYSON-RUST-COMPLETION/1.0.11",
+      "version": null,
+      "unit_count": null,
+      "units_count": 0,
+      "progress_count": 342,
+      "locked_roles": 1206
+    },
+    "execution.json": {
+      "sha256": "a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e",
+      "contract_id": null,
+      "version": null,
+      "unit_count": null,
+      "units_count": 55,
+      "progress_count": 0,
+      "locked_roles": 0
+    }
+  },
+  "seals_still_pending": {
+    "guard.py": true,
+    "construct.py": true
+  },
+  "canonical_preservation": {
+    "head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+    "expected_head": "ad814c232ee24109639c1d52239cbeec6f4a3e92",
+    "backlog_path": "/workspace/repos/builderbob/syson/porting/execution-backlog.json",
+    "backlog_sha256": "9d1337112e5800001f9be5402794a84054d3b6f687a1b05c5389fac78bf32dee",
+    "expected_backlog_sha256": "9d1337112e5800001f9be5402794a84054d3b6f687a1b05c5389fac78bf32dee"
+  },
+  "total_changed_paths": 231,
+  "total_passive_files": 196
+}

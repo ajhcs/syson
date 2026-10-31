@@ -1,0 +1,1169 @@
+{
+  "schema": "SYSON-LANGUAGE-SEMANTIC-GAP-AUDIT/1",
+  "status": "SOURCE_GAP_AUDIT_COMPLETE_NO_ACCEPTANCE_OR_DISPATCH",
+  "observed_utc": "2026-10-31T20:52:51.595751+00:00",
+  "authority": {
+    "main": "a70f737c5c829556beb7f21711e3b6597acf22d7",
+    "tree": "eb18aed412a9441d602e57ca48917dc2b5edd187",
+    "target_upstream": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "adopted_contract": "1.0.11",
+    "units": 797,
+    "method": "Read exact Git objects with git show/ls-tree; parse bounded data and hash source. No subject imports, tests, compilers, native/UI execution, network, Git mutation or source edits. Current canonical dirty checkout was not used as adopted source.",
+    "memory_scope": "Earlier process guidance informed claim boundaries only; current source and inventory facts below were independently read."
+  },
+  "family_counts": {
+    "reference": 16,
+    "landing": 4,
+    "model": 401,
+    "language": 184,
+    "interchange": 26,
+    "projects": 9,
+    "services": 12,
+    "views": 82,
+    "usability_capacity": 3,
+    "rust_delivery": 5,
+    "repairs": 49,
+    "verification": 5,
+    "final_acceptance": 1
+  },
+  "family_count_meaning": "Assigned obligations including preparation/qualification; not remaining PRs, implemented features or completion percentage.",
+  "stale_guide": {
+    "path": "porting/rust-parity-plan-20261026/REMAINING-WORK.md",
+    "reported_old_values": {
+      "model": 399,
+      "interchange": 23,
+      "repairs": 47
+    },
+    "machine_values": {
+      "model": 401,
+      "interchange": 26,
+      "repairs": 49
+    },
+    "guide_table_sum": 790,
+    "machine_sum": 797,
+    "disposition": "Known locked-guide mismatch; report it. No implicit contract/snapshot edit. Proposed .12 adds two model children, yielding model403/799, but is not adopted main."
+  },
+  "verified_native_declaration_inventory": {
+    "files": [
+      {
+        "path": "backend/metamodel/syson-sysml-metamodel/src/main/resources/model/sysml.ecore",
+        "bytes": 154155,
+        "sha256": "82463c8f21d1a688603866ec02c6d4880b4e9224e34e9833a464aed0bd8f5440",
+        "git_blob": "ebc3a0c0a6ae0ede0295549766b15e46c39c92d9",
+        "classifiers": 182,
+        "classes": 175,
+        "enums": 7,
+        "abstract_classes": 8,
+        "direct_structural_features": 415,
+        "declared_operations": 70
+      },
+      {
+        "path": "backend/metamodel/syson-siriusweb-customnodes-metamodel/src/main/resources/model/sysml-customnodes.ecore",
+        "bytes": 1965,
+        "sha256": "80006ba6cf30c146c1a8050ab7218adf52bdca92e04cbb45dd839b727790b266",
+        "git_blob": "b81a1a6aa6688a66f6284e0651f9299f15ef26bb",
+        "classifiers": 4,
+        "classes": 4,
+        "enums": 0,
+        "abstract_classes": 0,
+        "direct_structural_features": 4,
+        "declared_operations": 0
+      }
+    ],
+    "combined": {
+      "classifiers": 186,
+      "classes": 179,
+      "enums": 7,
+      "abstract_classes": 8,
+      "concrete_classes": 171,
+      "direct_structural_features": 419,
+      "declared_operations": 70
+    },
+    "meaning": "Direct declarations in two pinned Ecore documents. Not all inherited runtime methods/features, Java overrides, Sirius/EMF behavior, or a count of implemented Rust behavior. The alternate185 figure is not the verified current inventory."
+  },
+  "grammar_inventory": {
+    "parser_rules": 711,
+    "terminal_rules": 24,
+    "rule_rows": 735,
+    "ast_declaration_rows": 303,
+    "ast_construction_obligation_rows": 848,
+    "source_candidate_commit": "1326f234cae23b0e4777d5a48a069b17e9e332f1",
+    "embedded_cli_sha256": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "correspondence": "Retained source/embeddedCLI grammar declaration hashes correspond statically. This does not prove complete service/postprocessor/runtime correspondence or qualify a native execution. Rule/obligation counts are inventory, not passed semantics."
+  },
+  "actual_rust_crates": [
+    "syson-ast-adapter",
+    "syson-ast-dispatch",
+    "syson-ast-values",
+    "syson-ast",
+    "syson-document-reconcile",
+    "syson-domain",
+    "syson-editor",
+    "syson-initializer",
+    "syson-json-value",
+    "syson-layout",
+    "syson-linker",
+    "syson-metamodel",
+    "syson-migration-pipeline",
+    "syson-migrations",
+    "syson-model",
+    "syson-node-measurement",
+    "syson-persistence",
+    "syson-references",
+    "syson-reflection",
+    "syson-routing",
+    "syson-syntax",
+    "syson-text-import",
+    "syson-workflow"
+  ],
+  "implemented_bounded_source": [
+    {
+      "scope": "Ecore metadata",
+      "paths": [
+        "rust/crates/syson-metamodel/src/lib.rs",
+        "rust/crates/syson-metamodel/src/generated.rs"
+      ],
+      "actual": "All186 classifier metadata entries; feature/operation metadata and explicit unresolved external boundaries.",
+      "remaining": "Executable construction, derived features, default/unset/inverse/notification behavior, operations, native overrides and inherited closure are not supplied merely by this registry."
+    },
+    {
+      "scope": "Syntax recognition",
+      "path": "rust/crates/syson-syntax/src/lib.rs",
+      "actual": "Bounded recognizer over retained complete candidate grammar data; source/token/work/chart/CST/cancellation controls.",
+      "remaining": "It explicitly does not supply complete AST semantics, linking, validation, error recovery or SysON import."
+    },
+    {
+      "scope": "Finite construction and linking",
+      "paths": [
+        "rust/crates/syson-ast-adapter/src/lib.rs",
+        "rust/crates/syson-linker/src/lib.rs"
+      ],
+      "actual": "Finite Package/PartDefinition/PartUsage construction and explicit immutable local-chain/binding resolution. Unsupported/ambiguous/foreign/alias-cycle/unresolved/type-mismatch paths are explicit. Ordinary // lexical admission exists.",
+      "remaining": "General grammar construction/actions/fragments/parameters, complete symbol/import/inheritance visibility, implicit libraries, cross-resource proxies and actual native graph lifecycle remain. //* multiline-note and semantic /* comment admission are distinct open families."
+    },
+    {
+      "scope": "Finite atomic importer",
+      "path": "rust/crates/syson-text-import/src/lib.rs",
+      "actual": "Importer stage/commit/cancel with owned transactions and explicit identities; selected declarations and FeatureTyping links; late refusal/cancellation isolation is real source behavior.",
+      "remaining": "This is not full P152 atomic import, broad SysML schema or native EMF file interchange; do not mislabel all atomic import as absent."
+    },
+    {
+      "scope": "Identity, registry and domain queries",
+      "paths": [
+        "rust/crates/syson-domain/src/identity_context.rs",
+        "rust/crates/syson-references/src/lib.rs",
+        "rust/crates/syson-domain/src/query.rs"
+      ],
+      "actual": "Typed semantic/resource identities, explicit immutable observations, role-specific atomic registry admission and admitted resource/fragment lookup; actual finite importer consumes identity policy.",
+      "remaining": "Caller-supplied observations/registry keys do not reproduce native ResourceSet loading/proxy resolution/library lifecycle/name/cache semantics. No automatic fallback resource load is implied; not all Rust IDs are merely process-local."
+    },
+    {
+      "scope": "Editor/files/migration preparation",
+      "paths": [
+        "rust/crates/syson-model/src/lib.rs",
+        "rust/crates/syson-workflow/src/lib.rs",
+        "rust/crates/syson-migration-pipeline/",
+        "rust/crates/syson-migrations/"
+      ],
+      "actual": "Document JSON, typed selected editing/history, bounded immutable-file SnapshotStore and finite migration preparation/corpus composition are present. B25d1/B25d2 landed scopes remain bounded.",
+      "remaining": "Generic JSON retention is not every EMF feature behavior. SnapshotStore is a development adapter, not PostgreSQL/application backend restart or complete native archive interchange. Migration preparation and corpus controls do not establish durable native database transaction/application acceptance."
+    }
+  ],
+  "gap_groups": [
+    {
+      "scope": "Full language pipeline",
+      "units": [
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13",
+        "P14",
+        "P15",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22",
+        "P23",
+        "P152",
+        "P154"
+      ],
+      "classification": "PARTIAL_BOUNDED_IMPLEMENTATIONS_WITH_MISSING_AND_UNQUALIFIED_FULL_BEHAVIOR",
+      "required": "Complete lexing/grammar families, token/trivia/CST/AST original byte and UTF-16 spans, actions/defaults/caches, malformed/incomplete recovery, postprocessors, linking, serialization and editor services, through actual callers and pinned native outcomes. General text-export implementation was not found in active main rust/crates; Document JSON serialization is a separate implemented facility."
+    },
+    {
+      "scope": "Metamodel runtime",
+      "units": [
+        "M01",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+        "M06",
+        "M07",
+        "M17",
+        "M104",
+        "RR20"
+      ],
+      "classification": "METADATA_PRESENT_FULL_ASSIGNED_RUNTIME_INCOMPLETE",
+      "required": "Resolve every assigned class/feature/operation and inherited/handwritten behavior to actual typed graph construction, transactions, ownership, default/unset/null/enum behavior, inverse relationships and native semantic results. Factory/raw-model/initializer owner holds remain."
+    },
+    {
+      "scope": "Resources/names/libraries/lifecycle",
+      "units": [
+        "M07",
+        "M08",
+        "M09",
+        "M10",
+        "M11",
+        "M12",
+        "M13",
+        "M14",
+        "M15",
+        "M16",
+        "M17",
+        "M06",
+        "M104",
+        "RR01",
+        "RR02",
+        "RR03",
+        "RR09",
+        "RR10"
+      ],
+      "classification": "FINITE_EXPLICIT_CONTEXTS_PRESENT_FULL_NATIVE_LIFECYCLE_INCOMPLETE",
+      "required": "Index/identity roles, relative/qualified/alias names, public/private/protected imports and inheritance, ordinary/library/prefix URI families, lazy proxies, external resources, implicit library specialization, snapshots/caches/invalidation/disposal and concrete consuming callers. No invented native getter/library facts."
+    },
+    {
+      "scope": "Native/Rust interchange and migrations",
+      "units": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "B01",
+        "B06",
+        "B25d",
+        "B25d1",
+        "B25d2",
+        "B26a",
+        "B26b",
+        "P152",
+        "P153",
+        "P154"
+      ],
+      "classification": "FINITE_JSON_EDITOR_MIGRATION_PREPARATION_PRESENT_FULL_FILE_APPLICATION_COMPOSITION_UNQUALIFIED",
+      "required": "Explicit identity encodings and full effective EMFJSON feature codecs, resource/library loading, ordinary/implied relationships, native→Rust→edit/save→native and reverse real-file journeys, defaults/unset/unknown fields, ordering, references, migration watermarks, corruption/duplicates/cancellation/atomic failure. Durable B06 transaction, application consumers and backend restart remain open."
+    }
+  ],
+  "planned_paths_absent_from_active_main": [
+    "rust/crates/syson-parser-core/",
+    "rust/crates/syson-parser-families/",
+    "rust/crates/syson-model-runtime/",
+    "rust/crates/syson-json-interchange/",
+    "rust/crates/syson-libraries/",
+    "rust/crates/syson-resource-loader/"
+  ],
+  "absence_meaning": "These exact planned crate paths are absent from the main crate tree. Related finite implementations elsewhere are described above; absence does not imply no work in the functional area. Passive porting captures/prototypes are not active application implementations.",
+  "specific_unit_authority": [
+    {
+      "id": "C01",
+      "title": "Close pinned source, artifact and effective capability inventory",
+      "dependencies": [],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": "Every named task has a matched source/runtime disposition; actual Rust caller and user journey pass the specified gates; unsupported residuals remain open under separate IDs.",
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "31359930d8a8d171336cdf87a641bfed84982ae8c593fcd849e33648180844f2",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "C02",
+      "title": "Build reproducible differential and connected-workflow harnesses",
+      "dependencies": [
+        "C01",
+        "RR15",
+        "RR16"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": "Every named task has a matched source/runtime disposition; actual Rust caller and user journey pass the specified gates; unsupported residuals remain open under separate IDs.",
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "c24ce5938e78933a7b405c183a2bebc02a3f412257dd2ccf0e1c94809af96693",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "P01",
+      "title": "Support hidden single-line // notes without rewriting source",
+      "dependencies": [],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "All explicitly assigned cases match the pinned runtime or have approved, individually named incompatibility dispositions.",
+        "Direct Adapter::construct integration, source-location and token/source-byte boundary regressions pass; all new native cases and intentional overlap refusals have exact receipts. Original failing attempts remain retained.",
+        "No unsupported or untested inventory entry is promoted to parity by this PR."
+      ],
+      "snapshot_feature_acceptance": "NOT_ACCEPTED",
+      "source_record_sha256": "d93138b266fcd47ab3719b527743f7c33e2226f2c2521d35eed2de65f145b5ba",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "P02",
+      "title": "Add hidden //* multiline-note precedence as a distinct lexical family",
+      "dependencies": [
+        "C01",
+        "C02",
+        "P01"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "All explicitly assigned cases match the pinned runtime or have approved, individually named incompatibility dispositions.",
+        "Actual caller integration and budget/failure cases pass; original failing attempts remain retained.",
+        "No unsupported or untested inventory entry is promoted to parity by this PR."
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "962321909ad1515c9832569bb4d020089c1f4e50424689438072e26a0fe856e7",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "P11",
+      "title": "Implement rule/fragment calls and parameterized lookahead gates",
+      "dependencies": [
+        "P10"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "All explicitly assigned cases match the pinned runtime or have approved, individually named incompatibility dispositions.",
+        "Actual caller integration and budget/failure cases pass; original failing attempts remain retained.",
+        "No unsupported or untested inventory entry is promoted to parity by this PR."
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "97cdbde49af51423e6561ed9f1042baef1c1c20b592e941b72d1063e6b30d9c4",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "P14",
+      "title": "Qualify native mandatory defaults, reflection ordering and child-cache projection",
+      "dependencies": [
+        "P13",
+        "RR08"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "All explicitly assigned cases match the pinned runtime or have approved, individually named incompatibility dispositions.",
+        "Actual caller integration and budget/failure cases pass; original failing attempts remain retained.",
+        "No unsupported or untested inventory entry is promoted to parity by this PR."
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "0781cdcac0c9bea8c66da9c9e6b71c739e3511665c30caebfadb35fd4cf1c7b5",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "P15",
+      "title": "Expose KerML/SysML root parsing through an immutable family registry",
+      "dependencies": [
+        "P14"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "All explicitly assigned cases match the pinned runtime or have approved, individually named incompatibility dispositions.",
+        "Actual caller integration and budget/failure cases pass; original failing attempts remain retained.",
+        "No unsupported or untested inventory entry is promoted to parity by this PR."
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "5e258129d563436fd0a638c025579ab40ae5a3ba392d5d86e5d7ccd5df13281a",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "P152",
+      "title": "Publish complete text-import deltas atomically",
+      "dependencies": [
+        "C01",
+        "C02",
+        "P151",
+        "P144",
+        "P145",
+        "P146",
+        "P147",
+        "P148",
+        "P149",
+        "P150"
+      ],
+      "implementation_ready_dependencies": [
+        "C01",
+        "C02",
+        "I03",
+        "M31",
+        "M38",
+        "P100",
+        "P101",
+        "P102",
+        "P103",
+        "P104",
+        "P105",
+        "P106",
+        "P107",
+        "P108",
+        "P109",
+        "P110",
+        "P111",
+        "P112",
+        "P113",
+        "P114",
+        "P115",
+        "P116",
+        "P117",
+        "P118",
+        "P119",
+        "P120",
+        "P121",
+        "P122",
+        "P123",
+        "P124",
+        "P125",
+        "P126",
+        "P127",
+        "P128",
+        "P129",
+        "P130",
+        "P131",
+        "P132",
+        "P133",
+        "P134",
+        "P135",
+        "P136",
+        "P137",
+        "P138",
+        "P139",
+        "P140",
+        "P141",
+        "P142",
+        "P143",
+        "P144",
+        "P145",
+        "P146",
+        "P147",
+        "P148",
+        "P149",
+        "P150",
+        "P151",
+        "P26",
+        "P27",
+        "P28",
+        "P29",
+        "P30",
+        "P31",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38",
+        "P39",
+        "P40",
+        "P41",
+        "P42",
+        "P43",
+        "P44",
+        "P45",
+        "P46",
+        "P47",
+        "P48",
+        "P49",
+        "P50",
+        "P51",
+        "P52",
+        "P53",
+        "P54",
+        "P55",
+        "P56",
+        "P57",
+        "P58",
+        "P59",
+        "P60",
+        "P61",
+        "P62",
+        "P63",
+        "P64",
+        "P65",
+        "P66",
+        "P67",
+        "P68",
+        "P69",
+        "P70",
+        "P71",
+        "P72",
+        "P73",
+        "P74",
+        "P75",
+        "P76",
+        "P77",
+        "P78",
+        "P79",
+        "P80",
+        "P81",
+        "P82",
+        "P83",
+        "P84",
+        "P85",
+        "P86",
+        "P87",
+        "P88",
+        "P89",
+        "P90",
+        "P91",
+        "P92",
+        "P93",
+        "P94",
+        "P95",
+        "P96",
+        "P97",
+        "P98",
+        "P99"
+      ],
+      "acceptance_gates": [
+        "C05",
+        "C06",
+        "C07"
+      ],
+      "done_when": [
+        "All explicitly assigned cases match the pinned runtime or have approved, individually named incompatibility dispositions.",
+        "Actual caller integration and budget/failure cases pass; original failing attempts remain retained.",
+        "No unsupported or untested inventory entry is promoted to parity by this PR."
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "7f0c9b9bf065345b0fbdd93988e0bd31471fb48f59b283529dbf0fe496b76981",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "P154",
+      "title": "Qualify text→model→native JSON→reload interoperability",
+      "dependencies": [
+        "C01",
+        "C02",
+        "P151",
+        "P144",
+        "P145",
+        "P146",
+        "P147",
+        "P148",
+        "P149",
+        "P150"
+      ],
+      "implementation_ready_dependencies": [
+        "B06",
+        "C01",
+        "C02",
+        "I03",
+        "I04",
+        "M39",
+        "P144",
+        "P145",
+        "P146",
+        "P147",
+        "P148",
+        "P149",
+        "P150",
+        "P151"
+      ],
+      "acceptance_gates": [
+        "C05",
+        "C06",
+        "C07"
+      ],
+      "done_when": [
+        "All explicitly assigned cases match the pinned runtime or have approved, individually named incompatibility dispositions.",
+        "Actual caller integration and budget/failure cases pass; original failing attempts remain retained.",
+        "No unsupported or untested inventory entry is promoted to parity by this PR."
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "0ffd8bf81b10474c9d8b3c02c6ee9905523eecf19c2a07c78f45207c39229c8a",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M01",
+      "title": "Freeze complete model schema and effective Java behavior assignment",
+      "dependencies": [
+        "C01"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "e653ab105710659a20a2033785cdad520eaa964cbda202c76b1f3d452163419a",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M03",
+      "title": "Define the fully Rust typed graph and owned transaction boundary",
+      "dependencies": [
+        "M01",
+        "RR20"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "d7c57ec8d7b6866c1105d7585fb5f02cd85aed83d384ef6bc7e169a99202fcf8",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M06",
+      "title": "Bind semantic/resource identities to the Rust resource lifecycle",
+      "dependencies": [
+        "M03",
+        "M05",
+        "RR01",
+        "RR02",
+        "M06a1"
+      ],
+      "implementation_ready_dependencies": [
+        "M03",
+        "M05",
+        "RR01",
+        "RR02",
+        "M06a1"
+      ],
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "be575d8fad9cbce278e336c8d6762de889babb366a9943d9b3384766fa6c38c8",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M06a1",
+      "title": "Adopt explicit-observation identity context with a real finite-import caller",
+      "dependencies": [],
+      "implementation_ready_dependencies": [],
+      "acceptance_gates": [
+        "M03",
+        "M05",
+        "RR01",
+        "RR02",
+        "M104",
+        "C01",
+        "C02"
+      ],
+      "done_when": "Complete donor source/tests and real finite-import caller pass exact reviewed qualification on main; timing observations and all original evidence are preserved. Parent feature acceptance and deferred obligations remain open.",
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "9dbd66f7e7bcea0efe7d74dcbf3a307f262ee9fdf7daa52921776d9fa99468ad",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M06a2",
+      "title": "Restore original identity snapshots and exercise finite-import disk restart",
+      "dependencies": [
+        "M06a1",
+        "RR13a"
+      ],
+      "implementation_ready_dependencies": [
+        "M06a1",
+        "RR13a"
+      ],
+      "acceptance_gates": [
+        "RR13b",
+        "M03",
+        "M05",
+        "RR01",
+        "RR02",
+        "M104",
+        "C01",
+        "C02"
+      ],
+      "done_when": "Original complete snapshot caller and actual finite-import→edit→save→fresh-process reopen pass; preserve parent M06/M104/native graph/library/storage/UI gates. This CLI milestone does not accept B06/B31 or full SysON parity.",
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "53f85e5aecfb7de2de9f5b2ff0ee133eca1575cbee2b280ca43869d81e11d9d5",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M08",
+      "title": "Normalize ordinary and relative EMF resource addresses explicitly",
+      "dependencies": [
+        "M07",
+        "C01"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "48d80994fd71912a46bd6239c5084d514a936a88f0c754b94b06c303d6749d6c",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M09",
+      "title": "Resolve lazy syson-import and cross-resource proxies without fallback",
+      "dependencies": [
+        "M08",
+        "M14"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "1cd2e25cafa13fbc9283d44ad9486e7028bdd1a13861959ace86dbbff1f19d6d",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M14",
+      "title": "Complete root/global/relative qualified-name and alias resolution",
+      "dependencies": [
+        "M10",
+        "M11",
+        "M08"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "3e058e497eff735ec4d67258bbfbe308472061aeeb2995e45043b04a8803029d",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "M104",
+      "title": "Element: elementId feature contract",
+      "dependencies": [
+        "C01",
+        "C02",
+        "M03",
+        "M04",
+        "M05"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every assigned direct symbol and newly reached effective native branch has matched evidence or an explicitly approved improvement.",
+        "The actual application caller uses the Rust implementation; no native Java/EMF/Spring/AQL/Syside/Langium production delegate.",
+        "Inverse/proxy/cache/notification and failure behavior remain correct across edits and reload where applicable.",
+        "No undeclared residual is hidden; newly discovered helper/inherited behaviors are dependency-ordered child records.",
+        "C03 composes prerequisites and reruns affected integrated acceptance; tests alone never imply full SysON parity."
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "092ef28b5eb9d980b3de6463aa3413d5a2c0578c47ad296927fcdb0533701b7a",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "I01",
+      "title": "Reverse the finite local node-ID bridge into editable semantic-ID documents",
+      "dependencies": [],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "NOT_ACCEPTED",
+      "source_record_sha256": "466e0576bf2843f73a7d4a03c156e532ed046315f51abd4915ef70726fc11ec2",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "I03",
+      "title": "Generate full native EMF JSON feature/schema adapters",
+      "dependencies": [
+        "M01",
+        "M04",
+        "M05",
+        "M06",
+        "M08",
+        "RR01",
+        "RR02",
+        "RR04"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "fb58ab21ff1bd5a3de9956c6d5bb4adf6e601400f5f287fc5bc7f12b88cb8f61",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "I04",
+      "title": "Qualify identity-service reference serialization policy",
+      "dependencies": [
+        "I03",
+        "M06",
+        "M15"
+      ],
+      "implementation_ready_dependencies": null,
+      "acceptance_gates": null,
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "4bfb983ceb2f7924aee03cb97bf849e7adffc37a596b5b0f8d7c4ee778817598",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "I06",
+      "title": "Close native-edit-save-reload application journeys for every schema family",
+      "dependencies": [
+        "I03",
+        "I04",
+        "M38",
+        "M39",
+        "RR02",
+        "RR05",
+        "RR22",
+        "RR24"
+      ],
+      "implementation_ready_dependencies": [
+        "B06",
+        "B11",
+        "B12",
+        "B13",
+        "I03",
+        "I04",
+        "M38",
+        "M39",
+        "RR02",
+        "RR05",
+        "RR22",
+        "RR24",
+        "U07"
+      ],
+      "acceptance_gates": [
+        "C06",
+        "C07",
+        "C08"
+      ],
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "a77a7b3f067bd09a58b23575a1d4c0cb7beb5c9e320ef2c6b8e7fed3d2808e30",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "I07",
+      "title": "Port native library/reference/document identity migrations",
+      "dependencies": [
+        "I04",
+        "M06",
+        "M39"
+      ],
+      "implementation_ready_dependencies": [
+        "B01",
+        "B06",
+        "B25a",
+        "B25b",
+        "B25c",
+        "B25d",
+        "B26a",
+        "B26b",
+        "I04",
+        "M06",
+        "M39"
+      ],
+      "acceptance_gates": [
+        "C06",
+        "C07"
+      ],
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "2b5a3af54b2c0b3ae676009aa83c7274658dd88603a82e20335342b0dcb48759",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    },
+    {
+      "id": "I08",
+      "title": "Integrate text-linking and external resource references across entry points",
+      "dependencies": [
+        "M09",
+        "M14",
+        "I04",
+        "M38"
+      ],
+      "implementation_ready_dependencies": [
+        "I04",
+        "M09",
+        "M14",
+        "M31",
+        "M38",
+        "P152",
+        "P153",
+        "P154",
+        "P173",
+        "P174",
+        "P175"
+      ],
+      "acceptance_gates": [
+        "C05",
+        "C06",
+        "C07"
+      ],
+      "done_when": [
+        "Every named behavior and every discovered native branch in this slice has an expected/observed disposition",
+        "Rust results match pinned native outcomes or an explicitly reviewed improvement; unsupported does not count as parity",
+        "Actual application caller consumes the new Rust path; no Java/Spring/EMF/AQL/Syside/Langium executable is required in production",
+        "No required residual in the slice is silently dropped; remaining sibling methods/classifiers are queued as child PRs with exact source identity",
+        "C03 lands prerequisites, retargets the PR and reruns affected integration/acceptance checks"
+      ],
+      "snapshot_feature_acceptance": "OPEN_NO_ACCEPTANCE_RECORD",
+      "source_record_sha256": "916bcdb4b7ef75d12874957ffa77e20dae2f8913b7f616605aa0ba3808601741",
+      "record_hash_convention": "entire parsed plan unit; UTF-8 ensure_ascii=False sorted keys compact separators, no newline"
+    }
+  ],
+  "readiness": {
+    "P02": {
+      "actual_dependencies": [
+        "C01",
+        "C02",
+        "P01"
+      ],
+      "disposition": "BLOCKED: C01/C02 full source/runtime/comparison prerequisites remain open; finite P01 landing is not a waiver."
+    },
+    "P11": {
+      "actual_dependencies": [
+        "P10"
+      ],
+      "disposition": "BLOCKED by P10 and its upstream chain, not immediately available merely because an old parser draft exists."
+    },
+    "P01": {
+      "dependencies": [],
+      "disposition": "Existing bounded implemented unit with NOT_ACCEPTED snapshot status; no claim of new dependency-free parser work or broad lexical acceptance."
+    },
+    "I01": {
+      "dependencies": [],
+      "disposition": "The adopted finite bridge has no implementation dependency in the unit. It is a potential independently scoped source slice only after existing PR69/owner/caller/source composition is reconciled and a fresh lease is granted; full native/application verification remains required. This audit grants no lease."
+    },
+    "M06a2": {
+      "dependencies": [
+        "M06a1",
+        "RR13a"
+      ],
+      "disposition": "Bounded prerequisites are landed, but the full unexecuted Rust draft exceeds400/900 at457/951 and has retained review repairs. Proposed .12 functional/measurement child split is unadopted; preserve ownership and parent acceptance gates."
+    },
+    "independent_language_dispatch_now": "No newly ready language implementation unit established. P02/P11 and the general chain retain native/harness prerequisites; P01 is an existing bounded scope rather than a new readiness release.",
+    "reference_source_child": "A separately adopted exact source-native parser reference child could provide C01/C02 preparation evidence without pretending the full Java/UI parent was accepted: exact embedded artifact/service correspondence, CLI/configuration and inherited dependencies, raw CST/AST/span/diagnostic outputs, malformed/Unicode/newline/cancellation/refusal controls, bounded owned process proofs, actual comparison callers and explicit residuals are required. Source inventories or recognizer agreement alone do not supply this. No such new child or exception is adopted by this report.",
+    "holds": "Preserve #99/#130 exact heads, existing factory/initializer/renderer ownership and human196–201 reservations. No parent/full-parity acceptance or phase authority follows from this report."
+  },
+  "required_verification_boundary": "Native full-source/artifact/effective configuration and offline378compile/C01; independent C02 fixtures and harness; actual consuming Rust and native paths; negative controls and preserved failures; identical reviewed composition and exact source. Existing narrow receipts remain narrow.",
+  "source_pins": [
+    {
+      "path": "porting/rust-parity-plan-20261026/completion-contract.json",
+      "bytes": 609168,
+      "sha256": "37b452269bc81b1c6fb31bbe2c93ab2692c36d272b6682b8d7ae7d36740fd106",
+      "git_blob": "7be1db7f49e1dd0f9b4f4d7b04fb5abdfce31b19"
+    },
+    {
+      "path": "porting/rust-parity-plan-20261026/plan.json",
+      "bytes": 5937579,
+      "sha256": "4b10b1df933a555debe3c5d2e473d354fabb7b4acf8cfffd3386a881a0bc5691",
+      "git_blob": "e50fe031073e0450b32cd6891e29c8fe6e586809"
+    },
+    {
+      "path": "porting/rust-parity-plan-20261026/remaining-work/units.json",
+      "bytes": 5843441,
+      "sha256": "2b68da56b2951fd62188b83629335880b0e580f4eea6d25cb2facba9858d7509",
+      "git_blob": "59cf19c2c0c72b99b16beb4e726be94bc616e00a"
+    },
+    {
+      "path": "porting/rust-parity-plan-20261026/REMAINING-WORK.md",
+      "bytes": 34376,
+      "sha256": "6a9b9799db24f8641f3b930622396b168f3fff124adaf0bd820d725548c0242f",
+      "git_blob": "008d934cde44f93ebf0dc9028ff52fb29265c204"
+    },
+    {
+      "path": "porting/rust-parity-plan-20261026/execution.json",
+      "bytes": 204591,
+      "sha256": "a08e8b34a1708e9d2e82ef4254040f524fb9f46d4b4c15cf135b90651519ea0e",
+      "git_blob": "3dc2236482a2eba684bed88e19cce01a2bfaf96f"
+    },
+    {
+      "path": "porting/source-map/metamodel.jsonl",
+      "bytes": 597498,
+      "sha256": "91f43916d274cd7016e6289aa329a4e6da9acd985b43becf8dcaac4d5275692b",
+      "git_blob": "f989e2a2cadcacc3d970e6d8e7baa5c573e8cb6a"
+    },
+    {
+      "path": "porting/source-map/summary.json",
+      "bytes": 586,
+      "sha256": "36e664d1620087279c1511103740a3fda9e4ce36b250c036986b55e4725698cc",
+      "git_blob": "d831dd5682cb1163d243acb28707ecec48a001e4"
+    },
+    {
+      "path": "porting/source-map/audit-summary.json",
+      "bytes": 532,
+      "sha256": "bd1dd001d3dbfafd04dc0d00fc123efa2bbc46bc4608ccccfae4cce7c95f77f0",
+      "git_blob": "641d24fe1a8b0f0e885cd56733cfc0435f0e4428"
+    },
+    {
+      "path": "porting/source-map/syside-source/summary.json",
+      "bytes": 1166,
+      "sha256": "f80db81df90249db4206d09269ef4efacfea36adbec142268567a70daa023ec9",
+      "git_blob": "d2f9ef2e142e1d9fed7ef32043297bfb268bdac9"
+    },
+    {
+      "path": "porting/source-map/syside-source/baseline-grammar-correspondence.json",
+      "bytes": 865,
+      "sha256": "0a7dce3f93479a794d5aa2241d26800fcbcbfb04b6a6fc513c72e2b34f344d5c",
+      "git_blob": "d1ad48e8b78d27666f0afa23f6c02d4b03011494"
+    },
+    {
+      "path": "porting/source-map/syside-source/grammar-rules.jsonl",
+      "bytes": 824949,
+      "sha256": "6f6b563c2627fd1fcb8120290a65aa306c4a3a9aa1586645c9985251618e6d20",
+      "git_blob": "c64390c98af398798aba15d6b26b4b5ed85cb0c2"
+    },
+    {
+      "path": "porting/source-map/syside-source/ast-construction-obligations.jsonl",
+      "bytes": 496280,
+      "sha256": "0d3e1e70efd8e827ba44e64b55e303f9e09e8b72cb146b1f6247f09aa5195030",
+      "git_blob": "6c9d189d12756666fdee2dde79524ed6b3b0565d"
+    },
+    {
+      "path": "porting/source-map/syside-source/grammar-ast-declarations.jsonl",
+      "bytes": 94585,
+      "sha256": "bdb2196cd4e2cc9a970fc7fc7ee85a5338e4fbfa680b68706f6f2a48141ae103",
+      "git_blob": "4b59875fc77ad9fb7316f527e501823bc1a0cbd2"
+    },
+    {
+      "path": "rust/crates/syson-metamodel/src/lib.rs",
+      "bytes": 11688,
+      "sha256": "f5755e0e1b7910389cce955280f1424cdc75b9e33e0dde99a7cb6386613cf61c",
+      "git_blob": "bd42cefe71889fb111dc455cb89c13df07c94761"
+    },
+    {
+      "path": "rust/crates/syson-metamodel/src/generated.rs",
+      "bytes": 258037,
+      "sha256": "02d68b123460a89590d4c3d62a6421e94d0b8d933ad9a80cc67fbcd816158aab",
+      "git_blob": "b58b6797c60e3fa84440ffc220b7d2882e49c724"
+    },
+    {
+      "path": "rust/crates/syson-syntax/src/lib.rs",
+      "bytes": 3747,
+      "sha256": "5bedf0a6c347453a61187e34a329ac9c107b07ec16cef58995b4a34d276ba5c5",
+      "git_blob": "2100bdfa2e3b185a94fa0c02974d8f375075b38b"
+    },
+    {
+      "path": "rust/crates/syson-ast-adapter/src/lib.rs",
+      "bytes": 16025,
+      "sha256": "446583acd7208d147366f9f8219a2c48215bf35f9f8aac3690804dd308062657",
+      "git_blob": "f3c87d4f5a93649d1b66a5749d3a2b2762e25c6a"
+    },
+    {
+      "path": "rust/crates/syson-linker/src/lib.rs",
+      "bytes": 12145,
+      "sha256": "6ebba197984e5151f7fbca5fbefa468a73401ad65cae919bd3a293c4d405023e",
+      "git_blob": "ad1f3bb276dc428e1ae5ba28536d68852ce1cbb4"
+    },
+    {
+      "path": "rust/crates/syson-text-import/src/lib.rs",
+      "bytes": 9007,
+      "sha256": "9eaf961c48417f203ab3f8b8ccf327409f8df7014c291815a2740cea461117f1",
+      "git_blob": "ac0a89f4061c5fb8051a98299e4fa78cd08a6728"
+    },
+    {
+      "path": "rust/crates/syson-references/src/lib.rs",
+      "bytes": 8545,
+      "sha256": "680480f1b961226a3f68d4eaf9aae113f83e2c7359b5ca6923c7011e4f4ff453",
+      "git_blob": "7a418d5597dfeab2449b84ca76e27d70a7f75eee"
+    },
+    {
+      "path": "rust/crates/syson-domain/src/query.rs",
+      "bytes": 5647,
+      "sha256": "ef3515e88721df2fe35c5dc67e37675bc8cfe0b469b5303b8195c464e71f1e0c",
+      "git_blob": "4277e8b014d0e27466683fab8424e75ffa528ffc"
+    },
+    {
+      "path": "rust/crates/syson-domain/src/identity_context.rs",
+      "bytes": 9985,
+      "sha256": "512b6bd710783370dbfa9e6068b98a6c4f36bc489ae19052a64b03ebd1d77388",
+      "git_blob": "7731e02c260d00c26ff68d14659507b1029f66bd"
+    },
+    {
+      "path": "rust/crates/syson-model/src/lib.rs",
+      "bytes": 36789,
+      "sha256": "ebf59db2ee3b337188dec271a959bd03b4eb649f4cdee2ed626f48dcd56ee10f",
+      "git_blob": "74e0e81d4d8385aa5c3efc3e364434e80664694e"
+    },
+    {
+      "path": "rust/crates/syson-workflow/src/lib.rs",
+      "bytes": 12276,
+      "sha256": "c33bc5231aaae06f3061b02771e77933e5e32e7bc21916fe2ab75a1107eecfbd",
+      "git_blob": "f899046baeb7591414cf3461c300c33203dd0ca8"
+    }
+  ],
+  "limitations": [
+    "Static source/data audit only; no current runtime equivalence, parser execution, UI, native JVM/Node, Rust compile or tests were performed.",
+    "Selected detailed unit records are exact from the adopted plan; gap groups summarize assigned behavior, not an exhaustive797-unit acceptance audit.",
+    "No percentages or remaining-PR estimate are inferred from family/inventory counts.",
+    "The .12 recovery checkpoint and its new eight-proof capture remain unexecuted/unadopted; prior CAP16 capture evidence does not qualify the new proof set."
+  ]
+}

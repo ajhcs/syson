@@ -1,0 +1,107 @@
+{
+  "schema": "SYSON-GAP-REPORT-APPLICATION-REVIEW/1",
+  "status": "HOLD_ONE_TARGETED_SOURCE_LINK_CORRECTION",
+  "at_utc": "2026-10-31T20:47:27.180379+00:00",
+  "draft": {
+    "path": "/workspace/build/builderbob/syson-cleanup-20261031/parity-gap-report-draft.md",
+    "sha256": "688fef7391cbe718a9e043d3ad3c1b95c0a1c1c138917e7b3e65cad096e88e2d",
+    "bytes": 13986,
+    "lines": 85
+  },
+  "source_audit": {
+    "path": "/workspace/build/builderbob/syson-cleanup-20261031/application-gap-audit.json",
+    "sha256": "067fb939c43ce708917efdf40666ae4251f93112ff737cc405358ab5b00668b0",
+    "commit": "a70f737c5c829556beb7f21711e3b6597acf22d7"
+  },
+  "review_scope": "Application/backend/storage/UI source factual accuracy and readable claim boundaries. Source review only; not feature acceptance. No draft/source edits, subject imports/execution, tests, Git mutation or network.",
+  "skill": {
+    "name": "edit-with-purpose",
+    "path": "/home/builderbob/.agents/skills/edit-with-purpose/SKILL.md",
+    "application": "Read whole draft, preserve wording and report only the material source-reference error. Existing separate reviewer assignment; no additional delegation."
+  },
+  "findings": [
+    {
+      "id": "APP-EDITOR-LINK",
+      "priority": "P2",
+      "line_start": 62,
+      "line_end": 62,
+      "title": "Link the transactional Editor to syson-model",
+      "evidence": "The draft links Editor to rust/crates/syson-editor/src/lib.rs. Actual Editor with transaction ownership/revision and bounded undo/redo is rust/crates/syson-model/src/lib.rs:612. syson-editor/src/lib.rs:6 explicitly excludes renderer/transport/Sirius engine and exposes prepare_rotation/finish_rotation and leaf algorithms instead.",
+      "impact": "The authoritative source link directs readers to a different library, obscuring the distinction between existing model/history implementation and UI/editor algorithm ports.",
+      "requested_targeted_change": "Replace [Editor](../../../rust/crates/syson-editor/src/lib.rs) with [model Editor](../../../rust/crates/syson-model/src/lib.rs). Preserve the rest of the paragraph.",
+      "verification": "Compare the resulting draft link with source_audit.source_evidence.editor_state and editor_scope. No subject tests needed for this report correction."
+    }
+  ],
+  "checked_claims": [
+    {
+      "claim": "23 library crates, retained Spring/React application entrypoints, catalog CLI distinct from app host",
+      "result": "SUPPORTED",
+      "evidence": [
+        "crate_inventory",
+        "spring_entry",
+        "react_entry",
+        "catalog_cli",
+        "frontend_manifest"
+      ]
+    },
+    {
+      "claim": "SnapshotStore is real bounded immutable development adapter; same-process reopen is not backend restart",
+      "result": "SUPPORTED",
+      "evidence": [
+        "snapshot_store",
+        "snapshot_io",
+        "workflow_connected"
+      ]
+    },
+    {
+      "claim": "Migration/reconciliation preparation needs real consumers and durable transaction integration",
+      "result": "SUPPORTED",
+      "evidence": [
+        "migration_prepare",
+        "reconcile_effects",
+        "persistence_scope"
+      ]
+    },
+    {
+      "claim": "B02\u2013B06 describe host/GraphQL/admission/schema/atomic storage; actual dependencies remain required",
+      "result": "SUPPORTED_WITH_EXISTING_CAVEAT",
+      "evidence": "Current adopted source dependencies: B02[C01], B03[B02,C01], B04[B02,C01], B05[C01,RR12], B06[B01,B05,RR11,RR12,RR13]. The draft does not waive these."
+    },
+    {
+      "claim": "Current application gap distinct from historical prototype UI observations and unrun product qualification",
+      "result": "SUPPORTED",
+      "evidence": [
+        "remaining_guide",
+        "current_caller_inventory",
+        "java_views",
+        "frontend_registry"
+      ]
+    },
+    {
+      "claim": "2warm+7raw/min/median/max and >=30 for p95; latency bands are context rather than automatic veto",
+      "result": "SUPPORTED",
+      "evidence": "Current origin/main performance-policy.json measurement.samples, range_meaning and acceptance were read directly; the draft matches them."
+    },
+    {
+      "claim": "Product milestone preserves identities/representations and documented history without inventing restart-persistent undo",
+      "result": "SUPPORTED",
+      "evidence": [
+        "history_policy",
+        "editor_state",
+        "editor_commit",
+        "snapshot_store"
+      ]
+    }
+  ],
+  "readability": {
+    "result": "CLEAR_WITH_ONE_PRECISE_REFERENCE_FIX",
+    "assessment": "Lead distinguishes substantial foundations from unfinished application. Checkpoint labels, source-inference/observed-failure boundaries and existing-vs-unqualified distinctions are explicit. No broad rewrite or cosmetic edits warranted."
+  },
+  "not_independently_reverified_in_this_review": [
+    "PR queue counts/readiness/closure and GitHub metadata",
+    "Worktree cleanup counts and remote checkpoint push/readback",
+    "Native 378-source compile and semantic/language details beyond application audit scope",
+    "Full13-family counts and locked guide reconciliation; companion audit authority required"
+  ],
+  "acceptance_boundary": "Correct the link and pin/review the resulting draft. This HOLD concerns report factual attribution only; it does not assert a product implementation defect or authorize new source/runtime work."
+}
