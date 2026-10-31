@@ -1,0 +1,19 @@
+from pathlib import Path
+import json, os, sys
+sys.path.insert(0, sys.argv[1])
+import derive as N
+source = Path(sys.argv[1]); fixture = source / 'fixtures'
+proposal = N.derive(*[(fixture / n).read_bytes() for n in ['baseline-1.0.10.json.gz', 'baseline-provenance.json', 'lane.json', 'amendment.md']], (source.parents[1] / 'tools/build_plan.py').read_bytes())
+P, _ = N.provider()
+out = Path(sys.argv[2])
+P.require(out.is_absolute() and out.is_relative_to(P.OUTPUT_ROOT) and out.parent.resolve() == out.parent and out.parent.stat().st_uid == os.getuid() and not out.exists() and not out.is_symlink(), 'fresh owned root capture required')
+P.require(set(proposal['artifacts']) == {'policy.json', 'completion-contract.json', 'acceptance-packet.schema.json', 'expected-plan.json', 'source-metadata.json'}, 'exact five candidate outputs')
+encoded = {name: P.encode(value) for name, value in proposal['artifacts'].items()}
+manifest = {'status': proposal['status'], 'input_sha256': proposal['input_sha256'], 'artifacts': {name: P.sha(raw) for name, raw in encoded.items()}, 'root_capture_sha256': P.sha(Path(sys.argv[3]).read_bytes())}
+encoded['manifest.json'] = P.encode(manifest)
+P.require(sum(map(len, encoded.values())) <= N.LIMIT, 'combined candidate capture bound')
+out.mkdir(mode=0o700)
+for name, raw in encoded.items():
+    with (out / name).open('xb') as output:
+        output.write(raw)
+print(json.dumps({'status': proposal['status'], 'artifacts': manifest['artifacts']}))
