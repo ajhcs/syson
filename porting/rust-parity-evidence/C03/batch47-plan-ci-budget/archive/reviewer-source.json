@@ -1,0 +1,99 @@
+{
+  "schema": "SYSON_B47_CI_TIMEOUT_SOURCE_REVIEW/1",
+  "status": "PASS_EXACT_ONE_FIELD_BOUNDED_CI_REPAIR_SOURCE_ONLY",
+  "reviewer": "core_frontier_admission",
+  "method": "Read-only byte/hash/text/JSON inspection plus this report. No source edit,subject import,test execution,formatter,network or Git mutation.",
+  "bindings": {
+    "repair": {
+      "path": "/workspace/build/builderbob/syson-durable-batch47-20261031/source-repair.json",
+      "bytes": 1327,
+      "sha256": "1497e6d84c304589d2ee25f0a14740e23252c10cd257c6b1d9dcf5ebc21b6b5e"
+    },
+    "before": {
+      "path": "/workspace/build/builderbob/syson-durable-batch47-20261031/workflow-before.yml.raw",
+      "bytes": 870,
+      "sha256": "205910eb08033e0004cb337c7e9886ead3c63e8026d09413a117bf3ae0fe79a1"
+    },
+    "after": {
+      "path": "/workspace/worktrees/builderbob/syson/batch47-plan-ci-budget-20261031/.github/workflows/plan-source-preparation-checks.yml",
+      "bytes": 870,
+      "sha256": "962eab88c81cbfc7e509f02c5c7d993bb425f1cd2f5277930e434ef3714bb70f"
+    },
+    "hosted_main_evidence": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/hosted-main-qualification.json",
+      "bytes": 10943,
+      "sha256": "5488e2bae1f27cba640a94e7fbf65c1133d0e122a8105e13f5de2b67889b802d"
+    },
+    "raw_timeout_annotations": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/hosted-main-raw-01/plan-check-annotations-pages.json",
+      "bytes": 598,
+      "sha256": "8604f8c9445b4d9e45c4ce5e17f4580315a17b9b53a705fb7a9b40d71844feb8"
+    },
+    "raw_terminal_job": {
+      "path": "/workspace/build/builderbob/syson-durable-batch43-20261031/hosted-main-raw-01/plan-job-terminal.json",
+      "bytes": 1785,
+      "sha256": "d7ecc8e5327cee9ba2b3228edc28500b134dc896035db42318751735f325dc58"
+    }
+  },
+  "exact_delta": {
+    "path": ".github/workflows/plan-source-preparation-checks.yml",
+    "line": 11,
+    "before": "timeout-minutes: 10",
+    "after": "timeout-minutes: 20",
+    "ordinary_AD": 2,
+    "bytes_before_after": [
+      870,
+      870
+    ],
+    "lines_before_after": [
+      23,
+      23
+    ],
+    "replacement_recreates_complete_after_bytes": true,
+    "all_other_workflow_bytes_unchanged": true,
+    "new_source_helper_or_fixture": false
+  },
+  "retained_configuration": {
+    "triggers": "pull_request/main,push/main,workflow_dispatch",
+    "permissions": "contents:read only",
+    "repository_guard": "github.repository == 'ajhcs/syson'",
+    "runner": "ubuntu-24.04",
+    "working_directory": "porting/rust-parity-plan-20261026",
+    "checkout": "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+    "persist_credentials": false,
+    "commands": [
+      "python3 -s -B tools/verify_plan.py --self-test",
+      "python3 -s -O -B tools/verify_plan.py --self-test",
+      "python3 -I -B -m unittest discover -s tools -v",
+      "python3 -I -O -B -m unittest discover -s tools -v",
+      "python3 -I -B remaining-work/verify_snapshot.py --self-test",
+      "python3 -I -O -B remaining-work/verify_snapshot.py --self-test"
+    ],
+    "environment_and_command_order_unchanged": true,
+    "no_case_selector_skip_continue_on_error_or_failure_suppression_added": true,
+    "original_normal_optimized_discovery_and_both_selftests_retained": true
+  },
+  "diagnosis": {
+    "actual_run": 41182596093,
+    "actual_job": 124482886709,
+    "main": "46f069218c3ff545a8eaec36ba14f35a6a014147",
+    "result": "Actual main job cancelled by explicit10m0s maximum-time annotation, corroborated by raw recorded API data.",
+    "not_observed": "No assertion-failure diagnosis. Combined run step contains6commands; raw job log retrieval was unavailable, so exact inner command/results at timeout remain unknown.",
+    "historical_evidence": "Same reviewed source tree had16required PR passes and independently reviewed local226named cases. Those historical results remain valid; cancelled resulting-main gate remains HOLD and must not be relabeled success."
+  },
+  "boundedness": {
+    "job_timeout_minutes": 20,
+    "job_timeout_seconds": 1200,
+    "meaning": "Finite CI resource/wall-time containment for full unchanged verification on shared runner. Does not establish20minute product latency, capacity, successful completion, functional acceptance or an exemption from failures.",
+    "functional_waiver": false
+  },
+  "validation": {
+    "new_tests": false,
+    "local_repeat": false,
+    "reason": "One numeric workflow budget field; exact whole-byte comparison establishes unchanged commands and policies. No new behavior test or unaffected local repetition is needed.",
+    "still_required": "Actual complete hosted execution of every retained command and required PR/main checks at exact repaired head, then separate expected-head merge/resulting-main verification by root. Timeout extension alone is not qualification."
+  },
+  "findings": [],
+  "blockers": [],
+  "limits": "Source-only PASS for this exact workflow hash. No hosted execution/merge/publication or broader application/native/UI/backend/feature acceptance claimed; root retains all runtime and Git authority."
+}

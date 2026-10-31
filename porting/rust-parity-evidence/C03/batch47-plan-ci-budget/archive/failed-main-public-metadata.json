@@ -1,0 +1,97 @@
+{
+  "job": {
+    "id": 124482886709,
+    "run_id": 41182596093,
+    "workflow_name": "Plan source preparation controls",
+    "head_branch": "main",
+    "run_url": "https://api.github.com/repos/ajhcs/syson/actions/runs/41182596093",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOVT_gXM8AAAAc-8IcNQ",
+    "head_sha": "46f069218c3ff545a8eaec36ba14f35a6a014147",
+    "url": "https://api.github.com/repos/ajhcs/syson/actions/jobs/124482886709",
+    "html_url": "https://github.com/ajhcs/syson/actions/runs/41182596093/job/124482886709",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "created_at": "2026-10-31T07:57:03Z",
+    "started_at": "2026-10-31T07:57:04Z",
+    "completed_at": "2026-10-31T08:07:19Z",
+    "name": "plan-controls",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-10-31T07:57:05Z",
+        "completed_at": "2026-10-31T07:57:06Z"
+      },
+      {
+        "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-10-31T07:57:06Z",
+        "completed_at": "2026-10-31T07:57:14Z"
+      },
+      {
+        "name": "Run python3 -s -B tools/verify_plan.py --self-test",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "number": 3,
+        "started_at": "2026-10-31T07:57:14Z",
+        "completed_at": "2026-10-31T08:07:17Z"
+      },
+      {
+        "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-10-31T08:07:17Z",
+        "completed_at": "2026-10-31T08:07:17Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-10-31T08:07:17Z",
+        "completed_at": "2026-10-31T08:07:18Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/ajhcs/syson/check-runs/124482886709",
+    "labels": [
+      "ubuntu-24.04"
+    ],
+    "runner_id": 1000010211,
+    "runner_name": "GitHub Actions 1000010211",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  "annotations": [
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/ajhcs/syson/blob/46f069218c3ff545a8eaec36ba14f35a6a014147/.github",
+      "start_line": 1,
+      "start_column": null,
+      "end_line": 1,
+      "end_column": null,
+      "annotation_level": "failure",
+      "title": "",
+      "message": "The job has exceeded the maximum execution time of 10m0s",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/ajhcs/syson/blob/46f069218c3ff545a8eaec36ba14f35a6a014147/.github",
+      "start_line": 104,
+      "start_column": null,
+      "end_line": 104,
+      "end_column": null,
+      "annotation_level": "failure",
+      "title": "",
+      "message": "The operation was canceled.",
+      "raw_details": ""
+    }
+  ],
+  "classification": "Confirmed runner timeout; retains cancelled attempt without rerun."
+}
