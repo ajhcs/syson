@@ -24,6 +24,7 @@ from pathlib import Path
 
 ASSETS = Path("/workspace/build/builderbob/syson-audit-20261026")
 JAR = ASSETS / "syson-application-2026.9.3.jar"
+JAR_SOURCE_REVISION = "b380dada415ce05155150f23cb3b74ae21cc45e4"
 PG_ROOT = ASSETS / "postgres-root"
 PG_BIN = PG_ROOT / "usr/lib/postgresql/15/bin"
 PG_LIB = ASSETS / "postgres-lib"
@@ -151,7 +152,7 @@ def up():
         raise
     state = {"url": url, "run": str(run), "postgres_port": pg_port, "app_port": app_port,
              "started_utc": datetime.now(timezone.utc).isoformat(),
-             "jar_sha256": PINNED[JAR], "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+             "jar_sha256": PINNED[JAR], "jar_source_revision": JAR_SOURCE_REVISION,
              "processes": procs}
     STATE.write_text(json.dumps(state, indent=2) + "\n")
     (run / "state.json").write_text(STATE.read_text())
