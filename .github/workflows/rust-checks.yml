@@ -36,6 +36,18 @@ jobs:
           - syson-migrations
           - syson-domain
           - syson-workflow
+          - syson-ast
+          - syson-ast-adapter
+          - syson-ast-dispatch
+          - syson-ast-values
+          - syson-editor
+          - syson-initializer
+          - syson-metamodel
+          - syson-model
+          - syson-persistence
+          - syson-references
+          - syson-reflection
+          - syson-syntax
     env:
       CARGO_TERM_COLOR: always
       SYSON_TEST_DIR: /workspace/syson-snapshots
@@ -58,10 +70,15 @@ jobs:
           rustc +1.99.1 -Vv
           cargo +1.99.1 -V
 
-      - name: Prepare the owned snapshot test directory
-        if: matrix.crate == 'syson-workflow'
+      - name: Prepare the owned workspace test directory
+        if: matrix.crate == 'syson-workflow' || matrix.crate == 'syson-model'
+        env:
+          CRATE: ${{ matrix.crate }}
         run: |
-          sudo install -d -m 0700 -o "$(id -u)" -g "$(id -g)" /workspace/syson-snapshots
+          sudo install -d -m 0700 -o "$(id -u)" -g "$(id -g)" "$SYSON_TEST_DIR"
+          if [[ "$CRATE" == syson-model ]]; then
+            printf 'TMPDIR=%s\n' "$SYSON_TEST_DIR" >> "$GITHUB_ENV"
+          fi
 
       # No shared cache: each job can obtain its locked dependencies publicly.
       - name: Check formatting
