@@ -1,0 +1,53 @@
+"""Verify actual replay and all rewritten outputs against the prior genuine generator."""
+import hashlib
+import json
+from pathlib import Path
+import stat
+
+b=Path(__file__).resolve().parent
+load=lambda p:json.loads(p.read_bytes())
+prior=load(b/'reviewer-actual-generator-data-resume-01.json')
+seed=load(b/'generator-pair-seed-preimage-03.json')
+st=load(b/'generator-replay-output-preimage-stat-03.json')
+receipt=load(b/'checks-04c/receipt.json')
+spec=load(b/'checks-04c-spec.json')
+outputs=prior['paired_output_sha256']
+assert receipt['inputs_before']==receipt['inputs_after']==spec['inputs']
+assert receipt['status']=='PASS_NAMED_LOCAL_CHECKS_ONLY' and [c['exit'] for c in receipt['commands']]==[0,0]
+assert load(b/'checks-04c-cleanup.json')['confirmed_empty_or_absent']
+assert set(outputs)==set(seed['generator_output_paths']) and len(outputs)==803
+roster=seed['all_source_files']
+sha=lambda raw:hashlib.sha256(raw).hexdigest()
+seen = {}
+assert spec['env']['PYTHONHASHSEED']=='0'
+for mode,r in seed['seed_roots'].items():
+    root=Path(r)
+    names={p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()}
+    assert names==set(roster) and all(p.resolve()==p for p in root.rglob('*'))
+    for name,row in roster.items():
+        p=root/name
+        raw=p.read_bytes()
+        assert len(raw)==row['bytes'], name
+        state=p.stat()
+        assert stat.S_IMODE(state.st_mode)==int(row['mode'],8)
+        if name in outputs:
+            h=sha(raw)
+            assert seen.setdefault(name,h)==h,('N/O raw mismatch',name)
+            if h != outputs[name]:
+                assert name.endswith('/team-dispatch.json'), name
+                assert json.loads(raw)==load(Path(seed['source'])/name), name
+            assert state.st_mtime_ns>st[mode][name]['mtime_ns'],('missing actual rewrite',mode,name)
+            assert state.st_ino==st[mode][name]['inode'] and state.st_dev==st[mode][name]['device']
+        else:
+            assert spec['inputs'][str(p)]==sha(raw)==row['sha256']
+    a=b/'checks-04c'/('generator-'+mode+'.stdout')
+    z=b/'checks-04'/('generator-'+mode+'.stdout')
+    assert a.read_bytes()==z.read_bytes()
+    assert sha((root/'porting/rust-parity-plan-20261026/plan.json').read_bytes())==outputs['porting/rust-parity-plan-20261026/plan.json']
+for name,row in roster.items():
+    assert sha((Path(seed['source'])/name).read_bytes())==row['sha256'],name
+prior.update(status='PASS_PAIRED_SEEDED_GENERATOR_803_RAW_AND_PRIOR_SEMANTIC_AND_ORACLE',
+    paired_output_sha256=seen,pythonhashseed=0,
+    prior_diagnostic_raw_difference_roles=sorted(n for n,h in seen.items() if outputs[n]!=h),
+    expected_rewrites_per_mode=803,unchanged_replica_bodies_each=806)
+print(json.dumps(prior,indent=2))

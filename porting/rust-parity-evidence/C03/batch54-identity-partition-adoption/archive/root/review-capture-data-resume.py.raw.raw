@@ -1,0 +1,166 @@
+"""Read actual H output as bounded data, with no subject import or execution."""
+import hashlib
+import json
+import sys
+import zlib
+from pathlib import Path
+
+B54 = Path(__file__).resolve().parent
+W53 = Path('/workspace/worktrees/builderbob/syson/batch53-identity-capture-extension-20261031/porting/rust-parity-plan-20261026')
+W54 = W53.parent.parent.with_name('batch54-identity-adoption-source-20261031') / 'porting' / W53.name
+B53 = B54.parent / 'syson-durable-batch53-20261031'
+MIB = 1 << 20
+PRIOR = 'remaining-work/checkpoint-identity-partition-1.0.12/prior/'
+CATALOGUE = PRIOR + 'catalogue.json'
+
+
+def require(condition, detail):
+    if not condition:
+        raise ValueError(detail)
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def digest(value):
+    return sha(json.dumps(value, sort_keys=True, ensure_ascii=False,
+                          allow_nan=False, separators=(',', ':')).encode())
+
+
+def read(root, name, maximum):
+    path = root / name
+    require(not name.startswith('/') and
+            all(part not in ('', '.', '..') for part in name.split('/')),
+            ('relative path', name))
+    require(root.resolve() == root and path.resolve() == path
+            and path.is_file() and path.stat().st_size <= maximum, ('physical input', path))
+    with path.open('rb') as stream:
+        raw = stream.read(maximum + 1)
+    require(len(raw) <= maximum, ('body bound', path))
+    return raw
+
+
+def parse(raw):
+    def unique(pairs):
+        value = dict(pairs)
+        require(len(value) == len(pairs), 'duplicate JSON key')
+        return value
+    return json.loads(raw, object_pairs_hook=unique)
+
+
+def closed_tree(root):
+    require(root.is_dir() and root.resolve() == root, ('capture root', root))
+    paths = list(root.rglob('*'))
+    require(all(p.resolve() == p and (p.is_file() or p.is_dir()) for p in paths),
+            'noncanonical capture tree')
+    names = {p.relative_to(root).as_posix() for p in paths if p.is_file()}
+    require(len(names) == 18, 'exact 18 output bodies')
+    return {n: read(root, n, 512 * 1024) for n in names}
+
+
+historical_review = read(B53, 'reviewer-capture-data-01.json', 64 * 1024)
+require(sha(historical_review) == '9457a3c413bb3f3c0161aae1d93972574a6ecec35bf403527402dfb918260c9d',
+        'fixed historical review')
+old_review = parse(historical_review)
+old = old_review['whole_historical_semantics']
+old_body = read(B53 / 'catalogue-normal-01', CATALOGUE, 128 * 1024)
+old_rows = parse(old_body)['files']
+finalization = read(B54, 'proof-finalization-readback-01.json', 16 * 1024)
+require(sha(finalization) == 'ea022f353f348991ae1b23bc0482d30d4ab3c235745669a7fcc073b85141ba57',
+        'fixed final proof inventory')
+inventory = parse(finalization)['actual_files']
+proofs = {r['name']: r for r in inventory}
+require(len(proofs) == 8 == len(inventory), 'eight fixed proof roles')
+normal, optimized = map(lambda arg: closed_tree(Path(arg)), sys.argv[1:])
+require(normal == optimized, 'full N/O output bytes differ')
+catalogue = parse(normal[CATALOGUE])
+manifest = parse(normal['manifest.json'])
+require(set(catalogue) == {'schema', 'files', 'proof_inputs'} and catalogue['schema'] == 1
+        and catalogue['proof_inputs'] == sorted(proofs), 'exact catalogue shape and proof order')
+require(catalogue['files'] == old_rows and len(old_rows) == 66,
+        'all historical role records agree with qualified capture')
+require(set(manifest) == {'status', 'input_sha256', 'actual_program_sha256',
+                         'logical_input_ceiling', 'output_sha256', 'runtime', 'raw_alias_count'}
+        and manifest['status'] == 'UNSEALED_PROPOSAL_ONLY' and manifest['raw_alias_count'] == 50,
+        'manifest shape and attribution')
+require(manifest['output_sha256'] == {n: sha(raw) for n, raw in normal.items()
+                                     if n != 'manifest.json'}, 'whole output roster')
+require(manifest['actual_program_sha256'] == old_review['actual_program_lineage']['raw_current_program_pins'],
+        'ten whole program hashes agree with qualified capture')
+require(all(sha(read(W53, str(Path(n).relative_to(W53)), 65536)) == pin
+            for n, pin in manifest['actual_program_sha256'].items()), 'current W53 program bodies')
+files = {}
+gz = set()
+for name, row in catalogue['files'].items():
+    cap = {'remaining-work/units.json': 6 * MIB, 'team-dispatch.json': 2 * MIB}.get(name, 8 * MIB)
+    raw = read(W53, name, cap)
+    require(len(raw) == row['bytes'] and sha(raw) == row['sha256']
+            and hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+            == row['git_blob_sha1'], ('current historical role', name))
+    files[name] = raw
+    source = row['source']
+    if row['encoding'] == 'gzip':
+        require(source == PRIOR + 'captures/' + name + '.gz', ('gzip location', name))
+        gz.add(source)
+        stored = normal[source]
+        require(stored[:8] == b'\x1f\x8b\x08\x00\x00\x00\x00\x00'
+                and len(stored) <= 512 * 1024, ('gzip framing', name))
+        decoder = zlib.decompressobj(16 + zlib.MAX_WBITS)
+        decoded = decoder.decompress(stored, len(raw) + 1)
+        require(decoder.eof and not decoder.unused_data and not decoder.unconsumed_tail
+                and decoded == raw, ('single member and exact role bytes', name))
+    else:
+        require(row['encoding'] == 'raw' and source == name and source not in normal
+                and raw == read(W54, name, cap), ('physical W54 alias', name))
+        stored = raw
+    require(len(stored) == row['stored_bytes'] and sha(stored) == row['stored_sha256'],
+            ('stored descriptor', name))
+require(len(gz) == 16 and set(normal) == gz | {CATALOGUE, 'manifest.json'}, 'output layout')
+proof_raw = {}
+for name, row in proofs.items():
+    raw = read(W53, name, 8 * MIB)
+    require(len(raw) == row['bytes'] and sha(raw) == row['sha256']
+            and raw == read(W54, name, 8 * MIB) == read(B54 / 'proof-input-final-01', name, 8 * MIB),
+            ('fixed proof bodies', name))
+    proof_raw[name] = raw
+all_inputs = files | proof_raw
+require(manifest['input_sha256'] == {n: sha(raw) for n, raw in all_inputs.items()},
+        'all 66 historical and eight proof input hashes')
+charge = sum(len(raw) + 128 + 6 * len(n) for n, raw in all_inputs.items()) + MIB
+final_charge = charge + sum(len(raw) + 128 + 6 * len(n) for n, raw in normal.items())
+require(charge == manifest['logical_input_ceiling'] and final_charge <= 64 * MIB, 'capture ceiling')
+for name, key in [('completion-contract.json', 'contract_raw_sha256'),
+                  ('plan.json', 'plan_raw_sha256'),
+                  ('remaining-work/snapshot.lock.json', 'snapshot_lock_raw_sha256'),
+                  ('remaining-work/units.json', 'register_raw_sha256'),
+                  ('execution.json', 'execution_raw_sha256')]:
+    require(sha(files[name]) == old[key], ('whole historical object', name))
+snapshot = parse(files['remaining-work/snapshot.lock.json'])
+plan = parse(files['plan.json'])
+register = parse(files['remaining-work/units.json'])
+execution = parse(files['execution.json'])
+require(len(plan['units']) == len(register['units']) == 797 and len(execution['units']) == 55
+        and len(snapshot['progress_inputs']) == 342 and len(snapshot['sha256']) == 1206,
+        'historical counts')
+require(digest({n: snapshot['sha256'][n] for n in snapshot['progress_inputs']}) ==
+        old['progress_role_hashmap_digest'], 'historical progress map')
+for name, pin in snapshot['sha256'].items():
+    require(sha(read(W53, name, 8 * MIB)) == pin, ('all current old snapshot bodies', name))
+for unit, row in zip(plan['units'], register['units'], strict=True):
+    uid = unit['id']
+    path = 'prs/' + uid + '.md'
+    expected = dict(unit, primary_family=unit['completion_contract']['family'],
+                    brief='../' + path, brief_sha256=snapshot['sha256'][path],
+                    complete_plan_unit_sha256=digest(unit),
+                    feature_acceptance=execution['units'].get(uid, {}).get(
+                        'feature_acceptance', 'OPEN_NO_ACCEPTANCE_RECORD'))
+    require(digest(row) == digest(expected), ('complete old register row', uid))
+print(json.dumps({'status': 'PASS_ACTUAL_N_O_CAPTURE_DATA_ONLY_NO_INSTALL',
+                  'historical_roles': 66, 'raw_aliases': 50, 'gzip_single_members': 16,
+                  'proofs': 8, 'programs': 10, 'units': 797, 'history': 55, 'progress': 342,
+                  'old_snapshot_bodies': 1206, 'outputs_each': 18,
+                  'logical_capture_charge': final_charge, 'full_snapshot_fit': 'UNTESTED',
+                  'all_outputs_sha256': {n: sha(raw) for n, raw in sorted(normal.items())},
+                  'manifest_runtime': manifest['runtime'],
+                  'capture_roots': sys.argv[1:]}, indent=2))

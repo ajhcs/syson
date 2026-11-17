@@ -1,0 +1,85 @@
+"""Prepare a physical full-snapshot spec after reviewed generator installation."""
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import sys
+import uuid
+
+b = Path(__file__).resolve().parent
+seed = json.loads((b/'generator-pair-seed-preimage-02.json').read_bytes())
+w = Path(seed['source'])
+p = 'porting/rust-parity-plan-20261026/'
+plan = w/p
+review_path = b/'reviewer-actual-generator-replay-resume-02.json'
+review = json.loads(review_path.read_bytes())
+assert review['status']=='PASS_PAIRED_GENERATOR_REPLAY_EXACTLY_MATCHES_PRIOR_803_AND_ORACLE'
+outputs = review['paired_output_sha256']
+assert len(outputs)==803 and set(outputs)==set(seed['generator_output_paths'])
+generator = b/'checks-04b-spec.json'
+spec = json.loads(generator.read_bytes())
+receipt = b/'checks-04b/receipt.json'
+result = json.loads(receipt.read_bytes())
+assert spec['inputs']==result['inputs_before']==result['inputs_after']
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+orig = spec['inputs']
+replace = {str(w/n):h for n,h in outputs.items()}
+repinned = {n:{'before_sha256':orig.get(n),'after_sha256':h} for n,h in replace.items()}
+assert all(v['before_sha256']==v['after_sha256'] for v in repinned.values())
+assert all(sha(Path(n).read_bytes())==h for n,h in orig.items() if n not in replace)
+assert all(sha(Path(n).read_bytes())==h for n,h in replace.items())
+for n in ['remaining-work/units.json','remaining-work/snapshot.lock.json']:
+    assert json.loads((plan/n).read_bytes())['contract_id']=='SYSON-RUST-COMPLETION/1.0.11'
+spec['inputs'].update(replace)
+for root in seed['seed_roots'].values():
+    for n,h in outputs.items():
+        path = Path(root)/n
+        assert path.resolve()==path and path.is_file() and sha(path.read_bytes())==h
+        assert spec['inputs'].setdefault(str(path),h)==h
+extra = [generator,review_path,*sorted((b/'checks-04b').iterdir()),
+         b/'checks-04b-cleanup.json',b/'checks-04b-controller.stdout',b/'checks-04b-controller.stderr',
+         b/'reviewer-spec-04b.json',b/'root-runtime-admission-04b.json',
+         b/'review-generator-replay-resume.py.raw',
+         b/'snapshot-physical-preflight-resume-01.json',
+         *map(Path,sys.argv[1:])]
+for f in extra:
+    assert f.resolve()==f and f.is_file(),f
+    h=sha(f.read_bytes())
+    assert spec['inputs'].setdefault(str(f),h)==h
+expected = set(seed['all_source_files'])|set(outputs)
+assert len(expected)==1609
+assert all(str(w/n) in spec['inputs'] for n in expected)
+spec['commands']=[
+    {'name':'snapshot-'+mode,
+     'argv':['/usr/bin/python3',*flags,'-I','-B',str(b/'adoption_current.py'),
+             'snapshot',str(b/('snapshot-'+mode+'-01'))]}
+    for mode,flags in [('normal',[]),('optimized',['-O'])]]
+spec.update(schema='C51A-ACTUAL-SNAPSHOT-SPEC-PROPOSAL/1',
+            status='DATA_ONLY_PENDING_ROOT_FINAL_AND_REVIEW',
+            prepared_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            out=str(b/'checks-05'),prefix='syson-b54-snapshot-',cookie=uuid.uuid4().hex,
+            unit='syson-b54-snapshot-'+uuid.uuid4().hex+'.scope')
+spec['env'].update(SYSON_BOOTSTRAP_TEST_ROOT=str(b/'test-files-05'),TMPDIR=str(b/'command-tmp-05'))
+spec.pop('expected_generator_results')
+spec['installed_genuine_generator_outputs'] = repinned
+spec['expected_snapshot_results']={'commands':2,'exit':0,
+    'identical_mode_output_bytes':True,'outputs':['units.json','snapshot.lock.json','manifest.json'],
+    'proofs':8,'units':799,'historical_units':797,'history':55,'historical_progress':342,
+    'physical_roles':1246,'locked_roles':1247,'maximum_logical_framing_bytes':64*1024*1024,
+    'heap_or_RSS_limit_claim':False,
+    'snapshot_base_main':'a70f737c5c829556beb7f21711e3b6597acf22d7',
+    'snapshot_identity':'SYSON-RUST-REMAINING/2026-10-31.21'}
+spec['remaining_launch_gates']=[
+    'Keep current generated output bodies physically installed and unchanged until actual snapshot has been checked.',
+    'Independently review exact read/write paths, full W54 roster and provenance, immutable history, policy/catalogue, previous plan artifact/generator readbacks; check fresh resource and scope ownership.',
+    'Strictly compare actual paired JSON, 799 register rows and 1247 locked role hashes; compute logical input, output, reserve and bound; install two exact generated outputs only after readback and review.']
+out=b/'snapshot-phase-spec-proposal-resume-02.json'
+with out.open('x') as f:
+    json.dump(spec,f,indent=2,sort_keys=True)
+    f.write('\n')
+print(out,len(spec['inputs']),sha(out.read_bytes()))

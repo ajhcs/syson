@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch53-identity-capture-extension-20261031/porting/rust-parity-evidence/F25/main-batch31/qualify.py", line 20, in <module>
+    result = subprocess.run(step['argv'], cwd=spec['crate'], env=env, stdout=stdout, stderr=stderr, timeout=180)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2141, in _communicate
+    self.wait(timeout=self._remaining_time(endtime))
+  File "/usr/lib/python3.12/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2045, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['/usr/bin/python3', '-I', '-B', '-m', 'unittest', 'discover', '-s', '/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026/tools', '-p', 'test_preparation_splits.py', '-v']' timed out after 179.99999325700628 seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch53-identity-capture-extension-20261031/porting/rust-parity-evidence/F25/main-batch31/qualify.py", line 35, in <module>
+    raise RuntimeError(record['status'])
+RuntimeError: FAIL_TERMINAL

@@ -1,0 +1,130 @@
+{
+  "tool": "edit-with-purpose-local-edit-record",
+  "version": "0.1.0",
+  "result": "completed",
+  "source": {
+    "path": "/workspace/build/builderbob/syson-durable-batch54-20261031/public-README.md",
+    "sha256": "07a5ec6c8ed8feb48b60a02e92dc7658592df6c60f9f905cc5a39dfc172ba36a",
+    "bytes": 669
+  },
+  "plan": {
+    "path": "/workspace/build/builderbob/syson-durable-batch54-20261031/public-notes-edits-03.json",
+    "sha256": "647b6e87d68f79a87c3368a435cb74da1c5229c128188ddd38b98faccf4ea1b1"
+  },
+  "comparison": null,
+  "candidate": {
+    "sha256": "214cade22ed45b32d81da75c63935d717aaff053be0c1f18346ffda542a8c723",
+    "bytes": 552
+  },
+  "output": {
+    "path": "/workspace/build/builderbob/syson-durable-batch54-20261031/public-notes-candidate-03.md",
+    "sha256": "214cade22ed45b32d81da75c63935d717aaff053be0c1f18346ffda542a8c723",
+    "bytes": 552
+  },
+  "changes": [
+    {
+      "start": 35,
+      "end": 142,
+      "before": "This packet records the source and data required for the identity integration partition in contract 1.0.12.",
+      "after": "This packet records the source and data required for contract 1.0.12; the [completion contract](../../../rust-parity-plan-20261026/COMPLETION-CONTRACT.md) defines its obligations.",
+      "reason": "Give packet readers the canonical obligations instead of repeating constructor details.",
+      "plan_index": 0,
+      "location": {
+        "line": 3,
+        "column": 1
+      }
+    },
+    {
+      "start": 249,
+      "end": 471,
+      "before": "Normative and snapshot constructors retain their fixed inputs, bounds, private emission and source checks.\nOriginal contract 1.0.11 bodies and failed attempts remain historical data; archived programs are never executed.\n\n",
+      "after": "",
+      "reason": "Remove a redundant explanatory paragraph; the linked contract and existing qualified constructor/guard notes retain every requirement, and the passive archive warning is retained in the decision-gate paragraph.",
+      "plan_index": 1,
+      "location": {
+        "line": 6,
+        "column": 1
+      }
+    },
+    {
+      "start": 471,
+      "end": 566,
+      "before": "Source, execution, publication and main qualification have separate records and decision gates.",
+      "after": "Source, execution, publication and main qualification have separate records and decision gates; archived source remains passive.",
+      "reason": "Keep the archive warning next to the distinct decisions recorded in the packet.",
+      "plan_index": 2,
+      "location": {
+        "line": 9,
+        "column": 1
+      }
+    }
+  ],
+  "errors": [],
+  "assessment": {
+    "conformance": {
+      "status": "LIMITED",
+      "scope": "The recorded hash, input schema, exact spans, nonoverlap, reconstruction and output behavior only."
+    },
+    "correctness": {
+      "status": "NOT_ASSESSED"
+    },
+    "usefulness": {
+      "status": "NOT_ASSESSED"
+    }
+  },
+  "outside_named_spans": "Preserved by reconstruction from the checked original, without newline normalization.",
+  "original_blocks": [
+    {
+      "block": 1,
+      "start": 0,
+      "end": 33,
+      "original_characters": 33,
+      "original_characters_selected": 0,
+      "selected_percent": 0.0,
+      "whole_block_selected": false,
+      "characters_inserted_at_zero_width_spans": 0
+    },
+    {
+      "block": 2,
+      "start": 35,
+      "end": 247,
+      "original_characters": 212,
+      "original_characters_selected": 107,
+      "selected_percent": 50.472,
+      "whole_block_selected": false,
+      "characters_inserted_at_zero_width_spans": 0
+    },
+    {
+      "block": 3,
+      "start": 249,
+      "end": 469,
+      "original_characters": 220,
+      "original_characters_selected": 220,
+      "selected_percent": 100.0,
+      "whole_block_selected": true,
+      "characters_inserted_at_zero_width_spans": 0
+    },
+    {
+      "block": 4,
+      "start": 471,
+      "end": 668,
+      "original_characters": 197,
+      "original_characters_selected": 95,
+      "selected_percent": 48.223,
+      "whole_block_selected": false,
+      "characters_inserted_at_zero_width_spans": 0
+    }
+  ],
+  "block_convention": "Nonempty blocks separated by blank lines; not a full Markdown or sentence parser. Selection extent is informational, not a prohibition on deleting a whole block.",
+  "measurements": {
+    "convention": "Whitespace-separated tokens; SequenceMatcher alignment with autojunk=False. Punctuation attached to a token counts with it.",
+    "before_words": 91,
+    "after_words": 67,
+    "net_words_removed": 24,
+    "net_reduction_percent": 26.374,
+    "words_inserted": 12,
+    "words_removed_or_replaced": 36,
+    "original_tokens_removed_or_replaced_percent": 39.56,
+    "interpretation": "A lexical alignment, not a unique attribution of edits, a preservation proof or a usefulness score."
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "status": "ACTUAL_SCOPE_WITNESS_FROM_CGROUP_PROCS",
+  "at_utc": "2026-11-17T19:10:50.644251+00:00",
+  "scope": {
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-b54-plan-selftest-c3f0343c17724188827dbee31a225007.scope",
+    "LoadState": "loaded",
+    "InvocationID": "b27231a2c67b450a8f2dd65c3c4d4f55"
+  },
+  "limits": {
+    "cpu.max": "200000 100000",
+    "memory.high": "2147483648",
+    "memory.max": "3221225472",
+    "memory.swap.max": "0",
+    "pids.max": "128"
+  },
+  "observed_processes": [
+    {
+      "pid": 2644604,
+      "start_ticks": "6622116",
+      "argv": [
+        "/usr/bin/flock",
+        "-n",
+        "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+        "/usr/bin/timeout",
+        "--kill-after=10s",
+        "2400s",
+        "/usr/bin/python3",
+        "-s",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test"
+      ]
+    },
+    {
+      "pid": 2644606,
+      "start_ticks": "6622118",
+      "argv": [
+        "/usr/bin/timeout",
+        "--kill-after=10s",
+        "2400s",
+        "/usr/bin/python3",
+        "-s",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test"
+      ]
+    },
+    {
+      "pid": 2644607,
+      "start_ticks": "6622118",
+      "argv": [
+        "/usr/bin/python3",
+        "-s",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--self-test"
+      ]
+    }
+  ],
+  "cookie_match_for_every_process": true,
+  "spec_sha256": "432088250fcc1f046448035fbf898b20c8729b90dea942167638d73ec26c14a7",
+  "interim_memory_peak": 129388544
+}
