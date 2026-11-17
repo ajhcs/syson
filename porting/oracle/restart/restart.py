@@ -198,9 +198,9 @@ def browser(args, phase, out, state, environment):
     if browser_libraries:
         environment["LD_LIBRARY_PATH"] = browser_libraries
     with (out / f"{phase}-browser.log").open("wb") as log:
-        subprocess.run([args.node, str(Path(__file__).with_name("browser.cjs")),
+        return subprocess.Popen([args.node, str(Path(__file__).with_name("browser.cjs")),
                         phase, str(out), state["url"]], env=environment,
-                       stdout=log, stderr=subprocess.STDOUT, check=True, timeout=65)
+                       stdout=log, stderr=subprocess.STDOUT)
 
 
 def main():
@@ -213,6 +213,11 @@ def main():
     check(mode in {"java", "java-crash-postgres"}, "unrecognized SYSON_RESTART_MODE")
     restart_database = mode == "java-crash-postgres"
     app_signal = signal.SIGKILL if restart_database else signal.SIGTERM
+    field_mode = os.environ.get("SYSON_RESTART_CHECK_FOCUSED_EDIT", "0")
+    check(field_mode in {"0", "1"}, "unrecognized SYSON_RESTART_CHECK_FOCUSED_EDIT")
+    focused_edit = field_mode == "1"
+    check(not focused_edit or restart_database, "focused-edit experiment requires java-crash-postgres")
+
     out = args.output.resolve()
     check(out.is_relative_to(Path("/workspace/build")), "write only to verified workspace build")
     check(f"/{SCOPE}-".encode() in CGROUP, "requires the owned resource scope")
@@ -246,11 +251,28 @@ def main():
         config_sha = digest(props.read_bytes())
         check(digest(Path(os.fsdecode(argv[argv.index(b"-jar") + 1])).read_bytes()) == JAR_SHA, "JAR bytes changed")
         check(f"postgresql://127.0.0.1:{db_before['port']}/postgres" in props.read_text(), "wrong JDBC target")
-        browser(args, "before", out, state, environment)
+        initial = browser(args, "before", out, state, environment)
+        pending = None
+        if focused_edit:
+            marker = out / "pending-ready.json"
+            deadline = time.monotonic() + 48
+            while not marker.is_file():
+                check(initial.poll() is None and time.monotonic() < deadline, "browser did not reach focused edit")
+                time.sleep(0.03)
+            pending = json.loads(marker.read_bytes())
+            check(pending["focused"] and pending["mutationCount"] == 0, "unsubmitted edit escaped browser")
+        else:
+            check(initial.wait(timeout=65) == 0, "initial browser failed")
         saved = json.loads((out / "journey.json").read_text())
         before, before_entry_hashes = archive_projection(out / "before.zip", saved)
         stop(java, app_identity, run, app_signal)
         java = None
+        if focused_edit:
+            check(initial.poll() is None, "browser exited before Java stopped")
+            (out / "java-stopped").touch(exist_ok=False)
+            check(initial.wait(timeout=12) == 0, "focused browser failed")
+            check(json.loads((out / "pending-after-kill.json").read_bytes())["mutationCount"] == 0,
+                  "focused browser sent a mutation")
         check(not listening(state["app_port"]), "old app port remains open")
         db_between = db_identity(state, pg, run)
         check(db_between == db_before, "database changed during Java shutdown")
@@ -300,7 +322,8 @@ def main():
         ready(state, restarted)
         java_ready_ms = (time.monotonic_ns() - java_launch) / 1e6
         browser_start = time.monotonic_ns()
-        browser(args, "after", out, state, environment)
+        reopened = browser(args, "after", out, state, environment)
+        check(reopened.wait(timeout=65) == 0, "reopen browser failed")
         browser_ms = (time.monotonic_ns() - browser_start) / 1e6
         after, after_entry_hashes = archive_projection(out / "after.zip", saved)
         check(before == after, "semantic or representation projections differ after restart")
@@ -319,6 +342,8 @@ def main():
             }
         dump(out / "result.json", {
             "classification": "official release reference only",
+            **({"unsubmitted_field": pending, "focused_browser_alive_at_java_exit": True}
+               if pending is not None else {}),
             "release_sha256": JAR_SHA, "source_label": SOURCE,
             "resource_limits": limits,
             "observed_memory_peak_bytes": int((cgroup_path / "memory.peak").read_text()),

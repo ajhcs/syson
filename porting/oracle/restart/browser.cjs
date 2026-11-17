@@ -131,6 +131,33 @@ async function read(page, saved) {
   fs.writeFileSync(path.join(dir, phase + '.json'), JSON.stringify({ dom, download }, null, 2) + '\n');
 }
 
+async function holdEdit(page) {
+  const field = page.getByRole('region', { name: 'Details' }).getByTestId('input-Documentation');
+  const text = 'Unsubmitted focused edit should stay in the browser';
+  let mutationCount = 0;
+  page.on('request', request => {
+    if (request.method() === 'POST' && new URL(request.url()).pathname === '/api/graphql'
+        && request.postDataJSON()?.operationName === 'editTextfield') mutationCount++;
+  });
+  await field.focus();
+  await field.fill(text);
+  await new Promise(resolve => setTimeout(resolve, 750));
+  assert.equal(await field.inputValue(), text);
+  await page.screenshot({ path: path.join(dir, 'pending-focused.png') });
+  assert(await field.evaluate(el => document.activeElement === el));
+  assert.equal(mutationCount, 0);
+  const ready = path.join(dir, 'pending-ready.json');
+  fs.writeFileSync(ready + '.tmp', JSON.stringify({ text, focused: true, mutationCount }));
+  fs.renameSync(ready + '.tmp', ready);
+  const until = Date.now() + 15000;
+  while (!fs.existsSync(path.join(dir, 'java-stopped'))) {
+    assert(Date.now() < until, 'supervisor did not stop Java');
+    await new Promise(resolve => setTimeout(resolve, 30));
+  }
+  assert.equal(mutationCount, 0);
+  fs.writeFileSync(path.join(dir, 'pending-after-kill.json'), JSON.stringify({ mutationCount }));
+}
+
 async function main() {
   const browser = await chromium.launch({ headless: true });
   const errors = [];
@@ -153,6 +180,7 @@ async function main() {
       await page.goto(base.origin + saved.route, { waitUntil: 'domcontentloaded' });
     }
     await read(page, saved);
+    if (phase === 'before' && process.env.SYSON_RESTART_CHECK_FOCUSED_EDIT === '1') await holdEdit(page);
     assert.deepEqual(errors.filter(error => error.type === 'pageerror'), []);
   } finally {
     fs.writeFileSync(path.join(dir, phase + '-browser-errors.json'), JSON.stringify(errors, null, 2) + '\n');

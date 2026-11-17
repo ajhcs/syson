@@ -45,3 +45,18 @@ The optional run covers an acknowledged browser save followed by process loss
 and database restart. In-flight database writes require a separate experiment.
 
 [Default, full-restart and cleanup run receipts](full-backend-restart-v2026.9.3.json).
+
+## Keep a Documentation edit focused during restart
+
+Set `SYSON_RESTART_CHECK_FOCUSED_EDIT=1` with
+`SYSON_RESTART_MODE=java-crash-postgres` to compare focused browser text
+with the last submitted Documentation value. The browser first receives
+a successful field mutation. It then replaces the visible text while
+keeping the field focused and checks for the observed `editTextfield`
+request. The supervisor keeps that browser open until Java exits.
+
+The fresh browser reopens the original project and verifies the last
+submitted value. The capture includes the focused field, the reopened
+field, and the number of observed field mutations. This experiment covers
+the Documentation field and the named request. It begins before any new
+submission and leaves in-flight write recovery to a separate experiment.
