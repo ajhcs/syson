@@ -29,3 +29,17 @@ env SYSON_RESTART_PLAYWRIGHT="$playwright_root/node_modules/playwright" \
 ```
 
 A zero exit requires the result, removal of the runtime state file, and absence of the owned scope. The launcher records the scope invocation ID outside the output and uses it to stop an active scope after failure or interruption. The run retains screenshots, DOM observations, both original ZIPs, process and resource evidence, and failure logs in the output directory. The measured memory peak belongs to this synthetic workload and host.
+
+## Restart Java and PostgreSQL
+
+Set `SYSON_RESTART_MODE=java-crash-postgres` on the same command to test the
+loss of the Java process followed by a clean PostgreSQL restart. The harness
+kills the verified Java process after the browser saves, shuts PostgreSQL down
+with its fast-shutdown signal, then checks that both listeners closed. It starts
+new processes with the same executables, command arguments and data directory.
+A fresh browser reopens the same view and compares the saved Details and the
+downloaded model with the pre-restart state.
+
+The default command restarts Java gracefully and keeps PostgreSQL running.
+The optional run covers an acknowledged browser save followed by process loss
+and database restart. In-flight database writes require a separate experiment.

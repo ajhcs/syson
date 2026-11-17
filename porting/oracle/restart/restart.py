@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: EPL-2.0
-"""Run the synthetic reference journey before and after restarting owned Java."""
+"""Run the synthetic reference journey before and after restarting owned Java and PostgreSQL."""
 import argparse
 import hashlib
 import json
@@ -57,19 +57,20 @@ def proc(record, run):
     }, argv, env
 
 
-def wait_for_java_identity(record, run, app):
+def wait_for_identity(record, run, app):
     marker = record["marker"].encode()
     cmdline = Path(f"/proc/{app.pid}/cmdline")
+    expected = run / "data" if record["name"] == "postgres" else run
     deadline = time.monotonic() + 4
     while time.monotonic() < deadline:
-        check(app.poll() is None, "replacement Java exited before identity readback")
+        check(app.poll() is None, "replacement process exited before identity readback")
         try:
-            if marker in cmdline.read_bytes():
+            if marker in cmdline.read_bytes() and (cmdline.parent / "cwd").resolve() == expected:
                 return proc(record, run)[0]
         except FileNotFoundError:
             pass
         time.sleep(0.025)
-    raise RuntimeError("replacement Java command marker unavailable")
+    raise RuntimeError("replacement process identity unavailable")
 
 
 def stop(record, identity, run, stop_signal):
@@ -208,6 +209,10 @@ def main():
     cli.add_argument("output", type=Path, help="New private output directory in /workspace/build")
     cli.add_argument("--node", required=True)
     args = cli.parse_args()
+    mode = os.environ.get("SYSON_RESTART_MODE", "java")
+    check(mode in {"java", "java-crash-postgres"}, "unrecognized SYSON_RESTART_MODE")
+    restart_database = mode == "java-crash-postgres"
+    app_signal = signal.SIGKILL if restart_database else signal.SIGTERM
     out = args.output.resolve()
     check(out.is_relative_to(Path("/workspace/build")), "write only to verified workspace build")
     check(f"/{SCOPE}-".encode() in CGROUP, "requires the owned resource scope")
@@ -233,7 +238,9 @@ def main():
     restarted = None
     new_identity = None
     app_identity, argv, java_env = proc(java, run)
-    pg_identity = proc(pg, run)[0]
+    pg_identity, pg_argv, pg_env = proc(pg, run)
+    restarted_db = None
+    original_db = pg.copy()
     try:
         db_before = db_identity(state, pg, run)
         config_sha = digest(props.read_bytes())
@@ -242,36 +249,81 @@ def main():
         browser(args, "before", out, state, environment)
         saved = json.loads((out / "journey.json").read_text())
         before, before_entry_hashes = archive_projection(out / "before.zip", saved)
-        stop(java, app_identity, run, signal.SIGTERM)
+        stop(java, app_identity, run, app_signal)
         java = None
         check(not listening(state["app_port"]), "old app port remains open")
         db_between = db_identity(state, pg, run)
         check(db_between == db_before, "database changed during Java shutdown")
+        db_expected = db_before
+        if restart_database:
+            stop(pg, pg_identity, run, signal.SIGINT)
+            pg = None
+            pg_identity = None
+            check(not (run / "data/postmaster.pid").exists(), "database did not shut down cleanly")
+            check(not listening(state["postgres_port"]), "old database port remains open")
+            check(not listening(state["app_port"]), "app port reopened before database")
+            outage = time.monotonic_ns()
+            with (out / "postgres-after.stdout").open("wb") as stdout, (out / "postgres-after.stderr").open("wb") as stderr:
+                restarted_db = subprocess.Popen(pg_argv, cwd=run, env=pg_env, stdout=stdout, stderr=stderr,
+                                                stdin=subprocess.DEVNULL, start_new_session=True)
+            pg = {**original_db, "pid": restarted_db.pid}
+            pg_identity = wait_for_identity(pg, run, restarted_db)
+            check(pg_identity["pid"] != db_before["process"]["pid"] and
+                  pg_identity["start_tick"] > db_before["process"]["start_tick"] and
+                  pg_identity["executable"] == db_before["process"]["executable"] and
+                  pg_identity["argv_sha256"] == db_before["process"]["argv_sha256"],
+                  "database argv or process identity changed unexpectedly")
+            deadline = time.monotonic() + 10
+            while time.monotonic() < deadline:
+                check(restarted_db.poll() is None, "replacement database exited")
+                if b"database system is ready to accept connections" in (out / "postgres-after.stderr").read_bytes():
+                    break
+                time.sleep(.05)
+            else:
+                raise RuntimeError("replacement database did not become ready")
+            db_reopened = db_identity(state, pg, run)
+            reused = ("data_dev", "data_inode", "data_directory", "port")
+            check(all(db_reopened[k] == db_before[k] for k in reused), "database directory or port changed")
+            db_expected = db_reopened
+            db_ready_ms = (time.monotonic_ns() - outage) / 1e6
+        java_launch = time.monotonic_ns()
         check(digest(props.read_bytes()) == config_sha, "Java config changed")
         with (out / "java-after.stdout").open("wb") as stdout, (out / "java-after.stderr").open("wb") as stderr:
             restarted = subprocess.Popen(argv, cwd=run, env=java_env, stdout=stdout, stderr=stderr,
                                          stdin=subprocess.DEVNULL, start_new_session=True)
         java = {"pid": restarted.pid, "marker": str(props), "name": "syson"}
-        new_identity = wait_for_java_identity(java, run, restarted)
+        new_identity = wait_for_identity(java, run, restarted)
         check(new_identity["pid"] != app_identity["pid"] and
               new_identity["start_tick"] > app_identity["start_tick"] and
               new_identity["executable"] == app_identity["executable"] and
               new_identity["argv_sha256"] == app_identity["argv_sha256"], "Java argv/identity changed unexpectedly")
         ready(state, restarted)
+        java_ready_ms = (time.monotonic_ns() - java_launch) / 1e6
+        browser_start = time.monotonic_ns()
         browser(args, "after", out, state, environment)
+        browser_ms = (time.monotonic_ns() - browser_start) / 1e6
         after, after_entry_hashes = archive_projection(out / "after.zip", saved)
         check(before == after, "semantic or representation projections differ after restart")
         db_after = db_identity(state, pg, run)
-        check(db_after == db_before and digest(props.read_bytes()) == config_sha, "database or config changed")
+        check(db_after == db_expected and digest(props.read_bytes()) == config_sha, "database or config changed")
         before_ui = json.loads((out / "before.json").read_text())
         after_ui = json.loads((out / "after.json").read_text())
         check(before_ui["dom"] == after_ui["dom"], "rendered Details projection changed")
+        restart_details = {}
+        if restart_database:
+            restart_details["full_restart"] = {
+                "java_signal": app_signal.name, "postgres_signal": signal.SIGINT.name,
+                "both_ports_closed": True, "clean_database_shutdown": True,
+                "observed_ms": {"postgres_ready": db_ready_ms, "java_http_ready": java_ready_ms,
+                                "fresh_browser_journey": browser_ms},
+            }
         dump(out / "result.json", {
             "classification": "official release reference only",
             "release_sha256": JAR_SHA, "source_label": SOURCE,
             "resource_limits": limits,
             "observed_memory_peak_bytes": int((cgroup_path / "memory.peak").read_text()),
             "same_database": {"before": db_before, "between": db_between, "after": db_after},
+            **restart_details,
             "java": {"before": app_identity, "after": new_identity, "config_sha256": config_sha, "port_closed_between": True},
             "ui": before_ui["dom"], "archive_projection": before,
             "archives": {phase: {**json.loads((out / f"{phase}.json").read_text())["download"],
@@ -286,11 +338,21 @@ def main():
                 if identity is not None:
                     stop(java, identity, run, signal.SIGTERM)
         finally:
-            stop(pg, pg_identity, run, signal.SIGINT)
-        if restarted is not None:
+            # The launcher can clean its exact invocation if startup failed
+            # before an identity was verified for the replacement.
+            if pg is not None and pg_identity is not None:
+                if restarted_db is None or restarted_db.poll() is None:
+                    stop(pg, pg_identity, run, signal.SIGINT)
+                if restarted_db is not None:
+                    check(restarted_db.wait(timeout=10) == 0, "replacement DB failed at shutdown")
+        if restarted is not None and new_identity is not None:
             restarted.wait(timeout=10)
         state_path.unlink()
-        check(not listening(state["app_port"]) and not listening(state["postgres_port"]), "owned listeners remain")
+        java_was_verified = restarted is None or new_identity is not None
+        database_was_verified = restarted_db is None or pg_identity is not None
+        if java_was_verified and database_was_verified:
+            check(not listening(state["app_port"]) and not listening(state["postgres_port"]),
+                  "owned listeners remain")
 
 
 def timed_out(signum, frame):
