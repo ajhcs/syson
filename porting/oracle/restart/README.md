@@ -43,3 +43,5 @@ downloaded model with the pre-restart state.
 The default command restarts Java gracefully and keeps PostgreSQL running.
 The optional run covers an acknowledged browser save followed by process loss
 and database restart. In-flight database writes require a separate experiment.
+
+[Default, full-restart and cleanup run receipts](full-backend-restart-v2026.9.3.json).
