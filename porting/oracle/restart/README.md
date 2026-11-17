@@ -60,3 +60,5 @@ submitted value. The capture includes the focused field, the reopened
 field, and the number of observed field mutations. This experiment covers
 the Documentation field and the named request. It begins before any new
 submission and leaves in-flight write recovery to a separate experiment.
+
+[Default and focused-field run receipts](focused-edit-restart-v2026.9.3.json).
