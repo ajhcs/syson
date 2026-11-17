@@ -1,0 +1,135 @@
+{
+  "status": "PASS_BOUNDED_PUBLIC_API_PROCESS_REOPEN",
+  "processes": {
+    "01-writer": {
+      "mode": "write",
+      "pid": 3778910,
+      "exit": 0,
+      "proc_entry_absent_after_wait": true,
+      "start_monotonic_ns": 77822509407360,
+      "reaped_monotonic_ns": 77822542901077,
+      "stdout_sha256": "4bae606378f3a44a10090f1ad4a606883cce265bcde9d4f942f180eff220be95",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "02-reader": {
+      "mode": "read",
+      "pid": 3778911,
+      "exit": 0,
+      "proc_entry_absent_after_wait": true,
+      "start_monotonic_ns": 77822543276445,
+      "reaped_monotonic_ns": 77822545636971,
+      "stdout_sha256": "56673f500add4801a35501003fab95ab5a422ea4db8e4c73f83aabac466d86fc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "03-malformed-import": {
+      "mode": "malformed",
+      "pid": 3778912,
+      "exit": 2,
+      "proc_entry_absent_after_wait": true,
+      "start_monotonic_ns": 77822545956392,
+      "reaped_monotonic_ns": 77822548243396,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "700a2e09d66461e83a64fee54cd24e21fdabf2d550589aa8d892495b2187d054"
+    },
+    "04-duplicate-key": {
+      "mode": "overwrite",
+      "pid": 3778913,
+      "exit": 2,
+      "proc_entry_absent_after_wait": true,
+      "start_monotonic_ns": 77822548406528,
+      "reaped_monotonic_ns": 77822556788572,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "bd57ee4fc18efecb57e8b0386fe075d5371cfac259b24ec5f67622a5e1ee9e86"
+    },
+    "05-reader-after-duplicate": {
+      "mode": "read",
+      "pid": 3778914,
+      "exit": 0,
+      "proc_entry_absent_after_wait": true,
+      "start_monotonic_ns": 77822557112882,
+      "reaped_monotonic_ns": 77822559387894,
+      "stdout_sha256": "c6a04e6612c7d563a49e41a28454ce0b188bcee776afb2555376833b3fea772f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "06-reader-truncated": {
+      "mode": "read",
+      "pid": 3778915,
+      "exit": 2,
+      "proc_entry_absent_after_wait": true,
+      "start_monotonic_ns": 77822559723826,
+      "reaped_monotonic_ns": 77822561798475,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "080945adbc9c685962e6a496f2a0212b2518cba1e7cbcd4dee7b64821ea57b3d"
+    },
+    "07-reader-after-truncated": {
+      "mode": "read",
+      "pid": 3778916,
+      "exit": 0,
+      "proc_entry_absent_after_wait": true,
+      "start_monotonic_ns": 77822561982837,
+      "reaped_monotonic_ns": 77822564385373,
+      "stdout_sha256": "260e876422363dab1a64784b8cebd1790667c470f67bca83e833897c2f549379",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "fixed_ids": [
+    [
+      "71000000-0000-4000-8000-000000000001",
+      "72000000-0000-4000-8000-000000000001"
+    ],
+    [
+      "71000000-0000-4000-8000-000000000002",
+      "72000000-0000-4000-8000-000000000002"
+    ],
+    [
+      "71000000-0000-4000-8000-000000000003",
+      "72000000-0000-4000-8000-000000000003"
+    ],
+    [
+      "71000000-0000-4000-8000-000000000004",
+      "72000000-0000-4000-8000-000000000004"
+    ],
+    [
+      "71000000-0000-4000-8000-000000000005",
+      "72000000-0000-4000-8000-000000000005"
+    ],
+    [
+      "71000000-0000-4000-8000-000000000006",
+      "72000000-0000-4000-8000-000000000006"
+    ]
+  ],
+  "typed_reference_endpoints": {
+    "type": "72000000-0000-4000-8000-000000000002",
+    "typedFeature": "72000000-0000-4000-8000-000000000004"
+  },
+  "rename": "Link Rev A <&> 雪🧭",
+  "independent_canonical_bytes": 2202,
+  "published_sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a",
+  "published_file_dev_inode_size_mtime_ns": [
+    66305,
+    64924414,
+    2202,
+    1794954175931267280
+  ],
+  "duplicate_diagnostic_stage": {
+    "path": "rig.emf.staged",
+    "sha256": "eead4faa8e21be11bfdc2151a02a21172873450aa47ad5d168eb4271b9fea255"
+  },
+  "truncated_sha256": "0fbbbe52a4d2583ac315def227bac32af499a5e3964cd1a35fd960ab6d1fc761",
+  "refusals": {
+    "malformed_import": "stage: Parse(Malformed { offset: 47, expected: \"}\" })",
+    "no_clobber": "save: AlreadyExists: File exists (os error 17)",
+    "truncated_snapshot": "load: Model(Json(\"Syntax { line: 65, column: 42 }\"))"
+  },
+  "timings_single_sample_ns": {
+    "writer": {
+      "edit": 10309,
+      "import": 131101,
+      "open_save": 20911390
+    },
+    "reader": {
+      "open_load": 115150
+    }
+  },
+  "feature_acceptance": false
+}
