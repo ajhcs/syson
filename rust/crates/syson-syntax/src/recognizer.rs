@@ -44,6 +44,8 @@ pub struct Recognition {
     /// Only nodes reachable from the chosen syntax derivation; no semantic AST.
     pub cst: Vec<CstNode>,
     pub root: usize,
+    /// Alternative construction histories among admitted states.
+    /// Lookahead can rule out branches before they enter the chart.
     pub ambiguous_state_merges: usize,
     pub semantics: SemanticStatus,
 }
@@ -154,7 +156,9 @@ pub(crate) fn recognize(
             work,
         )?;
     }
+    let mut pruned = BTreeSet::new();
     for position in 0..charts.len() {
+        pruned.clear();
         let mut cursor = 0;
         while cursor < charts[position].states.len() {
             work.tick()?;
@@ -188,6 +192,19 @@ pub(crate) fn recognize(
                 }
                 Some(Symbol::Nonterminal(next)) => {
                     for &p in &g.by_lhs[*next] {
+                        // A dead branch can still schedule a shared nullable
+                        // helper. Keep it to preserve the chosen derivation.
+                        if let Some(first) = g.first.as_ref().map(|sets| &sets[p])
+                            && !first.nullable
+                            && !first.predicts_nullable
+                            && !visible
+                                .get(position)
+                                .is_some_and(|token| first.tokens.contains(&token.kind))
+                        {
+                            work.tick()?;
+                            pruned.insert(p);
+                            continue;
+                        }
                         add(
                             g,
                             &mut charts[position],
@@ -308,13 +325,20 @@ pub(crate) fn recognize(
         .rposition(|c| !c.states.is_empty())
         .unwrap_or(0);
     let mut expected = BTreeSet::new();
+    // Skipped nonnullable productions cannot advance, but their FIRST tokens
+    // remain expected at this position.
+    if let Some(first) = &g.first {
+        for production in pruned {
+            for token in &first[production].tokens {
+                work.tick()?;
+                expected.insert(expected_token(token));
+            }
+        }
+    }
     for state in &charts[farthest].states {
         let p = &g.productions[state.production];
         if let Some(Symbol::Token(t)) = p.rhs.get(state.dot) {
-            expected.insert(match t {
-                TokenKind::Keyword(s) => format!("keyword {s:?}"),
-                TokenKind::Terminal(s) => s.clone(),
-            });
+            expected.insert(expected_token(t));
         }
         if p.lhs == entry && state.start == 0 && state.dot == p.rhs.len() {
             expected.insert("end of input".into());
@@ -336,4 +360,11 @@ pub(crate) fn recognize(
         found,
         expected: expected.into_iter().collect(),
     })
+}
+
+fn expected_token(t: &TokenKind) -> String {
+    match t {
+        TokenKind::Keyword(s) => format!("keyword {s:?}"),
+        TokenKind::Terminal(s) => s.clone(),
+    }
 }

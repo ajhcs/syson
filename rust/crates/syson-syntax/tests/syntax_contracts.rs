@@ -320,3 +320,20 @@ fn empty_documents_and_repeated_recognition_are_stable_with_contained_spans() {
         }
     }
 }
+
+#[test]
+fn bundled_batmobile_template_is_recognized_with_default_budgets() {
+    let input = include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../../backend/application/syson-application-configuration/src/main/resources/templates/Batmobile.sysml"
+    ));
+    let recognized = grammar(Language::SysML)
+        .recognize(input, Options::default())
+        .unwrap();
+    assert_eq!(recognized.semantics, SemanticStatus::NotPerformed);
+    let root = &recognized.cst[recognized.root];
+    assert!(matches!(root.kind, CstKind::Rule(_)));
+    let mut visible = recognized.tokens.iter().filter(|token| !token.hidden);
+    assert_eq!(root.span.start, visible.clone().next().unwrap().span.start);
+    assert_eq!(root.span.end, visible.next_back().unwrap().span.end);
+}
