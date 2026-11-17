@@ -18,7 +18,7 @@ PIN = '89d56e9bde5aa8627346feb7e50ea7447572f0e452d1e74e95d40dc148b682a9'
 def modules():
     path = DIRECTORY / 'test_guard.py'
     raw = path.read_bytes()
-    if hashlib.sha256(raw).hexdigest() != '65b12e7d1c5475c1cb7b5800f72919c96edcf6ddfca427cab6c16248edfc20bf':
+    if hashlib.sha256(raw).hexdigest() != 'b87b238d57661a8013016bf84150b492bfc560d298a2fc63ae1d3cfce85d2a91':
         raise ValueError('whole existing bootstrap source changed')
     spec = importlib.util.spec_from_file_location('fixed_constructor_existing_bootstrap', path)
     bootstrap = importlib.util.module_from_spec(spec)
@@ -32,13 +32,13 @@ def modules():
     C.__file__, C.__package__ = str(path), G.__package__
     sys.modules[C.__name__] = C
     exec(compile(raw, str(path), 'exec'), C.__dict__)
-    return D, G, C
+    return D, G, C, bootstrap.current_identity
 
 
 class ConstructorTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.D, cls.G, cls.C = modules()
+        cls.D, cls.G, cls.C, cls.current_identity = modules()
         cls.root = Path(cls.C.ROOT)
         fixture = Path(os.environ['SYSON_SOURCE_NEXT_FIXTURES'])
         if fixture.resolve() != fixture or fixture != DIRECTORY / 'fixtures':
@@ -217,6 +217,19 @@ class ConstructorTests(unittest.TestCase):
         current_lock = self.P.parse((self.root / 'completion-contract.lock.json').read_bytes())
         current_snapshot = self.P.parse((self.root / 'remaining-work/snapshot.lock.json').read_bytes())
         current_register = self.P.parse((self.root / 'remaining-work/units.json').read_bytes())
+        if current_lock['contract_id'] == 'SYSON-RUST-COMPLETION/1.0.12':
+            facade = type(self).current_identity()
+            current = sys.modules[facade.__package__ + '.construct']
+            self.assertEqual(current.contract_lock()['artifacts']['completion-contract.lock.json'], current_lock)
+            actual = current.snapshot(current_snapshot['snapshot_id'], current_snapshot['base_main'])['artifacts']
+            self.assertEqual(actual, {'units.json': current_register, 'snapshot.lock.json': current_snapshot})
+            is_file = Path.is_file
+            for name in ['source_next_splits.py', 'identity_partition_splits.py']:
+                loader = self.root / 'tools' / name
+                with patch.object(Path, 'is_file', lambda path: False if path == loader else is_file(path)):
+                    with self.assertRaises(ValueError):
+                        current.contract_lock()
+            return
         actual = self.C.contract_lock(None, self.prior_contract)['artifacts']['completion-contract.lock.json']
         self.assertEqual(actual, current_lock)
         actual = self.C.snapshot(None, self.prior_register, self.prior_snapshot, self.prior_contract,
