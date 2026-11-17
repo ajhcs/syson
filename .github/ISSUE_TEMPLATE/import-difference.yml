@@ -1,0 +1,46 @@
+name: SysML import difference
+description: Rust and SysON build a different model from the same SysML text, or one of them refuses it.
+labels: ["area: import"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for checking the port against SysON. This issue will be public: use synthetic or shareable models only, and do not include credentials or security vulnerability details.
+        First check the [Phase 1 tracking issue](https://github.com/ajhcs/syson/issues/269): the language construct may already have an issue. If so, add your example there instead.
+  - type: textarea
+    id: source
+    attributes:
+      label: Smallest SysML text that shows the difference
+      description: Cut it down as far as you can while the difference remains. A few lines is ideal.
+      render: sysml
+    validations:
+      required: true
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: What happens?
+      options:
+        - Rust refuses it, SysON imports it (RUST_REFUSES)
+        - Both import it, but the models differ (DIFFER)
+        - Rust imports it, SysON refuses it (REFERENCE_ONLY_REFUSES)
+        - Rust's output can't be opened by SysON
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: The Rust error, or the first structural difference from `porting/oracle/differential.py` (its per-case JSON has both documents). Say how you checked SysON's side (harness, SysON web app, or your own reading of the spec).
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Which behavior is correct?
+      description: Usually SysON's, but not always. If you think SysON is wrong, cite the SysML v2 specification section.
+  - type: input
+    id: revision
+    attributes:
+      label: Revision
+      description: The commit you tested, and the SysON version if you used the reference app.

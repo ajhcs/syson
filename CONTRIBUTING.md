@@ -4,16 +4,17 @@ Thank you for helping. This guide is for the independent Rust effort in this rep
 
 ## What we're building
 
-The goal is a complete Rust port of SysON that behaves the same as the original, and then **MBSECraft** ([ajhcs/mbse-craft](https://github.com/ajhcs/mbse-craft)): a native, open-source systems-engineering workbench in the [ArtCraft](https://github.com/storytold/artcraft) family, built on these Rust crates. The [README](README.md#roadmap) has the roadmap. The current milestone is **Phase 1: parser coverage and interoperability**, tracked in [#269](https://github.com/ajhcs/syson/issues/269).
+The goal is a complete Rust port of SysON that behaves the same as the original, and then **MBSECraft** ([ajhcs/mbse-craft](https://github.com/ajhcs/mbse-craft)): a native, open-source systems-engineering workbench in the [ArtCraft](https://github.com/storytold/artcraft) family, built on these Rust crates. The [README](README.md#roadmap) has the roadmap, and the pinned [roadmap issue #282](https://github.com/ajhcs/syson/issues/282) links each phase's tracking issue. The current milestone is **Phase 1: parser coverage and interoperability**, tracked in [#269](https://github.com/ajhcs/syson/issues/269). Phases 2–4 ([#279](https://github.com/ajhcs/syson/issues/279), [#280](https://github.com/ajhcs/syson/issues/280), [#281](https://github.com/ajhcs/syson/issues/281)) already have tasks that can start now, mostly inventories and decisions that need no Rust.
 
 ## Find a task
 
 1. Read the [README](README.md) and try its layout example and checks.
-2. Open the [Phase 1 tracking issue](https://github.com/ajhcs/syson/issues/269). Its "Start here" list names tasks that need little background, and the work items are grouped by area. You can also filter issues by label:
+2. Open the [roadmap issue](https://github.com/ajhcs/syson/issues/282), which suggests tasks by skill, or the [Phase 1 tracking issue](https://github.com/ajhcs/syson/issues/269), whose "Start here" list names tasks that need little background. You can also filter issues by label:
    - [`good first issue`](https://github.com/ajhcs/syson/labels/good%20first%20issue): smallest scope, most guidance
    - [`area: import`](https://github.com/ajhcs/syson/labels/area%3A%20import): SysML text to model (Rust)
    - [`area: interop`](https://github.com/ajhcs/syson/labels/area%3A%20interop): whether SysON can use what Rust writes
    - [`area: oracle`](https://github.com/ajhcs/syson/labels/area%3A%20oracle): the differential harness (mostly Python)
+   - [`area: persistence`](https://github.com/ajhcs/syson/labels/area%3A%20persistence), [`area: api`](https://github.com/ajhcs/syson/labels/area%3A%20api), [`area: views`](https://github.com/ajhcs/syson/labels/area%3A%20views), [`area: ci`](https://github.com/ajhcs/syson/labels/area%3A%20ci): saving and project files, server APIs, explorer and diagrams, continuous integration
    - [`needs decision`](https://github.com/ajhcs/syson/labels/needs%20decision): behavior questions where SysML knowledge helps more than code
 
    You can also propose a documentation fix, a focused test, or a bounded behavior improvement.

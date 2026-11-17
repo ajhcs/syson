@@ -21,15 +21,17 @@ First run, 2026-11-17 ([full results](porting/oracle/results/20261117T143026Z.md
 |---|---|---|
 | 0 | Differential harness against the official SysON release | Done ([`porting/oracle`](porting/oracle/README.md)) |
 | 1 | Rust imports all 19 bundled SysON examples with the same model, and SysON can open the result | **In progress:** [tracking issue #269](https://github.com/ajhcs/syson/issues/269) |
-| 2 | Edits, save and reopen, existing SysON projects, diagrams | Planned ([#259](https://github.com/ajhcs/syson/issues/259)) |
-| 3 | Rust APIs and editor (native and WebAssembly) with full SysON workflow coverage | Planned |
-| 4 | MBSECraft uses the Rust engine for its SysML v2 models | Planned, in [ajhcs/mbse-craft](https://github.com/ajhcs/mbse-craft) |
+| 2 | Edits, save and reopen, existing SysON projects | Planned: [tracking issue #279](https://github.com/ajhcs/syson/issues/279) |
+| 3 | Rust APIs, views and editor (native and WebAssembly) with full SysON workflow coverage | Planned: [tracking issue #280](https://github.com/ajhcs/syson/issues/280) |
+| 4 | MBSECraft uses the Rust engine for its SysML v2 models | Planned: [decision issue #281](https://github.com/ajhcs/syson/issues/281), then [ajhcs/mbse-craft](https://github.com/ajhcs/mbse-craft) |
+
+The pinned [roadmap issue #282](https://github.com/ajhcs/syson/issues/282) links every phase and suggests tasks by skill: Rust, Python, SysML modeling, web and GraphQL, documentation.
 
 ## Why contribute
 
 Working here is a chance to solve practical Rust problems in parsing, public APIs, error handling, serialization and graph layout, and to help build an open engineering toolchain people can embed or run anywhere. Every task has an objective check: the Rust result either matches SysON or it doesn't. SysML practitioners can contribute representative models, describe expected behavior and settle semantics questions. You don't need to know the whole project; small, well-tested changes and good questions are useful.
 
-**New here?** Start with the [Phase 1 tracking issue](https://github.com/ajhcs/syson/issues/269), which lists beginner-friendly tasks, or browse [`good first issue`](https://github.com/ajhcs/syson/labels/good%20first%20issue).
+**New here?** Start with the [roadmap issue](https://github.com/ajhcs/syson/issues/282), which suggests tasks for different skills (several need no Rust), or browse [`good first issue`](https://github.com/ajhcs/syson/labels/good%20first%20issue).
 
 ## What works today
 
