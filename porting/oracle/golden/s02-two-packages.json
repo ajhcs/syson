@@ -1,0 +1,166 @@
+{
+ "schema": 1,
+ "id": "s02-two-packages",
+ "source_sha256": "aa0ac707b7471e9dd61bd8364fa7ab5a317c06a14f45502ea2d9c45daf4047e0",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "581e4a63-f1ba-42b7-bb67-1f9e9b730d33",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "674d2c03-2b3b-42c4-930c-dc7a9e40041c",
+      "ownedRelationship": [
+       {
+        "id": "c0520055-c5d4-462e-88bf-d23df0b27946",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "94c18218-ba77-4485-8809-88edc2c33d8e",
+         "ownedRelatedElement": [
+          {
+           "id": "58e62e0c-899a-4f6d-8e08-6560996e32fb",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "A",
+            "elementId": "0cafb621-99a9-4da8-85dc-17dc79c4e345",
+            "ownedRelationship": [
+             {
+              "id": "f0c5a62a-a542-45dc-8c6f-9688a0f25cfd",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "4d8129dd-501b-42ec-a3ae-4eb2204944f5",
+               "ownedRelatedElement": [
+                {
+                 "id": "09496ae2-cd2a-4bec-949b-522044949560",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "X",
+                  "elementId": "520a24dc-f879-443d-ab41-95aab1e1edc4"
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       },
+       {
+        "id": "05a69fbb-134a-4212-918a-3d8c27647eee",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "bb39eb7d-55d6-4cbc-ae2b-2cb89c242507",
+         "ownedRelatedElement": [
+          {
+           "id": "4b600410-7284-4eae-92b4-ed775d01ae5a",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "B",
+            "elementId": "ba1a8caa-7bce-43c8-a8d2-51b10b5c684b",
+            "ownedRelationship": [
+             {
+              "id": "cb79ac47-f6d6-485a-957d-20fc6d9b549a",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "466df344-fdde-4dbf-94d6-014050b02074",
+               "ownedRelatedElement": [
+                {
+                 "id": "df25b91c-e159-4031-948f-8cd1801b203d",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "Y",
+                  "elementId": "a28113fa-f413-4c00-afbe-5d4cc718f90d"
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "A",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "X"
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "#": "n3",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "B",
+     "ownedRelationship": [
+      {
+       "#": "n4",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n5",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "Y"
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [],
+  "nodes": 6
+ },
+ "record_sha256": "512d96ea26122e3767bc65dbf0da25834cded46fa01b501091c0c989669a6880"
+}

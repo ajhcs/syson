@@ -1,0 +1,197 @@
+{
+ "schema": 1,
+ "id": "convertAllocationTest-allocation",
+ "source_sha256": "8ffaad27ebeccfb94c49e5399e2f09de50ab053e85fff38f09187c0c00284c73",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "247a0864-db66-4c76-88b8-37474f88b497",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "550e8179-aa97-43ff-9978-7277748aa8d3",
+      "ownedRelationship": [
+       {
+        "id": "b678dc33-a1ad-4ec4-a067-895500290a9b",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "e7d142db-a1f7-4264-b1e7-406e438f35b8",
+         "ownedRelatedElement": [
+          {
+           "id": "5dc7c8c2-9c73-47df-b472-9e2093462f46",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "AllocationTest",
+            "elementId": "02392d39-0c15-4135-aa99-1db34bd21f16",
+            "ownedRelationship": [
+             {
+              "id": "ebda4b22-f2e5-4ef4-aea0-53642ac6b826",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "80a14d41-93dc-4ede-893a-20407a23f0a8",
+               "ownedRelatedElement": [
+                {
+                 "id": "dce0fc07-b2ba-4b65-8777-e22de786aed5",
+                 "eClass": "sysml:AllocationDefinition",
+                 "data": {
+                  "declaredName": "A",
+                  "elementId": "032652cb-221d-486c-a54c-c7a193cd2251"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "621a258d-23e4-4061-86c7-f7f936dd6a62",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "e1b251e7-b8a6-4542-b5ce-6e56b69a7a31",
+               "ownedRelatedElement": [
+                {
+                 "id": "aadcb13d-ba34-4d4a-b2ce-a5867e7d7e60",
+                 "eClass": "sysml:AllocationUsage",
+                 "data": {
+                  "declaredName": "allocation1",
+                  "elementId": "3ed0c8d0-76c9-4b42-91c0-51efa20da5c5",
+                  "ownedRelationship": [
+                   {
+                    "id": "944b5c5c-aba3-4450-b7f7-af029f0a0382",
+                    "eClass": "sysml:FeatureMembership",
+                    "data": {
+                     "elementId": "879dc9f6-79c4-470f-b591-ae56f0e50e7b",
+                     "ownedRelatedElement": [
+                      {
+                       "id": "2c903901-d651-4976-a6cf-4589b7f80db0",
+                       "eClass": "sysml:PartUsage",
+                       "data": {
+                        "declaredName": "source",
+                        "elementId": "b16fe02b-b785-418d-8a0d-42a274f7e4e3",
+                        "isComposite": true
+                       }
+                      }
+                     ]
+                    }
+                   },
+                   {
+                    "id": "de8f3f9f-7ce5-4557-aca2-5f5a3c9a63c3",
+                    "eClass": "sysml:FeatureTyping",
+                    "data": {
+                     "elementId": "7a82d9da-5287-492f-b6ac-47adfd9d903d",
+                     "type": "dce0fc07-b2ba-4b65-8777-e22de786aed5",
+                     "typedFeature": "aadcb13d-ba34-4d4a-b2ce-a5867e7d7e60"
+                    }
+                   }
+                  ],
+                  "isComposite": true
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "AllocationTest",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:AllocationDefinition",
+          "data": {
+           "declaredName": "A"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:AllocationUsage",
+          "data": {
+           "declaredName": "allocation1",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:FeatureMembership",
+             "data": {
+              "ownedRelatedElement": [
+               {
+                "#": "n6",
+                "eClass": "sysml:PartUsage",
+                "data": {
+                 "declaredName": "source",
+                 "isComposite": true
+                }
+               }
+              ]
+             }
+            },
+            {
+             "#": "n7",
+             "eClass": "sysml:FeatureTyping",
+             "data": {
+              "type": "ref(n2)",
+              "typedFeature": "ref(n4)"
+             }
+            }
+           ],
+           "isComposite": true
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 8
+ },
+ "record_sha256": "70fc221cea7544984303b7e3bb776c49f961c53bbec583ddb038801a55823c56"
+}

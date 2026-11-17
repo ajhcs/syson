@@ -1,0 +1,163 @@
+{
+ "schema": 1,
+ "id": "item-usage",
+ "source_sha256": "786b510cdc63fecb46fb45a4beec439aa06cb4976a721b80fa8473fc5b093385",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "3542e35f-0aea-4f73-8994-411639276755",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "bfa7e02c-f55d-49de-af9a-e511947632ef",
+      "ownedRelationship": [
+       {
+        "id": "45486c54-90e2-48fe-b855-56d0332d92e7",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "c1684e41-8609-484b-b7b1-01ca2a43a125",
+         "ownedRelatedElement": [
+          {
+           "id": "c6ff3c60-ba09-4344-a9c6-45d5636d2c1e",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "P",
+            "elementId": "0621ba1e-5569-4e54-8a6d-088144dfad40",
+            "ownedRelationship": [
+             {
+              "id": "cefdb114-420b-433c-b1e7-8abf79ae96dc",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "180dfe76-e999-4bb6-beec-827d5df8422b",
+               "ownedRelatedElement": [
+                {
+                 "id": "e1e2d030-b6e7-40c5-9acc-3b0bc76c6fb2",
+                 "eClass": "sysml:ItemDefinition",
+                 "data": {
+                  "declaredName": "I",
+                  "elementId": "9d62824b-3bbe-4bb6-bfb2-3336967a0b1f"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "9b2e231e-1880-4c7d-88a9-7979ba04094d",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "0388eedc-5388-4457-8736-46b25b6bc91e",
+               "ownedRelatedElement": [
+                {
+                 "id": "23833390-5b2b-42e6-b8e9-b25891e52208",
+                 "eClass": "sysml:ItemUsage",
+                 "data": {
+                  "declaredName": "i",
+                  "elementId": "5e6dfacb-af46-4614-b129-2eb5b9812a9f",
+                  "ownedRelationship": [
+                   {
+                    "id": "b3d83068-39cf-4503-b62b-8ae948e07f06",
+                    "eClass": "sysml:FeatureTyping",
+                    "data": {
+                     "elementId": "e4ed4929-0bfb-43f9-82c8-270be5b781d1",
+                     "type": "e1e2d030-b6e7-40c5-9acc-3b0bc76c6fb2",
+                     "typedFeature": "23833390-5b2b-42e6-b8e9-b25891e52208"
+                    }
+                   }
+                  ],
+                  "isComposite": true
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "P",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:ItemDefinition",
+          "data": {
+           "declaredName": "I"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:ItemUsage",
+          "data": {
+           "declaredName": "i",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:FeatureTyping",
+             "data": {
+              "type": "ref(n2)",
+              "typedFeature": "ref(n4)"
+             }
+            }
+           ],
+           "isComposite": true
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 6
+ },
+ "record_sha256": "8d4505a8c1f11a9f1f35837ed732731144138b1ca5935bf08383abba8c4c54a5"
+}

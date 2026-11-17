@@ -1,0 +1,106 @@
+{
+ "schema": 1,
+ "id": "malformed-eof",
+ "source_sha256": "c841ae6be7bfdcfe71d8484879f842e1083f610edab42e75870e4d713968324f",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "[WARNING] The file contains a syntax error. The elements that follow it may be missing from the imported model.\nThere are validation errors:\nline 1: Expecting token of type '}' but found ``. []\n",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "3160aeb5-fd24-4508-a990-02cb5c19cad3",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "6a8be775-9988-4639-8730-b9bbe159ca8f",
+      "ownedRelationship": [
+       {
+        "id": "6a827c08-eef0-443b-8df8-c5593de7ce7a",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "c4afd8b3-7929-4469-8e13-e2ebe4fecf4b",
+         "ownedRelatedElement": [
+          {
+           "id": "96063204-914f-4f59-bc25-10c885bbcca3",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "P",
+            "elementId": "2e1f27dc-44bc-45ad-aab2-875cd400c1c0",
+            "ownedRelationship": [
+             {
+              "id": "cff69ad7-f501-4a44-8a97-b84d4c309472",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "6bd74d96-ce9b-4020-950d-cf598aa999a6",
+               "ownedRelatedElement": [
+                {
+                 "id": "fb8919f2-40f6-4b20-b6c3-a4a1c2dbbec5",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "T",
+                  "elementId": "ad63b779-357c-428c-831f-acd66e4c6488"
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "P",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "T"
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [],
+  "nodes": 3
+ },
+ "record_sha256": "74fe8e6cdf03cbb3c68a5bc67f8b469c009b0afc60336d05306edfe6955c0a2c"
+}

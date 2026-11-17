@@ -1,0 +1,129 @@
+{
+ "schema": 1,
+ "id": "unresolved-type",
+ "source_sha256": "4a8aca7ef6ff0127995602840675cdfdb385a2665dfef6d0756cbf86979e7136",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "Following messages have been reported during conversion: \n[Warning] Unable to resolve name 'Missing' for reference 'type' on element '[FeatureTyping] P::p::<FeatureTyping>'",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "7568f609-402a-47bf-882e-4111cdf902a3",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "2320bc92-254d-4719-85ae-80ff51049016",
+      "ownedRelationship": [
+       {
+        "id": "2d319d68-3023-4c5c-bfa9-ec22f8d5c368",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "a45c078e-459f-4483-a78d-84eb925e2f85",
+         "ownedRelatedElement": [
+          {
+           "id": "0f538551-d656-4976-b320-2d5f409bc8df",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "P",
+            "elementId": "fdbae8a0-d076-4298-a683-66ecba7fbcdb",
+            "ownedRelationship": [
+             {
+              "id": "3e40d895-0a9f-4328-bc4c-730b8f764543",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "58b5eaaf-d8eb-4366-a972-8b3f574c5a7a",
+               "ownedRelatedElement": [
+                {
+                 "id": "2a7fd5c5-f9ca-4088-8437-b3b94a0c76ab",
+                 "eClass": "sysml:PartUsage",
+                 "data": {
+                  "declaredName": "p",
+                  "elementId": "a0b804ee-5e80-4299-bbeb-ff717436c0ce",
+                  "ownedRelationship": [
+                   {
+                    "id": "c330ca3e-6986-4e40-84d9-4b42771705e9",
+                    "eClass": "sysml:FeatureTyping",
+                    "data": {
+                     "elementId": "8f883d28-09d5-4349-b3e3-8e0f01ea218d",
+                     "typedFeature": "2a7fd5c5-f9ca-4088-8437-b3b94a0c76ab"
+                    }
+                   }
+                  ],
+                  "isComposite": true
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "P",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartUsage",
+          "data": {
+           "declaredName": "p",
+           "ownedRelationship": [
+            {
+             "#": "n3",
+             "eClass": "sysml:FeatureTyping",
+             "data": {
+              "typedFeature": "ref(n2)"
+             }
+            }
+           ],
+           "isComposite": true
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 4
+ },
+ "record_sha256": "13a4494f192f80ef4a043c1102574b0021c44d76227a113ccce48a51d665f4be"
+}

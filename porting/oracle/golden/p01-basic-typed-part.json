@@ -1,0 +1,163 @@
+{
+ "schema": 1,
+ "id": "p01-basic-typed-part",
+ "source_sha256": "b2f09a2bd06f9b93d88c69f7398da7f9e229bba8a928c5a57ca082cea1a83c84",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "9068d7bd-396d-4878-9cbf-102012fe679f",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "70d6b03b-6c33-4526-9f81-ddbc6b00f8ab",
+      "ownedRelationship": [
+       {
+        "id": "85661f21-c0b4-48d6-99e7-d3c75f4f57e9",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "997b13a8-f941-4402-beca-9de1d807a229",
+         "ownedRelatedElement": [
+          {
+           "id": "323d23bf-14cf-4ad2-935c-a2ca3f107450",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "Vehicle",
+            "elementId": "be8640a9-36f6-4c8f-8bff-6b9024542975",
+            "ownedRelationship": [
+             {
+              "id": "694251cc-7860-4cc4-bca1-3e2ae52d0ad0",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "9a077c70-d831-4a93-b004-92b01ea05d44",
+               "ownedRelatedElement": [
+                {
+                 "id": "886a4820-bd00-409a-a494-b78657b7c879",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "Wheel",
+                  "elementId": "9060f0bf-53d9-45c1-a0ee-df1414755b20"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "ec40f1bd-1b4a-460d-a89e-4cd94951a426",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "ac6a48d0-40ff-40de-ab1b-195ed884c6b1",
+               "ownedRelatedElement": [
+                {
+                 "id": "ff20ad47-53af-40d7-9312-968941e14a0b",
+                 "eClass": "sysml:PartUsage",
+                 "data": {
+                  "declaredName": "wheel",
+                  "elementId": "e7a7f4bf-77fa-4a23-b668-787ade970f13",
+                  "ownedRelationship": [
+                   {
+                    "id": "aebad17c-9136-4e3e-9a71-173bc173bec1",
+                    "eClass": "sysml:FeatureTyping",
+                    "data": {
+                     "elementId": "1b664f77-2c43-44f4-b0f5-1306b8951c2b",
+                     "type": "886a4820-bd00-409a-a494-b78657b7c879",
+                     "typedFeature": "ff20ad47-53af-40d7-9312-968941e14a0b"
+                    }
+                   }
+                  ],
+                  "isComposite": true
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "Vehicle",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "Wheel"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:PartUsage",
+          "data": {
+           "declaredName": "wheel",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:FeatureTyping",
+             "data": {
+              "type": "ref(n2)",
+              "typedFeature": "ref(n4)"
+             }
+            }
+           ],
+           "isComposite": true
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 6
+ },
+ "record_sha256": "5139cb3784c6f6c128cc159aca4d911c5c28f46ffcf5297722dbd64347697ccf"
+}

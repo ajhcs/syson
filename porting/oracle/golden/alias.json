@@ -1,0 +1,125 @@
+{
+ "schema": 1,
+ "id": "alias",
+ "source_sha256": "f20db2808b49bb678015e51284802fc3ff5ac40a8ca058102773cfff8e8522cd",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "1c9f529b-c5a5-4056-ba04-e8c439d34bac",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "7896925b-930c-4a2b-92b8-38f1f5eafbb0",
+      "ownedRelationship": [
+       {
+        "id": "33d5511b-f786-45e8-976a-97c9c933cadf",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "73f1f816-48da-4e71-b6dd-c5454c89935d",
+         "ownedRelatedElement": [
+          {
+           "id": "4e1eeb7b-6798-4ff0-9a6a-1b07c7352cfc",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "P",
+            "elementId": "7e40d000-7505-4e57-947b-219016847bb7",
+            "ownedRelationship": [
+             {
+              "id": "b6ac8481-9c0f-46a0-a457-522a43f27152",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "8ee4ee17-c431-4cf3-9a26-8a85be763dae",
+               "ownedRelatedElement": [
+                {
+                 "id": "5f647033-fd28-4be6-a1c3-c16e08a6aa88",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "V",
+                  "elementId": "d64e2e86-2077-4ec1-9f66-30687722dc20"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "f6c1c59b-d02d-47c1-b25e-ac9adb43e1c1",
+              "eClass": "sysml:Membership",
+              "data": {
+               "elementId": "51bda62c-a970-4313-993b-ae38f623375c",
+               "memberName": "Car",
+               "memberElement": "5f647033-fd28-4be6-a1c3-c16e08a6aa88"
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "P",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "V"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:Membership",
+       "data": {
+        "memberName": "Car",
+        "memberElement": "ref(n2)"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 4
+ },
+ "record_sha256": "509f1a13c3957509b678b1df88e035fea606d98b4928696ce245fcb430b0e85f"
+}

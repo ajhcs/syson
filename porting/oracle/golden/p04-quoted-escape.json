@@ -1,0 +1,161 @@
+{
+ "schema": 1,
+ "id": "p04-quoted-escape",
+ "source_sha256": "7538f4423482cda4563d3864e0a4d39b575608ed5c25e5b4e8e90a0d7c8e9adf",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "Following messages have been reported during conversion: \n[Warning] Unable to resolve name ''W\\'heel'' for reference 'type' on element '[FeatureTyping] 'Road vehicle'::axle::<FeatureTyping>'",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "51b56c64-4747-4a88-a714-b919946f6f0e",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "ba72bdef-994c-401b-95d8-58d7e03e40a0",
+      "ownedRelationship": [
+       {
+        "id": "c2072207-8250-4abe-a098-35e97f73e230",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "d108b069-2db1-4623-a4c3-00bfdacd9e83",
+         "ownedRelatedElement": [
+          {
+           "id": "44abb862-3ae5-44b6-b2d9-e2926f510d74",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "Road vehicle",
+            "elementId": "cf4c4514-ae8b-4894-9b25-e2acdc9d8aca",
+            "ownedRelationship": [
+             {
+              "id": "03054c05-b4be-49de-9025-cbfa8c1f8d33",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "ea865140-0041-4b7b-9d74-23a254d5bf16",
+               "ownedRelatedElement": [
+                {
+                 "id": "528d6f9c-d1e0-4199-bf72-03239b997583",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "W\\heel",
+                  "elementId": "332c0920-13af-4ddd-a793-65185c8007d0"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "fa96cd78-7bbf-424c-bad4-f5a2b917aba9",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "6ebfaeff-e4bd-4022-b53d-7b67405a49eb",
+               "ownedRelatedElement": [
+                {
+                 "id": "9a6b0773-4e73-4579-b6d7-56262e00f869",
+                 "eClass": "sysml:PartUsage",
+                 "data": {
+                  "declaredName": "axle",
+                  "elementId": "2912dbd2-d49c-4990-8444-e114b56db6b9",
+                  "ownedRelationship": [
+                   {
+                    "id": "3d65d441-ef49-49d3-8d1c-9ca33661e68e",
+                    "eClass": "sysml:FeatureTyping",
+                    "data": {
+                     "elementId": "b4beb3bf-ad47-4bdb-a519-6c50d5e9d5f0",
+                     "typedFeature": "9a6b0773-4e73-4579-b6d7-56262e00f869"
+                    }
+                   }
+                  ],
+                  "isComposite": true
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "Road vehicle",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "W\\heel"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:PartUsage",
+          "data": {
+           "declaredName": "axle",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:FeatureTyping",
+             "data": {
+              "typedFeature": "ref(n4)"
+             }
+            }
+           ],
+           "isComposite": true
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 6
+ },
+ "record_sha256": "050b8c33a67a399d2259447173a323bc2f6b36a5cc0d044f8e1c28f22187844b"
+}
