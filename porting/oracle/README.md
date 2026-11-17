@@ -34,7 +34,9 @@ stops only the processes `up` started. Logs, the database directory and every
 differential run stay under `/workspace/build/builderbob/syson-oracle/runs/`.
 
 `differential.py --only <text>` runs a subset. Each run writes one JSON per case
-(source, both documents, diff) plus `summary.json` and `SUMMARY.md`.
+(source, both documents, diff) plus `summary.json` and `SUMMARY.md`. The reference
+app is restarted every 15 cases (`--restart-every`), because one JVM runs out of
+heap after a few dozen imported projects.
 
 ## What a verdict means
 
@@ -45,6 +47,7 @@ differential run stay under `/workspace/build/builderbob/syson-oracle/runs/`.
 | RUST_REFUSES | Reference imported (possibly with warnings); Rust returned an error |
 | REFERENCE_ONLY_REFUSES | Rust imported; the reference failed |
 | BOTH_REFUSE | Neither imported |
+| HARNESS_ERROR | The reference app or the Rust binary failed (crash, timeout, unreadable response); not a verdict, rerun the case |
 
 Normalization replaces generated `id`/`elementId` values with positional labels
 and resolves references to whichever node they point at. Two wire-format
@@ -59,6 +62,6 @@ point at `elementId`.
 - `reference.py`: GraphQL client (create blank project, multipart `uploadDocument`, project download, delete)
 - `compare.py`: normalization and diff
 - `differential.py`: corpus runner and report
-- `corpus.json`: inline synthetic cases plus upstream SysON `.sysml` test inputs
+- `corpus.json`: inline synthetic cases (including one minimal repro per language construct, whose IDs the [Phase 1 issues](https://github.com/ajhcs/syson/issues/269) use) plus upstream SysON `.sysml` test inputs
 - `results/`: committed summaries of selected runs
 - `rust/crates/syson-text-import/examples/oracle_import.rs`: stdin SysML → EMF JSON via the Rust importer

@@ -11,7 +11,9 @@ Writes one result file per case plus summary.json and SUMMARY.md to --out
 (default: <oracle run dir>/differential-<UTC time>).
 """
 import argparse
+import contextlib
 import hashlib
+import io
 import json
 import os
 import subprocess
@@ -50,8 +52,10 @@ def run_rust(source):
 def run_reference(base, case_id, source):
     try:
         out = reference.import_text(base, case_id, source)
-    except Exception as e:  # report, never hide
+    except reference.ReferenceError as e:  # the app answered and refused
         return {"status": "error", "error": str(e)[:600]}
+    except Exception as e:  # transport or server failure: not a verdict
+        return {"status": "harness_error", "error": f"{type(e).__name__}: {e}"[:600]}
     docs = list(out["documents"].values())
     if len(docs) != 1:
         return {"status": "error", "error": f"expected 1 document, got {len(docs)}", "report": out["report"]}
@@ -62,6 +66,8 @@ def run_reference(base, case_id, source):
 
 
 def classify(ref, rust, cmp):
+    if ref["status"] == "harness_error" or rust["status"] == "crash":
+        return "HARNESS_ERROR"
     if ref["status"] != "ok" and rust["status"] != "ok":
         return "BOTH_REFUSE"
     if ref["status"] != "ok":
@@ -75,6 +81,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only")
     ap.add_argument("--out")
+    ap.add_argument("--restart-every", type=int, default=15,
+                    help="restart the reference app after this many cases (0 = never); "
+                         "one JVM accumulates memory across many imported projects")
     args = ap.parse_args()
     if not oracle.STATE.exists():
         sys.exit("no running oracle: run `oracle.py up` first")
@@ -85,9 +94,17 @@ def main():
     out_dir = Path(args.out) if args.out else Path(state["run"]) / f"differential-{stamp}"
     (out_dir / "cases").mkdir(parents=True, exist_ok=True)
     results = []
+    since_restart = 0
     for case_id, source, origin in cases():
         if args.only and args.only not in case_id:
             continue
+        if args.restart_every and since_restart >= args.restart_every:
+            with contextlib.redirect_stdout(io.StringIO()):
+                oracle.down()
+                oracle.up()
+            state = json.loads(oracle.STATE.read_text())
+            since_restart = 0
+        since_restart += 1
         t0 = time.monotonic()
         ref = run_reference(state["url"], case_id, source)
         rust = run_rust(source)
