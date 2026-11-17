@@ -57,7 +57,7 @@ struct Work<'a> {
     steps: usize,
 }
 impl Work<'_> {
-    fn tick(&mut self) -> Result<(), Error> {
+    fn check_cancelled(&self) -> Result<(), Error> {
         if self
             .options
             .cancellation
@@ -65,6 +65,11 @@ impl Work<'_> {
         {
             return Err(Error::Cancelled);
         }
+        Ok(())
+    }
+
+    fn tick(&mut self) -> Result<(), Error> {
+        self.check_cancelled()?;
         if self.steps >= self.options.max_steps {
             return Err(Error::BudgetExceeded {
                 resource: "steps",
