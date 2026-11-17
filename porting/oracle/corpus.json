@@ -1,0 +1,39 @@
+{
+  "description": "Phase 0 differential corpus. Inline cases are synthetic; path cases are upstream SysON test/template files read from this checkout.",
+  "inline": [
+    {"id": "p01-basic-typed-part", "source": "package Vehicle {part def Wheel;part wheel:Wheel;}"},
+    {"id": "p02-nested-feature-membership", "source": "package Vehicle {part def Wheel;part def Car {part wheel:Wheel;}}"},
+    {"id": "p03-forward-qualified-type", "source": "package V {part a:Lib::Wheel;part def Local;} package Lib {part def Wheel;}"},
+    {"id": "p04-quoted-escape", "source": "package 'Road vehicle' {part def 'W\\'heel';part axle:'W\\'heel';}"},
+    {"id": "p05-comments", "source": "// owned vehicle\npackage P { /* type */ part def T; }"},
+    {"id": "p06-untyped-usage", "source": "package P {part axle;}"},
+    {"id": "p07-usage-body", "source": "package P {part def T;part assembly:T {part wheel:T;}}"},
+    {"id": "p08-malformed-missing-brace", "source": "package P {part def T;"},
+    {"id": "s01-empty-package", "source": "package Empty;"},
+    {"id": "s02-two-packages", "source": "package A { part def X; } package B { part def Y; }"},
+    {"id": "s03-nested-packages", "source": "package Outer { package Inner { part def Deep; } part d: Inner::Deep; }"},
+    {"id": "s04-many-definitions", "source": "package M { part def A; part def B; part def C; part a: A; part b: B; part c: C; }"},
+    {"id": "s05-part-def-chain", "source": "package Q { part def Engine; part def Car { part engine: Engine; part spare: Engine; } }"}
+  ],
+  "paths": [
+    "backend/application/syson-application-configuration/src/main/resources/templates/Batmobile.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/isUniqueFeature/model.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertInheritanceTest/inheritance.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertProjectWithErrors/proxyResolutionError.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertAliasTest/alias.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertNamespaceImportValueTest/model.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertNamespaceImportValueTest/namespace.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertAssignmentTest/assignment1.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertAssignmentTest/assignment2.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertAssignmentTest/assignment3.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertFeatureTypingTest/featureTyping.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertImportTest/import.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertRedefinesTest/redefines.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertSubclassificationTest/subclassification.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertNamespaceImportTest/model.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertNamespaceImportTest/namespace.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertAllocationTest/allocation.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertBooleanTest/boolean.sysml",
+    "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertVisibilityTest/visibility.sysml"
+  ]
+}
