@@ -1,0 +1,31 @@
+name: Share a SysML model for testing
+description: Contribute a SysML v2 example that the differential harness should check. No Rust needed.
+labels: ["testing", "area: oracle"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Real-world-shaped models are the best test the port can get. This issue will be public, and the model may be committed to this repository under its licenses (EPL-2.0).
+        **Only share models you wrote yourself or have the right to publish.** No proprietary, export-controlled or customer models.
+  - type: textarea
+    id: model
+    attributes:
+      label: SysML v2 text
+      description: Paste the model, or attach a `.sysml` file. Smaller is fine; it should parse in SysON.
+      render: sysml
+    validations:
+      required: true
+  - type: textarea
+    id: covers
+    attributes:
+      label: What does it exercise?
+      description: For example "ports and interfaces", "state machines", "requirements with constraints", or "a typical vehicle architecture".
+    validations:
+      required: true
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Rights
+      options:
+        - label: I wrote this model or have the right to publish it, and it contains no confidential information.
+          required: true

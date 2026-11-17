@@ -12,6 +12,10 @@ Preserve upstream attribution and notices when adapting source.
 
 <!-- What did you expect and observe? Note partial support or unresolved differences. -->
 
+## Differential verdicts
+
+<!-- For import, model or serialization changes: list corpus cases whose verdict changed (for example `alias: RUST_REFUSES → MATCH`), and confirm no case got worse. Say whether you ran porting/oracle/differential.py or a maintainer should. Delete this section if it does not apply. -->
+
 ## Checks and limits
 
 <!-- List the exact commands you ran and their results. Note checks not run and why. For UI changes, include screenshots and the interactions you checked when applicable. -->
