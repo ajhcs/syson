@@ -440,3 +440,65 @@ fn failed_and_cancelled_import_preserve_existing_redo_and_history() {
     assert!(editor.redo());
     assert_eq!(editor.document(), &future);
 }
+
+#[test]
+fn long_quoted_names_import_and_resolve_through_the_public_staging_path() {
+    let name = format!("Long <&> 雪🧭 {} END", "x".repeat(4096));
+    let mut editor = Editor::new(Document::empty());
+    let source = format!("package '{name}';");
+    let staged = importer()
+        .stage(editor.begin(), &source, None, supply(), cancel())
+        .unwrap();
+    assert!(staged.commit(&mut editor).unwrap());
+    let package = editor.document().element(&ids(1).element).unwrap();
+    assert_eq!(
+        package["data"]["declaredName"].as_str().unwrap().as_bytes(),
+        name.as_bytes()
+    );
+
+    let editor = Editor::new(Document::empty());
+    let source = format!("package P {{ part useIt : '{name}'; part def '{name}'; }}");
+    let staged = importer()
+        .stage(editor.begin(), &source, None, supply(), cancel())
+        .unwrap();
+    assert_eq!(
+        type_target(staged.document(), &named(staged.document(), "useIt")),
+        named(staged.document(), &name)
+    );
+}
+
+#[test]
+fn quoted_names_obey_exact_source_admission_and_unquoted_names_keep_their_limit() {
+    let editor = Editor::new(Document::empty());
+    let baseline = editor.document().clone();
+    let name = "x".repeat(65_536 - "package '';".len());
+    let mut source = format!("package '{name}';");
+    assert_eq!(source.len(), 65_536);
+    assert!(
+        importer()
+            .stage(editor.begin(), &source, None, supply(), cancel())
+            .is_ok()
+    );
+    source.push(' ');
+    assert_eq!(
+        importer()
+            .stage(editor.begin(), &source, None, supply(), cancel())
+            .unwrap_err(),
+        Error::Parse(syson_ast_adapter::Error::Limit)
+    );
+
+    for (bytes, accepted) in [(2048, true), (2049, false)] {
+        let name = "x".repeat(bytes);
+        let source = format!("package {name};");
+        let result = importer().stage(editor.begin(), &source, None, supply(), cancel());
+        if accepted {
+            assert_eq!(named(result.unwrap().document(), &name), ids(1).element);
+        } else {
+            assert_eq!(
+                result.unwrap_err(),
+                Error::Link(syson_linker::Error::Unsupported)
+            );
+        }
+    }
+    assert_eq!(editor.document(), &baseline);
+}
