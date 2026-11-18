@@ -32,7 +32,11 @@ EPOCHS = {'models-01': {'manifest': 'requests/models-01.json',
     'models-04': {'manifest': 'requests/models-04.json',
         'sha256': 'e0d4b420cdcdcf23023731af35511fb7fb78402e9d492a87840800c661814289',
         'primary_sha256': 'a08fa9a23d192d508568b3ac9f863e40c06b0bef55665d21782adf06b30e2e71',
-        'primaries': 1, 'requests': 5, 'roles': ('pom',)}}
+        'primaries': 1, 'requests': 5, 'roles': ('pom',)},
+    'jacoco-binaries-01': {'manifest': 'requests/jacoco-binaries-01.json',
+        'sha256': '9ec6ebc4b9805b4117ad1b13534f620316bdab5758b5a8a562d23da1561910e6',
+        'primary_sha256': '75994f43fe21c11ccda503d8610d90eb392249217217d4138fdcebb7d4fe7e76',
+        'primaries': 10, 'requests': 50, 'roles': ('jar',)}}
 
 
 def require(condition, message):
@@ -91,6 +95,8 @@ def requests(identifier, raw):
         'all_metadata_and_log_bytes': 64 * MIB, 'total_logical_owned_write_bound_bytes': 80 * MIB,
         'manifest_and_spec_each_maximum_bytes': 256 * 1024,
         'whole_phase_subject_seconds': 900, 'scope_RuntimeMaxSec': 1020}
+    if fixed['roles'] == ('jar',):
+        profile['per_JAR_bytes'] = MIB
     limits = manifest['limits']
     require(type(limits) is dict and set(limits) == set(profile) and all(
         type(limits[k]) is int and limits[k] == v for k, v in profile.items()), 'fixed profile changed')
@@ -112,6 +118,17 @@ def requests(identifier, raw):
                     'fixed POM filename')
             coordinate = {'groupId': '.'.join(parts[:-3]), 'artifactId': parts[-3], 'version': parts[-2]}
             maximum = 2 * MIB
+        elif kind == 'jar':
+            require(len(parts) >= 4, 'fixed JAR path depth')
+            stem = parts[-3] + '-' + parts[-2]
+            name = parts[-1]
+            require(name in (stem + '.jar', stem + '-runtime.jar'), 'fixed JAR classifier/filename')
+            classifier = 'runtime' if name == stem + '-runtime.jar' else ''
+            coordinate = {'groupId': '.'.join(parts[:-3]), 'artifactId': parts[-3],
+                          'version': parts[-2], 'classifier': classifier}
+            require((classifier == 'runtime') == (coordinate['artifactId'] == 'org.jacoco.agent'),
+                    'fixed JaCoCo runtime classifier')
+            maximum = MIB
         else:
             require(parts[-1] == 'maven-metadata.xml', 'fixed metadata filename')
             coordinate = {'groupId': '.'.join(parts[:-2]), 'artifactId': parts[-2]}
@@ -136,6 +153,27 @@ def requests(identifier, raw):
         and rows == expected and len({r['url'] for r in rows}) == fixed['requests'] and
         len({r['relative_path'] for r in rows}) == fixed['requests'], 'fixed ordered requests changed')
     return rows
+
+
+def jar_checksums(out, rows):
+    results = []
+    by_url = {row['url']: row for row in rows}
+    for payload in (row for row in rows if row['role'] == 'jar'):
+        body = read_small(out / payload['relative_path'], MIB)
+        require(body, 'empty captured JAR')
+        matched = 0
+        for algorithm in ('sha512', 'sha256', 'sha1'):
+            row = by_url[payload['url'] + '.' + algorithm]
+            if row['status'] == 404:
+                continue
+            require(row['status'] == 200, 'unapproved checksum status')
+            sidecar = read_small(out / row['relative_path'], 65536)
+            expected = helper.sidecar_digest(sidecar, algorithm, payload['url'].rsplit('/', 1)[-1])
+            require(expected.lower() == hashlib.new(algorithm, body).hexdigest(), 'checksum mismatch')
+            results.append({'artifact': payload['url'][len(base.BASE):], 'algorithm': algorithm, 'match': True})
+            matched += 1
+        require(matched > 0, 'no available matching checksum for captured JAR')
+    return results
 
 
 def main():
@@ -188,7 +226,8 @@ def main():
             total += value['bytes']
             require(value['status'] in row['allowed_status'], 'HTTP failure retained; no fallback')
         record['body_bytes'] = total
-        record['checksums'] = helper.checksums(out, record['requests'])
+        checksum = jar_checksums if fixed['roles'] == ('jar',) else helper.checksums
+        record['checksums'] = checksum(out, record['requests'])
         record.update(status='PASS_PASSIVE_ACQUISITION_ONLY', signature_verified=False,
             trust='Same-origin consistency only; no acquired code may execute', closure_complete=False,
             offline_compile_verified=False)

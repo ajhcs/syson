@@ -56,7 +56,7 @@ class AcquisitionTests(unittest.TestCase):
 
     def test_exact_registry_primary_order_roles_all_four_sidecars(self):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
-        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04'})
+        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04', 'jacoco-binaries-01'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
