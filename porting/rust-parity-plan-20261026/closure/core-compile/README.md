@@ -1,6 +1,10 @@
 # Fixed normal-core acquisition epochs
 
-Admitted epochs are models-01 (35 primaries/175 requests) and models-02 (18 POMs/90 requests).
+The client recognizes models-01 (35 primaries/175 requests), models-02
+(18 POMs/90 requests), and the models-03 candidate (five POMs/25 requests).
+The latter includes four Apache parents and a conditional JUnit 5.14.1
+observation. JUnit 5.12.1 remains deferred pending the Apache 34 parent model
+and JaCoCo context. The draft authorizes no live acquisition.
 The registry binds raw manifest bytes, independent ordered-primary seal, roles and limits.
 Invocation retains the existing fixed launcher's five arguments: spec, SHA, lock FD, unit, cookie.
 The frozen spec must name an admitted epoch and its exact registry-bound sibling manifest.
@@ -17,3 +21,12 @@ No URL override, crawler, range selection, cache installation or automatic epoch
 Root separately admits every later model/binary epoch, code trust and actual runtime scope.
 This prerequisite remains open through complete closure and offline unmodified 378-source compile.
 Full native, library, SQL, UI, storage and fresh process/backend acceptance remains required.
+
+From this directory, set `SYSON_BOOTSTRAP_TEST_ROOT` to an existing private
+directory under `/workspace/build/builderbob` locally or `RUNNER_TEMP` in CI.
+Both commands exercise the client with fake responses:
+
+```sh
+python3 -IB -m unittest discover -s . -p test_acquire.py -v
+python3 -OIB -m unittest discover -s . -p test_acquire.py -v
+```

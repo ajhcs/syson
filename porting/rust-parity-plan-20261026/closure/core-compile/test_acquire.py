@@ -56,7 +56,7 @@ class AcquisitionTests(unittest.TestCase):
 
     def test_exact_registry_primary_order_roles_all_four_sidecars(self):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
-        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02'})
+        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
@@ -69,7 +69,7 @@ class AcquisitionTests(unittest.TestCase):
             self.assertEqual([r['url'][len(group[0]['url']):] for r in group], fetch.base.SUFFIXES)
 
     def test_epoch_raw_hash_size_and_duplicate_keys_are_closed(self):
-        for name in ['', 'models-03', '../models-01', None, True]:
+        for name in ['', 'models-04', '../models-01', None, True]:
             with self.subTest(epoch=name), self.assertRaises(ValueError):
                 fetch.requests(name, MANIFEST.read_bytes())
         for raw in [MANIFEST.read_bytes() + b'\n', b'x' * (262144 + 1)]:
@@ -500,6 +500,74 @@ class AcquisitionTests(unittest.TestCase):
             if mode == 'drift':
                 self.assertEqual(record['status'], 'FAIL_INPUT_DRIFT')
             self.clear_attempt()
+
+
+    def test_models03_fixed_five_poms_and_ordered_sidecars(self):
+        raw = (SOURCE.parent / 'requests/models-03.json').read_bytes()
+        self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()),
+                         (28808, '7eafb6e5436dd04692e43a1f3d87a204dc206ed3fe55a80f9cae2d128f1be428'))
+        gavs = ['org.apache:apache:13', 'org.apache:apache:34', 'org.apache:apache:4',
+                'org.apache:apache:7', 'org.junit:junit-bom:5.14.1']
+        expected = []
+        for index, gav in enumerate(gavs):
+            group, artifact, version = gav.split(':')
+            relative = f"{group.replace('.', '/')}/{artifact}/{version}/{artifact}-{version}.pom"
+            for suffix, role, algorithm in [('', 'pom', None), ('.sha512', 'checksum', 'sha512'),
+                    ('.sha256', 'checksum', 'sha256'), ('.sha1', 'checksum', 'sha1'),
+                    ('.asc', 'signature', None)]:
+                row = {'url': fetch.base.BASE + relative + suffix,
+                    'relative_path': 'downloads/' + relative + suffix + '.partial',
+                    'maximum_bytes': 65536 if suffix else 2 * fetch.MIB, 'role': role,
+                    'allowed_status': [200, 404] if suffix else [200], 'primary_index': index}
+                if algorithm is not None:
+                    row['algorithm'] = algorithm
+                expected.append(row)
+        self.assertEqual(fetch.requests('models-03', raw), expected)
+        self.assertEqual(json.loads(raw)['deferred_model_input']['source_observation']['GAV'],
+                         'org.junit:junit-bom:5.12.1')
+        self.assertTrue(json.loads(raw)['deferred_model_input']['still_open'])
+        for other in ('models-01', 'models-02'):
+            with self.assertRaisesRegex(ValueError, 'hash/size'):
+                fetch.requests(other, raw)
+
+    def test_models03_consistent_substitution_and_row_drift_refuse(self):
+        def substitute_deferred_bom(manifest):
+            primary = manifest['new_primaries'][4]
+            primary['coordinate']['version'] = '5.12.1'
+            for item in [primary, *manifest['requests'][20:25]]:
+                for field in ('url', 'relative_path', 'relative_artifact'):
+                    if field in item:
+                        item[field] = item[field].replace('5.14.1', '5.12.1')
+
+        for change in (substitute_deferred_bom, lambda m: m.update(epoch='models-02'),
+                lambda m: m['requests'][12].update(relative_path='downloads/../escape'),
+                lambda m: m['requests'][0].update(allowed_status=[200, 404])):
+            self.mutated(change, 'models-03')
+
+    def test_models03_fake_transport_pass_and_retention(self):
+        for mode, called in ((None, 25), ('sidecar404', 25), ('missing', 1),
+                             ('badstrong', 25), ('redirect', 1), ('drift', 25), ('lock', 0)):
+            with self.subTest(mode=mode):
+                record, calls, out, error, _ = self.run_main(mode, 'models-03')
+                self.assertEqual(len(calls), called)
+                if mode in (None, 'sidecar404'):
+                    self.assertIsNone(error)
+                    self.assertEqual(record['status'], 'PASS_PASSIVE_ACQUISITION_ONLY')
+                    self.assertEqual(len(record['checksums']), 15 if mode is None else 14)
+                    self.assertEqual(record['inputs_before'], record['inputs_after'])
+                    self.assertFalse(record['signature_verified'])
+                    self.assertFalse(record['closure_complete'])
+                    self.assertFalse(record['offline_compile_verified'])
+                    for row in record['requests']:
+                        self.assertEqual(fetch.base.digest(out / row['relative_path']), row['sha256'])
+                else:
+                    self.assertIsNotNone(error)
+                    expected = 'FAIL_INPUT_DRIFT' if mode == 'drift' else 'FAIL_PRESERVED'
+                    self.assertEqual(record['status'], expected)
+                    if mode == 'missing':
+                        self.assertEqual(record['requests'][0]['status'], 404)
+                        self.assertTrue((out / record['requests'][0]['relative_path']).is_file())
+                self.clear_attempt()
 
 
 if __name__ == '__main__':
