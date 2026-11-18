@@ -1,0 +1,143 @@
+{
+  "fixture": {
+    "ancestor_alias_same_report": true,
+    "candidate_tree": "aeca364ad8effb7bf5899d792e9b0a85d2507eb6",
+    "checkout_files": 341,
+    "current_main": "05a4be35d4842272d0249ab43b9e49295591ef1e",
+    "export_order": [
+      "B25a",
+      "B25b",
+      "B25c",
+      "B25d"
+    ],
+    "report": {
+      "base": "392a8af71df0c344c9c50e8ad922caf4e44e8506",
+      "candidate": "5bf8614518da282fb1b1e33c7d7e7e04efe4121e",
+      "generated_files": 1,
+      "selected_files": 281,
+      "sources": 4,
+      "status": "VERIFIED_EXPLICIT_SOURCE_COMPOSITION",
+      "whole_program_acceptance": false
+    },
+    "retained_refs": 6,
+    "state_unchanged": true
+  },
+  "historical": {
+    "older_generated_files": 1,
+    "older_same_base_fixture": "f19c06915a664eb636f6d0782c6d5191f9a43cd3",
+    "older_selected_files": 93,
+    "ordered_current_main": {
+      "anchor": "2d411e7a21825c18d43c2476af32365c65401a49",
+      "crate_files": 25,
+      "head": "05a4be35d4842272d0249ab43b9e49295591ef1e",
+      "negative": 16,
+      "ordered_landings": 6,
+      "positive": 1
+    }
+  },
+  "private_receipt_sha256": {
+    "controller": "31eb163e7e0ba9e00bb7b676d58dfbe11adc510c510d81f5ef39a7b34b6e8852",
+    "fixture_manifest": "db4e1337d420322ee56994d6b3a1f6268626dd6a2b6b4e3962f45e18aa73e193",
+    "scope": "1b4582ceee1cec5862a5b4c54bd2d4c7ea0e5d08f57e9b8e58f08554cbe6adab",
+    "subject": "47b40a28e49ee4a5d4742857bc42f80382089e04679d087ca4c5577dca6d2721"
+  },
+  "run": {
+    "commands": [
+      {
+        "case": "fmt",
+        "exit": 0
+      },
+      {
+        "case": "guarded-tests",
+        "exit": 0
+      },
+      {
+        "case": "clippy",
+        "exit": 0
+      },
+      {
+        "case": "build",
+        "exit": 0
+      },
+      {
+        "case": "exact-candidate",
+        "exit": 0
+      },
+      {
+        "case": "stale-source-ref",
+        "exit": 1,
+        "refusal": "stale head ref"
+      },
+      {
+        "case": "omitted-owned-test",
+        "exit": 1,
+        "refusal": "omitted or undeclared source delta file"
+      },
+      {
+        "case": "reordered-exports",
+        "exit": 1,
+        "refusal": "candidate generated export/order mismatch"
+      },
+      {
+        "case": "wrong-owned-blob",
+        "exit": 1,
+        "refusal": "source blob mismatch"
+      },
+      {
+        "case": "guarded-ancestor-alias-positive",
+        "exit": 0
+      },
+      {
+        "case": "guarded-final-link-negative",
+        "exit": 1,
+        "refusal": "regular file required; symlinks and special files refuse"
+      },
+      {
+        "case": "guarded-unopened-fifo-negative",
+        "exit": 1,
+        "refusal": "regular file required; symlinks and special files refuse"
+      }
+    ],
+    "compiler_lock_released_after_teardown": true,
+    "fifo_deadline_milliseconds": 2000,
+    "fifo_milliseconds": 3.039,
+    "kernel_local_ipc_and_network_denial": true,
+    "named_tests": [
+      "changed_working_candidate_and_undeclared_committed_file_are_refused",
+      "directory_final_symlink_missing_and_device_inputs_refuse_promptly",
+      "exact_real_git_composition_passes_without_mutating_index_refs_or_config",
+      "exact_regular_limit_and_ancestor_symlink_alias_preserve_selected_bytes",
+      "executable_mode_uses_git_owner_bit_not_group_or_other_bits",
+      "fifo_manifest_refuses_before_open_can_block",
+      "missing_fixture_conflicting_owner_and_wrong_blob_are_refused",
+      "path_escape_invalid_oid_unknown_fields_and_manifest_budget_are_refused",
+      "regular_manifest_passes_actual_git_composition_and_retains_blob_mode_delta_guards",
+      "rr14_open_races::regular_to_another_inode_after_admission_refuses",
+      "rr14_open_races::regular_to_fifo_after_admission_refuses_without_blocking",
+      "rr14_open_races::regular_to_symlink_after_admission_refuses",
+      "stale_source_base_and_candidate_heads_are_refused",
+      "symlink_and_changed_executable_mode_are_refused",
+      "unknown_exports_wrong_order_and_modified_common_source_are_refused"
+    ],
+    "owned_scope_empty_or_absent": true,
+    "successful_setup_cases": [
+      "guarded-ancestor-alias-positive",
+      "guarded-final-link-negative",
+      "guarded-unopened-fifo-negative"
+    ]
+  },
+  "schema": "c03a-guarded-same-base-fixture-v1",
+  "source": {
+    "c03a_head": "9d244f04e76ae0ec3291416b733ae1e35b470905",
+    "guarded_files": {
+      "rust/tools/verify-composition/Cargo.lock": "c4956d1f4a635cec73e7894bccd5a81ad9a84bd3571bc5eae84092ece1d3a48f",
+      "rust/tools/verify-composition/Cargo.toml": "f0d00d26a28e68ca92ec74f1a16fc9cd98f002908f5d7e1d6790d670907a7224",
+      "rust/tools/verify-composition/src/lib.rs": "a3683caa7eb26a22b37f2f0b06c895085e3aa3b3466613895cfcec49dbf69081",
+      "rust/tools/verify-composition/src/main.rs": "af459e56da2f44984a63e45fa8c1c55023527ebf1c17ac584bcf9b997612bee0",
+      "rust/tools/verify-composition/tests/composition.rs": "baeaa037e43265822622961f255aa2e1faf6c466896fba30b7431aa49ddd8b31",
+      "rust/tools/verify-composition/tests/rr14_regression.rs": "4c52609a0481834bdef6a3d02c1ce691871d23125134827f66e15121d4a103d0"
+    },
+    "rr14_head": "e1c536a2455fb2ffdf4423b93362eff32a2e0b62",
+    "verifier_sha256": "9bbfd0b434a9b03f9003c9b4ba491ddc1c34ffacf4a76bc348bb10e2e221173f"
+  }
+}
