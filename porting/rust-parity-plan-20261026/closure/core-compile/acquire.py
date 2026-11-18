@@ -36,7 +36,11 @@ EPOCHS = {'models-01': {'manifest': 'requests/models-01.json',
     'jacoco-binaries-01': {'manifest': 'requests/jacoco-binaries-01.json',
         'sha256': '9ec6ebc4b9805b4117ad1b13534f620316bdab5758b5a8a562d23da1561910e6',
         'primary_sha256': '75994f43fe21c11ccda503d8610d90eb392249217217d4138fdcebb7d4fe7e76',
-        'primaries': 10, 'requests': 50, 'roles': ('jar',)}}
+        'primaries': 10, 'requests': 50, 'roles': ('jar',)},
+    'eclipse-jdt-core-descriptors-01': {'manifest': 'requests/eclipse-jdt-core-descriptors-01.json',
+        'sha256': '51e6eddd6081eb8ceff42dfd912ab9c58d77bba54e15eed65c7e5bdfce572c7c',
+        'primary_sha256': '62dc82b2d341907346e88a08daf80f8d936bb6174c56ecc151010b60fa118997',
+        'primaries': 22, 'requests': 110, 'roles': ('pom',)}}
 
 
 def require(condition, message):

@@ -56,7 +56,8 @@ class AcquisitionTests(unittest.TestCase):
 
     def test_exact_registry_primary_order_roles_all_four_sidecars(self):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
-        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04', 'jacoco-binaries-01'})
+        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04',
+                                           'jacoco-binaries-01', 'eclipse-jdt-core-descriptors-01'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
@@ -202,6 +203,8 @@ class AcquisitionTests(unittest.TestCase):
                 content = b'x' * (rows[metadata_index]['maximum_bytes'] + 1)
             if mode == 'body' and row['role'] == 'pom':
                 content = b'x' * (2 * fetch.MIB)
+            if mode == 'no-checksums' and row['role'] in ('checksum', 'signature'):
+                content, status = b'', 404
             if mode == 'drift' and index == len(rows) - 1:
                 lock.write_bytes(b'changed frozen bytes')
             result = Response(content, request.full_url, status)
@@ -628,6 +631,63 @@ class AcquisitionTests(unittest.TestCase):
                     for key in ('signature_verified', 'closure_complete', 'offline_compile_verified'):
                         self.assertIs(result[key], False)
                 self.clear_attempt()
+
+
+    def test_jdt_core_exact_roster_preserves_all_optional_sidecars(self):
+        epoch = 'eclipse-jdt-core-descriptors-01'
+        manifest = SOURCE.parent / fetch.epoch(epoch)['manifest']
+        raw = manifest.read_bytes()
+        expected = fetch.requests(epoch, raw)
+        self.assertEqual(len(expected), 110)
+        self.assertEqual(len([r for r in expected if r['role'] == 'pom']), 22)
+        for name, checksum_count in ((None, 66), ('no-checksums', 0)):
+            with self.subTest(name=name):
+                record, calls, out, error, _ = self.run_main(name, epoch)
+                self.assertIsNone(error)
+                self.assertEqual(calls, [r['url'] for r in expected])
+                self.assertEqual(len(record['checksums']), checksum_count)
+                self.assertEqual(record['status'], 'PASS_PASSIVE_ACQUISITION_ONLY')
+                for key in ('signature_verified', 'closure_complete', 'offline_compile_verified'):
+                    self.assertIs(record[key], False)
+                for row in record['requests']:
+                    self.assertEqual(fetch.base.digest(out / row['relative_path']), row['sha256'])
+                self.clear_attempt()
+
+    def test_jdt_core_refuses_unreviewed_request_and_retains_aggregate_failure(self):
+        epoch = 'eclipse-jdt-core-descriptors-01'
+        self.mutated(lambda m: m['requests'][0].update(allowed_status=[200, 404]), epoch)
+        self.mutated(lambda m: m['requests'][1].update(maximum_bytes=65537), epoch)
+        self.mutated(lambda m: m['new_primaries'].reverse(), epoch)
+        record, calls, out, error, _ = self.run_main('body', epoch)
+        self.assertIsNotNone(error)
+        self.assertEqual(record['status'], 'FAIL_PRESERVED')
+        self.assertIn('stream byte limit', record['error'])
+        self.assertEqual(len(calls), 36)
+        self.assertEqual(len(record['requests']), 35)
+        bodies = list(out.rglob('*.partial'))
+        self.assertEqual(len(bodies), 36)
+        self.assertEqual(sum(p.stat().st_size for p in bodies), 16 * fetch.MIB)
+        self.assertNotIn('checksums', record)
+
+    def test_jdt_core_review_spec_has_no_output_authority(self):
+        epoch = 'eclipse-jdt-core-descriptors-01'
+        candidate = fetch.epoch(epoch)
+        proposed_out = self.root / 'uncreated'
+        spec_path = self.root / 'outputless-spec.json'
+        spec_path.write_text(json.dumps({
+            'epoch': epoch,
+            'proposal': str(SOURCE.parent / candidate['manifest']),
+            'proposal_sha256': candidate['sha256'],
+            'proposed_out': str(proposed_out),
+            'acquisition_authorized': False,
+        }))
+        args = [str(SOURCE), str(spec_path), fetch.base.digest(spec_path), 'bad', 'bad', 'bad']
+        with patch.object(fetch.sys, 'argv', args), \
+             patch.dict(os.environ, {'SYSON_BOOTSTRAP_SOURCE_SHA256': fetch.base.digest(SOURCE)}), \
+             patch.object(fetch, 'fresh_output', side_effect=AssertionError('output must stay uncreated')), \
+             self.assertRaisesRegex(KeyError, 'out'):
+            fetch.main()
+        self.assertFalse(proposed_out.exists())
 
 
 if __name__ == '__main__':

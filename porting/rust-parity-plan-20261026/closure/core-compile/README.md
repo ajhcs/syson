@@ -66,3 +66,54 @@ real sockets and subprocess launches.
 python3 -IB -m unittest discover -s . -p test_jacoco_binaries.py -v
 python3 -OIB -m unittest discover -s . -p test_jacoco_binaries.py -v
 ```
+
+### Eclipse JDT Core candidate descriptors
+
+The offline Maven collection in #364 recorded 215 absent POM paths. All three
+collectors requested each of the 22 JDT Core candidates. The withholding
+control omitted that family's metadata and produced zero offers and descriptor
+requests. Capturing the whole family gives a follow-up replay a single family
+to compare against that control.
+
+| Observed request group | POMs | Included here |
+| --- | ---: | --- |
+| JDT Core candidates | 22 | All |
+| JDT Launching candidates | 40 | None |
+| Core Resources candidates | 35 | None |
+| Core Runtime candidates | 33 | None |
+| Text candidates | 29 | None |
+| Debug Core candidates | 34 | None |
+| Target's other descriptor requests | 21 | None |
+| JUnit BOM 5.9.1 imported by Commons Text 1.10.0 | 1 | None |
+
+This proposal extends the client at #358 and requires the exact #364
+observation for evidence verification. The manifest hashes each sorted path list
+as compact UTF-8 JSON, with no trailing newline. It proposes 22 Maven Central
+POM requests and four optional sidecars per POM. The 110-row roster has a
+25,751,552-byte nominal metadata charge within the 63 MiB getter budget.
+Its individual body ceilings sum to 51,904,512 bytes. A future acquisition
+must stop and retain partial evidence before exceeding the 16 MiB aggregate
+body limit. The 80 MiB logical owned-write limit remains in effect.
+
+The inherited POM client checks each available checksum. A passive receipt can
+pass with all checksum sidecars absent. A detached signature is opaque data
+until separately verified. Before a passive run, independently review the
+exact client, manifest, observation binding and scope. Authorize the exact
+scope separately. Before a new replay, inspect any captured POMs and sidecars
+and seal the replay inputs. Final dependency versions, remaining descriptors,
+repository policy, binary resolution and native build qualification are open.
+
+From the proposal checkout with the #364 evidence commit in the local object
+store, run:
+
+```sh
+set -o pipefail
+git show 960fd31bc91d8fd37b51493d2dfbadef034ad40b:porting/rust-parity-evidence/C01/eclipse-range-descriptor-frontier/observation.json |
+  python3 -IB porting/rust-parity-plan-20261026/closure/core-compile/verify_jdt_core.py -
+```
+
+Use `-OIB` to check the same evidence with Python assertions disabled. The
+synthetic checks in `test_acquire.py` exercise the exact request roster,
+aggregate refusal, optional sidecars, and rejection of a review-only specification
+without an output field. Use the scratch root described above. These commands
+use local inputs and synthetic responses.
