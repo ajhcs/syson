@@ -1,0 +1,124 @@
+{
+  "artifact": {
+    "release_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "release_source": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+    "server_version": "150019",
+    "target_source": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910"
+  },
+  "custody": {
+    "clone_inode_distinct": true,
+    "original_unchanged": true,
+    "postgres_exit_statuses": [
+      0,
+      0
+    ],
+    "scope_absent": true,
+    "socket_only": true
+  },
+  "initial_refusal": {
+    "reason": "quiet host not sustained",
+    "samples": 65,
+    "server_started": false
+  },
+  "recovery": {
+    "after_recovery_stop": "shut down",
+    "before_restart": "in production",
+    "fresh_postmaster": true,
+    "log_sequence": [
+      "interrupted",
+      "automatic recovery",
+      "redo starts",
+      "redo done",
+      "ready for connections"
+    ],
+    "shutdown": "SIGQUIT"
+  },
+  "scope": {
+    "application_acceptance": false,
+    "application_transactions_exercised": false,
+    "physical_power_loss": false
+  },
+  "trajectory": [
+    {
+      "phase": "acknowledged",
+      "read_only": true,
+      "state": {
+        "document_bytes": 81374,
+        "document_marked": true,
+        "document_sha256": "a60dd74986c02967f1e703884586ff70c44f17829fdcb05e8eb74db92fbd7d98",
+        "last_migration_performed": "SyntheticPairedWriteProbe",
+        "migration_version": "2099.0.0-209901020304",
+        "other_fields_sha256": "b5058f600752fa4a6d790c59c04cf1b3763a911a5c7410356981530e766ab461",
+        "representation_bytes": 17296,
+        "representation_marked": true,
+        "representation_sha256": "c3c6b190834c6a1681fd201893a0f838a79c020ca945048c1b43e1cb1cc3ffe9"
+      },
+      "unix_socket": true
+    },
+    {
+      "phase": "writer_pending",
+      "read_only": false,
+      "state": {
+        "document_bytes": 81376,
+        "document_marked": true,
+        "document_sha256": "a819debc091257a002f2aff0cee86d715461c483fcba43cbcb45548538b8220d",
+        "last_migration_performed": "SyntheticPairedWriteProbe",
+        "migration_version": "2099.0.0-209901020304",
+        "other_fields_sha256": "b5058f600752fa4a6d790c59c04cf1b3763a911a5c7410356981530e766ab461",
+        "representation_bytes": 17296,
+        "representation_marked": true,
+        "representation_sha256": "c3c6b190834c6a1681fd201893a0f838a79c020ca945048c1b43e1cb1cc3ffe9"
+      },
+      "unix_socket": true
+    },
+    {
+      "phase": "concurrent_reader",
+      "read_only": true,
+      "state": {
+        "document_bytes": 81374,
+        "document_marked": true,
+        "document_sha256": "a60dd74986c02967f1e703884586ff70c44f17829fdcb05e8eb74db92fbd7d98",
+        "last_migration_performed": "SyntheticPairedWriteProbe",
+        "migration_version": "2099.0.0-209901020304",
+        "other_fields_sha256": "b5058f600752fa4a6d790c59c04cf1b3763a911a5c7410356981530e766ab461",
+        "representation_bytes": 17296,
+        "representation_marked": true,
+        "representation_sha256": "c3c6b190834c6a1681fd201893a0f838a79c020ca945048c1b43e1cb1cc3ffe9"
+      },
+      "unix_socket": true
+    },
+    {
+      "phase": "recovered_reader",
+      "read_only": true,
+      "state": {
+        "document_bytes": 81374,
+        "document_marked": true,
+        "document_sha256": "a60dd74986c02967f1e703884586ff70c44f17829fdcb05e8eb74db92fbd7d98",
+        "last_migration_performed": "SyntheticPairedWriteProbe",
+        "migration_version": "2099.0.0-209901020304",
+        "other_fields_sha256": "b5058f600752fa4a6d790c59c04cf1b3763a911a5c7410356981530e766ab461",
+        "representation_bytes": 17296,
+        "representation_marked": true,
+        "representation_sha256": "c3c6b190834c6a1681fd201893a0f838a79c020ca945048c1b43e1cb1cc3ffe9"
+      },
+      "unix_socket": true
+    }
+  ],
+  "transaction": {
+    "commit_dispatched_for_pending_write": false,
+    "pending_client_exit": 0,
+    "pending_client_reaped": true,
+    "pending_timestamp_changed": true,
+    "same_xid_observed_before_shutdown": true,
+    "writer_state": "idle in transaction",
+    "writer_wait": [
+      "Client",
+      "ClientRead"
+    ]
+  },
+  "wal": {
+    "checkpoint_after_pending_bytes": 56496,
+    "checkpoint_exit": 0,
+    "flush_after_checkpoint_bytes": 120
+  }
+}
