@@ -1,0 +1,323 @@
+{
+  "actuator_fixture": {
+    "all_dispatcher_rows": 54,
+    "bound_sirius_handler_method_rows": 25,
+    "parent_commit": "9cb99468ca2d59eeae8965d66e52878611626216",
+    "sha256": "6bc55ce5f0b0161309acc4e1752f7778372bf43befd83c28aaf9d6f6e5aed28f"
+  },
+  "artifact_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "declared_sirius_controller_methods": [
+    {
+      "class_path": "org/eclipse/sirius/components/graphql/controllers/GraphQLController.class",
+      "class_sha256": "10499f31ff430690427410f3f5e8b0b0d7926b65eaf96ae4677f2514c7b026ea",
+      "jar_artifact_id": "sirius-components-graphql",
+      "name": "org.eclipse.sirius.components.graphql.controllers.GraphQLController",
+      "routes": [
+        {
+          "descriptor": "(Lorg/eclipse/sirius/components/graphql/controllers/GraphQLPayload;Ljakarta/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;",
+          "method": "performRequest",
+          "predicate": "{POST [/api/graphql]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Lorg/springframework/web/multipart/MultipartFile;)Lorg/springframework/http/ResponseEntity;",
+          "method": "uploadDocument",
+          "predicate": "{POST [/api/graphql/upload]}"
+        }
+      ],
+      "source": {
+        "path": "packages/web/backend/sirius-components-graphql/src/main/java/org/eclipse/sirius/components/graphql/controllers/GraphQLController.java",
+        "sha256": "381d5f3a86791bf43684c44dd500a0358a1dfa57c2f7fa9065f773e6ccd8cd95"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/document/controllers/DocumentDownloadController.class",
+      "class_sha256": "2fb23634c402f5d1ea0aa70d31ed41a86d63bbbfad9cdc54e5667ce5d89beb16",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.document.controllers.DocumentDownloadController",
+      "routes": [
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Lorg/springframework/http/HttpHeaders;)Lorg/springframework/http/ResponseEntity;",
+          "method": "downloadDocument",
+          "predicate": "{GET [/api/editingcontexts/{editingContextId}/documents/{documentId}]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/document/controllers/DocumentDownloadController.java",
+        "sha256": "fc45454c90cb49ebe2934e6caca0282f1b51be06cd7568d2829e8837fb4f27e0"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/i18n/controllers/LocaleController.class",
+      "class_sha256": "f72045caafa4de27fda88f9671c9f208a5a25c2e336f8730b66933d0d94be101",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.i18n.controllers.LocaleController",
+      "routes": [
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Lorg/springframework/http/HttpHeaders;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getLocale",
+          "predicate": "{GET [/api/locales/{language}/{namespace}.json]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/i18n/controllers/LocaleController.java",
+        "sha256": "812dd41d3c2e046340abf267061fae2b6c20410a6f0a254407b170520b21f68a"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/images/controllers/ImagesController.class",
+      "class_sha256": "767b1bec35f774ed3aa88ff253a262d4efddcbf65be1fd51743bd4170c14f486",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.images.controllers.ImagesController",
+      "routes": [
+        {
+          "descriptor": "(Ljakarta/servlet/http/HttpServletRequest;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getImage",
+          "predicate": "{GET [/api/images/**/*]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/images/controllers/ImagesController.java",
+        "sha256": "f1f8f53ed3b5d20065a9867dda200851d2162f4e4f8901d79b273b5ea8024270"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/object/controllers/ObjectDownloadController.class",
+      "class_sha256": "bb012114e997f8664cb5392c3b79e0802dada4370086e25534c697167c523d33",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.object.controllers.ObjectDownloadController",
+      "routes": [
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)Lorg/springframework/http/ResponseEntity;",
+          "method": "downloadObjects",
+          "predicate": "{GET [/api/editingcontexts/{editingContextId}/objects]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/object/controllers/ObjectDownloadController.java",
+        "sha256": "81f953f75163964c115fcb09b2f812c18e0d0c08a7e15d2ba4c6038b69e9cd7f"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/object/controllers/ObjectRestController.class",
+      "class_sha256": "b6db445f305266006cb2996a34ea6faf5619060c92c4adef69bca055a188d12e",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.object.controllers.ObjectRestController",
+      "routes": [
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getRootElements",
+          "predicate": "{GET [/api/rest/projects/{projectId}/commits/{commitId}/roots]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getElements",
+          "predicate": "{GET [/api/rest/projects/{projectId}/commits/{commitId}/elements]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;Ljava/util/UUID;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getElementById",
+          "predicate": "{GET [/api/rest/projects/{projectId}/commits/{commitId}/elements/{elementId}]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;Ljava/util/UUID;Ljava/util/Optional;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getRelationshipsByRelatedElement",
+          "predicate": "{GET [/api/rest/projects/{projectId}/commits/{commitId}/elements/{relatedElementId}/relationships]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/object/controllers/ObjectRestController.java",
+        "sha256": "0e07216e577cbedeb5921e67b59924928ce0e125eb77f708c618dc3c45b68e73"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/project/controllers/ProjectDownloadController.class",
+      "class_sha256": "c9a135bc5e639fb81b48c14395232a13292f5518b7ba65dae9f2df5d590dafba",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.project.controllers.ProjectDownloadController",
+      "routes": [
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)Lorg/springframework/http/ResponseEntity;",
+          "method": "downloadProject",
+          "predicate": "{GET [/api/projects/{projectId}]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/project/controllers/ProjectDownloadController.java",
+        "sha256": "cf9d8ab062168cc8264d2332414c6a49b61decdc7df3696705ae13bf1ab9f9db"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/project/controllers/ProjectRestController.class",
+      "class_sha256": "4791fe2131253d3288c9887a12a127d6bc37902ef996f5b91f624b4b694e723e",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.project.controllers.ProjectRestController",
+      "routes": [
+        {
+          "descriptor": "(Ljava/lang/String;)Lorg/springframework/http/ResponseEntity;",
+          "method": "deleteProject",
+          "predicate": "{DELETE [/api/rest/projects/{projectId}]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/Optional;)Lorg/springframework/http/ResponseEntity;",
+          "method": "createProject",
+          "predicate": "{POST [/api/rest/projects]}"
+        },
+        {
+          "descriptor": "(Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getProjects",
+          "predicate": "{GET [/api/rest/projects]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/Optional;Ljava/util/Optional;Ljava/util/Optional;)Lorg/springframework/http/ResponseEntity;",
+          "method": "updateProject",
+          "predicate": "{PUT [/api/rest/projects/{projectId}]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getProjectById",
+          "predicate": "{GET [/api/rest/projects/{projectId}]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/project/controllers/ProjectRestController.java",
+        "sha256": "b4feb1709736b23c69b88a3ef10e6893eb621d55252e1138a0961844a6110a72"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/project/data/versioning/controllers/BranchRestController.class",
+      "class_sha256": "2878adc2d3c51ad0800c44a89fe002f79981f92dd9e6f26a3f91120b98e7e80f",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.project.data.versioning.controllers.BranchRestController",
+      "routes": [
+        {
+          "descriptor": "(Ljava/lang/String;Lorg/eclipse/sirius/web/application/project/data/versioning/dto/RestBranchRequest;)Lorg/springframework/http/ResponseEntity;",
+          "method": "createBranch",
+          "predicate": "{POST [/api/rest/projects/{projectId}/branches]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getBranchById",
+          "predicate": "{GET [/api/rest/projects/{projectId}/branches/{branchId}]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;)Lorg/springframework/http/ResponseEntity;",
+          "method": "deleteBranch",
+          "predicate": "{DELETE [/api/rest/projects/{projectId}/branches/{branchId}]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getBranches",
+          "predicate": "{GET [/api/rest/projects/{projectId}/branches]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/project/data/versioning/controllers/BranchRestController.java",
+        "sha256": "fe24f89e54793db31201f75e859231c417a3cbf6211f8fac3185f921a7079e43"
+      }
+    },
+    {
+      "class_path": "org/eclipse/sirius/web/application/project/data/versioning/controllers/CommitRestController.class",
+      "class_sha256": "357ae10262459bf0e34f3427148355acd2d22e154111205dd753662a2960ecad",
+      "jar_artifact_id": "sirius-web-application",
+      "name": "org.eclipse.sirius.web.application.project.data.versioning.controllers.CommitRestController",
+      "routes": [
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/Optional;Lorg/eclipse/sirius/web/application/project/data/versioning/dto/RestCommitRequest;)Lorg/springframework/http/ResponseEntity;",
+          "method": "createCommit",
+          "predicate": "{POST [/api/rest/projects/{projectId}/commits]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;Ljava/util/UUID;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getCommitChangeById",
+          "predicate": "{GET [/api/rest/projects/{projectId}/commits/{commitId}/changes/{changeId}]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getCommitById",
+          "predicate": "{GET [/api/rest/projects/{projectId}/commits/{commitId}]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getCommits",
+          "predicate": "{GET [/api/rest/projects/{projectId}/commits]}"
+        },
+        {
+          "descriptor": "(Ljava/lang/String;Ljava/util/UUID;Ljava/util/Optional;)Lorg/springframework/http/ResponseEntity;",
+          "method": "getCommitChange",
+          "predicate": "{GET [/api/rest/projects/{projectId}/commits/{commitId}/changes]}"
+        }
+      ],
+      "source": {
+        "path": "packages/sirius-web/backend/sirius-web-application/src/main/java/org/eclipse/sirius/web/application/project/data/versioning/controllers/CommitRestController.java",
+        "sha256": "11c8b53129a36a8ba5659cbd281347bce7313c26ee31801dc5c3a03459a572be"
+      }
+    }
+  ],
+  "frontend_fallback_enclosing_class": {
+    "class_path": "org/eclipse/sirius/web/infrastructure/configuration/mvc/FrontendRouterConfiguration.class",
+    "class_sha256": "9fc50f3c406361aa595cf891838af6527a74366f5c831c8cab5e6a9e8583aa18",
+    "jar_artifact_id": "sirius-web-infrastructure",
+    "name": "org.eclipse.sirius.web.infrastructure.configuration.mvc.FrontendRouterConfiguration",
+    "routes": [],
+    "source": {
+      "path": "packages/sirius-web/backend/sirius-web-infrastructure/src/main/java/org/eclipse/sirius/web/infrastructure/configuration/mvc/FrontendRouterConfiguration.java",
+      "sha256": "8c881e3a77d38dd55cd4f77b9ac0637fa694244e6b94e3fb7cf89b4133951998"
+    }
+  },
+  "nested_release_jars": [
+    {
+      "artifact_id": "sirius-components-graphql",
+      "group_id": "org.eclipse.sirius",
+      "path": "BOOT-INF/lib/sirius-components-graphql-2026.9.3.jar",
+      "sha256": "c7b6934d288dd1cc254c86d837d2b6607e07c97090145aa0387017e5350af1ac",
+      "version": "2026.9.3"
+    },
+    {
+      "artifact_id": "sirius-web-application",
+      "group_id": "org.eclipse.sirius",
+      "path": "BOOT-INF/lib/sirius-web-application-2026.9.3.jar",
+      "sha256": "1c59082c10520d2edf168c220a6914570bd51bb57b3d8988c6c86bdc61059257",
+      "version": "2026.9.3"
+    },
+    {
+      "artifact_id": "sirius-web-infrastructure",
+      "group_id": "org.eclipse.sirius",
+      "path": "BOOT-INF/lib/sirius-web-infrastructure-2026.9.3.jar",
+      "sha256": "b7ae31909aab4bac29109d1e740e84d7730ad056d506d10b43f721e4453e9413",
+      "version": "2026.9.3"
+    }
+  ],
+  "released_sys_on_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+  "sirius_source_tag_revision": "3191e2b8990373afee3415f6b26f8c5039a28321",
+  "sys_on_source_anchors": [
+    {
+      "path": "backend/application/syson-application/src/main/resources/application.properties",
+      "release_jar_member": "BOOT-INF/classes/application.properties",
+      "source_sha256": "eb9b880a115b24e3fae015a1ea611b88779a6d31b74270ec4a4cacb4c5bd91e0"
+    },
+    {
+      "path": "backend/application/syson-application/src/main/resources/application-dev.properties",
+      "release_jar_member": "BOOT-INF/classes/application-dev.properties",
+      "source_sha256": "1484686f3e7f54c0d07e8158715a8b9e5e07820ff531ee0010c414d799187544"
+    },
+    {
+      "path": "backend/application/syson-sysml-import/src/main/java/org/eclipse/syson/sysml/upload/SysMLExternalResourceLoaderService.java",
+      "source_sha256": "f0ee05aa6742a26ed00130de43f0fee0c61416099ddddc29c6de7e1d82b4936a"
+    },
+    {
+      "path": "frontend/syson/src/index.tsx",
+      "source_sha256": "de881053d4cebe6c992a80b7735b4456e88731d5df4eeac46b3e923e33215b39"
+    },
+    {
+      "path": "pom.xml",
+      "source_sha256": "f49d6760fd6ea2d3c079e9607c472eb27c23bfab64560d9166e362c85c58e656"
+    }
+  ],
+  "target_release_changed_paths_by_directory": {
+    "CHANGELOG.adoc": 1,
+    "backend/metamodel": 104,
+    "backend/views": 17,
+    "doc/content": 3
+  },
+  "target_sys_on_revision": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910"
+}
