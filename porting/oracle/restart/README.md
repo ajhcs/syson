@@ -62,3 +62,8 @@ the Documentation field and the named request. It begins before any new
 submission and leaves in-flight write recovery to a separate experiment.
 
 [Default and focused-field run receipts](focused-edit-restart-v2026.9.3.json).
+
+The [timeout control](focused-edit-timeout-control-v2026.9.3.json) stalled the
+test driver before it launched Chromium. The wrapper preserved the 65-second
+timeout and exited unsuccessfully. Terminal readback confirmed that the
+driver, both service listeners, and the owned scope had exited.
