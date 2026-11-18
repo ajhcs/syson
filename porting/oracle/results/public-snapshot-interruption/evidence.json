@@ -1,0 +1,343 @@
+{
+  "rust_revision": "05a4be35d4842272d0249ab43b9e49295591ef1e",
+  "prior_evidence_revision": "a3eef6a4f3331f77297b636ebb55a1a608154dcc",
+  "original_receipt_sha256": "799bf8dc31ee9b3ff268f0f02fd4e7c3413c07c81ea45db4d914bd5ae58b131a",
+  "status": "PASS_PUBLIC_SNAPSHOTSTORE_PROCESS_INTERRUPTION",
+  "unique_and_reaped_children": 32,
+  "model_sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a",
+  "normal_writer_steps": [
+    "create_staged",
+    "write_staged",
+    "sync_staged",
+    "publish",
+    "sync_directory",
+    "remove_staged"
+  ],
+  "interruption_cases": {
+    "sync_staged": {
+      "waitid": {
+        "pid": 3922151,
+        "code": 2,
+        "signal": 9
+      },
+      "writer_completed": [
+        "create_staged",
+        "write_staged",
+        "sync_staged"
+      ],
+      "disk_after_wait": {
+        "original": {
+          "device": 66305,
+          "inode": 73965426,
+          "hard_links": 1,
+          "size": 2197,
+          "mtime_ns": 1794955151119676616,
+          "ctime_ns": 1794955151129676955,
+          "sha256": "685c20db068426d169326d896a2de9f7977acd53cfef138a25bd9bafe3350e25"
+        },
+        "stage": {
+          "device": 66305,
+          "inode": 73965429,
+          "hard_links": 1,
+          "size": 2202,
+          "mtime_ns": 1794955151131677023,
+          "ctime_ns": 1794955151131677023,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        },
+        "final": null
+      },
+      "disk_after_retry": {
+        "original": {
+          "device": 66305,
+          "inode": 73965426,
+          "hard_links": 1,
+          "size": 2197,
+          "mtime_ns": 1794955151119676616,
+          "ctime_ns": 1794955151129676955,
+          "sha256": "685c20db068426d169326d896a2de9f7977acd53cfef138a25bd9bafe3350e25"
+        },
+        "stage": {
+          "device": 66305,
+          "inode": 73965429,
+          "hard_links": 1,
+          "size": 2202,
+          "mtime_ns": 1794955151131677023,
+          "ctime_ns": 1794955151131677023,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        },
+        "final": null
+      },
+      "candidate_load_exit": 2,
+      "candidate_load_after_retry_exit": 2,
+      "retry": {
+        "attempted": [
+          "create_staged"
+        ],
+        "completed": [],
+        "error": "Io(Os { code: 17, kind: AlreadyExists, message: \"File exists\" })",
+        "io_kind": "AlreadyExists",
+        "operation": "save",
+        "pid": 3922154,
+        "raw_os_error": 17
+      },
+      "first_blocked_operation": "create_staged"
+    },
+    "publish": {
+      "waitid": {
+        "pid": 3922164,
+        "code": 2,
+        "signal": 9
+      },
+      "writer_completed": [
+        "create_staged",
+        "write_staged",
+        "sync_staged",
+        "publish"
+      ],
+      "disk_after_wait": {
+        "original": {
+          "device": 66305,
+          "inode": 73965443,
+          "hard_links": 1,
+          "size": 2197,
+          "mtime_ns": 1794955151145677497,
+          "ctime_ns": 1794955151156677869,
+          "sha256": "685c20db068426d169326d896a2de9f7977acd53cfef138a25bd9bafe3350e25"
+        },
+        "stage": {
+          "device": 66305,
+          "inode": 73965446,
+          "hard_links": 2,
+          "size": 2202,
+          "mtime_ns": 1794955151158677937,
+          "ctime_ns": 1794955151164678140,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        },
+        "final": {
+          "device": 66305,
+          "inode": 73965446,
+          "hard_links": 2,
+          "size": 2202,
+          "mtime_ns": 1794955151158677937,
+          "ctime_ns": 1794955151164678140,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        }
+      },
+      "disk_after_retry": {
+        "original": {
+          "device": 66305,
+          "inode": 73965443,
+          "hard_links": 1,
+          "size": 2197,
+          "mtime_ns": 1794955151145677497,
+          "ctime_ns": 1794955151156677869,
+          "sha256": "685c20db068426d169326d896a2de9f7977acd53cfef138a25bd9bafe3350e25"
+        },
+        "stage": {
+          "device": 66305,
+          "inode": 73965446,
+          "hard_links": 2,
+          "size": 2202,
+          "mtime_ns": 1794955151158677937,
+          "ctime_ns": 1794955151164678140,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        },
+        "final": {
+          "device": 66305,
+          "inode": 73965446,
+          "hard_links": 2,
+          "size": 2202,
+          "mtime_ns": 1794955151158677937,
+          "ctime_ns": 1794955151164678140,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        }
+      },
+      "candidate_load_exit": 0,
+      "candidate_load_after_retry_exit": 0,
+      "retry": {
+        "attempted": [
+          "create_staged"
+        ],
+        "completed": [],
+        "error": "Io(Os { code: 17, kind: AlreadyExists, message: \"File exists\" })",
+        "io_kind": "AlreadyExists",
+        "operation": "save",
+        "pid": 3922167,
+        "raw_os_error": 17
+      },
+      "first_blocked_operation": "create_staged"
+    },
+    "sync_directory": {
+      "waitid": {
+        "pid": 3922176,
+        "code": 2,
+        "signal": 9
+      },
+      "writer_completed": [
+        "create_staged",
+        "write_staged",
+        "sync_staged",
+        "publish",
+        "sync_directory"
+      ],
+      "disk_after_wait": {
+        "original": {
+          "device": 66305,
+          "inode": 73965460,
+          "hard_links": 1,
+          "size": 2197,
+          "mtime_ns": 1794955151176678547,
+          "ctime_ns": 1794955151186678885,
+          "sha256": "685c20db068426d169326d896a2de9f7977acd53cfef138a25bd9bafe3350e25"
+        },
+        "stage": {
+          "device": 66305,
+          "inode": 73965463,
+          "hard_links": 2,
+          "size": 2202,
+          "mtime_ns": 1794955151189678987,
+          "ctime_ns": 1794955151193679122,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        },
+        "final": {
+          "device": 66305,
+          "inode": 73965463,
+          "hard_links": 2,
+          "size": 2202,
+          "mtime_ns": 1794955151189678987,
+          "ctime_ns": 1794955151193679122,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        }
+      },
+      "disk_after_retry": {
+        "original": {
+          "device": 66305,
+          "inode": 73965460,
+          "hard_links": 1,
+          "size": 2197,
+          "mtime_ns": 1794955151176678547,
+          "ctime_ns": 1794955151186678885,
+          "sha256": "685c20db068426d169326d896a2de9f7977acd53cfef138a25bd9bafe3350e25"
+        },
+        "stage": {
+          "device": 66305,
+          "inode": 73965463,
+          "hard_links": 2,
+          "size": 2202,
+          "mtime_ns": 1794955151189678987,
+          "ctime_ns": 1794955151193679122,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        },
+        "final": {
+          "device": 66305,
+          "inode": 73965463,
+          "hard_links": 2,
+          "size": 2202,
+          "mtime_ns": 1794955151189678987,
+          "ctime_ns": 1794955151193679122,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        }
+      },
+      "candidate_load_exit": 0,
+      "candidate_load_after_retry_exit": 0,
+      "retry": {
+        "attempted": [
+          "create_staged"
+        ],
+        "completed": [],
+        "error": "Io(Os { code: 17, kind: AlreadyExists, message: \"File exists\" })",
+        "io_kind": "AlreadyExists",
+        "operation": "save",
+        "pid": 3922186,
+        "raw_os_error": 17
+      },
+      "first_blocked_operation": "create_staged"
+    },
+    "remove_staged": {
+      "waitid": {
+        "pid": 3922199,
+        "code": 2,
+        "signal": 9
+      },
+      "writer_completed": [
+        "create_staged",
+        "write_staged",
+        "sync_staged",
+        "publish",
+        "sync_directory",
+        "remove_staged"
+      ],
+      "disk_after_wait": {
+        "original": {
+          "device": 66305,
+          "inode": 73965477,
+          "hard_links": 1,
+          "size": 2197,
+          "mtime_ns": 1794955151209679664,
+          "ctime_ns": 1794955151220680036,
+          "sha256": "685c20db068426d169326d896a2de9f7977acd53cfef138a25bd9bafe3350e25"
+        },
+        "stage": null,
+        "final": {
+          "device": 66305,
+          "inode": 73965480,
+          "hard_links": 1,
+          "size": 2202,
+          "mtime_ns": 1794955151222680104,
+          "ctime_ns": 1794955151232680443,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        }
+      },
+      "disk_after_retry": {
+        "original": {
+          "device": 66305,
+          "inode": 73965477,
+          "hard_links": 1,
+          "size": 2197,
+          "mtime_ns": 1794955151209679664,
+          "ctime_ns": 1794955151220680036,
+          "sha256": "685c20db068426d169326d896a2de9f7977acd53cfef138a25bd9bafe3350e25"
+        },
+        "stage": {
+          "device": 66305,
+          "inode": 73965487,
+          "hard_links": 1,
+          "size": 2205,
+          "mtime_ns": 1794955151237680612,
+          "ctime_ns": 1794955151237680612,
+          "sha256": "eead4faa8e21be11bfdc2151a02a21172873450aa47ad5d168eb4271b9fea255"
+        },
+        "final": {
+          "device": 66305,
+          "inode": 73965480,
+          "hard_links": 1,
+          "size": 2202,
+          "mtime_ns": 1794955151222680104,
+          "ctime_ns": 1794955151232680443,
+          "sha256": "d8c5fabf88c25faf780720e100413f79f834f4dddf6129a20db6b6bf25c9581a"
+        }
+      },
+      "candidate_load_exit": 0,
+      "candidate_load_after_retry_exit": 0,
+      "retry": {
+        "attempted": [
+          "create_staged",
+          "write_staged",
+          "sync_staged",
+          "publish"
+        ],
+        "completed": [
+          "create_staged",
+          "write_staged",
+          "sync_staged"
+        ],
+        "error": "Io(Os { code: 17, kind: AlreadyExists, message: \"File exists\" })",
+        "io_kind": "AlreadyExists",
+        "operation": "save",
+        "pid": 3922207,
+        "raw_os_error": 17
+      },
+      "first_blocked_operation": "publish"
+    }
+  }
+}
