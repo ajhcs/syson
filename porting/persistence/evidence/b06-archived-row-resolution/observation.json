@@ -1,0 +1,166 @@
+{
+  "first_attempt": {
+    "archived_identity_positive_completed": true,
+    "case": "row_field_3",
+    "case_check_exit": 1,
+    "compile_exit": 0,
+    "correct_refusal": "Membership",
+    "expected": "Semantic",
+    "outcome": "checker_expectation_failure",
+    "owned_scope_empty_or_absent": true,
+    "resolver_unchanged_in_retry": true
+  },
+  "inputs": {
+    "archived_reads": [
+      "committed-read",
+      "restarted-read"
+    ],
+    "native_migration_fields_present": [
+      "migration_version",
+      "last_migration_performed"
+    ],
+    "project_identity_from_original_query_selector": true,
+    "repeated_fields_projected_from_recorded_join_equalities": true,
+    "sources_agree_on_projected_identity": true
+  },
+  "limits": {
+    "direct_sql_query_executed_by_this_run": false,
+    "native_generation_binding_available": false,
+    "native_six_stamp_binding_available": false,
+    "native_transaction_qualified": false,
+    "prepared_wire_handoff_authorized": false,
+    "product_application_executed_by_this_run": false
+  },
+  "provenance": {
+    "paired_sql": {
+      "commit": "8ce1ae50bc025214d0ad8e60691921c7fc61f6aa",
+      "observation_sha256": "6de726b58d39c950830e3d2dbd4b101d5385832347e0446ff3ac80af3b7cc72f",
+      "pr": 360
+    },
+    "prepared_wire": {
+      "commit": "bad0efa31317ea24ec8ff155ef065d7679083d0d",
+      "observation_sha256": "f16500c89ad4e80c97fb3fc57921975a49bf9d760e22cebc2b4c02977e1e03d7",
+      "pr": 387
+    },
+    "release_binding": {
+      "commit": "fcdfa63c459beae5f50207091e075c9ee7069627",
+      "observation_sha256": "6a943006c8e10bfc597dc21487f1e51932cd3d1fb884219418d679b7c5ce1b3c",
+      "pr": 389
+    }
+  },
+  "qualification": {
+    "case_counts": {
+      "identity_only_positive": 2,
+      "refused": 22
+    },
+    "cases": [
+      {
+        "name": "retained_actual_selected_pair",
+        "outcome": "AcceptIdentityOnly"
+      },
+      {
+        "name": "missing",
+        "outcome": "Missing"
+      },
+      {
+        "name": "ambiguous",
+        "outcome": "Ambiguous"
+      },
+      {
+        "name": "row_field_0_Project",
+        "outcome": "Project"
+      },
+      {
+        "name": "row_field_1_Membership",
+        "outcome": "Membership"
+      },
+      {
+        "name": "row_field_2_Membership",
+        "outcome": "Membership"
+      },
+      {
+        "name": "row_field_3_Membership",
+        "outcome": "Membership"
+      },
+      {
+        "name": "row_field_4_Document",
+        "outcome": "Document"
+      },
+      {
+        "name": "row_field_5_Semantic",
+        "outcome": "Semantic"
+      },
+      {
+        "name": "row_field_6_ReadOnly",
+        "outcome": "ReadOnly"
+      },
+      {
+        "name": "row_field_7_CompoundKey",
+        "outcome": "CompoundKey"
+      },
+      {
+        "name": "row_field_8_Metadata",
+        "outcome": "Metadata"
+      },
+      {
+        "name": "row_field_9_Metadata",
+        "outcome": "Metadata"
+      },
+      {
+        "name": "row_field_10_Target",
+        "outcome": "Target"
+      },
+      {
+        "name": "row_field_11_ContentKey",
+        "outcome": "ContentKey"
+      },
+      {
+        "name": "row_field_12_ContentSemantic",
+        "outcome": "ContentSemantic"
+      },
+      {
+        "name": "row_field_13_ContentMetadata",
+        "outcome": "ContentMetadata"
+      },
+      {
+        "name": "row_field_14_InvalidRow",
+        "outcome": "InvalidRow"
+      },
+      {
+        "name": "caller_selector_0_Project",
+        "outcome": "Project"
+      },
+      {
+        "name": "caller_selector_1_Document",
+        "outcome": "Document"
+      },
+      {
+        "name": "caller_selector_2_Semantic",
+        "outcome": "Semantic"
+      },
+      {
+        "name": "caller_selector_3_Metadata",
+        "outcome": "Metadata"
+      },
+      {
+        "name": "caller_selector_4_Target",
+        "outcome": "Target"
+      },
+      {
+        "name": "absent_native_scalars_still_cannot_bind_wire",
+        "outcome": "AcceptIdentityOnly"
+      }
+    ],
+    "compiler_lock_released_after_teardown": true,
+    "exit_codes": {
+      "case_check": 0,
+      "compile": 0,
+      "kernel_witness": 0,
+      "loader": 0
+    },
+    "inputs_unchanged": true,
+    "owned_scope_empty_or_absent": true,
+    "standalone_rust_standard_library_adapter": true
+  },
+  "schema": "B06-ARCHIVED-ROW-RESOLUTION/1"
+}
