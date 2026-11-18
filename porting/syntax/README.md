@@ -13,6 +13,14 @@ Candidate grammar source is Syside `0.9.0`, commit `1326f234cae23b0e4777d5a48a06
 - Tokens retain hidden source text and separate byte, absolute UTF-16, zero-based line and UTF-16 column positions. CRLF counts as one line break; CR and LF also count separately when not paired. U+2028/U+2029 are ECMAScript whitespace but do not introduce an LSP line break in this position contract. CST spans enclose visible tokens and child marker points; they are not qualified as upstream CST spans.
 - Cooperative atomic cancellation and explicit input-byte, token, work-step, chart-state and constructed-CST-node budgets are checked. Waiting/completion indexes avoid unaccounted repeated whole-chart scans. No budget failure returns success or a partial accepted model. Results and repeated calls are deterministic for the same inputs/options.
 
+The recognizer uses next-token lookahead with the exact bundled grammar bytes.
+A prediction can be skipped when it cannot consume the next token and cannot
+schedule a nullable completion in the same chart column. The nullable guard
+preserves the ordering of shared zero-width derivations. On failure, the last
+chart's skipped predictions still contribute their possible first tokens to
+the expected-token list. Other grammar inputs retain the original prediction
+path. The merge counter describes alternative histories of admitted states.
+
 Default limits are 1 MiB input, 100,000 tokens (including retained hidden tokens), 5,000,000 work steps, 250,000 chart states and 250,000 constructed CST nodes. These are bounded local API defaults, not upstream scaling equivalence. Large-model throughput and all standard-library parser cases are unqualified.
 
 ## Source fidelity and remaining parser differences

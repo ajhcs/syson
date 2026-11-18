@@ -3,13 +3,20 @@
 use crate::TokenKind;
 use crate::recognizer::CstKind;
 use serde_json::{Value, json};
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashSet, VecDeque};
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Language {
     KerML,
     SysML,
 }
 impl Language {
+    fn source(self) -> &'static str {
+        match self {
+            Self::KerML => include_str!("../data/kerml.json"),
+            Self::SysML => include_str!("../data/sysml.json"),
+        }
+    }
+
     fn name(self) -> &'static str {
         match self {
             Self::KerML => "KerML",
@@ -51,6 +58,95 @@ pub(crate) struct Production {
     pub rhs: Vec<Symbol>,
 }
 #[derive(Clone, Debug)]
+pub(crate) struct First<T = TokenKind> {
+    pub(crate) tokens: HashSet<T>,
+    pub(crate) nullable: bool,
+    pub(crate) predicts_nullable: bool,
+}
+impl<T> Default for First<T> {
+    fn default() -> Self {
+        Self {
+            tokens: HashSet::new(),
+            nullable: false,
+            predicts_nullable: false,
+        }
+    }
+}
+
+fn production_first<'a>(
+    production: &'a Production,
+    nonterminals: &[First<&'a TokenKind>],
+) -> First<&'a TokenKind> {
+    let mut first = First::default();
+    if let Some(Symbol::Nonterminal(id)) = production.rhs.first() {
+        first.predicts_nullable = nonterminals[*id].nullable || nonterminals[*id].predicts_nullable;
+    }
+    for symbol in &production.rhs {
+        match symbol {
+            Symbol::Token(token) => {
+                first.tokens.insert(token);
+                return first;
+            }
+            Symbol::Nonterminal(id) => {
+                first
+                    .tokens
+                    .extend(nonterminals[*id].tokens.iter().copied());
+                if !nonterminals[*id].nullable {
+                    return first;
+                }
+            }
+        }
+    }
+    first.nullable = true;
+    first
+}
+
+fn first_sets(productions: &[Production], labels: usize) -> Vec<First> {
+    let mut dependents = vec![Vec::new(); labels];
+    for (index, production) in productions.iter().enumerate() {
+        for symbol in &production.rhs {
+            if let Symbol::Nonterminal(id) = symbol {
+                dependents[*id].push(index);
+            }
+        }
+    }
+    // Start with no established facts. Every change can only add FIRST
+    // tokens or prove nullability, and requeues all affected productions.
+    let mut nonterminals = vec![First::default(); labels];
+    let mut queue: VecDeque<_> = (0..productions.len()).collect();
+    let mut pending = vec![true; productions.len()];
+    while let Some(index) = queue.pop_front() {
+        pending[index] = false;
+        let production = &productions[index];
+        let first = production_first(production, &nonterminals);
+        let lhs = &mut nonterminals[production.lhs];
+        let before = (lhs.tokens.len(), lhs.nullable, lhs.predicts_nullable);
+        lhs.tokens.extend(first.tokens);
+        lhs.nullable |= first.nullable;
+        lhs.predicts_nullable |= first.predicts_nullable;
+        if before != (lhs.tokens.len(), lhs.nullable, lhs.predicts_nullable) {
+            for &dependent in &dependents[production.lhs] {
+                if !pending[dependent] {
+                    pending[dependent] = true;
+                    queue.push_back(dependent);
+                }
+            }
+        }
+    }
+    productions
+        .iter()
+        .map(|p| {
+            let first = production_first(p, &nonterminals);
+            First {
+                tokens: first.tokens.into_iter().cloned().collect(),
+                nullable: first.nullable,
+                predicts_nullable: first.predicts_nullable,
+            }
+        })
+        .collect()
+}
+
+#[derive(Clone, Debug)]
 pub struct Grammar {
     pub language: Language,
     pub(crate) entry_name: String,
@@ -60,18 +156,13 @@ pub struct Grammar {
     pub(crate) reachable: BTreeSet<usize>,
     pub(crate) punctuation: BTreeSet<String>,
     pub(crate) productions: Vec<Production>,
+    pub(crate) first: Option<Vec<First>>,
     pub(crate) by_lhs: Vec<Vec<usize>>,
     pub(crate) labels: Vec<CstKind>,
 }
 impl Grammar {
     pub fn load(language: Language) -> Result<Self, GrammarError> {
-        Self::from_json(
-            language,
-            match language {
-                Language::KerML => include_str!("../data/kerml.json"),
-                Language::SysML => include_str!("../data/sysml.json"),
-            },
-        )
+        Self::from_json(language, language.source())
     }
     /// Unknown syntax constructs/terminal changes fail closed at compilation.
     /// Interface and return-type metadata remain data, not executable AST semantics.
@@ -257,6 +348,8 @@ impl Grammar {
             all_keywords: b.keywords,
             reachable,
             punctuation,
+            first: (source == language.source())
+                .then(|| first_sets(&b.productions, b.labels.len())),
             productions: b.productions,
             by_lhs: b.by_lhs,
             labels: b.labels,
@@ -518,5 +611,48 @@ impl Builder<'_> {
             }
         }
         Ok(wrapper)
+    }
+}
+
+#[cfg(test)]
+mod prediction_tests {
+    use super::*;
+    use crate::Options;
+
+    #[test]
+    fn dead_predictions_preserve_nullable_witness_order_and_expected_tokens() {
+        let mut source: Value = serde_json::from_str(Language::KerML.source()).unwrap();
+        let rules = source["rules"].as_array_mut().unwrap();
+        for rule in rules.iter_mut().filter(|rule| rule["entry"] == true) {
+            rule["entry"] = false.into();
+        }
+        let offset = rules.len();
+        let reference = |n: usize| json!({"$type":"RuleCall","arguments":[],"rule":{"$ref":format!("#/rules@{}", offset + n)}});
+        let keyword = |token: &str| json!({"$type":"Keyword","value":token});
+        let witness = [
+            vec![vec![reference(3), reference(2)]],
+            vec![vec![keyword("b")], vec![]],
+            vec![vec![keyword("b"), reference(4)], vec![]],
+            vec![vec![reference(1)]],
+            vec![vec![], vec![reference(2), keyword("a")]],
+        ];
+        for (index, branches) in witness.into_iter().enumerate() {
+            let elements: Vec<_> = branches
+                .into_iter()
+                .map(|symbols| json!({"$type":"Group","elements":symbols}))
+                .collect();
+            rules.push(json!({
+                "$type":"ParserRule","name":format!("R{index}"),"entry":index == 0,
+                "wildcard":false,"definesHiddenTokens":false,"hiddenTokens":[],"parameters":[],
+                "definition":{"$type":"Alternatives","elements":elements}
+            }));
+        }
+        let mut custom = Grammar::from_json(Language::KerML, &source.to_string()).unwrap();
+        assert!(custom.first.is_none());
+        let ordered = custom.recognize("b", Options::default()).unwrap();
+        let rejected = custom.recognize("a", Options::default()).unwrap_err();
+        custom.first = Some(first_sets(&custom.productions, custom.labels.len()));
+        assert_eq!(custom.recognize("b", Options::default()), Ok(ordered));
+        assert_eq!(custom.recognize("a", Options::default()), Err(rejected));
     }
 }
