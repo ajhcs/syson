@@ -1,0 +1,242 @@
+{
+  "ast": {
+    "complete_inspection_stdout_sha256": "78f481151497037c17c8d820566d628b3087a05fd700a6e51797db94bd895756",
+    "observed_kind": "PartDefinition",
+    "observed_raw": "abstract",
+    "observed_value_kind": "String"
+  },
+  "cancellation": {
+    "error": "Cancelled",
+    "identities_requested": 0,
+    "status": "error"
+  },
+  "comparison": {
+    "reference_nodes": 3,
+    "rust_nodes": 3,
+    "structural_diffs": [],
+    "structural_match": true,
+    "wire_diffs": [
+      "import root Namespace wrapper: reference=True rust=False"
+    ]
+  },
+  "first_attempt": {
+    "sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a",
+    "stdout": "{\"error\":\"UnsupportedModelFeature(PartDefinition.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n"
+  },
+  "native": {
+    "golden": "{\n \"schema\": 1,\n \"id\": \"abstract-def\",\n \"source_sha256\": \"44c2ba3c76d1b73167931cab6728bb73c0ae7f66b0cc97a921003aaa21338d0e\",\n \"reference\": {\n  \"jar_sha256\": \"85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1\",\n  \"jar_source_revision\": \"b380dada415ce05155150f23cb3b74ae21cc45e4\"\n },\n \"result\": {\n  \"status\": \"ok\",\n  \"report\": \"\",\n  \"document\": {\n   \"json\": {\n    \"version\": \"1.0\",\n    \"encoding\": \"utf-8\"\n   },\n   \"ns\": {\n    \"sysml\": \"http://www.eclipse.org/syson/sysml\"\n   },\n   \"content\": [\n    {\n     \"id\": \"fd378a87-8440-4b88-9100-66e2b7a47dfb\",\n     \"eClass\": \"sysml:Namespace\",\n     \"data\": {\n      \"eAnnotations\": [\n       {\n        \"source\": \"org.eclipse.syson.sysml.imported\"\n       }\n      ],\n      \"elementId\": \"07944eea-3b7e-4097-8ab4-c95ff316ecf0\",\n      \"ownedRelationship\": [\n       {\n        \"id\": \"1255d523-1227-4671-8bfb-e87325c83383\",\n        \"eClass\": \"sysml:OwningMembership\",\n        \"data\": {\n         \"elementId\": \"3fe6d9c6-d874-4d3b-86f4-b43e8ce7e2ee\",\n         \"ownedRelatedElement\": [\n          {\n           \"id\": \"8263722a-a43d-4ffd-932b-242016040257\",\n           \"eClass\": \"sysml:Package\",\n           \"data\": {\n            \"declaredName\": \"P\",\n            \"elementId\": \"dd64d266-8aa2-4bf2-b835-bb42df9907f0\",\n            \"ownedRelationship\": [\n             {\n              \"id\": \"a2a87e89-43a2-4eea-921b-0f6369a3d747\",\n              \"eClass\": \"sysml:OwningMembership\",\n              \"data\": {\n               \"elementId\": \"9eb52208-cac9-459c-830c-07e8550df6df\",\n               \"ownedRelatedElement\": [\n                {\n                 \"id\": \"9a860b00-70a1-4026-8e55-39e4119bc9a9\",\n                 \"eClass\": \"sysml:PartDefinition\",\n                 \"data\": {\n                  \"declaredName\": \"A\",\n                  \"elementId\": \"9b3cf694-222c-4d03-8edb-a63f3c68c34a\",\n                  \"isAbstract\": true\n                 }\n                }\n               ]\n              }\n             }\n            ]\n           }\n          }\n         ]\n        }\n       }\n      ]\n     }\n    }\n   ]\n  }\n },\n \"normalized\": {\n  \"roots\": [\n   {\n    \"#\": \"n0\",\n    \"eClass\": \"sysml:Package\",\n    \"data\": {\n     \"declaredName\": \"P\",\n     \"ownedRelationship\": [\n      {\n       \"#\": \"n1\",\n       \"eClass\": \"sysml:OwningMembership\",\n       \"data\": {\n        \"ownedRelatedElement\": [\n         {\n          \"#\": \"n2\",\n          \"eClass\": \"sysml:PartDefinition\",\n          \"data\": {\n           \"declaredName\": \"A\",\n           \"isAbstract\": true\n          }\n         }\n        ]\n       }\n      }\n     ]\n    }\n   }\n  ],\n  \"wrapped\": true,\n  \"reference_encoding\": [],\n  \"nodes\": 3\n },\n \"record_sha256\": \"31798e772d9da501111e2210f4dcf10d275d493314ec0c96a38a2ed083c74382\"\n}\n",
+    "golden_sha256": "198821d65c0dc0c721b7765ca5e703437640b8d8f02d43bbe94b4e14086727e1",
+    "report_sha256": "42f70e31c574effb1e9b94d6e58573308aebf75cedb2246e4009ab7095cdeae7",
+    "source": "package P { abstract part def A; }",
+    "source_sha256": "44c2ba3c76d1b73167931cab6728bb73c0ae7f66b0cc97a921003aaa21338d0e"
+  },
+  "positives": {
+    "abstract-def": {
+      "fresh_reader": true,
+      "reopen_sha256": "dd75e032896a4d62ce4a675525ab008df353d7c2cdd46906c86d6b24e8962067",
+      "snapshot": "{\n  \"content\": [\n    {\n      \"data\": {\n        \"declaredName\": \"P\",\n        \"elementId\": \"20000000-0000-4000-8000-000000000001\",\n        \"ownedRelationship\": [\n          {\n            \"data\": {\n              \"elementId\": \"20000000-0000-4000-8000-000000000003\",\n              \"ownedRelatedElement\": [\n                {\n                  \"data\": {\n                    \"declaredName\": \"A\",\n                    \"elementId\": \"20000000-0000-4000-8000-000000000002\",\n                    \"isAbstract\": true\n                  },\n                  \"eClass\": \"sysml:PartDefinition\",\n                  \"id\": \"10000000-0000-4000-8000-000000000002\"\n                }\n              ]\n            },\n            \"eClass\": \"sysml:OwningMembership\",\n            \"id\": \"10000000-0000-4000-8000-000000000003\"\n          }\n        ]\n      },\n      \"eClass\": \"sysml:Package\",\n      \"id\": \"10000000-0000-4000-8000-000000000001\"\n    }\n  ],\n  \"json\": {\n    \"encoding\": \"utf-8\",\n    \"version\": \"1.0\"\n  },\n  \"ns\": {\n    \"sysml\": \"http://www.eclipse.org/syson/sysml\"\n  }\n}",
+      "snapshot_sha256": "f1c6b2955bd250f2265d27dbe9dd6905d70e53e3efa0a29071f2a762b665cf93",
+      "source": "package P { abstract part def A; }",
+      "source_sha256": "44c2ba3c76d1b73167931cab6728bb73c0ae7f66b0cc97a921003aaa21338d0e",
+      "stage": "{\"document\":{\"content\":[{\"data\":{\"declaredName\":\"P\",\"elementId\":\"20000000-0000-4000-8000-000000000001\",\"ownedRelationship\":[{\"data\":{\"elementId\":\"20000000-0000-4000-8000-000000000003\",\"ownedRelatedElement\":[{\"data\":{\"declaredName\":\"A\",\"elementId\":\"20000000-0000-4000-8000-000000000002\",\"isAbstract\":true},\"eClass\":\"sysml:PartDefinition\",\"id\":\"10000000-0000-4000-8000-000000000002\"}]},\"eClass\":\"sysml:OwningMembership\",\"id\":\"10000000-0000-4000-8000-000000000003\"}]},\"eClass\":\"sysml:Package\",\"id\":\"10000000-0000-4000-8000-000000000001\"}],\"json\":{\"encoding\":\"utf-8\",\"version\":\"1.0\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"}},\"identities_requested\":3,\"lexemes\":[{\"byte\":[8,9],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"P\",\"utf16\":[8,9]},{\"byte\":[12,20],\"feature\":\"isAbstract\",\"kind\":\"primitive\",\"raw\":\"abstract\",\"utf16\":[12,20]},{\"byte\":[30,31],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"A\",\"utf16\":[30,31]}],\"status\":\"ok\",\"targets\":[]}\n",
+      "stage_sha256": "04f06db5d33cf2da0bf1e80cdf60343138ebe892362f8a555fdc0a5319ef7b0f"
+    },
+    "implicit-concrete": {
+      "fresh_reader": true,
+      "reopen_sha256": "fa83b7bce695dd9e3239da6a15d37f02b524483232e1a96182cf82dc80c85b05",
+      "snapshot": "{\n  \"content\": [\n    {\n      \"data\": {\n        \"declaredName\": \"P\",\n        \"elementId\": \"20000000-0000-4000-8000-000000000001\",\n        \"ownedRelationship\": [\n          {\n            \"data\": {\n              \"elementId\": \"20000000-0000-4000-8000-000000000003\",\n              \"ownedRelatedElement\": [\n                {\n                  \"data\": {\n                    \"declaredName\": \"A\",\n                    \"elementId\": \"20000000-0000-4000-8000-000000000002\"\n                  },\n                  \"eClass\": \"sysml:PartDefinition\",\n                  \"id\": \"10000000-0000-4000-8000-000000000002\"\n                }\n              ]\n            },\n            \"eClass\": \"sysml:OwningMembership\",\n            \"id\": \"10000000-0000-4000-8000-000000000003\"\n          }\n        ]\n      },\n      \"eClass\": \"sysml:Package\",\n      \"id\": \"10000000-0000-4000-8000-000000000001\"\n    }\n  ],\n  \"json\": {\n    \"encoding\": \"utf-8\",\n    \"version\": \"1.0\"\n  },\n  \"ns\": {\n    \"sysml\": \"http://www.eclipse.org/syson/sysml\"\n  }\n}",
+      "snapshot_sha256": "21bd17635cd908fbf3b086d9552447e3bfb7eda3884e0b33dc57e7c9e2499f89",
+      "source": "package P { part def A; }",
+      "source_sha256": "78453780ad8df6a4c9afedd09af60b262eee8608dd29334f17deac6160fba32b",
+      "stage": "{\"document\":{\"content\":[{\"data\":{\"declaredName\":\"P\",\"elementId\":\"20000000-0000-4000-8000-000000000001\",\"ownedRelationship\":[{\"data\":{\"elementId\":\"20000000-0000-4000-8000-000000000003\",\"ownedRelatedElement\":[{\"data\":{\"declaredName\":\"A\",\"elementId\":\"20000000-0000-4000-8000-000000000002\"},\"eClass\":\"sysml:PartDefinition\",\"id\":\"10000000-0000-4000-8000-000000000002\"}]},\"eClass\":\"sysml:OwningMembership\",\"id\":\"10000000-0000-4000-8000-000000000003\"}]},\"eClass\":\"sysml:Package\",\"id\":\"10000000-0000-4000-8000-000000000001\"}],\"json\":{\"encoding\":\"utf-8\",\"version\":\"1.0\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"}},\"identities_requested\":3,\"lexemes\":[{\"byte\":[8,9],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"P\",\"utf16\":[8,9]},{\"byte\":[21,22],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"A\",\"utf16\":[21,22]}],\"status\":\"ok\",\"targets\":[]}\n",
+      "stage_sha256": "7fcffb0e1bc755cf5bd9361a32f5aa5ee67ff8c89c55302b127187cd3f0745ab"
+    },
+    "valid-prefix": {
+      "fresh_reader": true,
+      "reopen_sha256": "326d12ccc23c99de08b6d25e3d6ce21b0370fbb2fe8123603f5821356cee5f71",
+      "snapshot": "{\n  \"content\": [\n    {\n      \"data\": {\n        \"declaredName\": \"P\",\n        \"elementId\": \"20000000-0000-4000-8000-000000000001\",\n        \"ownedRelationship\": [\n          {\n            \"data\": {\n              \"elementId\": \"20000000-0000-4000-8000-000000000003\",\n              \"ownedRelatedElement\": [\n                {\n                  \"data\": {\n                    \"declaredName\": \"A\",\n                    \"elementId\": \"20000000-0000-4000-8000-000000000002\",\n                    \"isAbstract\": true\n                  },\n                  \"eClass\": \"sysml:PartDefinition\",\n                  \"id\": \"10000000-0000-4000-8000-000000000002\"\n                }\n              ]\n            },\n            \"eClass\": \"sysml:OwningMembership\",\n            \"id\": \"10000000-0000-4000-8000-000000000003\"\n          },\n          {\n            \"data\": {\n              \"elementId\": \"20000000-0000-4000-8000-000000000005\",\n              \"ownedRelatedElement\": [\n                {\n                  \"data\": {\n                    \"declaredName\": \"Wrong\",\n                    \"elementId\": \"20000000-0000-4000-8000-000000000004\"\n                  },\n                  \"eClass\": \"sysml:AttributeDefinition\",\n                  \"id\": \"10000000-0000-4000-8000-000000000004\"\n                }\n              ]\n            },\n            \"eClass\": \"sysml:OwningMembership\",\n            \"id\": \"10000000-0000-4000-8000-000000000005\"\n          }\n        ]\n      },\n      \"eClass\": \"sysml:Package\",\n      \"id\": \"10000000-0000-4000-8000-000000000001\"\n    }\n  ],\n  \"json\": {\n    \"encoding\": \"utf-8\",\n    \"version\": \"1.0\"\n  },\n  \"ns\": {\n    \"sysml\": \"http://www.eclipse.org/syson/sysml\"\n  }\n}",
+      "snapshot_sha256": "3326ef43d6b35771d6954d436c622dfba63aff886929bec0b4f2a9f8298e0ca7",
+      "source": "package P { abstract part def A; attribute def Wrong; }",
+      "source_sha256": "a70dc62aa989e90fd96658b54eacf819bc1889ba9e77a59564cbfadbb71c2273",
+      "stage": "{\"document\":{\"content\":[{\"data\":{\"declaredName\":\"P\",\"elementId\":\"20000000-0000-4000-8000-000000000001\",\"ownedRelationship\":[{\"data\":{\"elementId\":\"20000000-0000-4000-8000-000000000003\",\"ownedRelatedElement\":[{\"data\":{\"declaredName\":\"A\",\"elementId\":\"20000000-0000-4000-8000-000000000002\",\"isAbstract\":true},\"eClass\":\"sysml:PartDefinition\",\"id\":\"10000000-0000-4000-8000-000000000002\"}]},\"eClass\":\"sysml:OwningMembership\",\"id\":\"10000000-0000-4000-8000-000000000003\"},{\"data\":{\"elementId\":\"20000000-0000-4000-8000-000000000005\",\"ownedRelatedElement\":[{\"data\":{\"declaredName\":\"Wrong\",\"elementId\":\"20000000-0000-4000-8000-000000000004\"},\"eClass\":\"sysml:AttributeDefinition\",\"id\":\"10000000-0000-4000-8000-000000000004\"}]},\"eClass\":\"sysml:OwningMembership\",\"id\":\"10000000-0000-4000-8000-000000000005\"}]},\"eClass\":\"sysml:Package\",\"id\":\"10000000-0000-4000-8000-000000000001\"}],\"json\":{\"encoding\":\"utf-8\",\"version\":\"1.0\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"}},\"identities_requested\":5,\"lexemes\":[{\"byte\":[8,9],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"P\",\"utf16\":[8,9]},{\"byte\":[12,20],\"feature\":\"isAbstract\",\"kind\":\"primitive\",\"raw\":\"abstract\",\"utf16\":[12,20]},{\"byte\":[30,31],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"A\",\"utf16\":[30,31]},{\"byte\":[47,52],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"Wrong\",\"utf16\":[47,52]}],\"status\":\"ok\",\"targets\":[]}\n",
+      "stage_sha256": "957d8e4c940e07210cd207b1e55ea37100a98f5bfd081d800bcd98a236070d0f"
+    }
+  },
+  "prior_default": {
+    "sha256": "9e0f88e407dd47ff7098d7b69a5394bfd0b8e44da8e33f3e67881ac10caaeeab",
+    "stdout": "{\"error\":\"Parse(Unsupported { offset: 12 })\",\"status\":\"error\"}\n"
+  },
+  "prior_probe": {
+    "sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a",
+    "stdout": "{\"error\":\"UnsupportedModelFeature(PartDefinition.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n"
+  },
+  "qualification": {
+    "binary_sha256": {
+      "default": "23d32bf87d37199753c47bbc749b9203966dee3c83269a49fc9a5b672ccf98c6",
+      "probe": "27982845e1f07c5a346ad4960b532f2495bf322a1ca940fdc89c1587914c9ba7"
+    },
+    "predecessor_visibility_sha256": "88ef67e943f905424a84230ba4e4865d868cf5883fa7f8045370d99f4129884d",
+    "receipt_sha256": "267fa0a068f927153505254d8bc4d7f34358f130d057f19043501aefce629002",
+    "runner_sha256": "79cbc45d594c5f7182523d55389d64b0e665bad6651d59948d31b128683d62a3",
+    "source_sha256": {
+      "probe/main.rs": "3a0aef92d2a419d1972f5a089a60e684ec6c6abaa1d3ff8f3e69886ba48d2c1e",
+      "source/rust/crates/syson-model/src/lib.rs": "d73d99ade3934f6f04c18acc7ebb78d9fe89e904d716e9e60377bf444dbb47e5",
+      "source/rust/crates/syson-text-import/src/lib.rs": "d90864285b751ac50e6f7d1a4cc7f2fc20eba75b9e2d247741b521a2778ced30"
+    }
+  },
+  "refusals": {
+    "anonymous": {
+      "predecessor_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a",
+      "snapshot_present": false,
+      "source": "package P { abstract part def; }",
+      "source_sha256": "0b61158124a9d7f4a797b78b3b0693400f14d44f725cc0d0d8c9f12461601f54",
+      "stage": "{\"error\":\"UnsupportedModelFeature(PartDefinition.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a"
+    },
+    "attribute": {
+      "predecessor_sha256": "047235d33db9b33936be0bf2a7d07a5d15b4d58abd275733464a40c8985f8f24",
+      "snapshot_present": false,
+      "source": "package P { abstract attribute def A; }",
+      "source_sha256": "c296ca05892af607736696f855732183bbe51aea6fffbbe155a1744d1f85fab3",
+      "stage": "{\"error\":\"UnsupportedModelFeature(AttributeDefinition.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "047235d33db9b33936be0bf2a7d07a5d15b4d58abd275733464a40c8985f8f24"
+    },
+    "body": {
+      "predecessor_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a",
+      "snapshot_present": false,
+      "source": "package P { abstract part def A { part def Child; } }",
+      "source_sha256": "230c5a219f46f72973dc955479899ea3bf3183871cfa362aeedd769e99bf659e",
+      "stage": "{\"error\":\"UnsupportedModelFeature(PartDefinition.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a"
+    },
+    "duplicate": {
+      "predecessor_sha256": "44dc7880a9ba552363f259575e2587876e1998d7d873d7445898c8c4bba1d325",
+      "snapshot_present": false,
+      "source": "package P { abstract abstract part def A; }",
+      "source_sha256": "bef919e60f66d36d5d26db906ec07c2afe3c237d3654e7865f50c4d6b792383e",
+      "stage": "{\"error\":\"Unexpected { span: Span { start: Point { byte: 21, utf16: 21, line: 0, column_utf16: 21 }, end: Point { byte: 29, utf16: 29, line: 0, column_utf16: 29 } }, found: Some(\\\"abstract\\\"), expected: [\\\"ID\\\", \\\"UNRESTRICTED_NAME\\\", \\\"keyword \\\\\\\"#\\\\\\\"\\\", \\\"keyword \\\\\\\":\\\\\\\"\\\", \\\"keyword \\\\\\\"::>\\\\\\\"\\\", \\\"keyword \\\\\\\":=\\\\\\\"\\\", \\\"keyword \\\\\\\":>\\\\\\\"\\\", \\\"keyword \\\\\\\":>>\\\\\\\"\\\", \\\"keyword \\\\\\\";\\\\\\\"\\\", \\\"keyword \\\\\\\"<\\\\\\\"\\\", \\\"keyword \\\\\\\"=\\\\\\\"\\\", \\\"keyword \\\\\\\"=>\\\\\\\"\\\", \\\"keyword \\\\\\\"[\\\\\\\"\\\", \\\"keyword \\\\\\\"action\\\\\\\"\\\", \\\"keyword \\\\\\\"allocate\\\\\\\"\\\", \\\"keyword \\\\\\\"allocation\\\\\\\"\\\", \\\"keyword \\\\\\\"analysis\\\\\\\"\\\", \\\"keyword \\\\\\\"assert\\\\\\\"\\\", \\\"keyword \\\\\\\"attribute\\\\\\\"\\\", \\\"keyword \\\\\\\"bind\\\\\\\"\\\", \\\"keyword \\\\\\\"binding\\\\\\\"\\\", \\\"keyword \\\\\\\"calc\\\\\\\"\\\", \\\"keyword \\\\\\\"case\\\\\\\"\\\", \\\"keyword \\\\\\\"concern\\\\\\\"\\\", \\\"keyword \\\\\\\"connect\\\\\\\"\\\", \\\"keyword \\\\\\\"connection\\\\\\\"\\\", \\\"keyword \\\\\\\"constraint\\\\\\\"\\\", \\\"keyword \\\\\\\"crosses\\\\\\\"\\\", \\\"keyword \\\\\\\"default\\\\\\\"\\\", \\\"keyword \\\\\\\"defined\\\\\\\"\\\", \\\"keyword \\\\\\\"derived\\\\\\\"\\\", \\\"keyword \\\\\\\"enum\\\\\\\"\\\", \\\"keyword \\\\\\\"event\\\\\\\"\\\", \\\"keyword \\\\\\\"exhibit\\\\\\\"\\\", \\\"keyword \\\\\\\"first\\\\\\\"\\\", \\\"keyword \\\\\\\"flow\\\\\\\"\\\", \\\"keyword \\\\\\\"include\\\\\\\"\\\", \\\"keyword \\\\\\\"individual\\\\\\\"\\\", \\\"keyword \\\\\\\"interface\\\\\\\"\\\", \\\"keyword \\\\\\\"item\\\\\\\"\\\", \\\"keyword \\\\\\\"message\\\\\\\"\\\", \\\"keyword \\\\\\\"metadata\\\\\\\"\\\", \\\"keyword \\\\\\\"nonunique\\\\\\\"\\\", \\\"keyword \\\\\\\"not\\\\\\\"\\\", \\\"keyword \\\\\\\"occurrence\\\\\\\"\\\", \\\"keyword \\\\\\\"ordered\\\\\\\"\\\", \\\"keyword \\\\\\\"part\\\\\\\"\\\", \\\"keyword \\\\\\\"perform\\\\\\\"\\\", \\\"keyword \\\\\\\"port\\\\\\\"\\\", \\\"keyword \\\\\\\"readonly\\\\\\\"\\\", \\\"keyword \\\\\\\"redefines\\\\\\\"\\\", \\\"keyword \\\\\\\"ref\\\\\\\"\\\", \\\"keyword \\\\\\\"references\\\\\\\"\\\", \\\"keyword \\\\\\\"rendering\\\\\\\"\\\", \\\"keyword \\\\\\\"requirement\\\\\\\"\\\", \\\"keyword \\\\\\\"satisfy\\\\\\\"\\\", \\\"keyword \\\\\\\"snapshot\\\\\\\"\\\", \\\"keyword \\\\\\\"state\\\\\\\"\\\", \\\"keyword \\\\\\\"subsets\\\\\\\"\\\", \\\"keyword \\\\\\\"succession\\\\\\\"\\\", \\\"keyword \\\\\\\"timeslice\\\\\\\"\\\", \\\"keyword \\\\\\\"use\\\\\\\"\\\", \\\"keyword \\\\\\\"verification\\\\\\\"\\\", \\\"keyword \\\\\\\"view\\\\\\\"\\\", \\\"keyword \\\\\\\"viewpoint\\\\\\\"\\\", \\\"keyword \\\\\\\"{\\\\\\\"\\\"] }\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "44dc7880a9ba552363f259575e2587876e1998d7d873d7445898c8c4bba1d325"
+    },
+    "individual": {
+      "predecessor_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a",
+      "snapshot_present": false,
+      "source": "package P { abstract individual part def A; }",
+      "source_sha256": "f86bbdcb1bdebfe834fd6a97b57ede5ac14cdf48b6a2e6210b37bd551b8f795e",
+      "stage": "{\"error\":\"UnsupportedModelFeature(PartDefinition.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a"
+    },
+    "item": {
+      "predecessor_sha256": "195fd31368a96a32c3920d4d6bc71854919f658817a78976bef2ad7ffded872d",
+      "snapshot_present": false,
+      "source": "package P { abstract item def A; }",
+      "source_sha256": "c9f699aa5ab8468bd2c4761f843629567c99a6673c4af13c3f094861775c4794",
+      "stage": "{\"error\":\"UnsupportedModelKind(ItemDefinition)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "195fd31368a96a32c3920d4d6bc71854919f658817a78976bef2ad7ffded872d"
+    },
+    "late-wrong-type": {
+      "predecessor_sha256": null,
+      "snapshot_present": false,
+      "source": "package P { abstract part def A; attribute def Wrong; part bad : Wrong; }",
+      "source_sha256": "c275b2bf0251366683a5d18879b9ca71170444f8467ae14e1a362ca466744f63",
+      "stage": "{\"error\":\"Model(WrongType { element: \\\"20000000-0000-4000-8000-000000000004\\\", expected: \\\"PartDefinition\\\" })\",\"identities_requested\":8,\"status\":\"error\"}\n",
+      "stage_sha256": "bd6dc032beb97809e27ad4e060962ada1182b8ae5f440a19738ba0a0cc21567d"
+    },
+    "missing-terminator": {
+      "predecessor_sha256": "cd2a7cf77619fb12ec883a14871263c70591faee7efc0112655250c3f4f60e44",
+      "snapshot_present": false,
+      "source": "package P { abstract part def A }",
+      "source_sha256": "f51371152d0ea225d7f5cedd87c8613bbe070468262fd64943e1d3070cb02db9",
+      "stage": "{\"error\":\"Unexpected { span: Span { start: Point { byte: 32, utf16: 32, line: 0, column_utf16: 32 }, end: Point { byte: 33, utf16: 33, line: 0, column_utf16: 33 } }, found: Some(\\\"}\\\"), expected: [\\\"keyword \\\\\\\":>\\\\\\\"\\\", \\\"keyword \\\\\\\";\\\\\\\"\\\", \\\"keyword \\\\\\\"specializes\\\\\\\"\\\", \\\"keyword \\\\\\\"{\\\\\\\"\\\"] }\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "cd2a7cf77619fb12ec883a14871263c70591faee7efc0112655250c3f4f60e44"
+    },
+    "namespace-root": {
+      "predecessor_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a",
+      "snapshot_present": false,
+      "source": "abstract part def A;",
+      "source_sha256": "b589691b6609d8a7b1eacb225a8a3be8545e238a02cc9f2f55583bb3f62956a4",
+      "stage": "{\"error\":\"UnsupportedModelFeature(PartDefinition.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a"
+    },
+    "nested-nonpackage": {
+      "predecessor_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a",
+      "snapshot_present": false,
+      "source": "package P { part def Owner { abstract part def A; } }",
+      "source_sha256": "55b047b99c3165e891691be68bae4007af11f35a219c1769be9d97dd237396cf",
+      "stage": "{\"error\":\"UnsupportedModelFeature(PartDefinition.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9f7f0f18cc7356515ac60b924546989011d7ccffc1e9a4c11717bd9a041bc90a"
+    },
+    "part-usage": {
+      "predecessor_sha256": "98e75e643a3031a6f75ccc900524493bbdd88fdb30fcad47b23959afae888b7e",
+      "snapshot_present": false,
+      "source": "package P { part def W; abstract part w : W; }",
+      "source_sha256": "636a4490f3148645f09a19f1fda0042224d7979f80bf26e0ea0c0fe0e3f3fcf4",
+      "stage": "{\"error\":\"UnsupportedModelFeature(PartUsage.isAbstract)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "98e75e643a3031a6f75ccc900524493bbdd88fdb30fcad47b23959afae888b7e"
+    },
+    "private": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { private abstract part def A; }",
+      "source_sha256": "c0073508e7463f38e284253dd07e6ad4737318106fc17a585130f43fb9ecd002",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "protected": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { protected abstract part def A; }",
+      "source_sha256": "4d1f4defe4db9f2b0520b55d4b0c41e7e8d288c24699745412dd72b980549373",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "public": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { public abstract part def A; }",
+      "source_sha256": "9399ae84fe57bfdf5801a7daf400319a268fc25405018040431bd6b4dc0c0a44",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "short-name": {
+      "predecessor_sha256": "55e41d6a5c8a6d6c8756de5f7092fde4ac0827e0082d02112dbdedbe72dd2699",
+      "snapshot_present": false,
+      "source": "package P { abstract part def <A1> A; }",
+      "source_sha256": "0b82cb4fdacadb25a984520528e39f0d808bae3cce8bc8d47cebe1479176a071",
+      "stage": "{\"error\":\"UnsupportedModelFeature(PartDefinition.declaredShortName)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "55e41d6a5c8a6d6c8756de5f7092fde4ac0827e0082d02112dbdedbe72dd2699"
+    },
+    "specialized": {
+      "predecessor_sha256": "57aac234579ae9cd57a2a6014ad10d177ff363a0b5e1d6795418d265b98cc6da",
+      "snapshot_present": false,
+      "source": "package P { part def W; abstract part def A :> W; }",
+      "source_sha256": "d570ad90ada9e9bb264652c3b7bef4f83c5e1d12e22663c567d7e82aa9a63506",
+      "stage": "{\"error\":\"UnsupportedModelFeature(PartDefinition.heritage)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "57aac234579ae9cd57a2a6014ad10d177ff363a0b5e1d6795418d265b98cc6da"
+    },
+    "uppercase": {
+      "predecessor_sha256": "fd1d92109122da24a917dad3a323a9e78545ee92d80a801356ddfb71f7697679",
+      "snapshot_present": false,
+      "source": "package P { ABSTRACT part def A; }",
+      "source_sha256": "79b176c4081eac313e1e39e1e49a539945a6911ed3cc88da706d1797ae7d5cec",
+      "stage": "{\"error\":\"Unexpected { span: Span { start: Point { byte: 21, utf16: 21, line: 0, column_utf16: 21 }, end: Point { byte: 25, utf16: 25, line: 0, column_utf16: 25 } }, found: Some(\\\"part\\\"), expected: [\\\"keyword \\\\\\\":\\\\\\\"\\\", \\\"keyword \\\\\\\"::>\\\\\\\"\\\", \\\"keyword \\\\\\\":=\\\\\\\"\\\", \\\"keyword \\\\\\\":>\\\\\\\"\\\", \\\"keyword \\\\\\\":>>\\\\\\\"\\\", \\\"keyword \\\\\\\";\\\\\\\"\\\", \\\"keyword \\\\\\\"=\\\\\\\"\\\", \\\"keyword \\\\\\\"=>\\\\\\\"\\\", \\\"keyword \\\\\\\"[\\\\\\\"\\\", \\\"keyword \\\\\\\"crosses\\\\\\\"\\\", \\\"keyword \\\\\\\"default\\\\\\\"\\\", \\\"keyword \\\\\\\"defined\\\\\\\"\\\", \\\"keyword \\\\\\\"nonunique\\\\\\\"\\\", \\\"keyword \\\\\\\"ordered\\\\\\\"\\\", \\\"keyword \\\\\\\"redefines\\\\\\\"\\\", \\\"keyword \\\\\\\"references\\\\\\\"\\\", \\\"keyword \\\\\\\"subsets\\\\\\\"\\\", \\\"keyword \\\\\\\"{\\\\\\\"\\\"] }\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "fd1d92109122da24a917dad3a323a9e78545ee92d80a801356ddfb71f7697679"
+    }
+  },
+  "release": {
+    "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+  },
+  "replay": {
+    "count": 283,
+    "default_count": 64,
+    "sha256": "0c7adec2eb5de20ebec441a956d124675b15ee66608525f4051049076aab3868"
+  },
+  "schema": "syson-abstract-part-definition-evidence/1",
+  "scope": {
+    "abstract_instantiation_qualified": false,
+    "application_integration_qualified": false,
+    "archived_runtime_receipt": true,
+    "default_adopted": false,
+    "syntax_validation_qualified": false
+  }
+}
