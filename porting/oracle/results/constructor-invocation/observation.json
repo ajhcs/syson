@@ -1,0 +1,416 @@
+{
+  "captures": {
+    "followup": {
+      "kernel_socket_deny_self_test": "passed",
+      "observations": {
+        "abstract-part-call": {
+          "bare": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": "abstract",
+                  "class": "PartDefinition",
+                  "cst": "abstract part def A;",
+                  "name": "A"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "PartUsage",
+                  "cst": "part x : A = A();",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "InvocationExpression",
+                  "cst": "A()",
+                  "references": [
+                    {
+                      "class": "TypeReference",
+                      "target": "P::A",
+                      "text": "A"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "ce7d40b696903e1aaf087417a4282c94a85c6d93313ef778610bea276d87c937"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "e72aebe4d02a49c4e232c89885848ccfa6d733a8d06da6521ac0bd7f8e01589e"
+          },
+          "source": "package P { abstract part def A; part x : A = A(); }\n",
+          "source_sha256": "347649053b1939b69fe77f0d6d353fa1d10ad55753575fbe9c930fc73e2c4ffe",
+          "validate": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": "abstract",
+                  "class": "PartDefinition",
+                  "cst": "abstract part def A;",
+                  "name": "A"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "PartUsage",
+                  "cst": "part x : A = A();",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "InvocationExpression",
+                  "cst": "A()",
+                  "references": [
+                    {
+                      "class": "TypeReference",
+                      "target": "P::A",
+                      "text": "A"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "ce7d40b696903e1aaf087417a4282c94a85c6d93313ef778610bea276d87c937"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "0acc7582baebea5acbb9f4b765671bbaa8a23f80d64628f15cb7cf8ba5ed7a3c"
+          }
+        },
+        "typed-calculation-call": {
+          "bare": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": null,
+                  "class": "AttributeDefinition",
+                  "cst": "attribute def N;",
+                  "name": "N"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "CalculationDefinition",
+                  "cst": "calc def F { return r : N; }",
+                  "name": "F"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "AttributeUsage",
+                  "cst": "attribute x : N = F();",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "InvocationExpression",
+                  "cst": "F()",
+                  "references": [
+                    {
+                      "class": "TypeReference",
+                      "target": "P::F",
+                      "text": "F"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "67624d617fef4b49e65510a7ffa7308b602fdbed0427b28a3f502ddee55a80c4"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "496452c9442f66ffc3923651e1f411468d7f5f91d056372f51c34a807e7b9888"
+          },
+          "source": "package P { attribute def N; calc def F { return r : N; } attribute x : N = F(); }\n",
+          "source_sha256": "f60b443896bb4dc6019e178881b1b5f6aa8ff44beccd8e1f5731c412ac9704aa",
+          "validate": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": null,
+                  "class": "AttributeDefinition",
+                  "cst": "attribute def N;",
+                  "name": "N"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "CalculationDefinition",
+                  "cst": "calc def F { return r : N; }",
+                  "name": "F"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "AttributeUsage",
+                  "cst": "attribute x : N = F();",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "InvocationExpression",
+                  "cst": "F()",
+                  "references": [
+                    {
+                      "class": "TypeReference",
+                      "target": "P::F",
+                      "text": "F"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "67624d617fef4b49e65510a7ffa7308b602fdbed0427b28a3f502ddee55a80c4"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "eb31d304173dbae708aeaf102391f29f2ea2881ae879a16102a861d1c214c946"
+          }
+        }
+      },
+      "receipt_sha256": "7504b9881ce5c146e02fd0ee06a213dd722e61651d5d0d03619f0be1bd710c0a"
+    },
+    "initial": {
+      "kernel_socket_deny_self_test": "passed",
+      "observations": {
+        "abstract-new": {
+          "bare": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": "abstract",
+                  "class": "PartDefinition",
+                  "cst": "abstract part def A;",
+                  "name": "A"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "PartUsage",
+                  "cst": "part x : A = new",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "FeatureReferenceExpression",
+                  "cst": "new",
+                  "references": [
+                    {
+                      "class": "FeatureReference",
+                      "target": null,
+                      "text": "new"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "84d78a4f9658bab6486bef0542a743e48121b8c0b794d041caec1ce820947415"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "2cc6bef839c72935419c5b7d7045b74f1e9f2d8786dcbd0fce302ecfdd97bb6c"
+          },
+          "source": "package P { abstract part def A; part x : A = new A(); }\n",
+          "source_sha256": "9906ec7fc9b639f89c4bb5acc28df79b4680046f8099d87f87b39c1616f52791",
+          "validate": {
+            "ast": null,
+            "exit": 1,
+            "stderr": "There are validation errors:\nline 1: Expecting: one of these possible Token sequences:\n  1. [;]\n  2. [{]\nbut found: 'A' [A]\nline 1: Expecting: one of these possible Token sequences:\n  1. [;]\n  2. [{]\nbut found: '(' [(]\nline 1: Expecting token of type '}' but found `(`. [(]\nline 1: Expecting end of file but found `(`. [(]\nline 1: Could not resolve reference to Feature named 'new'. [new]\nline 1: A Feature must be typed by at least one type. [A]\nline 1: A Feature must be typed by at least one type. [new]\nline 1: PartUsage must be typed by Structures only [part x : A = new]\n",
+            "stderr_sha256": "2c8993355210402ee8a3e841ad488ee323ab3a1ba377c1d68045edcedd00bff3",
+            "stdout_sha256": "ba3c724f11568afee53df30937f9e1d176814a4214844a00f2d0d70226464492"
+          }
+        },
+        "calculation-call": {
+          "bare": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": null,
+                  "class": "CalculationDefinition",
+                  "cst": "calc def F { return r = 1; }",
+                  "name": "F"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "AttributeUsage",
+                  "cst": "attribute x = F();",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "LiteralNumber",
+                  "cst": "1",
+                  "references": []
+                },
+                {
+                  "class": "InvocationExpression",
+                  "cst": "F()",
+                  "references": [
+                    {
+                      "class": "TypeReference",
+                      "target": "P::F",
+                      "text": "F"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "6f3d77b8daf629a16894294f741da73a234809e9d099b890f92210fc2ead8b9c"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "ba178d41dd7706b0aabd04e41c89eb5b66f5675ec72d4b5f0d96a85f9c5ed166"
+          },
+          "source": "package P { calc def F { return r = 1; } attribute x = F(); }\n",
+          "source_sha256": "d1039c6411892c03a42b6f48d316b8c2206bbe0540ca0c440d94db0c56d41bb6",
+          "validate": {
+            "ast": null,
+            "exit": 1,
+            "stderr": "There are validation errors:\nline 1: A Feature must be typed by at least one type. [1]\nline 1: A Feature must be typed by at least one type. [r = 1;]\nline 1: A Feature must be typed by at least one type. [attribute x = F();]\n",
+            "stderr_sha256": "a0c6f3598251621f328164f3f310f2bc6de12b972e7f7f8840d10322061316e8",
+            "stdout_sha256": "a8937bf68d1df27c6b55af1438f3e66f62aa468ec9803051eddc0d640431f964"
+          }
+        },
+        "concrete-new": {
+          "bare": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": null,
+                  "class": "PartDefinition",
+                  "cst": "part def A;",
+                  "name": "A"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "PartUsage",
+                  "cst": "part x : A = new",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "FeatureReferenceExpression",
+                  "cst": "new",
+                  "references": [
+                    {
+                      "class": "FeatureReference",
+                      "target": null,
+                      "text": "new"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "a9f8f9c7c7618637b20cb29dd915c34406ac1c1afb86e9733114e3e7e58da645"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "5b968884e38aaebfa6a85b6c63047a09bce6d2c46bc70910b90302782da141ff"
+          },
+          "source": "package P { part def A; part x : A = new A(); }\n",
+          "source_sha256": "a43a7c82d06bee144fdc7ce6a78f392915cb2cf3e05c00cb54062b42731f55fb",
+          "validate": {
+            "ast": null,
+            "exit": 1,
+            "stderr": "There are validation errors:\nline 1: Expecting: one of these possible Token sequences:\n  1. [;]\n  2. [{]\nbut found: 'A' [A]\nline 1: Expecting: one of these possible Token sequences:\n  1. [;]\n  2. [{]\nbut found: '(' [(]\nline 1: Expecting token of type '}' but found `(`. [(]\nline 1: Expecting end of file but found `(`. [(]\nline 1: Could not resolve reference to Feature named 'new'. [new]\nline 1: A Feature must be typed by at least one type. [A]\nline 1: A Feature must be typed by at least one type. [new]\nline 1: PartUsage must be typed by Structures only [part x : A = new]\n",
+            "stderr_sha256": "2c8993355210402ee8a3e841ad488ee323ab3a1ba377c1d68045edcedd00bff3",
+            "stdout_sha256": "595dcd65a3bb869b928a11988b0dc236ce8aa2809c6ac5e6378c659b3ee32b99"
+          }
+        },
+        "part-call": {
+          "bare": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": null,
+                  "class": "PartDefinition",
+                  "cst": "part def A;",
+                  "name": "A"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "PartUsage",
+                  "cst": "part x : A = A();",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "InvocationExpression",
+                  "cst": "A()",
+                  "references": [
+                    {
+                      "class": "TypeReference",
+                      "target": "P::A",
+                      "text": "A"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "7ec19c6bccd31a228aeb90f388c66c62287fcec7d401652951f25a7d16761d13"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "990ec5e73c63399c8f0c9b229d19b6e1ea74ddc2d520c474ce7c6d245356af3d"
+          },
+          "source": "package P { part def A; part x : A = A(); }\n",
+          "source_sha256": "137ab7ab9f092a5a544745192e6cfe12893e7b1f53dbd63b8fb9aa3d0796987e",
+          "validate": {
+            "ast": {
+              "declarations": [
+                {
+                  "abstract_marker": null,
+                  "class": "PartDefinition",
+                  "cst": "part def A;",
+                  "name": "A"
+                },
+                {
+                  "abstract_marker": null,
+                  "class": "PartUsage",
+                  "cst": "part x : A = A();",
+                  "name": "x"
+                }
+              ],
+              "expressions": [
+                {
+                  "class": "InvocationExpression",
+                  "cst": "A()",
+                  "references": [
+                    {
+                      "class": "TypeReference",
+                      "target": "P::A",
+                      "text": "A"
+                    }
+                  ]
+                }
+              ],
+              "sha256": "7ec19c6bccd31a228aeb90f388c66c62287fcec7d401652951f25a7d16761d13"
+            },
+            "exit": 0,
+            "stderr": "",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "61b79b5858dcccaae9daa73c6a492c6603b745373b0401c8aedb8c910d2eca0d"
+          }
+        }
+      },
+      "receipt_sha256": "2ddbc93a9ff0ced70ff6eab2819c86a083c599d741596218b00e650a21c8d2c1"
+    }
+  },
+  "context": {
+    "bare": "dump matching the SysmlToAst non-validated AST pass",
+    "baseline": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "release_source": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+    "runtime_exclusions": [
+      "EMF",
+      "editing-context AQL",
+      "evaluation",
+      "application",
+      "Rust"
+    ],
+    "same_cli_sha256_at_both_sources": "47d8fe11fda1b58b6257463087f663be953c2ab6c2b5e1e2ccc44161ed5cd0bd",
+    "validate": "separate dump --validate --stdlib none matching the report command"
+  }
+}
