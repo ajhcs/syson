@@ -57,7 +57,7 @@ class AcquisitionTests(unittest.TestCase):
     def test_exact_registry_primary_order_roles_all_four_sidecars(self):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
         self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04', 'jacoco-binaries-01',
-                                             'commons-text-junit-bom-01'})
+                                             'commons-text-junit-bom-01', 'eclipse-filesystem-metadata-01'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
@@ -68,6 +68,37 @@ class AcquisitionTests(unittest.TestCase):
             group = rows[index * 5:index * 5 + 5]
             self.assertEqual([r['primary_index'] for r in group], [index] * 5)
             self.assertEqual([r['url'][len(group[0]['url']):] for r in group], fetch.base.SUFFIXES)
+
+    def test_eclipse_filesystem_metadata_exact_requests_and_refusals(self):
+        epoch = 'eclipse-filesystem-metadata-01'
+        manifest = (SOURCE.parent / fetch.epoch(epoch)['manifest']).read_bytes()
+        parsed = json.loads(manifest)
+        self.assertEqual(fetch.epoch(epoch)['primary_sha256'],
+                         '3810ba9daa40ec9d232881d3ae58727130f2f6b38f221c76a127c9216b7e9cba')
+        self.assertEqual(parsed['source_bindings']['interval'], '[1.7.0,2.0.0)')
+        self.assertEqual(parsed['source_bindings']['graph_hold_count'], 44)
+        self.assertEqual(parsed['source_bindings']['evidence_pull_requests'], [371, 379])
+        rows = fetch.requests(epoch, manifest)
+        url = ('https://repo.maven.apache.org/maven2/org/eclipse/platform/'
+               'org.eclipse.core.filesystem/maven-metadata.xml')
+        self.assertEqual([row['url'] for row in rows], [url + suffix for suffix in fetch.base.SUFFIXES])
+        self.assertEqual(sum(row['maximum_bytes'] for row in rows), 524288)
+        self.assertEqual([row['allowed_status'] for row in rows], [[200], *([[200, 404]] * 4)])
+        mutations = {
+            'origin': lambda doc: doc['requests'][0].update(url=url.replace('repo.maven.apache.org', 'example.invalid')),
+            'status': lambda doc: doc['requests'][0].update(allowed_status=[200, 404]),
+            'algorithm': lambda doc: doc['requests'][1].update(algorithm='sha256'),
+            'role': lambda doc: doc['requests'][0].update(role='pom'),
+            'cap': lambda doc: doc['limits'].update(per_version_metadata_bytes=262145),
+            'order': lambda doc: doc['requests'].reverse(),
+            'coordinate': lambda doc: doc['new_primaries'][0].update(
+                coordinate={'groupId': 'org.eclipse', 'artifactId': 'filesystem'}),
+        }
+        for label, mutate in mutations.items():
+            with self.subTest(label=label):
+                self.mutated(mutate, identifier=epoch)
+        with self.assertRaises(ValueError):
+            fetch.requests(epoch, manifest + b' ')
 
     def test_epoch_raw_hash_size_and_duplicate_keys_are_closed(self):
         for name in ['', 'models-05', '../models-01', None, True]:

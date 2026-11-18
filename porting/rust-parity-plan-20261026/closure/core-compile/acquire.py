@@ -40,7 +40,11 @@ EPOCHS = {'models-01': {'manifest': 'requests/models-01.json',
     'commons-text-junit-bom-01': {'manifest': 'requests/commons-text-junit-bom-01.json',
         'sha256': '65626d1e844c0b780b13b359a058eca4a03e88d371c06bb236ecd9b0620555fd',
         'primary_sha256': '96472db392963c04d9294e62b1cd7522b0d78a04976eda7eda30b92ca06c8d8c',
-        'primaries': 1, 'requests': 5, 'roles': ('pom',)}}
+        'primaries': 1, 'requests': 5, 'roles': ('pom',)},
+    'eclipse-filesystem-metadata-01': {'manifest': 'requests/eclipse-filesystem-metadata-01.json',
+        'sha256': '72fbfd8426066a6a6434df5a72d49400232f4598ff4a73adf37007c173b997fc',
+        'primary_sha256': '3810ba9daa40ec9d232881d3ae58727130f2f6b38f221c76a127c9216b7e9cba',
+        'primaries': 1, 'requests': 5, 'roles': ('version_metadata',)}}
 
 
 def require(condition, message):

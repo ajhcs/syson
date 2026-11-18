@@ -1,0 +1,110 @@
+{
+  "schema": "C01-NORMAL-CORE-CLOSURE-REQUESTS/1",
+  "epoch": "eclipse-filesystem-metadata-01",
+  "status": "PROPOSED_ONLY",
+  "limits": {
+    "exact_primaries": 1,
+    "exact_requests": 5,
+    "payload_and_sidecar_total_bytes": 16777216,
+    "per_POM_bytes": 2097152,
+    "per_version_metadata_bytes": 262144,
+    "per_sidecar_bytes": 65536,
+    "per_response_header_pairs": 64,
+    "per_response_header_UTF8_bytes": 16384,
+    "getter_metadata_proof_receipt_bytes": 66060288,
+    "getter_final_failure_receipt_reserve_bytes": 1048576,
+    "root_child_stdout_stderr_bytes": 983040,
+    "root_controller_JSON_bytes": 65536,
+    "all_metadata_and_log_bytes": 67108864,
+    "total_logical_owned_write_bound_bytes": 83886080,
+    "manifest_and_spec_each_maximum_bytes": 262144,
+    "whole_phase_subject_seconds": 900,
+    "scope_RuntimeMaxSec": 1020
+  },
+  "new_primaries": [
+    {
+      "relative_artifact": "org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml",
+      "kind": "version_metadata",
+      "primary_index": 0,
+      "coordinate": {
+        "groupId": "org.eclipse.platform",
+        "artifactId": "org.eclipse.core.filesystem"
+      },
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml",
+      "maximum_bytes": 262144,
+      "allowed_status": [
+        200
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml",
+      "relative_path": "downloads/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.partial",
+      "maximum_bytes": 262144,
+      "role": "version_metadata",
+      "allowed_status": [
+        200
+      ],
+      "primary_index": 0
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.sha512",
+      "relative_path": "downloads/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.sha512.partial",
+      "maximum_bytes": 65536,
+      "role": "checksum",
+      "allowed_status": [
+        200,
+        404
+      ],
+      "primary_index": 0,
+      "algorithm": "sha512"
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.sha256",
+      "relative_path": "downloads/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.sha256.partial",
+      "maximum_bytes": 65536,
+      "role": "checksum",
+      "allowed_status": [
+        200,
+        404
+      ],
+      "primary_index": 0,
+      "algorithm": "sha256"
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.sha1",
+      "relative_path": "downloads/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.sha1.partial",
+      "maximum_bytes": 65536,
+      "role": "checksum",
+      "allowed_status": [
+        200,
+        404
+      ],
+      "primary_index": 0,
+      "algorithm": "sha1"
+    },
+    {
+      "url": "https://repo.maven.apache.org/maven2/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.asc",
+      "relative_path": "downloads/org/eclipse/platform/org.eclipse.core.filesystem/maven-metadata.xml.asc.partial",
+      "maximum_bytes": 65536,
+      "role": "signature",
+      "allowed_status": [
+        200,
+        404
+      ],
+      "primary_index": 0
+    }
+  ],
+  "source_bindings": {
+    "paired_graph_receipt_sha256": "0364b69e3239b421a6ab289d251123c644cd9bead79982b9b3abd0be50359f46",
+    "model_receipt_sha256": "f37ca79bd7f7d82cd21bdbbc10c467aa212b3a9117085e950222d206a6918610",
+    "interval": "[1.7.0,2.0.0)",
+    "graph_hold_count": 44,
+    "origin": "Established Central path rule; graph held before metadata resolver call.",
+    "evidence_pull_requests": [
+      371,
+      379
+    ]
+  }
+}
