@@ -1,0 +1,123 @@
+{
+  "format": 1,
+  "base_commit": "05a4be35d4842272d0249ab43b9e49295591ef1e",
+  "candidate_kind": "off-tree nondefault Rust prototype",
+  "candidate_binary_sha256": "e065b39e7902a100fddbecb225220f345493e95fb740ae0d55111af67d51a1bd",
+  "candidate_source_sha256": {
+    "probe/main.rs": "3889131f20db6d79b1c1cb345c9f01d27254e6b43422fcd93049ea106a45feb3",
+    "source/rust/crates/syson-model/src/lib.rs": "a8c94577b199133e11683a5735e8026ede9575cfb69296408cf204ee2ae4a9f8",
+    "source/rust/crates/syson-text-import/src/lib.rs": "edc653ddc4ece9763a46b03616f59117d87146d65f429b0d0b4db91e554eb526"
+  },
+  "native_reference": {
+    "release": "v2026.9.3",
+    "source_commit": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+    "pinned_grammar_upstream_source_commit": "6ba2ac64e6b16ee2b05752ad55395eebb87d4910",
+    "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "capture_started_utc": "2026-11-18T04:15:17.114954+00:00"
+  },
+  "campaign_receipt_sha256": "278b483b2f438e6bd6530c5f74f963f0ab86a782a9a35fcf5ce70fa9cd08bfb0",
+  "retained_upstream": [
+    {
+      "case": "convertAssignmentTest-assignment1",
+      "source_path": "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertAssignmentTest/assignment1.sysml",
+      "source_sha256": "d4b4dde90b354c1f3de898ed6dca8edff0dd328988d49b02eef5e292530e2ea7",
+      "native_project_import": "ok",
+      "native_warning": false,
+      "bindings": [
+        [
+          "count",
+          true,
+          false,
+          0
+        ]
+      ],
+      "verdict_on_original": "RUST_REFUSES"
+    },
+    {
+      "case": "convertAssignmentTest-assignment2",
+      "source_path": "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertAssignmentTest/assignment2.sysml",
+      "source_sha256": "13bd9ecd53f2404d001fc094a910bec4d4cd9c00de4ec677c8716dda91c0f661",
+      "native_project_import": "ok",
+      "native_warning": false,
+      "bindings": [
+        [
+          "count",
+          true,
+          true,
+          0
+        ]
+      ],
+      "verdict_on_original": "RUST_REFUSES"
+    },
+    {
+      "case": "convertAssignmentTest-assignment3",
+      "source_path": "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertAssignmentTest/assignment3.sysml",
+      "source_sha256": "67e5e88fceb6ec26bcd04a984d40a6d97d61ad2bd59f742732de906a0103591b",
+      "native_project_import": "ok",
+      "native_warning": false,
+      "bindings": [
+        [
+          "count",
+          true,
+          false,
+          0
+        ]
+      ],
+      "verdict_on_original": "RUST_REFUSES"
+    },
+    {
+      "case": "convertBooleanTest-boolean",
+      "source_path": "backend/application/syson-sysml-import/src/test/resources/ASTTransformerTest/convertBooleanTest/boolean.sysml",
+      "source_sha256": "1ebd25833497921b6911bf6aa9830df97f96eae71de9a6836554c2913db4a7bc",
+      "native_project_import": "ok",
+      "native_warning": true,
+      "bindings": [
+        [
+          "init1",
+          true,
+          false,
+          0
+        ],
+        [
+          "default1",
+          false,
+          true,
+          10
+        ]
+      ],
+      "verdict_on_original": "RUST_REFUSES"
+    }
+  ],
+  "offline_receipt_sha256": "39d0fb2de862d7ae6828d184f05acd5f4cb9c14ea127f9d4e011e19b23b24841",
+  "native_cleanup_sha256": "adbd8efc85e9cf954cefc67292ae245c385fe80c8218afd9f80bd275ef81d9f4",
+  "native_pressure_log_sha256": "8943d73eb8da325fe5c1982b97ad6d0a111c72005487263c329883a1dd78bc91",
+  "normalizer_sha256": "5b7818700a9e1b7886c53a032ad13d0ad79169e0501a659ce8ccf09a7888fe37",
+  "cases_sha256": "da273fcadfdaa4c44bf4d2ac1e8b1bff863ba59c23a2c1237ba9d50e6b3f98a6",
+  "stored_matches": [
+    "ordinary-zero",
+    "initial-zero",
+    "default-only",
+    "default-initial-zero",
+    "initial-nonzero",
+    "default-zero"
+  ],
+  "stored_refusals": [
+    "late-wrong-type",
+    "duplicate-marker"
+  ],
+  "prior_zero_delta": {
+    "case": "integer-zero",
+    "old_sha256": "a8da93c24cc2cb5beea5ecb71aa4a7ebde750435dad58bb167431be4bd8eff41",
+    "new_sha256": "c4e0704cbfc777a63f4c9d6d17f23a1e88caebdcda3658ad1b4382f34351ec58",
+    "change": "only remove explicit value: 0 from LiteralInteger"
+  },
+  "default_aggregate_sha256": "96e3bd0a85b8850f653192a3c18c835c8010d30461e6fc0434ca65dd9da4674c",
+  "campaign_observations": {
+    "prior_prototype_stdout_matches": 99,
+    "prior_refusal_stdout_matches": 11,
+    "default_importer_stdout_matches": 62,
+    "release_importer_and_scalar_tests_passed": 28,
+    "strict_clippy": "pass",
+    "rustfmt": "pass"
+  }
+}
