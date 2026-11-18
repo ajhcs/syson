@@ -58,7 +58,8 @@ class AcquisitionTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
         self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04', 'jacoco-binaries-01',
                                              'commons-text-junit-bom-01', 'eclipse-filesystem-metadata-01',
-                                             'eclipse-filesystem-descriptors-01'})
+                                             'eclipse-filesystem-descriptors-01',
+                                             'eclipse-filesystem-child-metadata-01'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
@@ -100,6 +101,68 @@ class AcquisitionTests(unittest.TestCase):
                 self.mutated(mutate, identifier=epoch)
         with self.assertRaises(ValueError):
             fetch.requests(epoch, manifest + b' ')
+
+    def test_eclipse_filesystem_child_metadata_matches_reader_ranges(self):
+        epoch = 'eclipse-filesystem-child-metadata-01'
+        manifest = (SOURCE.parent / fetch.epoch(epoch)['manifest']).read_bytes()
+        parsed = json.loads(manifest)
+        binding = parsed['source_bindings']['filesystem_default_descriptor_reader']
+        observation_path = 'eclipse-filesystem-default-reader/observation.json'
+        observation = (fetch.EVIDENCE / observation_path).read_bytes()
+        self.assertEqual(binding['commit'], '9034a7af1fb6065749f546d10325c3da12a15b1a')
+        self.assertEqual(binding['observation'], observation_path)
+        self.assertEqual(binding['sha256'], hashlib.sha256(observation).hexdigest())
+        self.assertEqual(binding['parent_coordinate'], ['org.eclipse.platform', 'org.eclipse.core.filesystem'])
+
+        releases_by_range = {}
+        for row in json.loads(observation)['cases']['default_reader']['records']:
+            if row[0] == 'case':
+                release = row[1]
+            if row[0] == 'edge' and row[3].startswith(('[', '(')):
+                releases_by_range.setdefault(tuple(row[1:4]), []).append(release)
+        artifacts = ['org.eclipse.equinox.common', 'org.eclipse.equinox.registry', 'org.eclipse.osgi']
+        child_ranges = [['org.eclipse.platform', artifact, '[3.2.0,4.0.0)'] for artifact in artifacts]
+        expected_releases = [
+            '1.7.0', '1.7.100', '1.7.200', '1.7.300', '1.7.400', '1.7.500', '1.7.600', '1.7.700',
+            '1.9.0', '1.9.100', '1.9.200', '1.9.300', '1.9.400', '1.9.500',
+        ]
+        self.assertEqual(list(releases_by_range), [tuple(row) for row in child_ranges])
+        self.assertEqual(list(releases_by_range.values()), [expected_releases] * 3)
+        self.assertEqual(binding['child_ranges'], child_ranges)
+        self.assertEqual(binding['parent_versions'], expected_releases)
+        self.assertEqual(binding['ranged_edge_count'], 42)
+
+        rows = fetch.requests(epoch, manifest)
+        self.assertEqual(len(rows), 15)
+        self.assertEqual(sum(row['maximum_bytes'] for row in rows), 3 * 524288)
+        self.assertEqual(parsed['limits']['payload_and_sidecar_total_bytes'], 16 * fetch.MIB)
+        for index, artifact in enumerate(artifacts):
+            group = rows[index * 5:index * 5 + 5]
+            url = fetch.base.BASE + 'org/eclipse/platform/' + artifact + '/maven-metadata.xml'
+            self.assertEqual([row['url'] for row in group], [url + suffix for suffix in fetch.base.SUFFIXES])
+            self.assertEqual([row['role'] for row in group],
+                             ['version_metadata', 'checksum', 'checksum', 'checksum', 'signature'])
+            self.assertEqual([row['allowed_status'] for row in group], [[200], *([[200, 404]] * 4)])
+
+        prior_urls = set()
+        for prior_epoch, policy in fetch.EPOCHS.items():
+            if prior_epoch == epoch:
+                continue
+            prior = (SOURCE.parent / policy['manifest']).read_bytes()
+            prior_urls.update(row['url'] for row in fetch.requests(prior_epoch, prior))
+        self.assertFalse(prior_urls & {row['url'] for row in rows})
+
+        mutations = {
+            'extra child': lambda doc: doc['new_primaries'].append(doc['new_primaries'][0]),
+            'reordered child': lambda doc: doc['new_primaries'].reverse(),
+            'missing sidecar': lambda doc: doc['requests'].pop(),
+            'alternate origin': lambda doc: doc['requests'][0].update(url='https://example.invalid/'),
+            'missing metadata accepted': lambda doc: doc['requests'][0].update(allowed_status=[200, 404]),
+            'expanded metadata cap': lambda doc: doc['limits'].update(per_version_metadata_bytes=262145),
+        }
+        for label, mutate in mutations.items():
+            with self.subTest(label=label):
+                self.mutated(mutate, identifier=epoch)
 
     def test_eclipse_filesystem_descriptors_match_native_offers(self):
         epoch = 'eclipse-filesystem-descriptors-01'

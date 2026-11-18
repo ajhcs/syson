@@ -23,6 +23,7 @@ PREVIOUS = {
     'commons-text-junit-bom-01': (5, '65626d1e844c0b780b13b359a058eca4a03e88d371c06bb236ecd9b0620555fd'),
     'eclipse-filesystem-metadata-01': (5, '72fbfd8426066a6a6434df5a72d49400232f4598ff4a73adf37007c173b997fc'),
     'eclipse-filesystem-descriptors-01': (125, '559988c53686025a527d483e8e884793e8d41e6cdbb73c33315741cbe381a079'),
+    'eclipse-filesystem-child-metadata-01': (15, '1e48ea43971322cf28a076b19848b97a9c1ebd108e324c33d706a976c4ced7c0'),
 }
 
 def audit(event,args):

@@ -32,6 +32,20 @@ python3 -IB -m unittest discover -s . -p test_acquire.py -v
 python3 -OIB -m unittest discover -s . -p test_acquire.py -v
 ```
 
+## Eclipse Filesystem child metadata proposal
+
+The default Maven descriptor reader recorded 42 ranged edges from 14 of the 25
+Filesystem releases. Each of those releases requested Equinox Common, Equinox
+Registry, and Eclipse OSGi in `[3.2.0,4.0.0)`. The three metadata primaries
+are absent from the earlier fixed rosters. An earlier capture holds the fixed
+Eclipse OSGi 3.23.100 POM. [Descriptor evidence](../../../rust-parity-evidence/C01/eclipse-filesystem-default-reader/observation.json)
+
+The proposal lists 15 fixed Maven Central requests. Each of the three
+`maven-metadata.xml` bodies has a 256 KiB cap and its four sidecars have a
+64 KiB cap each, for a total of 1.5 MiB across the roster. Live acquisition
+requires separate coordinator admission. A later offline Maven replay can
+measure the version offers before descriptor collection continues.
+
 ## JaCoCo binary capture proposal
 
 The reported collector graph selects 13 exact artifacts. Ten had no matching
