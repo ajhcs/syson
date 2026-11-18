@@ -18,3 +18,10 @@ Run `python3 -I -B porting/interop/evidence/archive-edited-reopen-v2026.9.3/veri
 from the repository root to verify the three retained ZIPs and replay
 the structural comparison. The original archive proof still covers the
 default Wheel fixture. This packet covers one rename and archive exchange.
+
+A follow-up Chromium run confirmed the rename and then stopped the Rust
+service before final publication. A fresh process reopened the unpublished
+draft at the same revision URL. The next browser submitted only Save, and
+the published ZIP matched the one retained here byte for byte. The
+[restart observation](rust-draft-restart.json) binds that result to this
+packet. The native upload observation remains the original run.

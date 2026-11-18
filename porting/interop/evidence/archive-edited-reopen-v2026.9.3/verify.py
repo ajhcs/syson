@@ -64,7 +64,18 @@ def main():
             or native['definition'] != 'Rim' or native['usage'] != 'wheel'
             or native['diagramPackageNodes'] != 1):
         raise ValueError('Native browser observation disagrees')
-    print('PASS edited archive and native re-export')
+    draft = json.loads((ROOT / 'rust-draft-restart.json').read_bytes())
+    if (draft['archive_sha256'] != EDITED_SHA256
+            or draft['stop_signals'] != ['SIGKILL', 'SIGTERM', 'SIGTERM']
+            or not draft['final_was_absent_when_first_process_stopped']
+            or not draft['checkpoint_identity_unchanged'] or not draft['owned_scope_removed']):
+        raise ValueError('Draft restart observation disagrees')
+    browsers = draft['browsers']
+    if (len(browsers) != 4 or len({row['revision_path'] for row in browsers}) != 1
+            or [row['post_statuses'] for row in browsers] != [[303], [303], [], []]
+            or any(row['definition'] != 'Rim' or row['events'] for row in browsers)):
+        raise ValueError('Draft browser observation disagrees')
+    print('PASS edited archive, draft restart and native re-export')
 
 
 if __name__ == '__main__':
