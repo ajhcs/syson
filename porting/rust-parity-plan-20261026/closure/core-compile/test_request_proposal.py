@@ -10,6 +10,7 @@ from unittest.mock import patch
 SOURCE = Path(__file__).resolve().parent / 'request_proposal.py'
 EVIDENCE = Path(__file__).resolve().parents[3] / 'rust-parity-evidence/C01'
 FRONTIER = EVIDENCE / 'batch44-request-proposal/reference/models-02-frontier.json'
+FRONTIER03 = EVIDENCE / 'batch45-request-proposal/reference/models-03-frontier.json'
 TEMPLATE = EVIDENCE / 'batch36-core-metadata/requests.json'
 EXPECTED = [
     'org.apache:apache:23',
@@ -67,7 +68,9 @@ class ProposalTests(unittest.TestCase):
                          'd4c51a84aa264eaa057d42f4d208744573520085dca116103b874790c8fb445d')
         self.assertEqual((len(self.raw_frontier), len(self.raw_template)), (28714, 203892))
         self.assertEqual(len(self.raw_frontier.splitlines()), 19)
-        self.assertEqual(set(proposal.EPOCHS), {'models-02'})
+        self.assertEqual(set(proposal.EPOCHS), {'models-02', 'models-03'})
+        self.assertEqual(proposal.sha(proposal.encoded(self.build())),
+                         '7434575a1030365ba75b4f0650d36183a1e930efd714c367cf4e810db4445ef4')
 
     def test_independent18_gav_order_and_canonical_urls(self):
         result = self.build()
@@ -223,6 +226,106 @@ class ProposalTests(unittest.TestCase):
             result = self.build()
         self.assertFalse(result['authorization']['network'])
         self.assertFalse(result['authorization']['acquired_code_execution'])
+
+
+class NextProposalTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.raw_frontier = FRONTIER03.read_bytes()
+        cls.raw_template = TEMPLATE.read_bytes()
+
+    def build(self):
+        return proposal.propose('models-03', self.raw_frontier, self.raw_template)
+
+    def deny_frontier(self, change, message):
+        value = json.loads(self.raw_frontier)
+        change(value)
+        raw = proposal.encoded(value)
+        fixed = copy.deepcopy(proposal.EPOCHS)
+        fixed['models-03'].update(frontier_bytes=len(raw), frontier_sha256=proposal.sha(raw))
+        with patch.object(proposal, 'EPOCHS', fixed), self.assertRaisesRegex(ValueError, message):
+            proposal.propose('models-03', raw, self.raw_template)
+
+    def test_exact_path_free_fixture_and_request_projection(self):
+        self.assertEqual((len(self.raw_frontier), proposal.sha(self.raw_frontier)),
+                         (7460, 'cda4107a7e40d12941a2f6d6e696780a434039cd364cfecfe61f55f5d7f44723'))
+        self.assertNotIn(b'/workspace/', self.raw_frontier)
+        result = self.build()
+        primary = result['new_primaries']
+        self.assertEqual([p['relative_artifact'] for p in primary], [
+            'org/apache/apache/13/apache-13.pom', 'org/apache/apache/34/apache-34.pom',
+            'org/apache/apache/4/apache-4.pom', 'org/apache/apache/7/apache-7.pom',
+            'org/junit/junit-bom/5.14.1/junit-bom-5.14.1.pom'])
+        expected = copy.deepcopy(json.loads(self.raw_template)['limits'])
+        expected.update(exact_primaries=5, exact_requests=25)
+        self.assertEqual(result['limits'], expected)
+        self.assertEqual(result['target'], json.loads(self.raw_template)['target'])
+        self.assertEqual((result['schema'], result['epoch']), ('C01-NORMAL-CORE-CLOSURE-REQUESTS/1', 'models-03'))
+        self.assertEqual(result['nominal_metadata_charge']['getter_nominal_bytes'], 7473152)
+        self.assertEqual(result['body_bound_note']['sum_individual_caps_bytes'], 11796480)
+        self.assertFalse(result['body_bound_note']['completion_within_aggregate_promised'])
+        self.assertEqual(proposal.encoded(result), proposal.encoded(self.build()))
+
+    def test_all_25_requests_have_exact_roles_paths_limits_and_order(self):
+        result = self.build()
+        rows = result['requests']
+        suffixes = ['', '.sha512', '.sha256', '.sha1', '.asc']
+        self.assertEqual((len(rows), len({r['url'] for r in rows}), len({r['relative_path'] for r in rows})),
+                         (25, 25, 25))
+        for i, primary in enumerate(result['new_primaries']):
+            relative = primary['relative_artifact']
+            chunk = rows[i * 5:i * 5 + 5]
+            self.assertEqual([r['url'] for r in chunk], [proposal.BASE + relative + s for s in suffixes])
+            self.assertEqual([r['relative_path'] for r in chunk], ['downloads/' + relative + s + '.partial' for s in suffixes])
+            self.assertEqual([r['primary_index'] for r in chunk], [i] * 5)
+            self.assertEqual([r['role'] for r in chunk], ['pom', 'checksum', 'checksum', 'checksum', 'signature'])
+            self.assertEqual([r.get('algorithm') for r in chunk], [None, 'sha512', 'sha256', 'sha1', None])
+            self.assertEqual([r['maximum_bytes'] for r in chunk], [2097152] + [65536] * 4)
+            self.assertEqual([r['allowed_status'] for r in chunk], [[200]] + [[200, 404]] * 4)
+
+    def test_one_conditional_plexus_import_and_deferred_jacoco_import(self):
+        result = self.build()
+        imports = [p for p in result['new_primaries'] if p['categories'] == ['conditional_local_import_observation']]
+        self.assertEqual(len(imports), 1)
+        imported = imports[0]['provenance'][0]
+        self.assertEqual(imported['exact_local_properties'], {'junit5Version': '5.14.1'})
+        self.assertEqual(imported['source_coordinate'], 'org.codehaus.plexus:plexus:25')
+        deferred = result['deferred_model_input']
+        self.assertTrue(deferred['still_open'])
+        self.assertEqual(deferred['source_observation']['GAV'], 'org.junit:junit-bom:5.12.1')
+        self.assertNotIn('5.12.1', ''.join(r['url'] for r in result['requests']))
+        self.assertFalse(any(result['authorization'].values()))
+        self.assertFalse(result['target']['execution_authorized'])
+        self.assertEqual(result['source_bindings'][2:], json.loads(self.raw_frontier)['evidence_bindings'])
+
+    def test_wrong_epoch_and_byte_tamper_refuse_before_json_parsing(self):
+        with patch.object(proposal.json, 'loads', side_effect=AssertionError('premature parse')):
+            for args in [('models-01', self.raw_frontier, self.raw_template),
+                         ('models-02', self.raw_frontier, self.raw_template),
+                         ('models-03', FRONTIER.read_bytes(), self.raw_template),
+                         ('models-03', b' ' + self.raw_frontier[1:], self.raw_template),
+                         ('models-03', self.raw_frontier, b' ' + self.raw_template[1:])]:
+                with self.subTest(epoch=args[0]), self.assertRaises(ValueError):
+                    proposal.propose(*args)
+
+    def test_coherent_repin_cannot_admit_swapped_or_promoted_observations(self):
+        for change, message in [
+            (lambda f: f['rows'].reverse(), 'independent fixed'),
+            (lambda f: f['rows'].__setitem__(-1, f['deferred']), 'must stay deferred'),
+            (lambda f: f['deferred'].update(source_disposition='EFFECTIVE_IMPORT'), 'must stay deferred'),
+            (lambda f: f['rows'][-1].update(source_disposition='EFFECTIVE_IMPORT'), 'conditional Plexus'),
+            (lambda f: f['rows'][-1]['provenance']['exact_local_properties'].update(junit5Version='5.12.1'),
+             'conditional Plexus'),
+            (lambda f: f['rows'][0]['absence_vector'].update(models02=False), 'fixed absence'),
+            (lambda f: f['rows'].pop(), 'fixed5'),
+            (lambda f: f['rows'][0].update(url='https://example.com/unadmitted.pom'), 'POM URL')]:
+            with self.subTest(message=message):
+                self.deny_frontier(change, message)
+
+    def test_builder_uses_only_supplied_bytes(self):
+        with patch('builtins.open', side_effect=AssertionError('filesystem forbidden')), \
+             patch('socket.create_connection', side_effect=AssertionError('network forbidden')):
+            self.assertFalse(any(self.build()['authorization'].values()))
 
 
 if __name__ == '__main__':
