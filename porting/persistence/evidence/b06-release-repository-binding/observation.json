@@ -1,0 +1,945 @@
+{
+  "boundary": {
+    "b06_implementation_admitted": false,
+    "native_application_transaction_verified": false,
+    "new_sql_or_java_execution": false,
+    "released_classfile_and_schema_observation": true
+  },
+  "executed_join": {
+    "fields": [
+      "d.id AS document_id",
+      "d.semantic_data_id",
+      "d.name AS document_name",
+      "d.content AS document_content",
+      "d.created_on AS document_created_on",
+      "d.last_modified_on AS document_modified_on",
+      "d.is_read_only",
+      "rm.id AS representation_id",
+      "rm.representation_metadata_id",
+      "rm.target_object_id",
+      "rm.label",
+      "rm.description_id",
+      "rm.kind",
+      "rm.created_on AS metadata_created_on",
+      "rm.last_modified_on AS metadata_modified_on",
+      "rc.content AS representation_content",
+      "rc.created_on AS representation_created_on",
+      "rc.last_modified_on AS representation_modified_on",
+      "rc.migration_version",
+      "rc.last_migration_performed"
+    ],
+    "joins": [
+      "JOIN public.project_semantic_data AS ps ON ps.project_id = p.id",
+      "JOIN public.semantic_data AS s ON s.id = ps.semantic_data_id",
+      "JOIN public.document AS d ON d.semantic_data_id = s.id",
+      "JOIN public.representation_metadata AS rm ON rm.semantic_data_id = s.id",
+      "JOIN public.representation_content AS rc ON rc.id = rm.id",
+      "AND rc.semantic_data_id = rm.semantic_data_id",
+      "AND rc.representation_metadata_id = rm.representation_metadata_id"
+    ],
+    "predicates": [
+      "p.id = '<fixture>'",
+      "AND d.id = '<fixture>'::uuid",
+      "AND d.name = '<fixture>' AND NOT d.is_read_only",
+      "AND s.id = '<fixture>'::uuid",
+      "AND rm.id = s.id::text || '<fixture>'",
+      "AND rm.representation_metadata_id = '<fixture>'::uuid",
+      "AND rm.label = '<fixture>'",
+      "AND rm.target_object_id = '<fixture>'"
+    ],
+    "root": "project AS p",
+    "source_sql_sha256": "4123f03e36b9f14306b06a55ce207af5d812526234170d3c982a9397084bc2a7"
+  },
+  "prior": {
+    "changelog_head": "8d3df9e749592a2436a05661d1efb43b052f3bb7",
+    "changelog_observation_sha256": "caf7b4aedeba3a38dca32629620c11df94fd3fd31dda2bb195492d9f7c06548c",
+    "paired_wire_head": "bad0efa31317ea24ec8ff155ef065d7679083d0d",
+    "paired_wire_observation_sha256": "f16500c89ad4e80c97fb3fc57921975a49bf9d760e22cebc2b4c02977e1e03d7",
+    "sql_head": "8ce1ae50bc025214d0ad8e60691921c7fc61f6aa",
+    "sql_observation_sha256": "6de726b58d39c950830e3d2dbd4b101d5385832347e0446ff3ac80af3b7cc72f",
+    "sql_result_sha256": "0ace28e511dbcbb91cd0365c34c6c06492be499f1876965fdaf16f30a1c25b4f"
+  },
+  "release": {
+    "classes": {
+      "Document": {
+        "annotations": [
+          {
+            "type": "Lorg/springframework/data/relational/core/mapping/Table;",
+            "values": {
+              "value": "document"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "annotations": [],
+            "descriptor": "Ljava/util/UUID;",
+            "name": "id"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "name"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "content"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Z",
+            "name": "isReadOnly"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "createdOn"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "lastModifiedOn"
+          }
+        ],
+        "methods": [],
+        "named_method_references": [],
+        "selected_constants": [],
+        "sha256": "f7d237cd42e366772a7b4a11f909c5fd3079eef2f415273c901ccf3f654af5e1"
+      },
+      "EditingContextPersistenceService": {
+        "annotations": [],
+        "fields": [],
+        "methods": [
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/transaction/annotation/Transactional;",
+                "values": {}
+              }
+            ],
+            "descriptor": "(Lorg/eclipse/sirius/components/events/ICause;Lorg/eclipse/sirius/components/core/api/IEditingContext;)V",
+            "name": "persist"
+          }
+        ],
+        "named_method_references": [],
+        "selected_constants": [],
+        "sha256": "b5c8185f8a22340bf51858df3e03992b5baad5bc5acdb39cfd2788357e3f4b6a"
+      },
+      "EditingContextSaver": {
+        "annotations": [],
+        "fields": [],
+        "methods": [],
+        "named_method_references": [
+          "IEditingContextPersistenceService.persist"
+        ],
+        "selected_constants": [
+          "SEMANTIC_CHANGE"
+        ],
+        "sha256": "e7e7501e4dbcd0a9a9fd0c4afb09caa67103ce5e638dc884e270fa3f4db38027"
+      },
+      "ProjectSemanticData": {
+        "annotations": [
+          {
+            "type": "Lorg/springframework/data/relational/core/mapping/Table;",
+            "values": {
+              "value": "project_semantic_data"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "annotations": [],
+            "descriptor": "Z",
+            "name": "isNew"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/annotation/Id;",
+                "values": {}
+              }
+            ],
+            "descriptor": "Ljava/util/UUID;",
+            "name": "id"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/Column;",
+                "values": {
+                  "value": "project_id"
+                }
+              }
+            ],
+            "descriptor": "Lorg/springframework/data/jdbc/core/mapping/AggregateReference;",
+            "name": "project"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/Column;",
+                "values": {
+                  "value": "semantic_data_id"
+                }
+              }
+            ],
+            "descriptor": "Lorg/springframework/data/jdbc/core/mapping/AggregateReference;",
+            "name": "semanticData"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/Column;",
+                "values": {
+                  "value": "name"
+                }
+              }
+            ],
+            "descriptor": "Ljava/lang/String;",
+            "name": "name"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "createdOn"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "lastModifiedOn"
+          }
+        ],
+        "methods": [],
+        "named_method_references": [],
+        "selected_constants": [],
+        "sha256": "f39572f46cbe9fc394cb82084d2fae78fddf17eea021fc765063735f96150f98"
+      },
+      "RepresentationCompositeIdProvider": {
+        "annotations": [],
+        "fields": [],
+        "methods": [
+          {
+            "annotations": [],
+            "descriptor": "(Ljava/util/UUID;Ljava/util/UUID;)Ljava/lang/String;",
+            "name": "getId"
+          }
+        ],
+        "named_method_references": [],
+        "selected_constants": [
+          "\u0001#\u0001"
+        ],
+        "sha256": "614f647d3b427107161b5893e3f5642095381ef7515e37feec8a2190e5456a84"
+      },
+      "RepresentationContent": {
+        "annotations": [
+          {
+            "type": "Lorg/springframework/data/relational/core/mapping/Table;",
+            "values": {
+              "value": "representation_content"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "annotations": [],
+            "descriptor": "Z",
+            "name": "isNew"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/annotation/Id;",
+                "values": {}
+              }
+            ],
+            "descriptor": "Ljava/lang/String;",
+            "name": "id"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/util/UUID;",
+            "name": "representationMetadataId"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/Column;",
+                "values": {
+                  "value": "semantic_data_id"
+                }
+              }
+            ],
+            "descriptor": "Lorg/springframework/data/jdbc/core/mapping/AggregateReference;",
+            "name": "semanticData"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "content"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "lastMigrationPerformed"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "migrationVersion"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "createdOn"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "lastModifiedOn"
+          }
+        ],
+        "methods": [
+          {
+            "annotations": [],
+            "descriptor": "(Lorg/eclipse/sirius/components/events/ICause;Ljava/lang/String;)V",
+            "name": "updateContent"
+          },
+          {
+            "annotations": [],
+            "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "name": "updateMigrationData"
+          }
+        ],
+        "named_method_references": [],
+        "selected_constants": [],
+        "sha256": "ad356e068fe346b72b0ed6fd7d75d59aa389572dfafd3bc07967e664601e0fe8"
+      },
+      "RepresentationMetadata": {
+        "annotations": [
+          {
+            "type": "Lorg/springframework/data/relational/core/mapping/Table;",
+            "values": {
+              "value": "representation_metadata"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "annotations": [],
+            "descriptor": "Z",
+            "name": "isNew"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/annotation/Id;",
+                "values": {}
+              }
+            ],
+            "descriptor": "Ljava/lang/String;",
+            "name": "id"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/util/UUID;",
+            "name": "representationMetadataId"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/Column;",
+                "values": {
+                  "value": "semantic_data_id"
+                }
+              }
+            ],
+            "descriptor": "Lorg/springframework/data/jdbc/core/mapping/AggregateReference;",
+            "name": "semanticData"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "targetObjectId"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "descriptionId"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "label"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "kind"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "createdOn"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "lastModifiedOn"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/MappedCollection;",
+                "values": {
+                  "idColumn": "representation_metadata_id",
+                  "keyColumn": "index"
+                }
+              }
+            ],
+            "descriptor": "Ljava/util/List;",
+            "name": "iconURLs"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/lang/String;",
+            "name": "documentation"
+          }
+        ],
+        "methods": [],
+        "named_method_references": [],
+        "selected_constants": [],
+        "sha256": "66040d64c5b77a9a9e008d79e0715a60c9e034420df3cdeb493ba1ff61a6e433"
+      },
+      "RepresentationMetadataPersistenceService": {
+        "annotations": [],
+        "fields": [],
+        "methods": [
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/transaction/annotation/Transactional;",
+                "values": {}
+              }
+            ],
+            "descriptor": "(Lorg/eclipse/sirius/components/events/ICause;Lorg/eclipse/sirius/components/core/api/IEditingContext;Lorg/eclipse/sirius/components/core/RepresentationMetadata;Ljava/lang/String;)V",
+            "name": "save"
+          }
+        ],
+        "named_method_references": [],
+        "selected_constants": [],
+        "sha256": "b2cfccfb4fd70e325e00dff4b1a0fbe8455998c6217a1a0fa502fd6d5cd86e6b"
+      },
+      "RepresentationPersistenceService": {
+        "annotations": [],
+        "fields": [],
+        "methods": [
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/transaction/annotation/Transactional;",
+                "values": {}
+              }
+            ],
+            "descriptor": "(Lorg/eclipse/sirius/components/events/ICause;Lorg/eclipse/sirius/components/core/api/IEditingContext;Lorg/eclipse/sirius/components/representations/IRepresentation;)V",
+            "name": "save"
+          }
+        ],
+        "named_method_references": [],
+        "selected_constants": [
+          "existsById"
+        ],
+        "sha256": "e2c655df1fdd383e5821674a44f2d9df64fe6af1322e579752af78f76d2216be"
+      },
+      "RepresentationPersistenceStrategy": {
+        "annotations": [],
+        "fields": [],
+        "methods": [],
+        "named_method_references": [
+          "IRepresentationPersistenceService.save"
+        ],
+        "selected_constants": [
+          "existsById"
+        ],
+        "sha256": "4b506abc01c0adfc46966f90640767c23768808d27baea9ab30ba595e7fe3c45"
+      },
+      "SemanticData": {
+        "annotations": [
+          {
+            "type": "Lorg/springframework/data/relational/core/mapping/Table;",
+            "values": {
+              "value": "semantic_data"
+            }
+          }
+        ],
+        "fields": [
+          {
+            "annotations": [],
+            "descriptor": "Z",
+            "name": "isNew"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/annotation/Id;",
+                "values": {}
+              }
+            ],
+            "descriptor": "Ljava/util/UUID;",
+            "name": "id"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/MappedCollection;",
+                "values": {
+                  "idColumn": "semantic_data_id"
+                }
+              }
+            ],
+            "descriptor": "Ljava/util/Set;",
+            "name": "documents"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/MappedCollection;",
+                "values": {
+                  "idColumn": "semantic_data_id"
+                }
+              }
+            ],
+            "descriptor": "Ljava/util/Set;",
+            "name": "domains"
+          },
+          {
+            "annotations": [
+              {
+                "type": "Lorg/springframework/data/relational/core/mapping/MappedCollection;",
+                "values": {
+                  "idColumn": "semantic_data_id",
+                  "keyColumn": "index"
+                }
+              }
+            ],
+            "descriptor": "Ljava/util/List;",
+            "name": "dependencies"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "createdOn"
+          },
+          {
+            "annotations": [],
+            "descriptor": "Ljava/time/Instant;",
+            "name": "lastModifiedOn"
+          }
+        ],
+        "methods": [
+          {
+            "annotations": [],
+            "descriptor": "(Lorg/eclipse/sirius/components/events/ICause;Ljava/util/Set;Ljava/util/Set;)V",
+            "name": "updateDocuments"
+          }
+        ],
+        "named_method_references": [],
+        "selected_constants": [],
+        "sha256": "5b5fd41ac8b8a73666b7c2d3ef2173536dbb4b7d8851e8895657fa60dd3e33e8"
+      }
+    },
+    "nested_jars": {
+      "sirius-components-collaborative": "79ff2894bbdb6a10124a72f297896b676a2617772ce63710a0d6498a2ce2193e",
+      "sirius-web-application": "1c59082c10520d2edf168c220a6914570bd51bb57b3d8988c6c86bdc61059257",
+      "sirius-web-domain": "ffe6e331fbda55f348ab9afa314f83f493268871ff9ca908a82339fbb6a86b98",
+      "sirius-web-infrastructure": "b7ae31909aab4bac29109d1e740e84d7730ad056d506d10b43f721e4453e9413",
+      "sirius-web-projects-semanticdata-domain": "fc69a087eb323803e525c4e94235969c160a89b3bf3014f4e03e2d7afd85125a"
+    },
+    "release_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "schema": {
+      "applied_identity_sha256": "1bbd2e0de22d6f1e1521d180a73e8a55627a55d1195492efa420cc0e046b1c3b",
+      "composite_id_conversions": [
+        "ALTER TABLE representation_metadata ALTER COLUMN id TYPE TEXT USING CONCAT_WS('#', semantic_data_id::text, representation_metadata_id::text);",
+        "ALTER TABLE representation_content ALTER COLUMN id TYPE TEXT USING CONCAT_WS('#', semantic_data_id::text, representation_metadata_id::text);"
+      ],
+      "executed_changes": 20,
+      "resources": 29,
+      "selected_declarations": [
+        {
+          "change_id": "01-initial-schema",
+          "columns": [
+            {
+              "constraints": [
+                {
+                  "nullable": "false",
+                  "primaryKey": "true"
+                }
+              ],
+              "name": "id",
+              "type": "UUID"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "project_id",
+              "type": "UUID"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "created_on",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "last_modified_on",
+              "type": "TIMESTAMPTZ"
+            }
+          ],
+          "operation": "createTable",
+          "table": "semantic_data"
+        },
+        {
+          "change_id": "01-initial-schema",
+          "columns": [
+            {
+              "constraints": [
+                {
+                  "nullable": "false",
+                  "primaryKey": "true"
+                }
+              ],
+              "name": "id",
+              "type": "UUID"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "semantic_data_id",
+              "type": "UUID"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "name",
+              "type": "TEXT"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "content",
+              "type": "TEXT"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "created_on",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "last_modified_on",
+              "type": "TIMESTAMPTZ"
+            }
+          ],
+          "operation": "createTable",
+          "table": "document"
+        },
+        {
+          "change_id": "01-split-representation-metadata-from-content",
+          "columns": [
+            {
+              "constraints": [
+                {
+                  "nullable": "false",
+                  "primaryKey": "true"
+                }
+              ],
+              "name": "id",
+              "type": "UUID"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "content",
+              "type": "TEXT"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "last_migration_performed",
+              "type": "TEXT"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "migration_version",
+              "type": "TEXT"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "created_on",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "last_modified_on",
+              "type": "TIMESTAMPTZ"
+            }
+          ],
+          "operation": "createTable",
+          "table": "representation_content"
+        },
+        {
+          "change_id": "02-add-representation-metadata-documentation",
+          "columns": [
+            {
+              "constraints": [],
+              "name": "documentation",
+              "type": "TEXT"
+            }
+          ],
+          "operation": "addColumn",
+          "table": "representation_metadata"
+        },
+        {
+          "change_id": "02-add-representation-metadata-documentation",
+          "columns": [
+            {
+              "columnName": "documentation",
+              "tableName": "representation_metadata"
+            }
+          ],
+          "operation": "addNotNullConstraint",
+          "table": "representation_metadata"
+        },
+        {
+          "change_id": "02-drop-fk-semantic-data-project-id-add-project-semantic-data",
+          "columns": [
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "id",
+              "type": "UUID"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "project_id",
+              "type": "TEXT"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "semantic_data_id",
+              "type": "UUID"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "name",
+              "type": "TEXT"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "created_on",
+              "type": "TIMESTAMPTZ"
+            },
+            {
+              "constraints": [
+                {
+                  "nullable": "false"
+                }
+              ],
+              "name": "last_modified_on",
+              "type": "TIMESTAMPTZ"
+            }
+          ],
+          "operation": "createTable",
+          "table": "project_semantic_data"
+        },
+        {
+          "change_id": "01-switch-representation-metadata-from-project-to-semantic-data",
+          "columns": [
+            {
+              "constraints": [],
+              "name": "semantic_data_id",
+              "type": "UUID"
+            }
+          ],
+          "operation": "addColumn",
+          "table": "representation_metadata"
+        },
+        {
+          "change_id": "01-switch-representation-metadata-from-project-to-semantic-data",
+          "columns": [
+            {
+              "columnName": "semantic_data_id",
+              "tableName": "representation_metadata"
+            }
+          ],
+          "operation": "addNotNullConstraint",
+          "table": "representation_metadata"
+        },
+        {
+          "change_id": "01-add-is-read-only-column-in-document-table.xml",
+          "columns": [
+            {
+              "constraints": [],
+              "name": "is_read_only",
+              "type": "BOOLEAN"
+            }
+          ],
+          "operation": "addColumn",
+          "table": "document"
+        },
+        {
+          "change_id": "01-add-is-read-only-column-in-document-table.xml",
+          "columns": [
+            {
+              "columnName": "is_read_only",
+              "tableName": "document"
+            }
+          ],
+          "operation": "addNotNullConstraint",
+          "table": "document"
+        },
+        {
+          "change_id": "03-align-representation-content-identity-to-representation-metadata",
+          "columns": [
+            {
+              "constraints": [],
+              "name": "semantic_data_id",
+              "type": "UUID"
+            }
+          ],
+          "operation": "addColumn",
+          "table": "representation_content"
+        },
+        {
+          "change_id": "03-align-representation-content-identity-to-representation-metadata",
+          "columns": [
+            {
+              "columnName": "semantic_data_id",
+              "tableName": "representation_content"
+            }
+          ],
+          "operation": "addNotNullConstraint",
+          "table": "representation_content"
+        },
+        {
+          "change_id": "04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata",
+          "columns": [
+            {
+              "constraints": [],
+              "name": "representation_metadata_id",
+              "type": "UUID"
+            }
+          ],
+          "operation": "addColumn",
+          "table": "representation_content"
+        },
+        {
+          "change_id": "04-make-more-explicit-the-relation-between-representation-content-and-representation-metadata",
+          "columns": [
+            {
+              "columnName": "representation_metadata_id",
+              "tableName": "representation_content"
+            }
+          ],
+          "operation": "addNotNullConstraint",
+          "table": "representation_content"
+        },
+        {
+          "change_id": "05-make-representations-identifiers-semantic-data-aware",
+          "columns": [
+            {
+              "constraints": [],
+              "name": "representation_metadata_id",
+              "type": "UUID"
+            }
+          ],
+          "operation": "addColumn",
+          "table": "representation_metadata"
+        },
+        {
+          "change_id": "05-make-representations-identifiers-semantic-data-aware",
+          "columns": [
+            {
+              "columnName": "representation_metadata_id",
+              "tableName": "representation_metadata"
+            }
+          ],
+          "operation": "addNotNullConstraint",
+          "table": "representation_metadata"
+        }
+      ]
+    }
+  },
+  "schema": "b06-release-repository-binding-v1",
+  "unresolved": [
+    "native compare-and-swap token",
+    "single application transaction across both lanes",
+    "native storage mapping for six independent stamps",
+    "exact target build and activation"
+  ]
+}
