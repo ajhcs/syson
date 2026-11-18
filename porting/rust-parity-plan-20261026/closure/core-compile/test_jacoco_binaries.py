@@ -20,6 +20,7 @@ PREVIOUS = {
     'models-02': (90, '7434575a1030365ba75b4f0650d36183a1e930efd714c367cf4e810db4445ef4'),
     'models-03': (25, '7eafb6e5436dd04692e43a1f3d87a204dc206ed3fe55a80f9cae2d128f1be428'),
     'models-04': (5, 'e0d4b420cdcdcf23023731af35511fb7fb78402e9d492a87840800c661814289'),
+    'commons-text-junit-bom-01': (5, '65626d1e844c0b780b13b359a058eca4a03e88d371c06bb236ecd9b0620555fd'),
 }
 
 def audit(event,args):

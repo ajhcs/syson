@@ -56,7 +56,8 @@ class AcquisitionTests(unittest.TestCase):
 
     def test_exact_registry_primary_order_roles_all_four_sidecars(self):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
-        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04', 'jacoco-binaries-01'})
+        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04', 'jacoco-binaries-01',
+                                             'commons-text-junit-bom-01'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
@@ -618,6 +619,52 @@ class AcquisitionTests(unittest.TestCase):
             with self.subTest(mode=mode):
                 result, calls, _, error, _ = self.run_main(mode, 'models-04')
                 self.assertEqual(calls, expected[:failures.get(mode, 5)])
+                if mode in failures:
+                    self.assertIsNotNone(error)
+                    self.assertEqual(result['status'], 'FAIL_INPUT_DRIFT' if mode == 'drift' else 'FAIL_PRESERVED')
+                else:
+                    self.assertIsNone(error)
+                    self.assertEqual(result['status'], 'PASS_PASSIVE_ACQUISITION_ONLY')
+                    self.assertEqual(len(result['checksums']), 2 if mode == 'sidecar404' else 3)
+                    for key in ('signature_verified', 'closure_complete', 'offline_compile_verified'):
+                        self.assertIs(result[key], False)
+                self.clear_attempt()
+
+
+    def test_commons_text_bom_exact_roster_and_refusals(self):
+        identifier = 'commons-text-junit-bom-01'
+        parent = 'https://repo.maven.apache.org/maven2/org/junit/junit-bom/'
+        expected = [parent + '5.9.1/junit-bom-5.9.1.pom' + suffix
+                    for suffix in ('', '.sha512', '.sha256', '.sha1', '.asc')]
+        raw = (SOURCE.parent / fetch.epoch(identifier)['manifest']).read_bytes()
+        manifest = json.loads(raw)
+        rows = fetch.requests(identifier, raw)
+        self.assertEqual([row['url'] for row in rows], expected)
+        self.assertEqual([row['allowed_status'] for row in rows], [[200]] + [[200, 404]] * 4)
+        self.assertTrue(all(value is False for value in manifest['authorization'].values()))
+        self.assertIs(manifest['target']['execution_authorized'], False)
+        self.mutated(lambda m: m['requests'].reverse(), identifier)
+        self.mutated(lambda m: m['requests'][0].update(allowed_status=[200, 404]), identifier)
+
+        def substitute_parent_default(proposal):
+            primary = proposal['new_primaries'][0]
+            primary['coordinate']['version'] = '5.9.0'
+            for row in [primary, *proposal['requests']]:
+                for field in ('relative_artifact', 'relative_path', 'url'):
+                    if field in row:
+                        row[field] = row[field].replace('5.9.1', '5.9.0')
+
+        self.mutated(substitute_parent_default, identifier)
+        with self.assertRaisesRegex(ValueError, 'fixed manifest'):
+            fetch.requests(identifier, (SOURCE.parent / 'requests/models-04.json').read_bytes())
+
+    def test_commons_text_bom_mock_transport_controls(self):
+        identifier = 'commons-text-junit-bom-01'
+        failures = {'missing': 1, 'badstrong': 5, 'redirect': 1, 'drift': 5, 'lock': 0, 'controls': 0}
+        for mode in (None, 'sidecar404', *failures):
+            with self.subTest(mode=mode):
+                result, calls, _, error, _ = self.run_main(mode, identifier)
+                self.assertEqual(len(calls), failures.get(mode, 5))
                 if mode in failures:
                     self.assertIsNotNone(error)
                     self.assertEqual(result['status'], 'FAIL_INPUT_DRIFT' if mode == 'drift' else 'FAIL_PRESERVED')
