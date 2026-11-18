@@ -80,7 +80,7 @@ def typing(owner):
                 if rel["eClass"] == "sysml:FeatureTyping")
 
 
-def snapshot(path):
+def snapshot(path, definition_name="Wheel"):
     manifest, doc, rep, receipt = archive(path)
     doc_id, doc_name = only(manifest["documentIdsToName"].items())
     rep_id, rep_meta = only(manifest["representations"].items())
@@ -89,7 +89,7 @@ def snapshot(path):
     by_id = ids(elements, lambda element: element["id"])
     by_stable_id = ids(elements, lambda element: element["data"]["elementId"])
     package = find_named(by_id, "Package", "ArchiveDemo")
-    wheel_definition = find_named(by_id, "PartDefinition", "Wheel")
+    wheel_definition = find_named(by_id, "PartDefinition", definition_name)
     wheel_usage = find_named(by_id, "PartUsage", "wheel")
     view = find_named(by_id, "ViewUsage", "Archive overview")
     view_typing = typing(view)
@@ -102,7 +102,7 @@ def snapshot(path):
             "View membership expose does not resolve to the membership owning the package")
     require(wheel_typing["type"] == wheel_definition["id"]
             and wheel_typing["typedFeature"] == wheel_usage["id"],
-            "FeatureTyping does not resolve wheel to its Wheel definition")
+            f"FeatureTyping does not resolve wheel to its {definition_name} definition")
     require(view_typing["typedFeature"] == view["id"] and view_typing["type"].startswith(
         "sysml:ViewDefinition sysmllibrary:///"), "View typing is not linked to its bundled definition")
 
@@ -174,10 +174,10 @@ def first_difference(left, right, path="$"):
     return None
 
 
-def compare(original_path, reexport_path, capture):
-    original, original_receipt = snapshot(original_path)
-    reexport, reexport_receipt = snapshot(reexport_path)
-    require(original_receipt["sha256"] == FIXTURE_HASH, "Wrong input fixture hash")
+def compare(original_path, reexport_path, capture, *, fixture_hash=FIXTURE_HASH, definition_name="Wheel"):
+    original, original_receipt = snapshot(original_path, definition_name)
+    reexport, reexport_receipt = snapshot(reexport_path, definition_name)
+    require(original_receipt["sha256"] == fixture_hash, "Wrong input fixture hash")
     require(capture["input"] == {k: original_receipt[k] for k in ("bytes", "sha256")},
             "Capture points to another input fixture")
     require(all(capture["output"][k] == reexport_receipt[k] for k in ("bytes", "sha256")),
@@ -205,8 +205,11 @@ def main():
     parser.add_argument("original", type=Path)
     parser.add_argument("reexport", type=Path)
     parser.add_argument("capture", type=Path)
+    parser.add_argument("--fixture-sha256", default=FIXTURE_HASH)
+    parser.add_argument("--definition-name", default="Wheel")
     args = parser.parse_args()
-    result = compare(args.original, args.reexport, json.loads(args.capture.read_text(encoding="utf-8")))
+    result = compare(args.original, args.reexport, json.loads(args.capture.read_text(encoding="utf-8")),
+                     fixture_hash=args.fixture_sha256, definition_name=args.definition_name)
     print(json.dumps(result, indent=2))
 
 
