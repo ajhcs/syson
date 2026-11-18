@@ -1,0 +1,957 @@
+{
+ "schema": "SYSON-WIRE-READBACK/1",
+ "date": "2026-11-17",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "rust_input_base": "05a4be35d4842272d0249ab43b9e49295591ef1e",
+ "rust_input_binary_sha256": "e46d60f01681b5761040dce19303e508655f0bc6ffa61e721a40b7d5c0e8e22d",
+ "subject_source_hashes": {
+  "porting/oracle/serialization_check.py": "5df467ed800d2b140baad24345c8332705b6ef34881c026f584290fe978159b3",
+  "porting/oracle/oracle.py": "b24d705b4e2a7416b2b29aa66695c46990a8e2eb22804bc94f04ed348a9b2f48",
+  "porting/oracle/reference.py": "39a19dc0bae265d86330831713dff9378664467011e24bdb859c61393a38763f"
+ },
+ "qualification": {
+  "selected_rust_cases": 61,
+  "verdicts_with_controls": {
+   "yes": 15,
+   "no": 1,
+   "n/a": 49
+  },
+  "scope": "Local finite document upload and reexport, with semantic identity and typed object-id readback. No project ZIP upload."
+ },
+ "cases": [
+  {
+   "id": "abstract-def",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "53fca24e00b56df713cf891aa64044749b1724685de0d2e79ca5a887f8d06fca",
+   "original_case_sha256": "42f70e31c574effb1e9b94d6e58573308aebf75cedb2246e4009ab7095cdeae7"
+  },
+  {
+   "id": "action-def",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "f2c0bb411afaa783849e061ddd8e519faa852d29e4072cafb40ea6cfc2c1babe",
+   "original_case_sha256": "bdbd6af5ad17997af6848235e62269e83c5e7cb0a7506d5b3c5a211b53388c4e"
+  },
+  {
+   "id": "alias",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "80fa70124cd2f0ae53fab23dddc5713fd98de97bc3ffef566609aa1ca9161f99",
+   "original_case_sha256": "e4e5c1eee0ee1cffe2150d478bf21db5b13f7d1aaff4bfb5a19a5ec068e8c004"
+  },
+  {
+   "id": "allocation-def",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "f119ea166b391abed4a1effa490b7ff9f33c34591b74244f763fdc3933eb0a1a",
+   "original_case_sha256": "19c82d9b582c19549f8612c8eb5a2aa5307d5ff7cb9a06aef473fc38e66abe08"
+  },
+  {
+   "id": "attribute-def",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "ed4cb9a6b81240c197d341a53db5804c3b229d38382005e48b0d2a245038a90e",
+   "original_case_sha256": "64c6c36491ed62a3168e69ea759485b01bc65cf25eb9be272e518fe400f8dfc7"
+  },
+  {
+   "id": "attribute-usage",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "121b3ccb6ff828c50e4efff8ccd4eb16f5d9c2763f7040dfe38f0f663a6fcc15",
+   "original_case_sha256": "fe9d0ebc1669e6dbc3dad39f127ce0d246f52714a8146e6ca885f81dfa7023e6"
+  },
+  {
+   "id": "block-comment",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "26e9f4da06fe069dfab5c963197bf65461f35aa3606cfc09286f108fb03d86ef",
+   "original_case_sha256": "f8e1f3511b9c38a6a638ca2c407361471668e9e2cf5513a4a47a620e4f66b75e"
+  },
+  {
+   "id": "convertAliasTest-alias",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "354b9b312b02a9e380ce440b1404507257ce3c6e2749395cbb28762e41086fe8",
+   "original_case_sha256": "909064d7efdd11fc3e8ac92455070869309540df22570581569c9d87350ca72f"
+  },
+  {
+   "id": "convertAllocationTest-allocation",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "f994099601c40986bc9c3e547bee1e0a2f40a1f405e9367d379354a26d785257",
+   "original_case_sha256": "f9d53a5e48b3da7da35d3266a5330b29c9746b447c45f2a89db4c86d302cceb9"
+  },
+  {
+   "id": "convertAssignmentTest-assignment1",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "47c5d2c1396b0b777c06846884375c630b8cdbbeef38d627357cb91960e14290",
+   "original_case_sha256": "a2a7ec630bfd74ed5905e7fffa8d0347720c85c4c133da09b46a2d5e5dd536aa"
+  },
+  {
+   "id": "convertAssignmentTest-assignment2",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "4abb485f98f5ed2c63cd6ee7fad3ccf93bdf812cb89fc334da0a514021380051",
+   "original_case_sha256": "e900e3187b6f4a0623dfd42467979f54f14776a6fc8a761c21cf505ae174130f"
+  },
+  {
+   "id": "convertAssignmentTest-assignment3",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "5dc432be25480da1cdb08dc64c7bd70ca9cbf60a59253dfa49210e8362f26e26",
+   "original_case_sha256": "8432cd945ca00aecf284559bc57da80436a997997d137a4a6934aed3e2777663"
+  },
+  {
+   "id": "convertBooleanTest-boolean",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "f147c4f5b62c822b9cddad6a4cd2e87da366ce9cbc9cacab7118f0c230b44068",
+   "original_case_sha256": "c085a825cf566c29728e8c519815dfa330e1a4b257fba4363cae3fcad6e186a1"
+  },
+  {
+   "id": "convertFeatureTypingTest-featureTyping",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "4b0d740c3531628520a0b272e933795a300bd0f35c3b8144533edff67ab7e68b",
+   "original_case_sha256": "61e68e22cba62d45f78dcfebdf336e1e8615a6466e574f8344024fd9c0987f15"
+  },
+  {
+   "id": "convertImportTest-import",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "acd8de9bb59aec6d9fefc47f76ffce71c373f166e9f41a6ee8170355b5b423c4",
+   "original_case_sha256": "9666fbdb0ba278ac4d27cfb415e63377b2bb91b0cd31d845cc71fe2db4d6dea6"
+  },
+  {
+   "id": "convertInheritanceTest-inheritance",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "644e2a4418fa94c804d5b7dbe62e34cbb79b8ac889fdcd962ffba740927fbaaf",
+   "original_case_sha256": "3dcff37a5f6278ed455acfd071d90c79169a01cd38a8c04219e8497f60c1e635"
+  },
+  {
+   "id": "convertNamespaceImportTest-model",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "2023dd8e9da1e4c73f14f3186a19f659d3da8cf5a3d7f7d9a8547ff90d1bed9d",
+   "original_case_sha256": "03d617080118a8c08c472018043c998ec6ff2993bd3b42e693db1b938dcfc7cf"
+  },
+  {
+   "id": "convertNamespaceImportTest-namespace",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "e4f9561ce5c96d32db1538145dfe4cf5fb7fe774ce253c811905cf10b5627d34",
+   "original_case_sha256": "91953b14ddf8d3650954c47638a1adef58fdcffd3ff67ab2057a15311f81b606"
+  },
+  {
+   "id": "convertNamespaceImportValueTest-model",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "4175d50106b926556b810d2aab409b4e6c7c33cd521f15afb3fd55782895b714",
+   "original_case_sha256": "913d1070d08747ed50bdb4f04c10d0ba1fc5e70de84f8ab1b2823beca58a50d1"
+  },
+  {
+   "id": "convertNamespaceImportValueTest-namespace",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "d537ae05490d76eeefc8c0cb21958cfbb6f88326d6031858a48ce543d88f4484",
+   "original_case_sha256": "d25ce3bbf8a07fce7e0edc525b2a41f1497ba51872c6a039acf41a2f4c5f5093"
+  },
+  {
+   "id": "convertProjectWithErrors-proxyResolutionError",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "b0a1eb565408d95da3640ba85080504d8f7ccefbee7e7ef51076ac6f11aec3ba",
+   "original_case_sha256": "96f4a238b5312e5117e9f67a60633a4cf733c2a7abf046fe6267d630ab490069"
+  },
+  {
+   "id": "convertRedefinesTest-redefines",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "e15c9dc3fa229d23b381fb4bd9c10cbad8923d2983e52a6e2cbd26e3f6102bed",
+   "original_case_sha256": "b5f99f1e158445c117a7c078693cd3ae5fcbb6a6cd1f663d535340cd851638c0"
+  },
+  {
+   "id": "convertSubclassificationTest-subclassification",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "fce76a45713e9f4e1e2f00972c712fde1c0f7f9c815355c3e1aaaeacd7c10669",
+   "original_case_sha256": "b16ccb983114e273a919c7dec1d1a17300a69af12821b653131cf94554997d1b"
+  },
+  {
+   "id": "convertVisibilityTest-visibility",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "e27316b928355e7b8121d9425739207519569e2dab976fccef0d919be4997f75",
+   "original_case_sha256": "7dd207f458b83d22f10d5a1f3f09eb7120a6d4fe7fe84a12c53495863cb54d44"
+  },
+  {
+   "id": "default-value",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "a3f1839a7659b7f5336051d91239ce9bf7e94a105b105102ea8043eb617f6f4d",
+   "original_case_sha256": "a30ef0554407969004ce84b58eadee404e86e8fb88afa61c94690649bf382444"
+  },
+  {
+   "id": "doc-comment",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "7e82edab5452a36e5e8e61093430bddd26becf7c618a96b0bc4b01f03c3a5662",
+   "original_case_sha256": "5e9001fa42c2def1f07ea0e63c1bb09a1ff158624142edf889d5b153869ee18f"
+  },
+  {
+   "id": "feature-value",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "505d64c0aba9c474d653507813e30a13c9734630ff177db0fce477cbc7283ea9",
+   "original_case_sha256": "ffe3327dd75f7c3de91de79f5d82971d0bfa598e30d7438c05f417f2a437bb0d"
+  },
+  {
+   "id": "import-all",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "4c0ee30512985c5aaf03d7e7a14327b8c18b64c3ebf2af9b1056199e983ac933",
+   "original_case_sha256": "5e256e04e9d8dbaad134fedb0922eb9d62e1d6b657d4bfc219445aff79aa1728"
+  },
+  {
+   "id": "import-member",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "cb37cc3e161961eb39ef6fb0a9033c0dca7e1c98dc1989f88a722bf15c8d2188",
+   "original_case_sha256": "b7afef0cd0c1ffe1e8a8582af4d7e1ae168d242aab82bb13027e7450639c3fc4"
+  },
+  {
+   "id": "import-recursive",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "4d358202001b1f3a3796c901ea22ae28e8002313b6b18bc349ba8bfbb0bb5e1e",
+   "original_case_sha256": "ded86af610099319511e82b210212491a57ffc6b1ae4832aad8f3fd17d2a9f7d"
+  },
+  {
+   "id": "isUniqueFeature-model",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "d6ec9929be87459da1babeba13353e41ec2fa9b61cae6f24411f4c02e14d4111",
+   "original_case_sha256": "74c08995d809cd10ed46cdd5bedb2e45f90d77e2e9f9b0dbf0ee6f6e65e06619"
+  },
+  {
+   "id": "item-usage",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "5708950d78f6dbf847e3339530990c9389e3ef935c7eca79d99669e8a6c6e3b8",
+   "original_case_sha256": "15d9cd67b34fbf48c276e960b7b92cb9603656407c5afeae861e1361fa03888c"
+  },
+  {
+   "id": "line-comment",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "ad5fd6506256acc0650e78368f547ec96e8c357c5499d6f20c110a5269bbd4fa",
+   "original_case_sha256": "02c41e39324ee0b3e698e727416bb92369e6e6e1d8652edf46b896d3da9b7fa0"
+  },
+  {
+   "id": "malformed-eof",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "207cf889b6cf3d2e6acc8d04e629d659153f6937e1b9049f5fe49af9bd260dd5",
+   "original_case_sha256": "9ddd82e4bbdc191abf556d122f39ea1a48d7755e63b243a06a0e439f4e427655"
+  },
+  {
+   "id": "multiplicity",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "37206c3c2efaa2f71816539af7203c4f3e8900706b2bee0a772e39565c177698",
+   "original_case_sha256": "8254e3b4352b815ecf349787dcc6b0ca8583d40a5f870f8de242b2ee11ae0764"
+  },
+  {
+   "id": "nonunique",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "9555e1eb5767b3007e8c612ed1249ac1b41d8431f496327e678c87268d54f997",
+   "original_case_sha256": "60b3bf32001f8a265d8a04d4f1af96a1bbbc6581ce5a7f919952c16b0e9a268f"
+  },
+  {
+   "id": "p01-basic-typed-part",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "b3fc593f60f2d3eda0ee477179ead890a06abc42caf4eb63794486fbd7717649",
+   "original_case_sha256": "8b6f50ca09e91055b46f5e33679d4c9b3d7c5ef24bd9bb28fb329985da5bc5d6"
+  },
+  {
+   "id": "p02-nested-feature-membership",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "d65ba7bf2bce146aa1371078255a28382d6d67c659aaca839deeae828c9f5112",
+   "original_case_sha256": "68d2ae4e64af728c7063dad304f608a73526e464a7e850ffedc12201b3beaa5b"
+  },
+  {
+   "id": "p03-forward-qualified-type",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "2660e5017079bf755d93f3d90bcdb34d33b1cd871c1dbc14acbf34e6895bb317",
+   "original_case_sha256": "ff960529798a02c4974e2de82e92a372f9eb7cb0a2ed89ab77326c8d5a7ff447"
+  },
+  {
+   "id": "p04-quoted-escape",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "d498b6cd098b9a8b92d1cf2129d1af2603ff36d73bc578aaff7c04f031054c3b",
+   "original_case_sha256": "c45d3fbfb62c7f86bf0a16eba35f6386a7bfd3cce90ed698033749a3b9021b0b"
+  },
+  {
+   "id": "p05-comments",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "5d81cadd213f09a378aab1111dfb9e8c4c35641b744488cd8f049fca7fac0477",
+   "original_case_sha256": "97eebbe712b19c9f354869df850c5cd7542d276c27370fe1cd8dbef013cd9752"
+  },
+  {
+   "id": "p06-untyped-usage",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "69654d1d1a9ecc8f0f7f89516130619a422009ecddb9a613d0b01b92539b7395",
+   "original_case_sha256": "d4ebe37298214b1d92ea4bd6a28442154bdb70ad4426308eada064c97ce96b8e"
+  },
+  {
+   "id": "p07-usage-body",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "7eceb0e63f89fddfb58780caf38cc217a385a543c16b7a6a34aff49bb9de7269",
+   "original_case_sha256": "16910a97755c4404d09bf84ad0773881efb46653069fd2d060b0c37e05ff6230"
+  },
+  {
+   "id": "p08-malformed-missing-brace",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "4022d1bcb91dad38b68963155e9c26cc3821ea99d16d8a843cd4bfb943cfd20f",
+   "original_case_sha256": "9823b26e22a314a37f3a5acb149afcb853694ee9db5965e77cd1f36662bac4bb"
+  },
+  {
+   "id": "port-def",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "1b512f3073d064bb9b632b3d93615d64017f86f0b3418865e44414a7e24d309e",
+   "original_case_sha256": "b1ec2d994a87543d5717d127fb6aa052728192478fe514406dcbafc66c11f0f6"
+  },
+  {
+   "id": "redefinition",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "7ad458b1be6b5ee37b6ed97956c0df5aaa254bc279ff9cd0aad7f1d440a140b8",
+   "original_case_sha256": "3a4ae3f7068da807ba628964863be1189f3137e47273b7815c456f3a2d29442a"
+  },
+  {
+   "id": "requirement-def",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "3cea983b31701c297365eaeab3aa38d4d6fe9bc2c908968172056ec778578450",
+   "original_case_sha256": "7941f2afdb314ecee9c46cfcf8ff71f2ccf4150864a0aa2d33d4355dde0a7f9d"
+  },
+  {
+   "id": "s01-empty-package",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "87c5209da9cefde3cfc791f5907d04403f7c32a4f97a47a7416200c513d1aadc",
+   "original_case_sha256": "d24b5d88b6bc21a3f06c767c9c832886143bb99da041484d3cf7d1de59c44beb"
+  },
+  {
+   "id": "s02-two-packages",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "d13f0914ae31696400545c73cf466d3af110fa0c28a2b5520daaacfe2da9e161",
+   "original_case_sha256": "3f58a1016e2e4b17165dad92f55416dc0738c007db6d7298034ed4e62519e18c"
+  },
+  {
+   "id": "s03-nested-packages",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "48fdc54a3bddd4a5d707cb08f83e5ded3762a31cd423ff9c74aa79e88bf7e353",
+   "original_case_sha256": "bfe83a487a89dfdd8249e7a4d91e7cbccf73a9154cce004b8785d0adcc7fdd4d"
+  },
+  {
+   "id": "s04-many-definitions",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "26b45e2f4f78edd53d8360aefe2598b39308dc76b7924105c27337e3536aafd2",
+   "original_case_sha256": "f96dffea3fa12ae305ca2e1be4e5a39b8b829cfc0b04d3f1fe28fe385b64cb77"
+  },
+  {
+   "id": "s05-part-def-chain",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "6df11f3089688340f70da5139a9ef7a8f443b06d2b2008ac7697e9416b3cd5a3",
+   "original_case_sha256": "8aa2e5fe4741db74ea9603661510c7f054a85fafad9602ddb4486bfc7449f877"
+  },
+  {
+   "id": "specialization-kw",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "958e03a38e6f0296f38d4098204a129083308f561e76cd2ec6dcc0c4cf6bf346",
+   "original_case_sha256": "c2f96d959c4879c07918723e7ef70d59d5fd0eaf9c639998021ab006c135d21a"
+  },
+  {
+   "id": "subclassification",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "21a720780436e11ebefff35b0aeeebcefd8389db5a327d1363bec39c377c4a90",
+   "original_case_sha256": "46d072c6f0d58a63eb3107a4383314f23ec9392067e977efec68567c8e5f52f1"
+  },
+  {
+   "id": "subsetting",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "23ce320e35233e588b861bc2941c3ed39e06a65c60a030a21e55245f07396b35",
+   "original_case_sha256": "866fc3e42112c0b384f4beaff279ef92badb486a53159de1212e88ddcb6b7071"
+  },
+  {
+   "id": "templates-Batmobile",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "4109e17bd4a999424dd8556c41ee302e3cd89128cbc91e26d57a015def4783cc",
+   "original_case_sha256": "19fe019d68e20e6ae0586b341c273df92b1b5e8ee27a3f7ca017ad2795fb8512"
+  },
+  {
+   "id": "unresolved-type",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "ce629120335f1273b99e3c95b873b3160e6bca98a3e21af3746b9db212196619",
+   "original_case_sha256": "80260e468ef17e77e97f33b8b799f2bd25ec9e74a62da68aff2bd9bcd5e1a271"
+  },
+  {
+   "id": "untyped-usage-body",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "432790788e04210ec30b27263803ffda3e20cba4931f63de1b1bb44ebab6d5c2",
+   "original_case_sha256": "ed265e2cc642b0b6ae7214cb143cd1f1a0ed9e30c1ae8d5bd0a89fb907eb9f9a"
+  },
+  {
+   "id": "untyped-usage",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "d0fafb543244907c83870cb745b70292e28706257cb898af2a66ec77454a6f79",
+   "original_case_sha256": "b99f420982922455123a7636da13ef1561b12f9c7089572c40ec996625701de8"
+  },
+  {
+   "id": "usage-body",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "1ff95102ada1d5e67869be0d73c9ff0f835b06099f759492833f580b1d161e49",
+   "original_case_sha256": "b717f1539e3ec9a79dd9d180cf0a1764967065eb2865459a99183b6431d98b4b"
+  },
+  {
+   "id": "visibility-member",
+   "opens_in_syson": "n/a",
+   "reason": "Rust did not import",
+   "result_sha256": "b9c10966d9fc8a3d54a56ab690aebbf92a1082e0fd665f02600b1f489f7793ea",
+   "original_case_sha256": "26af27cdd02aaf9febd4861c1f018043c86778e28aec218482b00b846cf5adfe"
+  },
+  {
+   "id": "control-no-links",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "c4f6f670bad8049ec8088c760f679870e6b54a8b87ccd4f3041848145d68ffdf"
+  },
+  {
+   "id": "control-element-id",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "7d93aedbb7e4dad9411e4339b248fb2705b0f2ec210bc6fe3c52a12060bf9019"
+  },
+  {
+   "id": "control-object-id",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "result_sha256": "4413ea28f8e600e41859dbcfde2d184191bfba323b29d420cbf1f05d46555508"
+  },
+  {
+   "id": "control-dangling",
+   "opens_in_syson": "no",
+   "reason": "$[0].data.ownedRelationship[1].data.ownedRelatedElement[0].data.ownedRelationship[0].data.type: no resolved local EMF object id",
+   "result_sha256": "0b69fc4154cffdf07d8e8bb3499b95ecf36dba2e9f32335854b816bbf006d18c"
+  }
+ ],
+ "control_input_and_readback": [
+  {
+   "id": "control-no-links",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "input": {
+    "content": [
+     {
+      "data": {
+       "declaredName": "Empty",
+       "elementId": "20000000-0000-4000-8000-000000000001"
+      },
+      "eClass": "sysml:Package",
+      "id": "10000000-0000-4000-8000-000000000001"
+     }
+    ],
+    "json": {
+     "encoding": "utf-8",
+     "version": "1.0"
+    },
+    "ns": {
+     "sysml": "http://www.eclipse.org/syson/sysml"
+    }
+   },
+   "upload_sha256": "e49e03ed66b3be1d6db716fe503fd94adc22d397c78615c57150989c4cdb3a5b",
+   "upload_report": "",
+   "readback": {
+    "json": {
+     "version": "1.0",
+     "encoding": "utf-8"
+    },
+    "ns": {
+     "sysml": "http://www.eclipse.org/syson/sysml"
+    },
+    "content": [
+     {
+      "id": "d9bd334a-56e5-4bf8-84cd-8f7d552e1bb3",
+      "eClass": "sysml:Package",
+      "data": {
+       "declaredName": "Empty",
+       "elementId": "20000000-0000-4000-8000-000000000001"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "control-element-id",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "input": {
+    "content": [
+     {
+      "data": {
+       "declaredName": "Vehicle",
+       "elementId": "20000000-0000-4000-8000-000000000001",
+       "ownedRelationship": [
+        {
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000003",
+          "ownedRelatedElement": [
+           {
+            "data": {
+             "declaredName": "Wheel",
+             "elementId": "20000000-0000-4000-8000-000000000002"
+            },
+            "eClass": "sysml:PartDefinition",
+            "id": "10000000-0000-4000-8000-000000000002"
+           }
+          ]
+         },
+         "eClass": "sysml:OwningMembership",
+         "id": "10000000-0000-4000-8000-000000000003"
+        },
+        {
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000005",
+          "ownedRelatedElement": [
+           {
+            "data": {
+             "declaredName": "wheel",
+             "elementId": "20000000-0000-4000-8000-000000000004",
+             "isComposite": true,
+             "ownedRelationship": [
+              {
+               "data": {
+                "elementId": "20000000-0000-4000-8000-000000000006",
+                "type": "20000000-0000-4000-8000-000000000002",
+                "typedFeature": "20000000-0000-4000-8000-000000000004"
+               },
+               "eClass": "sysml:FeatureTyping",
+               "id": "10000000-0000-4000-8000-000000000006"
+              }
+             ]
+            },
+            "eClass": "sysml:PartUsage",
+            "id": "10000000-0000-4000-8000-000000000004"
+           }
+          ]
+         },
+         "eClass": "sysml:OwningMembership",
+         "id": "10000000-0000-4000-8000-000000000005"
+        }
+       ]
+      },
+      "eClass": "sysml:Package",
+      "id": "10000000-0000-4000-8000-000000000001"
+     }
+    ],
+    "json": {
+     "encoding": "utf-8",
+     "version": "1.0"
+    },
+    "ns": {
+     "sysml": "http://www.eclipse.org/syson/sysml"
+    }
+   },
+   "upload_sha256": "13067edfe6bcd11441f863ffa2b2e61fcaa0e91b8f39bb2d477e2b5ed9068487",
+   "upload_report": "",
+   "readback": {
+    "json": {
+     "version": "1.0",
+     "encoding": "utf-8"
+    },
+    "ns": {
+     "sysml": "http://www.eclipse.org/syson/sysml"
+    },
+    "content": [
+     {
+      "id": "be60ed2a-eff6-4513-8a02-d2a20ad59d5a",
+      "eClass": "sysml:Package",
+      "data": {
+       "declaredName": "Vehicle",
+       "elementId": "20000000-0000-4000-8000-000000000001",
+       "ownedRelationship": [
+        {
+         "id": "aa364064-59c3-48e3-b3ce-9d6646896894",
+         "eClass": "sysml:OwningMembership",
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000003",
+          "ownedRelatedElement": [
+           {
+            "id": "9a1a64c6-2641-4308-b8f5-df8671e818e4",
+            "eClass": "sysml:PartDefinition",
+            "data": {
+             "declaredName": "Wheel",
+             "elementId": "20000000-0000-4000-8000-000000000002"
+            }
+           }
+          ]
+         }
+        },
+        {
+         "id": "59a7052f-8fe2-436c-a80d-7ab164fadd70",
+         "eClass": "sysml:OwningMembership",
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000005",
+          "ownedRelatedElement": [
+           {
+            "id": "ef58b7b3-357b-486c-8b60-35b4fc71da1b",
+            "eClass": "sysml:PartUsage",
+            "data": {
+             "declaredName": "wheel",
+             "elementId": "20000000-0000-4000-8000-000000000004",
+             "ownedRelationship": [
+              {
+               "id": "3c571041-9837-4183-b1ab-cad71e484791",
+               "eClass": "sysml:FeatureTyping",
+               "data": {
+                "elementId": "20000000-0000-4000-8000-000000000006",
+                "type": "9a1a64c6-2641-4308-b8f5-df8671e818e4",
+                "typedFeature": "ef58b7b3-357b-486c-8b60-35b4fc71da1b"
+               }
+              }
+             ],
+             "isComposite": true
+            }
+           }
+          ]
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "control-object-id",
+   "opens_in_syson": "yes",
+   "reason": "all elements and finite typed links survived",
+   "input": {
+    "content": [
+     {
+      "data": {
+       "declaredName": "Vehicle",
+       "elementId": "20000000-0000-4000-8000-000000000001",
+       "ownedRelationship": [
+        {
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000003",
+          "ownedRelatedElement": [
+           {
+            "data": {
+             "declaredName": "Wheel",
+             "elementId": "20000000-0000-4000-8000-000000000002"
+            },
+            "eClass": "sysml:PartDefinition",
+            "id": "10000000-0000-4000-8000-000000000002"
+           }
+          ]
+         },
+         "eClass": "sysml:OwningMembership",
+         "id": "10000000-0000-4000-8000-000000000003"
+        },
+        {
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000005",
+          "ownedRelatedElement": [
+           {
+            "data": {
+             "declaredName": "wheel",
+             "elementId": "20000000-0000-4000-8000-000000000004",
+             "isComposite": true,
+             "ownedRelationship": [
+              {
+               "data": {
+                "elementId": "20000000-0000-4000-8000-000000000006",
+                "type": "10000000-0000-4000-8000-000000000002",
+                "typedFeature": "10000000-0000-4000-8000-000000000004"
+               },
+               "eClass": "sysml:FeatureTyping",
+               "id": "10000000-0000-4000-8000-000000000006"
+              }
+             ]
+            },
+            "eClass": "sysml:PartUsage",
+            "id": "10000000-0000-4000-8000-000000000004"
+           }
+          ]
+         },
+         "eClass": "sysml:OwningMembership",
+         "id": "10000000-0000-4000-8000-000000000005"
+        }
+       ]
+      },
+      "eClass": "sysml:Package",
+      "id": "10000000-0000-4000-8000-000000000001"
+     }
+    ],
+    "json": {
+     "encoding": "utf-8",
+     "version": "1.0"
+    },
+    "ns": {
+     "sysml": "http://www.eclipse.org/syson/sysml"
+    }
+   },
+   "upload_sha256": "829805ec3073bdb4f22e5eda7b22b573876804df66cb5f58d9783ef47e89b96a",
+   "upload_report": "",
+   "readback": {
+    "json": {
+     "version": "1.0",
+     "encoding": "utf-8"
+    },
+    "ns": {
+     "sysml": "http://www.eclipse.org/syson/sysml"
+    },
+    "content": [
+     {
+      "id": "8ce77a55-380c-4288-82d5-d8f61a8de15e",
+      "eClass": "sysml:Package",
+      "data": {
+       "declaredName": "Vehicle",
+       "elementId": "20000000-0000-4000-8000-000000000001",
+       "ownedRelationship": [
+        {
+         "id": "5562013c-0346-40fb-b925-757dd699c0d7",
+         "eClass": "sysml:OwningMembership",
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000003",
+          "ownedRelatedElement": [
+           {
+            "id": "692c452c-7f23-4bc7-8784-bc95981aaa1c",
+            "eClass": "sysml:PartDefinition",
+            "data": {
+             "declaredName": "Wheel",
+             "elementId": "20000000-0000-4000-8000-000000000002"
+            }
+           }
+          ]
+         }
+        },
+        {
+         "id": "b4bfaa30-d956-4e78-82da-9b1f74c62f28",
+         "eClass": "sysml:OwningMembership",
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000005",
+          "ownedRelatedElement": [
+           {
+            "id": "e652e524-aea9-4f04-8423-a36e65cc6621",
+            "eClass": "sysml:PartUsage",
+            "data": {
+             "declaredName": "wheel",
+             "elementId": "20000000-0000-4000-8000-000000000004",
+             "ownedRelationship": [
+              {
+               "id": "3d3c88a7-66ae-4941-8ad0-4f25c93d6148",
+               "eClass": "sysml:FeatureTyping",
+               "data": {
+                "elementId": "20000000-0000-4000-8000-000000000006",
+                "type": "692c452c-7f23-4bc7-8784-bc95981aaa1c",
+                "typedFeature": "e652e524-aea9-4f04-8423-a36e65cc6621"
+               }
+              }
+             ],
+             "isComposite": true
+            }
+           }
+          ]
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "control-dangling",
+   "opens_in_syson": "no",
+   "reason": "$[0].data.ownedRelationship[1].data.ownedRelatedElement[0].data.ownedRelationship[0].data.type: no resolved local EMF object id",
+   "input": {
+    "content": [
+     {
+      "data": {
+       "declaredName": "Vehicle",
+       "elementId": "20000000-0000-4000-8000-000000000001",
+       "ownedRelationship": [
+        {
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000003",
+          "ownedRelatedElement": [
+           {
+            "data": {
+             "declaredName": "Wheel",
+             "elementId": "20000000-0000-4000-8000-000000000002"
+            },
+            "eClass": "sysml:PartDefinition",
+            "id": "10000000-0000-4000-8000-000000000002"
+           }
+          ]
+         },
+         "eClass": "sysml:OwningMembership",
+         "id": "10000000-0000-4000-8000-000000000003"
+        },
+        {
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000005",
+          "ownedRelatedElement": [
+           {
+            "data": {
+             "declaredName": "wheel",
+             "elementId": "20000000-0000-4000-8000-000000000004",
+             "isComposite": true,
+             "ownedRelationship": [
+              {
+               "data": {
+                "elementId": "20000000-0000-4000-8000-000000000006",
+                "type": "ffffffff-ffff-4fff-8fff-ffffffffffff",
+                "typedFeature": "20000000-0000-4000-8000-000000000004"
+               },
+               "eClass": "sysml:FeatureTyping",
+               "id": "10000000-0000-4000-8000-000000000006"
+              }
+             ]
+            },
+            "eClass": "sysml:PartUsage",
+            "id": "10000000-0000-4000-8000-000000000004"
+           }
+          ]
+         },
+         "eClass": "sysml:OwningMembership",
+         "id": "10000000-0000-4000-8000-000000000005"
+        }
+       ]
+      },
+      "eClass": "sysml:Package",
+      "id": "10000000-0000-4000-8000-000000000001"
+     }
+    ],
+    "json": {
+     "encoding": "utf-8",
+     "version": "1.0"
+    },
+    "ns": {
+     "sysml": "http://www.eclipse.org/syson/sysml"
+    }
+   },
+   "upload_sha256": "ce6616989b3a139134eb59573bfaed11a4fa9a0a06dc51912af87903e3058cfe",
+   "upload_report": "",
+   "readback": {
+    "json": {
+     "version": "1.0",
+     "encoding": "utf-8"
+    },
+    "ns": {
+     "sysml": "http://www.eclipse.org/syson/sysml"
+    },
+    "content": [
+     {
+      "id": "058facd1-97a8-42e1-a0a2-45e9a0e07a15",
+      "eClass": "sysml:Package",
+      "data": {
+       "declaredName": "Vehicle",
+       "elementId": "20000000-0000-4000-8000-000000000001",
+       "ownedRelationship": [
+        {
+         "id": "e6073120-fb43-4d1d-94a8-d66175fc6688",
+         "eClass": "sysml:OwningMembership",
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000003",
+          "ownedRelatedElement": [
+           {
+            "id": "f7fb1c56-d9b5-4979-885b-51d204caf0d5",
+            "eClass": "sysml:PartDefinition",
+            "data": {
+             "declaredName": "Wheel",
+             "elementId": "20000000-0000-4000-8000-000000000002"
+            }
+           }
+          ]
+         }
+        },
+        {
+         "id": "9f977a8c-350b-42e5-a9d7-233722ee2755",
+         "eClass": "sysml:OwningMembership",
+         "data": {
+          "elementId": "20000000-0000-4000-8000-000000000005",
+          "ownedRelatedElement": [
+           {
+            "id": "077c0ce3-9f21-4cbf-8d7d-831094640465",
+            "eClass": "sysml:PartUsage",
+            "data": {
+             "declaredName": "wheel",
+             "elementId": "20000000-0000-4000-8000-000000000004",
+             "ownedRelationship": [
+              {
+               "id": "815cee11-feae-42fa-8eea-c42e7125a55e",
+               "eClass": "sysml:FeatureTyping",
+               "data": {
+                "elementId": "20000000-0000-4000-8000-000000000006",
+                "typedFeature": "077c0ce3-9f21-4cbf-8d7d-831094640465"
+               }
+              }
+             ],
+             "isComposite": true
+            }
+           }
+          ]
+         }
+        }
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "compatibility_check": {
+  "overlay_helper_commit": "c4a9d152e710974068d0d54efaf1d643df505dea",
+  "tests_passed_direct": 6,
+  "tests_passed_with_overlay": 6,
+  "overlay_sha256": {
+   "oracle.py": "2a9a95dc01fce82c1e6a2b09686c7708311868cd2b31437a1df2e20b7d10fa79",
+   "reference.py": "51e9f36d9066faab6d14a32067da6318613a28e771701f842e17544541e127ec",
+   "serialization_check.py": "5df467ed800d2b140baad24345c8332705b6ef34881c026f584290fe978159b3",
+   "test_serialization_check.py": "b242916c60541765bc2cdff41bca3029930d2be4badc07db7e26cab0b2a9c013"
+  }
+ }
+}
