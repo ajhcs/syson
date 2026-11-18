@@ -1,0 +1,172 @@
+{
+  "release": {
+    "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+  },
+  "cases": {
+    "nested-private": {
+      "text": {
+        "report": "",
+        "upload_sha256": "8b596465581e9244834ffde08a8e298ed6d43fd3ca092cc30790074be737fa0c",
+        "zip_sha256": "fdeb22a65deae8e21dddd47a2bfe9fb1344b187cbab22cdaa738fb43e3796440",
+        "document_sha256": "0355950620dbd815cce6ca3d74220cea15dd69fb0a6ccf2690f126d32f32629a"
+      },
+      "reloaded": {
+        "report": "",
+        "upload_sha256": "5cc2254451a58f23016dc034210a40bff21e0450076c284942fa8c65029300ff",
+        "zip_sha256": "c82fe8b9a5b31a483af2a0aaa8603987e0e235f42ec0cd97ba2b9d3b5ff65afa",
+        "document_sha256": "005be5484decf0bef1f6b577aa676fabbbcc8b867f7409e1edb07c5d90f1d4b0"
+      },
+      "stable_ids": 9,
+      "scaffold_sha256": "b2dd4bcdf8e6a46744714807cd0c3c8cb538675087d76ab6225e1fac804d149d",
+      "editor": {
+        "membership_class": {
+          "selected_raw_id": "56dd1618-4580-4a1f-8903-6fc2c2a1517f",
+          "expression": "aql:self.importedMembership.eClass().name",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "StringExpressionResult",
+              "stringValue": "OwningMembership"
+            }
+          }
+        },
+        "membership_name": {
+          "selected_raw_id": "56dd1618-4580-4a1f-8903-6fc2c2a1517f",
+          "expression": "aql:self.importedMembership.ownedRelatedElement->first().name",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "StringExpressionResult",
+              "stringValue": "Integer"
+            }
+          }
+        },
+        "type_absent": {
+          "selected_raw_id": "a83f00ee-80d9-4228-8f0f-45d2cc4fc079",
+          "expression": "aql:self.type = null",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "BooleanExpressionResult",
+              "booleanValue": false
+            }
+          }
+        },
+        "type_name": {
+          "selected_raw_id": "a83f00ee-80d9-4228-8f0f-45d2cc4fc079",
+          "expression": "aql:self.type.name",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "StringExpressionResult",
+              "stringValue": "Integer"
+            }
+          }
+        }
+      }
+    },
+    "public-sibling": {
+      "text": {
+        "report": "Following messages have been reported during conversion: \n[Warning] Unable to resolve name 'Integer' for reference 'type' on element '[FeatureTyping] Peer::count::<FeatureTyping>'",
+        "upload_sha256": "4d4dd3f17a78644f3bf1a728ae13746bd4f0b772f471e23ab4543e40bf12d995",
+        "zip_sha256": "2f7ab5ee78843be0c13ec8d38e2e184eb72d978a964b9f06f10a07c3cdddcd50",
+        "document_sha256": "dfccfd43226b8c935608152927c3cddec81dcddddb98613c6997cc5a804efab3"
+      },
+      "reloaded": {
+        "report": "",
+        "upload_sha256": "83001bbef125e0df09f38b17716230c03feda9b0a21021d3dd77155d0f56f96b",
+        "zip_sha256": "8aacf517a62750137247fc483761362e654910406f32584f8184505560ae97df",
+        "document_sha256": "c98a2fae07153358f3eb58d9fd229cc111fa1a785c27ab199bbddf51fc737d7c"
+      },
+      "stable_ids": 9,
+      "scaffold_sha256": "6e3dca6dcecbd9c4a95cd285e974739c8a6ce77895e9648b2a2a5b0c9358bb83",
+      "editor": {
+        "membership_class": {
+          "selected_raw_id": "d5c2eb70-8a58-4dc7-9263-8d26ee2b6ec3",
+          "expression": "aql:self.importedMembership.eClass().name",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "StringExpressionResult",
+              "stringValue": "OwningMembership"
+            }
+          }
+        },
+        "membership_name": {
+          "selected_raw_id": "d5c2eb70-8a58-4dc7-9263-8d26ee2b6ec3",
+          "expression": "aql:self.importedMembership.ownedRelatedElement->first().name",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "StringExpressionResult",
+              "stringValue": "Integer"
+            }
+          }
+        },
+        "type_absent": {
+          "selected_raw_id": "238109a6-cbe1-45f2-ba05-910b39c1c1a6",
+          "expression": "aql:self.type = null",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "BooleanExpressionResult",
+              "booleanValue": true
+            }
+          }
+        }
+      }
+    },
+    "nested-shadow": {
+      "text": {
+        "report": "Following messages have been reported during conversion: \n[Warning] Unable to resolve name 'Integer' for reference 'type' on element '[FeatureTyping] Outer::Inner::count::<FeatureTyping>'",
+        "upload_sha256": "48d102ba5469e660a35955177d1333ceb69a28d284cad343be4f0e269fc44aa4",
+        "zip_sha256": "045bfa37222305bd503f2316d604cd049103a933fa12bf4786f8a1454ea0c834",
+        "document_sha256": "f6e409a22eb3937d2ab6f085a0dc5dfca9cdc783c9235af312901fc13497ab6a"
+      },
+      "reloaded": {
+        "report": "",
+        "upload_sha256": "fd35182229498d0ec69247d699d8e29df943848d6e3a8c2da5e8dbdadd55c421",
+        "zip_sha256": "c8d31e89af8dbd44bbcb7b2cebe386416b2027100309fe1fddc106530dd5f917",
+        "document_sha256": "be044db27e1ae891ce48256c7c47c6938e699300d1eb20d112a2b7a192cc6fdd"
+      },
+      "stable_ids": 11,
+      "scaffold_sha256": "f729dfaa464644e4b20e9f6cf0ff3de31c3c061daeb94fffcbd77af1399dcd53",
+      "editor": {
+        "membership_class": {
+          "selected_raw_id": "6bb59b2b-a36c-4733-ae10-a6be8b5845c2",
+          "expression": "aql:self.importedMembership.eClass().name",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "StringExpressionResult",
+              "stringValue": "OwningMembership"
+            }
+          }
+        },
+        "membership_name": {
+          "selected_raw_id": "6bb59b2b-a36c-4733-ae10-a6be8b5845c2",
+          "expression": "aql:self.importedMembership.ownedRelatedElement->first().name",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "StringExpressionResult",
+              "stringValue": "Integer"
+            }
+          }
+        },
+        "type_absent": {
+          "selected_raw_id": "9537d209-9eab-4306-83c6-6fd3c6d17c5f",
+          "expression": "aql:self.type = null",
+          "response": {
+            "__typename": "EvaluateExpressionSuccessPayload",
+            "result": {
+              "__typename": "BooleanExpressionResult",
+              "booleanValue": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
