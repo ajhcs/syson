@@ -1,0 +1,142 @@
+{
+ "schema": 1,
+ "id": "convertNamespaceImportValueTest-model",
+ "source_sha256": "ad868a229d07753a1da2116663d6afa8fd6293e0dac95309ffe95b816cde4607",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "Following messages have been reported during conversion: \n[Warning] Unable to resolve name 'package1' for reference 'importedNamespace' on element '[NamespaceImport] package2::<NamespaceImport>'\n[Warning] Unable to resolve name 'part1' for reference 'superclassifier' on element '[Subclassification] package2::Part2::<Subclassification>'",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "3dfef00c-2535-4a25-9ac3-c5bf28d887a3",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "36a5e3ca-8aab-48ef-95c8-3d0cc8d07570",
+      "ownedRelationship": [
+       {
+        "id": "f2d59188-9fae-4774-b253-1a89e5247c97",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "52fbc14c-c2e1-44e2-bba1-6aa2475fb740",
+         "ownedRelatedElement": [
+          {
+           "id": "802bcc7b-aeee-45cd-8d71-4c7eb0b6ab17",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "package2",
+            "elementId": "1aaf0e70-545a-474a-b5da-b31e0565f404",
+            "ownedRelationship": [
+             {
+              "id": "3fad1162-0826-4559-aaf3-b8f03d7403e1",
+              "eClass": "sysml:NamespaceImport",
+              "data": {
+               "elementId": "3f732dd5-bf2d-4ac2-a779-280b5b54712c",
+               "visibility": "public"
+              }
+             },
+             {
+              "id": "7b2d5999-402b-4b6a-ab52-17feef340af2",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "34690a1b-393b-49f2-b622-8d560deb36bc",
+               "ownedRelatedElement": [
+                {
+                 "id": "463758f0-5d43-40a3-81c7-ba96ab7e76e3",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "Part2",
+                  "elementId": "555c179d-0f53-450f-90eb-5d9923c05a2d",
+                  "ownedRelationship": [
+                   {
+                    "id": "07f0644e-6bcd-43f6-adbb-3bd71b754899",
+                    "eClass": "sysml:Subclassification",
+                    "data": {
+                     "elementId": "db228c9a-56b5-4b59-8633-117b3a18c684",
+                     "subclassifier": "463758f0-5d43-40a3-81c7-ba96ab7e76e3"
+                    }
+                   }
+                  ]
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "package2",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:NamespaceImport",
+       "data": {
+        "visibility": "public"
+       }
+      },
+      {
+       "#": "n2",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n3",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "Part2",
+           "ownedRelationship": [
+            {
+             "#": "n4",
+             "eClass": "sysml:Subclassification",
+             "data": {
+              "subclassifier": "ref(n3)"
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 5
+ },
+ "record_sha256": "62a535ff586f959deb5746c07bf1ff9372692099c03c0f83cfd974c5d89c71e8"
+}

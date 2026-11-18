@@ -1,0 +1,231 @@
+{
+ "schema": 1,
+ "id": "convertSubclassificationTest-subclassification",
+ "source_sha256": "f73181867b453e205843b8dd0d2b295c99cd6de472562dbc039c5822ccd7a0c2",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "8c4c9a1f-762f-4eb2-bd7a-3dc55a679497",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "e416d7ba-15f6-4ed9-a3fd-3c75d88437b2",
+      "ownedRelationship": [
+       {
+        "id": "22cad0a6-a692-4ae1-a141-592a2d1aa091",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "52907fbb-49bb-42dc-84f0-1edf5ccaf34b",
+         "ownedRelatedElement": [
+          {
+           "id": "0d825d77-184e-40a4-84f3-eb895da65737",
+           "eClass": "sysml:Package",
+           "data": {
+            "elementId": "71abd385-9248-46c2-989c-4e1a34e34a88",
+            "ownedRelationship": [
+             {
+              "id": "db3283cc-3c3a-4a62-847d-fe3783f76670",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "9aebe702-84cd-4576-8856-401c74c32add",
+               "ownedRelatedElement": [
+                {
+                 "id": "3cb89d34-fc16-4519-91fc-52ba1344c88f",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "Part1",
+                  "elementId": "dfb73824-a822-4cf5-b178-b821942e1036",
+                  "ownedRelationship": [
+                   {
+                    "id": "5ddc3171-d04f-409b-8023-840073bebc2b",
+                    "eClass": "sysml:FeatureMembership",
+                    "data": {
+                     "elementId": "c76e4775-4268-4f0c-b674-5123cb378890",
+                     "ownedRelatedElement": [
+                      {
+                       "id": "bd9b0547-3277-463e-9b5a-bc9535504e7d",
+                       "eClass": "sysml:AttributeUsage",
+                       "data": {
+                        "declaredName": "attribute1",
+                        "elementId": "1398ce71-7aaa-4c56-bb68-ef06605acc6f",
+                        "isComposite": true
+                       }
+                      }
+                     ]
+                    }
+                   }
+                  ]
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "ae45892c-ae39-4ddb-8866-c1e1a52c5d20",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "0bd3ce72-a501-4c23-a15c-4db53199937d",
+               "ownedRelatedElement": [
+                {
+                 "id": "583d560b-4cd2-46fa-a055-c5fbf555573b",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "Part2",
+                  "elementId": "e946e382-c092-46c1-b30d-959a1f80757d",
+                  "ownedRelationship": [
+                   {
+                    "id": "b4ae5f45-b883-44cc-84df-b1e52750d307",
+                    "eClass": "sysml:FeatureMembership",
+                    "data": {
+                     "elementId": "6ec529db-b8ec-497e-84df-8f4d597971bf",
+                     "ownedRelatedElement": [
+                      {
+                       "id": "b008f01c-c20e-4d2b-9e6f-ea77fac881e4",
+                       "eClass": "sysml:AttributeUsage",
+                       "data": {
+                        "declaredName": "attribute2",
+                        "elementId": "9ca29cf2-fb2a-472a-ad6a-4b8c269a5715",
+                        "isComposite": true
+                       }
+                      }
+                     ]
+                    }
+                   },
+                   {
+                    "id": "7a2b1980-4738-4382-9453-650451f10a97",
+                    "eClass": "sysml:Subclassification",
+                    "data": {
+                     "elementId": "f2e1e00f-695d-4324-b2aa-5640c62a2f91",
+                     "subclassifier": "583d560b-4cd2-46fa-a055-c5fbf555573b",
+                     "superclassifier": "3cb89d34-fc16-4519-91fc-52ba1344c88f"
+                    }
+                   }
+                  ]
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "Part1",
+           "ownedRelationship": [
+            {
+             "#": "n3",
+             "eClass": "sysml:FeatureMembership",
+             "data": {
+              "ownedRelatedElement": [
+               {
+                "#": "n4",
+                "eClass": "sysml:AttributeUsage",
+                "data": {
+                 "declaredName": "attribute1",
+                 "isComposite": true
+                }
+               }
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n5",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n6",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "Part2",
+           "ownedRelationship": [
+            {
+             "#": "n7",
+             "eClass": "sysml:FeatureMembership",
+             "data": {
+              "ownedRelatedElement": [
+               {
+                "#": "n8",
+                "eClass": "sysml:AttributeUsage",
+                "data": {
+                 "declaredName": "attribute2",
+                 "isComposite": true
+                }
+               }
+              ]
+             }
+            },
+            {
+             "#": "n9",
+             "eClass": "sysml:Subclassification",
+             "data": {
+              "subclassifier": "ref(n6)",
+              "superclassifier": "ref(n2)"
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 10
+ },
+ "record_sha256": "03998e4910a4fade44e178e1ca25504bdbb50db2c0f815f74be8b55e37d2cb53"
+}

@@ -1,0 +1,161 @@
+{
+ "schema": 1,
+ "id": "specialization-kw",
+ "source_sha256": "5a54a7a949b8f7d0e06dc453da690e3d9d5a2cb9a6c0f739beeb0abeb946f937",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "dadbeb5c-972f-4852-baa6-f674afe6a315",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "b740022a-6a4a-4d7a-9d54-e87486f90baf",
+      "ownedRelationship": [
+       {
+        "id": "6b2953fc-4c3d-4db3-b814-348bb495f39a",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "2600e65e-780e-4e79-b630-f3c1952eb6bb",
+         "ownedRelatedElement": [
+          {
+           "id": "9df04c2d-d05d-4714-9b23-469dbca6885c",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "P",
+            "elementId": "0e7d23a2-f170-4a58-8732-6f4c81e8680c",
+            "ownedRelationship": [
+             {
+              "id": "c346d803-6097-4e56-9687-03a94c532b89",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "63f7acb3-debf-4065-a798-7708ffcb0f49",
+               "ownedRelatedElement": [
+                {
+                 "id": "cc7fe88c-dbbb-4f49-ad13-a0a6641700a1",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "A",
+                  "elementId": "8a527a22-0ff1-4874-a255-95d524008ca9"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "b6e26517-0866-4dea-aa96-21d22c6359d8",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "72e52cd1-cc39-4ee2-a82c-e5e6b2324d40",
+               "ownedRelatedElement": [
+                {
+                 "id": "35fc7dd9-7000-41ec-8d69-6500a8ee2758",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "B",
+                  "elementId": "ad8e3835-0046-4e8a-9ef0-01f2933a2555",
+                  "ownedRelationship": [
+                   {
+                    "id": "1a467051-e38b-4bc3-bb16-169d723c926a",
+                    "eClass": "sysml:Subclassification",
+                    "data": {
+                     "elementId": "70f62768-ce32-476b-a71c-4f72ea64820a",
+                     "subclassifier": "35fc7dd9-7000-41ec-8d69-6500a8ee2758",
+                     "superclassifier": "cc7fe88c-dbbb-4f49-ad13-a0a6641700a1"
+                    }
+                   }
+                  ]
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "P",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "A"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "B",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:Subclassification",
+             "data": {
+              "subclassifier": "ref(n4)",
+              "superclassifier": "ref(n2)"
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 6
+ },
+ "record_sha256": "bcc3a7fa17d735553f5ed9ab9214b761546ce38bed1cf7e9523bc873fa5e7c7a"
+}

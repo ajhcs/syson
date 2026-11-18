@@ -1,0 +1,165 @@
+{
+ "schema": 1,
+ "id": "nonunique",
+ "source_sha256": "f4eaa35ad5418b065eed6b18884c04ac90e5a8055a65af439b5bfe5125365817",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "7af8457f-bd23-4a1f-80cd-b4f74c87f0d0",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "e8b3f301-2a0f-438e-9fc1-d6504da8afa6",
+      "ownedRelationship": [
+       {
+        "id": "a86d3301-be3a-4b02-bb1f-cf295efd1c25",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "7e2dea50-a112-4b1e-b7b7-3be22c0e8e6c",
+         "ownedRelatedElement": [
+          {
+           "id": "7671a8a1-c046-4ea4-acbd-1cc7f89ad097",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "P",
+            "elementId": "fa5c4563-49c6-4778-9740-32069d6e622a",
+            "ownedRelationship": [
+             {
+              "id": "68596d40-73e3-4f68-93d8-d3b8e60ef989",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "b40f1516-8b54-4e87-a5ff-dea2a56271f8",
+               "ownedRelatedElement": [
+                {
+                 "id": "f551180b-b697-4544-907a-a988badedc60",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "T",
+                  "elementId": "cfaca159-af64-4038-ad6f-9bc0aecd254e"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "24524f26-0e26-4930-819e-e1ba2448877c",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "a74f9242-1980-4ff4-9089-9a3b722033ed",
+               "ownedRelatedElement": [
+                {
+                 "id": "61321e41-933d-4278-bbb8-469c2c599709",
+                 "eClass": "sysml:PartUsage",
+                 "data": {
+                  "declaredName": "p",
+                  "elementId": "2aa6d7a9-5512-48c1-94a9-b86a5f5ae0f8",
+                  "ownedRelationship": [
+                   {
+                    "id": "a51e09a6-8cca-4e40-b920-be6612f2ac0b",
+                    "eClass": "sysml:FeatureTyping",
+                    "data": {
+                     "elementId": "99605f19-8ed1-4f71-8644-37643c166429",
+                     "type": "f551180b-b697-4544-907a-a988badedc60",
+                     "typedFeature": "61321e41-933d-4278-bbb8-469c2c599709"
+                    }
+                   }
+                  ],
+                  "isComposite": true,
+                  "isUnique": false
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "P",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "T"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:PartUsage",
+          "data": {
+           "declaredName": "p",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:FeatureTyping",
+             "data": {
+              "type": "ref(n2)",
+              "typedFeature": "ref(n4)"
+             }
+            }
+           ],
+           "isComposite": true,
+           "isUnique": false
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 6
+ },
+ "record_sha256": "506b801a2265b866f96321ccd30544c8f06e757f7e93c93218b106bc24b503a5"
+}

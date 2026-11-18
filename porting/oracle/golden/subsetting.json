@@ -1,0 +1,201 @@
+{
+ "schema": 1,
+ "id": "subsetting",
+ "source_sha256": "905f89840b5cf8b500dff1e07f179cac4d5bfb1d6373e46da5731b9d7019d7ae",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "5c8a025f-e2ef-4e0b-8ce7-8faab3e53352",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "ae58de47-f6b6-4128-8770-a4444aacc040",
+      "ownedRelationship": [
+       {
+        "id": "cbdfd779-884a-4832-bc77-58c4ec0e7930",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "2fc600ad-797d-4718-a005-5aa41eeed5ec",
+         "ownedRelatedElement": [
+          {
+           "id": "6bc53f3f-05d7-4a49-97fc-2b3c24539058",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "P",
+            "elementId": "a2991016-ff6f-4cfe-87f6-68b36503dfbe",
+            "ownedRelationship": [
+             {
+              "id": "9861816a-db5b-4610-a853-85e94e5c010d",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "89f76a8a-87df-400f-85ec-941c732ebc54",
+               "ownedRelatedElement": [
+                {
+                 "id": "47fc52d4-5acb-406e-9484-21c3f927a92e",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "A",
+                  "elementId": "ce507b6e-18c9-4273-adee-30d737f8f65c",
+                  "ownedRelationship": [
+                   {
+                    "id": "c7301a43-2b63-4db3-b446-7cfcfc9cd28c",
+                    "eClass": "sysml:FeatureMembership",
+                    "data": {
+                     "elementId": "931b91ed-67a9-4b7f-a949-2f8f4b8f56a6",
+                     "ownedRelatedElement": [
+                      {
+                       "id": "12fb82da-18a4-41cf-a516-0409d08e431c",
+                       "eClass": "sysml:PartUsage",
+                       "data": {
+                        "declaredName": "x",
+                        "elementId": "2c77b075-09f9-4c76-a7b9-2dc1b54971aa",
+                        "isComposite": true
+                       }
+                      }
+                     ]
+                    }
+                   },
+                   {
+                    "id": "5ae23d2b-35db-41fd-b212-a3ea94743345",
+                    "eClass": "sysml:FeatureMembership",
+                    "data": {
+                     "elementId": "6035a693-7332-49eb-ace1-0546af623510",
+                     "ownedRelatedElement": [
+                      {
+                       "id": "7f063f9b-0049-4321-a257-e11b8b52e393",
+                       "eClass": "sysml:PartUsage",
+                       "data": {
+                        "declaredName": "y",
+                        "elementId": "9a84bab9-a383-492f-aa98-382f5c9d0822",
+                        "ownedRelationship": [
+                         {
+                          "id": "4c0f5f4d-ff27-448a-ad03-a9d4bcc8a325",
+                          "eClass": "sysml:Subsetting",
+                          "data": {
+                           "elementId": "37c25437-1e70-4e54-8f6e-65832a48edc2",
+                           "subsettedFeature": "12fb82da-18a4-41cf-a516-0409d08e431c",
+                           "subsettingFeature": "7f063f9b-0049-4321-a257-e11b8b52e393"
+                          }
+                         }
+                        ],
+                        "isComposite": true
+                       }
+                      }
+                     ]
+                    }
+                   }
+                  ]
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "P",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "A",
+           "ownedRelationship": [
+            {
+             "#": "n3",
+             "eClass": "sysml:FeatureMembership",
+             "data": {
+              "ownedRelatedElement": [
+               {
+                "#": "n4",
+                "eClass": "sysml:PartUsage",
+                "data": {
+                 "declaredName": "x",
+                 "isComposite": true
+                }
+               }
+              ]
+             }
+            },
+            {
+             "#": "n5",
+             "eClass": "sysml:FeatureMembership",
+             "data": {
+              "ownedRelatedElement": [
+               {
+                "#": "n6",
+                "eClass": "sysml:PartUsage",
+                "data": {
+                 "declaredName": "y",
+                 "ownedRelationship": [
+                  {
+                   "#": "n7",
+                   "eClass": "sysml:Subsetting",
+                   "data": {
+                    "subsettedFeature": "ref(n4)",
+                    "subsettingFeature": "ref(n6)"
+                   }
+                  }
+                 ],
+                 "isComposite": true
+                }
+               }
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 8
+ },
+ "record_sha256": "d99c655843cb1eb93ae740e7352cb4d5287d305039c1187606adac52f6d98be6"
+}

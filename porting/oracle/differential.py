@@ -2,9 +2,11 @@
 # SPDX-License-Identifier: EPL-2.0
 """Run every corpus case through the reference SysON and the Rust importer, then diff.
 
-  differential.py [--only ID_SUBSTRING] [--out DIR]
+  differential.py [--record | --golden] [--golden-dir DIR] [--rust-bin PATH]
+                  [--only ID_SUBSTRING] [--out DIR]
 
-Needs a running oracle (oracle.py up) and the Rust example binary, built with:
+Live and record modes need a running oracle (oracle.py up). Golden replay
+only needs Python and the Rust example binary, built with:
   cargo build --offline --locked --example oracle_import \
       --manifest-path rust/crates/syson-text-import/Cargo.toml
 Writes one result file per case plus summary.json and SUMMARY.md to --out
@@ -25,44 +27,57 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import compare  # noqa: E402
-import oracle  # noqa: E402
+import golden  # noqa: E402
 import reference  # noqa: E402
 
 REPO = HERE.parents[1]
 TARGET = Path(os.environ.get("CARGO_TARGET_DIR", "/workspace/build/builderbob/syson-oracle/target"))
-RUST_BIN = TARGET / "debug/examples/oracle_import"
+EXAMPLE = "oracle_import.exe" if os.name == "nt" else "oracle_import"
+RUST_BIN = TARGET / "debug/examples" / EXAMPLE
+GOLDEN_TARGET = Path(os.environ.get("CARGO_TARGET_DIR", REPO / "rust/crates/syson-text-import/target"))
+GOLDEN_RUST_BIN = GOLDEN_TARGET / "debug/examples" / EXAMPLE
 
 
 def cases():
-    corpus = json.loads((HERE / "corpus.json").read_text())
+    corpus = json.loads((HERE / "corpus.json").read_text(encoding="utf-8"))
     for c in corpus["inline"]:
         yield c["id"], c["source"], "inline"
     for p in corpus["paths"]:
         rel = Path(p)
-        yield f"{rel.parent.name}-{rel.stem}", (REPO / rel).read_text(), p
+        yield f"{rel.parent.name}-{rel.stem}", (REPO / rel).read_text(encoding="utf-8"), p
 
 
-def run_rust(source):
-    p = subprocess.run([str(RUST_BIN)], input=source, capture_output=True, text=True, timeout=60)
-    if p.returncode != 0:
-        return {"status": "crash", "error": (p.stderr or "")[-600:]}
-    return json.loads(p.stdout)
+def run_rust(source, rust_bin=RUST_BIN):
+    try:
+        process = subprocess.run([str(rust_bin)], input=source.encode("utf-8"),
+                                 capture_output=True, timeout=60)
+        if process.returncode != 0:
+            return {"status": "crash", "error": process.stderr[-600:].decode("utf-8", errors="replace")}
+        result = json.loads(process.stdout.decode("utf-8"))
+        if isinstance(result, dict):
+            if result.get("status") == "ok" and isinstance(result.get("document"), dict):
+                return result
+            if result.get("status") == "error" and isinstance(result.get("error"), str):
+                return result
+        return {"status": "crash", "error": "invalid Rust importer result envelope"}
+    except (OSError, subprocess.TimeoutExpired, ValueError) as error:
+        return {"status": "crash", "error": f"{type(error).__name__}: {error}"[:600]}
 
 
 def run_reference(base, case_id, source):
     try:
         out = reference.import_text(base, case_id, source)
-    except reference.ReferenceError as e:  # the app answered and refused
-        return {"status": "error", "error": str(e)[:600]}
-    except Exception as e:  # transport or server failure: not a verdict
-        return {"status": "harness_error", "error": f"{type(e).__name__}: {e}"[:600]}
-    docs = list(out["documents"].values())
-    if len(docs) != 1:
-        return {"status": "error", "error": f"expected 1 document, got {len(docs)}", "report": out["report"]}
-    content = docs[0].get("content", [])
-    if not content:
-        return {"status": "empty", "report": out["report"], "document": docs[0]}
-    return {"status": "ok", "report": out["report"], "document": docs[0]}
+        docs = list(out["documents"].values())
+        if len(docs) != 1:
+            raise reference.ReferenceProtocolError(f"expected 1 document, got {len(docs)}")
+        content = docs[0].get("content")
+        if not isinstance(content, list):
+            raise reference.ReferenceProtocolError("downloaded document lacks a content list")
+        return {"status": "ok" if content else "empty", "report": out["report"], "document": docs[0]}
+    except reference.ReferenceError as error:
+        return {"status": "error", "error": str(error)[:600]}
+    except Exception as error:
+        return {"status": "harness_error", "error": f"{type(error).__name__}: {error}"[:600]}
 
 
 def classify(ref, rust, cmp):
@@ -80,34 +95,67 @@ def classify(ref, rust, cmp):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only")
-    ap.add_argument("--out")
+    ap.add_argument("--out", type=Path)
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--record", action="store_true")
+    mode.add_argument("--golden", action="store_true")
+    ap.add_argument("--golden-dir", type=Path, default=HERE / "golden")
+    ap.add_argument("--rust-bin", type=Path)
     ap.add_argument("--restart-every", type=int, default=15,
                     help="restart the reference app after this many cases (0 = never); "
                          "one JVM accumulates memory across many imported projects")
     args = ap.parse_args()
-    if not oracle.STATE.exists():
-        sys.exit("no running oracle: run `oracle.py up` first")
-    state = json.loads(oracle.STATE.read_text())
-    if not RUST_BIN.exists():
-        sys.exit(f"missing {RUST_BIN}; build the oracle_import example first")
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    out_dir = Path(args.out) if args.out else Path(state["run"]) / f"differential-{stamp}"
+    rust_bin = (args.rust_bin or (GOLDEN_RUST_BIN if args.golden else RUST_BIN)).resolve()
+    selected = [(case_id, source, origin) for case_id, source, origin in cases()
+                if not args.only or args.only in case_id]
+    if not selected:
+        ap.error("no corpus cases match")
+    try:
+        names = {golden.case_name(case_id) for case_id, _, _ in selected}
+        if len(names) != len(selected):
+            ap.error("duplicate corpus case IDs")
+        if args.record and (args.only or args.golden_dir.exists()):
+            ap.error("--record requires the full corpus and a fresh golden directory")
+        replay = ({case_id: golden.load(args.golden_dir, case_id, source)
+                   for case_id, source, _ in selected} if args.golden else {})
+    except golden.GoldenError as error:
+        ap.error(str(error))
+    if not rust_bin.is_file():
+        ap.error(f"missing {rust_bin}; build the oracle_import example first")
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    if args.golden:
+        state = golden.REFERENCE
+        default_out = rust_bin.parent / f"differential-golden-{stamp}"
+    else:
+        import oracle
+
+        if not oracle.STATE.exists():
+            ap.error("no running oracle: run oracle.py up first")
+        state = json.loads(oracle.STATE.read_text(encoding="utf-8"))
+        if args.record and any(state.get(key) != pin for key, pin in golden.REFERENCE.items()):
+            ap.error("live reference does not match the pinned release")
+        default_out = Path(state["run"]) / f"differential-{stamp}"
+    out_dir = args.out or default_out
     (out_dir / "cases").mkdir(parents=True, exist_ok=True)
     results = []
+    captures = []
     since_restart = 0
-    for case_id, source, origin in cases():
-        if args.only and args.only not in case_id:
-            continue
-        if args.restart_every and since_restart >= args.restart_every:
+    for case_id, source, origin in selected:
+        if not args.golden and args.restart_every and since_restart >= args.restart_every:
             with contextlib.redirect_stdout(io.StringIO()):
                 oracle.down()
                 oracle.up()
-            state = json.loads(oracle.STATE.read_text())
+            state = json.loads(oracle.STATE.read_text(encoding="utf-8"))
             since_restart = 0
         since_restart += 1
         t0 = time.monotonic()
-        ref = run_reference(state["url"], case_id, source)
-        rust = run_rust(source)
+        ref = replay[case_id] if args.golden else run_reference(state["url"], case_id, source)
+        rust = run_rust(source, rust_bin)
+        if args.record and ref["status"] != "harness_error":
+            try:
+                captures.append(golden.capture(case_id, source, state, ref))
+            except golden.GoldenError as error:
+                ap.error(f"{case_id}: {error}")
         cmp = (compare.compare(ref["document"], rust["document"])
                if ref["status"] == "ok" and rust["status"] == "ok" else None)
         verdict = classify(ref, rust, cmp or {"structural_match": False})
@@ -126,13 +174,34 @@ def main():
     for r in results:
         counts[r["verdict"]] = counts.get(r["verdict"], 0) + 1
     wire = sorted({w for r in results if r["comparison"] for w in r["comparison"]["wire_diffs"]})
-    summary = {"generated_utc": stamp, "oracle": {k: state[k] for k in ("url", "run", "jar_sha256", "jar_source_revision")},
-               "rust_head": subprocess.run(["git", "-C", str(REPO), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip(),
-               "rust_dirty": bool(subprocess.run(["git", "-C", str(REPO), "status", "--porcelain", "rust"], capture_output=True, text=True).stdout.strip()),
+    rust_head, rust_dirty = rust_revision()
+    summary = {"generated_utc": stamp,
+               "reference_mode": "golden" if args.golden else "live",
+               "oracle": ({k: state[k] for k in golden.REFERENCE} if args.golden else
+                          {k: state[k] for k in ("url", "run", *golden.REFERENCE)}),
+               "rust_head": rust_head, "rust_dirty": rust_dirty,
                "counts": counts, "wire_findings": wire, "cases": results}
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=1) + "\n")
     (out_dir / "SUMMARY.md").write_text(render(summary))
+    if (args.record or args.golden) and counts.get("HARNESS_ERROR"):
+        ap.error(f"{counts['HARNESS_ERROR']} harness errors; see {out_dir / 'SUMMARY.md'}")
+    if args.record:
+        try:
+            golden.write(args.golden_dir, captures)
+        except (OSError, golden.GoldenError) as error:
+            ap.error(f"could not write golden records: {error}")
     print(json.dumps({"counts": counts, "wire_findings": wire, "out": str(out_dir)}, indent=1))
+
+
+def rust_revision():
+    try:
+        head = subprocess.check_output(["git", "-C", str(REPO), "rev-parse", "HEAD"],
+                                       text=True, stderr=subprocess.DEVNULL).strip()
+        dirty = subprocess.check_output(["git", "-C", str(REPO), "status", "--porcelain", "rust"],
+                                        text=True, stderr=subprocess.DEVNULL).strip()
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown", None
+    return head, bool(dirty)
 
 
 def render(s):

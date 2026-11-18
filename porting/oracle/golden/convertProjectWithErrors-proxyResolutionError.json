@@ -1,0 +1,129 @@
+{
+ "schema": 1,
+ "id": "convertProjectWithErrors-proxyResolutionError",
+ "source_sha256": "0c5f58338aa5e38832627a9ff2073a026aa96355718e636a92134e8566d83750",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "Following messages have been reported during conversion: \n[Warning] Unable to resolve name 'FakeType' for reference 'type' on element '[FeatureTyping] p1::p::<FeatureTyping>'",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "4753a082-2085-4e34-bd3e-94639a5fddcb",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "09cbe2b6-9778-4041-b028-c6646b223d6c",
+      "ownedRelationship": [
+       {
+        "id": "cac389e0-9821-4ff8-8a39-b7ed5fb98182",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "a7407045-a8f2-4273-9622-f0e25d137665",
+         "ownedRelatedElement": [
+          {
+           "id": "5c3c684d-4819-4930-8c2f-efe3e9fba2a0",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "p1",
+            "elementId": "abe99e65-5bd7-406a-9c60-7461703ee034",
+            "ownedRelationship": [
+             {
+              "id": "57ece92a-11a0-4e75-bc02-db21e4116cb8",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "f8799ed6-9d5c-44b9-a4a1-4f00c9944f2d",
+               "ownedRelatedElement": [
+                {
+                 "id": "87377d00-4dd6-4fa6-b529-4ba85da6a1ef",
+                 "eClass": "sysml:PartUsage",
+                 "data": {
+                  "declaredName": "p",
+                  "elementId": "8f379d25-1d8b-4379-8ae8-988bd586ba91",
+                  "ownedRelationship": [
+                   {
+                    "id": "8e5a9bd7-c9d8-481a-a7a3-73d611032d87",
+                    "eClass": "sysml:FeatureTyping",
+                    "data": {
+                     "elementId": "9b9e32c5-4496-4859-8773-5350c942736d",
+                     "typedFeature": "87377d00-4dd6-4fa6-b529-4ba85da6a1ef"
+                    }
+                   }
+                  ],
+                  "isComposite": true
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "p1",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartUsage",
+          "data": {
+           "declaredName": "p",
+           "ownedRelationship": [
+            {
+             "#": "n3",
+             "eClass": "sysml:FeatureTyping",
+             "data": {
+              "typedFeature": "ref(n2)"
+             }
+            }
+           ],
+           "isComposite": true
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 4
+ },
+ "record_sha256": "3b807a268a094ca4d1902ebf3fad9c23df133151375b2110449f7201a2104416"
+}

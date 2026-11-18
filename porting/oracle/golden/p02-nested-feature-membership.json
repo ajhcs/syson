@@ -1,0 +1,199 @@
+{
+ "schema": 1,
+ "id": "p02-nested-feature-membership",
+ "source_sha256": "72395046e701016b7950f6466c145e0d73419783647abc565aaec5696f2d84a3",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "597371da-9330-49b5-9917-9a5741fab309",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "6cf60715-90e9-4972-ab1d-66f4b076759c",
+      "ownedRelationship": [
+       {
+        "id": "4f222818-7ec8-4bf8-b3b2-7ff70fb57490",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "19e214fc-5c95-4df2-93a7-8e0fe813b43a",
+         "ownedRelatedElement": [
+          {
+           "id": "60219173-e490-402d-bd84-2e660e57cbf2",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "Vehicle",
+            "elementId": "ab047a40-fdca-401d-9fd6-6547e0486ec7",
+            "ownedRelationship": [
+             {
+              "id": "380face2-602c-4b24-a0d0-5c194bc54fbf",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "011bc7b9-e8ed-40c1-97da-5453a8dbac3f",
+               "ownedRelatedElement": [
+                {
+                 "id": "7c0503ed-8958-49fb-93aa-2bb7aed0209f",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "Wheel",
+                  "elementId": "5a04fd76-60ef-4a0e-872b-2b8719a1a89b"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "32acb21b-c0e2-4371-b238-1157a076b662",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "ed12b7e9-6b12-4d86-9c34-8988fd60b75d",
+               "ownedRelatedElement": [
+                {
+                 "id": "1f05f808-1e67-4aef-8c05-a24e026ee7ca",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "Car",
+                  "elementId": "2c568af3-8912-42d2-ae57-1f36e43d4fa6",
+                  "ownedRelationship": [
+                   {
+                    "id": "ebdd6955-d24e-4512-9493-312376016c45",
+                    "eClass": "sysml:FeatureMembership",
+                    "data": {
+                     "elementId": "cae0a9ea-9e78-4fc0-bdc6-7b13f25edf7d",
+                     "ownedRelatedElement": [
+                      {
+                       "id": "995ee0c7-9f2e-49e2-b73c-7df53a00e5af",
+                       "eClass": "sysml:PartUsage",
+                       "data": {
+                        "declaredName": "wheel",
+                        "elementId": "100651ec-ea4b-4919-a2c9-86200dc7b357",
+                        "ownedRelationship": [
+                         {
+                          "id": "4b97ed35-67a3-46a1-8694-2c60f6f3a371",
+                          "eClass": "sysml:FeatureTyping",
+                          "data": {
+                           "elementId": "26477641-a342-4266-b58f-2e0fbad51505",
+                           "type": "7c0503ed-8958-49fb-93aa-2bb7aed0209f",
+                           "typedFeature": "995ee0c7-9f2e-49e2-b73c-7df53a00e5af"
+                          }
+                         }
+                        ],
+                        "isComposite": true
+                       }
+                      }
+                     ]
+                    }
+                   }
+                  ]
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "Vehicle",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "Wheel"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "Car",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:FeatureMembership",
+             "data": {
+              "ownedRelatedElement": [
+               {
+                "#": "n6",
+                "eClass": "sysml:PartUsage",
+                "data": {
+                 "declaredName": "wheel",
+                 "ownedRelationship": [
+                  {
+                   "#": "n7",
+                   "eClass": "sysml:FeatureTyping",
+                   "data": {
+                    "type": "ref(n2)",
+                    "typedFeature": "ref(n6)"
+                   }
+                  }
+                 ],
+                 "isComposite": true
+                }
+               }
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 8
+ },
+ "record_sha256": "92761a2c8ba74ff88c9a5cfcdb759f896eedc6f60d380ad422cf65ccbc61aef7"
+}

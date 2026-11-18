@@ -38,6 +38,42 @@ differential run stay under `/workspace/build/builderbob/syson-oracle/runs/`.
 app is restarted every 15 cases (`--restart-every`), because one JVM runs out of
 heap after a few dozen imported projects.
 
+## Replay without a running reference
+
+Build the Rust importer from the repository root, then replay the committed
+reference results with Python 3. The default binary location is the text-import
+crate's Cargo target directory.
+
+~~~bash
+cargo build --locked --example oracle_import --manifest-path rust/crates/syson-text-import/Cargo.toml
+python3 porting/oracle/differential.py --golden
+~~~
+
+Set the same CARGO_TARGET_DIR for both commands when using an alternate build
+directory, or pass --rust-bin with the exact binary path. Use --only to select
+cases and --out to select the report directory. Golden mode reads the selected
+reference records in porting/oracle/golden and runs the same comparator as live
+mode. A missing, stale, corrupt or differently pinned record stops the run
+before comparison.
+
+To refresh the reference records, start the pinned release as described above
+and record the complete corpus into a fresh directory. Set CARGO_TARGET_DIR for
+both runs, or use the same explicit --rust-bin path to compare the exact same
+Rust executable.
+
+~~~bash
+python3 porting/oracle/differential.py --record --golden-dir /path/to/fresh-golden
+python3 porting/oracle/oracle.py down
+python3 porting/oracle/differential.py --golden --golden-dir /path/to/fresh-golden
+~~~
+
+Review the per-case live and replay verdicts before replacing committed records.
+Each record contains the reference document, its normalized tree, the import
+report and digests for the served release and the case text sent as UTF-8.
+Protocol errors and harness failures never count as recorded reference outcomes.
+If disk I/O interrupts output, discard the incomplete draft directory and
+record again at a fresh path.
+
 ## What a verdict means
 
 | Verdict | Meaning |

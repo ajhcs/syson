@@ -1,0 +1,106 @@
+{
+ "schema": 1,
+ "id": "convertNamespaceImportValueTest-namespace",
+ "source_sha256": "6bf1792cbbbef30e51863e9b7671648622538a08274c474f4157b42b855fbfb2",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "0cf94cbc-69b7-48a4-bc04-f1816ce24ad2",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "d5290294-da78-4be6-9aa8-8571455c6ef3",
+      "ownedRelationship": [
+       {
+        "id": "8cc48109-eae6-485e-a629-ba2ef1956f6f",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "f4b8daf0-b0bb-4608-bcbc-465913687233",
+         "ownedRelatedElement": [
+          {
+           "id": "80b8cbaa-6e17-47f1-9da7-278b47e5adac",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "package1",
+            "elementId": "5a7543eb-4e6e-4306-84d5-9d48e3f3f023",
+            "ownedRelationship": [
+             {
+              "id": "4a3c54ff-445d-4794-9d73-f7e5bd401367",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "1e66dcc9-0d34-40e5-8868-26f8f64f82e0",
+               "ownedRelatedElement": [
+                {
+                 "id": "b9ec9598-e2b8-419c-b4c6-422eb6922b4f",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "part1",
+                  "elementId": "16912f21-3f73-44d4-a9b9-8cbda2d18196"
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "package1",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "part1"
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [],
+  "nodes": 3
+ },
+ "record_sha256": "787d6533597cfbe817f4992c52c0c731c683293b9f838bb67c0dfbd26d1d1ac1"
+}

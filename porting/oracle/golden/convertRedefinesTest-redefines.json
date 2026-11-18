@@ -1,0 +1,165 @@
+{
+ "schema": 1,
+ "id": "convertRedefinesTest-redefines",
+ "source_sha256": "b511062b1c82dc243a878290f29e607361e335664f84dfe5d9a505bab82988e6",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "[WARNING] The file contains a syntax error. The elements that follow it may be missing from the imported model.\nThere are validation errors:\nline 3: unexpected character: ->'<- at offset: 84, skipped 1 characters. [']\nline 3: A package level Feature cannot redefine other Features. [ packetHeade]\nline 2: A Feature must be typed by at least one type. [attribute packetHeader { }]\nline 3: A Feature must be typed by at least one type. [ packetHeade]\n",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "90173038-cb3e-41a0-b7a2-3f0281141a02",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "750e77c3-10f2-403c-a758-2d42c19c7254",
+      "ownedRelationship": [
+       {
+        "id": "c9ba7706-e983-4112-a304-e4a7c78a4205",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "a6dc87a0-5f80-4d4e-80fe-1064626d758e",
+         "ownedRelatedElement": [
+          {
+           "id": "5039d993-961f-48ca-8d49-6325d53ed239",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "Packets",
+            "elementId": "c737b00b-6b64-4311-ac4a-c22f25f3522b",
+            "ownedRelationship": [
+             {
+              "id": "ff1ffd58-a71e-4b9b-b1dc-62351d1b882a",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "6ad813f1-2c1d-4f83-ac6f-151bd3db51da",
+               "ownedRelatedElement": [
+                {
+                 "id": "3b710702-16bc-4ef3-a23f-bc840ae66bb1",
+                 "eClass": "sysml:AttributeUsage",
+                 "data": {
+                  "declaredName": "packetHeader",
+                  "elementId": "e2af4ece-01a0-4494-8e3c-e7d9cf68df54",
+                  "isComposite": true
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "58555461-e81b-4c66-9007-0b74433c919d",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "1c832ff0-b694-4d6c-a1e3-5e04b12b4d9b",
+               "ownedRelatedElement": [
+                {
+                 "id": "1358e50b-66c9-4090-aa98-42356ee88744",
+                 "eClass": "sysml:AttributeUsage",
+                 "data": {
+                  "declaredName": "packetSecondaryHeader",
+                  "elementId": "f3e252fb-a0ed-49be-bff3-d1fb46a01988",
+                  "ownedRelationship": [
+                   {
+                    "id": "abcc37e0-fd5e-4ffa-b646-6a6acf9fab55",
+                    "eClass": "sysml:Redefinition",
+                    "data": {
+                     "elementId": "414a57f8-4445-4f5b-a7f5-b44847cf8aba",
+                     "redefinedFeature": "3b710702-16bc-4ef3-a23f-bc840ae66bb1",
+                     "redefiningFeature": "1358e50b-66c9-4090-aa98-42356ee88744"
+                    }
+                   }
+                  ],
+                  "isComposite": true
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "Packets",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:AttributeUsage",
+          "data": {
+           "declaredName": "packetHeader",
+           "isComposite": true
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:AttributeUsage",
+          "data": {
+           "declaredName": "packetSecondaryHeader",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:Redefinition",
+             "data": {
+              "redefinedFeature": "ref(n2)",
+              "redefiningFeature": "ref(n4)"
+             }
+            }
+           ],
+           "isComposite": true
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 6
+ },
+ "record_sha256": "c0a095e7336fa9c639dfe599436beeb8815417e6e8b8f8fed48aeb8cf431af89"
+}

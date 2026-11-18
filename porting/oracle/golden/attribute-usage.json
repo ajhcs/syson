@@ -1,0 +1,199 @@
+{
+ "schema": 1,
+ "id": "attribute-usage",
+ "source_sha256": "d528fccfbb5c279cc5afbe9eeaa28be180d7a20e06462ab278547a4e342cc7c6",
+ "reference": {
+  "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+ },
+ "result": {
+  "status": "ok",
+  "report": "",
+  "document": {
+   "json": {
+    "version": "1.0",
+    "encoding": "utf-8"
+   },
+   "ns": {
+    "sysml": "http://www.eclipse.org/syson/sysml"
+   },
+   "content": [
+    {
+     "id": "78a52cc6-c0b2-4020-9074-168a14eb1411",
+     "eClass": "sysml:Namespace",
+     "data": {
+      "eAnnotations": [
+       {
+        "source": "org.eclipse.syson.sysml.imported"
+       }
+      ],
+      "elementId": "7c13a8a6-1910-44ea-b7eb-54bbabb18775",
+      "ownedRelationship": [
+       {
+        "id": "1b927c03-1d9f-4477-87e4-e5bee043bb53",
+        "eClass": "sysml:OwningMembership",
+        "data": {
+         "elementId": "e3f30061-dd9f-4622-89c5-7edd05bdbde8",
+         "ownedRelatedElement": [
+          {
+           "id": "e1ed0f80-95f1-48dd-8f26-303a1d96d2bb",
+           "eClass": "sysml:Package",
+           "data": {
+            "declaredName": "P",
+            "elementId": "dfef66a7-5503-4fdf-84d9-f19219870a4d",
+            "ownedRelationship": [
+             {
+              "id": "794ae05a-3022-4ae3-9a94-0d90d94430d7",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "7480a493-f935-49fe-be80-9944c46e84b5",
+               "ownedRelatedElement": [
+                {
+                 "id": "7bc64281-567a-49ab-a665-881ff219df04",
+                 "eClass": "sysml:AttributeDefinition",
+                 "data": {
+                  "declaredName": "Mass",
+                  "elementId": "5f7ca861-f6f3-41f8-b299-3205ddcd9762"
+                 }
+                }
+               ]
+              }
+             },
+             {
+              "id": "09d5af10-53ef-4475-a4a8-a4df6a30e073",
+              "eClass": "sysml:OwningMembership",
+              "data": {
+               "elementId": "e3162959-8523-4eb8-b6e8-a3035526591c",
+               "ownedRelatedElement": [
+                {
+                 "id": "f9389a00-b421-4e92-99cb-7b53bfacef54",
+                 "eClass": "sysml:PartDefinition",
+                 "data": {
+                  "declaredName": "C",
+                  "elementId": "bdd1d218-bee5-4a70-b2b0-508852c0cc6e",
+                  "ownedRelationship": [
+                   {
+                    "id": "6a3a4616-c750-4324-8a9d-6c90f8e0b287",
+                    "eClass": "sysml:FeatureMembership",
+                    "data": {
+                     "elementId": "69aae8a9-7088-4cda-8589-0c505420c592",
+                     "ownedRelatedElement": [
+                      {
+                       "id": "09a03b33-0e79-416e-9397-89d653d09602",
+                       "eClass": "sysml:AttributeUsage",
+                       "data": {
+                        "declaredName": "m",
+                        "elementId": "c3f7a63d-0dcd-4510-abd3-acbd98e2dcda",
+                        "ownedRelationship": [
+                         {
+                          "id": "f47eb78d-c305-407b-8f17-7859ac64267b",
+                          "eClass": "sysml:FeatureTyping",
+                          "data": {
+                           "elementId": "7c7169e1-873b-4b91-a429-07b8a1929762",
+                           "type": "7bc64281-567a-49ab-a665-881ff219df04",
+                           "typedFeature": "09a03b33-0e79-416e-9397-89d653d09602"
+                          }
+                         }
+                        ],
+                        "isComposite": true
+                       }
+                      }
+                     ]
+                    }
+                   }
+                  ]
+                 }
+                }
+               ]
+              }
+             }
+            ]
+           }
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "normalized": {
+  "roots": [
+   {
+    "#": "n0",
+    "eClass": "sysml:Package",
+    "data": {
+     "declaredName": "P",
+     "ownedRelationship": [
+      {
+       "#": "n1",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n2",
+          "eClass": "sysml:AttributeDefinition",
+          "data": {
+           "declaredName": "Mass"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "#": "n3",
+       "eClass": "sysml:OwningMembership",
+       "data": {
+        "ownedRelatedElement": [
+         {
+          "#": "n4",
+          "eClass": "sysml:PartDefinition",
+          "data": {
+           "declaredName": "C",
+           "ownedRelationship": [
+            {
+             "#": "n5",
+             "eClass": "sysml:FeatureMembership",
+             "data": {
+              "ownedRelatedElement": [
+               {
+                "#": "n6",
+                "eClass": "sysml:AttributeUsage",
+                "data": {
+                 "declaredName": "m",
+                 "ownedRelationship": [
+                  {
+                   "#": "n7",
+                   "eClass": "sysml:FeatureTyping",
+                   "data": {
+                    "type": "ref(n2)",
+                    "typedFeature": "ref(n6)"
+                   }
+                  }
+                 ],
+                 "isComposite": true
+                }
+               }
+              ]
+             }
+            }
+           ]
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "wrapped": true,
+  "reference_encoding": [
+   "id"
+  ],
+  "nodes": 8
+ },
+ "record_sha256": "3366bd370e9bb60c01e36e011c0a369569965e65129ce8748712b7bcc2afce07"
+}

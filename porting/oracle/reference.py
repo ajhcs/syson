@@ -23,7 +23,11 @@ DELETE_PROJECT = """mutation($i: DeleteProjectInput!) { deleteProject(input: $i)
 
 
 class ReferenceError(Exception):
-    pass
+    """The reference app explicitly refused the uploaded document."""
+
+
+class ReferenceProtocolError(Exception):
+    """A reference request failed outside a document refusal."""
 
 
 def _post(url, body, content_type):
@@ -36,14 +40,15 @@ def gql(base, query, variables):
     out = _post(base + "/api/graphql", json.dumps({"query": query, "variables": variables}).encode(),
                 "application/json")
     if out.get("errors"):
-        raise ReferenceError(json.dumps(out["errors"])[:800])
+        raise ReferenceProtocolError(json.dumps(out["errors"])[:800])
     return out["data"]
 
 
 def _payload(data, field):
     payload = data[field]
     if payload["__typename"] == "ErrorPayload":
-        raise ReferenceError(f"{field}: " + "; ".join(m["body"] for m in payload["messages"]))
+        kind = ReferenceError if field == "uploadDocument" else ReferenceProtocolError
+        raise kind(f"{field}: " + "; ".join(m["body"] for m in payload["messages"]))
     return payload
 
 
@@ -67,7 +72,7 @@ def _upload(base, editing_context, filename, content):
     body.write(f"--{boundary}--\r\n".encode())
     out = _post(base + "/api/graphql/upload", body.getvalue(), f"multipart/form-data; boundary={boundary}")
     if out.get("errors"):
-        raise ReferenceError(json.dumps(out["errors"])[:800])
+        raise ReferenceProtocolError(json.dumps(out["errors"])[:800])
     return _payload(out["data"], "uploadDocument")
 
 
