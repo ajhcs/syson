@@ -1,0 +1,124 @@
+{
+  "schema": "SYSON-C01-COMMONS-TEXT-MODEL-REPLAY/1",
+  "status": "OBSERVED_PINNED_COMMONS_TEXT_MODELS_ONLY",
+  "capture_commit": "eb51c56679eb07f0feaef545d42e9d981e710274",
+  "prior_range_result_sha256": "2927ff9d3bfbffecb6f3db8e22c50f1298bbc7a52779a52b54e9ad6452e506ab",
+  "scope_sha256": "6e09044259069d57472fb4282dfc8e5de3406db3ce658a57bf38985acb065f72",
+  "runner_sha256": "ce8db34f8c5461e1f6bba76354dbed18872c78321a18b7ef491a30916b13044e",
+  "private_result_sha256": "1dbe133c88be64dfef0173c5940525d6a5833c1d6e8a74c899dd9fa9a336518f",
+  "kernel_stdout_sha256": "9ff2e9bd17f5c828a1bb87e4b57bf7c194fa0ebc3ca649dad229b77b5dd2e306",
+  "process_exits": {
+    "kernel": 0,
+    "compiler": 0,
+    "baseline": 0,
+    "withheld-bom": 0
+  },
+  "teardown": {
+    "kernel": {
+      "group_sigkill_attempted": true,
+      "empty_live_group_samples": 2,
+      "waitable_leader_retained_until_proof": true,
+      "leader_exit": 0,
+      "completion": "exited"
+    },
+    "compiler": {
+      "group_sigkill_attempted": true,
+      "empty_live_group_samples": 2,
+      "waitable_leader_retained_until_proof": true,
+      "leader_exit": 0,
+      "completion": "exited"
+    },
+    "baseline": {
+      "group_sigkill_attempted": true,
+      "empty_live_group_samples": 2,
+      "waitable_leader_retained_until_proof": true,
+      "leader_exit": 0,
+      "completion": "exited"
+    },
+    "withheld-bom": {
+      "group_sigkill_attempted": true,
+      "empty_live_group_samples": 2,
+      "waitable_leader_retained_until_proof": true,
+      "leader_exit": 0,
+      "completion": "exited"
+    }
+  },
+  "cases": {
+    "baseline": {
+      "built": true,
+      "stdout_sha256": "e126501240bc1c762c4e0ee8294a01a2d9f68355e4b9551cf65ec5cbc92c7033",
+      "stdout_records": [
+        ["case", "baseline"],
+        ["java", "21.0.12.1+1-LTS"],
+        ["maven-model-builder", "3.9.16"],
+        ["input", "org.apache.commons:commons-text:1.10.0", "388dd52348ba1842aa38aeb897c91d270b14661eb875a20fd98031535ab27567"],
+        ["input", "org.apache.commons:commons-parent:54", "000d8187952b223702fde296df799563f35de82ce72adb4e7bf157342378fbe3"],
+        ["input", "org.apache:apache:27", "b2b0fc69e22a650c3892f1c366d77076f29575c6738df4c7a70a44844484cdf9"],
+        ["input", "org.junit:junit-bom:5.9.1", "b163c1cfc8fc1fd58b457a00d586c04c46e986d75904e9ca54c03a97d65b496c"],
+        ["request", "parent", "org.apache.commons:commons-parent:54", "pinned"],
+        ["request", "parent", "org.apache:apache:27", "pinned"],
+        ["request", "coordinate", "org.junit:junit-bom:5.9.1", "pinned"],
+        ["profiles", "org.apache.commons:commons-text:1.10.0", "java9+"],
+        ["raw-selector", "org.apache.commons:commons-text:1.10.0", "5.9.1"],
+        ["profiles", "org.apache.commons:commons-parent:54", "parse-target-version,svn-buildnumber"],
+        ["raw-selector", "org.apache.commons:commons-parent:54", "5.9.0"],
+        ["profiles", "org.apache:apache:27", ""],
+        ["effective", "org.apache.commons:commons-text:1.10.0", "jar"],
+        ["junit-managed", "org.junit.jupiter", "junit-jupiter", "5.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.jupiter", "junit-jupiter-api", "5.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.jupiter", "junit-jupiter-engine", "5.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.jupiter", "junit-jupiter-migrationsupport", "5.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.jupiter", "junit-jupiter-params", "5.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-commons", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-console", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-engine", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-jfr", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-launcher", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-reporting", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-runner", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-suite", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-suite-api", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-suite-commons", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-suite-engine", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.platform", "junit-platform-testkit", "1.9.1", "jar", "", ""],
+        ["junit-managed", "org.junit.vintage", "junit-vintage-engine", "5.9.1", "jar", "", ""],
+        ["direct", "org.apache.commons", "commons-lang3", "3.12.0", "jar", "", "compile"],
+        ["direct", "org.junit.jupiter", "junit-jupiter", "5.9.1", "jar", "", "test"],
+        ["built", "true"]
+      ]
+    },
+    "withheld-bom": {
+      "built": false,
+      "stdout_sha256": "f04f9995f86fc93b5c510f00d668fd82c52185583dfd3379e1e3c6ddcf430a82",
+      "stdout_records": [
+        ["case", "withheld-bom"],
+        ["java", "21.0.12.1+1-LTS"],
+        ["maven-model-builder", "3.9.16"],
+        ["input", "org.apache.commons:commons-text:1.10.0", "388dd52348ba1842aa38aeb897c91d270b14661eb875a20fd98031535ab27567"],
+        ["input", "org.apache.commons:commons-parent:54", "000d8187952b223702fde296df799563f35de82ce72adb4e7bf157342378fbe3"],
+        ["input", "org.apache:apache:27", "b2b0fc69e22a650c3892f1c366d77076f29575c6738df4c7a70a44844484cdf9"],
+        ["request", "parent", "org.apache.commons:commons-parent:54", "pinned"],
+        ["request", "parent", "org.apache:apache:27", "pinned"],
+        ["request", "coordinate", "org.junit:junit-bom:5.9.1", "absent"],
+        ["profiles", "org.apache.commons:commons-text:1.10.0", "java9+"],
+        ["raw-selector", "org.apache.commons:commons-text:1.10.0", "5.9.1"],
+        ["profiles", "org.apache.commons:commons-parent:54", "parse-target-version,svn-buildnumber"],
+        ["raw-selector", "org.apache.commons:commons-parent:54", "5.9.0"],
+        ["profiles", "org.apache:apache:27", ""],
+        ["problem", "ERROR", "Non-resolvable import POM org.junit:junit-bom:5.9.1: not available in the pinned offline model set"],
+        ["problem", "ERROR", "'dependencies.dependency.version' for org.junit.jupiter:junit-jupiter:jar is missing."],
+        ["built", "false"]
+      ]
+    }
+  },
+  "outside_scope": {
+    "acquired_payload_execution": false,
+    "binary_resolution": false,
+    "dependency_download_or_cache_install": false,
+    "graph_collection": false,
+    "maven_cli_or_goals": false,
+    "native_compile_or_full_build": false,
+    "network": false,
+    "range_selection": false
+  }
+}
