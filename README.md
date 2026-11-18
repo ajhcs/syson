@@ -13,17 +13,21 @@ Rust gives one codebase for native desktop apps and the browser (through WebAsse
 
 The original SysON app is the reference. The [differential harness](porting/oracle/README.md) feeds the same SysML text to SysON and to the Rust importer, normalizes generated identifiers, and diffs the resulting models. It reports structural matches and wire-format compatibility separately: building the same model isn't enough if SysON can't open what Rust writes.
 
-First run, 2026-11-17 ([full results](porting/oracle/results/20261117T143026Z.md)): **10 of 32 inputs match**, 1 differs (an escaped-name case where SysON looks wrong) and Rust refuses 21, including 17 of the 19 SysML files bundled with SysON. The complete SysML grammar is already recognized in Rust; the main gap is turning it into model elements ([#246](https://github.com/ajhcs/syson/issues/246)).
+Latest replay, 2026-11-18, on `main`: the corpus has grown to **62 cases**; **12 match**, 1 differs (an escaped-name case where SysON looks wrong, [#253](https://github.com/ajhcs/syson/issues/253)) and Rust refuses 49. Of the 19 SysML files bundled with SysON, 2 match and 17 are refused. The complete SysML grammar is already recognized in Rust; the main gap is turning it into model elements ([#246](https://github.com/ajhcs/syson/issues/246)). Two wire-format differences remain for every case: Rust references point at `elementId` instead of `id` ([#248](https://github.com/ajhcs/syson/issues/248)) and it omits SysON's root `Namespace` wrapper ([#249](https://github.com/ajhcs/syson/issues/249)). The first run, 2026-11-17, is kept in [`porting/oracle/results`](porting/oracle/results/20261117T143026Z.md).
+
+You can reproduce this without Java or a database: the reference results are committed, and `differential.py --golden` replays them (see [Run the checks locally](#run-the-checks-locally)).
 
 ## Roadmap
 
 | Phase | Outcome | Status |
 |---|---|---|
-| 0 | Differential harness against the official SysON release | Done ([`porting/oracle`](porting/oracle/README.md)) |
-| 1 | Rust imports all 19 bundled SysON examples with the same model, and SysON can open the result | **In progress:** [tracking issue #269](https://github.com/ajhcs/syson/issues/269) |
-| 2 | Edits, save and reopen, existing SysON projects | Planned: [tracking issue #279](https://github.com/ajhcs/syson/issues/279) |
-| 3 | Rust APIs, views and editor (native and WebAssembly) with full SysON workflow coverage | Planned: [tracking issue #280](https://github.com/ajhcs/syson/issues/280) |
+| 0 | Differential harness against the official SysON release | Done ([`porting/oracle`](porting/oracle/README.md)); replays offline from committed reference results |
+| 1 | Rust imports all 19 bundled SysON examples with the same model, and SysON can open the result | **In progress** (2 of 19 match): [tracking issue #269](https://github.com/ajhcs/syson/issues/269) |
+| 2 | Edits, save and reopen, existing SysON projects | **Started**: snapshots reopen across processes and after interrupted writers; SysON's project archive is inventoried and round-tripped; SysON's own restart journey is scripted. [Tracking issue #279](https://github.com/ajhcs/syson/issues/279) |
+| 3 | Rust APIs, views and editor (native and WebAssembly) with full SysON workflow coverage | Planned, with issues open for the server, APIs and every view: [tracking issue #280](https://github.com/ajhcs/syson/issues/280) |
 | 4 | MBSECraft uses the Rust engine for its SysML v2 models | Planned: [decision issue #281](https://github.com/ajhcs/syson/issues/281), then [ajhcs/mbse-craft](https://github.com/ajhcs/mbse-craft) |
+
+**What full parity takes:** [`porting/PARITY-GAP.md`](porting/PARITY-GAP.md) lists every remaining work stream (language, export, model and libraries, storage, server and APIs, views, project health), the critical path to the acceptance journey, and an open issue for each piece.
 
 The pinned [roadmap issue #282](https://github.com/ajhcs/syson/issues/282) links every phase and suggests tasks by skill: Rust, Python, SysML modeling, web and GraphQL, documentation.
 
@@ -35,9 +39,28 @@ Working here is a chance to solve practical Rust problems in parsing, public API
 
 ## What works today
 
-The Rust tree contains separate crates for the metamodel, model operations, the SysML grammar recognizer, a text importer for a small subset of SysML, persistence helpers, layout and routing. The example below calls the public `syson-layout` library to place a small directed graph. Its tests exercise that limited library behavior; it is not a runnable SysML editor.
+The Rust tree contains 23 crates: the metamodel registry, an EMF JSON model with transactions and undo, the SysML grammar recognizer, a text importer for a subset of SysML, identity and reference resolution, document migrations, a local snapshot store, layout, routing and label measurement. None of them is a server or a user interface yet. The example below calls the public `syson-layout` library to place a small directed graph. Its tests exercise that limited library behavior; it is not a runnable SysML editor.
 
 The port is incomplete. The syntax crate is a recognizer, not an accepted complete SysML parser, and the persistence helpers do not provide the complete storage system. Native and browser UI workflows, font measurement, worker integration, fractional routing, upstream equivalence, and full product parity remain unqualified. See the [syntax](porting/syntax/README.md), [persistence](porting/persistence/README.md), and [remaining-work guide](porting/rust-parity-plan-20261026/REMAINING-WORK.md) for details and evidence boundaries.
+
+## Run the checks locally
+
+GitHub Actions is currently disabled on this repository ([#453](https://github.com/ajhcs/syson/issues/453)), so pull requests get no automatic CI. Run the same checks yourself and list them in your pull request. For each crate you touched (CI uses toolchain `1.99.1`):
+
+```sh
+cargo fmt --manifest-path rust/crates/<crate>/Cargo.toml -- --check
+cargo test --locked --manifest-path rust/crates/<crate>/Cargo.toml
+cargo clippy --locked --manifest-path rust/crates/<crate>/Cargo.toml --all-targets -- -D warnings
+```
+
+`syson-model` and `syson-workflow` tests write files: point `TMPDIR` at a directory you own (mode `0700`) when running them, as CI does.
+
+To replay the differential corpus against the committed SysON results (Rust and Python 3 only):
+
+```sh
+cargo build --locked --example oracle_import --manifest-path rust/crates/syson-text-import/Cargo.toml
+python3 porting/oracle/differential.py --golden
+```
 
 ## Try the layout library
 
@@ -93,14 +116,15 @@ The layout checks and example passed on Linux x86_64 with `rustc 1.99.1` and `ca
 
 ## Contributing
 
-Contributions from people learning Rust, modeling, or the codebase are welcome. The [Phase 1 tracking issue](https://github.com/ajhcs/syson/issues/269) lists the current work, grouped by area, with a short "start here" list. Issues labelled [`good first issue`](https://github.com/ajhcs/syson/labels/good%20first%20issue) need the least background. Each import issue includes minimal SysML examples and the model SysON builds from them, so you know exactly what "done" looks like. Comment on an issue before starting so a maintainer can confirm its scope and whether someone is already working on the affected code. If you are unsure where to begin, open an issue describing your interests or ask on an existing issue.
+Contributions from people learning Rust, modeling, or the codebase are welcome. The [Phase 1 tracking issue](https://github.com/ajhcs/syson/issues/269) lists the current work, grouped by area, with a short "start here" list, and [`porting/PARITY-GAP.md`](porting/PARITY-GAP.md) maps every open issue to the road to full parity. Issues labelled [`good first issue`](https://github.com/ajhcs/syson/labels/good%20first%20issue) need the least background. Each import issue includes minimal SysML examples and the model SysON builds from them, so you know exactly what "done" looks like. Comment on an issue before starting so a maintainer can confirm its scope and whether someone is already working on the affected code. If you are unsure where to begin, open an issue describing your interests or ask on an existing issue.
 
 The [contributor guide](CONTRIBUTING.md) explains the first steps, review expectations, and how to ask for help. Small documentation, test, and implementation changes are useful. Please keep evidence for the behavior you changed separate from claims about the whole port.
 
 ## Code and provenance
 
 - [`rust/crates`](rust/crates/) contains the independent Rust crates; each has its own Cargo manifest.
-- [`porting/oracle`](porting/oracle/README.md) contains the differential harness that compares Rust with the reference SysON.
+- [`porting/oracle`](porting/oracle/README.md) contains the differential harness that compares Rust with the reference SysON, its committed reference results, and the merged interoperability and restart evidence.
+- [`porting/PARITY-GAP.md`](porting/PARITY-GAP.md) is the contributor map from here to full parity.
 - [`porting`](porting/) also contains source maps, behavior notes, evidence, and the remaining-work plan.
 - [`backend`](backend/), [`frontend`](frontend/), and [`doc`](doc/) retain the upstream application and documentation sources.
 

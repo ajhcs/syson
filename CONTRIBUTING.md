@@ -15,6 +15,7 @@ The goal is a complete Rust port of SysON that behaves the same as the original,
    - [`area: interop`](https://github.com/ajhcs/syson/labels/area%3A%20interop): whether SysON can use what Rust writes
    - [`area: oracle`](https://github.com/ajhcs/syson/labels/area%3A%20oracle): the differential harness (mostly Python)
    - [`area: persistence`](https://github.com/ajhcs/syson/labels/area%3A%20persistence), [`area: api`](https://github.com/ajhcs/syson/labels/area%3A%20api), [`area: views`](https://github.com/ajhcs/syson/labels/area%3A%20views), [`area: ci`](https://github.com/ajhcs/syson/labels/area%3A%20ci): saving and project files, server APIs, explorer and diagrams, continuous integration
+   - [`area: export`](https://github.com/ajhcs/syson/labels/area%3A%20export), [`area: model`](https://github.com/ajhcs/syson/labels/area%3A%20model), [`area: libraries`](https://github.com/ajhcs/syson/labels/area%3A%20libraries), [`area: validation`](https://github.com/ajhcs/syson/labels/area%3A%20validation), [`area: migrations`](https://github.com/ajhcs/syson/labels/area%3A%20migrations), [`area: server`](https://github.com/ajhcs/syson/labels/area%3A%20server), [`area: diagrams`](https://github.com/ajhcs/syson/labels/area%3A%20diagrams), [`area: explorer`](https://github.com/ajhcs/syson/labels/area%3A%20explorer), [`area: ui`](https://github.com/ajhcs/syson/labels/area%3A%20ui), [`area: tooling`](https://github.com/ajhcs/syson/labels/area%3A%20tooling), [`area: performance`](https://github.com/ajhcs/syson/labels/area%3A%20performance): the rest of the road to parity, mapped in [`porting/PARITY-GAP.md`](porting/PARITY-GAP.md)
    - [`needs decision`](https://github.com/ajhcs/syson/labels/needs%20decision): behavior questions where SysML knowledge helps more than code
 
    You can also propose a documentation fix, a focused test, or a bounded behavior improvement.
@@ -34,7 +35,7 @@ cargo fmt --manifest-path rust/crates/syson-layout/Cargo.toml --check
 cargo clippy --manifest-path rust/crates/syson-layout/Cargo.toml --all-targets -- -D warnings
 ```
 
-For another crate, use its manifest and run the checks relevant to the change. Add a focused test for changed behavior where appropriate, including an error or boundary case when it matters. Tell reviewers which commands passed and what you could not run. A crate test does not establish browser behavior, complete parser or storage support, upstream equivalence, or whole-product parity.
+For another crate, use its manifest and run the checks relevant to the change. GitHub Actions is currently disabled on the repository ([#453](https://github.com/ajhcs/syson/issues/453)), so these local runs are the only CI your pull request gets; say which ones you ran. Add a focused test for changed behavior where appropriate, including an error or boundary case when it matters. Tell reviewers which commands passed and what you could not run. A crate test does not establish browser behavior, complete parser or storage support, upstream equivalence, or whole-product parity.
 
 Keep a pull request focused on one reviewable outcome. Describe the problem, your change, and how to reproduce or check it. If you compare against upstream behavior, identify the source or fixture and any differences or unanswered questions. Preserve attribution, license notices, and existing evidence; ask a maintainer before changing shared manifests, generated data, or held source areas.
 
@@ -42,8 +43,8 @@ Keep a pull request focused on one reviewable outcome. Describe the problem, you
 
 "Correct" in this project means "builds the same model as SysON, and SysON can open it". The [differential harness](porting/oracle/README.md) checks both:
 
-- **Without Java.** Each import issue includes minimal SysML examples and the model SysON builds from them, in a normalized form (`n0`, `n1`, … label generated identifiers; `ref(nK)` points to node `nK`). Turn these into Rust tests. Once [#254](https://github.com/ajhcs/syson/issues/254) lands, `python3 porting/oracle/differential.py --golden` will compare against committed reference outputs with only Rust and Python installed.
-- **With the reference app.** `porting/oracle/oracle.py up` starts the official SysON release in isolation, and `differential.py` runs the corpus through both implementations. It currently expects the maintainer's tool paths; [#255](https://github.com/ajhcs/syson/issues/255) makes it portable. Maintainers can run it for your pull request if you can't.
+- **Without Java.** Each import issue includes minimal SysML examples and the model SysON builds from them, in a normalized form (`n0`, `n1`, … label generated identifiers; `ref(nK)` points to node `nK`). Turn these into Rust tests. `python3 porting/oracle/differential.py --golden` compares against committed reference outputs with only Rust and Python installed (see the [README](README.md#run-the-checks-locally) for the build step).
+- **With the reference app.** `porting/oracle/oracle.py up` starts the official SysON release in isolation, and `differential.py` runs the corpus through both implementations. The [native reference setup](porting/oracle/native-setup.md) explains how to point it at your own runtime paths; [#255](https://github.com/ajhcs/syson/issues/255) is open until someone confirms it on a second machine. Maintainers can run it for your pull request if you can't.
 
 In your pull request, list the cases whose verdict changed (for example `alias: RUST_REFUSES → MATCH`). A change that turns one case into a match must not break another.
 
