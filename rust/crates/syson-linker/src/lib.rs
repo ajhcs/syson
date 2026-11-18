@@ -5,7 +5,10 @@
 use serde_json::Value as Json;
 use std::{
     collections::{BTreeMap, BTreeSet},
-    sync::Arc,
+    sync::{
+        Arc,
+        atomic::{AtomicBool, Ordering},
+    },
 };
 use syson_ast::{Arena, NodeId, Slot, Value};
 use syson_metamodel::{self as mm, ClassifierId as C};
@@ -14,6 +17,7 @@ use syson_references::{Registry, Target};
 pub enum Error {
     Unsupported,
     Limit,
+    Cancelled,
     Ambiguous,
     ForeignResult,
     AliasCycle,
@@ -62,6 +66,14 @@ impl Link {
         }
     }
 }
+const STANDALONE_NAME_BYTES: usize = 2048;
+const MAX_IMPORT_SOURCE_BYTES: usize = 65_536;
+
+struct ImportNames {
+    source_bytes: usize,
+    cancel: Arc<AtomicBool>,
+}
+
 pub struct Snapshot {
     identity: Arc<()>,
     arena: Arena,
@@ -71,6 +83,7 @@ pub struct Snapshot {
     parents: BTreeMap<NodeId, NodeId>,
     aliases: Vec<Alias>,
     bindings: BTreeMap<NodeId, Json>,
+    import_names: Option<ImportNames>,
 }
 fn slot<'a>(arena: &'a Arena, id: NodeId, key: &str) -> Result<&'a Value, Error> {
     match arena.node(id).map(|n| n.slot(key)) {
@@ -85,8 +98,19 @@ fn kind(arena: &Arena, id: NodeId) -> Result<C, Error> {
         .and_then(|n| mm::lookup(mm::Package::Domain, n))
         .ok_or(Error::Unsupported)
 }
+fn check_cancel(cancel: Option<&AtomicBool>) -> Result<(), Error> {
+    if cancel.is_some_and(|flag| flag.load(Ordering::Relaxed)) {
+        Err(Error::Cancelled)
+    } else {
+        Ok(())
+    }
+}
 fn name(raw: &str) -> Result<String, Error> {
-    if raw.is_empty() || raw.len() > 2048 {
+    decode_name(raw, STANDALONE_NAME_BYTES, None)
+}
+fn decode_name(raw: &str, limit: usize, cancel: Option<&AtomicBool>) -> Result<String, Error> {
+    check_cancel(cancel)?;
+    if raw.is_empty() || raw.len() > limit {
         return Err(Error::Unsupported);
     }
     if !raw.starts_with('\'') {
@@ -98,7 +122,13 @@ fn name(raw: &str) -> Result<String, Error> {
         .ok_or(Error::Unsupported)?;
     let mut chars = inner.chars();
     let mut out = String::new();
+    if cancel.is_some() {
+        // Decoding escapes cannot increase the number of UTF-8 bytes.
+        out.try_reserve_exact(inner.len())
+            .map_err(|_| Error::Limit)?;
+    }
     while let Some(c) = chars.next() {
+        check_cancel(cancel)?;
         out.push(if c == '\\' {
             match chars.next().ok_or(Error::Unsupported)? {
                 'b' => '\x08',
@@ -123,6 +153,45 @@ impl Snapshot {
         aliases: Vec<Alias>,
         bindings: Vec<Binding>,
     ) -> Result<Self, Error> {
+        Self::with_names(arena, registry, resource, aliases, bindings, None)
+    }
+
+    /// Index an alias-free arena from the finite importer using its admitted
+    /// source length. Expanded admission applies only to quoted AST names.
+    /// Indexed names and reference parts are charged before they are decoded.
+    pub fn new_for_import(
+        arena: Arena,
+        registry: Registry,
+        resource: String,
+        bindings: Vec<Binding>,
+        source_bytes: usize,
+        cancel: Arc<AtomicBool>,
+    ) -> Result<Self, Error> {
+        check_cancel(Some(&cancel))?;
+        if source_bytes > MAX_IMPORT_SOURCE_BYTES {
+            return Err(Error::Limit);
+        }
+        Self::with_names(
+            arena,
+            registry,
+            resource,
+            Vec::new(),
+            bindings,
+            Some(ImportNames {
+                source_bytes,
+                cancel,
+            }),
+        )
+    }
+
+    fn with_names(
+        arena: Arena,
+        registry: Registry,
+        resource: String,
+        aliases: Vec<Alias>,
+        bindings: Vec<Binding>,
+        import_names: Option<ImportNames>,
+    ) -> Result<Self, Error> {
         if arena.nodes().len() > 4096 || aliases.len() > 256 || bindings.len() > 256 {
             return Err(Error::Limit);
         }
@@ -135,8 +204,10 @@ impl Snapshot {
             parents: BTreeMap::new(),
             aliases,
             bindings: BTreeMap::new(),
+            import_names,
         };
-        result.index(result.arena.root(), 0)?;
+        let mut remaining = result.name_budget();
+        result.index(result.arena.root(), 0, &mut remaining)?;
         for i in 0..result.aliases.len() {
             let alias = &result.aliases[i];
             if alias.parts.is_empty() || alias.parts.len() > 64 {
@@ -170,7 +241,25 @@ impl Snapshot {
     pub fn arena(&self) -> &Arena {
         &self.arena
     }
-    fn index(&mut self, id: NodeId, depth: usize) -> Result<(), Error> {
+    fn name_budget(&self) -> usize {
+        self.import_names
+            .as_ref()
+            .map_or(0, |policy| policy.source_bytes)
+    }
+    fn ast_name(&self, raw: &str, remaining: &mut usize) -> Result<String, Error> {
+        let Some(policy) = &self.import_names else {
+            return name(raw);
+        };
+        check_cancel(Some(&policy.cancel))?;
+        *remaining = remaining.checked_sub(raw.len()).ok_or(Error::Limit)?;
+        let limit = if raw.starts_with('\'') {
+            policy.source_bytes
+        } else {
+            STANDALONE_NAME_BYTES
+        };
+        decode_name(raw, limit, Some(&policy.cancel))
+    }
+    fn index(&mut self, id: NodeId, depth: usize, remaining: &mut usize) -> Result<(), Error> {
         if depth > 64 || self.scopes.len() == 256 {
             return Err(Error::Limit);
         }
@@ -207,7 +296,7 @@ impl Snapshot {
                 let Value::String(raw) = &d.value else {
                     return Err(Error::Unsupported);
                 };
-                let key = name(raw)?;
+                let key = self.ast_name(raw, remaining)?;
                 if self
                     .scopes
                     .get_mut(&id)
@@ -218,7 +307,7 @@ impl Snapshot {
                     return Err(Error::Ambiguous);
                 }
             }
-            self.index(child, depth + 1)?;
+            self.index(child, depth + 1, remaining)?;
         }
         Ok(())
     }
@@ -311,6 +400,7 @@ impl Snapshot {
             error: None,
         };
         let mut work = 0;
+        let mut remaining = self.name_budget();
         for (index, part) in parts.iter().enumerate() {
             let wanted = if self.arena.node(reference).unwrap().kind() == Some("TypeReference")
                 && index + 1 == parts.len()
@@ -325,7 +415,8 @@ impl Snapshot {
             if mm::lookup(mm::Package::Domain, target_type) != Some(wanted) {
                 return Err(Error::Unsupported);
             }
-            let result = name(text)
+            let result = self
+                .ast_name(text, &mut remaining)
                 .and_then(|text| self.lookup(scope, &text, index == 0, &mut work))
                 .and_then(|entry| self.follow(entry, &mut BTreeSet::new(), &mut work));
             match result {

@@ -27,7 +27,10 @@ impl From<ModelError> for Error {
 }
 impl From<syson_linker::Error> for Error {
     fn from(e: syson_linker::Error) -> Self {
-        Self::Link(e)
+        match e {
+            syson_linker::Error::Cancelled => Self::Cancelled,
+            _ => Self::Link(e),
+        }
     }
 }
 fn check(cancel: &AtomicBool) -> Result<(), Error> {
@@ -149,12 +152,13 @@ impl Importer {
             fragments: FragmentIdentity::JsonNodeId,
         }])
         .map_err(|e| Error::Link(syson_linker::Error::Reference(e)))?;
-        let snapshot = Snapshot::new(
+        let snapshot = Snapshot::new_for_import(
             arena,
             registry,
             "staged-import".into(),
-            vec![],
             build.bindings,
+            source.len(),
+            cancel.clone(),
         )?;
         // Creation finishes first, so forward references use the actual linker.
         for (usage, reference) in build.typing {

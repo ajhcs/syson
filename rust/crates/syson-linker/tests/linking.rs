@@ -452,3 +452,60 @@ fn current_p01_notes_preserve_qualified_lookup_and_original_source() {
     assert!(link.error().is_none());
     assert_eq!(format!("{:?}", snapshot.arena().nodes()), before);
 }
+
+#[test]
+fn standalone_quoted_names_and_external_aliases_keep_the_2048_byte_limit() {
+    for (bytes, accepted) in [(2048, true), (2049, false)] {
+        let name = format!("'{}'", "x".repeat(bytes - 2));
+        let declaration = empty(parse(&format!("part def {name};")), vec![]);
+        let arena = parse("part def T;");
+        let root = arena.root();
+        let alias_name = empty(arena, vec![alias(root, &name, &["T"])]);
+        let arena = parse("part def T;");
+        let root = arena.root();
+        let alias_part = empty(arena, vec![alias(root, "A", &[&name])]);
+        for result in [declaration, alias_name, alias_part] {
+            if accepted {
+                assert!(result.is_ok());
+            } else {
+                assert!(matches!(result, Err(Error::Unsupported)));
+            }
+        }
+    }
+}
+
+#[test]
+fn import_snapshot_refuses_aggregate_name_bytes_and_cancels_ast_lookup() {
+    let source = "part def LongName; part def AnotherName; part x: LongName;";
+    // Each name fits on its own, while their combined raw bytes do not.
+    assert!(matches!(
+        Snapshot::new_for_import(
+            parse(source),
+            registry("sysml:PartDefinition"),
+            "resource-A".into(),
+            vec![],
+            11,
+            Arc::new(AtomicBool::new(false)),
+        ),
+        Err(Error::Limit)
+    ));
+    let arena = parse(source);
+    let reference = references(&arena)[0];
+    let target = named(&arena, "LongName")[0];
+    let flag = Arc::new(AtomicBool::new(false));
+    let snapshot = Snapshot::new_for_import(
+        arena,
+        registry("sysml:PartDefinition"),
+        "resource-A".into(),
+        vec![],
+        source.len(),
+        flag.clone(),
+    )
+    .unwrap();
+    assert_eq!(snapshot.link(reference).unwrap().target(), Some(target));
+    flag.store(true, std::sync::atomic::Ordering::Relaxed);
+    assert_eq!(
+        snapshot.link(reference).unwrap().error(),
+        Some(&(0, Error::Cancelled))
+    );
+}
