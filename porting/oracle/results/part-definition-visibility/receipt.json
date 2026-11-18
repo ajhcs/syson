@@ -1,0 +1,434 @@
+{
+  "base": "05a4be35d4842272d0249ab43b9e49295591ef1e",
+  "binary_sha256": {
+    "default": "bd87338803f0dab5550e6c817110abaeb0752990959e031760034c7a181d846f",
+    "probe": "5654f882a6753631e83f6a9b3d4405d9edeb0417eace7681e762966dc1b24de5"
+  },
+  "cancellation": {
+    "error": "Cancelled",
+    "identities_requested": 0,
+    "status": "error"
+  },
+  "candidate_source_sha256": {
+    "probe/main.rs": "a945dea88d185d8ddf0cbaba99964551b1567a2dacd2aac5f3c03489d46a6374",
+    "source/rust/crates/syson-model/src/lib.rs": "d73d99ade3934f6f04c18acc7ebb78d9fe89e904d716e9e60377bf444dbb47e5",
+    "source/rust/crates/syson-text-import/src/lib.rs": "b4f3e7159c618f790b884be2572433ef753ea37c8e996dd867442509e4da7b94"
+  },
+  "comparison": {
+    "reference_nodes": 5,
+    "rust_nodes": 5,
+    "structural_diffs": [],
+    "structural_match": true,
+    "wire_diffs": [
+      "import root Namespace wrapper: reference=True rust=False"
+    ]
+  },
+  "native": {
+    "convertVisibilityTest-visibility": {
+      "golden_sha256": "94e8c2751cc0122d1b727e408158178bf2503b344d497bb8ccc37a30ad8ec4dd",
+      "normalized": {
+        "nodes": 14,
+        "reference_encoding": [
+          "id"
+        ],
+        "roots": [
+          {
+            "#": "n0",
+            "data": {
+              "declaredName": "VisibilityTest",
+              "ownedRelationship": [
+                {
+                  "#": "n1",
+                  "data": {
+                    "ownedRelatedElement": [
+                      {
+                        "#": "n2",
+                        "data": {
+                          "declaredName": "f",
+                          "isComposite": true,
+                          "ownedRelationship": [
+                            {
+                              "#": "n3",
+                              "data": {
+                                "type": "ref(n5)",
+                                "typedFeature": "ref(n2)"
+                              },
+                              "eClass": "sysml:FeatureTyping"
+                            }
+                          ]
+                        },
+                        "eClass": "sysml:ItemUsage"
+                      }
+                    ]
+                  },
+                  "eClass": "sysml:OwningMembership"
+                },
+                {
+                  "#": "n4",
+                  "data": {
+                    "ownedRelatedElement": [
+                      {
+                        "#": "n5",
+                        "data": {
+                          "declaredName": "A",
+                          "ownedRelationship": [
+                            {
+                              "#": "n6",
+                              "data": {
+                                "ownedRelatedElement": [
+                                  {
+                                    "#": "n7",
+                                    "data": {
+                                      "declaredName": "c",
+                                      "isComposite": true,
+                                      "ownedRelationship": [
+                                        {
+                                          "#": "n8",
+                                          "data": {
+                                            "type": "ref(n10)",
+                                            "typedFeature": "ref(n7)"
+                                          },
+                                          "eClass": "sysml:FeatureTyping"
+                                        }
+                                      ]
+                                    },
+                                    "eClass": "sysml:PartUsage"
+                                  }
+                                ],
+                                "visibility": "protected"
+                              },
+                              "eClass": "sysml:FeatureMembership"
+                            }
+                          ]
+                        },
+                        "eClass": "sysml:ItemDefinition"
+                      }
+                    ]
+                  },
+                  "eClass": "sysml:OwningMembership"
+                },
+                {
+                  "#": "n9",
+                  "data": {
+                    "ownedRelatedElement": [
+                      {
+                        "#": "n10",
+                        "data": {
+                          "declaredName": "C",
+                          "ownedRelationship": [
+                            {
+                              "#": "n11",
+                              "data": {
+                                "ownedRelatedElement": [
+                                  {
+                                    "#": "n12",
+                                    "data": {
+                                      "declaredName": "y",
+                                      "direction": "in",
+                                      "isComposite": true,
+                                      "ownedRelationship": [
+                                        {
+                                          "#": "n13",
+                                          "data": {
+                                            "type": "ref(n5)",
+                                            "typedFeature": "ref(n12)"
+                                          },
+                                          "eClass": "sysml:FeatureTyping"
+                                        }
+                                      ]
+                                    },
+                                    "eClass": "sysml:ReferenceUsage"
+                                  }
+                                ],
+                                "visibility": "private"
+                              },
+                              "eClass": "sysml:FeatureMembership"
+                            }
+                          ]
+                        },
+                        "eClass": "sysml:PartDefinition"
+                      }
+                    ],
+                    "visibility": "private"
+                  },
+                  "eClass": "sysml:OwningMembership"
+                }
+              ]
+            },
+            "eClass": "sysml:Package"
+          }
+        ],
+        "wrapped": true
+      },
+      "primary_record": null,
+      "report_sha256": "7dd207f458b83d22f10d5a1f3f09eb7120a6d4fe7fe84a12c53495863cb54d44",
+      "source": "package VisibilityTest {\n    item f : A;\n    item def A {\n        protected part c : C;\n    }\n    private part def C {\n        private in y : A;\n    }\n}\n",
+      "source_sha256": "0504708a1c70e2ee4ba6c256d48e187a0fa681985baa9b0d43d6fff01497c8ff",
+      "warnings": ""
+    },
+    "visibility-member": {
+      "golden_sha256": "3a5ac1c124fcab2b1af4d9dedf5b3c96c6b4a296c4afd55c031e239e6dd940be",
+      "normalized": {
+        "nodes": 5,
+        "reference_encoding": [],
+        "roots": [
+          {
+            "#": "n0",
+            "data": {
+              "declaredName": "P",
+              "ownedRelationship": [
+                {
+                  "#": "n1",
+                  "data": {
+                    "ownedRelatedElement": [
+                      {
+                        "#": "n2",
+                        "data": {
+                          "declaredName": "A"
+                        },
+                        "eClass": "sysml:PartDefinition"
+                      }
+                    ],
+                    "visibility": "private"
+                  },
+                  "eClass": "sysml:OwningMembership"
+                },
+                {
+                  "#": "n3",
+                  "data": {
+                    "ownedRelatedElement": [
+                      {
+                        "#": "n4",
+                        "data": {
+                          "declaredName": "B"
+                        },
+                        "eClass": "sysml:PartDefinition"
+                      }
+                    ]
+                  },
+                  "eClass": "sysml:OwningMembership"
+                }
+              ]
+            },
+            "eClass": "sysml:Package"
+          }
+        ],
+        "wrapped": true
+      },
+      "primary_record": "{\n \"schema\": 1,\n \"id\": \"visibility-member\",\n \"source_sha256\": \"8bcabd30d91aaa3c05a1774b5d5a08942573853e7a1a487a0019a6998213516e\",\n \"reference\": {\n  \"jar_sha256\": \"85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1\",\n  \"jar_source_revision\": \"b380dada415ce05155150f23cb3b74ae21cc45e4\"\n },\n \"result\": {\n  \"status\": \"ok\",\n  \"report\": \"\",\n  \"document\": {\n   \"json\": {\n    \"version\": \"1.0\",\n    \"encoding\": \"utf-8\"\n   },\n   \"ns\": {\n    \"sysml\": \"http://www.eclipse.org/syson/sysml\"\n   },\n   \"content\": [\n    {\n     \"id\": \"84ea1c31-2854-427c-a684-f91071e856f4\",\n     \"eClass\": \"sysml:Namespace\",\n     \"data\": {\n      \"eAnnotations\": [\n       {\n        \"source\": \"org.eclipse.syson.sysml.imported\"\n       }\n      ],\n      \"elementId\": \"7a2a4c68-2a1f-43ea-a499-34258064973e\",\n      \"ownedRelationship\": [\n       {\n        \"id\": \"aa37524d-1f5f-4332-b1a9-38ec4aac928c\",\n        \"eClass\": \"sysml:OwningMembership\",\n        \"data\": {\n         \"elementId\": \"7d153387-6d47-4b40-bb3c-3df9067227ca\",\n         \"ownedRelatedElement\": [\n          {\n           \"id\": \"d62b1632-121a-4913-b689-da89aa801959\",\n           \"eClass\": \"sysml:Package\",\n           \"data\": {\n            \"declaredName\": \"P\",\n            \"elementId\": \"14a236d0-1535-426c-b17a-082aa9b420ea\",\n            \"ownedRelationship\": [\n             {\n              \"id\": \"2f7bf9f8-6b75-4e85-8892-45583d7aa06e\",\n              \"eClass\": \"sysml:OwningMembership\",\n              \"data\": {\n               \"elementId\": \"34daea74-4cd5-4056-99e7-64757d988571\",\n               \"ownedRelatedElement\": [\n                {\n                 \"id\": \"e54e2103-938c-420c-9abe-9827c2600eaf\",\n                 \"eClass\": \"sysml:PartDefinition\",\n                 \"data\": {\n                  \"declaredName\": \"A\",\n                  \"elementId\": \"223fb0a5-57f9-4e37-96b7-5faea731109a\"\n                 }\n                }\n               ],\n               \"visibility\": \"private\"\n              }\n             },\n             {\n              \"id\": \"4867e003-df38-4068-aad3-01572ce94ce9\",\n              \"eClass\": \"sysml:OwningMembership\",\n              \"data\": {\n               \"elementId\": \"140cbd7f-2d69-499b-8bbc-6fdf31063ac3\",\n               \"ownedRelatedElement\": [\n                {\n                 \"id\": \"3608764e-2026-4091-ad45-260d1ea09fca\",\n                 \"eClass\": \"sysml:PartDefinition\",\n                 \"data\": {\n                  \"declaredName\": \"B\",\n                  \"elementId\": \"366433f0-c14d-44ae-a343-130ec16ab4ff\"\n                 }\n                }\n               ]\n              }\n             }\n            ]\n           }\n          }\n         ]\n        }\n       }\n      ]\n     }\n    }\n   ]\n  }\n },\n \"normalized\": {\n  \"roots\": [\n   {\n    \"#\": \"n0\",\n    \"eClass\": \"sysml:Package\",\n    \"data\": {\n     \"declaredName\": \"P\",\n     \"ownedRelationship\": [\n      {\n       \"#\": \"n1\",\n       \"eClass\": \"sysml:OwningMembership\",\n       \"data\": {\n        \"ownedRelatedElement\": [\n         {\n          \"#\": \"n2\",\n          \"eClass\": \"sysml:PartDefinition\",\n          \"data\": {\n           \"declaredName\": \"A\"\n          }\n         }\n        ],\n        \"visibility\": \"private\"\n       }\n      },\n      {\n       \"#\": \"n3\",\n       \"eClass\": \"sysml:OwningMembership\",\n       \"data\": {\n        \"ownedRelatedElement\": [\n         {\n          \"#\": \"n4\",\n          \"eClass\": \"sysml:PartDefinition\",\n          \"data\": {\n           \"declaredName\": \"B\"\n          }\n         }\n        ]\n       }\n      }\n     ]\n    }\n   }\n  ],\n  \"wrapped\": true,\n  \"reference_encoding\": [],\n  \"nodes\": 5\n },\n \"record_sha256\": \"fb22c26dae75aa81af3dc1c9330c182bb769f97b9b8cc7efaa7e60a786d255dd\"\n}\n",
+      "report_sha256": "26af27cdd02aaf9febd4861c1f018043c86778e28aec218482b00b846cf5adfe",
+      "source": "package P { private part def A; public part def B; }",
+      "source_sha256": "8bcabd30d91aaa3c05a1774b5d5a08942573853e7a1a487a0019a6998213516e",
+      "warnings": ""
+    }
+  },
+  "positives": {
+    "explicit-public": {
+      "fresh_reader": true,
+      "reopen_sha256": "fa83b7bce695dd9e3239da6a15d37f02b524483232e1a96182cf82dc80c85b05",
+      "snapshot": "{\n  \"content\": [\n    {\n      \"data\": {\n        \"declaredName\": \"P\",\n        \"elementId\": \"20000000-0000-4000-8000-000000000001\",\n        \"ownedRelationship\": [\n          {\n            \"data\": {\n              \"elementId\": \"20000000-0000-4000-8000-000000000003\",\n              \"ownedRelatedElement\": [\n                {\n                  \"data\": {\n                    \"declaredName\": \"A\",\n                    \"elementId\": \"20000000-0000-4000-8000-000000000002\"\n                  },\n                  \"eClass\": \"sysml:PartDefinition\",\n                  \"id\": \"10000000-0000-4000-8000-000000000002\"\n                }\n              ]\n            },\n            \"eClass\": \"sysml:OwningMembership\",\n            \"id\": \"10000000-0000-4000-8000-000000000003\"\n          }\n        ]\n      },\n      \"eClass\": \"sysml:Package\",\n      \"id\": \"10000000-0000-4000-8000-000000000001\"\n    }\n  ],\n  \"json\": {\n    \"encoding\": \"utf-8\",\n    \"version\": \"1.0\"\n  },\n  \"ns\": {\n    \"sysml\": \"http://www.eclipse.org/syson/sysml\"\n  }\n}",
+      "snapshot_sha256": "21bd17635cd908fbf3b086d9552447e3bfb7eda3884e0b33dc57e7c9e2499f89",
+      "source": "package P { public part def A; }",
+      "source_sha256": "a666511997f79740518f7a36058ecfcbe7bb8ab29e15ba6d4e4d2b6920266f36",
+      "stage": "{\"document\":{\"content\":[{\"data\":{\"declaredName\":\"P\",\"elementId\":\"20000000-0000-4000-8000-000000000001\",\"ownedRelationship\":[{\"data\":{\"elementId\":\"20000000-0000-4000-8000-000000000003\",\"ownedRelatedElement\":[{\"data\":{\"declaredName\":\"A\",\"elementId\":\"20000000-0000-4000-8000-000000000002\"},\"eClass\":\"sysml:PartDefinition\",\"id\":\"10000000-0000-4000-8000-000000000002\"}]},\"eClass\":\"sysml:OwningMembership\",\"id\":\"10000000-0000-4000-8000-000000000003\"}]},\"eClass\":\"sysml:Package\",\"id\":\"10000000-0000-4000-8000-000000000001\"}],\"json\":{\"encoding\":\"utf-8\",\"version\":\"1.0\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"}},\"identities_requested\":3,\"lexemes\":[{\"byte\":[8,9],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"P\",\"utf16\":[8,9]},{\"byte\":[12,18],\"feature\":\"visibility\",\"kind\":\"primitive\",\"raw\":\"public\",\"utf16\":[12,18]},{\"byte\":[28,29],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"A\",\"utf16\":[28,29]}],\"status\":\"ok\",\"targets\":[]}\n",
+      "stage_sha256": "b7725353a820cf22d9e0ff3c15720c365aaba3f2b9f70858c9f10596e6f8eba6"
+    },
+    "implicit-public": {
+      "fresh_reader": true,
+      "reopen_sha256": "fa83b7bce695dd9e3239da6a15d37f02b524483232e1a96182cf82dc80c85b05",
+      "snapshot": "{\n  \"content\": [\n    {\n      \"data\": {\n        \"declaredName\": \"P\",\n        \"elementId\": \"20000000-0000-4000-8000-000000000001\",\n        \"ownedRelationship\": [\n          {\n            \"data\": {\n              \"elementId\": \"20000000-0000-4000-8000-000000000003\",\n              \"ownedRelatedElement\": [\n                {\n                  \"data\": {\n                    \"declaredName\": \"A\",\n                    \"elementId\": \"20000000-0000-4000-8000-000000000002\"\n                  },\n                  \"eClass\": \"sysml:PartDefinition\",\n                  \"id\": \"10000000-0000-4000-8000-000000000002\"\n                }\n              ]\n            },\n            \"eClass\": \"sysml:OwningMembership\",\n            \"id\": \"10000000-0000-4000-8000-000000000003\"\n          }\n        ]\n      },\n      \"eClass\": \"sysml:Package\",\n      \"id\": \"10000000-0000-4000-8000-000000000001\"\n    }\n  ],\n  \"json\": {\n    \"encoding\": \"utf-8\",\n    \"version\": \"1.0\"\n  },\n  \"ns\": {\n    \"sysml\": \"http://www.eclipse.org/syson/sysml\"\n  }\n}",
+      "snapshot_sha256": "21bd17635cd908fbf3b086d9552447e3bfb7eda3884e0b33dc57e7c9e2499f89",
+      "source": "package P { part def A; }",
+      "source_sha256": "78453780ad8df6a4c9afedd09af60b262eee8608dd29334f17deac6160fba32b",
+      "stage": "{\"document\":{\"content\":[{\"data\":{\"declaredName\":\"P\",\"elementId\":\"20000000-0000-4000-8000-000000000001\",\"ownedRelationship\":[{\"data\":{\"elementId\":\"20000000-0000-4000-8000-000000000003\",\"ownedRelatedElement\":[{\"data\":{\"declaredName\":\"A\",\"elementId\":\"20000000-0000-4000-8000-000000000002\"},\"eClass\":\"sysml:PartDefinition\",\"id\":\"10000000-0000-4000-8000-000000000002\"}]},\"eClass\":\"sysml:OwningMembership\",\"id\":\"10000000-0000-4000-8000-000000000003\"}]},\"eClass\":\"sysml:Package\",\"id\":\"10000000-0000-4000-8000-000000000001\"}],\"json\":{\"encoding\":\"utf-8\",\"version\":\"1.0\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"}},\"identities_requested\":3,\"lexemes\":[{\"byte\":[8,9],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"P\",\"utf16\":[8,9]},{\"byte\":[21,22],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"A\",\"utf16\":[21,22]}],\"status\":\"ok\",\"targets\":[]}\n",
+      "stage_sha256": "7fcffb0e1bc755cf5bd9361a32f5aa5ee67ff8c89c55302b127187cd3f0745ab"
+    },
+    "visibility-member": {
+      "fresh_reader": true,
+      "reopen_sha256": "1a6b758537ecf5d9a85b063e896b540e4a92d8d0645e796c04b92dccd9298a95",
+      "snapshot": "{\n  \"content\": [\n    {\n      \"data\": {\n        \"declaredName\": \"P\",\n        \"elementId\": \"20000000-0000-4000-8000-000000000001\",\n        \"ownedRelationship\": [\n          {\n            \"data\": {\n              \"elementId\": \"20000000-0000-4000-8000-000000000003\",\n              \"ownedRelatedElement\": [\n                {\n                  \"data\": {\n                    \"declaredName\": \"A\",\n                    \"elementId\": \"20000000-0000-4000-8000-000000000002\"\n                  },\n                  \"eClass\": \"sysml:PartDefinition\",\n                  \"id\": \"10000000-0000-4000-8000-000000000002\"\n                }\n              ],\n              \"visibility\": \"private\"\n            },\n            \"eClass\": \"sysml:OwningMembership\",\n            \"id\": \"10000000-0000-4000-8000-000000000003\"\n          },\n          {\n            \"data\": {\n              \"elementId\": \"20000000-0000-4000-8000-000000000005\",\n              \"ownedRelatedElement\": [\n                {\n                  \"data\": {\n                    \"declaredName\": \"B\",\n                    \"elementId\": \"20000000-0000-4000-8000-000000000004\"\n                  },\n                  \"eClass\": \"sysml:PartDefinition\",\n                  \"id\": \"10000000-0000-4000-8000-000000000004\"\n                }\n              ]\n            },\n            \"eClass\": \"sysml:OwningMembership\",\n            \"id\": \"10000000-0000-4000-8000-000000000005\"\n          }\n        ]\n      },\n      \"eClass\": \"sysml:Package\",\n      \"id\": \"10000000-0000-4000-8000-000000000001\"\n    }\n  ],\n  \"json\": {\n    \"encoding\": \"utf-8\",\n    \"version\": \"1.0\"\n  },\n  \"ns\": {\n    \"sysml\": \"http://www.eclipse.org/syson/sysml\"\n  }\n}",
+      "snapshot_sha256": "490fd5cd4441cbf11c94b2b909b23dee101d61c257a943af91d9c1637d86dab4",
+      "source": "package P { private part def A; public part def B; }",
+      "source_sha256": "8bcabd30d91aaa3c05a1774b5d5a08942573853e7a1a487a0019a6998213516e",
+      "stage": "{\"document\":{\"content\":[{\"data\":{\"declaredName\":\"P\",\"elementId\":\"20000000-0000-4000-8000-000000000001\",\"ownedRelationship\":[{\"data\":{\"elementId\":\"20000000-0000-4000-8000-000000000003\",\"ownedRelatedElement\":[{\"data\":{\"declaredName\":\"A\",\"elementId\":\"20000000-0000-4000-8000-000000000002\"},\"eClass\":\"sysml:PartDefinition\",\"id\":\"10000000-0000-4000-8000-000000000002\"}],\"visibility\":\"private\"},\"eClass\":\"sysml:OwningMembership\",\"id\":\"10000000-0000-4000-8000-000000000003\"},{\"data\":{\"elementId\":\"20000000-0000-4000-8000-000000000005\",\"ownedRelatedElement\":[{\"data\":{\"declaredName\":\"B\",\"elementId\":\"20000000-0000-4000-8000-000000000004\"},\"eClass\":\"sysml:PartDefinition\",\"id\":\"10000000-0000-4000-8000-000000000004\"}]},\"eClass\":\"sysml:OwningMembership\",\"id\":\"10000000-0000-4000-8000-000000000005\"}]},\"eClass\":\"sysml:Package\",\"id\":\"10000000-0000-4000-8000-000000000001\"}],\"json\":{\"encoding\":\"utf-8\",\"version\":\"1.0\"},\"ns\":{\"sysml\":\"http://www.eclipse.org/syson/sysml\"}},\"identities_requested\":5,\"lexemes\":[{\"byte\":[8,9],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"P\",\"utf16\":[8,9]},{\"byte\":[12,19],\"feature\":\"visibility\",\"kind\":\"primitive\",\"raw\":\"private\",\"utf16\":[12,19]},{\"byte\":[29,30],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"A\",\"utf16\":[29,30]},{\"byte\":[32,38],\"feature\":\"visibility\",\"kind\":\"primitive\",\"raw\":\"public\",\"utf16\":[32,38]},{\"byte\":[48,49],\"feature\":\"declaredName\",\"kind\":\"primitive\",\"raw\":\"B\",\"utf16\":[48,49]}],\"status\":\"ok\",\"targets\":[]}\n",
+      "stage_sha256": "afab4c7b756f4a6cab6b9ac64df6c6f111cf89e3954b8e347d2703004d79b3f4"
+    }
+  },
+  "predecessor_binary_sha256": {
+    "default": "c40ae9bed68ef34a203ac73dfc96a4d8c5794bdc35d6a0ba58a84c196033a95e",
+    "probe": "7c1248de0c6ad1aa40b59d43578e1ffbcf4c06da479570bdb2ce44b78ddf8186"
+  },
+  "predecessor_default": {
+    "agrees": true,
+    "sha256": "9e0f88e407dd47ff7098d7b69a5394bfd0b8e44da8e33f3e67881ac10caaeeab",
+    "stdout": "{\"error\":\"Parse(Unsupported { offset: 12 })\",\"status\":\"error\"}\n"
+  },
+  "predecessor_probe": {
+    "sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+    "stdout": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n"
+  },
+  "qualification_sha256": "88ef67e943f905424a84230ba4e4865d868cf5883fa7f8045370d99f4129884d",
+  "refusals": {
+    "abstract-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { private abstract part def A; }",
+      "source_sha256": "c0073508e7463f38e284253dd07e6ad4737318106fc17a585130f43fb9ecd002",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "attribute-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { private attribute def A; }",
+      "source_sha256": "692099e9ae7062a943aa382b179c35b729e1aacb32784860f8ab99172c2d3a14",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "body-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { private part def A { part def Child; } }",
+      "source_sha256": "13443ac7dd0cdf6d42da0d036278d0beb150450a896eb2088c56774333a59667",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "duplicate-modifier": {
+      "predecessor_sha256": "ee14e5189254093045987cfd375696408a607bfd42747c0bb19393c5af39c867",
+      "snapshot_present": false,
+      "source": "package P { private public part def A; }",
+      "source_sha256": "89e4d5986395e90589cbb238e3434b31897c41c3f3fa867ddd02d455543b5dae",
+      "stage": "{\"error\":\"Unexpected { span: Span { start: Point { byte: 20, utf16: 20, line: 0, column_utf16: 20 }, end: Point { byte: 26, utf16: 26, line: 0, column_utf16: 26 } }, found: Some(\\\"public\\\"), expected: [\\\"ID\\\", \\\"REGULAR_COMMENT\\\", \\\"UNRESTRICTED_NAME\\\", \\\"keyword \\\\\\\"#\\\\\\\"\\\", \\\"keyword \\\\\\\":\\\\\\\"\\\", \\\"keyword \\\\\\\"::>\\\\\\\"\\\", \\\"keyword \\\\\\\":=\\\\\\\"\\\", \\\"keyword \\\\\\\":>\\\\\\\"\\\", \\\"keyword \\\\\\\":>>\\\\\\\"\\\", \\\"keyword \\\\\\\";\\\\\\\"\\\", \\\"keyword \\\\\\\"<\\\\\\\"\\\", \\\"keyword \\\\\\\"=\\\\\\\"\\\", \\\"keyword \\\\\\\"=>\\\\\\\"\\\", \\\"keyword \\\\\\\"@\\\\\\\"\\\", \\\"keyword \\\\\\\"[\\\\\\\"\\\", \\\"keyword \\\\\\\"abstract\\\\\\\"\\\", \\\"keyword \\\\\\\"action\\\\\\\"\\\", \\\"keyword \\\\\\\"alias\\\\\\\"\\\", \\\"keyword \\\\\\\"allocate\\\\\\\"\\\", \\\"keyword \\\\\\\"allocation\\\\\\\"\\\", \\\"keyword \\\\\\\"analysis\\\\\\\"\\\", \\\"keyword \\\\\\\"assert\\\\\\\"\\\", \\\"keyword \\\\\\\"attribute\\\\\\\"\\\", \\\"keyword \\\\\\\"bind\\\\\\\"\\\", \\\"keyword \\\\\\\"binding\\\\\\\"\\\", \\\"keyword \\\\\\\"calc\\\\\\\"\\\", \\\"keyword \\\\\\\"case\\\\\\\"\\\", \\\"keyword \\\\\\\"comment\\\\\\\"\\\", \\\"keyword \\\\\\\"concern\\\\\\\"\\\", \\\"keyword \\\\\\\"connect\\\\\\\"\\\", \\\"keyword \\\\\\\"connection\\\\\\\"\\\", \\\"keyword \\\\\\\"constraint\\\\\\\"\\\", \\\"keyword \\\\\\\"crosses\\\\\\\"\\\", \\\"keyword \\\\\\\"default\\\\\\\"\\\", \\\"keyword \\\\\\\"defined\\\\\\\"\\\", \\\"keyword \\\\\\\"dependency\\\\\\\"\\\", \\\"keyword \\\\\\\"derived\\\\\\\"\\\", \\\"keyword \\\\\\\"doc\\\\\\\"\\\", \\\"keyword \\\\\\\"end\\\\\\\"\\\", \\\"keyword \\\\\\\"enum\\\\\\\"\\\", \\\"keyword \\\\\\\"event\\\\\\\"\\\", \\\"keyword \\\\\\\"exhibit\\\\\\\"\\\", \\\"keyword \\\\\\\"filter\\\\\\\"\\\", \\\"keyword \\\\\\\"first\\\\\\\"\\\", \\\"keyword \\\\\\\"flow\\\\\\\"\\\", \\\"keyword \\\\\\\"import\\\\\\\"\\\", \\\"keyword \\\\\\\"in\\\\\\\"\\\", \\\"keyword \\\\\\\"include\\\\\\\"\\\", \\\"keyword \\\\\\\"individual\\\\\\\"\\\", \\\"keyword \\\\\\\"inout\\\\\\\"\\\", \\\"keyword \\\\\\\"interface\\\\\\\"\\\", \\\"keyword \\\\\\\"item\\\\\\\"\\\", \\\"keyword \\\\\\\"language\\\\\\\"\\\", \\\"keyword \\\\\\\"library\\\\\\\"\\\", \\\"keyword \\\\\\\"locale\\\\\\\"\\\", \\\"keyword \\\\\\\"message\\\\\\\"\\\", \\\"keyword \\\\\\\"metadata\\\\\\\"\\\", \\\"keyword \\\\\\\"nonunique\\\\\\\"\\\", \\\"keyword \\\\\\\"not\\\\\\\"\\\", \\\"keyword \\\\\\\"occurrence\\\\\\\"\\\", \\\"keyword \\\\\\\"ordered\\\\\\\"\\\", \\\"keyword \\\\\\\"out\\\\\\\"\\\", \\\"keyword \\\\\\\"package\\\\\\\"\\\", \\\"keyword \\\\\\\"part\\\\\\\"\\\", \\\"keyword \\\\\\\"perform\\\\\\\"\\\", \\\"keyword \\\\\\\"port\\\\\\\"\\\", \\\"keyword \\\\\\\"readonly\\\\\\\"\\\", \\\"keyword \\\\\\\"redefines\\\\\\\"\\\", \\\"keyword \\\\\\\"ref\\\\\\\"\\\", \\\"keyword \\\\\\\"references\\\\\\\"\\\", \\\"keyword \\\\\\\"rendering\\\\\\\"\\\", \\\"keyword \\\\\\\"rep\\\\\\\"\\\", \\\"keyword \\\\\\\"requirement\\\\\\\"\\\", \\\"keyword \\\\\\\"satisfy\\\\\\\"\\\", \\\"keyword \\\\\\\"snapshot\\\\\\\"\\\", \\\"keyword \\\\\\\"standard\\\\\\\"\\\", \\\"keyword \\\\\\\"state\\\\\\\"\\\", \\\"keyword \\\\\\\"subsets\\\\\\\"\\\", \\\"keyword \\\\\\\"succession\\\\\\\"\\\", \\\"keyword \\\\\\\"timeslice\\\\\\\"\\\", \\\"keyword \\\\\\\"use\\\\\\\"\\\", \\\"keyword \\\\\\\"variation\\\\\\\"\\\", \\\"keyword \\\\\\\"verification\\\\\\\"\\\", \\\"keyword \\\\\\\"view\\\\\\\"\\\", \\\"keyword \\\\\\\"viewpoint\\\\\\\"\\\", \\\"keyword \\\\\\\"{\\\\\\\"\\\"] }\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "ee14e5189254093045987cfd375696408a607bfd42747c0bb19393c5af39c867"
+    },
+    "individual-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { private individual part def A; }",
+      "source_sha256": "72f419400dae2d416f8b1d9675a701aa629d43592d724c808871a4bbb5444531",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "item-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { private item def A; }",
+      "source_sha256": "b3b89dfd35e684b63285b57bfd46a7b275096d0d73588e795498319d3c8ebde1",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "late-wrong-type": {
+      "snapshot_present": false,
+      "source": "package P { private part def A; public part def B; attribute def Wrong; part bad : Wrong; }",
+      "source_sha256": "4609b4bd3d634e5f766ccbec06688025da421de3d4de48de2acd22efc3903029",
+      "stage": "{\"error\":\"Model(WrongType { element: \\\"20000000-0000-4000-8000-000000000006\\\", expected: \\\"PartDefinition\\\" })\",\"identities_requested\":10,\"status\":\"error\"}\n",
+      "stage_sha256": "7a8ec3dc33f33197f490005131e71df04e6efb7d903b40c924e7bfde75727efc"
+    },
+    "mistyped-modifier": {
+      "predecessor_sha256": "acc8b7bf0daef23e0e757c596bf15f931b307ca10339a78242d935339e8f8d17",
+      "snapshot_present": false,
+      "source": "package P { Private part def A; }",
+      "source_sha256": "de321ccce2b311ed87f99be9f0c8471d3254263e508bf98736be934984ed2336",
+      "stage": "{\"error\":\"Unexpected { span: Span { start: Point { byte: 20, utf16: 20, line: 0, column_utf16: 20 }, end: Point { byte: 24, utf16: 24, line: 0, column_utf16: 24 } }, found: Some(\\\"part\\\"), expected: [\\\"keyword \\\\\\\":\\\\\\\"\\\", \\\"keyword \\\\\\\"::>\\\\\\\"\\\", \\\"keyword \\\\\\\":=\\\\\\\"\\\", \\\"keyword \\\\\\\":>\\\\\\\"\\\", \\\"keyword \\\\\\\":>>\\\\\\\"\\\", \\\"keyword \\\\\\\";\\\\\\\"\\\", \\\"keyword \\\\\\\"=\\\\\\\"\\\", \\\"keyword \\\\\\\"=>\\\\\\\"\\\", \\\"keyword \\\\\\\"[\\\\\\\"\\\", \\\"keyword \\\\\\\"crosses\\\\\\\"\\\", \\\"keyword \\\\\\\"default\\\\\\\"\\\", \\\"keyword \\\\\\\"defined\\\\\\\"\\\", \\\"keyword \\\\\\\"nonunique\\\\\\\"\\\", \\\"keyword \\\\\\\"ordered\\\\\\\"\\\", \\\"keyword \\\\\\\"redefines\\\\\\\"\\\", \\\"keyword \\\\\\\"references\\\\\\\"\\\", \\\"keyword \\\\\\\"subsets\\\\\\\"\\\", \\\"keyword \\\\\\\"{\\\\\\\"\\\"] }\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "acc8b7bf0daef23e0e757c596bf15f931b307ca10339a78242d935339e8f8d17"
+    },
+    "namespace-import": {
+      "predecessor_sha256": "965e28bbba6ef64e5e8f4c93b4aa38155fd3f96a03338a442d5f53e1c6847631",
+      "snapshot_present": false,
+      "source": "package P { private import KerML::*; }",
+      "source_sha256": "e730c115a114ab1a021b74967a6a7c9663d4500aadfb23c78082f5b578a0fc88",
+      "stage": "{\"error\":\"UnsupportedModelKind(Import)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "965e28bbba6ef64e5e8f4c93b4aa38155fd3f96a03338a442d5f53e1c6847631"
+    },
+    "namespace-root-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "private part def A;",
+      "source_sha256": "5f022ceaf09b15f30460afd734e6f75ab0ad61aa6de62adabd65fd2edb05917f",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "nested-feature": {
+      "predecessor_sha256": "f8bfb10e2b6dc80d09afcc4e7f3101f9c00dbf5f2dca91d651484e172c2f7f15",
+      "snapshot_present": false,
+      "source": "package P { part def W; part def Container { private part w : W; } }",
+      "source_sha256": "ec1e137de88b17f055cb55ac65abaa82f5fe7d5eb88cecc8dd201d722e7fb98b",
+      "stage": "{\"error\":\"UnsupportedModelFeature(FeatureMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "f8bfb10e2b6dc80d09afcc4e7f3101f9c00dbf5f2dca91d651484e172c2f7f15"
+    },
+    "nested-nonpackage-owner": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { part def Owner { private part def A; } }",
+      "source_sha256": "6b5b8381e32359b4b752890b2cb4cc6c1ee5c44449e256cb1ce27ad5760e8312",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "part-usage": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { part def W; private part w : W; }",
+      "source_sha256": "ae8730a09493bea73f99af02d24951e847fd9bc5c5c363811de1965c7ba164e4",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "private-package": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { private package Inner; }",
+      "source_sha256": "238953baa4fce8ce32e66e3deee303e039c89fa7e3d9aedbea2463d6a6977165",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "protected-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { protected part def A; public part def B; }",
+      "source_sha256": "086b6af0ee16d09b6125b5c4b43746db18d893f98f715309a6c7dd3bdaaf6502",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "specialized-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { part def W; private part def A :> W; }",
+      "source_sha256": "af951997d1e3d5f435c72ce6a32b7ca102622ba9db567173759113a4793c84b8",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    },
+    "supplementary-broader-native": {
+      "predecessor_sha256": "ec232d41a08f23481f493a3579a32e898073ff4a9945bca41103879736bffe31",
+      "snapshot_present": false,
+      "source": "package VisibilityTest {\n    item f : A;\n    item def A {\n        protected part c : C;\n    }\n    private part def C {\n        private in y : A;\n    }\n}\n",
+      "source_sha256": "0504708a1c70e2ee4ba6c256d48e187a0fa681985baa9b0d43d6fff01497c8ff",
+      "stage": "{\"error\":\"UnsupportedModelKind(ItemUsage)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "ec232d41a08f23481f493a3579a32e898073ff4a9945bca41103879736bffe31"
+    },
+    "unnamed-definition": {
+      "predecessor_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510",
+      "snapshot_present": false,
+      "source": "package P { private part def; }",
+      "source_sha256": "a686dae2ce8616e9320f193a2b78a07fdee5c2e751b05cb792f8b52458ba72bb",
+      "stage": "{\"error\":\"UnsupportedModelFeature(OwningMembership.visibility)\",\"identities_requested\":0,\"status\":\"error\"}\n",
+      "stage_sha256": "9e5f542a96a5cdc7f5771c1c1f8835782c6f20efa2c262ea5f4a637ba9219510"
+    }
+  },
+  "release": "v2026.9.3",
+  "release_identity": {
+    "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "jar_source_revision": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+  },
+  "replay": {
+    "count": 260,
+    "sha256": "c1b797ded4379276c3f0dbdea0d2bd185431f0eb1c32e29717f3ff9b0170f78d"
+  },
+  "runner_sha256": "7e9a73737c54e5bc493700c1c544b3b64279cec56a575bdacf32d1caf8737ef0",
+  "scope": {
+    "abstract_definition_qualified": false,
+    "default_adopted": false,
+    "lookup_access_control_qualified": false,
+    "native": "pinned released HTTP fixture",
+    "package_declaration": "named PartDefinition membership with no nested declarations or additional modifiers, private/public only",
+    "rust": "isolated prototype"
+  }
+}
