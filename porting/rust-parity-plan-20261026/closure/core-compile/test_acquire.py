@@ -57,7 +57,8 @@ class AcquisitionTests(unittest.TestCase):
     def test_exact_registry_primary_order_roles_all_four_sidecars(self):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
         self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04', 'jacoco-binaries-01',
-                                             'commons-text-junit-bom-01', 'eclipse-filesystem-metadata-01'})
+                                             'commons-text-junit-bom-01', 'eclipse-filesystem-metadata-01',
+                                             'eclipse-filesystem-descriptors-01'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
@@ -93,6 +94,59 @@ class AcquisitionTests(unittest.TestCase):
             'order': lambda doc: doc['requests'].reverse(),
             'coordinate': lambda doc: doc['new_primaries'][0].update(
                 coordinate={'groupId': 'org.eclipse', 'artifactId': 'filesystem'}),
+        }
+        for label, mutate in mutations.items():
+            with self.subTest(label=label):
+                self.mutated(mutate, identifier=epoch)
+        with self.assertRaises(ValueError):
+            fetch.requests(epoch, manifest + b' ')
+
+    def test_eclipse_filesystem_descriptors_match_native_offers(self):
+        epoch = 'eclipse-filesystem-descriptors-01'
+        manifest = (SOURCE.parent / fetch.epoch(epoch)['manifest']).read_bytes()
+        parsed = json.loads(manifest)
+        observation = (fetch.EVIDENCE / 'eclipse-filesystem-maven-offers/observation.json').read_bytes()
+        self.assertEqual(hashlib.sha256(observation).hexdigest(),
+                         parsed['source_bindings']['filesystem_resolver_offers']['sha256'])
+        cases = json.loads(observation)['cases']
+        key = 'org.eclipse.platform:org.eclipse.core.filesystem'
+        interval = '[1.7.0,2.0.0)'
+        self.assertEqual(cases['pinned']['records'][0], ['case', 'pinned', key, interval])
+        self.assertEqual(cases['withheld']['records'][-2], ['offers', '0'])
+        offers = [row[1] for row in cases['pinned']['records'] if row[0] == 'offer']
+        self.assertEqual(len(set(offers)), 25)
+        primaries = parsed['new_primaries']
+        self.assertEqual([row['coordinate']['version'] for row in primaries], offers)
+        self.assertEqual({row['kind'] for row in primaries}, {'pom'})
+        overlapping = parsed['overlapping_fixed_descriptor_gavs']
+        range_only = parsed['range_only_offered_gavs']
+        self.assertEqual(overlapping, [key + ':' + version for version in [
+            '1.9.500', '1.10.0', '1.10.100', '1.10.200', '1.10.300', '1.10.400',
+            '1.11.0', '1.11.100', '1.11.200', '1.11.300', '1.11.400', '1.11.500']])
+        self.assertEqual(len(range_only), 13)
+        self.assertEqual(set(overlapping) | set(range_only), {key + ':' + version for version in offers})
+        self.assertFalse(set(overlapping) & set(range_only))
+
+        rows = fetch.requests(epoch, manifest)
+        self.assertEqual(len(rows), 125)
+        self.assertEqual(parsed['limits']['payload_and_sidecar_total_bytes'], 16 * fetch.MIB)
+        self.assertEqual(sum(row['maximum_bytes'] for row in rows), 58982400)
+        for index, version in enumerate(offers):
+            url = (fetch.base.BASE + 'org/eclipse/platform/org.eclipse.core.filesystem/'
+                   + version + '/org.eclipse.core.filesystem-' + version + '.pom')
+            group = rows[index * 5:index * 5 + 5]
+            self.assertEqual([row['url'] for row in group], [url + suffix for suffix in fetch.base.SUFFIXES])
+            self.assertEqual([row['role'] for row in group], ['pom', 'checksum', 'checksum', 'checksum', 'signature'])
+            self.assertEqual([row['allowed_status'] for row in group], [[200], *([[200, 404]] * 4)])
+
+        mutations = {
+            'swap offers': lambda doc: doc['new_primaries'].reverse(),
+            'missing request': lambda doc: doc['requests'].pop(),
+            'JAR role': lambda doc: doc['new_primaries'][0].update(kind='jar'),
+            'alternate origin': lambda doc: doc['requests'][0].update(url='https://example.invalid/'),
+            'missing POM accepted': lambda doc: doc['requests'][0].update(allowed_status=[200, 404]),
+            'expanded aggregate cap': lambda doc: doc['limits'].update(
+                payload_and_sidecar_total_bytes=58982400),
         }
         for label, mutate in mutations.items():
             with self.subTest(label=label):

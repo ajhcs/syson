@@ -44,7 +44,11 @@ EPOCHS = {'models-01': {'manifest': 'requests/models-01.json',
     'eclipse-filesystem-metadata-01': {'manifest': 'requests/eclipse-filesystem-metadata-01.json',
         'sha256': '72fbfd8426066a6a6434df5a72d49400232f4598ff4a73adf37007c173b997fc',
         'primary_sha256': '3810ba9daa40ec9d232881d3ae58727130f2f6b38f221c76a127c9216b7e9cba',
-        'primaries': 1, 'requests': 5, 'roles': ('version_metadata',)}}
+        'primaries': 1, 'requests': 5, 'roles': ('version_metadata',)},
+    'eclipse-filesystem-descriptors-01': {'manifest': 'requests/eclipse-filesystem-descriptors-01.json',
+        'sha256': '559988c53686025a527d483e8e884793e8d41e6cdbb73c33315741cbe381a079',
+        'primary_sha256': 'd18c4a89b1d813ff26ffb3f9ecfad54575711e7369f980fd1ee75bf76f051555',
+        'primaries': 25, 'requests': 125, 'roles': ('pom',)}}
 
 
 def require(condition, message):
