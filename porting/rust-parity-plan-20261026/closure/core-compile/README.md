@@ -1,10 +1,11 @@
 # Fixed normal-core acquisition epochs
 
-The client recognizes models-01 (35 primaries/175 requests), models-02
-(18 POMs/90 requests), and the models-03 candidate (five POMs/25 requests).
-The latter includes four Apache parents and a conditional JUnit 5.14.1
-observation. JUnit 5.12.1 remains deferred pending the Apache 34 parent model
-and JaCoCo context. The draft authorizes no live acquisition.
+The first three epochs contain 35, 18, and five primary artifacts respectively.
+The models-04 candidate adds one POM and four sidecar requests. The pinned
+Maven ModelBuilder requested JUnit BOM 5.12.1 in both the baseline and
+CI-property probes. The synthetic selector override remains outside the
+allowlist. This draft prepares a fixed roster. Live acquisition requires
+separate coordinator admission. [Selector evidence](https://github.com/ajhcs/syson/pull/349)
 The registry binds raw manifest bytes, independent ordered-primary seal, roles and limits.
 Invocation retains the existing fixed launcher's five arguments: spec, SHA, lock FD, unit, cookie.
 The frozen spec must name an admitted epoch and its exact registry-bound sibling manifest.

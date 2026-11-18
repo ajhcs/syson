@@ -28,7 +28,11 @@ EPOCHS = {'models-01': {'manifest': 'requests/models-01.json',
     'models-03': {'manifest': 'requests/models-03.json',
         'sha256': '7eafb6e5436dd04692e43a1f3d87a204dc206ed3fe55a80f9cae2d128f1be428',
         'primary_sha256': 'c4f24591cad25f9aac6f8e2c6a6aa78e1f6eef396497af42c057546a7b602458',
-        'primaries': 5, 'requests': 25, 'roles': ('pom',)}}
+        'primaries': 5, 'requests': 25, 'roles': ('pom',)},
+    'models-04': {'manifest': 'requests/models-04.json',
+        'sha256': 'e0d4b420cdcdcf23023731af35511fb7fb78402e9d492a87840800c661814289',
+        'primary_sha256': 'a08fa9a23d192d508568b3ac9f863e40c06b0bef55665d21782adf06b30e2e71',
+        'primaries': 1, 'requests': 5, 'roles': ('pom',)}}
 
 
 def require(condition, message):

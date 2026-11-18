@@ -56,7 +56,7 @@ class AcquisitionTests(unittest.TestCase):
 
     def test_exact_registry_primary_order_roles_all_four_sidecars(self):
         self.assertEqual(hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), PIN)
-        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03'})
+        self.assertEqual(set(fetch.EPOCHS), {'models-01', 'models-02', 'models-03', 'models-04'})
         rows = fetch.requests('models-01', MANIFEST.read_bytes())
         self.assertEqual(len(rows), 175)
         self.assertEqual(sum(r['role'] == 'pom' for r in rows), 34)
@@ -69,7 +69,7 @@ class AcquisitionTests(unittest.TestCase):
             self.assertEqual([r['url'][len(group[0]['url']):] for r in group], fetch.base.SUFFIXES)
 
     def test_epoch_raw_hash_size_and_duplicate_keys_are_closed(self):
-        for name in ['', 'models-04', '../models-01', None, True]:
+        for name in ['', 'models-05', '../models-01', None, True]:
             with self.subTest(epoch=name), self.assertRaises(ValueError):
                 fetch.requests(name, MANIFEST.read_bytes())
         for raw in [MANIFEST.read_bytes() + b'\n', b'x' * (262144 + 1)]:
@@ -567,6 +567,66 @@ class AcquisitionTests(unittest.TestCase):
                     if mode == 'missing':
                         self.assertEqual(record['requests'][0]['status'], 404)
                         self.assertTrue((out / record['requests'][0]['relative_path']).is_file())
+                self.clear_attempt()
+
+
+    def test_models04_fixed_requests_and_offline_selector_binding(self):
+        origin = 'https://repo.maven.apache.org/maven2/'
+        relative = 'org/junit/junit-bom/5.12.1/junit-bom-5.12.1.pom'
+        raw = (SOURCE.parent / 'requests/models-04.json').read_bytes()
+        self.assertEqual(hashlib.sha256(raw).hexdigest(),
+                         'e0d4b420cdcdcf23023731af35511fb7fb78402e9d492a87840800c661814289')
+        model = json.loads(raw)
+        self.assertEqual(len(model['new_primaries']), 1)
+        self.assertTrue(all(value is False for value in model['authorization'].values()))
+        self.assertIs(model['target']['execution_authorized'], False)
+        rows = fetch.requests('models-04', raw)
+        suffixes = ['', '.sha512', '.sha256', '.sha1', '.asc']
+        self.assertEqual([row['url'] for row in rows], [origin + relative + s for s in suffixes])
+        self.assertEqual([row['relative_path'] for row in rows],
+                         ['downloads/' + relative + s + '.partial' for s in suffixes])
+        self.assertEqual([row['role'] for row in rows], ['pom', 'checksum', 'checksum', 'checksum', 'signature'])
+        self.assertEqual([row['allowed_status'] for row in rows], [[200]] + [[200, 404]] * 4)
+        raw_evidence = (fetch.EVIDENCE / 'jacoco-model-selector/observation.json').read_bytes()
+        self.assertEqual(hashlib.sha256(raw_evidence).hexdigest(),
+                         'e99aa845c7869e2f5c21b56b7bb35f450a90bf2c4a2887d2190324f0e2e737c7')
+        evidence = json.loads(raw_evidence)
+        for public_case, manifest_case, version in [
+            ('baseline', 'baseline', '5.12.1'), ('ci-property', 'ci_property', '5.12.1'),
+            ('selector-control', 'synthetic_selector_control_excluded', '99.99.99-model-probe'),
+        ]:
+            trace = evidence['observations'][public_case]
+            bound = model['observed_frontier'][manifest_case]
+            self.assertEqual(hashlib.sha256(trace['trace'].encode()).hexdigest(), bound['trace_sha256'])
+            self.assertEqual(bound['bom_request'], 'org.junit:junit-bom:' + version)
+            self.assertIn(f'request\tcoordinate\t{bound["bom_request"]}\tabsent', trace['trace'].splitlines())
+
+    def test_models04_coherent_alternate_bom_still_refused(self):
+        def substitute(proposal):
+            proposal['new_primaries'][0]['coordinate']['version'] = '99.99.99-model-probe'
+            for row in [proposal['new_primaries'][0], *proposal['requests']]:
+                for key in ('url', 'relative_artifact', 'relative_path'):
+                    if key in row:
+                        row[key] = row[key].replace('5.12.1', '99.99.99-model-probe')
+        self.mutated(substitute, 'models-04')
+
+    def test_models04_transport_mock_failure_boundaries(self):
+        raw = (SOURCE.parent / 'requests/models-04.json').read_bytes()
+        expected = [row['url'] for row in fetch.requests('models-04', raw)]
+        failures = {'missing': 1, 'badstrong': 5, 'redirect': 1, 'drift': 5, 'lock': 0, 'controls': 0}
+        for mode in (None, 'sidecar404', *failures):
+            with self.subTest(mode=mode):
+                result, calls, _, error, _ = self.run_main(mode, 'models-04')
+                self.assertEqual(calls, expected[:failures.get(mode, 5)])
+                if mode in failures:
+                    self.assertIsNotNone(error)
+                    self.assertEqual(result['status'], 'FAIL_INPUT_DRIFT' if mode == 'drift' else 'FAIL_PRESERVED')
+                else:
+                    self.assertIsNone(error)
+                    self.assertEqual(result['status'], 'PASS_PASSIVE_ACQUISITION_ONLY')
+                    self.assertEqual(len(result['checksums']), 2 if mode == 'sidecar404' else 3)
+                    for key in ('signature_verified', 'closure_complete', 'offline_compile_verified'):
+                        self.assertIs(result[key], False)
                 self.clear_attempt()
 
 
