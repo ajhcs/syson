@@ -1,0 +1,171 @@
+{
+  "cases": [
+    {
+      "converter": {
+        "edge_saved": true,
+        "facts_sha256": "b93d8ef0d62cc41d843ff61b0933e0c000840bac95848f48ebe3ecd5f6662590",
+        "membership_visibility": "private",
+        "messages": [
+          [
+            "WARNING",
+            "Unable to resolve name 'A::T' for reference 'type' on element '[FeatureTyping] B::x::<FeatureTyping>'"
+          ]
+        ],
+        "messages_sha256": "c411fed420d28e4de8d9a6afcf79394b70b9b7990cc3e620a562e5f6836b2f42",
+        "model_sha256": "e48f1bab150359ba3f24043b942448d4f9c3fa8449de67fe55aaff1871acb8a8",
+        "resource_nodes": 10,
+        "type": null,
+        "typed_feature": "x",
+        "usage_scope": "B"
+      },
+      "name": "peer-private",
+      "release": {
+        "ast_sha256": "a10ac1e5c13da7815c96981df48d9a84b82af9d659eb6ea0568ee3a605ceaad0",
+        "exit": 0,
+        "parts": [
+          "A",
+          null
+        ],
+        "stderr_empty": true,
+        "stdout_sha256": "e7ddf76a900c949dc89208db935b10e3cf6a1f2010b0a3195c9dc4b6d0d28b06",
+        "target": null,
+        "text": "A::T"
+      },
+      "rust": {
+        "exit": 0,
+        "identities_requested": 7,
+        "membership_visibility": "private",
+        "owner": "B",
+        "status": "ok",
+        "stderr_empty": true,
+        "stdout_sha256": "62d0b34f3d61fed72a4973d6045366283e84db2bbca573c25752dd1160ef188d",
+        "target": "A::T"
+      },
+      "source": "package A { private part def T; } package B { part x : A::T; }",
+      "source_sha256": "4cb04150352a789b1c46085bf4de13b0eaa8e575d3277b339e15314c55689f09"
+    },
+    {
+      "converter": {
+        "edge_saved": true,
+        "facts_sha256": "5bb3eca1804a2fc46a959d225796ae8cd0ddd7977356b5dd465e7107475e0800",
+        "membership_visibility": null,
+        "messages": [],
+        "messages_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "model_sha256": "89eafe2cdc8224cb5e0e273ae30385ab9b97ed737673971a8a61a64086f2d031",
+        "resource_nodes": 10,
+        "type": "A::T",
+        "typed_feature": "x",
+        "usage_scope": "B"
+      },
+      "name": "peer-public",
+      "release": {
+        "ast_sha256": "67227d9d968eaa1ed1487649747f3ef4d68a8a0b250218ba32f2840a446c652d",
+        "exit": 0,
+        "parts": [
+          "A",
+          "A::T"
+        ],
+        "stderr_empty": true,
+        "stdout_sha256": "70c78ce3d5b7449f3fdff0812a230e9ceeaa6824a1a406dc07e9b378fac09258",
+        "target": "A::T",
+        "text": "A::T"
+      },
+      "rust": {
+        "exit": 0,
+        "identities_requested": 7,
+        "membership_visibility": null,
+        "owner": "B",
+        "status": "ok",
+        "stderr_empty": true,
+        "stdout_sha256": "84ade297539d4f57301ec50fcf8bac06e51ca2658ba7f4e5794a28af91c880c4",
+        "target": "A::T"
+      },
+      "source": "package A { public part def T; } package B { part x : A::T; }",
+      "source_sha256": "24b04454aebac83d41190a7e6703a73391b66a6a989099e7085d87de61e844e2"
+    },
+    {
+      "converter": {
+        "edge_saved": true,
+        "facts_sha256": "1bcb700b8804fa2c42299653c68128e25f3ccf1d3ab15d1fa789d6cc6707b239",
+        "membership_visibility": "private",
+        "messages": [],
+        "messages_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "model_sha256": "021a9d77b12fbb15d8acde1019f1492a84712d4f6f0cba3c29b5eef0ec7b201e",
+        "resource_nodes": 8,
+        "type": "A::T",
+        "typed_feature": "x",
+        "usage_scope": "A"
+      },
+      "name": "local-private",
+      "release": {
+        "ast_sha256": "fd4b3a618bd1e313aadac22eb06efde85c3a4477db9fd79bcc27a8e86b423b1f",
+        "exit": 0,
+        "parts": [
+          "A::T"
+        ],
+        "stderr_empty": true,
+        "stdout_sha256": "f421f20b6d783b5ca9d0ba58522c83155ec644c306336ab1ddc55af3c38091a2",
+        "target": "A::T",
+        "text": "T"
+      },
+      "rust": {
+        "exit": 0,
+        "identities_requested": 6,
+        "membership_visibility": "private",
+        "owner": "A",
+        "status": "ok",
+        "stderr_empty": true,
+        "stdout_sha256": "82056421268328d7fa81a2cda7d18757e36c3700be41b85134fc55298f7b23a6",
+        "target": "A::T"
+      },
+      "source": "package A { private part def T; part x : T; }",
+      "source_sha256": "b91f599152dbec7e8062ed2e7c3033f368dce5ec720b69c32dc7b9a3daac6e5c"
+    },
+    {
+      "converter": {
+        "edge_saved": true,
+        "facts_sha256": "c1ea83c1a3c74f9652ec8575928a3b29d6a74352ed81cd969dba85b7dcc22083",
+        "membership_visibility": null,
+        "messages": [
+          [
+            "WARNING",
+            "Unable to resolve name 'A::Missing' for reference 'type' on element '[FeatureTyping] B::x::<FeatureTyping>'"
+          ]
+        ],
+        "messages_sha256": "c077cae173581ec124eba507482c6b4d2efa91d96b62ec199ed8c874456d2d4f",
+        "model_sha256": "68434cbe2b836318b1fb361e2f7bf94f74f0e781195e15ca6d3edf1e93a00f20",
+        "resource_nodes": 10,
+        "type": null,
+        "typed_feature": "x",
+        "usage_scope": "B"
+      },
+      "name": "missing",
+      "release": {
+        "ast_sha256": "560a04e5ed7bf9834039b1bad44e90cb6d92559860c28c97a74c03e34097e08d",
+        "exit": 0,
+        "parts": [
+          "A",
+          null
+        ],
+        "stderr_empty": true,
+        "stdout_sha256": "8993bc148c62bcf0324c2957d964bc0bfcaeb73e5b15b0c7c604111c2f6bacf9",
+        "target": null,
+        "text": "A::Missing"
+      },
+      "rust": {
+        "error": "Link(Unresolved(\"Missing\"))",
+        "exit": 0,
+        "identities_requested": 6,
+        "status": "error",
+        "stderr_empty": true,
+        "stdout_sha256": "a1f851b25460ae94ac9732edf3ba51aa0dfc35b7c4b476a1575082942de4853d"
+      },
+      "source": "package A { public part def T; } package B { part x : A::Missing; }",
+      "source_sha256": "81008467f973f460c1b0271ce070a27d01cb8ca4268b6cd0267e66c1f3c1aad2"
+    }
+  ],
+  "release_jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+  "release_source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+  "rust_probe_sha256": "5654f882a6753631e83f6a9b3d4405d9edeb0417eace7681e762966dc1b24de5",
+  "scope": "released CLI link and DB-free released Java ASTTransformer against off-tree Rust; no HTTP, database, integrated UI, default adoption or validator run"
+}
