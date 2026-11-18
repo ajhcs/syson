@@ -1,0 +1,40 @@
+{
+  "acquisition_observation_sha256": "030238fc5164905fae81e2683572b8d8441a034d134ba0ef6341c6e77d112de6",
+  "bom_sha256": "7c826bc72beddc817dad9263027f9012a0f55a377d38df89c42932a2501c2bf0",
+  "cases": {
+    "baseline": {
+      "stdout": "case\tbaseline\njava\t21.0.12.1+1-LTS\nmaven-model-builder\t3.9.16\nrequest\tparent\torg.apache.maven.shared:maven-shared-components:44\tpinned\nrequest\tparent\torg.apache.maven:maven-parent:44\tpinned\nrequest\tparent\torg.apache:apache:34\tpinned\nrequest\tcoordinate\torg.junit:junit-bom:5.12.1\tpinned\nprofiles\torg.apache.maven.shared:file-management:3.2.0\t\nprofiles\torg.apache.maven.shared:maven-shared-components:44\t\nprofiles\torg.apache.maven:maven-parent:44\tjava11+,format\nraw-selector\torg.apache.maven:maven-parent:44\t5.12.1\nprofiles\torg.apache:apache:34\tjdk9+\neffective\torg.apache.maven.shared:file-management:3.2.0\njupiter-managed\t5.12.1\njupiter-direct\t5.12.1\ttest\nbuilt\ttrue\n",
+      "stdout_sha256": "9d06ebeba3377ba497f73f11fdc9e84a88abb9585c0faec9bc07ac18d6d0a70a"
+    },
+    "ci-property": {
+      "stdout": "case\tci-property\njava\t21.0.12.1+1-LTS\nmaven-model-builder\t3.9.16\nrequest\tparent\torg.apache.maven.shared:maven-shared-components:44\tpinned\nrequest\tparent\torg.apache.maven:maven-parent:44\tpinned\nrequest\tparent\torg.apache:apache:34\tpinned\nrequest\tcoordinate\torg.junit:junit-bom:5.12.1\tpinned\nprofiles\torg.apache.maven.shared:file-management:3.2.0\t\nprofiles\torg.apache.maven.shared:maven-shared-components:44\t\nprofiles\torg.apache.maven:maven-parent:44\tjava11+,format-check\nraw-selector\torg.apache.maven:maven-parent:44\t5.12.1\nprofiles\torg.apache:apache:34\tjdk9+\neffective\torg.apache.maven.shared:file-management:3.2.0\njupiter-managed\t5.12.1\njupiter-direct\t5.12.1\ttest\nbuilt\ttrue\n",
+      "stdout_sha256": "b5d045ce782ef8b86ebe4c8f2629d8a9b3afdaccc4840bcaf78a5d9b1c92ea75"
+    },
+    "selector-control": {
+      "stdout": "case\tselector-control\njava\t21.0.12.1+1-LTS\nmaven-model-builder\t3.9.16\nrequest\tparent\torg.apache.maven.shared:maven-shared-components:44\tpinned\nrequest\tparent\torg.apache.maven:maven-parent:44\tpinned\nrequest\tparent\torg.apache:apache:34\tpinned\nrequest\tcoordinate\torg.junit:junit-bom:99.99.99-model-probe\tabsent\nprofiles\torg.apache.maven.shared:file-management:3.2.0\t\nprofiles\torg.apache.maven.shared:maven-shared-components:44\t\nprofiles\torg.apache.maven:maven-parent:44\tjava11+,format\nraw-selector\torg.apache.maven:maven-parent:44\t5.12.1\nprofiles\torg.apache:apache:34\tjdk9+\nproblem\tERROR\tNon-resolvable import POM org.junit:junit-bom:99.99.99-model-probe: not available in the pinned offline model set\nproblem\tERROR\t'dependencies.dependency.version' for org.junit.jupiter:junit-jupiter-api:jar is missing.\nbuilt\tfalse\n",
+      "stdout_sha256": "d216c44cc67205177e2b984ebd11f7ad0077304d88aceb3c02ce63d45f48ace7"
+    },
+    "withheld-bom": {
+      "stdout": "case\twithheld-bom\njava\t21.0.12.1+1-LTS\nmaven-model-builder\t3.9.16\nrequest\tparent\torg.apache.maven.shared:maven-shared-components:44\tpinned\nrequest\tparent\torg.apache.maven:maven-parent:44\tpinned\nrequest\tparent\torg.apache:apache:34\tpinned\nrequest\tcoordinate\torg.junit:junit-bom:5.12.1\tabsent\nprofiles\torg.apache.maven.shared:file-management:3.2.0\t\nprofiles\torg.apache.maven.shared:maven-shared-components:44\t\nprofiles\torg.apache.maven:maven-parent:44\tjava11+,format\nraw-selector\torg.apache.maven:maven-parent:44\t5.12.1\nprofiles\torg.apache:apache:34\tjdk9+\nproblem\tERROR\tNon-resolvable import POM org.junit:junit-bom:5.12.1: not available in the pinned offline model set\nproblem\tERROR\t'dependencies.dependency.version' for org.junit.jupiter:junit-jupiter-api:jar is missing.\nbuilt\tfalse\n",
+      "stdout_sha256": "9367f7bd5115eedf3facacc5a434ea950e93ff95c2827e0d644e9d80070f6c16"
+    }
+  },
+  "dependency_mediation_complete": false,
+  "exits": {
+    "baseline": 0,
+    "ci-property": 0,
+    "compiler": 0,
+    "kernel": 0,
+    "selector-control": 0,
+    "withheld-bom": 0
+  },
+  "file_management_model_built": true,
+  "full_build": false,
+  "guard_witness": "PASS socket(AF_INET, AF_INET6, AF_UNIX) denied by kernel\n",
+  "harness_sha256": "2efde21c951c6d1302b7d0cbfb8f06294714697eab8501bd5abecc08a6995db4",
+  "network": false,
+  "plugin_goals": false,
+  "runtime_receipt_sha256": "5d8a2010c5f757f865859a92fe454c369f7c2a58689d625ed4bc734433fdcab3",
+  "schema": "C01-JACOCO-FILE-MANAGEMENT-MODEL/1",
+  "scope_spec_sha256": "15e782a9cddfefdb4563c4d6f153fc418b198580d388b1758afa2d342e06aa7a"
+}
