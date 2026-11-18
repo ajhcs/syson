@@ -15,9 +15,9 @@ package node in the SysON project. The retained browser observation
 records both visits.
 
 Run `python3 -I -B porting/interop/evidence/archive-edited-reopen-v2026.9.3/verify.py`
-from the repository root to verify the three retained ZIPs and replay
+from the repository root to verify the retained ZIPs and replay
 the structural comparison. The original archive proof still covers the
-default Wheel fixture. This packet covers one rename and archive exchange.
+default Wheel fixture. This packet covers the selected definition and its archive exchange.
 
 A follow-up Chromium run confirmed the rename and then stopped the Rust
 service before final publication. A fresh process reopened the unpublished
@@ -25,3 +25,10 @@ draft at the same revision URL. The next browser submitted only Save, and
 the published ZIP matched the one retained here byte for byte. The
 [restart observation](rust-draft-restart.json) binds that result to this
 packet. The native upload observation remains the original run.
+
+A later Rust fixture accepted two independently entered values, Alloy Rim and
+Jante Élite. Each browser test used a fresh scratch revision store and
+recovered the unpublished draft after a forced process stop. The published
+archives preserved the original manifest and diagram bytes. A native upload
+and page reload verified the exact Jante Élite ZIP, including its unchanged
+typing relationship and archived diagram layout after identity mapping.
