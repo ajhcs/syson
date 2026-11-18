@@ -63,6 +63,33 @@ struct Chart {
     waiting: BTreeMap<usize, Vec<usize>>,
     completed: BTreeMap<(usize, usize), Vec<usize>>,
 }
+impl Chart {
+    fn seal(&mut self, work: &Work<'_>) -> Result<(), Error> {
+        work.check_cancelled()?;
+        let waiting_count = self.waiting.values().map(Vec::len).sum();
+        let mut retained = Vec::with_capacity(waiting_count);
+        // Only later completions can read this column. They use the ordered
+        // waiters for one nonterminal, so the agenda and indexes can be dropped.
+        for indices in self.waiting.values_mut() {
+            for batch in indices.chunks_mut(128) {
+                work.check_cancelled()?;
+                for index in batch {
+                    let state = &mut self.states[*index];
+                    *index = retained.len();
+                    retained.push(State {
+                        children: std::mem::take(&mut state.children),
+                        ..*state
+                    });
+                }
+            }
+        }
+        self.states = retained;
+        self.seen.clear();
+        self.completed.clear();
+        Ok(())
+    }
+}
+
 fn add(
     g: &Grammar,
     chart: &mut Chart,
@@ -285,8 +312,13 @@ pub(crate) fn recognize(
                 }
             }
         }
-        if position < visible.len() && charts[position + 1].states.is_empty() {
-            break;
+        if position < visible.len() {
+            if charts[position + 1].states.is_empty() {
+                break;
+            }
+            // Keep the last reached column for expected-token diagnostics.
+            // The cumulative budgets already account for these states.
+            charts[position].seal(work)?;
         }
     }
     if let Some(root) = root {
