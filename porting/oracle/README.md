@@ -11,6 +11,9 @@ source needs a GitHub token with `read:packages` (Phase 1).
 
 ## Use
 
+For a new Linux environment, follow the [native reference setup](native-setup.md)
+to select your own runtime paths and run directory.
+
 ```bash
 python3 -I porting/oracle/oracle.py up
 ```
