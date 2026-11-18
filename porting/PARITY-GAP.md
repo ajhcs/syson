@@ -15,8 +15,8 @@ The SysON side of that journey is scripted and verified ([`oracle/restart`](orac
 | Area | Verified on `main` | Main gap |
 |---|---|---|
 | SysML text import | Full-grammar recognizer; a finite importer. Golden replay of 62 cases: **12 match, 1 differs, 49 refused**; 2 of the 19 bundled SysON examples match. Two wire-format differences remain (`elementId` references #248, root `Namespace` wrapper #249). | Most language constructs (#246 and the import issues below) |
-| Model | Pinned metamodel registry; EMF JSON model with transactions and undo; names and IDs | Derived features and operations, standard libraries |
-| Storage | Local snapshot store reopened across separate processes (#304) and after writer kills (#305); verified reads of SysON's PostgreSQL rows | A project model, a chosen backend, migrations, representations |
+| Model | Pinned metamodel registry; EMF JSON model with transactions and undo; names and IDs; a physical index of all 94 standard-library files (`rust/tools/native-library-catalog`) | Derived features and operations; semantic library loading (#411) |
+| Storage | Local snapshot store reopened across separate processes (#304) and after writer kills (#305); verified reads of SysON's PostgreSQL rows; 6 of SysON's 8 migration participants (`syson-persistence`, `syson-migration-pipeline`, `syson-migrations` `b25a`–`b25d`) | A project model, a chosen backend, the 2 diagram migrations (#418), representations |
 | Interchange | Project archive inventoried and round-tripped through SysON's upload (#289, #296); Rust EMF JSON reopens in SysON (#293) | Rust read/write of whole archives (#271) |
 | Server and API | None (no HTTP, GraphQL or REST in Rust) | Everything in "Server and APIs" |
 | Views | Layout, orthogonal routing, label measurement, rotate-node; an opt-in WASM editor on `rust/integration` only | Every diagram, explorer, details and table view |
@@ -49,7 +49,7 @@ Each stream lists its issues roughly in dependency order. **Bold** issues are on
 
 - **#415** decide the storage backend; **#416** project lifecycle; #417 templates
 - **#420** representations stored byte for byte; **#271** read and write SysON project archives
-- Migrations: #418 diagram migrations, #419 land the four drafted participants
+- Migrations: #418, the two remaining diagram migrations (the other six are on `main`)
 - #421 snapshot retry bug after an interrupted writer
 - **#422** automate the acceptance journey; #259 differential testing past import
 
@@ -67,7 +67,7 @@ Each stream lists its issues roughly in dependency order. **Bold** issues are on
 
 ### 7. Project health
 
-- #453 restore GitHub Actions (maintainer); #454 triage the draft PR backlog
+- #453 restore GitHub Actions (maintainer); #454 triage the draft PR backlog; #456 linker boundary fix and #457 Unicode tests recovered from drafts
 - #446 Cargo workspace; #447 golden replay in CI; #448 WebAssembly build check; #451 published API docs
 - Docs: #277 crate map, #278 SysML primer, #196–#200 examples and guides, #201 second-environment build
 
@@ -78,7 +78,7 @@ Each stream lists its issues roughly in dependency order. **Bold** issues are on
 The shortest route to a passing acceptance journey:
 
 1. Language: #246 plus enough constructs that the Batmobile template imports (#247, #261, #263–#268, #396, #399), and #411 for library references.
-2. Storage: #415 → #416 → #420 → #271, with #418/#419 so existing projects open.
+2. Storage: #415 → #416 → #420 → #271, with #418 so existing projects open.
 3. Server: #274 → #425 → #428 (if SysON's GraphQL is kept, the SysON frontend can drive the journey before a Rust UI exists).
 4. Editing: #431, #440 and #441 for the edits the journey performs, with #423 for history.
 5. #422 runs the journey against Rust.
