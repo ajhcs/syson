@@ -1,0 +1,342 @@
+{
+  "binary_sha256": "580aef47fa71a9d104c55d73b6a47268fd7b3463d56572617fec046acd9f0ab0",
+  "script_sha256": "bbd9d34c1c4f71140da3ce9d38bb581810703399ee0d3dc027cf61985bba7175",
+  "source_inputs": {
+    "archive": {
+      "sha256": "ff954cabacfbf5ad5497768fe5a07b4eb116b2355f3f1ba67dc724f9644ee6ca",
+      "inode": 66649295
+    },
+    "grant": {
+      "sha256": "451115efdf96d68b03a44082c4be6a01e7206301fd05c9690f94f8e9bb90a035",
+      "inode": 66649724
+    },
+    "ticket": {
+      "sha256": "47b9fb5621cc199cc55ff85da6916a6fc26b246f47668a8768073e94e5960edc",
+      "inode": 66649723
+    }
+  },
+  "checkpoint": {
+    "candidate_archive_sha256": "e24d7f1f4fe5ddf4e5047dc62b89c2cca029e367efaefbbc915656c9b08b1abf",
+    "grant_device": 66305,
+    "grant_inode": 75947858,
+    "grant_sha256": "e7d2889aa883b8828947f9fc6110d20d3ca8bc86b577d1994f12b06e15284faf",
+    "height": 101,
+    "layout_sha256": "f244e70082465b14dcf7beb2110dea940b42079af623db4341921edcce329f8a",
+    "node_id": "89bef9f0-d391-333a-850d-5719aa791212",
+    "parent_archive_inode": 75947852,
+    "parent_archive_sha256": "d7e445396acd1f3d02ae894684ecc56c72bd0cfae97d826710c3ec01bfd77855",
+    "parent_node_id": "21fa0f88-7d62-319b-9bdc-fd29d888e38b",
+    "parent_route": "/projects/a937d084-c7e2-434c-8294-685ded4fc271/revisions/archive-rim",
+    "project": "a937d084-c7e2-434c-8294-685ded4fc271",
+    "revision_key": "archive-correction",
+    "route": "/projects/a937d084-c7e2-434c-8294-685ded4fc271/revisions/archive-correction",
+    "source_width": 200,
+    "ticket_device": 66305,
+    "ticket_inode": 75947857,
+    "ticket_sha256": "76c28327926b15d30a71d19a318f154d6a183414d97914d78694d11d905e5c14",
+    "version": 7,
+    "width": 206,
+    "x": 9,
+    "y": 46
+  },
+  "staged": {
+    "candidate_archive_sha256": "e24d7f1f4fe5ddf4e5047dc62b89c2cca029e367efaefbbc915656c9b08b1abf",
+    "draft_inode": 75947859,
+    "draft_sha256": "c452ffe6fcb04ab6b8ff0a77c201679d24dd93dfded7cade5e205d7822950d98",
+    "event": "correction-draft-staged",
+    "height": 101,
+    "revision_key": "archive-correction",
+    "width": 206
+  },
+  "opened": {
+    "candidate_archive_sha256": "e24d7f1f4fe5ddf4e5047dc62b89c2cca029e367efaefbbc915656c9b08b1abf",
+    "draft_inode": 75947859,
+    "draft_sha256": "c452ffe6fcb04ab6b8ff0a77c201679d24dd93dfded7cade5e205d7822950d98",
+    "event": "correction-draft-opened",
+    "height": 101,
+    "revision_key": "archive-correction",
+    "width": 206
+  },
+  "ordinary_comparator_sha256": "e24d7f1f4fe5ddf4e5047dc62b89c2cca029e367efaefbbc915656c9b08b1abf",
+  "checks": [
+    "A absence and partial publication, healthy A resync",
+    "width range, exclusions, parser refusals, and conflicting width",
+    "exact idempotent stage, fresh process inspect and closed predecessor route",
+    "prior ordinary resize independently reproduces candidate ZIP and direct raw member diff",
+    "checkpoint file-sync and directory-sync faults, exact retry in fresh processes",
+    "pair inode substitutions before and after staging, checkpoint same-byte replacement",
+    "tampered checkpoint and occupied correction ZIP or confirmation refusal"
+  ],
+  "scope": "Trusted private Linux/ext4 directory. Corrected ZIP computation remains in memory. The correction has no HTTP route or publication.",
+  "source_receipt_sha256": "04e09ef0e9024fb034cd81a32e01ad2d61bca6266a33d03fbbbc0a982d633343",
+  "http_process_count": 14,
+  "cli_process_count": 63,
+  "outcomes": [
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "correction requires the exact opened record\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected draft is absent\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected width is outside the approved widths\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected width is outside the approved widths\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected width is outside the approved widths\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected width is outside the approved widths\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected width must be an integer\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected width must be an integer\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "corrected",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected draft conflicts with current approval or width\n"
+    },
+    {
+      "case": "corrected",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "ticket-only",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "correction requires the exact opened record\n"
+    },
+    {
+      "case": "ticket-only",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "correction requires the exact opened record\n"
+    },
+    {
+      "case": "pair-sync-failure",
+      "action": "--stage-corrected-resize",
+      "fault": "correction-grant-directory-sync",
+      "exit": 2,
+      "stderr": "injected directory sync failure\n"
+    },
+    {
+      "case": "pair-sync-failure",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "correction-draft-file-sync",
+      "action": "--stage-corrected-resize",
+      "fault": "correction-draft-file-sync",
+      "exit": 2,
+      "stderr": "injected file sync failure\n"
+    },
+    {
+      "case": "correction-draft-file-sync",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected draft is absent\n"
+    },
+    {
+      "case": "correction-draft-file-sync",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "correction-draft-directory-sync",
+      "action": "--stage-corrected-resize",
+      "fault": "correction-draft-directory-sync",
+      "exit": 2,
+      "stderr": "corrected draft acknowledgement uncertain; verify before retry\n"
+    },
+    {
+      "case": "correction-draft-directory-sync",
+      "action": "--inspect-corrected-resize",
+      "fault": "correction-draft-directory-sync",
+      "exit": 2,
+      "stderr": "injected directory sync failure\n"
+    },
+    {
+      "case": "correction-draft-directory-sync",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "correction-draft-directory-sync",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "changed-archive-correction.grant.json",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "changed-archive-correction.grant.json",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected draft conflicts with current approval or width\n"
+    },
+    {
+      "case": "changed-archive-correction.grant.json",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected draft conflicts with current approval or width\n"
+    },
+    {
+      "case": "changed-archive-correction.ticket.json",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "changed-archive-correction.ticket.json",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected draft conflicts with current approval or width\n"
+    },
+    {
+      "case": "changed-archive-correction.ticket.json",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected draft conflicts with current approval or width\n"
+    },
+    {
+      "case": "pre-stage-current-grant-inode",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "byte-identical-checkpoint",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "byte-identical-checkpoint",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "occupied-archive-correction.confirmed.json",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "correction slot has unexpected publication state\n"
+    },
+    {
+      "case": "occupied-archive-correction.confirmed.json",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "correction slot has unexpected publication state\n"
+    },
+    {
+      "case": "occupied-archive-correction.zip",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "correction slot has unexpected publication state\n"
+    },
+    {
+      "case": "occupied-archive-correction.zip",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "correction slot has unexpected publication state\n"
+    },
+    {
+      "case": "tampered-checkpoint",
+      "action": "--stage-corrected-resize",
+      "fault": null,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "case": "tampered-checkpoint",
+      "action": "--inspect-corrected-resize",
+      "fault": null,
+      "exit": 2,
+      "stderr": "corrected draft conflicts with current approval or width\n"
+    }
+  ]
+}
