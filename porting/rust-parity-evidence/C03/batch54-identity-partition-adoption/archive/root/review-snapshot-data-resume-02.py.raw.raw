@@ -1,0 +1,117 @@
+"""Read and compare actual paired full .12 snapshot outputs without importing the subjects."""
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+
+b = Path(__file__).resolve().parent
+spec = json.loads((b/'checks-05-spec.json').read_bytes())
+w = Path(spec['crate'])
+old = Path('/workspace/worktrees/builderbob/syson/batch53-identity-capture-extension-20261031/porting/rust-parity-plan-20261026')
+catalogue_path = 'remaining-work/checkpoint-identity-partition-1.0.12/prior/catalogue.json'
+catalogue = json.loads((w/catalogue_path).read_bytes())
+mib = 1 << 20
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def digest(value):
+    return sha(json.dumps(value,ensure_ascii=False,sort_keys=True,
+                          separators=(',',':'),allow_nan=False).encode())
+
+
+def parse(raw):
+    def unique(pairs):
+        value = dict(pairs)
+        assert len(value)==len(pairs)
+        return value
+    d = json.loads(raw,object_pairs_hook=unique)
+    digest(d)
+    return d
+
+
+def checked(path, cap=8*mib):
+    assert path.resolve()==path and path.is_file() and path.stat().st_size <= cap,path
+    with path.open('rb') as stream:
+        raw = stream.read(cap+1)
+    assert len(raw) <= cap
+    return raw
+
+
+normal, optim = (b/'snapshot-normal-01',b/'snapshot-optimized-01')
+limits = {'units.json':5*mib,'snapshot.lock.json':256*1024,'manifest.json':512*1024}
+assert {n.name for n in normal.iterdir()}=={n.name for n in optim.iterdir()}==set(limits)
+out={n:checked(normal/n,cap) for n,cap in limits.items()}
+assert out=={n:checked(optim/n,cap) for n,cap in limits.items()}
+register, lock, manifest=(parse(out[n]) for n in limits)
+old_raw = checked(old/'remaining-work/snapshot.lock.json')
+old_lock = parse(old_raw)
+prior_register = parse(checked(old/'remaining-work/units.json'))
+plan = parse(checked(w/'plan.json'))
+state = parse(checked(w/'execution.json'))
+current_norm = parse(checked(w/'completion-contract.lock.json'))
+physical = {catalogue_path} | {d['source'] for d in catalogue['files'].values()}
+expected_progress = set(old_lock['progress_inputs']) | set(catalogue['proof_inputs']) | {
+    catalogue_path,'rereview-batch11-coordinator-ownership.json',
+    'composition/identity_partition_prepare/fixtures/lane.json',
+    'composition/identity_partition_prepare/fixtures/amendment.md'}
+expected_progress.update(d['source'] for d in catalogue['files'].values() if d['encoding']=='gzip')
+names = set(old_lock['sha256']) | set(current_norm['sha256']) | expected_progress | physical
+names.update('prs/'+u['id']+'.md' for u in plan['units'])
+names.discard('remaining-work/units.json')
+assert len(names)==1246
+bodies = {n:checked(w/n) for n in names}
+current = {n:sha(raw) for n,raw in bodies.items()}
+assert all(spec['inputs'][str(w/n)]==h for n,h in current.items())
+expected_provenance = dict(current)
+expected_provenance.update({'physical/'+n:h for n,h in current.items()})
+expected_provenance.update({'logical-origin/'+n+'/via/ACTUAL_CURRENT_ROOT':h for n,h in current.items()})
+assert manifest['input_sha256']==expected_provenance
+charge = sum(len(raw)+len((json.dumps({n:'0'*64},ensure_ascii=False,indent=2)+'\n').encode()) for n,raw in bodies.items())
+assert manifest['logical_input_bytes']==charge
+output_bytes = sum(len(raw) for raw in out.values())
+reserve = sum(limits.values())+256*1024
+assert (charge+output_bytes <= 64*mib and charge+reserve <= 64*mib
+        and output_bytes <= reserve-256*1024)
+pinned_prior_progress = {n:old_lock['sha256'][n] for n in old_lock['progress_inputs']}
+assert len(pinned_prior_progress)==342
+assert all(pin==current[n] for n,pin in pinned_prior_progress.items() if n!='team-dispatch.json')
+assert pinned_prior_progress['team-dispatch.json']==sha(checked(old/'team-dispatch.json'))
+history = {'prior_snapshot_sha256':sha(old_raw),'bindings_sha256':digest(pinned_prior_progress),
+           'catalogue':catalogue_path,'roles':342}
+assert manifest['status']=='UNSEALED_PROPOSAL_ONLY' and manifest['historical_progress']==history
+assert manifest['artifacts']=={n:sha(out[n]) for n in ['units.json','snapshot.lock.json']}
+common={'snapshot_id':'SYSON-RUST-REMAINING/2026-10-31.21',
+        'contract_id':'SYSON-RUST-COMPLETION/1.0.12',
+        'base_main':'a70f737c5c829556beb7f21711e3b6597acf22d7'}
+expected_lock = dict(old_lock, **common, sha256=dict(current, **{'remaining-work/units.json':sha(out['units.json'])}),
+                     progress_inputs=sorted(expected_progress), historical_progress=history)
+assert digest(lock)==digest(expected_lock) and len(lock['sha256'])==1247
+assert state['full_parity_claimed'] is False and plan['full_parity_claimed'] is False
+assert len(state['units'])==55 and len(prior_register['units'])==797 and len(plan['units'])==799
+rows=[]
+for unit in plan['units']:
+    uid=unit['id']
+    brief='prs/'+uid+'.md'
+    rows.append(dict(unit,primary_family=unit['completion_contract']['family'],
+                     brief='../'+brief,brief_sha256=current[brief],complete_plan_unit_sha256=digest(unit),
+                     feature_acceptance=state['units'].get(uid,{}).get('feature_acceptance','OPEN_NO_ACCEPTANCE_RECORD')))
+expected_register=dict(prior_register,**common,unit_count=799,
+                       copied_plan_fields=sorted({k for unit in plan['units'] for k in unit}),
+                       units=rows,integrated_scope_at_snapshot=state['current_integration'])
+assert digest(register)==digest(expected_register)
+assert Counter(row['feature_acceptance'] for row in rows)=={'NOT_ACCEPTED':55,'OPEN_NO_ACCEPTANCE_RECORD':744}
+receipt=parse(checked(b/'checks-05/receipt.json',16*mib))
+assert receipt['status']=='PASS_NAMED_LOCAL_CHECKS_ONLY' and receipt['inputs_before']==receipt['inputs_after']==spec['inputs']
+assert [c['exit'] for c in receipt['commands']]==[0,0]
+assert parse(checked(b/'checks-05-cleanup.json'))['confirmed_empty_or_absent']
+print(json.dumps({'status':'PASS_ACTUAL_PAIRED_FULL_12_SNAPSHOT_DATA_AND_64MIB_LOGICAL_FRAMING',
+                  'physical_roles':len(current),'locked_roles':len(lock['sha256']),
+                  'proofs':len(catalogue['proof_inputs']),'provenance_entries':len(expected_provenance),
+                  'historical_progress':342,'historical_records':55,'unit_rows':799,
+                  'logical_input_bytes':charge,'exact_output_bytes':output_bytes,'reserved_output_bytes':reserve,
+                  'framing_bytes_with_reserve':charge+reserve,'limit_bytes':64*mib,
+                  'all_outputs_sha256':{n:sha(raw) for n,raw in sorted(out.items())},
+                  'resource_measurement_claim':False,'install_authority':'root separate review'},indent=2))

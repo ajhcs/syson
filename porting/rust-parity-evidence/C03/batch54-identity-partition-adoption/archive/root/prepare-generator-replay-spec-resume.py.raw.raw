@@ -1,0 +1,129 @@
+"""Re-stage the genuine generator from current compact contract and its reviewed lock."""
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import stat
+import sys
+import uuid
+
+b = Path(__file__).resolve().parent
+seed = b/'generator-pair-seed-preimage-01.json'
+meta = json.loads(seed.read_bytes())
+w = Path(meta['source'])
+p = 'porting/rust-parity-plan-20261026/'
+lock = p + 'completion-contract.lock.json'
+contract = p + 'completion-contract.json'
+previous = b/'checks-04-spec.json'
+spec = json.loads(previous.read_bytes())
+receipt = b/'checks-04/receipt.json'
+run = json.loads(receipt.read_bytes())
+assert spec['inputs'] == run['inputs_before'] == run['inputs_after']
+assert run['status'] == 'PASS_NAMED_LOCAL_CHECKS_ONLY'
+assert json.loads((b/'checks-04-cleanup.json').read_bytes())['confirmed_empty_or_absent']
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def digest(value):
+    return sha(json.dumps(value,sort_keys=True,ensure_ascii=False,
+                          allow_nan=False,separators=(',',':')).encode())
+
+
+review=b/'reviewer-actual-generator-data-resume-01.json'
+review_data=json.loads(review.read_bytes())
+old_roster=meta['all_source_files']
+generated=review_data['paired_output_sha256']
+assert set(generated)==set(meta['generator_output_paths']) and len(generated)==803
+roster={}
+for n in sorted(set(old_roster)|set(generated)):
+    f=w/n
+    assert f.resolve()==f and f.is_file(),n
+    raw=f.read_bytes()
+    new=sha(raw)
+    mode=stat.S_IMODE(f.stat().st_mode)
+    if n in generated:
+        assert generated[n]==new,n
+    elif n not in (lock,contract):
+        assert old_roster[n]['sha256']==new,n
+    roster[n]={'sha256':new,'bytes':len(raw),'mode':oct(mode),'generator_output_preimage':n in generated}
+assert len(roster)==1609
+source=(w/contract).read_bytes()
+value=json.loads(source)
+assert source==json.dumps(value,separators=(',',':'),ensure_ascii=False,allow_nan=False).encode()+b'\n'
+assert digest(value)==json.loads((b/'reviewer-actual-derive-data-resume-01.json').read_bytes())['artifacts_canonical_sha256']['completion-contract.json']
+d=json.loads((w/lock).read_bytes())
+assert d['contract_id']=='SYSON-RUST-COMPLETION/1.0.12' and len(d['sha256'])==72
+assert all(sha((w/p/n).read_bytes())==h for n,h in d['sha256'].items())
+old_pins=spec['inputs']
+updated={str(w/n):row['sha256'] for n,row in roster.items()}
+for n,h in old_pins.items():
+    if n not in updated:
+        assert sha(Path(n).read_bytes())==h,n
+spec['prior_generator_superseded_by_representation_only']={
+    n:{'before_sha256':old_pins.get(n),'after_sha256':h}
+    for n,h in updated.items() if old_pins.get(n)!=h}
+spec['inputs'].update(updated)
+
+# Preserve the exact outputs of both successful but earlier source-representation runs.
+for root in map(Path,meta['seed_roots'].values()):
+    for n,h in generated.items():
+        path=root/n
+        assert sha(path.read_bytes())==h,(root,n)
+        spec['inputs'][str(path)]=h
+
+target=b/'generator-seeds-02'
+target.mkdir(mode=0o700)
+roots={m:target/m for m in ['normal','optimized']}
+for n,row in roster.items():
+    f=w/n
+    raw=f.read_bytes()
+    assert sha(raw)==row['sha256']
+    for root in roots.values():
+        path=root/n
+        path.parent.mkdir(parents=True,exist_ok=True)
+        with path.open('xb') as stream:
+            stream.write(raw)
+        path.chmod(int(row['mode'],8))
+        assert sha(path.read_bytes())==row['sha256']
+        if n not in generated:
+            spec['inputs'][str(path)] = row['sha256']
+
+seed2=b/'generator-pair-seed-preimage-02.json'
+preimage={'schema':'B54-GENERATOR-PAIR-REPLAY-SEED-PREIMAGE/1',
+          'status':'PHYSICAL_REPLICAS_STAGED_AFTER_COMPACT_CONTRACT_AND_NORM_NO_SOURCE_EXECUTION',
+          'source':str(w),'seed_roots':{mode:str(root) for mode,root in roots.items()},
+          'all_source_files':roster,'generator_output_paths':sorted(generated),
+          'generated_targets_absent_before':[],'prior_generator_report_sha256':sha(review.read_bytes())}
+with seed2.open('x') as f:
+    json.dump(preimage,f,indent=2,sort_keys=True)
+    f.write('\n')
+extra=[previous,seed,seed2,review,*sorted((b/'checks-04').iterdir()),
+       b/'checks-04-cleanup.json', b/'checks-04-controller.stdout',b/'checks-04-controller.stderr',
+       b/'reviewer-spec-04.json',b/'root-runtime-admission-04.json',*map(Path,sys.argv[1:])]
+for f in extra:
+    assert f.resolve()==f and f.is_file(),f
+    h=sha(f.read_bytes())
+    assert spec['inputs'].setdefault(str(f),h)==h,str(f)
+spec['commands']=[
+    {'name':'generator-'+mode, 'argv':['/usr/bin/python3',*flags,'-s','-B',str(root/p/'tools/build_plan.py')]}
+    for mode,root,flags in [('normal',roots['normal'],[]),('optimized',roots['optimized'],['-O'])]]
+spec.update(schema='C51A-ACTUAL-GENERATOR-REPLAY-SPEC-PROPOSAL/1',
+            status='DATA_ONLY_PENDING_ROOT_FINAL_AND_REVIEW',
+            prepared_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            out=str(b/'checks-04b'),prefix='syson-b54-generator-replay-',cookie=uuid.uuid4().hex,
+            unit='syson-b54-generator-replay-'+uuid.uuid4().hex+'.scope')
+spec['env'].update(SYSON_BOOTSTRAP_TEST_ROOT=str(b/'test-files-04b'),TMPDIR=str(b/'command-tmp-04b'))
+spec['expected_generator_results'].update(overwrites_each=803,previously_absent_output_files_each=[],
+    equality_to_prior_actual_generator_outputs=True)
+spec['remaining_launch_gates']=[
+    'Review exact current compact-format provenance, real normative lock rerun, both full replica rosters and all803 expected identical overwritten outputs.',
+    'Root independently rehashes input closure and admits reviewed scope and wall/headroom ownership controls.',
+    'After execution compare all803 generated bodies to each mode, both initial outputs and W54 before snapshot admits the representational change.']
+proposal=b/'generator-phase-spec-proposal-resume-02.json'
+with proposal.open('x') as f:
+    json.dump(spec,f,indent=2,sort_keys=True)
+    f.write('\n')
+print(proposal,len(spec['inputs']),sha(proposal.read_bytes()),sha(seed2.read_bytes()))

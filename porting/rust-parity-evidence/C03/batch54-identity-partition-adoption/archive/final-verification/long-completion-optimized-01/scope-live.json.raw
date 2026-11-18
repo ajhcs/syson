@@ -1,0 +1,66 @@
+{
+  "status": "ACTUAL_SCOPE_WITNESS_FROM_CGROUP_PROCS",
+  "at_utc": "2026-11-17T19:47:06.015595+00:00",
+  "scope": {
+    "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/syson-b54-plan-completion-ec01eee543384fe4b976aee4c13f6299.scope",
+    "LoadState": "loaded",
+    "InvocationID": "5d2cc009f2f34779b63731ebb65bfc3d"
+  },
+  "limits": {
+    "cpu.max": "200000 100000",
+    "memory.high": "2147483648",
+    "memory.max": "3221225472",
+    "memory.swap.max": "0",
+    "pids.max": "128"
+  },
+  "observed_processes": [
+    {
+      "pid": 2763343,
+      "start_ticks": "6846395",
+      "argv": [
+        "/usr/bin/flock",
+        "-n",
+        "/workspace/build/builderbob/syson-audit-20261026/build/compiler.lock",
+        "/usr/bin/timeout",
+        "--kill-after=10s",
+        "2400s",
+        "/usr/bin/python3",
+        "-O",
+        "-s",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--check-completion"
+      ]
+    },
+    {
+      "pid": 2763345,
+      "start_ticks": "6846397",
+      "argv": [
+        "/usr/bin/timeout",
+        "--kill-after=10s",
+        "2400s",
+        "/usr/bin/python3",
+        "-O",
+        "-s",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--check-completion"
+      ]
+    },
+    {
+      "pid": 2763346,
+      "start_ticks": "6846397",
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-s",
+        "-B",
+        "/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026/tools/verify_plan.py",
+        "--check-completion"
+      ]
+    }
+  ],
+  "cookie_match_for_every_process": true,
+  "spec_sha256": "16d6c224f259b37d616683ff0af81334c5e4b0c7d4d129d8069f76e4086608b2",
+  "interim_memory_peak": 107565056
+}

@@ -2,7 +2,7 @@
 import copy
 from . import derive as D
 
-POLICY_SHA256 = 'PENDING_ROOT_FREEZE'
+POLICY_SHA256 = '6c063476d4996699b5ae1a2410286e4909072d18b4965b6194f3c84bfd249fd8'
 
 
 def checked(contract, plan, read, lane, amendment, generator):

@@ -1,0 +1,115 @@
+"""Prepare the exact seed-based generator metadata after reviewed norm installation."""
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import stat
+import sys
+import uuid
+
+b = Path(__file__).resolve().parent
+seed = b/'generator-pair-seed-preimage-01.json'
+meta = json.loads(seed.read_bytes())
+w = Path(meta['source'])
+p = 'porting/rust-parity-plan-20261026/'
+lock = p + 'completion-contract.lock.json'
+catalogue = p + 'remaining-work/checkpoint-identity-partition-1.0.12/prior/catalogue.json'
+normal_dir = b/'norm-normal-01'
+optim_dir = b/'norm-optimized-01'
+norm_spec = b/'checks-03-spec.json'
+spec = json.loads(norm_spec.read_bytes())
+receipt = b/'checks-03/receipt.json'
+run = json.loads(receipt.read_bytes())
+assert spec['inputs'] == run['inputs_before'] == run['inputs_after']
+assert run['status'] == 'PASS_NAMED_LOCAL_CHECKS_ONLY'
+assert json.loads((b/'checks-03-cleanup.json').read_bytes())['confirmed_empty_or_absent']
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+final = (w/lock).read_bytes()
+assert final == (normal_dir/'completion-contract.lock.json').read_bytes()
+assert final == (optim_dir/'completion-contract.lock.json').read_bytes()
+assert json.loads(final)['contract_id'] == 'SYSON-RUST-COMPLETION/1.0.12'
+assert len(json.loads(final)['sha256']) == 72
+roster = meta['all_source_files']
+immutable = set(roster)-set(meta['generator_output_paths'])
+assert len(immutable)==806
+assert len(roster)==1607
+for path, pin in spec['inputs'].items():
+    if path != str(w/lock):
+        assert sha(Path(path).read_bytes()) == pin, path
+assert spec['inputs'][str(w/lock)] == roster[lock]['sha256']
+for rel, row in roster.items():
+    if rel != lock:
+        assert sha((w/rel).read_bytes()) == row['sha256'], rel
+roots = {mode: Path(path) for mode,path in meta['seed_roots'].items()}
+for root in roots.values():
+    assert root.resolve()==root
+    assert {x.relative_to(root).as_posix() for x in root.rglob('*') if x.is_file()} == set(roster)
+    assert all(not x.is_symlink() for x in root.rglob('*'))
+    for rel, row in roster.items():
+        raw = (root/rel).read_bytes()
+        assert len(raw)==row['bytes'] and sha(raw)==row['sha256'], (root, rel)
+        assert stat.S_IMODE((root/rel).stat().st_mode) == int(row['mode'],8)
+
+before = b/'generator-pair-norm-lock-preimage-01.json.raw'
+preimage = (roots['normal']/lock).read_bytes()
+assert preimage == (roots['optimized']/lock).read_bytes()
+with before.open('xb') as f:
+    f.write(preimage)
+
+new_files={}
+for root in roots.values():
+    target = root/lock
+    pending = target.with_name(target.name + '.installation-pending')
+    with pending.open('xb') as f:
+        f.write(final)
+    pending.chmod(int(roster[lock]['mode'],8))
+    pending.replace(target)
+    assert target.read_bytes()==final
+    new_files[str(target)] = {'before_sha256':sha(preimage),'after_sha256':sha(final),'bytes':len(final)}
+install = b/'generator-pair-norm-lock-installation-01.json'
+with install.open('x') as f:
+    json.dump({'status':'TWO_SEED_LOCKS_INSTALLED_AND_VERIFIED_NO_GENERATOR_EXECUTION',
+               'source':str(w/lock),'replicas':new_files,'preimage_archive':str(before)},f,indent=2)
+    f.write('\n')
+extra = [seed, before, install, norm_spec, receipt,
+         *sorted(normal_dir.iterdir()), *sorted(optim_dir.iterdir()),
+         b/'checks-03-cleanup.json', b/'checks-03-controller.stdout', b/'checks-03-controller.stderr',
+         b/'reviewer-spec-03.json', b/'root-runtime-admission-03.json', *map(Path, sys.argv[1:])]
+for path in extra:
+    assert path.resolve()==path and path.is_file(),path
+    spec['inputs'][str(path)] = sha(path.read_bytes())
+for rel in roster:
+    value = sha(final) if rel==lock else roster[rel]['sha256']
+    spec['inputs'][str(w/rel)]=value
+    if rel in immutable:
+        for root in roots.values():
+            assert sha((root/rel).read_bytes())==value, (root,rel)
+            spec['inputs'][str(root/rel)]=value
+spec['commands']=[
+    {'name':'generator-'+mode, 'argv':['/usr/bin/python3', *flags,'-s','-B', str(roots[mode]/p/'tools/build_plan.py')]}
+    for mode, flags in [('normal',[]),('optimized',['-O'])]]
+spec.update(schema='C51A-ACTUAL-GENERATOR-SPEC-PROPOSAL/1',status='DATA_ONLY_PENDING_ROOT_FINAL_AND_REVIEW',
+            prepared_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            out=str(b/'checks-04'),prefix='syson-b54-generator-',cookie=uuid.uuid4().hex,
+            unit='syson-b54-generator-'+uuid.uuid4().hex+'.scope')
+spec['env'].update(SYSON_BOOTSTRAP_TEST_ROOT=str(b/'test-files-04'),TMPDIR=str(b/'command-tmp-04'))
+spec['previous_norm_installed_lock'] = {str(w/lock): {'before_sha256':sha(preimage),'after_sha256':sha(final)}}
+spec.pop('expected_norm_results')
+spec['expected_generator_results']={'commands':2,'exit':0,'all_baseline_targets_before_after_frozen_on_W54':True,
+ 'physical_replica_immutable_files_each':len(immutable),'regular_output_files_each':803,'overwrites_each':801,
+ 'previously_absent_output_files_each':meta['generated_targets_absent_before'],
+ 'exact_byte_equality_output_sets':True,'complete_plan_semantic_equality_to_unsigned_oracle':True,'units':799}
+spec['remaining_launch_gates']=[
+ 'Review both replica roots, regular complete input rosters/preimages and exact output write set independently. Keep W54 immutable source during generator scope.',
+ 'Fresh checked resource and scope admission, exact commands and no archive execution.',
+ 'After genuine production execution, independently review identical 803 output bytes and strict plan/graph/unit/metadata equivalence. Verify not one other replica file changed, then root installs only reviewed generated bodies.']
+out=b/'generator-phase-spec-proposal-resume-01.json'
+with out.open('x') as f:
+    json.dump(spec,f,indent=2,sort_keys=True)
+    f.write('\n')
+print(out,len(spec['inputs']),sha(out.read_bytes()))

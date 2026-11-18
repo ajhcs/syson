@@ -1,0 +1,107 @@
+"""Prepare bounded norm command metadata after root's reviewed installation."""
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import re
+import sys
+import uuid
+
+b = Path(__file__).resolve().parent
+w = Path('/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026')
+proof_ns = 'remaining-work/checkpoint-identity-partition-1.0.12/prior/'
+source_dir = 'composition/identity_partition_prepare/'
+derive_review = b / 'reviewer-actual-derive-data-resume-01.json'
+data = json.loads(derive_review.read_bytes())
+derive_packet = b / 'checks-02/derive-normal.stdout'
+derive_spec = b / 'checks-02-spec.json'
+spec = json.loads(derive_spec.read_bytes())
+receipt = b / 'checks-02/receipt.json'
+run = json.loads(receipt.read_bytes())
+assert run['status'] == 'PASS_NAMED_LOCAL_CHECKS_ONLY'
+assert spec['inputs'] == run['inputs_before'] == run['inputs_after']
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def digest(value):
+    return sha(json.dumps(value, sort_keys=True, ensure_ascii=False,
+                          allow_nan=False, separators=(',', ':')).encode())
+
+
+raw = derive_packet.read_bytes()
+assert sha(raw) == data['packet_sha256']
+art = json.loads(raw)['artifacts']
+installed = []
+for name in ('completion-contract.json', 'acceptance-packet.schema.json'):
+    assert digest(json.loads((w / name).read_bytes())) == data['artifacts_canonical_sha256'][name]
+    installed.append(w / name)
+for name, field, proof in [
+    ('guard.py', 'POLICY_SHA256', digest(art['policy.json'])),
+    ('construct.py', 'CATALOGUE_SHA256', sha((w / proof_ns / 'catalogue.json').read_bytes()))]:
+    p = w / source_dir / name
+    sealed = p.read_bytes()
+    marker = field.encode()
+    pattern = rb"(?m)^" + marker + rb" = '[0-9a-f]{64}'$"
+    assert re.findall(pattern, sealed) == [marker + b" = '" + proof.encode() + b"'"]
+    normalized = re.sub(pattern, marker + b" = 'PENDING_ROOT_FREEZE'", sealed)
+    assert sha(normalized) == spec['inputs'][str(p)]
+    installed.append(p)
+old_inputs = spec['inputs']
+repinned = {str(p): {'prior_before_after_sha256': old_inputs.get(str(p)),
+                     'current_sha256': sha(p.read_bytes())} for p in installed}
+for n, h in old_inputs.items():
+    value = sha(Path(n).read_bytes())
+    if n not in repinned:
+        assert value == h, n
+
+extra = [derive_spec, derive_review, *sorted((b/'checks-02').iterdir()),
+         b/'checks-02-cleanup.json', b/'checks-02-controller.stdout', b/'checks-02-controller.stderr',
+         b/'reviewer-spec-02.json', b/'root-runtime-admission-02.json',
+         b/'review-derive-data-resume.py.raw', *map(Path, sys.argv[1:])]
+prior_plan = w/'plan.json'
+prior_lock = w/'completion-contract.lock.json'
+assert json.loads(prior_plan.read_bytes())['unit_count'] == 797
+assert json.loads(prior_lock.read_bytes())['contract_id'] == 'SYSON-RUST-COMPLETION/1.0.11'
+old_norm = json.loads(prior_lock.read_bytes())['sha256']
+new_roles = {'lanes/identity-partition.json', 'amendments/1.0.12-identity-integration.md',
+             'tools/identity_partition_splits.py'}
+new_roles.update(source_dir + n for n in [
+    'derive.py', 'guard.py', 'test_derive.py', 'test_guard.py', 'README.md',
+    'GUARD.md', 'construct.py', 'test_construct.py', 'CONSTRUCT.md'])
+norm_names = set(old_norm) | new_roles
+assert len(norm_names) == 72
+extra.extend([w / n for n in sorted(norm_names)] + [prior_plan, prior_lock])
+spec['inputs'].update({n: row['current_sha256'] for n, row in repinned.items()})
+for p in extra:
+    assert p.resolve() == p and p.is_file() and not p.is_symlink(), str(p)
+    v = sha(p.read_bytes())
+    assert spec['inputs'].setdefault(str(p), v) == v, str(p)
+spec['commands'] = [
+    {'name': 'norm-' + mode,
+     'argv': ['/usr/bin/python3', *flags, '-I', '-B', str(b/'adoption_current.py'),
+              'norm', str(b/('norm-' + mode + '-01'))]}
+    for mode, flags in [('normal', []), ('optimized', ['-O'])]]
+spec.update(schema='C51A-ACTUAL-NORM-SPEC-PROPOSAL/1', status='DATA_ONLY_PENDING_ROOT_FINAL_AND_REVIEW',
+            prepared_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            out=str(b/'checks-03'), prefix='syson-b54-norm-', cookie=uuid.uuid4().hex,
+            unit='syson-b54-norm-'+uuid.uuid4().hex+'.scope')
+spec['env'].update(SYSON_BOOTSTRAP_TEST_ROOT=str(b/'test-files-03'), TMPDIR=str(b/'command-tmp-03'))
+spec.pop('expected_derive_results')
+spec['prior_derive_review'] = {'path': str(derive_review), 'sha256': sha(derive_review.read_bytes())}
+spec['four_installed_after_derive'] = repinned
+spec['expected_norm_results'] = {'commands':2, 'exit':0, 'normative_roles':sorted(norm_names),
+    'exact_pair_bytes':True, 'output_per_mode':['completion-contract.lock.json','manifest.json'],
+    'expected_bound_contract_id':'SYSON-RUST-COMPLETION/1.0.12',
+    'prior_plan_and_lock_unmodified_during_run': True, 'historical_register_rows':797}
+spec['remaining_launch_gates'] = [
+    'Current branch is a staged adoption only. Physical plan and physical lock are still .11 at phase start.',
+    'Independently review exact phase output-free writable paths, active read set, owner controls, four changed bodies, historical non-circular receipts and fresh resources.',
+    'Inspect paired actual unsigned lock/data and physical input SHA-256 before root installs only the matching completion-contract.lock.json and proceeds to the generator.']
+p = b/'norm-phase-spec-proposal-resume-01.json'
+with p.open('x') as f:
+    json.dump(spec,f,indent=2,sort_keys=True)
+    f.write('\n')
+print(p, len(spec['inputs']), sha(p.read_bytes()))

@@ -149,3 +149,10 @@ The [forest amendment](amendments/1.0.7-forest-kernel-split.md) separates finite
 **Amendment 1.0.8: team execution**
 
 [Team adoption](amendments/1.0.8-team-execution.md) assigns all 790 units to seven portfolios and derives cross-team implementation/acceptance handoffs without changing any prerequisite, budget, hold or required behavior. [TEAM-EXECUTION.md](TEAM-EXECUTION.md) defines interfaces and the first durable workflow. Three authors plus one coordinator remain the execution ceiling; runtime execution remains serialized. Team ownership is not source admission or independent feature acceptance.
+
+## Candidate 1.0.12 adoption disposition
+
+This source draft does not activate registration, execution or a feature lease. Activation requires the independently reviewed atomic source, fixed catalogue and policy, actual generator and complete normative/snapshot composition on the qualified candidate.
+Successful reviewed adoption activates the exact machine-registered M06a2a/M06a2b scope and supersedes only the immutable proposal note's inactive/no-registration statement. That note remains scope and provenance evidence; it grants no execution, lease or acceptance authority.
+Root must bind this disposition in a reviewed adoption record and the versioned normative lock before execution or merge. Intent, source identity and final artifact readback stay separately bound without circular self-hashes.
+All 797 prior records, 55 historical objects, ownership/human holds, parent native/library/UI/storage gates and mandatory functional plus measurement children remain required. No parent or feature is accepted by registration or this disposition.

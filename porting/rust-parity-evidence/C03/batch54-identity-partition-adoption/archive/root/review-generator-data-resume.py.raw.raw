@@ -1,0 +1,100 @@
+"""Compare actual normal and optimized generator outputs as inert data."""
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path
+import stat
+
+b = Path(__file__).resolve().parent
+seed = json.loads((b/'generator-pair-seed-preimage-01.json').read_bytes())
+roster = seed['all_source_files']
+outputs = set(seed['generator_output_paths'])
+immutable = set(roster) - outputs
+p = 'porting/rust-parity-plan-20261026/'
+w = Path(seed['source'])
+lock = p + 'completion-contract.lock.json'
+spec = json.loads((b/'checks-04-spec.json').read_bytes())
+run = json.loads((b/'checks-04/receipt.json').read_bytes())
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def digest(value):
+    return sha(json.dumps(value, sort_keys=True, ensure_ascii=False,
+                          allow_nan=False, separators=(',', ':')).encode())
+
+
+def parse(raw):
+    def unique(pairs):
+        parts = dict(pairs)
+        assert len(parts) == len(pairs)
+        return parts
+    return json.loads(raw, object_pairs_hook=unique)
+
+
+assert run['status'] == 'PASS_NAMED_LOCAL_CHECKS_ONLY'
+assert run['inputs_before'] == spec['inputs'] == run['inputs_after']
+assert len(run['commands']) == 2 and all(command['exit']==0 for command in run['commands'])
+assert json.loads((b/'checks-04-cleanup.json').read_bytes())['confirmed_empty_or_absent']
+roots = {n: Path(x) for n,x in seed['seed_roots'].items()}
+paired={}
+assert len(outputs)==803 and len(immutable)==806
+for mode, root in roots.items():
+    scanned = list(root.rglob('*'))
+    assert all(x.resolve()==x and (x.is_dir() or x.is_file()) for x in scanned)
+    names = {x.relative_to(root).as_posix() for x in scanned if x.is_file()}
+    assert names == outputs | immutable
+    for name in immutable:
+        path = root/name
+        assert sha(path.read_bytes()) == spec['inputs'][str(path)], (mode, name)
+        assert stat.S_IMODE(path.stat().st_mode) == int(roster[name]['mode'],8)
+    for name in outputs:
+        assert str(root/name) not in spec['inputs']
+    paired[mode] = {n:(root/n).read_bytes() for n in outputs}
+parts = paired['normal']
+assert parts == paired['optimized']
+assert all((w/n).is_file() and sha((w/n).read_bytes())==row['sha256']
+           for n,row in roster.items() if n!=lock)
+assert all(not (w/n).exists() for n in seed['generated_targets_absent_before'])
+oracle = parse((b/'checks-02/derive-normal.stdout').read_bytes())['artifacts']['expected-plan.json']
+plan = parse(parts[p+'plan.json'])
+assert digest(plan)==digest(oracle)
+assert len(plan['units'])==799 and len(plan['readiness_graph'])==1598
+assert plan['full_parity_claimed'] is False
+ids = [u['id'] for u in plan['units']]
+graph = plan['readiness_graph']
+dispatch = parse(parts[p+'dispatch.json'])
+old_dispatch = parse((w/p/'dispatch.json').read_bytes())
+assert dispatch==dict(old_dispatch,waves=plan['source_author_dispatch_waves'],
+                      write_conflicts=plan['unordered_write_conflicts'])
+assert sorted(uid for wave in dispatch['waves'] for uid in wave)==ids
+teams = parse(parts[p+'team-dispatch.json'])
+old_teams = parse((w/p/'team-dispatch.json').read_bytes())
+expected_assignment = dict(old_teams['assignment'], M06a2a='services-persistence', M06a2b='services-persistence')
+assert teams['assignment']==expected_assignment and teams['policy']==old_teams['policy']
+expected_cross = [{'from': a, 'to': z,'from_team': expected_assignment[a.split(':',1)[1]],
+                   'to_team': expected_assignment[z.split(':',1)[1]]}
+                  for a in sorted(graph) for z in sorted(graph[a])
+                  if expected_assignment[a.split(':',1)[1]] != expected_assignment[z.split(':',1)[1]]]
+assert teams['cross_team_edges']==expected_cross and teams['team_counts']==Counter(expected_assignment.values())
+index = parts[p+'PR-INDEX.md'].decode('utf-8')
+assert [line.split('](',1)[0][3:] for line in index.splitlines() if line.startswith('| [')]==ids
+for row in plan['units']:
+    uid = row['id']
+    brief = parts[p+'prs/'+uid+'.md'].decode('utf-8')
+    assert brief.startswith('# '+uid+': '+row['title']+'\n')
+    assert 'SYSON-RUST-COMPLETION/1.0.12' in brief,uid
+    assert row['source_fragment'] in brief, uid
+raw_stdout = [(b/'checks-04'/('generator-'+n+'.stdout')).read_bytes() for n in roots]
+assert raw_stdout[0]==raw_stdout[1]
+stdout = parse(raw_stdout[0])
+assert stdout['units']==799 and stdout['waves']==len(dispatch['waves'])
+assert stdout['write_conflicts']==0 and stdout['old_remaining_mapping']==plan['old_remaining_brief_mapping']
+print(json.dumps({'status':'PASS_PAIRED_ACTUAL_GENERATOR_803_OUTPUTS_ORACLE_COMPARISON_ONLY',
+                  'unchanged_replica_bodies_each':len(immutable),
+                  'paired_output_sha256': {n:sha(raw) for n,raw in sorted(parts.items())},
+                  'canonical_actual_plan_equal_oracle_sha256':digest(plan),
+                  'units':799,'readiness_nodes':1598,'team_edges':len(expected_cross),
+                  'waves':len(dispatch['waves']),'install_authority':'root separate review'},indent=2))

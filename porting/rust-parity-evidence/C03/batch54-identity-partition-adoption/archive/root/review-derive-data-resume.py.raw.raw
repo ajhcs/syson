@@ -1,0 +1,174 @@
+"""Independently review the actual derive packet as data, with no subject imports."""
+from collections import Counter
+import copy
+import hashlib
+import json
+from pathlib import Path
+
+B = Path(__file__).resolve().parent
+W = Path('/workspace/worktrees/builderbob/syson')
+P = 'porting/rust-parity-plan-20261026'
+OLD = W / 'batch53-identity-capture-extension-20261031' / P
+NEW = W / 'batch54-identity-adoption-source-20261031' / P
+F = 'composition/identity_partition_prepare/'
+S = 'composition/source_next_prepare/'
+VERSION = 'SYSON-RUST-COMPLETION/1.0.12'
+CHILDREN = ['M06a2a', 'M06a2b']
+OMIT = {'completion_contract', 'source_fragment_sha256'}
+
+
+def require(condition, detail):
+    if not condition:
+        raise ValueError(detail)
+
+
+def read(root, name, maximum=8 * 1024 * 1024):
+    p = root / name
+    require(root.resolve() == root and p.resolve() == p and p.is_file()
+            and p.stat().st_size <= maximum, ('bounded canonical input', name))
+    with p.open('rb') as f:
+        raw = f.read(maximum + 1)
+    require(len(raw) <= maximum, ('input grew', name))
+    return raw
+
+
+def digest(value):
+    return sha(json.dumps(value, sort_keys=True, ensure_ascii=False,
+                          allow_nan=False, separators=(',', ':')).encode())
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def parse(raw):
+    def unique(pairs):
+        values = dict(pairs)
+        require(len(values) == len(pairs), 'duplicate JSON key')
+        return values
+    value = json.loads(raw, object_pairs_hook=unique)
+    digest(value)
+    return value
+
+
+a = read(B / 'checks-02', 'derive-normal.stdout')
+z = read(B / 'checks-02', 'derive-optimized.stdout')
+require(a == z, 'derive stdout differs across modes')
+packet = parse(a)
+art = packet['artifacts']
+require(set(packet) == {'status', 'artifacts', 'input_sha256'}
+        and packet['status'] == 'UNSEALED_PROPOSAL_ONLY', 'exact unsigned packet shape')
+require(set(art) == {'policy.json', 'completion-contract.json',
+                     'acceptance-packet.schema.json', 'expected-plan.json', 'source-metadata.json'},
+        'exact five artifact roles')
+old = parse(read(OLD, 'plan.json'))
+contract = parse(read(OLD, 'completion-contract.json'))
+lock = parse(read(OLD, 'completion-contract.lock.json'))
+snapshot_raw = read(OLD, 'remaining-work/snapshot.lock.json')
+snapshot = parse(snapshot_raw)
+history = parse(read(OLD, 'execution.json'))['units']
+baseline = set(lock['sha256']) | {'plan.json', 'completion-contract.lock.json',
+                                  'remaining-work/snapshot.lock.json',
+                                  'rereview-batch11-coordinator-ownership.json'}
+require(len(baseline) == 64, 'bounded historical input set')
+lane = read(NEW, F + 'fixtures/lane.json', 65536)
+amendment = read(NEW, F + 'fixtures/amendment.md', 65536)
+generator = read(NEW, 'tools/build_plan.py', 262144)
+require(lane == read(NEW, 'lanes/identity-partition.json', 65536)
+        and amendment == read(NEW, 'amendments/1.0.12-identity-integration.md', 65536),
+        'active candidate lane/amendment stationary')
+pins = {'supplied-baseline/' + n: sha(read(OLD, n)) for n in baseline}
+pins.update({'proposed/lane.json': sha(lane), 'proposed/amendment.md': sha(amendment),
+             'proposed/current-generator.py': sha(generator)})
+pins.update({'actual-provider/' + Path(n).name: sha(read(NEW, n, 65536))
+             for n in [S + 'guard.py', S + 'construct.py', S + 'derive.py',
+                       'composition/registration/prepare.py']})
+pins.update({'actual-entry/' + n: sha(read(NEW, F + n, 65536)) for n in ['derive.py', 'guard.py']})
+require(packet['input_sha256'] == pins, 'all actual derive provenance')
+policy = art['policy.json']
+expected_contract = copy.deepcopy(contract)
+expected_contract.update(version='1.0.12', contract_id=VERSION, identity_partition_splits=policy)
+expected_contract['unit_ids'].extend(CHILDREN)
+expected_contract['families']['model'].extend(CHILDREN)
+require(digest(art['completion-contract.json']) == digest(expected_contract), 'whole current contract')
+schema = parse(read(OLD, 'acceptance-packet.schema.json'))
+schema['properties']['unit_id']['enum'] = expected_contract['unit_ids']
+schema['properties']['contract_id']['const'] = VERSION
+require(digest(art['acceptance-packet.schema.json']) == digest(schema), 'whole current schema')
+plan = art['expected-plan.json']
+ids = [u['id'] for u in plan['units']]
+before = {u['id']: u for u in old['units']}
+after = {u['id']: u for u in plan['units']}
+require(len(ids) == len(after) == plan['unit_count'] == 799
+        and ids == sorted(set(before) | set(CHILDREN)), 'whole 797 plus two ordered units')
+for uid, proposed in zip(CHILDREN, parse(lane)['units'], strict=True):
+    row = dict(proposed, lane='identity-partition', source_fragment='lanes/identity-partition.json',
+               source_fragment_sha256=sha(lane), external_pr_details=proposed['external_prs'])
+    row['completion_contract'] = dict(before['M06a2']['completion_contract'], id=VERSION)
+    require(digest(row) == digest(after[uid]), ('whole fixed child', uid))
+changes = {}
+for uid, prev in before.items():
+    now = after[uid]
+    require(set(prev) <= set(now), ('old fields missing', uid))
+    require(now['completion_contract'] == dict(prev['completion_contract'], id=VERSION)
+            and now['source_fragment_sha256'] == (
+                sha(generator) if uid == 'C99' else prev['source_fragment_sha256']),
+            ('old authority fields', uid))
+    fields = {k: {'before': {'present': k in prev, 'value': prev.get(k)}, 'after': v}
+              for k, v in now.items() if k not in OMIT and (k not in prev or digest(v) != digest(prev[k]))}
+    if fields:
+        changes[uid] = fields
+require(digest(changes) == digest(policy['record_updates']), 'complete old row delta')
+joint = parse(read(OLD, 'cross-lane-review.json'))['joint_acceptance_gates']
+require(set(changes) <= {'C99', 'M06a2'} | set(joint), 'fixed affected owners')
+for k in ['dependencies', 'implementation_ready_dependencies',
+          'acceptance_children', 'source_preparation_children']:
+    require(after['M06a2'][k] == sorted(set(before['M06a2'].get(k, [])) | set(CHILDREN)),
+            ('parent child relation', k))
+require(len(history) == 55 and len(snapshot['progress_inputs']) == 342
+        and policy['historical_unit_count'] == 55 and policy['historical_units_sha256'] == digest(history)
+        and policy['prior_progress_count'] == 342 and policy['prior_progress_sha256'] ==
+        digest({n: snapshot['sha256'][n] for n in snapshot['progress_inputs']}),
+        'unchanged 55 history and 342 progress pins')
+require(policy['base_contract_sha256'] == digest(contract) and policy['base_plan_sha256'] == digest(old)
+        and policy['base_snapshot_sha256'] == sha(snapshot_raw)
+        and policy['amendment'] == {'path': 'amendments/1.0.12-identity-integration.md', 'sha256': sha(amendment)}
+        and policy['children'] == {uid: digest({k: v for k, v in after[uid].items() if k not in OMIT})
+                                   for uid in CHILDREN}, 'exact .12 policy source bindings')
+graph = plan['readiness_graph']
+require(set(graph) == {prefix + uid for prefix in ('accepted:', 'implementation:') for uid in ids}
+        and len(graph) == len(old['readiness_graph']) + 4 == 1598
+        and all(set(links) <= set(graph[node]) for node, links in old['readiness_graph'].items()),
+        'complete typed node set and all prior edges')
+seen, visiting = set(), set()
+
+
+def visit(node):
+    require(node not in visiting, ('cycle', node))
+    if node not in seen:
+        visiting.add(node)
+        require(len(set(graph[node])) == len(graph[node]), ('duplicate edge', node))
+        for dep in graph[node]:
+            visit(dep)
+        visiting.remove(node)
+        seen.add(node)
+
+
+for node in graph:
+    visit(node)
+meta = art['source-metadata.json']
+require(meta['lane_counts'] == Counter(u['source_fragment'] for u in after.values()), 'all source counts')
+for name in ['lane_counts', 'source_author_dispatch_waves', 'unordered_write_conflicts']:
+    require(plan[name] == meta[name], ('whole source metadata', name))
+other = set(old) - {'units', 'unit_count', 'readiness_graph', 'completion_contract',
+                     'lane_counts', 'source_author_dispatch_waves', 'unordered_write_conflicts'}
+require(set(plan) == set(old) and all(digest(plan[k]) == digest(old[k]) for k in other),
+        'all unaffected plan fields')
+require(plan['completion_contract'] == dict(old['completion_contract'], id=VERSION),
+        'plan version pointer')
+print(json.dumps({'status': 'PASS_ACTUAL_N_O_DERIVE_DATA_ONLY_ORACLE_UNINSTALLED',
+                  'packet_sha256': sha(a), 'packet_bytes': len(a), 'inputs': len(pins),
+                  'proof_policy_sha256': digest(policy), 'units': len(ids), 'graph_nodes': len(graph),
+                  'historical_records': 55, 'historical_progress': 342,
+                  'changed_old_rows': sorted(changes),
+                  'artifacts_canonical_sha256': {n: digest(v) for n, v in sorted(art.items())}}, indent=2))

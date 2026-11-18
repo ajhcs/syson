@@ -14,7 +14,7 @@ from . import guard as G
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_ROOT = Path('/workspace/build/builderbob')
 CATALOGUE = 'remaining-work/checkpoint-identity-partition-1.0.12/prior/catalogue.json'
-CATALOGUE_SHA256 = 'PENDING_ROOT_FREEZE'
+CATALOGUE_SHA256 = 'af671ffe2a4392dfeba7778477a801afc7aac988d52264c95f514effdf06dcd3'
 MIB = 1024**2
 BOUNDS = {'completion-contract.lock.json': 256 * 1024, 'units.json': 5 * MIB,
           'snapshot.lock.json': 256 * 1024, 'manifest.json': 512 * 1024}

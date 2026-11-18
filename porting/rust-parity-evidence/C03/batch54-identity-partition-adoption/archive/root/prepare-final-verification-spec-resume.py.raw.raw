@@ -1,0 +1,93 @@
+"""Build root-reviewed final verification data from physical installed outputs."""
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import sys
+import uuid
+
+b=Path(__file__).resolve().parent
+m=b/'verification-matrix-resume-01.json'
+phase=b/'checks-05-spec.json'
+data=json.loads(m.read_bytes())
+spec=json.loads(phase.read_bytes())
+w=Path(spec['crate'])
+review=b/'reviewer-actual-snapshot-data-resume-01.json'
+r=json.loads(review.read_bytes())
+assert r['status']=='PASS_ACTUAL_PAIRED_FULL_12_SNAPSHOT_DATA_AND_64MIB_LOGICAL_FRAMING'
+receipt=b/'checks-05/receipt.json'
+run=json.loads(receipt.read_bytes())
+assert run['status']=='PASS_NAMED_LOCAL_CHECKS_ONLY'
+assert run['inputs_before']==run['inputs_after']==spec['inputs']
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+updates={}
+for name in ('units.json','snapshot.lock.json'):
+    p=w/'remaining-work'/name
+    actual=sha(p.read_bytes())
+    assert actual==r['all_outputs_sha256'][name]
+    assert actual==sha((b/'snapshot-normal-01'/name).read_bytes())
+    assert actual==sha((b/'snapshot-optimized-01'/name).read_bytes())
+    updates[str(p)]={'before_sha256':spec['inputs'][str(p)],'after_sha256':actual}
+for n,h in spec['inputs'].items():
+    if n not in updates:
+        assert sha(Path(n).read_bytes())==h,n
+spec['inputs'].update({n:row['after_sha256'] for n,row in updates.items()})
+extra=[m,phase,receipt,review,*sorted((b/'checks-05').iterdir()),
+ b/'checks-05-cleanup.json',b/'checks-05-controller.stdout',b/'checks-05-controller.stderr',
+ b/'reviewer-spec-05.json',b/'root-runtime-admission-05.json',
+ *sorted((b/'snapshot-normal-01').iterdir()),*sorted((b/'snapshot-optimized-01').iterdir()),
+ *map(Path,sys.argv[1:])]
+for f in extra:
+    assert f.resolve()==f and f.is_file(),f
+    value=sha(f.read_bytes())
+    assert spec['inputs'].setdefault(str(f),value)==value,str(f)
+for rel,row in data['files'].items():
+    p=w/rel
+    assert sha(p.read_bytes())==row['sha256']==spec['inputs'][str(p)]
+for f in [w/'tools/verify_plan.py',w/'remaining-work/verify_snapshot.py',
+          w.parents[1]/'porting/rust-parity-evidence/C03/batch36-storage-registration/check_open_completion.py']:
+    value=sha(f.read_bytes())
+    assert spec['inputs'].setdefault(str(f),value)==value
+normal=[c for c in data['commands'] if not c['name'].startswith('plan-selftest-')]
+long=[c for c in data['commands'] if c['name'].startswith('plan-selftest-')]
+assert len(normal)==78 and len(long)==2
+assert sum(len(c.get('required_unittest_ids',[])) for c in normal)==406
+spec.pop('expected_snapshot_results')
+spec['installed_snapshot_bodies']=updates
+spec['required_coverage']={'named_test_executions':406,'named_tests_per_mode':203,
+                           'extra_cli_commands':6,'short_commands':78,'long_commands':2,
+                           'full_parity_claimed':False}
+spec['subjects_frozen_again']={'full_current_normative_data_verified':True,'final_snapshot_sha256':updates,
+                              'matrix_sha256':sha(m.read_bytes())}
+spec['env'].update(SYSON_BOOTSTRAP_TEST_ROOT=str(b/'test-files-06'),
+ TMPDIR=str(b/'command-tmp-06'),**{k:v for k,v in data['required_env'].items() if 'FIXTURES' in k})
+spec.update(schema='C51A-FINAL-VERIFICATION-PROPOSAL/1',status='DATA_ONLY_PENDING_ROOT_FINAL_AND_REVIEW',
+            prepared_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            out=str(b/'checks-06'),prefix='syson-b54-final-',cookie=uuid.uuid4().hex,
+            unit='syson-b54-final-'+uuid.uuid4().hex+'.scope',commands=normal)
+spec['remaining_launch_gates']=[
+    'Independently review absolute test roots, fixture identity, all 406 named cases, and final input map.',
+    'Verify current headroom, ownership, immutable inputs and owned roots before short scope.',
+    'Only accept actual raw stdout/stderr and exit captures. The expected OPEN helper validates CLI exit2 internally.',
+    'Verify two separately reviewed original plan --self-test CLI executions. No test is credited based on this proposal.']
+p=b/'verification-final-short-proposal-resume-01.json'
+with p.open('x') as f:json.dump(spec,f,indent=2,sort_keys=True);f.write('\n')
+for i,cmd in enumerate(long,1):
+    mode=cmd['name'].removeprefix('plan-selftest-')
+    out=b/('verification-final-plan-'+mode+'-proposal-resume-01.json')
+    body={k:spec[k] for k in ['crate','env','inputs','ownership_helper','compiler_lock','resource_profile']}
+    body.update({'schema':'C51A-FINAL-LONG-VERIFICATION-PROPOSAL/1',
+                 'status':'DATA_ONLY_PENDING_ROOT_FINAL_AND_REVIEW',
+                 'cmd':cmd,'original_cli_argv':cmd['argv'],'phase_separation_reason':'unchanged F25 per-command timeout is 180s',
+                 'expected':{'negative_gate_checks':'PASS','units':799,'readiness_graph_nodes':1598},
+                 'prefix':'syson-b54-plan-selftest-','unit':'syson-b54-plan-selftest-'+uuid.uuid4().hex+'.scope',
+                 'cookie':uuid.uuid4().hex,'run_output_root':str(b/('long-plan-'+mode+'-01')),
+                 'required_scope_wrapper_to_bind':'Pinned timeout/flock + existing scope ownership controls. Review actual final shell/Python argv and scoped timeout 1200s before launch.'})
+    body['env']=dict(body['env'],TMPDIR=str(b/f'long-plan-tmp-{i:02d}'),
+                    SYSON_BOOTSTRAP_TEST_ROOT=str(b/f'long-plan-fixture-{i:02d}'))
+    with out.open('x') as f:json.dump(body,f,indent=2,sort_keys=True);f.write('\n')
+    print(out.name,sha(out.read_bytes()))
+print(p.name,len(spec['inputs']),len(normal),sha(p.read_bytes()))

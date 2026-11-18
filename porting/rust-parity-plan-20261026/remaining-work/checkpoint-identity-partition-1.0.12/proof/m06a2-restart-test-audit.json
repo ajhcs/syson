@@ -1,0 +1,147 @@
+{
+  "schema": "SYSON_INDEPENDENT_RESTART_TEST_AUDIT/1",
+  "status": "SOURCE_REVIEW_ONLY_FINDINGS_UNEXECUTED_HOLD",
+  "scope": {
+    "report": "/workspace/build/builderbob/syson-durable-batch45-20261031/independent-restart-test-audit-04.json",
+    "auditor": "/root/audit_restart_tests",
+    "identity": "uid=1000 builderbob",
+    "storage": "Read-only bob-admin workspace-status in approved host context returned outcome ok: Samsung SSD 990 PRO 2TB, /dev/nvme1n1p1, ext4, /workspace.",
+    "authority": "Parent-requested read-only audit of actual normal formatted candidate03. partition-proposal-01.json read as proposed acceptance allocation, not adopted authority.",
+    "prohibitions_observed": [
+      "No Rust compilation, formatting, tests, subject execution or network",
+      "No source, Git, contract, plan, lock, lease or ownership changes",
+      "No root, sudo, HOME or Plumbob administration",
+      "Only this report written"
+    ],
+    "limits": "No observed runtime failure or runtime PASS. M06a2a/M06a2b remain unadopted and no implementation dispatch is authorized before independently reviewed 1.0.12 registration. Complete457production/951authored HOLD preserved; projected376/870 is conditional only."
+  },
+  "sources": [
+    {
+      "relative": "examples/import_save_reopen.rs",
+      "lines": 183,
+      "sha256": "e5a974fc4cf435f080eb3aed108fbc86e229aa552308d1e54732962ac15256ad"
+    },
+    {
+      "relative": "tests/finite_import_restart.rs",
+      "lines": 327,
+      "sha256": "41513cc439d92fd31e6b813607396d10709271ad3d3e72db48feedcb2642c2a8"
+    },
+    {
+      "relative": "tests/snapshots.rs",
+      "lines": 166,
+      "sha256": "fa3167489a78e30fc972bf9fc552efbeece240f38081709c1f632108263e9a8f"
+    },
+    {
+      "relative": "examples/snapshot_identity_probe.rs",
+      "lines": 81,
+      "sha256": "19ef0c9b25b4640fbe612aa207af6894d6ffc2b8ca6c07648055a5c2516edb52"
+    },
+    {
+      "relative": "src/lib.rs",
+      "lines": 130,
+      "sha256": "b66886b6357b4edc54048dfe1d5b3e1c958e73764fed75d603fbc49383c4a910"
+    }
+  ],
+  "source_root": "/workspace/build/builderbob/syson-durable-batch45-20261031/format-preview-03",
+  "public_api_context": "/workspace/worktrees/builderbob/syson/batch45-identity-reopen-20261031/rust/crates",
+  "findings": [
+    {
+      "id": "RT04-01",
+      "priority": "P2",
+      "kind": "test_evidence_custody",
+      "file": "tests/finite_import_restart.rs",
+      "line_start": 136,
+      "line_end": 139,
+      "title": "Unconditional test cleanup discards restart and failure evidence",
+      "evidence": "Directory::drop calls remove_dir_all unconditionally. Every new filesystem test owns Directory. sample writes PID-named stdout/stderr into this directory; the positive restart case also places both snapshots and finite-baseline.emf.staged there.",
+      "counterexample": "A full persisted oracle or PID assertion fails after writer/read execution. Ordinary panic unwinding runs Drop and removes the very raw logs/snapshots needed to inspect the failure. A successful no-overwrite case asserts failed staging retained at201\u2013204, then immediately removes that staging file and both process logs when the test exits.",
+      "impact": "No post-run raw test artifact survives success or ordinary assertion failure. In-memory assertions are useful but cannot supply the stated retained process/raw-byte evidence.",
+      "needed_verification": "After formal registration and a fresh authorized source lease, define evidence custody for each test attempt and retain or archive exact logs, snapshots and failed staging on Samsung before removal. Demonstrate an intentional assertion-failure attempt leaves inspectable bounded output, PIDs and bytes, and a normal success leaves reviewable evidence. Preserve original166 donor and every existing assertion/case.",
+      "certainty": "Confirmed source behavior; counterexample not executed."
+    },
+    {
+      "id": "RT04-02",
+      "priority": "P2",
+      "kind": "missing_critical_cli_no_overwrite_case",
+      "file": "tests/finite_import_restart.rs",
+      "line_start": 186,
+      "line_end": 204,
+      "title": "CLI rerun cannot exercise collision at the final snapshot key",
+      "evidence": "The test creates both finite.emf.json and finite-baseline.emf.json in the first writer. It directly calls save_new(\"finite\") at186\u2013190, then reruns the CLI at192. The CLI saves finite-baseline at examples/import_save_reopen.rs136 before saving finite at158.",
+      "counterexample": "A future regression keeps baseline save_new correct but replaces final-key publication with an overwrite. The first writer still succeeds on fresh storage. The direct SnapshotStore test still refuses overwrite. The negative CLI rerun fails on the existing baseline at136 and never reaches the regressed final save158. Every current assertion can pass.",
+      "impact": "The current test establishes a baseline-key CLI refusal and direct final-key SnapshotStore refusal, but does not establish CLI refusal for an existing final key when baseline creation can proceed.",
+      "needed_verification": "After formal registration and fresh authorized source lease, retain all existing cases and add an isolated existing-final/absent-baseline namespace. Run writer, assert refusal and unchanged preexisting final bytes, inspect retained stage/log evidence and confirm a fresh reader still loads the prior final. Count all additions normally.",
+      "certainty": "Confirmed control-flow/coverage gap; current final CLI call is correctly save_new and no production overwrite observed."
+    }
+  ],
+  "shared_helper_cross_check": {
+    "owner": "Other independent auditor owns shared helper/public API findings; this is overlap communicated promptly to root, not an additional independent production failure.",
+    "file": "src/lib.rs",
+    "lines": "73\u201394",
+    "source_inference": "Waiting until child exit before draining pipes allows a child emitting more than pipe capacity to block and hit the deadline; the timeout path returns before logs are captured. An exited direct child with a descendant retaining stdout/stderr permits capped read_to_end to wait beyond the15s child wait deadline. These scenarios were not run.",
+    "effect": "15s child kill/reap path exists, but it does not itself prove an overall bounded collection operation or retained timeout logs. Root/shared-helper auditor should resolve intended trusted-CLI limits and exact future verification."
+  },
+  "verified_source_strengths": [
+    {
+      "file": "tests/finite_import_restart.rs",
+      "lines": "18\u201398,151\u2013185",
+      "finding": "Manual topology constructs independent expected JSON for11 imported pairs plus generated12, names, classes, all membership containment and both FeatureTyping type/typedFeature links. It does not call Importer, Editor or CLI to build expected state. Document derives whole-Value equality; from_json retains its Value and to_json serializes canonical bytes. Both baseline and edited final bytes are checked."
+    },
+    {
+      "file": "examples/import_save_reopen.rs",
+      "lines": "118\u2013176",
+      "finding": "Actual Importer::stage+commit from an empty Editor;11 supplied identity pairs; generated twelfth semantic role; typed PartUsage rename EditedA; immutable baseline/final save; separate read branch invokes actual SnapshotStore::load. Verification reconstructs a fresh private SelectedIdentityRegistry from loaded document fields and checks all12 fixed pairs and two real links."
+    },
+    {
+      "file": "tests/finite_import_restart.rs",
+      "lines": "141\u2013185",
+      "finding": "Writer sample returns only after helper try_wait observes actual child exit; reader invocation follows sequentially. Writer and reader PIDs differ from each other and test parent. Parent independently verifies whole final canonical bytes before/after reader."
+    },
+    {
+      "file": "tests/finite_import_restart.rs",
+      "lines": "206\u2013327",
+      "finding": "Four distinct new test functions retained. Tests cover explicit staged.cancel, post-stage atomic cancellation, malformed source, missing linked target, identity exhaustion, sixth-allocation late semantic/resource collisions, foreign and stale staged commits, preserved history/documents/prior bytes, atomic two-role registry failure and independent registry scope."
+    },
+    {
+      "file": "tests/snapshots.rs",
+      "lines": "1\u2013166",
+      "finding": "All166 supplied original lines retained byte-identically in formatted preview and active worktree. Full active fixture remains2071 bytes/one line, SHA25642cb4e3b3c3c7fe65c12abbcec28243ef91d7a1be7330553d88c5dab63ad773d. Original provider3, initial11/final12, cancellation, role collision, prior byte and reload assertions remain."
+    },
+    {
+      "file": "src/lib.rs",
+      "lines": "21\u201337,90\u2013120",
+      "finding": "Canonical owned0700 unprivileged workspace admission;4097-byte capped capture and >4096 refusal; exclusive PID-named logs; exact10 tab fields; correct M06A2/1/mode; actual child PID; numeric parsing; literal count strings exactly12 reject012; successful child stderr must be empty. No source execution performed."
+    }
+  ],
+  "probe_review": {
+    "source": "examples/snapshot_identity_probe.rs",
+    "status": "FUTURE_MANDATORY_M06a2b_ONLY_UNEXECUTED_NOT_DISPATCHED",
+    "verified_source": "Exactly9 fresh sample directories using0700; sequential writer/read actual process helper calls; first2 marked warmup; remaining7 used for seven min/median/max summaries at indices0,3,6. No p95 or subtraction. parse_only is explicitly UNAVAILABLE_PUBLIC_API and RSS EXTERNAL_SEPARATE. Direct child PID and matching output byte counts checked.",
+    "clocks": {
+      "stage": "CLI121\u2013135 includes actual staging/parser/linker and commit, excludes baseline save136.",
+      "edit": "CLI137\u2013156 includes semantic-ID generation, generated package creation, typed usage rename and transaction commit.",
+      "save": "CLI157\u2013159 final save_new only.",
+      "load": "CLI162\u2013164 actual SnapshotStore::load including JSON parsing.",
+      "writer_reader_process": "Shared helper63\u201389 measures spawn through exit observation including polling; excludes subsequent pipe drains/raw-log writes/protocol parsing at90\u2013120.",
+      "whole_pair": "Probe19\u201328 includes both helper calls and their log/protocol handling plus pre-clock-stop cardinality check; does not include subsequent row formatting/output."
+    },
+    "open_qualification_obligations": [
+      "Retain all9 raw rows, all18 child lifetimes/statuses/bounded stdout+stderr, and all baseline/final snapshots. Independently bind every sample to exact source/binary/input/identity pins.",
+      "CLI verify checks12 pairs, names and two links, but its canonical check compares actual loaded Document serialization with its own persisted bytes. It is not an independent complete topology oracle. The future root raw-data review must compare all9 baseline/final documents with the independent full oracle; single functional-test sample acceptance cannot stand in for all9 measured samples.",
+      "Source counterexample for the per-sample oracle boundary: reorder two Imported ownedRelationship membership entries while preserving all IDs, names and links, persist that canonical document. CLI verify's ID lookup/count/link tests do not inspect containment ordering, and canonical-self equality still passes. Independent complete oracle would detect the change. This is source inference, not an executed corruption test or present production bug.",
+      "Capture direct release writer and reader RSS externally with exact PIDs/workload/environment/allocator/cache/host scope. Probe parent RSS or compilation peak is not child RSS and RSS is not heap.",
+      "Fine-grained parse-only obligation remains OPEN through current public APIs. No duplicated parsing, subtraction, UI/native/backend or full durability claim.",
+      "Qualify exact admitted future composition after A is actually landed and qualified; preserve complete earlier HOLD candidates and all parent obligations."
+    ]
+  },
+  "exact_next_verification": {
+    "precondition": "Reviewed versioned1.0.12 registration with exact source children, preserved parent gates, independently reviewed locks/snapshots and fresh leases/admission. This report grants none.",
+    "functional": "Use only admitted normal formatted A projection, exact release CLI/binary/source pins and owned0700 Samsung storage; execute full original166/new4 and applicable original18 identity/all16 importer/current caller/platform/fmt/Clippy/debug/release obligations. Resolve evidence custody and final-key CLI no-overwrite coverage under the authorized future source scope before claiming these acceptance items.",
+    "measurement": "After qualified landedA and futureB admission, execute2warm+7raw fresh samples/all7 metrics, inspect every output against independent oracle, retain raw records and direct-child external RSS. No runtime undertaken here."
+  },
+  "memory_used": {
+    "path": "MEMORY.md",
+    "lines": "900\u2013905",
+    "use": "Prior bounded-parity and process-local identity role caution only. All candidate facts were rechecked from current source."
+  }
+}

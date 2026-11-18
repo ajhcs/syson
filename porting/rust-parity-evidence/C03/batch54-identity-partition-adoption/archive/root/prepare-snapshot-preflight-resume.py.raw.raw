@@ -1,0 +1,45 @@
+"""Use current regular file lengths to calculate the unchanged constructor's preflight reserve."""
+import hashlib
+import json
+from pathlib import Path
+
+b=Path(__file__).resolve().parent
+w=Path('/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-plan-20261026')
+p=b/'norm-normal-03/manifest.json'
+load=lambda x: json.loads(x.read_bytes())
+cat='remaining-work/checkpoint-identity-partition-1.0.12/prior/catalogue.json'
+catalogue=load(w/cat)
+history=load(w/'remaining-work/snapshot.lock.json')
+assert history['contract_id']=='SYSON-RUST-COMPLETION/1.0.11'
+current=load(w/'completion-contract.lock.json')
+norm=load(p)
+plan=load(w/'plan.json')
+assert len(plan['units'])==799 and current['contract_id']=='SYSON-RUST-COMPLETION/1.0.12'
+physical={k.removeprefix('physical/') for k in norm['input_sha256'] if k.startswith('physical/')}
+progress=set(history['progress_inputs'])|set(catalogue['proof_inputs'])|{cat,
+    'rereview-batch11-coordinator-ownership.json',
+    'composition/identity_partition_prepare/fixtures/lane.json',
+    'composition/identity_partition_prepare/fixtures/amendment.md'}
+progress.update(d['source'] for d in catalogue['files'].values() if d['encoding']=='gzip')
+names=set(history['sha256'])|set(current['sha256'])|progress|physical|{'prs/'+u['id']+'.md' for u in plan['units']}
+names.discard('remaining-work/units.json')
+assert len(names)==1246
+roster={}
+for name in sorted(names):
+    f=w/name
+    assert f.resolve()==f and f.is_file() and f.stat().st_size <= 8*(1<<20)
+    raw=f.read_bytes()
+    overhead=len((json.dumps({name:'0'*64},ensure_ascii=False,indent=2)+'\n').encode())
+    roster[name]={'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),'logical_framing_bytes':overhead}
+charge=sum(x['bytes']+x['logical_framing_bytes'] for x in roster.values())
+reserve=5*(1<<20)+256*1024+512*1024+256*1024
+bound=64*(1<<20)
+assert charge+reserve<=bound
+value={'schema':'B54-EXACT-SNAPSHOT-PHYSICAL-PREFLIGHT-PROJECTION/1',
+ 'status':'PASS_DATA_ONLY_PREDICTED_EARLY_BOUND_ACTUAL_FULL_SNAPSHOT_STILL_REQUIRED',
+ 'names':roster,'physical_count':len(names),'progress_count_current_including_8_proofs':len(progress),
+ 'physical_bodies_and_per_role_hash_frame_bytes':charge,'fixed_output_caps_plus_scratch_reserve_bytes':reserve,
+ 'combined_preflight_reservation_bytes':charge+reserve,'logical_limit_bytes':bound,'headroom_bytes':bound-charge-reserve}
+path=b/'snapshot-physical-preflight-resume-01.json'
+with path.open('x') as f:json.dump(value,f,indent=2);f.write('\n')
+print(path,charge,reserve,bound-charge-reserve,hashlib.sha256(path.read_bytes()).hexdigest())

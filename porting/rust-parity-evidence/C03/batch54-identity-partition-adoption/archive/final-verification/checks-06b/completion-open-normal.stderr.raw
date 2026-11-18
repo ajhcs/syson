@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/workspace/worktrees/builderbob/syson/batch54-identity-adoption-source-20261031/porting/rust-parity-evidence/C03/batch36-storage-registration/check_open_completion.py", line 10, in <module>
+    result = subprocess.run(arguments, capture_output=True, text=True, timeout=120)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/usr/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['/usr/bin/python3', '-s', '-B', 'tools/verify_plan.py', '--check-completion']' timed out after 120 seconds

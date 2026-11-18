@@ -1,0 +1,73 @@
+{
+  "actual_input_output_bytes": 8256251,
+  "at_utc": "2026-11-17T18:32:41.212025+00:00",
+  "both_outputs_byte_identical": {
+    "completion-contract.lock.json": {
+      "bytes": 7742,
+      "sha256": "dfbe3d071d3855c7e3e1a0baf3dd1d6c16acf15e25bf4b86c58a99d6630a289b"
+    },
+    "manifest.json": {
+      "bytes": 35555,
+      "sha256": "891850eb46e8062eb5a5a295d51d345331bd58dc98247eb936ca12830197e7e0"
+    }
+  },
+  "cleanup_confirmed": true,
+  "cleanup_sha256": "fad4daf85781a599a9e19c225379f712898e4d32be7fd26df6b9ef7e1298db86",
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch54-20261031/adoption_current.py",
+        "norm",
+        "/workspace/build/builderbob/syson-durable-batch54-20261031/norm-normal-03"
+      ],
+      "exit": 0,
+      "name": "norm-normal",
+      "passed": 0,
+      "wall_seconds": 4.32356240900117
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-O",
+        "-I",
+        "-B",
+        "/workspace/build/builderbob/syson-durable-batch54-20261031/adoption_current.py",
+        "norm",
+        "/workspace/build/builderbob/syson-durable-batch54-20261031/norm-optimized-03"
+      ],
+      "exit": 0,
+      "name": "norm-optimized",
+      "passed": 0,
+      "wall_seconds": 5.584379350002564
+    }
+  ],
+  "contract_body_sha256": "30457a60ae941bc1d0b255598b4126745b75e597a99efc10968de8620eacdd71",
+  "contract_id": "SYSON-RUST-COMPLETION/1.0.12",
+  "controller_stdout_sha256": "158214cd8834613e6ba31a38ffbebf1855946382fcf74923a7c7a3c1c3835aee",
+  "current_input_hashes_verified_before_after": 12352,
+  "full_snapshot_fit": "NOT_QUALIFIED_BY_NORM",
+  "logical_ceiling_bytes": 67108864,
+  "logical_input_bytes": 8212954,
+  "manifest_physical_roles": 90,
+  "manifest_pins": 270,
+  "maximum_reserved_bytes": 1048576,
+  "normative_early_framing_bytes": 7256065,
+  "normative_roles": 72,
+  "only_changed_lock_role": "completion-contract.json",
+  "output_roots": [
+    "/workspace/build/builderbob/syson-durable-batch54-20261031/norm-normal-03",
+    "/workspace/build/builderbob/syson-durable-batch54-20261031/norm-optimized-03"
+  ],
+  "previous_norm_lock_sha256": "25405d0b31c1c1f90d368cda9d87dff0afdb1bf94f2c621906a215e8745067d5",
+  "receipt_sha256": "6b39e46c846c6c5d08b337ce2df3bac663243f042c356c17be5e7af148aa4a71",
+  "review_sha256": "f2acdfd241dede62915279ac7e02e61539a812543ae39df271b878f4dda16819",
+  "scope": "Passive normative data review. No constructor imports, installation, generator or snapshot execution in this review.",
+  "scope_invocation_id": "0783bb0d89bd46ffa4002e1551322008",
+  "scope_proof_sha256": "0d8d8ed762e8cd4c35a0055b41b1a022fae1f03f33c3eb91c697bdeb2c007023",
+  "scope_unit": "syson-b54-norm-6051b7c1642a4c4d819160c643ea134a.scope",
+  "spec_sha256": "4b411ec227562a2f4def4b3d8564985b35e896ed008cd363ef5a2e063a17e134",
+  "status": "PASS_ACTUAL_N_O_COMPACT_CONTRACT_NORM_DATA"
+}

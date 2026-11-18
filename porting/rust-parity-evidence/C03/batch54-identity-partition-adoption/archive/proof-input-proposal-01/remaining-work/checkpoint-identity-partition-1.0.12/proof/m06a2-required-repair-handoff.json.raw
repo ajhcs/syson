@@ -1,0 +1,52 @@
+{
+  "schema": "M06A2-FUTURE-REPAIR-HANDOFF/4",
+  "status": "SOURCE_INFERRED_REQUIRED_REPAIRS_NO_IMPLEMENTATION_OR_EXECUTION_LEASE",
+  "audits": {
+    "independent-identity-code-audit-04.json": {
+      "sha256": "c622981eec8ce3e876f9e77bb665359498335f7977dca5dc09ba7571e09c6c09",
+      "bytes": 9360
+    },
+    "independent-restart-test-audit-04.json": {
+      "sha256": "91e438f410ded420d989e45446ea259182a660444681b6d5f2073bb5ea7bbb3a",
+      "bytes": 13294
+    }
+  },
+  "scope": "Existing proposed M06a2a functional and M06a2b measurement obligations, not new registered units and not source dispatch before reviewed1.0.12adoption. Original entire HOLD/raw/normal/probe/166tests remain preserved.",
+  "tasks": [
+    {
+      "id": "WIRE-STRICT",
+      "priority": "P2",
+      "future_owner": "M06a2a",
+      "source": "format-preview-03/src/lib.rs:106",
+      "problem": "trim_end removes malformed trailing tabs/count whitespace before exact ten-field/literal12 validation.",
+      "required": "Reject malformed trailing fields/count spellings while accepting the declared exact record terminator; retain actual malformed raw bytes and meaningful negative protocol controls.",
+      "verify": "Normal realCLIwrite/read staysvalid; extraemptyfield/tab/spaces/additionalrecord/trailingdata invalid without permissive normalization. Source inference until actually reproduced."
+    },
+    {
+      "id": "FAILED-ARTIFACT-CUSTODY",
+      "priority": "P2",
+      "future_owner": "M06a2a",
+      "source": "format-preview-03/tests/finite_import_restart.rs:136",
+      "problem": "Drop unconditionally remove_dir_all deletes baseline/final/staged/log artifacts even during assertion unwinding.",
+      "required": "Retain owned failed-run evidence, root paths and bounded childstreams for independent readback; controlled cleanup only after qualified custody. Preserve original166source/assertions unchanged.",
+      "verify": "A deliberate failing assertion/childrefusal retains exact declared namespace/files/logs; successful artifacts are also retained until independent evidence capture. No unrelated path deletion."
+    },
+    {
+      "id": "FINAL-KEY-CLI-REFUSAL",
+      "priority": "P2",
+      "future_owner": "M06a2a",
+      "source": "format-preview-03/tests/finite_import_restart.rs:186",
+      "problem": "Existing rerun hits baseline collision before final-key save; final-key no-overwrite regression could escape.",
+      "required": "Exercise preexisting final snapshot with absent baseline; actualwriter must reach final save refusal and preserve existing final bytes/model identity invariants.",
+      "verify": "Distinct baseline-only, final-only and both-existing controls, actualCLIstatus/rawoutputs and independent prior/finalfile bytes. CurrentproductionCLIuses save_new correctly by source review; missing case not observed overwrite."
+    }
+  ],
+  "measurement_conditions": [
+    "M06a2b must independently inspect full canonical files/12identitypairs/links/name oracle for each warm/measured sample, not accept tenfieldcounts alone.",
+    "Actual2warm+7rawsamples/all7metrics retained; parse-only API unavailable staysOPEN, childRSSseparatefromheap/UI/native/backend.",
+    "Shared helperdeadline/raw-output custody caveat must be assessed with actual bounded abnormal-child tests before claiming15second completeprocess/output bound."
+  ],
+  "budget": "Original functional projection376production870authored includes30rootreserve; new fixes/cases/helpers/docs/root changes require actual ordinary finalAD before execution. No capraise/casecuts/sourcecompression; if it cannotfit propose genuine reviewed source boundary before dispatch.",
+  "operating_contract_incident": "Auditagent used sudo -n bob-admin workspace-status once contrary to unprivileged requirement; read-onlyexit0/no statechange, subsequently repeatedunprivilegedhostuid1000success. Correctauthorityretained; no admin/service/package/HOME/Plumbob mutation.",
+  "acceptance": "NoRustcompilation/tests/process/probe ran in theseaudits; no sourcechange/native/UI/backend/product acceptance."
+}

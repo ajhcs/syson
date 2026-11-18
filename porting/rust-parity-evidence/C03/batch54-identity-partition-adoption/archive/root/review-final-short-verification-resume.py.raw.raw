@@ -1,0 +1,54 @@
+"""Audit actual short regression suites from their runner records and unittest streams."""
+import hashlib
+import json
+from pathlib import Path
+import re
+from collections import Counter
+
+b=Path(__file__).resolve().parent
+out=b/'checks-06'
+load=lambda p:json.loads(p.read_bytes())
+spec=load(b/'checks-06-spec.json')
+actual=load(out/'receipt.json')
+assert actual['inputs_before']==spec['inputs']==actual['inputs_after']
+assert actual['status']=='PASS_NAMED_LOCAL_CHECKS_ONLY'
+assert load(b/'checks-06-cleanup.json')['confirmed_empty_or_absent']
+assert len(actual['commands'])==len(spec['commands'])==78
+all_modes=Counter()
+reports=[]
+for expected,row in zip(spec['commands'],actual['commands'],strict=True):
+    name=expected['name']
+    assert row['name']==name and row['argv']==expected['argv'] and row['exit']==0
+    stdout=(out/(name+'.stdout')).read_bytes()
+    stderr=(out/(name+'.stderr')).read_bytes()
+    ids=expected.get('required_unittest_ids')
+    mode='optimized' if '-O' in row['argv'] else 'normal'
+    if ids is not None:
+        text=stderr.decode('utf-8')
+        detected=re.findall(r'^test_\w+ \(([A-Za-z0-9_.]+)\) \.\.\. ok$',text,re.MULTILINE)
+        assert len(detected)==len(ids) and set(detected)==set(ids),(name,detected,ids)
+        n=re.findall(r'^Ran (\d+) tests? in [\d.]+s$',text,re.MULTILINE)
+        assert n==[str(len(ids))] and text.rstrip().endswith('OK'), name
+        assert all(flag not in text for flag in [' ... skipped',' ... expected failure',' ... unexpected success']),name
+        all_modes.update((mode,uid) for uid in detected)
+    else:
+        want=expected['expected']
+        if name.startswith('snapshot-selftest-'):
+            got=json.loads(stdout)
+        else:
+            assert name.startswith('completion-open-')
+            doc=stdout.decode('utf-8').lstrip()
+            first,end=json.JSONDecoder().raw_decode(doc)
+            assert first['units']==799 and first['parity']=='OPEN' and first['open_gate_count']>0
+            got=json.loads(doc[end:])
+        assert all(got[key]==val for key,val in want.items()), name
+    reports.append({'name':name,'wall_seconds':row['wall_seconds'],'exit':0,
+                     'test_ids':ids,
+                     'raw_stdout_sha256':hashlib.sha256(stdout).hexdigest(),
+                     'raw_stderr_sha256':hashlib.sha256(stderr).hexdigest()})
+assert len(all_modes)==406 and set(all_modes.values())=={1}
+assert sum(1 for mode,uid in all_modes if mode=='normal')==203
+assert sum(1 for mode,uid in all_modes if mode=='optimized')==203
+assert {uid for mode,uid in all_modes if mode=='normal'}=={uid for mode,uid in all_modes if mode=='optimized'}
+print(json.dumps({'status':'PASS_406_NAMED_TESTS_PLUS_4_SHORT_CLI_CONTROLS','commands':reports,
+                  'long_plan_self_tests_are_separate':True},indent=2))
