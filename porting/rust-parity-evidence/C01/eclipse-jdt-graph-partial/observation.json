@@ -1,0 +1,997 @@
+{
+  "schema": "SYSON-C01-JDT-PARTIAL-COLLECTION/1",
+  "status": "OBSERVED_PAIRED_DATA_ONLY_REPLAY",
+  "prior_direct_commit": "48a4b4a8acc98ddcb19b57704823c51bf1721429",
+  "scope_sha256": "e9c38267134adede30ae820c7c6887037ed1c2ea6966bf3e0b6704bb81076f95",
+  "private_run_receipt_sha256": "0364b69e3239b421a6ab289d251123c644cd9bead79982b9b3abd0be50359f46",
+  "private_controller_receipt_sha256": "4f911bff238c772a1d9c6cfa80018a72d669790a15e33a1c54f96b58d6cad06c",
+  "tools": [
+    "21.0.12.1+1-LTS",
+    "3.9.16",
+    "1.9.27"
+  ],
+  "observed_process_exits": {
+    "kernel": 0,
+    "compiler": 0,
+    "diagnostic_guard-drift-control": 1,
+    "diagnostic_guard-repository-control": 1,
+    "diagnostic_guard-fixed-spelling-control": 1,
+    "diagnostic_guard-snapshot-control": 1,
+    "diagnostic_guard-malformed-range-control": 1,
+    "diagnostic_codegen-ancestor": 0,
+    "native-policy_codegen-ancestor": 0,
+    "diagnostic_ecore-ancestor": 0,
+    "native-policy_ecore-ancestor": 0,
+    "diagnostic_target": 0,
+    "native-policy_target": 0,
+    "diagnostic_withheld-highest": 0,
+    "native-policy_withheld-highest": 0
+  },
+  "common_jdt_offer": {
+    "coordinate": "org.eclipse.jdt:org.eclipse.jdt.core",
+    "constraint": "[3.26.0,4.0.0)",
+    "ordered_versions": [
+      "3.26.0",
+      "3.27.0",
+      "3.28.0",
+      "3.29.0",
+      "3.30.0",
+      "3.31.0",
+      "3.32.0",
+      "3.33.0",
+      "3.34.0",
+      "3.35.0",
+      "3.36.0",
+      "3.37.0",
+      "3.38.0",
+      "3.39.0",
+      "3.40.0",
+      "3.41.0",
+      "3.42.0",
+      "3.43.0",
+      "3.44.0",
+      "3.45.0",
+      "3.46.0",
+      "3.47.0"
+    ]
+  },
+  "case_order": [
+    "diagnostic_codegen-ancestor",
+    "native-policy_codegen-ancestor",
+    "diagnostic_ecore-ancestor",
+    "native-policy_ecore-ancestor",
+    "diagnostic_target",
+    "native-policy_target",
+    "diagnostic_withheld-highest",
+    "native-policy_withheld-highest"
+  ],
+  "graph_cases": {
+    "diagnostic_codegen-ancestor": {
+      "root": "org.eclipse.emf:org.eclipse.emf.codegen:2.28.0",
+      "jdt_lineage_anchor": "org.eclipse.emf:org.eclipse.emf.codegen:2.28.0",
+      "collector_trace_context": "CollectStepDataImpl <= collect:",
+      "callback_count": {
+        "metadata": 20,
+        "offer": 295,
+        "descriptor": 222,
+        "descriptor-outcome": 24,
+        "descriptor-held": 198,
+        "descriptor-child": 128,
+        "selection": 128,
+        "range-held": 5,
+        "model-request": 0,
+        "observed-node": 10
+      },
+      "selector_outcome_counts": {
+        "excluded": 22,
+        "selected": 106
+      },
+      "repository_noop_raw_flag_counts": {
+        "true": 23
+      },
+      "descriptor_outcomes": [
+        [
+          "diagnostic:codegen-ancestor",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.31.0",
+          "CollectStepDataImpl <= collect:",
+          "diagnostic-model-rejected",
+          "0",
+          "1 problem was encountered while building the effective model for org.eclipse.jdt:org.eclipse.jdt.core:3.31.0\\n[ERROR] 'modelVersion' must be one of [4.0.0] but is '4.0'. @ line 17, column 17\\n"
+        ],
+        [
+          "diagnostic:codegen-ancestor",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0",
+          "CollectStepDataImpl <= collect:",
+          "diagnostic-built",
+          "6",
+          ""
+        ]
+      ],
+      "partial_jdt_nodes": [
+        [
+          "1",
+          "org.eclipse.emf:org.eclipse.emf.codegen:2.28.0:jar:",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "compile"
+        ]
+      ],
+      "partial_jdt_children": [
+        [
+          "2",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.platform:org.eclipse.core.filesystem:1.11.500:jar:",
+          "compile"
+        ],
+        [
+          "2",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.jdt:ecj:3.46.100:jar:",
+          "compile"
+        ]
+      ],
+      "collection_exceptions": 50,
+      "collection_cycles": 0,
+      "terminal": [
+        "partial",
+        "no-binary-resolution"
+      ],
+      "stdout_sha256": "39cdc857412cb3b4de95c1f05e9c2658ea7c2bc82ee0c1bb54fbf4eb3a875ee2"
+    },
+    "native-policy_codegen-ancestor": {
+      "root": "org.eclipse.emf:org.eclipse.emf.codegen:2.28.0",
+      "jdt_lineage_anchor": "org.eclipse.emf:org.eclipse.emf.codegen:2.28.0",
+      "collector_trace_context": "CollectStepDataImpl <= collect:",
+      "callback_count": {
+        "metadata": 20,
+        "offer": 295,
+        "descriptor": 222,
+        "descriptor-outcome": 24,
+        "descriptor-held": 198,
+        "descriptor-child": 133,
+        "selection": 133,
+        "range-held": 6,
+        "model-request": 0,
+        "observed-node": 10
+      },
+      "selector_outcome_counts": {
+        "excluded": 23,
+        "selected": 110
+      },
+      "repository_noop_raw_flag_counts": {
+        "true": 24
+      },
+      "descriptor_outcomes": [
+        [
+          "native-policy:codegen-ancestor",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.31.0",
+          "CollectStepDataImpl <= collect:",
+          "native-built",
+          "5",
+          ""
+        ],
+        [
+          "native-policy:codegen-ancestor",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0",
+          "CollectStepDataImpl <= collect:",
+          "native-built",
+          "6",
+          ""
+        ]
+      ],
+      "partial_jdt_nodes": [
+        [
+          "1",
+          "org.eclipse.emf:org.eclipse.emf.codegen:2.28.0:jar:",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "compile"
+        ]
+      ],
+      "partial_jdt_children": [
+        [
+          "2",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.platform:org.eclipse.core.filesystem:1.11.500:jar:",
+          "compile"
+        ],
+        [
+          "2",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.jdt:ecj:3.46.100:jar:",
+          "compile"
+        ]
+      ],
+      "collection_exceptions": 50,
+      "collection_cycles": 0,
+      "terminal": [
+        "partial",
+        "no-binary-resolution"
+      ],
+      "stdout_sha256": "0d982ebdb7f845293526bc59d8e6ce44a2c627695991f0446319513a7b49fc5e"
+    },
+    "diagnostic_ecore-ancestor": {
+      "root": "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0",
+      "jdt_lineage_anchor": "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0",
+      "collector_trace_context": "CollectStepDataImpl <= collect:",
+      "callback_count": {
+        "metadata": 20,
+        "offer": 295,
+        "descriptor": 226,
+        "descriptor-outcome": 28,
+        "descriptor-held": 198,
+        "descriptor-child": 142,
+        "selection": 142,
+        "range-held": 5,
+        "model-request": 0,
+        "observed-node": 14
+      },
+      "selector_outcome_counts": {
+        "excluded": 25,
+        "selected": 117
+      },
+      "repository_noop_raw_flag_counts": {
+        "true": 49
+      },
+      "descriptor_outcomes": [
+        [
+          "diagnostic:ecore-ancestor",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.31.0",
+          "CollectStepDataImpl <= collect:",
+          "diagnostic-model-rejected",
+          "0",
+          "1 problem was encountered while building the effective model for org.eclipse.jdt:org.eclipse.jdt.core:3.31.0\\n[ERROR] 'modelVersion' must be one of [4.0.0] but is '4.0'. @ line 17, column 17\\n"
+        ],
+        [
+          "diagnostic:ecore-ancestor",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0",
+          "CollectStepDataImpl <= collect:",
+          "diagnostic-built",
+          "6",
+          ""
+        ]
+      ],
+      "partial_jdt_nodes": [
+        [
+          "1",
+          "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0:jar:",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "compile"
+        ]
+      ],
+      "partial_jdt_children": [
+        [
+          "2",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.platform:org.eclipse.core.filesystem:1.11.500:jar:",
+          "compile"
+        ],
+        [
+          "2",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.jdt:ecj:3.46.100:jar:",
+          "compile"
+        ]
+      ],
+      "collection_exceptions": 50,
+      "collection_cycles": 0,
+      "terminal": [
+        "partial",
+        "no-binary-resolution"
+      ],
+      "stdout_sha256": "c5570ed560f9140d397da725aad6c57597c50713c59c7c5874908f86a3bb7265"
+    },
+    "native-policy_ecore-ancestor": {
+      "root": "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0",
+      "jdt_lineage_anchor": "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0",
+      "collector_trace_context": "CollectStepDataImpl <= collect:",
+      "callback_count": {
+        "metadata": 20,
+        "offer": 295,
+        "descriptor": 226,
+        "descriptor-outcome": 28,
+        "descriptor-held": 198,
+        "descriptor-child": 147,
+        "selection": 147,
+        "range-held": 6,
+        "model-request": 0,
+        "observed-node": 14
+      },
+      "selector_outcome_counts": {
+        "excluded": 26,
+        "selected": 121
+      },
+      "repository_noop_raw_flag_counts": {
+        "true": 51
+      },
+      "descriptor_outcomes": [
+        [
+          "native-policy:ecore-ancestor",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.31.0",
+          "CollectStepDataImpl <= collect:",
+          "native-built",
+          "5",
+          ""
+        ],
+        [
+          "native-policy:ecore-ancestor",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0",
+          "CollectStepDataImpl <= collect:",
+          "native-built",
+          "6",
+          ""
+        ]
+      ],
+      "partial_jdt_nodes": [
+        [
+          "1",
+          "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0:jar:",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "compile"
+        ]
+      ],
+      "partial_jdt_children": [
+        [
+          "2",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.platform:org.eclipse.core.filesystem:1.11.500:jar:",
+          "compile"
+        ],
+        [
+          "2",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.jdt:ecj:3.46.100:jar:",
+          "compile"
+        ]
+      ],
+      "collection_exceptions": 50,
+      "collection_cycles": 0,
+      "terminal": [
+        "partial",
+        "no-binary-resolution"
+      ],
+      "stdout_sha256": "9be655a86bd516224bb0c284917343557e2b2b2c19dd9de63807657922d2d5cb"
+    },
+    "diagnostic_target": {
+      "root": "org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+      "jdt_lineage_anchor": "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0",
+      "collector_trace_context": "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+      "callback_count": {
+        "metadata": 20,
+        "offer": 295,
+        "descriptor": 272,
+        "descriptor-outcome": 53,
+        "descriptor-held": 219,
+        "descriptor-child": 248,
+        "selection": 248,
+        "range-held": 5,
+        "model-request": 78,
+        "observed-node": 60
+      },
+      "selector_outcome_counts": {
+        "excluded": 70,
+        "selected": 178
+      },
+      "repository_noop_raw_flag_counts": {
+        "true": 83
+      },
+      "descriptor_outcomes": [
+        [
+          "diagnostic:target",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.31.0",
+          "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+          "diagnostic-model-rejected",
+          "0",
+          "1 problem was encountered while building the effective model for org.eclipse.jdt:org.eclipse.jdt.core:3.31.0\\n[ERROR] 'modelVersion' must be one of [4.0.0] but is '4.0'. @ line 17, column 17\\n"
+        ],
+        [
+          "diagnostic:target",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0",
+          "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+          "diagnostic-built",
+          "6",
+          ""
+        ]
+      ],
+      "partial_jdt_nodes": [
+        [
+          "2",
+          "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0:jar:",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "compile"
+        ]
+      ],
+      "partial_jdt_children": [
+        [
+          "3",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.platform:org.eclipse.core.filesystem:1.11.500:jar:",
+          "compile"
+        ],
+        [
+          "3",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.jdt:ecj:3.46.100:jar:",
+          "compile"
+        ]
+      ],
+      "collection_exceptions": 50,
+      "collection_cycles": 0,
+      "terminal": [
+        "partial",
+        "no-binary-resolution"
+      ],
+      "stdout_sha256": "bb39dcc7cb6c7989df0ef6dafcb9e1c4e6c54bbadcde17794c5e6d24a42a4f60"
+    },
+    "native-policy_target": {
+      "root": "org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+      "jdt_lineage_anchor": "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0",
+      "collector_trace_context": "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+      "callback_count": {
+        "metadata": 20,
+        "offer": 295,
+        "descriptor": 272,
+        "descriptor-outcome": 53,
+        "descriptor-held": 219,
+        "descriptor-child": 253,
+        "selection": 253,
+        "range-held": 6,
+        "model-request": 78,
+        "observed-node": 60
+      },
+      "selector_outcome_counts": {
+        "excluded": 71,
+        "selected": 182
+      },
+      "repository_noop_raw_flag_counts": {
+        "true": 85
+      },
+      "descriptor_outcomes": [
+        [
+          "native-policy:target",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.31.0",
+          "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+          "native-built",
+          "5",
+          ""
+        ],
+        [
+          "native-policy:target",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0",
+          "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+          "native-built",
+          "6",
+          ""
+        ]
+      ],
+      "partial_jdt_nodes": [
+        [
+          "2",
+          "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0:jar:",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "compile"
+        ]
+      ],
+      "partial_jdt_children": [
+        [
+          "3",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.platform:org.eclipse.core.filesystem:1.11.500:jar:",
+          "compile"
+        ],
+        [
+          "3",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "org.eclipse.jdt:ecj:3.46.100:jar:",
+          "compile"
+        ]
+      ],
+      "collection_exceptions": 50,
+      "collection_cycles": 0,
+      "terminal": [
+        "partial",
+        "no-binary-resolution"
+      ],
+      "stdout_sha256": "35c064124f4bf2bd2957d3f599f900f1db73e0ca8aa878213879d2d1b56c277b"
+    },
+    "diagnostic_withheld-highest": {
+      "root": "org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+      "jdt_lineage_anchor": "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0",
+      "collector_trace_context": "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+      "callback_count": {
+        "metadata": 20,
+        "offer": 295,
+        "descriptor": 270,
+        "descriptor-outcome": 52,
+        "descriptor-held": 218,
+        "descriptor-child": 242,
+        "selection": 242,
+        "range-held": 5,
+        "model-request": 78,
+        "observed-node": 58
+      },
+      "selector_outcome_counts": {
+        "excluded": 69,
+        "selected": 173
+      },
+      "repository_noop_raw_flag_counts": {
+        "true": 81
+      },
+      "descriptor_outcomes": [
+        [
+          "diagnostic:withheld-highest",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.31.0",
+          "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+          "diagnostic-model-rejected",
+          "0",
+          "1 problem was encountered while building the effective model for org.eclipse.jdt:org.eclipse.jdt.core:3.31.0\\n[ERROR] 'modelVersion' must be one of [4.0.0] but is '4.0'. @ line 17, column 17\\n"
+        ]
+      ],
+      "partial_jdt_nodes": [
+        [
+          "2",
+          "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0:jar:",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "compile"
+        ]
+      ],
+      "partial_jdt_children": [],
+      "collection_exceptions": 50,
+      "collection_cycles": 0,
+      "terminal": [
+        "partial",
+        "no-binary-resolution"
+      ],
+      "stdout_sha256": "35318b2a5b9a2c2d648053e2e6200f271637a783a427fddcf88e122a71195897"
+    },
+    "native-policy_withheld-highest": {
+      "root": "org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+      "jdt_lineage_anchor": "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0",
+      "collector_trace_context": "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+      "callback_count": {
+        "metadata": 20,
+        "offer": 295,
+        "descriptor": 270,
+        "descriptor-outcome": 52,
+        "descriptor-held": 218,
+        "descriptor-child": 247,
+        "selection": 247,
+        "range-held": 6,
+        "model-request": 78,
+        "observed-node": 58
+      },
+      "selector_outcome_counts": {
+        "excluded": 70,
+        "selected": 177
+      },
+      "repository_noop_raw_flag_counts": {
+        "true": 83
+      },
+      "descriptor_outcomes": [
+        [
+          "native-policy:withheld-highest",
+          "project",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.31.0",
+          "CollectStepDataImpl <= collect:org.eclipse.syson:syson-sysml-metamodel:2026.9.3",
+          "native-built",
+          "5",
+          ""
+        ]
+      ],
+      "partial_jdt_nodes": [
+        [
+          "2",
+          "org.eclipse.emf:org.eclipse.emf.codegen.ecore:2.46.0:jar:",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0:jar:",
+          "compile"
+        ]
+      ],
+      "partial_jdt_children": [],
+      "collection_exceptions": 50,
+      "collection_cycles": 0,
+      "terminal": [
+        "partial",
+        "no-binary-resolution"
+      ],
+      "stdout_sha256": "d79ab2f2df583604bb1d6b473a6d11d9f5f106b71674ac72ad40b14953c2495b"
+    }
+  },
+  "frontier": {
+    "descriptor_row_fields": [
+      "request_context",
+      "coordinate",
+      "hold_roles",
+      "hits_by_case_order"
+    ],
+    "descriptor_holds": [
+      ["project", "com.github.docker-java:docker-java-api:3.7.1", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "com.github.docker-java:docker-java-transport-zerodep:3.7.1", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "com.vaadin.external.google:android-json:0.0.20131108.vaadin1", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "commons-codec:commons-codec:1.21.0", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "commons-io:commons-io:2.20.0", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "commons-logging:commons-logging:1.3.6", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "jakarta.activation:jakarta.activation-api:2.1.4", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "jakarta.annotation:jakarta.annotation-api:3.0.0", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "net.bytebuddy:byte-buddy-agent:1.18.11", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "net.bytebuddy:byte-buddy:1.18.11", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "net.minidev:accessors-smart:2.6.0", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.33.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.34.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.35.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.36.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.37.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.38.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.39.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.40.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.41.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.42.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.43.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.44.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.45.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.46.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:ecj:3.46.100", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 0, 0]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0", "prior-range,withheld-highest-control", [0, 0, 0, 0, 0, 0, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.10.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.11.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.12.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.13.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.14.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.15.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.16.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.17.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.17.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.18.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.400", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.500", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.600", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.700", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.800", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.19.900", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.20.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.20.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.21.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.21.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.22.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.23.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.23.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.23.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.23.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.23.400", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.24.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.24.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.24.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.24.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.8.101", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.9.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.9.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.9.50", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.9.51", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.jdt:org.eclipse.jdt.launching:3.9.52", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.10.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.10.100", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.10.200", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.10.300", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.10.400", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.11.0", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.11.100", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.11.200", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.11.300", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.11.400", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.11.500", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 0, 0]],
+      ["project", "org.eclipse.platform:org.eclipse.core.filesystem:1.9.500", "observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.11.1", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.12.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.400", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.500", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.600", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.700", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.800", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.13.900", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.14.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.15.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.15.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.16.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.16.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.17.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.18.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.18.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.18.200", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.19.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.19.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.20.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.20.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.20.200", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.21.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.22.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.22.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.22.200", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.23.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.23.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.23.200", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.24.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.resources:3.24.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.12.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.13.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.14.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.15.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.15.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.15.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.15.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.16.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.17.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.17.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.18.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.19.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.20.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.20.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.22.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.23.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.24.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.24.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.25.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.26.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.26.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.27.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.29.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.30.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.31.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.31.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.32.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.33.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.33.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.34.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.34.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.34.200", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.core.runtime:3.35.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.10.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.11.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.12.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.13.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.13.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.13.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.13.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.14.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.14.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.15.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.15.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.16.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.17.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.18.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.18.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.18.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.18.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.19.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.19.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.20.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.20.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.21.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.21.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.21.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.21.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.21.400", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.21.500", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.22.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.22.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.23.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.23.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.23.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.23.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.debug.core:3.24.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.10.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.10.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.10.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.10.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.10.400", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.11.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.12.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.12.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.12.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.12.300", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.13.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.13.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.0", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.100", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.200", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.300", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.400", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.500", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.600", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.700", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.14.800", "prior-range,observed-jdt-fixed-coordinate", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.6.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.6.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.6.300", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.7.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.8.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.8.100", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.8.200", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.eclipse.platform:org.eclipse.text:3.9.0", "prior-range", [1, 1, 1, 1, 1, 1, 1, 1]],
+      ["project", "org.jspecify:jspecify:1.0.1", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.junit.jupiter:junit-jupiter-api:6.0.3", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.junit.jupiter:junit-jupiter-engine:6.0.3", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.junit.jupiter:junit-jupiter-params:6.0.3", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.objenesis:objenesis:3.3", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.rnorth.duct-tape:duct-tape:1.0.8", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.springframework.boot:spring-boot-autoconfigure:4.1.1", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.springframework.boot:spring-boot-starter-logging:4.1.1", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.springframework.boot:spring-boot:4.1.1", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]],
+      ["project", "org.yaml:snakeyaml:2.6", "prior-target-fixed", [0, 0, 0, 0, 1, 1, 1, 1]]
+    ],
+    "model_row_fields": [
+      "owner",
+      "request_role",
+      "coordinate",
+      "result",
+      "hits_by_case_order"
+    ],
+    "model_holds": [
+      ["org.apache.commons:commons-text:1.10.0", "coordinate", "org.junit:junit-bom:5.9.1", "absent", [0, 0, 0, 0, 1, 1, 1, 1]]
+    ],
+    "range_row_fields": [
+      "coordinate",
+      "constraint",
+      "hold_reason",
+      "hits_by_case_order"
+    ],
+    "range_holds": [
+      ["org.eclipse.platform:org.eclipse.core.filesystem", "[1.7.0,2.0.0)", "metadata-not-admitted", [5, 6, 5, 6, 5, 6, 5, 6]]
+    ]
+  },
+  "guard_cases": {
+    "diagnostic_guard-drift-control": {
+      "process_exit": 1,
+      "stdout_sha256": "48826d948b383b3409cbdec8a3a833264aa8d32d1914c8cef4705189942fb579",
+      "records": [
+        [
+          "case",
+          "diagnostic",
+          "guard-drift-control"
+        ],
+        [
+          "tools",
+          "21.0.12.1+1-LTS",
+          "3.9.16",
+          "1.9.27"
+        ],
+        [
+          "guard-violation",
+          "diagnostic:guard-drift-control",
+          "range outside the exact admitted allowlist: org.eclipse.jdt:org.eclipse.jdt.core [3.27.0,4.0.0)"
+        ]
+      ]
+    },
+    "diagnostic_guard-repository-control": {
+      "process_exit": 1,
+      "stdout_sha256": "cca2d47f542b430d73836d292acd4610ae7fcb0f4e1deba8022ab615b0351995",
+      "records": [
+        [
+          "case",
+          "diagnostic",
+          "guard-repository-control"
+        ],
+        [
+          "tools",
+          "21.0.12.1+1-LTS",
+          "3.9.16",
+          "1.9.27"
+        ],
+        [
+          "guard-violation",
+          "diagnostic:guard-repository-control",
+          "repository aggregation outside scope"
+        ]
+      ]
+    },
+    "diagnostic_guard-fixed-spelling-control": {
+      "process_exit": 1,
+      "stdout_sha256": "0d3e5387ff90a626170b6151533683862c96701c478b99f8dfb160542cbdad95",
+      "records": [
+        [
+          "case",
+          "diagnostic",
+          "guard-fixed-spelling-control"
+        ],
+        [
+          "tools",
+          "21.0.12.1+1-LTS",
+          "3.9.16",
+          "1.9.27"
+        ],
+        [
+          "version",
+          "org.eclipse.jdt:org.eclipse.jdt.core:not-a-release:jar:",
+          "not-admitted"
+        ],
+        [
+          "guard-violation",
+          "diagnostic:guard-fixed-spelling-control",
+          "fixed-version scope drift: org.eclipse.jdt:org.eclipse.jdt.core:not-a-release:jar:"
+        ]
+      ]
+    },
+    "diagnostic_guard-snapshot-control": {
+      "process_exit": 1,
+      "stdout_sha256": "f560fafb9a76ff293667d84cff94ae40e39bda2f01ab4484842c16cef8bad431",
+      "records": [
+        [
+          "case",
+          "diagnostic",
+          "guard-snapshot-control"
+        ],
+        [
+          "tools",
+          "21.0.12.1+1-LTS",
+          "3.9.16",
+          "1.9.27"
+        ],
+        [
+          "version",
+          "org.eclipse.jdt:org.eclipse.jdt.core:3.47.0-SNAPSHOT:jar:",
+          "not-admitted"
+        ],
+        [
+          "guard-violation",
+          "diagnostic:guard-snapshot-control",
+          "fixed-version scope drift: org.eclipse.jdt:org.eclipse.jdt.core:3.47.0-SNAPSHOT:jar:"
+        ]
+      ]
+    },
+    "diagnostic_guard-malformed-range-control": {
+      "process_exit": 1,
+      "stdout_sha256": "eb7391597992e66dfa4d3fbcb7e555f2655f99b59d301aa27fe3192f53630564",
+      "records": [
+        [
+          "case",
+          "diagnostic",
+          "guard-malformed-range-control"
+        ],
+        [
+          "tools",
+          "21.0.12.1+1-LTS",
+          "3.9.16",
+          "1.9.27"
+        ],
+        [
+          "version",
+          "org.eclipse.jdt:org.eclipse.jdt.core:[3.26.0,4.0.0:jar:",
+          "malformed"
+        ],
+        [
+          "guard-violation",
+          "diagnostic:guard-malformed-range-control",
+          "malformed version: org.eclipse.jdt:org.eclipse.jdt.core:[3.26.0,4.0.0:jar:"
+        ]
+      ]
+    }
+  },
+  "controls": {
+    "launcher_exit": 0,
+    "inputs_match_before_and_after": true,
+    "kernel_witness": "PASS socket(AF_INET, AF_INET6, AF_UNIX) and io_uring_setup denied by kernel",
+    "kernel_witness_sha256": "63589fd4d12495808fad97be03d71f337185afed2286922278c5f891611e94ee",
+    "owned_scope_confirmed_empty_or_absent": true,
+    "network": false,
+    "binary_resolution": false,
+    "cache_installation": false,
+    "project_execution": false
+  }
+}
