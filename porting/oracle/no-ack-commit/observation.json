@@ -1,0 +1,130 @@
+{
+  "acknowledged_baseline": {
+    "browser_closed_before_seal": true,
+    "browser_failed_requests": 0,
+    "browser_success_responses": 1,
+    "correlated_page_errors": 0,
+    "events": [],
+    "forwarded": 1,
+    "redirect_followups": 0,
+    "requests_seen": 1,
+    "strict_event_order": true,
+    "transport_faults": 0
+  },
+  "baseline_pr": {
+    "head": "254e8ebca43fb2d371446e9cb05c06ca7976ed9e",
+    "number": 307,
+    "restart_evidence_sha256": "94eadea7d6dc3e4198dc6d5a30a0b5d761ec305ae008f37cd4b12ccfc937675c"
+  },
+  "control_after_matches_forward_before": true,
+  "controller": {
+    "client_reaped_before_scope_cleanup": true,
+    "controller_sha256": "b677c850936de807cdcb2035adc51b289d46be0efdd301e8b0c963c0372b0e85",
+    "entry_closed": true,
+    "scope_empty_or_absent": true,
+    "spec_sha256": "6a0dbb841a16285b0a1f20506b2f87cdd1c639f6402a32cef90f0936c00e1436",
+    "status": "FAIL_PRESERVED",
+    "stop_reason": "host_resource_hold"
+  },
+  "forwarded_then_aborted": {
+    "browser_closed_before_seal": true,
+    "browser_failed_requests": 1,
+    "browser_success_responses": 0,
+    "correlated_page_errors": 0,
+    "events": [
+      "read_only_before",
+      "browser_edit_intercepted",
+      "target_forward",
+      "upstream_ok_response_withheld",
+      "read_only_commit_visible",
+      "browser_abort_without_response"
+    ],
+    "fetch": {
+      "failure_at_or_after_abort": true,
+      "other_failed_fetches": 0,
+      "selected_network_error": "net::ERR_FAILED"
+    },
+    "forwarded": 1,
+    "observation": {
+      "both_match_expected": true,
+      "both_read_only_socket": true,
+      "both_repeatable_read": true,
+      "documentation_changed": true,
+      "row_version_changed": true,
+      "same_database_start": true,
+      "same_row_identity": true
+    },
+    "redirect_followups": 0,
+    "requests_seen": 1,
+    "strict_event_order": true,
+    "transport_faults": 0
+  },
+  "previous_hold": {
+    "client_reaped_before_scope_cleanup": true,
+    "controller_sha256": "344f68ee9bbcb9de0dac988ce7643b88851364be61b8c81f1936116551878d82",
+    "forwarded_barrier_record_present": false,
+    "scope_empty_or_absent": true,
+    "spec_sha256": "bd533c09364934868e3ca1d30dc53829df6950536cbc47aaed579cf26ebbbd60",
+    "status": "FAIL_PRESERVED",
+    "stop_reason": "host_resource_hold"
+  },
+  "private_run_artifact_sha256": {
+    "acknowledged-request.json": "dc9eddc5f6db6fab0b4dcb3b6cc4f902105c626bd821b6abb4bd04761481e8f9",
+    "before-barrier.json": "baab71a2a137206ed8d4225dfe91c128e5d45fc63a199fd139dd8ec8e340c6a9",
+    "control-abort-fetch.json": "e1d95dba17fc3cba7ff94c84dafa8ccd1879cbe5db9e2f2b17fad7cbce89e98a",
+    "control-barrier.json": "cec864a49ec700e3a8df4a98c14eed182fe8224e2cb0de803abef38f27ba551e",
+    "java-after.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "java-after.stdout": "caeadcba7db97053f020245b04335772c87b456e90712d4f8cfbd5caf6527de3",
+    "lost-abort-fetch.json": "84b633a67f58d666768171a8cb5823b734ee67f350934e45814bdd795ff63548",
+    "lost-barrier.json": "853a4cebb913880b38e8d1282c90f8ade3cf50c4810ce287fa2ccd67348ad2cf",
+    "oracle-up.json": "db2b1fb1d53efbf9688ed476656017cff01278e5b430eb6c0197c362f21925e2"
+  },
+  "release": {
+    "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "source_commit": "b380dada415ce05155150f23cb3b74ae21cc45e4",
+    "version": "v2026.9.3"
+  },
+  "restart": {
+    "fresh_browser_artifacts": {
+      "after-barrier.json": false,
+      "after-browser.log": false,
+      "after.json": false,
+      "after.zip": false,
+      "result.json": false
+    },
+    "replacement_java_startup_banner": true,
+    "replacement_java_stderr_empty": true
+  },
+  "selected_operation": "editTextfield",
+  "unforwarded_control": {
+    "browser_closed_before_seal": true,
+    "browser_failed_requests": 1,
+    "browser_success_responses": 0,
+    "correlated_page_errors": 1,
+    "events": [
+      "read_only_before",
+      "browser_edit_intercepted",
+      "unforwarded_browser_abort",
+      "read_only_after_control"
+    ],
+    "fetch": {
+      "failure_at_or_after_abort": true,
+      "other_failed_fetches": 0,
+      "selected_network_error": "net::ERR_FAILED"
+    },
+    "forwarded": 0,
+    "observation": {
+      "both_match_expected": true,
+      "both_read_only_socket": true,
+      "both_repeatable_read": true,
+      "documentation_changed": false,
+      "row_version_changed": false,
+      "same_database_start": true,
+      "same_row_identity": true
+    },
+    "redirect_followups": 0,
+    "requests_seen": 1,
+    "strict_event_order": true,
+    "transport_faults": 0
+  }
+}
