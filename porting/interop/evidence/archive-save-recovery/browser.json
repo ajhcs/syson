@@ -1,0 +1,352 @@
+{
+  "subject": {
+    "syson-archive-reader-experiment": "995afafdc6888aecf0e578d20723b0b892eef48361f86efe540cc9d9406476e4",
+    "browse.cjs": "a81958eb57605ab308563dcaa26833823373b46b9c936d274243dda163eab817",
+    "verify.py": "e0e73c397bd9fbf219b46d299931d98c194dca58a37530673a609d9bf164e1c9",
+    "expected.json": "a72bfaf863767f908553f008c2a0ab37735eeb26d03fa0f3b48740ed41adad20"
+  },
+  "cases": {
+    "stale": {
+      "phases": [
+        {
+          "phase": "first",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303,
+            303
+          ],
+          "downloads": {
+            "first": "ec3307615e2ac7ba03b48ee8d50467ae480a4c7d1c800f61d9ff18c97472fe80"
+          },
+          "timings_ms": {
+            "open_original": 91.60999800000002,
+            "Rename definition": 68.11322499999994,
+            "Save as new revision": 75.64664200000004
+          }
+        },
+        {
+          "phase": "stage-second",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303
+          ],
+          "downloads": {},
+          "timings_ms": {
+            "open_first": 238.95768900000007,
+            "Rename definition": 92.48276699999997,
+            "Parent revision": 37.72666099999992
+          }
+        },
+        {
+          "phase": "stale",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303,
+            409
+          ],
+          "downloads": {
+            "second": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec"
+          },
+          "timings_ms": {
+            "open_second": 102.48339399999998,
+            "open_second_first_tab": 168.34662300000002,
+            "Save as new revision 303 1": 75.42173100000002,
+            "Save as new revision 409 2": 35.58585400000004,
+            "Open saved revision": 37.32991199999992
+          }
+        },
+        {
+          "phase": "read-confirmed",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [],
+          "downloads": {
+            "second": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec"
+          },
+          "timings_ms": {
+            "open_second": 121.47313000000003
+          }
+        }
+      ],
+      "services": [
+        "SIGTERM",
+        "SIGTERM",
+        "SIGTERM",
+        "SIGTERM"
+      ],
+      "raw_sha256": "2b47dc918af2acad63dcd852d1b15b3cf132661d9201b462a89256ed5ad425fa",
+      "scope_removed": true,
+      "all_initial_files_retained": true,
+      "denied_resources": [
+        {
+          "archive.zip": 404,
+          "manifest.json": 404,
+          "documents/f7819cef-db84-4b86-959c-c3bae4f13353.json": 404,
+          "representations/0fede535-5237-4f7e-b03d-d1087431c764.json": 404
+        }
+      ],
+      "candidate_retained": null,
+      "new_artifacts": [
+        ".archive-successor.confirmed.json",
+        "archive-successor.zip"
+      ],
+      "archive_sha256": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec",
+      "parent_sha256": "ec3307615e2ac7ba03b48ee8d50467ae480a4c7d1c800f61d9ff18c97472fe80",
+      "confirmed_archive_sha256": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec",
+      "confirmed_checkpoint_sha256": "7af456b898904defb29f06836b5c1526a47b5e1a1749fb4f39e4da482e48abbc",
+      "observed_checkpoint_sha256": "7af456b898904defb29f06836b5c1526a47b5e1a1749fb4f39e4da482e48abbc"
+    },
+    "before-failure": {
+      "phases": [
+        {
+          "phase": "first",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303,
+            303
+          ],
+          "downloads": {
+            "first": "ec3307615e2ac7ba03b48ee8d50467ae480a4c7d1c800f61d9ff18c97472fe80"
+          },
+          "timings_ms": {
+            "open_original": 124.99119300000001,
+            "Rename definition": 73.64010199999996,
+            "Save as new revision": 55.12827800000002
+          }
+        },
+        {
+          "phase": "stage-second",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303
+          ],
+          "downloads": {},
+          "timings_ms": {
+            "open_first": 172.27624400000002,
+            "Rename definition": 81.26729599999999,
+            "Parent revision": 49.28778299999999
+          }
+        },
+        {
+          "phase": "before-failure",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            500,
+            500
+          ],
+          "downloads": {},
+          "timings_ms": {
+            "open_second": 110.345978,
+            "Save as new revision 500 1": 47.822919999999954,
+            "Retry save 500 2": 46.08832099999995
+          }
+        },
+        {
+          "phase": "retry",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303
+          ],
+          "downloads": {
+            "second": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec"
+          },
+          "timings_ms": {
+            "open_second": 112.14958999999993,
+            "Save as new revision 303 1": 85.43321800000001
+          }
+        }
+      ],
+      "services": [
+        "SIGTERM",
+        "SIGTERM",
+        "SIGKILL",
+        "SIGTERM"
+      ],
+      "raw_sha256": "4c17db3dba6743bffe8269210a3daffda0d3cf619e043e771deb1db2c8b7790f",
+      "scope_removed": true,
+      "all_initial_files_retained": true,
+      "denied_resources": [
+        {
+          "archive.zip": 404,
+          "manifest.json": 404,
+          "documents/f7819cef-db84-4b86-959c-c3bae4f13353.json": 404,
+          "representations/0fede535-5237-4f7e-b03d-d1087431c764.json": 404
+        }
+      ],
+      "candidate_retained": null,
+      "new_artifacts": [
+        ".archive-successor.confirmed.json",
+        "archive-successor.zip"
+      ],
+      "archive_sha256": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec",
+      "parent_sha256": "ec3307615e2ac7ba03b48ee8d50467ae480a4c7d1c800f61d9ff18c97472fe80",
+      "confirmed_archive_sha256": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec",
+      "confirmed_checkpoint_sha256": "0d781941dfbedf891edbc88ba8701b95b660b90b625c6c8e80aa4176d351fe32",
+      "observed_checkpoint_sha256": "0d781941dfbedf891edbc88ba8701b95b660b90b625c6c8e80aa4176d351fe32"
+    },
+    "uncertain": {
+      "phases": [
+        {
+          "phase": "first",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303,
+            303
+          ],
+          "downloads": {
+            "first": "ec3307615e2ac7ba03b48ee8d50467ae480a4c7d1c800f61d9ff18c97472fe80"
+          },
+          "timings_ms": {
+            "open_original": 152.31369400000005,
+            "Rename definition": 61.64847499999996,
+            "Save as new revision": 63.92807700000003
+          }
+        },
+        {
+          "phase": "stage-second",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303
+          ],
+          "downloads": {},
+          "timings_ms": {
+            "open_first": 94.79495199999997,
+            "Rename definition": 80.25847599999997,
+            "Parent revision": 27.997794999999996
+          }
+        },
+        {
+          "phase": "uncertain",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "posts": [
+            503
+          ],
+          "downloads": {},
+          "timings_ms": {
+            "open_second": 119.98065500000001,
+            "Save as new revision 503 1": 51.43322900000004
+          }
+        },
+        {
+          "phase": "confirm-failure",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            503
+          ],
+          "downloads": {},
+          "timings_ms": {
+            "open_second": 170.69978699999996,
+            "Confirm saved revision 503 1": 93.1519780000001
+          }
+        },
+        {
+          "phase": "confirm",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [
+            303
+          ],
+          "downloads": {
+            "second": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec"
+          },
+          "timings_ms": {
+            "open_second": 153.13945400000006,
+            "Confirm saved revision 303 1": 62.16307999999992
+          }
+        },
+        {
+          "phase": "read-confirmed",
+          "viewport": {
+            "width": 1440,
+            "height": 960
+          },
+          "posts": [],
+          "downloads": {
+            "second": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec"
+          },
+          "timings_ms": {
+            "open_second": 97.910934
+          }
+        }
+      ],
+      "services": [
+        "SIGTERM",
+        "SIGTERM",
+        "SIGKILL",
+        "SIGTERM",
+        "SIGTERM",
+        "SIGTERM"
+      ],
+      "raw_sha256": "f91ae207177abdddaf898598366f4875893355d6cb03223de7bc44e377d35d49",
+      "scope_removed": true,
+      "all_initial_files_retained": true,
+      "denied_resources": [
+        {
+          "archive.zip": 404,
+          "manifest.json": 404,
+          "documents/f7819cef-db84-4b86-959c-c3bae4f13353.json": 404,
+          "representations/0fede535-5237-4f7e-b03d-d1087431c764.json": 404
+        },
+        {
+          "archive.zip": 404,
+          "manifest.json": 404,
+          "documents/f7819cef-db84-4b86-959c-c3bae4f13353.json": 404,
+          "representations/0fede535-5237-4f7e-b03d-d1087431c764.json": 404
+        },
+        {
+          "archive.zip": 404,
+          "manifest.json": 404,
+          "documents/f7819cef-db84-4b86-959c-c3bae4f13353.json": 404,
+          "representations/0fede535-5237-4f7e-b03d-d1087431c764.json": 404
+        }
+      ],
+      "candidate_retained": true,
+      "new_artifacts": [
+        ".archive-successor.confirmed.json",
+        "archive-successor.zip"
+      ],
+      "archive_sha256": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec",
+      "parent_sha256": "ec3307615e2ac7ba03b48ee8d50467ae480a4c7d1c800f61d9ff18c97472fe80",
+      "confirmed_archive_sha256": "1b5b5421ff6a7006e38a7c1ea585b4526505e428daa82ca148bc8af98797c5ec",
+      "confirmed_checkpoint_sha256": "2b66a455098d277faf2f6832b3202fdaa4b297898d09b7363f3813c721583de3",
+      "observed_checkpoint_sha256": "2b66a455098d277faf2f6832b3202fdaa4b297898d09b7363f3813c721583de3"
+    }
+  }
+}
