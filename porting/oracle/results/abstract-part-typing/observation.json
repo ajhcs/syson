@@ -1,0 +1,255 @@
+{
+  "cases": {
+    "abstract": {
+      "fixture": "package P { abstract part def A; part x : A; }",
+      "fixture_sha256": "edab0c024b365650683a466cc960ad25889ba59479d6ceeb57371768c3fcc8c0",
+      "native_converter": {
+        "derived_part_definitions": [
+          "P::A"
+        ],
+        "getter_facts_sha256": "2bc2aa1bcd25167cad95fc2371a0b24d6b0cff8736e003d192aa85bdc9121527",
+        "package_nodes": 6,
+        "package_projection": {
+          "data": {
+            "declaredName": "P",
+            "ownedRelationship": [
+              {
+                "data": {
+                  "ownedRelatedElement": [
+                    {
+                      "data": {
+                        "declaredName": "A",
+                        "isAbstract": true
+                      },
+                      "eClass": "sysml:PartDefinition"
+                    }
+                  ]
+                },
+                "eClass": "sysml:OwningMembership"
+              },
+              {
+                "data": {
+                  "ownedRelatedElement": [
+                    {
+                      "data": {
+                        "declaredName": "x",
+                        "isComposite": true,
+                        "ownedRelationship": [
+                          {
+                            "data": {
+                              "type": "P::A",
+                              "typedFeature": "P::x"
+                            },
+                            "eClass": "sysml:FeatureTyping"
+                          }
+                        ]
+                      },
+                      "eClass": "sysml:PartUsage"
+                    }
+                  ]
+                },
+                "eClass": "sysml:OwningMembership"
+              }
+            ]
+          },
+          "eClass": "sysml:Package"
+        },
+        "raw_model_sha256": "d20a47fe8d2ff10fcb38739faa50e11d7ee9352725bdd236454ad8c5716186c4",
+        "resource_nodes": 8,
+        "transformation_messages": 0
+      },
+      "released_bare_ast": {
+        "raw_marker": "abstract",
+        "sha256": "bfa649acb76564fc2942df7b87ca4096ede2edcf3fcfaf32d38d44099c231fd4",
+        "target": "P::A",
+        "target_class": "PartDefinition",
+        "typed_feature": "P::x"
+      },
+      "released_stdlib_none_validation": {
+        "exit": 0,
+        "stderr": ""
+      },
+      "rust_stage": {
+        "document": true,
+        "identities_requested": 6,
+        "is_abstract_field": true,
+        "status": "ok",
+        "stdout_sha256": "2d574844a03a7db7bda9511ecaa1ccd3db2188af4b433d35908ae21ac5b8f3a9",
+        "target": "P::A",
+        "typed_feature": "P::x"
+      }
+    },
+    "concrete": {
+      "fixture": "package P { part def A; part x : A; }",
+      "fixture_sha256": "3a4b850fb7af34a01167362ba588ad7b78c9d2ac4c49dc65acfbf23dea6e0443",
+      "native_converter": {
+        "derived_part_definitions": [
+          "P::A"
+        ],
+        "getter_facts_sha256": "da7b5a14e3a89d0dc843f4df302628f085ad9b8199230018fbbf36ab37ca0751",
+        "package_nodes": 6,
+        "package_projection": {
+          "data": {
+            "declaredName": "P",
+            "ownedRelationship": [
+              {
+                "data": {
+                  "ownedRelatedElement": [
+                    {
+                      "data": {
+                        "declaredName": "A"
+                      },
+                      "eClass": "sysml:PartDefinition"
+                    }
+                  ]
+                },
+                "eClass": "sysml:OwningMembership"
+              },
+              {
+                "data": {
+                  "ownedRelatedElement": [
+                    {
+                      "data": {
+                        "declaredName": "x",
+                        "isComposite": true,
+                        "ownedRelationship": [
+                          {
+                            "data": {
+                              "type": "P::A",
+                              "typedFeature": "P::x"
+                            },
+                            "eClass": "sysml:FeatureTyping"
+                          }
+                        ]
+                      },
+                      "eClass": "sysml:PartUsage"
+                    }
+                  ]
+                },
+                "eClass": "sysml:OwningMembership"
+              }
+            ]
+          },
+          "eClass": "sysml:Package"
+        },
+        "raw_model_sha256": "e10485d27eb8d08eb2fa3150c61b12ecea6fad7ee01141363fb0369410d22508",
+        "resource_nodes": 8,
+        "transformation_messages": 0
+      },
+      "released_bare_ast": {
+        "raw_marker": null,
+        "sha256": "d11c20484874e242147c4b9bf53eca8e4ea1b5ab39056ee8858cd8a9a5b75030",
+        "target": "P::A",
+        "target_class": "PartDefinition",
+        "typed_feature": "P::x"
+      },
+      "released_stdlib_none_validation": {
+        "exit": 0,
+        "stderr": ""
+      },
+      "rust_stage": {
+        "document": true,
+        "identities_requested": 6,
+        "is_abstract_field": null,
+        "status": "ok",
+        "stdout_sha256": "381323118446cc04ecfcec449da9e02617464560491979472ebb522786a52701",
+        "target": "P::A",
+        "typed_feature": "P::x"
+      }
+    },
+    "wrong-metaclass": {
+      "fixture": "package P { attribute def A; part x : A; }",
+      "fixture_sha256": "a6f7ad44328be4be31469e2133b31527a4d8e850a74d56357dc03c408ce9f7eb",
+      "native_converter": {
+        "derived_part_definitions": [],
+        "getter_facts_sha256": "0c1353c9a2099b9358c1460834447c5603192e74384f69fbc01bd476fc2c1027",
+        "package_nodes": 6,
+        "package_projection": {
+          "data": {
+            "declaredName": "P",
+            "ownedRelationship": [
+              {
+                "data": {
+                  "ownedRelatedElement": [
+                    {
+                      "data": {
+                        "declaredName": "A"
+                      },
+                      "eClass": "sysml:AttributeDefinition"
+                    }
+                  ]
+                },
+                "eClass": "sysml:OwningMembership"
+              },
+              {
+                "data": {
+                  "ownedRelatedElement": [
+                    {
+                      "data": {
+                        "declaredName": "x",
+                        "isComposite": true,
+                        "ownedRelationship": [
+                          {
+                            "data": {
+                              "type": "P::A",
+                              "typedFeature": "P::x"
+                            },
+                            "eClass": "sysml:FeatureTyping"
+                          }
+                        ]
+                      },
+                      "eClass": "sysml:PartUsage"
+                    }
+                  ]
+                },
+                "eClass": "sysml:OwningMembership"
+              }
+            ]
+          },
+          "eClass": "sysml:Package"
+        },
+        "raw_model_sha256": "fdb27637062c16833c1f6c47299e65606f9e25cfc01aef015440e0aa4ee3e260",
+        "resource_nodes": 8,
+        "transformation_messages": 0
+      },
+      "released_bare_ast": {
+        "raw_marker": null,
+        "sha256": "9126d1fffc901feb36b3f0a66ac05f729b0637a35d93eee4934496067eee7ce2",
+        "target": "P::A",
+        "target_class": "AttributeDefinition",
+        "typed_feature": "P::x"
+      },
+      "released_stdlib_none_validation": {
+        "exit": 1,
+        "stderr": "There are validation errors:\nline 1: PartUsage must be typed by Structures only [part x : A;]\n"
+      },
+      "rust_stage": {
+        "document": false,
+        "expected_type": "PartDefinition",
+        "identities_requested": 6,
+        "status": "error",
+        "stdout_sha256": "86f28ea943093dfbb2a4a30187c5b849193542163ea7fc82fabeb198f5d9c8dd"
+      }
+    }
+  },
+  "evidence": {
+    "converter_harness_sha256": "2ee830dacc380ca06e7e4b374dbf2e0a8e5ff9b7395c8c7eccb38f0450b46268",
+    "converter_receipt_sha256": "c2f0aca7f5ad161c8809ae5c88f8348d27f6d510dd2d9b6ee2eebb1b6de7408a",
+    "node_projection_sha256": "23e49ccfd5cebeb44d5b86ee384ef5d5d2808d3e53b885d1b1276a8ce420335c",
+    "node_receipt_sha256": "7b4fc26d4faf1c24e23b2886a3ff7c0946b5fc6dc30f85bb457e51077dd873f7",
+    "rust_probe_sha256": "27982845e1f07c5a346ad4960b532f2495bf322a1ca940fdc89c1587914c9ba7"
+  },
+  "release": {
+    "jar_sha256": "85c031352695d6ac8f059f0215ca493c58a16805a111233998dd443d6990c9e1",
+    "source_label": "b380dada415ce05155150f23cb3b74ae21cc45e4"
+  },
+  "schema": "SYSON-RELEASED-ABSTRACT-PART-TYPING/1",
+  "scope": {
+    "aql": false,
+    "constructor": false,
+    "database": false,
+    "default_importer_changed": false,
+    "http": false,
+    "network": false
+  }
+}
